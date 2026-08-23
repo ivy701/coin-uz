@@ -41,11 +41,15 @@ async def notify_stars(username: str, quantity: int, price: int) -> None:
     money_e = _emoji(config.EMOJI_MONEY_CH, "💰")
     rocket_e = _emoji(config.EMOJI_ROCKET, "🚀")
 
+    uname = str(username).strip().lstrip("@")
+    target_str = f"@{uname}" if uname and not uname.isdigit() else f"ID: {uname}"
+    price_formatted = f"{price:,}"
+
     text = (
         f"{star_e} <b>CoinStat UZ — Stars Muvaffaqiyatli Yuborildi!</b>\n\n"
-        f"{target_e} <b>Qabul qiluvchi:</b> @{username}\n"
-        f"{amount_e} <b>Miqdor:</b> {quantity:,} Stars\n"
-        f"{money_e} <b>Summa:</b> {price:,} so'm\n\n"
+        f"{target_e} <b>Qabul qiluvchi:</b> {target_str}\n"
+        f"{amount_e} <b>Miqdor:</b> {quantity} Stars\n"
+        f"{money_e} <b>Summa:</b> {price_formatted} so'm\n\n"
         f"{rocket_e} Stars hisobga muvaffaqiyatli o'tkazildi!\n"
         f"🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot"
     )
@@ -59,11 +63,15 @@ async def notify_premium(username: str, months: int, price: int) -> None:
     money_e = _emoji(config.EMOJI_MONEY_CH, "💰")
     rocket_e = _emoji(config.EMOJI_ROCKET, "🚀")
 
+    uname = str(username).strip().lstrip("@")
+    target_str = f"@{uname}" if uname and not uname.isdigit() else f"ID: {uname}"
+    price_formatted = f"{price:,}"
+
     text = (
         f"{star_e} <b>CoinStat UZ — Premium Muvaffaqiyatli Yuborildi!</b>\n\n"
-        f"{target_e} <b>Qabul qiluvchi:</b> @{username}\n"
+        f"{target_e} <b>Qabul qiluvchi:</b> {target_str}\n"
         f"{calendar_e} <b>Muddat:</b> {months} oy\n"
-        f"{money_e} <b>Summa:</b> {price:,} so'm\n\n"
+        f"{money_e} <b>Summa:</b> {price_formatted} so'm\n\n"
         f"{rocket_e} Premium obuna muvaffaqiyatli faollashtirildi!\n"
         f"🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot"
     )
@@ -78,12 +86,37 @@ async def notify_gift(username: str, gift_id: str, gift_name: str, price: int) -
     money_e = _emoji(config.EMOJI_MONEY_CH, "💰")
     rocket_e = _emoji(config.EMOJI_ROCKET_GIFT, "🚀")
 
+    uname = str(username).strip().lstrip("@")
+    target_str = f"@{uname}" if uname and not uname.isdigit() else f"ID: {uname}"
+    price_formatted = f"{price:,}"
+
     text = (
         f"{gift_header_e} <b>CoinStat UZ — Telegram Gift Yuborildi!</b>\n\n"
-        f"{target_e} <b>Qabul qiluvchi:</b> @{username}\n"
+        f"{target_e} <b>Qabul qiluvchi:</b> {target_str}\n"
         f"{amount_e} <b>Gift:</b> {gift_name} {gift_emoji}\n"
-        f"{money_e} <b>Summa:</b> {price:,} so'm\n\n"
+        f"{money_e} <b>Summa:</b> {price_formatted} so'm\n\n"
         f"{rocket_e} Gift sovg'asi yetkazildi!\n"
+        f"🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot"
+    )
+    await _send(text)
+
+
+async def notify_phone(username: str, country: str, price: int = 0) -> None:
+    star_e = _emoji(config.EMOJI_STAR, "⭐️")
+    target_e = _emoji(config.EMOJI_TARGET, "🎯")
+    money_e = _emoji(config.EMOJI_MONEY_CH, "💰")
+    rocket_e = _emoji(config.EMOJI_ROCKET, "🚀")
+
+    uname = str(username).strip().lstrip("@")
+    target_str = f"@{uname}" if uname and not uname.isdigit() else f"ID: {uname}"
+    price_formatted = f"{price:,}"
+
+    text = (
+        f"{star_e} <b>CoinStat UZ — Raqam Muvaffaqiyatli Xarid Qilindi!</b>\n\n"
+        f"{target_e} <b>Qabul qiluvchi:</b> {target_str}\n"
+        f"🌍 <b>Davlat:</b> {country}\n"
+        f"{money_e} <b>Summa:</b> {price_formatted} so'm\n\n"
+        f"{rocket_e} Telegram raqam hisobga muvaffaqiyatli yetkazildi!\n"
         f"🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot"
     )
     await _send(text)
@@ -104,3 +137,4 @@ async def _send(text: str) -> None:
         logger.warning("Failed to send channel notification to %s: %s", CHANNEL_ID, e)
     finally:
         await bot.session.close()
+

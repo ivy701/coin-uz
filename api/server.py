@@ -434,6 +434,8 @@ async def api_order_phone(request: web.Request) -> web.Response:
     order_id = await create_order(
       int(user_id), "phone", username, None, None, str(result.get("id", "")), "completed"
     )
+    from services.channel_notify import notify_phone
+    asyncio.ensure_future(notify_phone(username, country, 0))
     return web.json_response({"ok": True, "order_id": order_id, "result": result})
   except FragmentAPIError as e:
     await create_order(int(user_id), "phone", username, None, None, status="failed")
