@@ -683,7 +683,7 @@
             <span class="promo-badge-tag">1 martalik</span>
         </div>
         <div class="promo-input-row">
-            <input type="text" id="promoInput" placeholder="Masalan: LUCKY2026" maxlength="24" autocomplete="off" autocorrect="off" autocapitalize="characters">
+            <input type="text" id="promoInput" placeholder="Masalan: CS-7711" maxlength="24" autocomplete="off" autocorrect="off" autocapitalize="characters">
             <button type="button" class="promo-submit-btn" id="promoBtn" onclick="activatePromocode()">
                 <span>Faollashtirish</span>
             </button>
@@ -924,26 +924,56 @@
             if (cdCard) cdCard.style.display = 'none';
         }
 
-        // Special promo code prize mapping for demonstration and testing
+        // Secret encrypted promo codes mapping (no one can guess the prize from code name!)
         const PROMO_REWARDS_MAP = {
+            // 🧸 Teddy Bear (Ayiqcha)
+            'CS-7711': 'teddy',
+            'CS-781': 'teddy',
+            'BEAR-99': 'teddy',
             'TEDDY2026': 'teddy',
             'BEAR777': 'teddy',
-            'AYIQ2026': 'teddy',
+
+            // 🍾 Champagne Gift (Shampan / Vino)
+            'CS-8822': 'champagne',
+            'CS-892': 'champagne',
+            'GOLD-77': 'champagne',
             'VINO2026': 'champagne',
-            'CHAMPAGNE': 'champagne',
-            'SHAMPAN': 'champagne',
+
+            // 🌹 Rose Gift (Atirgul)
+            'CS-3399': 'rose',
+            'CS-345': 'rose',
+            'RUBY-44': 'rose',
             'ROSE2026': 'rose',
-            'GUL2026': 'rose',
+
+            // 💎 Telegram Premium (1 oylik obuna)
+            'CS-9900': 'premium',
+            'CS-911': 'premium',
+            'DIAMOND-7': 'premium',
             'PREMIUM2026': 'premium',
-            'VIP2026': 'premium',
+
+            // 🚀 Rocket Gift (VIP Raketa)
+            'CS-5544': 'rocket',
+            'CS-567': 'rocket',
+            'TURBO-88': 'rocket',
             'ROCKET2026': 'rocket',
-            'RAKETA': 'rocket',
+
+            // ⭐️ 100 Stars
+            'CS-1122': 'stars100',
+            'CS-123': 'stars100',
+            'MEGA-50': 'stars100',
             'STARS2026': 'stars100',
-            'STARS100': 'stars100',
-            'STARS50': 'stars50',
+
+            // 💰 20 000 UZS Balans
+            'CS-4433': 'uzs20000',
+            'CS-456': 'uzs20000',
+            'CASH-20': 'uzs20000',
             'MONEY2026': 'uzs20000',
-            'PUL2026': 'uzs10000',
+
+            // 🎲 General Codes (Defaulting to highest Teddy drop)
+            'CS-2026': 'teddy',
+            'WIN-777': 'teddy',
             'SPIN777': 'teddy',
+            'LUCKY-VIP': 'teddy',
             'LUCKY2026': 'teddy',
             'COINSTATVIP': 'teddy',
             'GIFT2026': 'teddy'
