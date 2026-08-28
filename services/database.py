@@ -936,7 +936,17 @@ async def get_promocode(code: str) -> dict[str, Any] | None:
             """
         )
         # Default promo codes
-        default_codes = ["COINSTATVIP", "LUCKY2026", "SPIN777", "GIFT2026", "VIP2026", "TOP1", "TOP2", "TOP3"]
+        default_codes = [
+            "CS-7711", "CS-781", "BEAR-99", "TEDDY2026", "BEAR777",
+            "CS-8822", "CS-892", "GOLD-77", "VINO2026",
+            "CS-3399", "CS-345", "RUBY-44", "ROSE2026",
+            "CS-9900", "CS-911", "DIAMOND-7", "PREMIUM2026",
+            "CS-5544", "CS-567", "TURBO-88", "ROCKET2026",
+            "CS-1122", "CS-123", "MEGA-50", "STARS2026",
+            "CS-4433", "CS-456", "CASH-20", "MONEY2026",
+            "CS-2026", "WIN-777", "SPIN777", "LUCKY-VIP", "LUCKY2026",
+            "COINSTATVIP", "GIFT2026", "VIP2026", "TOP1", "TOP2", "TOP3"
+        ]
         if code_clean in default_codes:
             try:
                 await db_conn.execute(

@@ -34,7 +34,17 @@ module.exports = async (req, res) => {
       } catch (e) {}
     }
 
-    const userId = body.telegram_id || body.user_id;
+    let userId = body.telegram_id || body.user_id;
+    if (!userId && body.initData) {
+      try {
+        const parsed = new URLSearchParams(body.initData);
+        const userStr = parsed.get('user');
+        if (userStr) {
+          const u = JSON.parse(userStr);
+          if (u && u.id) userId = u.id;
+        }
+      } catch(e) {}
+    }
     const code = (body.code || '').trim().toUpperCase();
 
     if (!userId) {
@@ -71,8 +81,18 @@ module.exports = async (req, res) => {
     // Check if code exists
     let promoRes = await db.query('SELECT * FROM lucky_promocodes WHERE UPPER(code) = UPPER($1)', [code]);
     
-    // Auto-seed default promo codes if checking one of them
-    const defaultCodes = ["COINSTATVIP", "LUCKY2026", "SPIN777", "GIFT2026", "VIP2026", "TOP1", "TOP2", "TOP3"];
+    // Auto-seed default promo codes
+    const defaultCodes = [
+      'CS-7711', 'CS-781', 'BEAR-99', 'TEDDY2026', 'BEAR777',
+      'CS-8822', 'CS-892', 'GOLD-77', 'VINO2026',
+      'CS-3399', 'CS-345', 'RUBY-44', 'ROSE2026',
+      'CS-9900', 'CS-911', 'DIAMOND-7', 'PREMIUM2026',
+      'CS-5544', 'CS-567', 'TURBO-88', 'ROCKET2026',
+      'CS-1122', 'CS-123', 'MEGA-50', 'STARS2026',
+      'CS-4433', 'CS-456', 'CASH-20', 'MONEY2026',
+      'CS-2026', 'WIN-777', 'SPIN777', 'LUCKY-VIP', 'LUCKY2026',
+      'COINSTATVIP', 'GIFT2026', 'VIP2026', 'TOP1', 'TOP2', 'TOP3'
+    ];
     if (promoRes.rows.length === 0 && defaultCodes.includes(code)) {
       await db.query('INSERT INTO lucky_promocodes (code) VALUES ($1) ON CONFLICT DO NOTHING', [code]);
       promoRes = await db.query('SELECT * FROM lucky_promocodes WHERE UPPER(code) = UPPER($1)', [code]);
