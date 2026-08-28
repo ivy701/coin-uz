@@ -121,7 +121,17 @@ module.exports = async (req, res) => {
       }
     }
 
-    const chosenPrize = pickWeightedPrize();
+    let chosenPrize = null;
+    const forcedKey = body.forced_key || body.prize_key;
+    if (forcedKey) {
+      const matched = PRIZES.filter(p => p.key === forcedKey);
+      if (matched.length > 0) {
+        chosenPrize = matched[Math.floor(Math.random() * matched.length)];
+      }
+    }
+    if (!chosenPrize) {
+      chosenPrize = pickWeightedPrize();
+    }
 
     // Reward balance if type balance
     if (chosenPrize.type === 'balance' && chosenPrize.amount) {

@@ -1165,8 +1165,9 @@
                 msgEl.style.display = 'block';
                 input.value = '';
                 setLocalBonusSpins(getLocalBonusSpins() + 1);
-                saveLocalUsedPromo(code, myLabel);
-                nextForcedPrizeKey = PROMO_REWARDS_MAP[code] || 'teddy';
+                const targetPrize = PROMO_REWARDS_MAP[code] || 'teddy';
+                nextForcedPrizeKey = targetPrize;
+                try { localStorage.setItem('coinstat_forced_prize', targetPrize); } catch(e) {}
                 if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
                 checkSpinStatus();
                 return;
@@ -1203,13 +1204,14 @@
                 setLocalBonusSpins(currentBonuses - 1);
             }
 
+            const forcedKey = nextForcedPrizeKey || localStorage.getItem('coinstat_forced_prize');
             let prize = null;
 
             try {
                 const res = await fetch((apiBase ? apiBase : '') + '/api/spin/play', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
-                    body: JSON.stringify({ telegram_id: userId, initData: tg.initData || '' })
+                    body: JSON.stringify({ telegram_id: userId, initData: tg.initData || '', forced_key: forcedKey })
                 });
 
                 let data = null;
@@ -1226,15 +1228,16 @@
                 // Fallback spin calculation
             }
 
-            if (!prize) {
-                if (nextForcedPrizeKey) {
-                    // Exact prize matching from targeted promo code!
-                    const matchedPrizes = PRIZES.filter(p => p.key === nextForcedPrizeKey);
-                    if (matchedPrizes.length > 0) {
-                        prize = matchedPrizes[Math.floor(Math.random() * matchedPrizes.length)];
-                    }
-                    nextForcedPrizeKey = null;
+            if (forcedKey) {
+                const matchedPrizes = PRIZES.filter(p => p.key === forcedKey);
+                if (matchedPrizes.length > 0) {
+                    prize = matchedPrizes[Math.floor(Math.random() * matchedPrizes.length)];
                 }
+                nextForcedPrizeKey = null;
+                try { localStorage.removeItem('coinstat_forced_prize'); } catch(e) {}
+            }
+
+            if (!prize) {
                 
                 if (!prize) {
                     // Highest Teddy Bear probability (~75% drop chance!)
