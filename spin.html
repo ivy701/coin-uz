@@ -490,16 +490,23 @@
 
     <!-- Prizes Overview Grid -->
     <div class="prizes-grid-title">
-        <span>Yutib olishingiz mumkin</span>
-        <span>Sovg'alar</span>
+        <span>G'ildirakdagi 20 ta sovg'a</span>
+        <span>VIP Sovg'alar</span>
     </div>
 
     <div class="prizes-grid">
-        <div class="prize-item-card" style="border-color: rgba(251, 191, 36, 0.3);">
+        <div class="prize-item-card" style="border-color: rgba(251, 191, 36, 0.4);">
             <div class="prize-item-icon">🧸</div>
             <div class="prize-item-info">
                 <div class="prize-item-name">Teddy Bear</div>
-                <div class="prize-item-chance">🔥 Eng yuqori imkoniyat</div>
+                <div class="prize-item-chance">🔥 Eng ko'p sektorlarda!</div>
+            </div>
+        </div>
+        <div class="prize-item-card" style="border-color: rgba(251, 191, 36, 0.3);">
+            <div class="prize-item-icon">🍾</div>
+            <div class="prize-item-info">
+                <div class="prize-item-name">Champagne Gift</div>
+                <div class="prize-item-chance">✨ Shampan / Vino</div>
             </div>
         </div>
         <div class="prize-item-card">
@@ -510,24 +517,31 @@
             </div>
         </div>
         <div class="prize-item-card">
+            <div class="prize-item-icon">💎</div>
+            <div class="prize-item-info">
+                <div class="prize-item-name">Telegram Premium</div>
+                <div class="prize-item-chance">👑 1 oylik obuna</div>
+            </div>
+        </div>
+        <div class="prize-item-card">
             <div class="prize-item-icon">🚀</div>
             <div class="prize-item-info">
                 <div class="prize-item-name">Rocket Gift</div>
-                <div class="prize-item-chance">💎 VIP Gift</div>
+                <div class="prize-item-chance">💫 Super VIP Gift</div>
             </div>
         </div>
         <div class="prize-item-card">
             <div class="prize-item-icon">⭐️</div>
             <div class="prize-item-info">
-                <div class="prize-item-name">50 Stars</div>
+                <div class="prize-item-name">25 / 50 / 100 Stars</div>
                 <div class="prize-item-chance">✨ Telegram Stars</div>
             </div>
         </div>
         <div class="prize-item-card" style="grid-column: span 2;">
             <div class="prize-item-icon">💰</div>
             <div class="prize-item-info">
-                <div class="prize-item-name">10 000 UZS Balans</div>
-                <div class="prize-item-chance">💵 Darhol balansga qo'shiladi</div>
+                <div class="prize-item-name">5 000 / 10 000 / 20 000 UZS Balans</div>
+                <div class="prize-item-chance">💵 Darhol balansingizga qo'shiladi</div>
             </div>
         </div>
     </div>
@@ -582,12 +596,26 @@
     <script src="js/common.js"></script>
     <script>
         const PRIZES = [
-            { key: "teddy", label: "Teddy Bear", icon: "🧸", color: "#1e1b4b", textCol: "#fbbf24" },
-            { key: "rose", label: "Rose Gift", icon: "🌹", color: "#4c0519", textCol: "#fda4af" },
-            { key: "stars50", label: "50 Stars", icon: "⭐️", color: "#172554", textCol: "#93c5fd" },
-            { key: "uzs10000", label: "10 000 UZS", icon: "💰", color: "#064e3b", textCol: "#6ee7b7" },
-            { key: "rocket", label: "Rocket Gift", icon: "🚀", color: "#3b0764", textCol: "#d8b4fe" },
-            { key: "teddy", label: "Teddy Bear", icon: "🧸", color: "#1e1b4b", textCol: "#fbbf24" }
+            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 0 },
+            { key: "rose", label: "Rose", icon: "🌹", color: "#881337", textCol: "#fda4af", index: 1 },
+            { key: "stars50", label: "50★", icon: "⭐️", color: "#1e3a8a", textCol: "#93c5fd", index: 2 },
+            { key: "uzs10000", label: "10k", icon: "💰", color: "#064e3b", textCol: "#6ee7b7", index: 3 },
+            { key: "champagne", label: "Shampan", icon: "🍾", color: "#78350f", textCol: "#fde68a", index: 4 },
+            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 5 },
+            { key: "rocket", label: "Rocket", icon: "🚀", color: "#581c87", textCol: "#d8b4fe", index: 6 },
+            { key: "stars25", label: "25★", icon: "⭐️", color: "#1e3a8a", textCol: "#93c5fd", index: 7 },
+            { key: "uzs5000", label: "5k", icon: "💰", color: "#064e3b", textCol: "#6ee7b7", index: 8 },
+            { key: "rose", label: "Rose", icon: "🌹", color: "#881337", textCol: "#fda4af", index: 9 },
+            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 10 },
+            { key: "champagne", label: "Shampan", icon: "🍾", color: "#78350f", textCol: "#fde68a", index: 11 },
+            { key: "stars100", label: "100★", icon: "⭐️", color: "#1e3a8a", textCol: "#93c5fd", index: 12 },
+            { key: "uzs20000", label: "20k", icon: "💰", color: "#064e3b", textCol: "#6ee7b7", index: 13 },
+            { key: "premium", label: "Premium", icon: "💎", color: "#0284c7", textCol: "#bae6fd", index: 14 },
+            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 15 },
+            { key: "rose", label: "Rose", icon: "🌹", color: "#881337", textCol: "#fda4af", index: 16 },
+            { key: "stars50", label: "50★", icon: "⭐️", color: "#1e3a8a", textCol: "#93c5fd", index: 17 },
+            { key: "rocket", label: "Rocket", icon: "🚀", color: "#581c87", textCol: "#d8b4fe", index: 18 },
+            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 19 }
         ];
 
         let currentRotation = 0;
@@ -601,7 +629,7 @@
             const arc = (2 * Math.PI) / numSlices;
             const cx = canvas.width / 2;
             const cy = canvas.height / 2;
-            const radius = cx - 10;
+            const radius = cx - 8;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -615,18 +643,28 @@
                 ctx.fill();
 
                 // Slice border
-                ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
-                ctx.lineWidth = 3;
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.22)";
+                ctx.lineWidth = 2;
                 ctx.stroke();
 
                 // Text & Icon
                 ctx.save();
                 ctx.translate(cx, cy);
                 ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right";
+
+                // Draw emoji icon near edge
+                ctx.font = "20px 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(PRIZES[i].icon, radius - 24, 0);
+
+                // Draw short label
                 ctx.fillStyle = PRIZES[i].textCol;
-                ctx.font = "bold 26px Plus Jakarta Sans, sans-serif";
-                ctx.fillText(PRIZES[i].icon + " " + PRIZES[i].label, radius - 24, 8);
+                ctx.font = "bold 13px 'Plus Jakarta Sans', sans-serif";
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                ctx.fillText(PRIZES[i].label, radius - 46, 0);
+
                 ctx.restore();
             }
         }
@@ -755,15 +793,21 @@
 
             titleEl.textContent = prize.title || 'Sovg\'a';
             if (prize.key === 'teddy') iconEl.textContent = '🧸';
+            else if (prize.key === 'champagne') iconEl.textContent = '🍾';
             else if (prize.key === 'rose') iconEl.textContent = '🌹';
+            else if (prize.key === 'premium') iconEl.textContent = '💎';
             else if (prize.key === 'rocket') iconEl.textContent = '🚀';
-            else if (prize.key === 'stars50') iconEl.textContent = '⭐️';
+            else if (prize.key && prize.key.startsWith('stars')) iconEl.textContent = '⭐️';
             else iconEl.textContent = '💰';
 
             if (prize.type === 'balance') {
-                descEl.textContent = '10 000 UZS avtomatik ravishda balansingizga qo\'shildi!';
+                descEl.textContent = `${prize.amount ? prize.amount.toLocaleString('uz-UZ') : ''} UZS avtomatik ravishda balansingizga qo'shildi!`;
+            } else if (prize.type === 'stars') {
+                descEl.textContent = `${prize.amount || ''} Telegram Stars yutib oldingiz! Sovg'angiz hisobingizga o'tkaziladi.`;
+            } else if (prize.type === 'premium') {
+                descEl.textContent = "1 oylik Telegram Premium obunasi yutib oldingiz! Admin sizga taqdim etadi.";
             } else {
-                descEl.textContent = 'Yutuq qayd etildi! Admin siz bilan bog\'lanib sovg\'ani taqdim etadi.';
+                descEl.textContent = "Yutuq qayd etildi! Admin siz bilan bog'lanib sovg'ani taqdim etadi.";
             }
 
             modal.classList.add('active');

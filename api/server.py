@@ -1363,13 +1363,28 @@ async def api_spin_play(request: web.Request) -> web.Response:
       left_minutes = int(((cooldown_seconds - passed) % 3600) // 60)
       return web.json_response({"ok": False, "error": f"Siz bugun aylantirgansiz. Keyingi imkoniyat {left_hours} soat {left_minutes} daqiqadan keyin."}, status=400)
 
-  # Sovg'alar va vaznlari (Asosan Teddy Bear ko'p bo'lsin)
+  # 20 ta sektorli boy sovg'alar ro'yxati (Teddy Bear, Rose, Champagne, Stars, Balans, Rocket, Premium)
   prizes = [
-    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 45, "index": 0},
-    {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 20, "index": 1},
-    {"key": "stars50", "title": "⭐️ 50 Telegram Stars", "type": "stars", "amount": 50, "weight": 15, "index": 2},
-    {"key": "uzs10000", "title": "💰 10 000 UZS Balans", "type": "balance", "amount": 10000, "weight": 12, "index": 3},
-    {"key": "rocket", "title": "🚀 Rocket Gift", "type": "gift", "weight": 8, "index": 4},
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 0},
+    {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 6, "index": 1},
+    {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 5, "index": 2},
+    {"key": "uzs10000", "title": "💰 10 000 UZS Balans", "type": "balance", "amount": 10000, "weight": 5, "index": 3},
+    {"key": "champagne", "title": "🍾 Champagne Gift", "type": "gift", "weight": 6, "index": 4},
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 5},
+    {"key": "rocket", "title": "🚀 Rocket Gift", "type": "gift", "weight": 3, "index": 6},
+    {"key": "stars25", "title": "⭐️ 25 Stars", "type": "stars", "amount": 25, "weight": 6, "index": 7},
+    {"key": "uzs5000", "title": "💰 5 000 UZS Balans", "type": "balance", "amount": 5000, "weight": 6, "index": 8},
+    {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 6, "index": 9},
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 10},
+    {"key": "champagne", "title": "🍾 Champagne Gift", "type": "gift", "weight": 6, "index": 11},
+    {"key": "stars100", "title": "⭐️ 100 Stars", "type": "stars", "amount": 100, "weight": 3, "index": 12},
+    {"key": "uzs20000", "title": "💰 20 000 UZS Balans", "type": "balance", "amount": 20000, "weight": 3, "index": 13},
+    {"key": "premium", "title": "💎 Telegram Premium", "type": "premium", "weight": 2, "index": 14},
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 15},
+    {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 6, "index": 16},
+    {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 5, "index": 17},
+    {"key": "rocket", "title": "🚀 Rocket Gift", "type": "gift", "weight": 3, "index": 18},
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 19},
   ]
 
   weights = [p["weight"] for p in prizes]
