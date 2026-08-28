@@ -235,6 +235,101 @@
             margin-top: -12px;
         }
 
+        /* Promocode Voucher Card */
+        .promo-voucher-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.65) 0%, rgba(20, 21, 29, 0.95) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            border-radius: 22px;
+            padding: 16px 18px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .promo-voucher-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .promo-badge-tag {
+            font-size: 10px;
+            font-weight: 800;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            color: #c084fc;
+            padding: 3px 8px;
+            border-radius: 999px;
+        }
+
+        .promo-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .promo-input-row input {
+            flex: 1;
+            background: #11121a;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 14px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .promo-input-row input:focus {
+            border-color: #c084fc;
+            box-shadow: 0 0 15px rgba(192, 132, 252, 0.25);
+        }
+
+        .promo-submit-btn {
+            background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            padding: 0 18px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+            white-space: nowrap;
+        }
+
+        .promo-submit-btn:active {
+            transform: scale(0.96);
+        }
+
+        .promo-status-msg {
+            margin-top: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px 12px;
+            border-radius: 12px;
+            line-height: 1.4;
+        }
+
+        .promo-status-msg.success {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            color: #4ade80;
+        }
+
+        .promo-status-msg.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+        }
+
         /* Wheel Outer Stage */
         .wheel-stage-container {
             position: relative;
@@ -581,6 +676,21 @@
         <span>🎲 G'ILDIRAKNI AYLANTRISH</span>
     </button>
 
+    <!-- Promocode VIP Voucher Card -->
+    <div class="promo-voucher-card">
+        <div class="promo-voucher-title">
+            <span>🎟 Promo Kod bilan Ochish</span>
+            <span class="promo-badge-tag">1 martalik</span>
+        </div>
+        <div class="promo-input-row">
+            <input type="text" id="promoInput" placeholder="Masalan: LUCKY2026" maxlength="24" autocomplete="off" autocorrect="off" autocapitalize="characters">
+            <button type="button" class="promo-submit-btn" id="promoBtn" onclick="activatePromocode()">
+                <span>Faollashtirish</span>
+            </button>
+        </div>
+        <div class="promo-status-msg" id="promoStatusMsg" style="display: none;"></div>
+    </div>
+
     <!-- Prizes Overview Grid -->
     <div class="prizes-grid-title">
         <span>G'ildirakdagi 20 ta sovg'a</span>
@@ -835,8 +945,13 @@
                     if (data.can_spin) {
                         canSpin = true;
                         stopLiveCountdown();
-                        titleEl.textContent = 'Siz Top #' + data.rank + ' Yetakchisiz! 🎉';
-                        descEl.textContent = 'Bugungi bepul spin imkoniyatingiz mavjud!';
+                        if (data.bonus_spins > 0) {
+                            titleEl.textContent = 'Bonus Spin Mavjud! 🎟';
+                            descEl.textContent = 'Sizda ' + data.bonus_spins + ' ta bepul aylantirish bor!';
+                        } else {
+                            titleEl.textContent = 'Siz Top #' + (data.rank || 1) + ' Yetakchisiz! 🎉';
+                            descEl.textContent = 'Bugungi bepul spin imkoniyatingiz mavjud!';
+                        }
                         badgeEl.className = 'top-status-badge badge-eligible';
                         badgeEl.textContent = 'Aktiv';
                         btn.disabled = false;
@@ -845,11 +960,11 @@
                         canSpin = false;
                         stopLiveCountdown();
                         titleEl.textContent = 'Faqat Top 3 Yetakchilar uchun';
-                        descEl.textContent = 'Reytingda Top 3 ga kiring va har kuni sovg\'a oling!';
+                        descEl.textContent = 'Top 3 ga kiring yoki Promo Kod orqali oching!';
                         badgeEl.className = 'top-status-badge badge-locked';
                         badgeEl.textContent = 'Qulflangan 🔒';
                         btn.disabled = true;
-                        btn.innerHTML = '<span>🔒 Faqat Top 3 Yetakchilar uchun</span>';
+                        btn.innerHTML = '<span>🔒 Promo Kod yoki Top 3 orqali ochiladi</span>';
                     } else {
                         canSpin = false;
                         const leftSeconds = data.next_spin_seconds || 3600;
@@ -862,6 +977,58 @@
                 }
             } catch (err) {
                 console.error('Spin status error', err);
+            }
+        }
+
+        async function activatePromocode() {
+            const input = document.getElementById('promoInput');
+            const msgEl = document.getElementById('promoStatusMsg');
+            const btn = document.getElementById('promoBtn');
+            const code = (input.value || '').trim();
+
+            if (!code) {
+                msgEl.className = 'promo-status-msg error';
+                msgEl.textContent = 'Iltimos, promo kodni kiriting!';
+                msgEl.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span>...</span>';
+
+            const apiBase = getApiBase();
+            const userId = getUserId();
+
+            try {
+                const res = await fetch((apiBase ? apiBase : '') + '/api/spin/promocode', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
+                    body: JSON.stringify({ code: code, telegram_id: userId, initData: tg.initData || '' })
+                });
+                const data = await res.json();
+
+                btn.disabled = false;
+                btn.innerHTML = '<span>Faollashtirish</span>';
+
+                if (data && data.ok) {
+                    msgEl.className = 'promo-status-msg success';
+                    msgEl.textContent = data.message || 'Promo kod muvaffaqiyatli faollashtirildi!';
+                    msgEl.style.display = 'block';
+                    input.value = '';
+                    if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                    checkSpinStatus();
+                } else {
+                    msgEl.className = 'promo-status-msg error';
+                    msgEl.textContent = data?.error || 'Promo kod yaroqsiz!';
+                    msgEl.style.display = 'block';
+                    if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                }
+            } catch (err) {
+                btn.disabled = false;
+                btn.innerHTML = '<span>Faollashtirish</span>';
+                msgEl.className = 'promo-status-msg error';
+                msgEl.textContent = 'Xatolik: ' + err.message;
+                msgEl.style.display = 'block';
             }
         }
 

@@ -823,9 +823,16 @@ async def _notify_user_paid(user_id: int, amount: int, new_balance: int) -> None
 
 
 async def on_startup(app: web.Application) -> None:
-  from services.database import init_db
+  from services.database import init_db, create_promocode
   await init_db()
   logger.info("Database initialized")
+
+  # Seed initial sample promocodes
+  try:
+    for c in ["LUCKY2026", "COINSTATVIP", "SPIN777", "GIFT2026"]:
+      await create_promocode(c)
+  except Exception as e:
+    logger.warning(f"Error seeding default promocodes: {e}")
 
   # Initialize Telethon gift sender
   try:
@@ -1258,7 +1265,7 @@ async def api_spin_status(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
   user_id = int(user_id)
 
-  from services.database import db_conn, get_last_lucky_spin
+  from services.database import db_conn, get_last_lucky_spin, get_user_bonus_spins
 
   query = """
     SELECT 
@@ -1278,6 +1285,7 @@ async def api_spin_status(request: web.Request) -> web.Response:
   is_top = user_id in top_ids
   user_rank = (top_ids.index(user_id) + 1) if is_top else None
 
+  bonus_spins = await get_user_bonus_spins(user_id)
   last_spin = await get_last_lucky_spin(user_id)
   can_spin = False
   next_spin_seconds = 0
@@ -1304,13 +1312,73 @@ async def api_spin_status(request: web.Request) -> web.Response:
   else:
     can_spin = is_top
 
+  # Agar foydalanuvchida promokod orqali berilgan bonus spin bo'lsa
+  if bonus_spins > 0:
+    can_spin = True
+    next_spin_seconds = 0
+
   return web.json_response({
     "ok": True,
     "is_top": is_top,
     "rank": user_rank,
     "can_spin": can_spin,
+    "bonus_spins": bonus_spins,
     "next_spin_seconds": next_spin_seconds,
     "last_prize": last_spin.get("prize_title") if last_spin else None
+  })
+
+
+async def api_spin_promocode(request: web.Request) -> web.Response:
+  auth = await _auth_user(request)
+  user_id = _user_id_from_auth(auth)
+  body = await _json_body(request)
+  if not user_id:
+    user_id = body.get("telegram_id")
+  if not user_id:
+    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  user_id = int(user_id)
+
+  code = (body.get("code") or "").strip()
+  if not code:
+    return web.json_response({"ok": False, "error": "Promo kodni kiriting!"}, status=400)
+
+  from services.database import get_promocode, use_promocode, get_user
+
+  promo = await get_promocode(code)
+  if not promo:
+    return web.json_response({"ok": False, "error": "Bunday promo kod mavjud emas!"}, status=404)
+
+  if promo.get("is_used"):
+    used_by_uname = promo.get("used_by_username")
+    used_by_name = promo.get("used_by_name")
+    used_by_id = promo.get("used_by_id")
+
+    if used_by_uname:
+      user_label = f"@{used_by_uname.replace('@','')}"
+    elif used_by_name:
+      user_label = used_by_name
+    else:
+      user_label = f"Foydalanuvchi #{used_by_id}"
+
+    return web.json_response({
+      "ok": False,
+      "already_used": True,
+      "used_by": user_label,
+      "error": f"Ushbu promo kodni {user_label} faollashtirdi!"
+    }, status=400)
+
+  # Faollashtirish
+  user = await get_user(user_id)
+  uname = user.get("username") if user else ""
+  fname = user.get("full_name") if user else ""
+
+  success = await use_promocode(code, user_id, uname, fname)
+  if not success:
+    return web.json_response({"ok": False, "error": "Promo kodni faollashtirishda xatolik!"}, status=400)
+
+  return web.json_response({
+    "ok": True,
+    "message": "Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi 🎉"
   })
 
 
@@ -1325,43 +1393,46 @@ async def api_spin_play(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
   user_id = int(user_id)
 
-  from services.database import db_conn, get_last_lucky_spin, record_lucky_spin, add_balance, get_user
+  from services.database import db_conn, get_last_lucky_spin, record_lucky_spin, add_balance, get_user, consume_user_bonus_spin
 
-  # Top 3 tekshiruvi (Faqat #1, #2, #3 o'rindagi yetakchilar)
-  query = """
-    SELECT o.telegram_id, SUM(o.amount) as total
-    FROM orders o
-    WHERE o.status IN ('completed', 'paid')
-      AND o.product_type NOT LIKE 'topup%'
-      AND o.product_type NOT IN ('deposit', 'balance')
-    GROUP BY o.telegram_id
-    HAVING SUM(o.amount) > 0
-    ORDER BY total DESC
-    LIMIT 3
-  """
-  top_rows = await db_conn.fetch(query)
-  top_ids = [int(r["telegram_id"]) for r in top_rows]
-  if user_id not in top_ids:
-    return web.json_response({"ok": False, "error": "Omad g'ildiragi faqat Top 3 yetakchilar (#1, #2, #3) uchun!"}, status=403)
+  used_bonus = await consume_user_bonus_spin(user_id)
 
-  last_spin = await get_last_lucky_spin(user_id)
-  cooldown_seconds = 24 * 3600  # Har 1 kunda
-  if last_spin:
-    created_at = last_spin["created_at"]
-    if isinstance(created_at, str):
-      try:
-        created_at = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
-      except Exception:
-        created_at = datetime.now()
-    if hasattr(created_at, "timestamp"):
-      now_tz = datetime.now(created_at.tzinfo) if getattr(created_at, "tzinfo", None) else datetime.now()
-      passed = (now_tz - created_at).total_seconds()
-    else:
-      passed = 86400 * 10
-    if passed < cooldown_seconds:
-      left_hours = int((cooldown_seconds - passed) // 3600)
-      left_minutes = int(((cooldown_seconds - passed) % 3600) // 60)
-      return web.json_response({"ok": False, "error": f"Siz bugun aylantirgansiz. Keyingi imkoniyat {left_hours} soat {left_minutes} daqiqadan keyin."}, status=400)
+  if not used_bonus:
+    # Top 3 tekshiruvi (Faqat #1, #2, #3 o'rindagi yetakchilar)
+    query = """
+      SELECT o.telegram_id, SUM(o.amount) as total
+      FROM orders o
+      WHERE o.status IN ('completed', 'paid')
+        AND o.product_type NOT LIKE 'topup%'
+        AND o.product_type NOT IN ('deposit', 'balance')
+      GROUP BY o.telegram_id
+      HAVING SUM(o.amount) > 0
+      ORDER BY total DESC
+      LIMIT 3
+    """
+    top_rows = await db_conn.fetch(query)
+    top_ids = [int(r["telegram_id"]) for r in top_rows]
+    if user_id not in top_ids:
+      return web.json_response({"ok": False, "error": "Omad g'ildiragi faqat Top 3 yetakchilar uchun yoki Promo kod orqali ochiladi!"}, status=403)
+
+    last_spin = await get_last_lucky_spin(user_id)
+    cooldown_seconds = 24 * 3600  # Har 1 kunda
+    if last_spin:
+      created_at = last_spin["created_at"]
+      if isinstance(created_at, str):
+        try:
+          created_at = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+        except Exception:
+          created_at = datetime.now()
+      if hasattr(created_at, "timestamp"):
+        now_tz = datetime.now(created_at.tzinfo) if getattr(created_at, "tzinfo", None) else datetime.now()
+        passed = (now_tz - created_at).total_seconds()
+      else:
+        passed = 86400 * 10
+      if passed < cooldown_seconds:
+        left_hours = int((cooldown_seconds - passed) // 3600)
+        left_minutes = int(((cooldown_seconds - passed) % 3600) // 60)
+        return web.json_response({"ok": False, "error": f"Siz bugun aylantirgansiz. Keyingi imkoniyat {left_hours} soat {left_minutes} daqiqadan keyin."}, status=400)
 
   # 20 ta sektorli boy sovg'alar ro'yxati (Teddy Bear, Rose, Champagne, Stars, Balans, Rocket, Premium)
   prizes = [
@@ -1454,6 +1525,7 @@ def create_app() -> web.Application:
   app.router.add_get("/api/spin/status", api_spin_status)
   app.router.add_post("/api/spin/status", api_spin_status)
   app.router.add_post("/api/spin/play", api_spin_play)
+  app.router.add_post("/api/spin/promocode", api_spin_promocode)
 
   app.router.add_static("/app", WEBAPP_DIR, name="webapp")
   app.router.add_static("/", WEBAPP_DIR, name="root")

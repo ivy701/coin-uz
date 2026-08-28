@@ -367,6 +367,42 @@ async def init_db() -> None:
         """
     )
 
+    await db_conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS lucky_promocodes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            code TEXT UNIQUE NOT NULL,
+            is_used INTEGER NOT NULL DEFAULT 0,
+            used_by_id BIGINT,
+            used_by_username TEXT,
+            used_by_name TEXT,
+            used_at DATETIME,
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """ if IS_SQLITE else
+        """
+        CREATE TABLE IF NOT EXISTS lucky_promocodes (
+            id SERIAL PRIMARY KEY,
+            code TEXT UNIQUE NOT NULL,
+            is_used BOOLEAN NOT NULL DEFAULT FALSE,
+            used_by_id BIGINT,
+            used_by_username TEXT,
+            used_by_name TEXT,
+            used_at TIMESTAMPTZ,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+        """
+    )
+
+    await db_conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS user_bonus_spins (
+            telegram_id BIGINT PRIMARY KEY,
+            spins_left INTEGER NOT NULL DEFAULT 0
+        )
+        """
+    )
+
 
 async def ensure_user(
     telegram_id: int,
@@ -857,6 +893,86 @@ async def record_lucky_spin(telegram_id: int, prize_key: str, prize_title: str) 
         """,
         telegram_id, prize_key, prize_title
     )
+
+
+async def get_promocode(code: str) -> dict[str, Any] | None:
+    return await db_conn.fetchrow(
+        "SELECT * FROM lucky_promocodes WHERE UPPER(code) = UPPER($1)",
+        code.strip()
+    )
+
+
+async def use_promocode(code: str, telegram_id: int, username: str | None, full_name: str | None) -> bool:
+    row = await get_promocode(code)
+    if not row or row.get("is_used"):
+        return False
+
+    if IS_SQLITE:
+        await db_conn.execute(
+            """
+            UPDATE lucky_promocodes 
+            SET is_used = 1, used_by_id = $1, used_by_username = $2, used_by_name = $3, used_at = CURRENT_TIMESTAMP 
+            WHERE UPPER(code) = UPPER($4) AND is_used = 0
+            """,
+            telegram_id, username or "", full_name or "", code.strip()
+        )
+    else:
+        await db_conn.execute(
+            """
+            UPDATE lucky_promocodes 
+            SET is_used = TRUE, used_by_id = $1, used_by_username = $2, used_by_name = $3, used_at = NOW() 
+            WHERE UPPER(code) = UPPER($4) AND is_used = FALSE
+            """,
+            telegram_id, username or "", full_name or "", code.strip()
+        )
+
+    await add_user_bonus_spins(telegram_id, 1)
+    return True
+
+
+async def get_user_bonus_spins(telegram_id: int) -> int:
+    row = await db_conn.fetchrow(
+        "SELECT spins_left FROM user_bonus_spins WHERE telegram_id = $1",
+        telegram_id
+    )
+    return int(row["spins_left"]) if row and row.get("spins_left") else 0
+
+
+async def add_user_bonus_spins(telegram_id: int, count: int = 1) -> None:
+    row = await db_conn.fetchrow("SELECT spins_left FROM user_bonus_spins WHERE telegram_id = $1", telegram_id)
+    if row:
+        await db_conn.execute(
+            "UPDATE user_bonus_spins SET spins_left = spins_left + $1 WHERE telegram_id = $2",
+            count, telegram_id
+        )
+    else:
+        await db_conn.execute(
+            "INSERT INTO user_bonus_spins (telegram_id, spins_left) VALUES ($1, $2)",
+            telegram_id, count
+        )
+
+
+async def consume_user_bonus_spin(telegram_id: int) -> bool:
+    spins = await get_user_bonus_spins(telegram_id)
+    if spins > 0:
+        await db_conn.execute(
+            "UPDATE user_bonus_spins SET spins_left = spins_left - 1 WHERE telegram_id = $1",
+            telegram_id
+        )
+        return True
+    return False
+
+
+async def create_promocode(code: str) -> bool:
+    try:
+        await db_conn.execute(
+            "INSERT INTO lucky_promocodes (code) VALUES ($1) ON CONFLICT DO NOTHING" if not IS_SQLITE else
+            "INSERT OR IGNORE INTO lucky_promocodes (code) VALUES ($1)",
+            code.strip().upper()
+        )
+        return True
+    except Exception:
+        return False
 
 
 db = _LegacyDB()
