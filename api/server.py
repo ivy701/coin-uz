@@ -1248,6 +1248,160 @@ async def api_contest_join(request: web.Request) -> web.Response:
   return web.json_response({"ok": True, "message": "Muvaffaqiyatli qatnashdingiz!", "already": False, "participants_count": part_cnt})
 
 
+async def api_spin_status(request: web.Request) -> web.Response:
+  auth = await _auth_user(request)
+  user_id = _user_id_from_auth(auth)
+  body = await _json_body(request)
+  if not user_id:
+    user_id = body.get("telegram_id")
+  if not user_id:
+    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  user_id = int(user_id)
+
+  from services.database import db_conn, get_last_lucky_spin
+
+  query = """
+    SELECT 
+      o.telegram_id,
+      SUM(o.amount) as total
+    FROM orders o
+    WHERE o.status IN ('completed', 'paid')
+      AND o.product_type NOT LIKE 'topup%'
+      AND o.product_type NOT IN ('deposit', 'balance')
+    GROUP BY o.telegram_id
+    HAVING SUM(o.amount) > 0
+    ORDER BY total DESC
+    LIMIT 10
+  """
+  top_rows = await db_conn.fetch(query)
+  top_ids = [int(r["telegram_id"]) for r in top_rows]
+  is_top = user_id in top_ids
+  user_rank = (top_ids.index(user_id) + 1) if is_top else None
+
+  last_spin = await get_last_lucky_spin(user_id)
+  can_spin = False
+  next_spin_seconds = 0
+  cooldown_seconds = 7 * 86400  # 7 kun
+
+  if last_spin:
+    created_at = last_spin["created_at"]
+    if isinstance(created_at, str):
+      try:
+        created_at = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+      except Exception:
+        created_at = datetime.now()
+    if hasattr(created_at, "timestamp"):
+      now_tz = datetime.now(created_at.tzinfo) if getattr(created_at, "tzinfo", None) else datetime.now()
+      passed = (now_tz - created_at).total_seconds()
+    else:
+      passed = 86400 * 10
+
+    if passed < cooldown_seconds:
+      next_spin_seconds = int(cooldown_seconds - passed)
+      can_spin = False
+    else:
+      can_spin = is_top
+  else:
+    can_spin = is_top
+
+  return web.json_response({
+    "ok": True,
+    "is_top": is_top,
+    "rank": user_rank,
+    "can_spin": can_spin,
+    "next_spin_seconds": next_spin_seconds,
+    "last_prize": last_spin.get("prize_title") if last_spin else None
+  })
+
+
+async def api_spin_play(request: web.Request) -> web.Response:
+  import random
+  auth = await _auth_user(request)
+  user_id = _user_id_from_auth(auth)
+  body = await _json_body(request)
+  if not user_id:
+    user_id = body.get("telegram_id")
+  if not user_id:
+    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  user_id = int(user_id)
+
+  from services.database import db_conn, get_last_lucky_spin, record_lucky_spin, add_balance, get_user
+
+  # Top 10 tekshiruvi
+  query = """
+    SELECT o.telegram_id, SUM(o.amount) as total
+    FROM orders o
+    WHERE o.status IN ('completed', 'paid')
+      AND o.product_type NOT LIKE 'topup%'
+      AND o.product_type NOT IN ('deposit', 'balance')
+    GROUP BY o.telegram_id
+    HAVING SUM(o.amount) > 0
+    ORDER BY total DESC
+    LIMIT 10
+  """
+  top_rows = await db_conn.fetch(query)
+  top_ids = [int(r["telegram_id"]) for r in top_rows]
+  if user_id not in top_ids:
+    return web.json_response({"ok": False, "error": "Omad g'ildiragi faqat Top 10 yetakchilar uchun!"}, status=403)
+
+  last_spin = await get_last_lucky_spin(user_id)
+  cooldown_seconds = 7 * 86400
+  if last_spin:
+    created_at = last_spin["created_at"]
+    if isinstance(created_at, str):
+      try:
+        created_at = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+      except Exception:
+        created_at = datetime.now()
+    if hasattr(created_at, "timestamp"):
+      now_tz = datetime.now(created_at.tzinfo) if getattr(created_at, "tzinfo", None) else datetime.now()
+      passed = (now_tz - created_at).total_seconds()
+    else:
+      passed = 86400 * 10
+    if passed < cooldown_seconds:
+      left_days = int((cooldown_seconds - passed) // 86400) + 1
+      return web.json_response({"ok": False, "error": f"Siz bu hafta aylantirgansiz. Keyingi imkoniyat {left_days} kundan keyin."}, status=400)
+
+  # Sovg'alar va vaznlari (Asosan Teddy Bear ko'p bo'lsin)
+  prizes = [
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 45, "index": 0},
+    {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 20, "index": 1},
+    {"key": "stars50", "title": "⭐️ 50 Telegram Stars", "type": "stars", "amount": 50, "weight": 15, "index": 2},
+    {"key": "uzs10000", "title": "💰 10 000 UZS Balans", "type": "balance", "amount": 10000, "weight": 12, "index": 3},
+    {"key": "rocket", "title": "🚀 Rocket Gift", "type": "gift", "weight": 8, "index": 4},
+  ]
+
+  weights = [p["weight"] for p in prizes]
+  chosen_prize = random.choices(prizes, weights=weights, k=1)[0]
+
+  # Mukofotni hisobga o'tkazish
+  if chosen_prize["type"] == "balance":
+    await add_balance(user_id, chosen_prize["amount"], "Omad g'ildiragi yutug'i")
+
+  # Bazaga yozish
+  await record_lucky_spin(user_id, chosen_prize["key"], chosen_prize["title"])
+
+  # Kanalga bildirishnoma
+  try:
+    user = await get_user(user_id)
+    uname = (user.get("username") if user else "") or f"User#{user_id}"
+    from aiogram import Bot
+    from config import CHANNEL_ORDERS
+    bot = Bot(token=settings.bot_token)
+    msg = f"🎡 <b>Omad G'ildiragi Yutug'i!</b>\n\n👤 Foydalanuvchi: @{uname.replace('@','')}\n🎁 Yutuq: <b>{chosen_prize['title']}</b>\n\n🎉 <i>Top yetakchilarimizni tabriklaymiz!</i>"
+    if CHANNEL_ORDERS:
+      await bot.send_message(chat_id=CHANNEL_ORDERS, text=msg, parse_mode="HTML")
+    await bot.session.close()
+  except Exception as e:
+    logger.error(f"Spin channel notify error: {e}")
+
+  return web.json_response({
+    "ok": True,
+    "prize": chosen_prize,
+    "message": f"Tabriklaymiz! Siz {chosen_prize['title']} yutib oldingiz!"
+  })
+
+
 def create_app() -> web.Application:
   app = web.Application(middlewares=[cors_middleware])
   app.on_startup.append(on_startup)
@@ -1281,6 +1435,9 @@ def create_app() -> web.Application:
   app.router.add_get("/api/contest", api_contest)
   app.router.add_post("/api/contest", api_contest)
   app.router.add_post("/api/contest/join", api_contest_join)
+  app.router.add_get("/api/spin/status", api_spin_status)
+  app.router.add_post("/api/spin/status", api_spin_status)
+  app.router.add_post("/api/spin/play", api_spin_play)
 
   app.router.add_static("/app", WEBAPP_DIR, name="webapp")
   app.router.add_static("/", WEBAPP_DIR, name="root")

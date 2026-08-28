@@ -346,6 +346,27 @@ async def init_db() -> None:
         """
     )
 
+    await db_conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS lucky_wheel_spins (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            telegram_id BIGINT NOT NULL,
+            prize_key TEXT NOT NULL,
+            prize_title TEXT NOT NULL,
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """ if IS_SQLITE else
+        """
+        CREATE TABLE IF NOT EXISTS lucky_wheel_spins (
+            id SERIAL PRIMARY KEY,
+            telegram_id BIGINT NOT NULL,
+            prize_key TEXT NOT NULL,
+            prize_title TEXT NOT NULL,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+        """
+    )
+
 
 async def ensure_user(
     telegram_id: int,
@@ -814,6 +835,28 @@ async def finish_giveaway_and_pick_winners(giveaway_id: int) -> list[dict]:
         giveaway_id
     )
     return winners
+
+
+async def get_last_lucky_spin(telegram_id: int) -> dict[str, Any] | None:
+    return await db_conn.fetchrow(
+        """
+        SELECT * FROM lucky_wheel_spins 
+        WHERE telegram_id = $1 
+        ORDER BY created_at DESC 
+        LIMIT 1
+        """,
+        telegram_id
+    )
+
+
+async def record_lucky_spin(telegram_id: int, prize_key: str, prize_title: str) -> None:
+    await db_conn.execute(
+        """
+        INSERT INTO lucky_wheel_spins (telegram_id, prize_key, prize_title)
+        VALUES ($1, $2, $3)
+        """,
+        telegram_id, prize_key, prize_title
+    )
 
 
 db = _LegacyDB()
