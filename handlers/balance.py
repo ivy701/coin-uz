@@ -114,7 +114,8 @@ async def process_quick_topup(callback: CallbackQuery, state: FSMContext):
         f"Pul o'tkazing va <b>✅ To'lovni tekshirish</b> tugmasini bosing!\n\n"
         f'<tg-emoji emoji-id="{config.CUSTOM_EMOJI_WARN}">⚠️</tg-emoji> '
         f"Muddat: {format_time(now)} — {format_time(expires_at)} (Toshkent)\n"
-        f"Aniq {TIMEOUT_MINUTES} daqiqa."
+        f"Aniq {TIMEOUT_MINUTES} daqiqa.\n\n"
+        f"💬 <i>Agar to'lov qilishda qiynalsangiz, adminga murojaat qiling.</i>"
     )
 
     await callback.message.edit_text(
@@ -186,7 +187,8 @@ async def process_topup_amount(message: Message, state: FSMContext):
             f"Pul o'tkazing va <b>✅ To'lovni tekshirish</b> tugmasini bosing!\n\n"
             f'<tg-emoji emoji-id="{config.CUSTOM_EMOJI_WARN}">⚠️</tg-emoji> '
             f"Muddat: {format_time(now)} — {format_time(expires_at)} (Toshkent)\n"
-            f"Aniq {TIMEOUT_MINUTES} daqiqa."
+            f"Aniq {TIMEOUT_MINUTES} daqiqa.\n\n"
+            f"💬 <i>Agar to'lov qilishda qiynalsangiz, adminga murojaat qiling.</i>"
         )
 
         await message.answer(

@@ -338,11 +338,18 @@ def get_back_keyboard() -> InlineKeyboardMarkup:
 
 
 def get_card_payment_keyboard(order_id: str) -> InlineKeyboardMarkup:
+    import os
     builder = InlineKeyboardBuilder()
     builder.row(
         InlineKeyboardButton(
             text="✅ To'lovni tekshirish",
             callback_data=f"check_payment_{order_id}"
+        )
+    )
+    builder.row(
+        InlineKeyboardButton(
+            text="👨‍💻 Adminga murojaat qilish",
+            url=os.getenv("SUPPORT_URL", "https://t.me/cofeature")
         )
     )
     builder.row(
