@@ -686,8 +686,8 @@ async def api_order_topup(request: web.Request) -> web.Response:
         ]
     ])
     
-    card_number = os.getenv("CARD_NUMBER", "8801 7082 5750 1796")
-    card_owner = os.getenv("CARD_OWNER", "A A")
+    card_number = os.getenv("CARD_NUMBER", "4916 9903 6986 6493")
+    card_owner = os.getenv("CARD_OWNER", "T M")
     
     admin_ids = [int(a) for a in config.ADMINS]
     for admin_id in admin_ids:
