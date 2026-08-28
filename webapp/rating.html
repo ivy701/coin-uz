@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CoinStat UZ - Top Reyting</title>
+    <title>CoinStat UZ — Top Reyting</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="css/style.css?v=12.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
         * {
             margin: 0;
@@ -18,12 +18,27 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        :root {
+            --primary-gradient: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            --gold-glow: rgba(245, 158, 11, 0.25);
+            --silver-gradient: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+            --bronze-gradient: linear-gradient(135deg, #fb923c 0%, #b45309 100%);
+            --glass-bg: rgba(20, 21, 29, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
         body {
-            background-color: #000000;
+            background-color: #08080c;
+            background-image: 
+                radial-gradient(circle at 50% 10%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.06) 0%, transparent 45%),
+                radial-gradient(circle at 90% 60%, rgba(168, 85, 247, 0.06) 0%, transparent 45%);
             color: #ffffff;
             padding: 16px;
             padding-bottom: 130px;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Top Brand Header */
@@ -32,225 +47,325 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             padding-top: 4px;
         }
 
         .rating-top-brand img {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             object-fit: cover;
             border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
         }
 
         .rating-top-brand span {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
-            color: #a1a1aa;
-            letter-spacing: -0.3px;
+            color: #94a3b8;
+            letter-spacing: -0.2px;
         }
 
         .rating-page-title {
             text-align: center;
-            font-size: 22px;
-            font-weight: 800;
+            font-size: 26px;
+            font-weight: 900;
             color: #ffffff;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.8px;
             margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        /* Period Tabs */
+        /* Period Filter Tabs */
         .period-tabs-bar {
             display: flex;
-            background: #141418;
-            border: 1px solid #222228;
+            background: rgba(22, 23, 31, 0.85);
+            border: 1px solid var(--glass-border);
             border-radius: 999px;
             padding: 4px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             justify-content: space-between;
             gap: 4px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         .period-tab-btn {
             flex: 1;
             background: transparent;
             border: none;
-            color: #71717a;
+            color: #64748b;
             font-size: 12px;
             font-weight: 700;
             padding: 9px 4px;
             border-radius: 999px;
             cursor: pointer;
             text-align: center;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .period-tab-btn.active {
             background: #ffffff;
             color: #000000;
             font-weight: 800;
-            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
         }
 
         /* Top 3 Podium Box */
         .podium-box-container {
-            background: #121316;
-            border: 1px solid #222328;
-            border-radius: 26px;
+            background: rgba(18, 19, 26, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
             padding: 20px 14px 16px 14px;
-            margin-bottom: 18px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(14px);
+            box-shadow: 
+                0 20px 40px -15px rgba(0, 0, 0, 0.7),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .podium-box-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .podium-box-header {
             text-align: center;
             font-size: 15px;
             font-weight: 800;
-            color: #ffffff;
+            color: #f1f5f9;
             margin-bottom: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
+            letter-spacing: -0.3px;
         }
 
         .podium-cylinders-row {
             display: grid;
-            grid-template-columns: 1fr 1.15fr 1fr;
+            grid-template-columns: 1fr 1.18fr 1fr;
             align-items: end;
             gap: 8px;
-            min-height: 190px;
+            min-height: 220px;
         }
 
         .podium-column {
-            background: #18191e;
-            border: 1px solid #282932;
-            border-radius: 18px;
+            border-radius: 22px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 14px 6px 12px 6px;
+            padding: 16px 6px 14px 6px;
             text-align: center;
             position: relative;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
 
-        /* 1st Place (Center - Gold) */
+        /* 1st Place (Center - Gold Masterpiece) */
         .podium-column.first {
-            min-height: 190px;
-            background: linear-gradient(180deg, rgba(245, 158, 11, 0.15) 0%, #16171d 60%, #121316 100%);
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.12);
+            min-height: 220px;
+            background: linear-gradient(180deg, rgba(251, 191, 36, 0.22) 0%, rgba(30, 24, 16, 0.95) 45%, rgba(18, 19, 26, 0.98) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.5);
+            box-shadow: 
+                0 10px 30px rgba(245, 158, 11, 0.22),
+                inset 0 1px 2px rgba(251, 191, 36, 0.4);
+            transform: translateY(-4px);
         }
 
-        /* 2nd Place (Left - Silver) */
+        /* 2nd Place (Left - Silver Masterpiece) */
         .podium-column.second {
-            min-height: 165px;
-            background: linear-gradient(180deg, rgba(203, 213, 225, 0.1) 0%, #15161b 60%, #121316 100%);
-            border: 1px solid rgba(203, 213, 225, 0.25);
+            min-height: 185px;
+            background: linear-gradient(180deg, rgba(203, 213, 225, 0.16) 0%, rgba(24, 25, 34, 0.95) 45%, rgba(18, 19, 26, 0.98) 100%);
+            border: 1px solid rgba(203, 213, 225, 0.35);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
-        /* 3rd Place (Right - Bronze) */
+        /* 3rd Place (Right - Bronze Masterpiece) */
         .podium-column.third {
-            min-height: 150px;
-            background: linear-gradient(180deg, rgba(217, 119, 6, 0.1) 0%, #15161b 60%, #121316 100%);
-            border: 1px solid rgba(217, 119, 6, 0.25);
+            min-height: 170px;
+            background: linear-gradient(180deg, rgba(251, 146, 60, 0.14) 0%, rgba(28, 22, 18, 0.95) 45%, rgba(18, 19, 26, 0.98) 100%);
+            border: 1px solid rgba(251, 146, 60, 0.35);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Crown on #1 */
+        .podium-crown {
+            position: absolute;
+            top: -2px;
+            font-size: 16px;
+            filter: drop-shadow(0 2px 8px rgba(251, 191, 36, 0.8));
+            animation: crownFloat 2.5s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        @keyframes crownFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
         }
 
         .podium-avatar-wrap {
             position: relative;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .podium-column.first .podium-avatar-wrap {
+            margin-top: 14px;
         }
 
         .podium-avatar-img {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #282932;
-            background: #27272a;
+            border: 2.5px solid rgba(255, 255, 255, 0.2);
+            background: #1e293b;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.2s ease;
         }
 
         .podium-column.first .podium-avatar-img {
-            width: 50px;
-            height: 50px;
-            border-color: #f59e0b;
+            width: 58px;
+            height: 58px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+
+        .podium-column.second .podium-avatar-img {
+            border: 2.5px solid #cbd5e1;
+            box-shadow: 0 0 15px rgba(203, 213, 225, 0.3);
+        }
+
+        .podium-column.third .podium-avatar-img {
+            border: 2.5px solid #fb923c;
+            box-shadow: 0 0 15px rgba(251, 146, 60, 0.3);
         }
 
         .podium-badge-pill {
             position: absolute;
-            bottom: -6px;
+            bottom: -7px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 11px;
-            font-weight: 800;
-            padding: 1px 7px;
+            font-weight: 900;
+            padding: 2px 9px;
             border-radius: 999px;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.2px;
         }
 
         .badge-gold {
-            background: #f59e0b;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             color: #000000;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
         }
 
         .badge-silver {
-            background: #94a3b8;
-            color: #000000;
+            background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+            color: #0f172a;
         }
 
         .badge-bronze {
-            background: #d97706;
-            color: #ffffff;
+            background: linear-gradient(135deg, #fdba74 0%, #f97316 100%);
+            color: #000000;
         }
 
         .podium-username {
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             color: #ffffff;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 85px;
-            margin-top: 4px;
-            margin-bottom: 4px;
+            max-width: 90px;
+            margin-top: 6px;
+            margin-bottom: 3px;
+            letter-spacing: -0.2px;
+        }
+
+        .podium-column.first .podium-username {
+            font-size: 13px;
+            color: #fef08a;
+            max-width: 100px;
         }
 
         .podium-amount {
-            font-size: 12px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 900;
             color: #ffffff;
             line-height: 1.2;
+            letter-spacing: -0.3px;
+        }
+
+        .podium-column.first .podium-amount {
+            color: #fbbf24;
+            font-size: 14px;
         }
 
         .podium-subtext {
             font-size: 10px;
-            font-weight: 600;
-            color: #71717a;
+            font-weight: 700;
+            color: #64748b;
             margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Leaderboard List Rows */
-        .rating-list-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 18px;
-        }
-
-        .leader-row-card {
-            background: #141418;
-            border: 1px solid #222228;
-            border-radius: 18px;
-            padding: 12px 14px;
+        .list-section-header {
+            font-size: 14px;
+            font-weight: 800;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            padding-left: 4px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: all 0.2s ease;
+        }
+
+        .rating-list-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .leader-row-card {
+            background: rgba(20, 21, 29, 0.85);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .leader-row-card:active {
-            background: #1a1a22;
+            background: rgba(30, 32, 44, 0.95);
+            transform: scale(0.99);
         }
 
         .leader-row-left {
@@ -262,21 +377,27 @@
 
         .leader-row-rank {
             font-size: 13px;
-            font-weight: 800;
-            color: #71717a;
-            width: 22px;
-            text-align: center;
+            font-weight: 900;
+            color: #64748b;
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
         }
 
         .leader-row-avatar {
-            width: 38px;
-            height: 38px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             overflow: hidden;
-            background: #27272a;
-            border: 1px solid #2e2f38;
+            background: #1e293b;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
             flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
         .leader-row-avatar img {
@@ -285,14 +406,28 @@
             object-fit: cover;
         }
 
+        .leader-row-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
         .leader-row-username {
             font-size: 14px;
-            font-weight: 700;
-            color: #ffffff;
+            font-weight: 800;
+            color: #f1f5f9;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 130px;
+            max-width: 135px;
+            letter-spacing: -0.2px;
+        }
+
+        .leader-row-tag {
+            font-size: 10px;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-top: 1px;
         }
 
         .leader-row-right {
@@ -301,31 +436,51 @@
         }
 
         .leader-row-turnover-val {
-            font-size: 14px;
-            font-weight: 800;
+            font-size: 15px;
+            font-weight: 900;
             color: #ffffff;
+            letter-spacing: -0.4px;
         }
 
         .leader-row-turnover-label {
             font-size: 10px;
-            font-weight: 600;
-            color: #71717a;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
             margin-top: 1px;
         }
 
-        /* User My Rank Dock */
+        /* User My Rank Floating Card */
         .user-my-rank-dock {
-            background: #141418;
-            border: 1px solid #2f303a;
-            border-radius: 20px;
-            padding: 14px 16px;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 22px;
+            padding: 14px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 24px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(16px);
+            box-shadow: 
+                0 10px 30px -5px rgba(0, 0, 0, 0.6),
+                0 0 25px rgba(56, 189, 248, 0.15);
         }
 
+        .my-rank-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .my-rank-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 
@@ -336,7 +491,9 @@
         <img src="./images/logo.png" alt="CoinStat">
         <span>CoinStat UZ</span>
     </div>
-    <div class="rating-page-title">Top Reyting</div>
+    <div class="rating-page-title">
+        <span>🏆 Top Reyting</span>
+    </div>
 
     <!-- Period Filter Tabs -->
     <div class="period-tabs-bar">
@@ -348,7 +505,9 @@
 
     <!-- Top 3 Leaderboard Podium -->
     <div class="podium-box-container">
-        <div class="podium-box-header">🏆 Top 3 Yetakchilar</div>
+        <div class="podium-box-header">
+            <span>👑 Top 3 Yetakchilar</span>
+        </div>
         <div class="podium-cylinders-row">
             <!-- #2 Second (Left) -->
             <div class="podium-column second" id="podium2">
@@ -357,18 +516,19 @@
                     <div class="podium-badge-pill badge-silver">🥈 #2</div>
                 </div>
                 <div class="podium-username" id="podiumUser2">@usdt_guru</div>
-                <div class="podium-amount" id="podiumAmount2">70 000 000 UZS</div>
+                <div class="podium-amount" id="podiumAmount2">0 UZS</div>
                 <div class="podium-subtext">Aylanma</div>
             </div>
 
             <!-- #1 First (Center) -->
             <div class="podium-column first" id="podium1">
+                <div class="podium-crown">👑</div>
                 <div class="podium-avatar-wrap">
                     <img src="./images/logo.png" id="podiumAvatar1" class="podium-avatar-img" alt="1st">
                     <div class="podium-badge-pill badge-gold">🥇 #1</div>
                 </div>
-                <div class="podium-username" id="podiumUser1">@crypto_king</div>
-                <div class="podium-amount" id="podiumAmount1">120 500 000 UZS</div>
+                <div class="podium-username" id="podiumUser1">@coinstat_king</div>
+                <div class="podium-amount" id="podiumAmount1">0 UZS</div>
                 <div class="podium-subtext">Aylanma</div>
             </div>
 
@@ -378,33 +538,38 @@
                     <img src="./images/logo.png" id="podiumAvatar3" class="podium-avatar-img" alt="3rd">
                     <div class="podium-badge-pill badge-bronze">🥉 #3</div>
                 </div>
-                <div class="podium-username" id="podiumUser3">@coin_master</div>
-                <div class="podium-amount" id="podiumAmount3">60 800 000 UZS</div>
+                <div class="podium-username" id="podiumUser3">@crypto_king</div>
+                <div class="podium-amount" id="podiumAmount3">0 UZS</div>
                 <div class="podium-subtext">Aylanma</div>
             </div>
         </div>
     </div>
 
-    <!-- Leaderboard List Rows -->
-    <div class="rating-list-wrapper" id="leaderboardList">
-        <!-- Rendered dynamically -->
+    <!-- Leaderboard Rows (#4 onwards) -->
+    <div class="list-section-header">
+        <span>Boshqa yetakchilar</span>
+        <span>Aylanma</span>
     </div>
 
-    <!-- User My Rank Dock -->
+    <div class="rating-list-wrapper" id="leaderboardList">
+        <!-- Dynamic content filled by JavaScript -->
+    </div>
+
+    <!-- User My Rank Bottom Floating Card -->
     <div class="user-my-rank-dock">
         <div class="leader-row-left">
-            <div class="leader-row-avatar">
-                <img src="./images/logo.png" id="myAvatarImg" alt="User">
+            <div class="my-rank-avatar">
+                <img src="./images/logo.png" id="myAvatarImg" alt="Me" onerror="this.src='./images/logo.png'">
             </div>
-            <div>
-                <div style="font-size: 13px; font-weight: 800; color: #ffffff;">
-                    Sizning o'rningiz: <span id="myRankNum" style="color: #f59e0b;">#1</span>
+            <div class="leader-row-info">
+                <div style="font-size: 14px; font-weight: 900; color: #ffffff; display: flex; align-items: center; gap: 6px;">
+                    Sizning o'rningiz: <span id="myRankNum" style="color: #fbbf24;">—</span>
                 </div>
-                <div style="font-size: 10px; font-weight: 600; color: #71717a;">Umumiy reytingda</div>
+                <div style="font-size: 11px; font-weight: 600; color: #94a3b8;">Umumiy faollik reytingida</div>
             </div>
         </div>
         <div class="leader-row-right">
-            <div class="leader-row-turnover-val" id="myTurnoverVal">0 UZS</div>
+            <div class="leader-row-turnover-val" id="myTurnoverVal" style="color: #38bdf8;">0 UZS</div>
             <div class="leader-row-turnover-label">Aylanma</div>
         </div>
     </div>
@@ -567,7 +732,10 @@
                                 <div class="leader-row-avatar">
                                     <img src="${rowAvatar}" alt="${uname}" onerror="this.src='./images/logo.png'">
                                 </div>
-                                <div class="leader-row-username">${uname}</div>
+                                <div class="leader-row-info">
+                                    <div class="leader-row-username">${uname}</div>
+                                    <div class="leader-row-tag">🔥 Faol Xaridor</div>
+                                </div>
                             </div>
                             <div class="leader-row-right">
                                 <div class="leader-row-turnover-val">${totalFormatted}</div>
@@ -580,8 +748,8 @@
 
             if (list.length === 0) {
                 html = `
-                    <div style="text-align: center; padding: 30px 16px; color: #71717a; font-size: 13px; font-weight: 600;">
-                        🛍 Hozircha hech kim xarid qilmagan.<br>Birinchi bo'lib xarid qiling va 1-o'rinni egallang!
+                    <div style="text-align: center; padding: 35px 16px; color: #64748b; font-size: 13px; font-weight: 700; background: rgba(22,23,31,0.5); border-radius: 20px; border: 1px dashed rgba(255,255,255,0.06);">
+                        🛍 Hozircha hech kim xarid qilmagan.<br><span style="color: #38bdf8;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
                     </div>
                 `;
             }
