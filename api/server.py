@@ -1329,57 +1329,61 @@ async def api_spin_status(request: web.Request) -> web.Response:
 
 
 async def api_spin_promocode(request: web.Request) -> web.Response:
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  if not user_id:
-    user_id = body.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
-  user_id = int(user_id)
+  try:
+    auth = await _auth_user(request)
+    user_id = _user_id_from_auth(auth)
+    body = await _json_body(request)
+    if not user_id:
+      user_id = body.get("telegram_id")
+    if not user_id:
+      return web.json_response({"ok": False, "error": "Foydalanuvchi aniqlanmadi (Unauthorized)"}, status=401)
+    user_id = int(user_id)
 
-  code = (body.get("code") or "").strip()
-  if not code:
-    return web.json_response({"ok": False, "error": "Promo kodni kiriting!"}, status=400)
+    code = (body.get("code") or "").strip()
+    if not code:
+      return web.json_response({"ok": False, "error": "Promo kodni kiriting!"}, status=400)
 
-  from services.database import get_promocode, use_promocode, get_user
+    from services.database import get_promocode, use_promocode, get_user
 
-  promo = await get_promocode(code)
-  if not promo:
-    return web.json_response({"ok": False, "error": "Bunday promo kod mavjud emas!"}, status=404)
+    promo = await get_promocode(code)
+    if not promo:
+      return web.json_response({"ok": False, "error": "Bunday promo kod mavjud emas!"}, status=404)
 
-  if promo.get("is_used"):
-    used_by_uname = promo.get("used_by_username")
-    used_by_name = promo.get("used_by_name")
-    used_by_id = promo.get("used_by_id")
+    if promo.get("is_used"):
+      used_by_uname = promo.get("used_by_username")
+      used_by_name = promo.get("used_by_name")
+      used_by_id = promo.get("used_by_id")
 
-    if used_by_uname:
-      user_label = f"@{used_by_uname.replace('@','')}"
-    elif used_by_name:
-      user_label = used_by_name
-    else:
-      user_label = f"Foydalanuvchi #{used_by_id}"
+      if used_by_uname:
+        user_label = f"@{used_by_uname.replace('@','')}"
+      elif used_by_name:
+        user_label = used_by_name
+      else:
+        user_label = f"Foydalanuvchi #{used_by_id}"
+
+      return web.json_response({
+        "ok": False,
+        "already_used": True,
+        "used_by": user_label,
+        "error": f"Ushbu promo kodni {user_label} faollashtirdi!"
+      }, status=400)
+
+    # Faollashtirish
+    user = await get_user(user_id)
+    uname = user.get("username") if user else ""
+    fname = user.get("full_name") if user else ""
+
+    success = await use_promocode(code, user_id, uname, fname)
+    if not success:
+      return web.json_response({"ok": False, "error": "Promo kodni faollashtirishda xatolik!"}, status=400)
 
     return web.json_response({
-      "ok": False,
-      "already_used": True,
-      "used_by": user_label,
-      "error": f"Ushbu promo kodni {user_label} faollashtirdi!"
-    }, status=400)
-
-  # Faollashtirish
-  user = await get_user(user_id)
-  uname = user.get("username") if user else ""
-  fname = user.get("full_name") if user else ""
-
-  success = await use_promocode(code, user_id, uname, fname)
-  if not success:
-    return web.json_response({"ok": False, "error": "Promo kodni faollashtirishda xatolik!"}, status=400)
-
-  return web.json_response({
-    "ok": True,
-    "message": "Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi 🎉"
-  })
+      "ok": True,
+      "message": "Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi 🎉"
+    })
+  except Exception as e:
+    logger.exception("api_spin_promocode error: %s", e)
+    return web.json_response({"ok": False, "error": f"Server xatoligi: {str(e)}"}, status=500)
 
 
 async def api_spin_play(request: web.Request) -> web.Response:

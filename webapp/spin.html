@@ -934,7 +934,12 @@
                     headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
                     body: JSON.stringify({ telegram_id: userId, initData: tg.initData || '' })
                 });
-                const data = await res.json();
+                let data = null;
+                try {
+                    data = await res.json();
+                } catch(e) {
+                    return;
+                }
                 
                 const titleEl = document.getElementById('statusTitle');
                 const descEl = document.getElementById('statusDesc');
@@ -1005,7 +1010,13 @@
                     headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
                     body: JSON.stringify({ code: code, telegram_id: userId, initData: tg.initData || '' })
                 });
-                const data = await res.json();
+
+                let data = null;
+                try {
+                    data = await res.json();
+                } catch (jsonErr) {
+                    data = { ok: false, error: 'Server bilan ulanishda xatolik yuz berdi' };
+                }
 
                 btn.disabled = false;
                 btn.innerHTML = '<span>Faollashtirish</span>';
@@ -1019,7 +1030,7 @@
                     checkSpinStatus();
                 } else {
                     msgEl.className = 'promo-status-msg error';
-                    msgEl.textContent = data?.error || 'Promo kod yaroqsiz!';
+                    msgEl.textContent = data?.error || 'Promo kod yaroqsiz yoki mavjud emas!';
                     msgEl.style.display = 'block';
                     if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
                 }
@@ -1027,7 +1038,7 @@
                 btn.disabled = false;
                 btn.innerHTML = '<span>Faollashtirish</span>';
                 msgEl.className = 'promo-status-msg error';
-                msgEl.textContent = 'Xatolik: ' + err.message;
+                msgEl.textContent = 'Tarmoq xatoligi: ' + (err.message || 'Ulanib bo\'lmadi');
                 msgEl.style.display = 'block';
             }
         }
@@ -1048,7 +1059,13 @@
                     headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
                     body: JSON.stringify({ telegram_id: userId, initData: tg.initData || '' })
                 });
-                const data = await res.json();
+
+                let data = null;
+                try {
+                    data = await res.json();
+                } catch (e) {
+                    data = { ok: false, error: 'Serverdan noto\'g\'ri javob keldi' };
+                }
 
                 if (data && data.ok && data.prize) {
                     const prize = data.prize;
