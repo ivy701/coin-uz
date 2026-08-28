@@ -173,8 +173,13 @@
             padding: 16px 6px 14px 6px;
             text-align: center;
             position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
+            cursor: pointer;
+        }
+
+        .podium-column:active {
+            transform: scale(0.96);
         }
 
         /* 1st Place (Center - Gold Masterpiece) */
@@ -186,6 +191,10 @@
                 0 10px 30px rgba(245, 158, 11, 0.22),
                 inset 0 1px 2px rgba(251, 191, 36, 0.4);
             transform: translateY(-4px);
+        }
+
+        .podium-column.first:active {
+            transform: translateY(-2px) scale(0.96);
         }
 
         /* 2nd Place (Left - Silver Masterpiece) */
@@ -361,11 +370,12 @@
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
         }
 
         .leader-row-card:active {
             background: rgba(30, 32, 44, 0.95);
-            transform: scale(0.99);
+            transform: scale(0.98);
         }
 
         .leader-row-left {
@@ -464,6 +474,12 @@
             box-shadow: 
                 0 10px 30px -5px rgba(0, 0, 0, 0.6),
                 0 0 25px rgba(56, 189, 248, 0.15);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .user-my-rank-dock:active {
+            transform: scale(0.98);
         }
 
         .my-rank-avatar {
@@ -480,6 +496,202 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* ================= USER DETAILS MODAL POPUP ================= */
+        .user-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .user-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .user-modal-sheet {
+            background: #111219;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 32px 32px 0 0;
+            width: 100%;
+            max-width: 500px;
+            padding: 24px 20px 38px 20px;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 -15px 45px rgba(0, 0, 0, 0.9);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-modal-overlay.active .user-modal-sheet {
+            transform: translateY(0);
+        }
+
+        .modal-drag-pill {
+            width: 44px;
+            height: 5px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-bottom: 18px;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .modal-avatar-wrapper {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .modal-avatar-img {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #38bdf8;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+            background: #1e293b;
+        }
+
+        .modal-badge-rank {
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            color: #000;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 3px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-user-name {
+            font-size: 20px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 2px;
+            text-align: center;
+        }
+
+        .modal-user-username {
+            font-size: 14px;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Stats Grid */
+        .modal-stats-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .modal-stat-card {
+            background: rgba(25, 27, 38, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 14px 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .modal-stat-value {
+            font-size: 16px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        /* Modal Actions */
+        .modal-action-btn {
+            width: 100%;
+            background: var(--primary-gradient);
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .modal-action-btn:active {
+            transform: scale(0.98);
+        }
+
+        .modal-cancel-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-cancel-btn:active {
+            background: rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
@@ -556,7 +768,7 @@
     </div>
 
     <!-- User My Rank Bottom Floating Card -->
-    <div class="user-my-rank-dock">
+    <div class="user-my-rank-dock" id="myRankDock">
         <div class="leader-row-left">
             <div class="my-rank-avatar">
                 <img src="./images/logo.png" id="myAvatarImg" alt="Me" onerror="this.src='./images/logo.png'">
@@ -571,6 +783,47 @@
         <div class="leader-row-right">
             <div class="leader-row-turnover-val" id="myTurnoverVal" style="color: #38bdf8;">0 UZS</div>
             <div class="leader-row-turnover-label">Aylanma</div>
+        </div>
+    </div>
+
+    <!-- ================= USER DETAILS MODAL POPUP ================= -->
+    <div class="user-modal-overlay" id="userModalOverlay" onclick="closeUserProfile(event)">
+        <div class="user-modal-sheet" onclick="event.stopPropagation()">
+            <div class="modal-drag-pill"></div>
+            <div class="modal-close-btn" onclick="closeUserProfile()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </div>
+
+            <div class="modal-avatar-wrapper">
+                <img src="./images/logo.png" id="modalAvatarImg" class="modal-avatar-img" alt="Avatar">
+                <div class="modal-badge-rank" id="modalRankBadge">#1</div>
+            </div>
+
+            <div class="modal-user-name" id="modalUserName">Foydalanuvchi</div>
+            <div class="modal-user-username" id="modalUserHandle">@username</div>
+
+            <div class="modal-stats-grid">
+                <div class="modal-stat-card">
+                    <div class="modal-stat-label">Reyting o'rni</div>
+                    <div class="modal-stat-value" id="modalStatRank" style="color: #fbbf24;">#1</div>
+                </div>
+                <div class="modal-stat-card">
+                    <div class="modal-stat-label">Umumiy Aylanma</div>
+                    <div class="modal-stat-value" id="modalStatTurnover" style="color: #38bdf8;">0 UZS</div>
+                </div>
+            </div>
+
+            <a href="#" target="_blank" class="modal-action-btn" id="modalTgLink">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 6.75a2.25 2.25 0 0 0 .126 4.148l4.47 1.54 1.72 5.25a2.25 2.25 0 0 0 3.738.647l2.84-2.84 4.54 3.32a2.25 2.25 0 0 0 3.52-1.34l3.5-15.5a2.25 2.25 0 0 0-2.932-2.19z"></path>
+                </svg>
+                <span>Telegram profilini ochish</span>
+            </a>
+
+            <button class="modal-cancel-btn" onclick="closeUserProfile()">Yopish</button>
         </div>
     </div>
 
@@ -612,6 +865,8 @@
 
     <script src="js/common.js"></script>
     <script>
+        let cachedRatingList = [];
+
         function switchPeriod(period, btn) {
             document.querySelectorAll('.period-tab-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
@@ -630,8 +885,10 @@
                 });
                 const data = await res.json();
                 const list = (data && data.ok && Array.isArray(data.rating)) ? data.rating : [];
+                cachedRatingList = list;
                 renderPodiumAndList(list, currentUserId);
             } catch (err) {
+                cachedRatingList = [];
                 renderPodiumAndList([], currentUserId);
             }
         }
@@ -655,6 +912,43 @@
             return `https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=${color}&color=fff&bold=true&rounded=true&size=128`;
         }
 
+        function openUserProfile(rank, username, amountFormatted, avatarUrl, fullName) {
+            if (!username && !amountFormatted) return;
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+
+            const overlay = document.getElementById('userModalOverlay');
+            const avatarEl = document.getElementById('modalAvatarImg');
+            const rankBadgeEl = document.getElementById('modalRankBadge');
+            const nameEl = document.getElementById('modalUserName');
+            const handleEl = document.getElementById('modalUserHandle');
+            const statRankEl = document.getElementById('modalStatRank');
+            const statTurnoverEl = document.getElementById('modalStatTurnover');
+            const tgLinkBtn = document.getElementById('modalTgLink');
+
+            avatarEl.src = avatarUrl || './images/logo.png';
+            rankBadgeEl.textContent = rank ? `#${rank}` : '—';
+            statRankEl.textContent = rank ? `#${rank} O'rin` : '—';
+            statTurnoverEl.textContent = amountFormatted || '0 UZS';
+
+            const rawUser = String(username || '').replace(/^@/, '');
+            nameEl.textContent = fullName || (rawUser ? '@' + rawUser : 'Foydalanuvchi');
+            handleEl.textContent = rawUser ? '@' + rawUser : 'Telegram foydalanuvchisi';
+
+            if (rawUser) {
+                tgLinkBtn.style.display = 'flex';
+                tgLinkBtn.href = `https://t.me/${rawUser}`;
+            } else {
+                tgLinkBtn.style.display = 'none';
+            }
+
+            if (overlay) overlay.classList.add('active');
+        }
+
+        function closeUserProfile(e) {
+            const overlay = document.getElementById('userModalOverlay');
+            if (overlay) overlay.classList.remove('active');
+        }
+
         function renderPodiumAndList(list, currentUserId) {
             const container = document.getElementById('leaderboardList');
             const av1 = document.getElementById('podiumAvatar1');
@@ -667,42 +961,60 @@
             }
 
             // 1st Place (Center)
+            const p1 = document.getElementById('podium1');
             if (list[0] && list[0].total > 0) {
-                document.getElementById('podiumUser1').textContent = '@' + (list[0].username || 'User#' + list[0].telegram_id);
-                document.getElementById('podiumAmount1').textContent = Number(list[0].total).toLocaleString('uz-UZ') + ' UZS';
-                document.getElementById('podium1').style.opacity = '1';
-                if (av1) av1.src = getAvatarUrl(list[0], currentUserId);
+                const u1 = (list[0].username || 'User#' + list[0].telegram_id);
+                const amt1 = Number(list[0].total).toLocaleString('uz-UZ') + ' UZS';
+                const avatar1 = getAvatarUrl(list[0], currentUserId);
+                document.getElementById('podiumUser1').textContent = '@' + u1.replace(/^@/, '');
+                document.getElementById('podiumAmount1').textContent = amt1;
+                p1.style.opacity = '1';
+                if (av1) av1.src = avatar1;
+                p1.onclick = () => openUserProfile(1, u1, amt1, avatar1, list[0].full_name);
             } else {
                 document.getElementById('podiumUser1').textContent = 'Bo\'sh';
                 document.getElementById('podiumAmount1').textContent = '0 UZS';
-                document.getElementById('podium1').style.opacity = '0.5';
+                p1.style.opacity = '0.5';
                 if (av1) av1.src = './images/logo.png';
+                p1.onclick = null;
             }
 
             // 2nd Place (Left)
+            const p2 = document.getElementById('podium2');
             if (list[1] && list[1].total > 0) {
-                document.getElementById('podiumUser2').textContent = '@' + (list[1].username || 'User#' + list[1].telegram_id);
-                document.getElementById('podiumAmount2').textContent = Number(list[1].total).toLocaleString('uz-UZ') + ' UZS';
-                document.getElementById('podium2').style.opacity = '1';
-                if (av2) av2.src = getAvatarUrl(list[1], currentUserId);
+                const u2 = (list[1].username || 'User#' + list[1].telegram_id);
+                const amt2 = Number(list[1].total).toLocaleString('uz-UZ') + ' UZS';
+                const avatar2 = getAvatarUrl(list[1], currentUserId);
+                document.getElementById('podiumUser2').textContent = '@' + u2.replace(/^@/, '');
+                document.getElementById('podiumAmount2').textContent = amt2;
+                p2.style.opacity = '1';
+                if (av2) av2.src = avatar2;
+                p2.onclick = () => openUserProfile(2, u2, amt2, avatar2, list[1].full_name);
             } else {
                 document.getElementById('podiumUser2').textContent = 'Bo\'sh';
                 document.getElementById('podiumAmount2').textContent = '0 UZS';
-                document.getElementById('podium2').style.opacity = '0.5';
+                p2.style.opacity = '0.5';
                 if (av2) av2.src = './images/logo.png';
+                p2.onclick = null;
             }
 
             // 3rd Place (Right)
+            const p3 = document.getElementById('podium3');
             if (list[2] && list[2].total > 0) {
-                document.getElementById('podiumUser3').textContent = '@' + (list[2].username || 'User#' + list[2].telegram_id);
-                document.getElementById('podiumAmount3').textContent = Number(list[2].total).toLocaleString('uz-UZ') + ' UZS';
-                document.getElementById('podium3').style.opacity = '1';
-                if (av3) av3.src = getAvatarUrl(list[2], currentUserId);
+                const u3 = (list[2].username || 'User#' + list[2].telegram_id);
+                const amt3 = Number(list[2].total).toLocaleString('uz-UZ') + ' UZS';
+                const avatar3 = getAvatarUrl(list[2], currentUserId);
+                document.getElementById('podiumUser3').textContent = '@' + u3.replace(/^@/, '');
+                document.getElementById('podiumAmount3').textContent = amt3;
+                p3.style.opacity = '1';
+                if (av3) av3.src = avatar3;
+                p3.onclick = () => openUserProfile(3, u3, amt3, avatar3, list[2].full_name);
             } else {
                 document.getElementById('podiumUser3').textContent = 'Bo\'sh';
                 document.getElementById('podiumAmount3').textContent = '0 UZS';
-                document.getElementById('podium3').style.opacity = '0.5';
+                p3.style.opacity = '0.5';
                 if (av3) av3.src = './images/logo.png';
+                p3.onclick = null;
             }
 
             // Remaining list rows (from #4 onwards)
@@ -717,6 +1029,7 @@
                 const totalVal = Number(item.total || 0);
                 const totalFormatted = totalVal.toLocaleString('uz-UZ') + ' UZS';
                 const rowAvatar = getAvatarUrl(item, currentUserId);
+                const fullNameSafe = (item.full_name || '').replace(/'/g, "\\'");
 
                 const tgUsername = (tg.initDataUnsafe?.user?.username || '').replace(/^@/, '');
                 if (String(item.telegram_id) === currentUserId || (tgUsername && rawUsername.toLowerCase() === tgUsername.toLowerCase())) {
@@ -726,7 +1039,7 @@
 
                 if (rank > 3 && totalVal > 0) {
                     html += `
-                        <div class="leader-row-card">
+                        <div class="leader-row-card" onclick="openUserProfile(${rank}, '${rawUsername}', '${totalFormatted}', '${rowAvatar}', '${fullNameSafe}')">
                             <div class="leader-row-left">
                                 <div class="leader-row-rank">#${rank}</div>
                                 <div class="leader-row-avatar">
@@ -758,6 +1071,7 @@
 
             const myRankEl = document.getElementById('myRankNum');
             const myTurnoverEl = document.getElementById('myTurnoverVal');
+            const myRankDock = document.getElementById('myRankDock');
 
             const setRankUI = (rank, turnover) => {
                 if (myRankEl) {
@@ -767,6 +1081,13 @@
                 }
                 if (myTurnoverEl) {
                     myTurnoverEl.textContent = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
+                }
+                if (myRankDock) {
+                    const myUname = tg.initDataUnsafe?.user?.username || 'Men';
+                    const myFullName = (tg.initDataUnsafe?.user?.first_name || '') + ' ' + (tg.initDataUnsafe?.user?.last_name || '');
+                    const myPhoto = tg.initDataUnsafe?.user?.photo_url || './images/logo.png';
+                    const formattedTurnover = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
+                    myRankDock.onclick = () => openUserProfile(rank, myUname, formattedTurnover, myPhoto, myFullName.trim());
                 }
             };
 
@@ -802,3 +1123,4 @@
 </body>
 
 </html>
+
