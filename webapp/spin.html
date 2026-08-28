@@ -1177,34 +1177,11 @@
                 return;
             }
 
-            // Client-Side Smart Local Fallback (Guaranteed to work everywhere!)
-            const usedPromos = getLocalUsedPromos();
-            if (usedPromos[code]) {
-                const prevUser = usedPromos[code].user || 'boshqa foydalanuvchi';
-                msgEl.className = 'promo-status-msg error';
-                msgEl.textContent = `Ushbu promo kodni ${prevUser} faollashtirdi!`;
-                msgEl.style.display = 'block';
-                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                return;
-            }
-
-            if (DEFAULT_PROMO_CODES.includes(code) || code.length >= 3) {
-                // Valid activation!
-                saveLocalUsedPromo(code, myLabel);
-                setLocalBonusSpins(getLocalBonusSpins() + 1);
-                nextForcedPrizeKey = PROMO_REWARDS_MAP[code] || 'teddy';
-                msgEl.className = 'promo-status-msg success';
-                msgEl.textContent = 'Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi 🎉';
-                msgEl.style.display = 'block';
-                input.value = '';
-                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                checkSpinStatus();
-            } else {
-                msgEl.className = 'promo-status-msg error';
-                msgEl.textContent = `'${rawCode}' nomli promo kod topilmadi!`;
-                msgEl.style.display = 'block';
-                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-            }
+            // Server unavailable / network error
+            msgEl.className = 'promo-status-msg error';
+            msgEl.textContent = 'Server bilan aloqa o\'rnatib bo\'lmadi. Iltimos, keyinroq qayta urinib ko\'ring!';
+            msgEl.style.display = 'block';
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
         }
 
         async function playSpin() {
