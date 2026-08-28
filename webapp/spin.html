@@ -1012,10 +1012,11 @@
                 });
 
                 let data = null;
+                const rawText = await res.text();
                 try {
-                    data = await res.json();
+                    data = JSON.parse(rawText);
                 } catch (jsonErr) {
-                    data = { ok: false, error: 'Server bilan ulanishda xatolik yuz berdi' };
+                    data = { ok: false, error: rawText || 'Server bilan ulanishda xatolik yuz berdi' };
                 }
 
                 btn.disabled = false;

@@ -1336,18 +1336,18 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
     if not user_id:
       user_id = body.get("telegram_id")
     if not user_id:
-      return web.json_response({"ok": False, "error": "Foydalanuvchi aniqlanmadi (Unauthorized)"}, status=401)
+      return web.json_response({"ok": False, "error": "Foydalanuvchi aniqlanmadi. Iltimos botdan qayta kiring!"})
     user_id = int(user_id)
 
-    code = (body.get("code") or "").strip()
+    code = (body.get("code") or "").strip().upper()
     if not code:
-      return web.json_response({"ok": False, "error": "Promo kodni kiriting!"}, status=400)
+      return web.json_response({"ok": False, "error": "Iltimos, promo kodni kiriting!"})
 
     from services.database import get_promocode, use_promocode, get_user
 
     promo = await get_promocode(code)
     if not promo:
-      return web.json_response({"ok": False, "error": "Bunday promo kod mavjud emas!"}, status=404)
+      return web.json_response({"ok": False, "error": f"'{code}' nomli promo kod topilmadi!"})
 
     if promo.get("is_used"):
       used_by_uname = promo.get("used_by_username")
@@ -1366,7 +1366,7 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
         "already_used": True,
         "used_by": user_label,
         "error": f"Ushbu promo kodni {user_label} faollashtirdi!"
-      }, status=400)
+      })
 
     # Faollashtirish
     user = await get_user(user_id)
@@ -1375,7 +1375,7 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
 
     success = await use_promocode(code, user_id, uname, fname)
     if not success:
-      return web.json_response({"ok": False, "error": "Promo kodni faollashtirishda xatolik!"}, status=400)
+      return web.json_response({"ok": False, "error": "Promo kodni faollashtirishda xatolik yuz berdi!"})
 
     return web.json_response({
       "ok": True,
@@ -1383,7 +1383,7 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
     })
   except Exception as e:
     logger.exception("api_spin_promocode error: %s", e)
-    return web.json_response({"ok": False, "error": f"Server xatoligi: {str(e)}"}, status=500)
+    return web.json_response({"ok": False, "error": f"Server xatoligi: {str(e)}"})
 
 
 async def api_spin_play(request: web.Request) -> web.Response:

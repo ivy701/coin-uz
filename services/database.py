@@ -896,46 +896,63 @@ async def record_lucky_spin(telegram_id: int, prize_key: str, prize_title: str) 
 
 
 async def get_promocode(code: str) -> dict[str, Any] | None:
+    code_clean = code.strip().upper()
     try:
+        row = await db_conn.fetchrow(
+            "SELECT * FROM lucky_promocodes WHERE UPPER(code) = UPPER($1)",
+            code_clean
+        )
+        if row:
+            return row
+    except Exception:
+        # Table might not exist yet, create it
+        pass
+
+    try:
+        await db_conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS lucky_promocodes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                code TEXT UNIQUE NOT NULL,
+                is_used INTEGER NOT NULL DEFAULT 0,
+                used_by_id BIGINT,
+                used_by_username TEXT,
+                used_by_name TEXT,
+                used_at DATETIME,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """ if IS_SQLITE else
+            """
+            CREATE TABLE IF NOT EXISTS lucky_promocodes (
+                id SERIAL PRIMARY KEY,
+                code TEXT UNIQUE NOT NULL,
+                is_used BOOLEAN NOT NULL DEFAULT FALSE,
+                used_by_id BIGINT,
+                used_by_username TEXT,
+                used_by_name TEXT,
+                used_at TIMESTAMPTZ,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            )
+            """
+        )
+        # Default promo codes
+        default_codes = ["COINSTATVIP", "LUCKY2026", "SPIN777", "GIFT2026", "VIP2026", "TOP1", "TOP2", "TOP3"]
+        if code_clean in default_codes:
+            try:
+                await db_conn.execute(
+                    "INSERT INTO lucky_promocodes (code) VALUES ($1) ON CONFLICT DO NOTHING" if not IS_SQLITE else
+                    "INSERT OR IGNORE INTO lucky_promocodes (code) VALUES ($1)",
+                    code_clean
+                )
+            except Exception:
+                pass
+
         return await db_conn.fetchrow(
             "SELECT * FROM lucky_promocodes WHERE UPPER(code) = UPPER($1)",
-            code.strip()
+            code_clean
         )
     except Exception:
-        # If table doesn't exist yet, create it on the fly
-        try:
-            await db_conn.execute(
-                """
-                CREATE TABLE IF NOT EXISTS lucky_promocodes (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    code TEXT UNIQUE NOT NULL,
-                    is_used INTEGER NOT NULL DEFAULT 0,
-                    used_by_id BIGINT,
-                    used_by_username TEXT,
-                    used_by_name TEXT,
-                    used_at DATETIME,
-                    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                )
-                """ if IS_SQLITE else
-                """
-                CREATE TABLE IF NOT EXISTS lucky_promocodes (
-                    id SERIAL PRIMARY KEY,
-                    code TEXT UNIQUE NOT NULL,
-                    is_used BOOLEAN NOT NULL DEFAULT FALSE,
-                    used_by_id BIGINT,
-                    used_by_username TEXT,
-                    used_by_name TEXT,
-                    used_at TIMESTAMPTZ,
-                    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-                )
-                """
-            )
-            return await db_conn.fetchrow(
-                "SELECT * FROM lucky_promocodes WHERE UPPER(code) = UPPER($1)",
-                code.strip()
-            )
-        except Exception:
-            return None
+        return None
 
 
 async def use_promocode(code: str, telegram_id: int, username: str | None, full_name: str | None) -> bool:
