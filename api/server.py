@@ -1271,7 +1271,7 @@ async def api_spin_status(request: web.Request) -> web.Response:
     GROUP BY o.telegram_id
     HAVING SUM(o.amount) > 0
     ORDER BY total DESC
-    LIMIT 10
+    LIMIT 3
   """
   top_rows = await db_conn.fetch(query)
   top_ids = [int(r["telegram_id"]) for r in top_rows]
@@ -1281,7 +1281,7 @@ async def api_spin_status(request: web.Request) -> web.Response:
   last_spin = await get_last_lucky_spin(user_id)
   can_spin = False
   next_spin_seconds = 0
-  cooldown_seconds = 7 * 86400  # 7 kun
+  cooldown_seconds = 24 * 3600  # Har 1 kunda (24 soat)
 
   if last_spin:
     created_at = last_spin["created_at"]
@@ -1327,7 +1327,7 @@ async def api_spin_play(request: web.Request) -> web.Response:
 
   from services.database import db_conn, get_last_lucky_spin, record_lucky_spin, add_balance, get_user
 
-  # Top 10 tekshiruvi
+  # Top 3 tekshiruvi (Faqat #1, #2, #3 o'rindagi yetakchilar)
   query = """
     SELECT o.telegram_id, SUM(o.amount) as total
     FROM orders o
@@ -1337,15 +1337,15 @@ async def api_spin_play(request: web.Request) -> web.Response:
     GROUP BY o.telegram_id
     HAVING SUM(o.amount) > 0
     ORDER BY total DESC
-    LIMIT 10
+    LIMIT 3
   """
   top_rows = await db_conn.fetch(query)
   top_ids = [int(r["telegram_id"]) for r in top_rows]
   if user_id not in top_ids:
-    return web.json_response({"ok": False, "error": "Omad g'ildiragi faqat Top 10 yetakchilar uchun!"}, status=403)
+    return web.json_response({"ok": False, "error": "Omad g'ildiragi faqat Top 3 yetakchilar (#1, #2, #3) uchun!"}, status=403)
 
   last_spin = await get_last_lucky_spin(user_id)
-  cooldown_seconds = 7 * 86400
+  cooldown_seconds = 24 * 3600  # Har 1 kunda
   if last_spin:
     created_at = last_spin["created_at"]
     if isinstance(created_at, str):
@@ -1359,8 +1359,9 @@ async def api_spin_play(request: web.Request) -> web.Response:
     else:
       passed = 86400 * 10
     if passed < cooldown_seconds:
-      left_days = int((cooldown_seconds - passed) // 86400) + 1
-      return web.json_response({"ok": False, "error": f"Siz bu hafta aylantirgansiz. Keyingi imkoniyat {left_days} kundan keyin."}, status=400)
+      left_hours = int((cooldown_seconds - passed) // 3600)
+      left_minutes = int(((cooldown_seconds - passed) % 3600) // 60)
+      return web.json_response({"ok": False, "error": f"Siz bugun aylantirgansiz. Keyingi imkoniyat {left_hours} soat {left_minutes} daqiqadan keyin."}, status=400)
 
   # Sovg'alar va vaznlari (Asosan Teddy Bear ko'p bo'lsin)
   prizes = [
