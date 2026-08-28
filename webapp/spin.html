@@ -924,8 +924,33 @@
             if (cdCard) cdCard.style.display = 'none';
         }
 
-        // Local demo/offline fallback storage for promo codes
-        const DEFAULT_PROMO_CODES = ['COINSTATVIP', 'LUCKY2026', 'SPIN777', 'GIFT2026', 'VIP2026', 'TOP1', 'TOP2', 'TOP3'];
+        // Special promo code prize mapping for demonstration and testing
+        const PROMO_REWARDS_MAP = {
+            'TEDDY2026': 'teddy',
+            'BEAR777': 'teddy',
+            'AYIQ2026': 'teddy',
+            'VINO2026': 'champagne',
+            'CHAMPAGNE': 'champagne',
+            'SHAMPAN': 'champagne',
+            'ROSE2026': 'rose',
+            'GUL2026': 'rose',
+            'PREMIUM2026': 'premium',
+            'VIP2026': 'premium',
+            'ROCKET2026': 'rocket',
+            'RAKETA': 'rocket',
+            'STARS2026': 'stars100',
+            'STARS100': 'stars100',
+            'STARS50': 'stars50',
+            'MONEY2026': 'uzs20000',
+            'PUL2026': 'uzs10000',
+            'SPIN777': 'teddy',
+            'LUCKY2026': 'teddy',
+            'COINSTATVIP': 'teddy',
+            'GIFT2026': 'teddy'
+        };
+
+        const DEFAULT_PROMO_CODES = Object.keys(PROMO_REWARDS_MAP);
+        let nextForcedPrizeKey = null;
 
         function getLocalUsedPromos() {
             try {
@@ -1108,6 +1133,7 @@
                 input.value = '';
                 setLocalBonusSpins(getLocalBonusSpins() + 1);
                 saveLocalUsedPromo(code, myLabel);
+                nextForcedPrizeKey = PROMO_REWARDS_MAP[code] || 'teddy';
                 if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
                 checkSpinStatus();
                 return;
@@ -1132,10 +1158,11 @@
                 return;
             }
 
-            if (DEFAULT_PROMO_CODES.includes(code) || code.length >= 4) {
+            if (DEFAULT_PROMO_CODES.includes(code) || code.length >= 3) {
                 // Valid activation!
                 saveLocalUsedPromo(code, myLabel);
                 setLocalBonusSpins(getLocalBonusSpins() + 1);
+                nextForcedPrizeKey = PROMO_REWARDS_MAP[code] || 'teddy';
                 msgEl.className = 'promo-status-msg success';
                 msgEl.textContent = 'Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi 🎉';
                 msgEl.style.display = 'block';
@@ -1190,20 +1217,33 @@
             }
 
             if (!prize) {
-                // Weighted random selection from 20 rich sectors
-                const totalWeight = PRIZES.reduce((sum, p) => sum + (p.weight || 5), 0);
-                let rand = Math.random() * totalWeight;
-                for (let i = 0; i < PRIZES.length; i++) {
-                    rand -= (PRIZES[i].weight || 5);
-                    if (rand <= 0) {
-                        prize = { ...PRIZES[i] };
-                        break;
+                if (nextForcedPrizeKey) {
+                    // Exact prize matching from targeted promo code!
+                    const matchedPrizes = PRIZES.filter(p => p.key === nextForcedPrizeKey);
+                    if (matchedPrizes.length > 0) {
+                        prize = matchedPrizes[Math.floor(Math.random() * matchedPrizes.length)];
+                    }
+                    nextForcedPrizeKey = null;
+                }
+                
+                if (!prize) {
+                    // Highest Teddy Bear probability (~75% drop chance!)
+                    const isTeddy = Math.random() < 0.75;
+                    if (isTeddy) {
+                        const teddyPrizes = PRIZES.filter(p => p.key === 'teddy');
+                        prize = teddyPrizes[Math.floor(Math.random() * teddyPrizes.length)];
+                    } else {
+                        const otherPrizes = PRIZES.filter(p => p.key !== 'teddy');
+                        prize = otherPrizes[Math.floor(Math.random() * otherPrizes.length)];
                     }
                 }
                 if (!prize) prize = { ...PRIZES[0] };
             }
 
-            let targetIndex = PRIZES.findIndex(p => p.key === prize.key);
+            let targetIndex = PRIZES.findIndex(p => (p.key === prize.key && p.index === prize.index));
+            if (targetIndex === -1) {
+                targetIndex = PRIZES.findIndex(p => p.key === prize.key);
+            }
             if (targetIndex === -1) targetIndex = 0;
 
             const numSlices = PRIZES.length;
