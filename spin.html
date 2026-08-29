@@ -752,13 +752,13 @@
                 <div class="prize-item-chance">🔥 Eng ko'p sektorlarda!</div>
             </div>
         </div>
-        <div class="prize-item-card" style="border-color: rgba(244, 114, 182, 0.3);">
+        <div class="prize-item-card" style="border-color: rgba(244, 63, 94, 0.35);">
             <div class="prize-item-icon">
-                <img src="images/bouqet.webp" alt="Bouquet" style="width: 32px; height: 32px; object-fit: contain;">
+                <img src="images/rose.webp" alt="Rose" style="width: 32px; height: 32px; object-fit: contain;">
             </div>
             <div class="prize-item-info">
-                <div class="prize-item-name">Bouquet Gift</div>
-                <div class="prize-item-chance">💐 Katta Guldasta Sovg'a</div>
+                <div class="prize-item-name">Rose Gift</div>
+                <div class="prize-item-chance">🌹 Telegram Atirgul Sovg'asi</div>
             </div>
         </div>
         <div class="prize-item-card" style="border-color: rgba(232, 121, 249, 0.3);">
@@ -855,7 +855,7 @@
     <script>
         const IMAGE_ASSETS = {
             bear: 'images/bear.webp',
-            bouqet: 'images/bouqet.webp',
+            rose: 'images/rose.webp',
             box: 'images/box.webp',
             star: 'images/star.webp',
             premium: 'images/premium.webp',
@@ -865,26 +865,26 @@
         const loadedImages = {};
 
         const PRIZES = [
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 0 },
-            { key: "bouqet", label: "Bouquet", title: "💐 Bouquet Gift", type: "gift", imgKey: "bouqet", color: "#831843", textCol: "#f472b6", index: 1 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 0 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", color: "#831843", textCol: "#fb7185", index: 1 },
             { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 2 },
             { key: "uzs10000", label: "10k", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, imgKey: "money", color: "#064e3b", textCol: "#4ade80", index: 3 },
-            { key: "box", label: "Box", title: "🎁 Gift Box", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 4 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 5 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 4 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 5 },
             { key: "premium", label: "Premium", title: "💎 Telegram Premium", type: "premium", imgKey: "premium", color: "#075985", textCol: "#7dd3fc", index: 6 },
             { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 7 },
             { key: "uzs5000", label: "5k", title: "💰 5 000 UZS Balans", type: "balance", amount: 5000, imgKey: "money", color: "#064e3b", textCol: "#4ade80", index: 8 },
-            { key: "bouqet", label: "Bouquet", title: "💐 Bouquet Gift", type: "gift", imgKey: "bouqet", color: "#831843", textCol: "#f472b6", index: 9 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 10 },
-            { key: "box", label: "Box", title: "🎁 Gift Box", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 11 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", color: "#831843", textCol: "#fb7185", index: 9 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 10 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 11 },
             { key: "stars100", label: "100★", title: "⭐️ 100 Stars", type: "stars", amount: 100, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 12 },
             { key: "uzs20000", label: "20k", title: "💰 20 000 UZS Balans", type: "balance", amount: 20000, imgKey: "money", color: "#064e3b", textCol: "#4ade80", index: 13 },
             { key: "premium", label: "Premium", title: "💎 Telegram Premium", type: "premium", imgKey: "premium", color: "#075985", textCol: "#7dd3fc", index: 14 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 15 },
-            { key: "bouqet", label: "Bouquet", title: "💐 Bouquet Gift", type: "gift", imgKey: "bouqet", color: "#831843", textCol: "#f472b6", index: 16 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 15 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", color: "#831843", textCol: "#fb7185", index: 16 },
             { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 17 },
-            { key: "box", label: "Box", title: "🎁 Gift Box", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 18 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 19 }
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 18 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 19 }
         ];
 
         let currentRotation = 0;
@@ -1195,7 +1195,7 @@
                 
                 let targetPrize = (serverData && serverData.forced_prize) || PROMO_REWARDS_MAP[code] || 'bear';
                 if (targetPrize === 'gift25') {
-                    targetPrize = Math.random() < 0.5 ? 'bouqet' : 'box';
+                    targetPrize = Math.random() < 0.5 ? 'rose' : 'box';
                 } else if (targetPrize === 'stars') {
                     targetPrize = Math.random() < 0.5 ? 'stars50' : 'stars100';
                 } else if (targetPrize === 'money') {
@@ -1266,7 +1266,7 @@
 
             if (forcedKey) {
                 let lookupKey = forcedKey;
-                if (lookupKey === 'gift25') lookupKey = Math.random() < 0.5 ? 'bouqet' : 'box';
+                if (lookupKey === 'gift25') lookupKey = Math.random() < 0.5 ? 'rose' : 'box';
                 if (lookupKey === 'stars') lookupKey = Math.random() < 0.5 ? 'stars50' : 'stars100';
                 if (lookupKey === 'money') lookupKey = Math.random() < 0.5 ? 'money10k' : 'money20k';
                 const matchedPrizes = PRIZES.filter(p => p.key === lookupKey);
@@ -1338,7 +1338,7 @@
             const claimBtn = document.getElementById('winClaimBtn');
 
             titleEl.textContent = prize.title || 'Sovg\'a';
-            const imgKey = prize.imgKey || (prize.key.includes('bear') || prize.key.includes('teddy') ? 'bear' : (prize.key.includes('bouqet') ? 'bouqet' : (prize.key.includes('box') ? 'box' : (prize.key.includes('star') ? 'star' : (prize.key.includes('premium') ? 'premium' : 'money')))));
+            const imgKey = prize.imgKey || (prize.key.includes('bear') || prize.key.includes('teddy') ? 'bear' : (prize.key.includes('rose') || prize.key.includes('flower') ? 'rose' : (prize.key.includes('box') ? 'box' : (prize.key.includes('star') ? 'star' : (prize.key.includes('premium') ? 'premium' : 'money')))));
             iconEl.innerHTML = `<img src="${IMAGE_ASSETS[imgKey] || 'images/bear.webp'}" alt="Prize" style="width: 80px; height: 80px; object-fit: contain; animation: floatAnim 3s ease-in-out infinite;">`;
 
             if (prize.type === 'balance') {

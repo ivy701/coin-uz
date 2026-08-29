@@ -99,8 +99,8 @@ async def cmd_add_promo_bear_menu(message: Message) -> None:
     await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 2. 💐/🎁 FAQAT 25 TALIK GIFT BERADIGAN PROMO-KOD (25⭐)
-@router.message(F.text.startswith("/promo25") | F.text.startswith("/addgift25") | F.text.startswith("/promogift"))
+# 2. 🌹/🎁 FAQAT 25 TALIK GIFT BERADIGAN PROMO-KOD (25⭐)
+@router.message(F.text.startswith("/promo25") | F.text.startswith("/addgift25") | F.text.startswith("/promogift") | F.text.startswith("/promorose"))
 async def cmd_add_promo_gift25_menu(message: Message) -> None:
   if not message.from_user: return
   if not _is_bot_admin(message.from_user.id):
@@ -108,12 +108,12 @@ async def cmd_add_promo_gift25_menu(message: Message) -> None:
     return
   parts = (message.text or "").split(maxsplit=1)
   if len(parts) < 2 or not parts[1].strip():
-    await message.answer("🎁 <b>25 talik Gift (Bouquet / Box) promo-kodi yaratish:</b>\n👉 <code>/promo25 KOD</code>", parse_mode="HTML")
+    await message.answer("🎁 <b>25 talik Gift (Atirgul / Quti) promo-kodi yaratish:</b>\n👉 <code>/promo25 KOD</code>", parse_mode="HTML")
     return
   code = parts[1].strip().upper()
   from services.database import create_promocode
   if await create_promocode(code, prize_type="gift25"):
-    await message.answer(f"✅ <b>25 talik Gift Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 💐 Bouquet yoki 🎁 Gift Box (25⭐)\n📌 <b>Holati:</b> Faol (1 martalik)", parse_mode="HTML")
+    await message.answer(f"✅ <b>25 talik Gift Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 🌹 Rose (Atirgul) yoki 🎁 Gift Box (25⭐)\n📌 <b>Holati:</b> Faol (1 martalik)", parse_mode="HTML")
   else:
     await message.answer("❌ Xatolik yuz berdi!")
 
