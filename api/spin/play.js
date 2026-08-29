@@ -13,38 +13,64 @@ function getPool() {
   return pool;
 }
 
-const PRIZES = [
+const CLASSIC_PRIZES = [
   { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 0 },
   { key: "rose", title: "🌹 Rose Gift (25⭐)", type: "gift", weight: 25, index: 1 },
   { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 0, index: 2 },
   { key: "uzs10000", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, weight: 0, index: 3 },
   { key: "box", title: "🎁 Gift Box (25⭐)", type: "gift", weight: 25, index: 4 },
   { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 5 },
-  { key: "premium", title: "💎 Telegram Premium", type: "premium", weight: 0, index: 6 },
+  { key: "rose", title: "🌹 Rose Gift (25⭐)", type: "gift", weight: 25, index: 6 },
   { key: "stars25", title: "⭐️ 25 Stars", type: "stars", amount: 25, weight: 0, index: 7 },
   { key: "uzs5000", title: "💰 5 000 UZS Balans", type: "balance", amount: 5000, weight: 0, index: 8 },
-  { key: "rose", title: "🌹 Rose Gift (25⭐)", type: "gift", weight: 25, index: 9 },
+  { key: "box", title: "🎁 Gift Box (25⭐)", type: "gift", weight: 25, index: 9 },
   { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 10 },
-  { key: "box", title: "🎁 Gift Box (25⭐)", type: "gift", weight: 25, index: 11 },
-  { key: "stars100", title: "⭐️ 100 Stars", type: "stars", amount: 100, weight: 0, index: 12 },
-  { key: "uzs20000", title: "💰 20 000 UZS Balans", type: "balance", amount: 20000, weight: 0, index: 13 },
-  { key: "premium", title: "💎 Telegram Premium", type: "premium", weight: 0, index: 14 },
+  { key: "rose", title: "🌹 Rose Gift (25⭐)", type: "gift", weight: 25, index: 11 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 0, index: 12 },
+  { key: "uzs10000", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, weight: 0, index: 13 },
+  { key: "box", title: "🎁 Gift Box (25⭐)", type: "gift", weight: 25, index: 14 },
   { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 15 },
   { key: "rose", title: "🌹 Rose Gift (25⭐)", type: "gift", weight: 25, index: 16 },
-  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 0, index: 17 },
+  { key: "stars25", title: "⭐️ 25 Stars", type: "stars", amount: 25, weight: 0, index: 17 },
   { key: "box", title: "🎁 Gift Box (25⭐)", type: "gift", weight: 25, index: 18 },
   { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 19 }
 ];
 
-function pickWeightedPrize() {
-  const eligible = PRIZES.filter(p => p.weight > 0);
+const VIP_PRIZES = [
+  { key: "rocket", title: "🚀 Rocket Gift (100⭐)", type: "gift", weight: 20, index: 0 },
+  { key: "premium", title: "👑 Telegram Premium", type: "premium", weight: 10, index: 1 },
+  { key: "diamond", title: "💎 Diamond Gift (50⭐)", type: "gift", weight: 20, index: 2 },
+  { key: "uzs50000", title: "💰 50 000 UZS Balans", type: "balance", amount: 50000, weight: 5, index: 3 },
+  { key: "trophy", title: "🏆 Trophy Gift (100⭐)", type: "gift", weight: 20, index: 4 },
+  { key: "ring", title: "💍 Ring Gift (50⭐)", type: "gift", weight: 20, index: 5 },
+  { key: "stars250", title: "⭐️ 250 Stars", type: "stars", amount: 250, weight: 10, index: 6 },
+  { key: "cake", title: "🎂 Cake Gift (50⭐)", type: "gift", weight: 20, index: 7 },
+  { key: "rocket", title: "🚀 Rocket Gift (100⭐)", type: "gift", weight: 20, index: 8 },
+  { key: "premium", title: "👑 Telegram Premium", type: "premium", weight: 10, index: 9 },
+  { key: "uzs100000", title: "💰 100 000 UZS Balans", type: "balance", amount: 100000, weight: 5, index: 10 },
+  { key: "diamond", title: "💎 Diamond Gift (50⭐)", type: "gift", weight: 20, index: 11 },
+  { key: "stars500", title: "⭐️ 500 Stars", type: "stars", amount: 500, weight: 5, index: 12 },
+  { key: "ring", title: "💍 Ring Gift (50⭐)", type: "gift", weight: 20, index: 13 },
+  { key: "trophy", title: "🏆 Trophy Gift (100⭐)", type: "gift", weight: 20, index: 14 },
+  { key: "rocket", title: "🚀 Rocket Gift (100⭐)", type: "gift", weight: 20, index: 15 },
+  { key: "premium", title: "👑 Telegram Premium", type: "premium", weight: 10, index: 16 },
+  { key: "cake", title: "🎂 Cake Gift (50⭐)", type: "gift", weight: 20, index: 17 },
+  { key: "diamond", title: "💎 Diamond Gift (50⭐)", type: "gift", weight: 20, index: 18 },
+  { key: "trophy", title: "🏆 Trophy Gift (100⭐)", type: "gift", weight: 20, index: 19 }
+];
+
+const ALL_PRIZES = [...CLASSIC_PRIZES, ...VIP_PRIZES];
+
+function pickWeightedPrize(isVip = false) {
+  const list = isVip ? VIP_PRIZES : CLASSIC_PRIZES;
+  const eligible = list.filter(p => p.weight > 0);
   const totalWeight = eligible.reduce((sum, p) => sum + p.weight, 0);
   let rand = Math.random() * totalWeight;
   for (const prize of eligible) {
     if (rand < prize.weight) return prize;
     rand -= prize.weight;
   }
-  return PRIZES[0];
+  return list[0];
 }
 
 module.exports = async (req, res) => {
@@ -67,7 +93,7 @@ module.exports = async (req, res) => {
     }
     const userId = body.telegram_id || body.user_id;
     if (!userId) {
-      return res.status(401).json({ ok: false, error: 'Unauthorized' });
+      return res.status(200).json({ ok: false, error: 'User ID missing' });
     }
 
     const db = getPool();
@@ -91,6 +117,7 @@ module.exports = async (req, res) => {
 
     let chosenPrize = null;
     let forcedKey = body.forced_key || body.prize_key || bonusRes.rows[0]?.forced_prize;
+    const isVipMode = body.mode === 'vip';
 
     if (forcedKey) {
       let searchKey = String(forcedKey).toLowerCase().trim();
@@ -98,22 +125,32 @@ module.exports = async (req, res) => {
         searchKey = Math.random() < 0.5 ? 'rose' : 'box';
       } else if (searchKey === 'stars') {
         searchKey = Math.random() < 0.5 ? 'stars50' : 'stars100';
+      } else if (searchKey === 'starvip') {
+        searchKey = Math.random() < 0.5 ? 'stars250' : 'stars500';
       } else if (searchKey === 'money' || searchKey === 'balans') {
         searchKey = Math.random() < 0.5 ? 'uzs10000' : 'uzs20000';
+      } else if (searchKey === 'moneyvip') {
+        searchKey = Math.random() < 0.5 ? 'uzs50000' : 'uzs100000';
       } else if (searchKey === 'bear' || searchKey === 'teddy') {
         searchKey = 'bear';
       } else if (searchKey === 'premium' || searchKey === 'vip') {
         searchKey = 'premium';
       }
 
-      const matched = PRIZES.filter(p => p.key === searchKey);
+      const activeList = isVipMode ? VIP_PRIZES : ALL_PRIZES;
+      const matched = activeList.filter(p => p.key === searchKey);
       if (matched.length > 0) {
         chosenPrize = matched[Math.floor(Math.random() * matched.length)];
+      } else {
+        const anyMatched = ALL_PRIZES.filter(p => p.key === searchKey);
+        if (anyMatched.length > 0) {
+          chosenPrize = anyMatched[Math.floor(Math.random() * anyMatched.length)];
+        }
       }
     }
 
     if (!chosenPrize) {
-      chosenPrize = pickWeightedPrize();
+      chosenPrize = pickWeightedPrize(isVipMode);
     }
 
     // Reward balance if type balance

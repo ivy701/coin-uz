@@ -1355,29 +1355,54 @@ async def api_spin_play(request: web.Request) -> web.Response:
   if not used_bonus:
     return web.json_response({"ok": False, "error": "Omad g'ildiragini aylantirish uchun avval Promo Kod kiriting!"}, status=403)
 
-  # 20 ta sektorli boy sovg'alar ro'yxati (Teddy Bear, Rose, Champagne, Stars, Balans, Rocket, Premium)
-  prizes = [
-    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 0},
-    {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 6, "index": 1},
+  classic_prizes = [
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift (15⭐)", "type": "gift", "weight": 12, "index": 0},
+    {"key": "rose", "title": "🌹 Rose Gift (25⭐)", "type": "gift", "weight": 6, "index": 1},
     {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 5, "index": 2},
     {"key": "uzs10000", "title": "💰 10 000 UZS Balans", "type": "balance", "amount": 10000, "weight": 5, "index": 3},
-    {"key": "champagne", "title": "🎁 Gift Box", "type": "gift", "weight": 6, "index": 4},
-    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 5},
-    {"key": "rocket", "title": "💎 Telegram Premium", "type": "premium", "weight": 3, "index": 6},
+    {"key": "box", "title": "🎁 Gift Box (25⭐)", "type": "gift", "weight": 6, "index": 4},
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift (15⭐)", "type": "gift", "weight": 12, "index": 5},
+    {"key": "rose", "title": "🌹 Rose Gift (25⭐)", "type": "gift", "weight": 6, "index": 6},
     {"key": "stars25", "title": "⭐️ 25 Stars", "type": "stars", "amount": 25, "weight": 6, "index": 7},
     {"key": "uzs5000", "title": "💰 5 000 UZS Balans", "type": "balance", "amount": 5000, "weight": 6, "index": 8},
-    {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 6, "index": 9},
-    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 10},
-    {"key": "champagne", "title": "🎁 Gift Box", "type": "gift", "weight": 6, "index": 11},
-    {"key": "stars100", "title": "⭐️ 100 Stars", "type": "stars", "amount": 100, "weight": 3, "index": 12},
-    {"key": "uzs20000", "title": "💰 20 000 UZS Balans", "type": "balance", "amount": 20000, "weight": 3, "index": 13},
-    {"key": "premium", "title": "💎 Telegram Premium", "type": "premium", "weight": 2, "index": 14},
-    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 15},
-    {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 6, "index": 16},
-    {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 5, "index": 17},
-    {"key": "rocket", "title": "💎 Telegram Premium", "type": "premium", "weight": 3, "index": 18},
-    {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 19},
+    {"key": "box", "title": "🎁 Gift Box (25⭐)", "type": "gift", "weight": 6, "index": 9},
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift (15⭐)", "type": "gift", "weight": 12, "index": 10},
+    {"key": "rose", "title": "🌹 Rose Gift (25⭐)", "type": "gift", "weight": 6, "index": 11},
+    {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 5, "index": 12},
+    {"key": "uzs10000", "title": "💰 10 000 UZS Balans", "type": "balance", "amount": 10000, "weight": 5, "index": 13},
+    {"key": "box", "title": "🎁 Gift Box (25⭐)", "type": "gift", "weight": 6, "index": 14},
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift (15⭐)", "type": "gift", "weight": 12, "index": 15},
+    {"key": "rose", "title": "🌹 Rose Gift (25⭐)", "type": "gift", "weight": 6, "index": 16},
+    {"key": "stars25", "title": "⭐️ 25 Stars", "type": "stars", "amount": 25, "weight": 6, "index": 17},
+    {"key": "box", "title": "🎁 Gift Box (25⭐)", "type": "gift", "weight": 6, "index": 18},
+    {"key": "teddy", "title": "🧸 Teddy Bear Gift (15⭐)", "type": "gift", "weight": 12, "index": 19},
   ]
+
+  vip_prizes = [
+    {"key": "rocket", "title": "🚀 Rocket Gift (100⭐)", "type": "gift", "weight": 10, "index": 0},
+    {"key": "premium", "title": "👑 Telegram Premium", "type": "premium", "weight": 5, "index": 1},
+    {"key": "diamond", "title": "💎 Diamond Gift (50⭐)", "type": "gift", "weight": 10, "index": 2},
+    {"key": "uzs50000", "title": "💰 50 000 UZS Balans", "type": "balance", "amount": 50000, "weight": 5, "index": 3},
+    {"key": "trophy", "title": "🏆 Trophy Gift (100⭐)", "type": "gift", "weight": 10, "index": 4},
+    {"key": "ring", "title": "💍 Ring Gift (50⭐)", "type": "gift", "weight": 10, "index": 5},
+    {"key": "stars250", "title": "⭐️ 250 Stars", "type": "stars", "amount": 250, "weight": 5, "index": 6},
+    {"key": "cake", "title": "🎂 Cake Gift (50⭐)", "type": "gift", "weight": 10, "index": 7},
+    {"key": "rocket", "title": "🚀 Rocket Gift (100⭐)", "type": "gift", "weight": 10, "index": 8},
+    {"key": "premium", "title": "👑 Telegram Premium", "type": "premium", "weight": 5, "index": 9},
+    {"key": "uzs100000", "title": "💰 100 000 UZS Balans", "type": "balance", "amount": 100000, "weight": 5, "index": 10},
+    {"key": "diamond", "title": "💎 Diamond Gift (50⭐)", "type": "gift", "weight": 10, "index": 11},
+    {"key": "stars500", "title": "⭐️ 500 Stars", "type": "stars", "amount": 500, "weight": 5, "index": 12},
+    {"key": "ring", "title": "💍 Ring Gift (50⭐)", "type": "gift", "weight": 13, "index": 13},
+    {"key": "trophy", "title": "🏆 Trophy Gift (100⭐)", "type": "gift", "weight": 10, "index": 14},
+    {"key": "rocket", "title": "🚀 Rocket Gift (100⭐)", "type": "gift", "weight": 10, "index": 15},
+    {"key": "premium", "title": "👑 Telegram Premium", "type": "premium", "weight": 5, "index": 16},
+    {"key": "cake", "title": "🎂 Cake Gift (50⭐)", "type": "gift", "weight": 10, "index": 17},
+    {"key": "diamond", "title": "💎 Diamond Gift (50⭐)", "type": "gift", "weight": 10, "index": 18},
+    {"key": "trophy", "title": "🏆 Trophy Gift (100⭐)", "type": "gift", "weight": 10, "index": 19},
+  ]
+
+  all_prizes = classic_prizes + vip_prizes
+  is_vip_mode = body.get("mode") == "vip"
 
   chosen_prize = None
   forced_key = body.get("forced_key") or (used_bonus.get("forced_prize") if isinstance(used_bonus, dict) else None)
@@ -1385,23 +1410,28 @@ async def api_spin_play(request: web.Request) -> web.Response:
   if forced_key:
     forced_clean = str(forced_key).lower().strip()
     if forced_clean in ["gift25", "rose", "flower", "box"]:
-      forced_clean = random.choice(["rose", "champagne"])
+      forced_clean = random.choice(["rose", "box"])
     elif forced_clean == "stars":
       forced_clean = random.choice(["stars50", "stars100", "stars25"])
+    elif forced_clean == "starvip":
+      forced_clean = random.choice(["stars250", "stars500"])
     elif forced_clean == "money":
       forced_clean = random.choice(["uzs10000", "uzs20000", "uzs5000"])
+    elif forced_clean == "moneyvip":
+      forced_clean = random.choice(["uzs50000", "uzs100000"])
     elif forced_clean in ["bear", "teddy"]:
       forced_clean = "teddy"
     elif forced_clean in ["premium", "vip"]:
       forced_clean = "premium"
 
-    matched = [p for p in prizes if p["key"] == forced_clean]
+    matched = [p for p in all_prizes if p["key"] == forced_clean]
     if matched:
       chosen_prize = random.choice(matched)
 
   if not chosen_prize:
-    weights = [p["weight"] for p in prizes]
-    chosen_prize = random.choices(prizes, weights=weights, k=1)[0]
+    active_pool = vip_prizes if is_vip_mode else classic_prizes
+    weights = [p["weight"] for p in active_pool]
+    chosen_prize = random.choices(active_pool, weights=weights, k=1)[0]
 
   # Mukofotni hisobga o'tkazish
   if chosen_prize["type"] == "balance":

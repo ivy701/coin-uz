@@ -285,15 +285,15 @@ async def cmd_add_promo_vip(message: Message):
         return
     parts = (message.text or "").split(maxsplit=1)
     if len(parts) < 2 or not parts[1].strip():
-        await message.answer("💎 <b>Premium tushadigan promo-kod yaratish:</b>\n\n👉 <code>/promovip KOD</code>", parse_mode="HTML")
+        await message.answer("💎 <b>VIP Telegram Premium promo-kod yaratish:</b>\n\n👉 <code>/promovip KOD</code>", parse_mode="HTML")
         return
     code = parts[1].strip().upper()
     from services.database import create_promocode
     if await create_promocode(code, prize_type="premium"):
         await message.answer(
-            f"✅ <b>Telegram Premium Promo-kodi yaratildi!</b>\n\n"
+            f"✅ <b>Telegram Premium VIP Promo-kodi yaratildi!</b>\n\n"
             f"🎟 <b>Kod:</b> <code>{code}</code>\n"
-            f"🎁 <b>Kafolatlangan yutuq:</b> 💎 Telegram Premium\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 👑 Telegram Premium\n"
             f"📌 <b>Holati:</b> Faol (1 martalik)",
             parse_mode="HTML"
         )
@@ -301,7 +301,189 @@ async def cmd_add_promo_vip(message: Message):
         await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 6. 🎲 UMUMIY PROMO-KOD (Standart: 15⭐ / 25⭐)
+# 6. 🚀 VIP ROCKET GIFT (100⭐)
+@router.message(Command("promorocket"))
+@router.message(F.text.startswith("/promorocket"))
+async def cmd_add_promo_rocket(message: Message):
+    if not message.from_user: return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("🚀 <b>VIP Rocket Gift (100⭐) promo-kod yaratish:</b>\n\n👉 <code>/promorocket KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import create_promocode
+    if await create_promocode(code, prize_type="rocket"):
+        await message.answer(
+            f"✅ <b>VIP Rocket Gift Promo-kodi yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 🚀 Rocket Gift (100⭐)\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik)",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 7. 🏆 VIP TROPHY GIFT (100⭐)
+@router.message(Command("promotrophy"))
+@router.message(F.text.startswith("/promotrophy"))
+async def cmd_add_promo_trophy(message: Message):
+    if not message.from_user: return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("🏆 <b>VIP Trophy Gift (100⭐) promo-kod yaratish:</b>\n\n👉 <code>/promotrophy KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import create_promocode
+    if await create_promocode(code, prize_type="trophy"):
+        await message.answer(
+            f"✅ <b>VIP Trophy Gift Promo-kodi yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 🏆 Trophy Gift (100⭐)\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik)",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 8. 💎 VIP DIAMOND GIFT (50⭐)
+@router.message(Command("promodiamond"))
+@router.message(F.text.startswith("/promodiamond"))
+async def cmd_add_promo_diamond(message: Message):
+    if not message.from_user: return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("💎 <b>VIP Diamond Gift (50⭐) promo-kod yaratish:</b>\n\n👉 <code>/promodiamond KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import create_promocode
+    if await create_promocode(code, prize_type="diamond"):
+        await message.answer(
+            f"✅ <b>VIP Diamond Gift Promo-kodi yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 💎 Diamond Gift (50⭐)\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik)",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 9. 💍 VIP RING GIFT (50⭐)
+@router.message(Command("promoring"))
+@router.message(F.text.startswith("/promoring"))
+async def cmd_add_promo_ring(message: Message):
+    if not message.from_user: return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("💍 <b>VIP Ring Gift (50⭐) promo-kod yaratish:</b>\n\n👉 <code>/promoring KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import create_promocode
+    if await create_promocode(code, prize_type="ring"):
+        await message.answer(
+            f"✅ <b>VIP Ring Gift Promo-kodi yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 💍 Ring Gift (50⭐)\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik)",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 10. 🎂 VIP CAKE GIFT (50⭐)
+@router.message(Command("promocake"))
+@router.message(F.text.startswith("/promocake"))
+async def cmd_add_promo_cake(message: Message):
+    if not message.from_user: return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("🎂 <b>VIP Cake Gift (50⭐) promo-kod yaratish:</b>\n\n👉 <code>/promocake KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import create_promocode
+    if await create_promocode(code, prize_type="cake"):
+        await message.answer(
+            f"✅ <b>VIP Cake Gift Promo-kodi yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 🎂 Cake Gift (50⭐)\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik)",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 11. ⭐️ VIP 250-500 STARS
+@router.message(Command("promostarvip"))
+@router.message(F.text.startswith("/promostarvip"))
+async def cmd_add_promo_starvip(message: Message):
+    if not message.from_user: return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("⭐️ <b>VIP 250-500 Stars promo-kod yaratish:</b>\n\n👉 <code>/promostarvip KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import create_promocode
+    if await create_promocode(code, prize_type="starvip"):
+        await message.answer(
+            f"✅ <b>VIP Stars Promo-kodi yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> ⭐️ 250 / 500 Stars\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik)",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 12. 💰 VIP 50 000 - 100 000 UZS
+@router.message(Command("promomoneyvip"))
+@router.message(F.text.startswith("/promomoneyvip"))
+async def cmd_add_promo_moneyvip(message: Message):
+    if not message.from_user: return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("💰 <b>VIP 50k-100k UZS Balans promo-kod yaratish:</b>\n\n👉 <code>/promomoneyvip KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import create_promocode
+    if await create_promocode(code, prize_type="moneyvip"):
+        await message.answer(
+            f"✅ <b>VIP Balans Promo-kodi yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 💰 50 000 / 100 000 UZS\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik)",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 13. 🎲 UMUMIY PROMO-KOD (Standart: 15⭐ / 25⭐)
 @router.message(Command("addpromo", "promo"))
 @router.message(F.text.startswith("/addpromo") | F.text.startswith("/promo"))
 async def cmd_add_promocode(message: Message):
@@ -314,13 +496,21 @@ async def cmd_add_promocode(message: Message):
     parts = (message.text or "").split(maxsplit=1)
     if len(parts) < 2 or not parts[1].strip():
         await message.answer(
-            "🎟 <b>Promo-kod yaratish bo'yicha buyruqlar:</b>\n\n"
-            "🧸 <b>Faqat Ayiqcha (15⭐):</b> <code>/promobear KOD</code>\n"
-            "🎁 <b>25 talik Gift (25⭐):</b> <code>/promo25 KOD</code>\n"
-            "⭐️ <b>Telegram Stars:</b> <code>/promostars KOD</code>\n"
-            "💰 <b>UZS Balans:</b> <code>/promomoney KOD</code>\n"
-            "💎 <b>Telegram Premium:</b> <code>/promovip KOD</code>\n"
-            "🎲 <b>Umumiy Omadli kod:</b> <code>/addpromo KOD</code>\n\n"
+            "🎟 <b>Promo-kod yaratish bo'yicha barcha buyruqlar:</b>\n\n"
+            "<b>🎯 Klassik Spin Kodlari:</b>\n"
+            "🧸 <code>/promobear KOD</code> — Teddy Bear (15⭐)\n"
+            "🌹 <code>/promo25 KOD</code> — Rose / Box (25⭐)\n"
+            "⭐️ <code>/promostars KOD</code> — 25-100 Stars\n"
+            "💰 <code>/promomoney KOD</code> — 5k-20k UZS\n\n"
+            "<b>👑 VIP Spin Qimmatbaho Kodlari:</b>\n"
+            "👑 <code>/promovip KOD</code> — Telegram Premium\n"
+            "🚀 <code>/promorocket KOD</code> — Rocket Gift (100⭐)\n"
+            "🏆 <code>/promotrophy KOD</code> — Trophy Gift (100⭐)\n"
+            "💎 <code>/promodiamond KOD</code> — Diamond Gift (50⭐)\n"
+            "💍 <code>/promoring KOD</code> — Ring Gift (50⭐)\n"
+            "🎂 <code>/promocake KOD</code> — Cake Gift (50⭐)\n"
+            "⭐️ <code>/promostarvip KOD</code> — 250-500 Stars\n"
+            "💰 <code>/promomoneyvip KOD</code> — 50k-100k UZS\n\n"
             "📋 Barcha kodlar ro'yxati: <code>/promolist</code>",
             parse_mode="HTML"
         )
@@ -335,7 +525,7 @@ async def cmd_add_promocode(message: Message):
             f"🎟 <b>Kod:</b> <code>{raw_code}</code>\n"
             f"📌 <b>Holati:</b> Faol (1 martalik)\n"
             f"🎁 <b>Yutuq:</b> 🧸 Teddy Bear (15⭐) yoki 🎁 Gift (25⭐)\n\n"
-            f"<i>Foydalanuvchi ushbu kodni WebApp'dagi Omad G'ildiragiga kiritib ishlatishi mumkin!</i>",
+            f"<i>Foydalanuvchi ushbu kodni WebApp'dagi Lucky Spinga kiritib ishlatishi mumkin!</i>",
             parse_mode="HTML"
         )
     else:
