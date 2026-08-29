@@ -14,32 +14,33 @@ function getPool() {
 }
 
 const PRIZES = [
-  { key: "bear", title: "🧸 Teddy Bear Gift", type: "gift", weight: 12, index: 0 },
-  { key: "bouqet", title: "💐 Bouquet Gift", type: "gift", weight: 6, index: 1 },
-  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 5, index: 2 },
-  { key: "uzs10000", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, weight: 5, index: 3 },
-  { key: "box", title: "🎁 Gift Box", type: "gift", weight: 6, index: 4 },
-  { key: "bear", title: "🧸 Teddy Bear Gift", type: "gift", weight: 12, index: 5 },
-  { key: "premium", title: "💎 Telegram Premium", type: "premium", weight: 2, index: 6 },
-  { key: "stars25", title: "⭐️ 25 Stars", type: "stars", amount: 25, weight: 6, index: 7 },
-  { key: "uzs5000", title: "💰 5 000 UZS Balans", type: "balance", amount: 5000, weight: 6, index: 8 },
-  { key: "bouqet", title: "💐 Bouquet Gift", type: "gift", weight: 6, index: 9 },
-  { key: "bear", title: "🧸 Teddy Bear Gift", type: "gift", weight: 12, index: 10 },
-  { key: "box", title: "🎁 Gift Box", type: "gift", weight: 6, index: 11 },
-  { key: "stars100", title: "⭐️ 100 Stars", type: "stars", amount: 100, weight: 3, index: 12 },
-  { key: "uzs20000", title: "💰 20 000 UZS Balans", type: "balance", amount: 20000, weight: 3, index: 13 },
-  { key: "premium", title: "💎 Telegram Premium", type: "premium", weight: 2, index: 14 },
-  { key: "bear", title: "🧸 Teddy Bear Gift", type: "gift", weight: 12, index: 15 },
-  { key: "bouqet", title: "💐 Bouquet Gift", type: "gift", weight: 6, index: 16 },
-  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 5, index: 17 },
-  { key: "box", title: "🎁 Gift Box", type: "gift", weight: 6, index: 18 },
-  { key: "bear", title: "🧸 Teddy Bear Gift", type: "gift", weight: 12, index: 19 }
+  { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 0 },
+  { key: "bouqet", title: "💐 Bouquet Gift (25⭐)", type: "gift", weight: 25, index: 1 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 0, index: 2 },
+  { key: "uzs10000", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, weight: 0, index: 3 },
+  { key: "box", title: "🎁 Gift Box (25⭐)", type: "gift", weight: 25, index: 4 },
+  { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 5 },
+  { key: "premium", title: "💎 Telegram Premium", type: "premium", weight: 0, index: 6 },
+  { key: "stars25", title: "⭐️ 25 Stars", type: "stars", amount: 25, weight: 0, index: 7 },
+  { key: "uzs5000", title: "💰 5 000 UZS Balans", type: "balance", amount: 5000, weight: 0, index: 8 },
+  { key: "bouqet", title: "💐 Bouquet Gift (25⭐)", type: "gift", weight: 25, index: 9 },
+  { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 10 },
+  { key: "box", title: "🎁 Gift Box (25⭐)", type: "gift", weight: 25, index: 11 },
+  { key: "stars100", title: "⭐️ 100 Stars", type: "stars", amount: 100, weight: 0, index: 12 },
+  { key: "uzs20000", title: "💰 20 000 UZS Balans", type: "balance", amount: 20000, weight: 0, index: 13 },
+  { key: "premium", title: "💎 Telegram Premium", type: "premium", weight: 0, index: 14 },
+  { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 15 },
+  { key: "bouqet", title: "💐 Bouquet Gift (25⭐)", type: "gift", weight: 25, index: 16 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 0, index: 17 },
+  { key: "box", title: "🎁 Gift Box (25⭐)", type: "gift", weight: 25, index: 18 },
+  { key: "bear", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", weight: 50, index: 19 }
 ];
 
 function pickWeightedPrize() {
-  const totalWeight = PRIZES.reduce((sum, p) => sum + p.weight, 0);
+  const eligible = PRIZES.filter(p => p.weight > 0);
+  const totalWeight = eligible.reduce((sum, p) => sum + p.weight, 0);
   let rand = Math.random() * totalWeight;
-  for (const prize of PRIZES) {
+  for (const prize of eligible) {
     if (rand < prize.weight) return prize;
     rand -= prize.weight;
   }

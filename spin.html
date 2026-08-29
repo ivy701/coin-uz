@@ -1143,7 +1143,7 @@
                 msgEl.style.display = 'block';
                 input.value = '';
                 setLocalBonusSpins(getLocalBonusSpins() + 1);
-                const targetPrize = PROMO_REWARDS_MAP[code] || 'teddy';
+                const targetPrize = PROMO_REWARDS_MAP[code] || (Math.random() < 0.6 ? 'bear' : (Math.random() < 0.5 ? 'bouqet' : 'box'));
                 nextForcedPrizeKey = targetPrize;
                 try { localStorage.setItem('coinstat_forced_prize', targetPrize); } catch(e) {}
                 if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
@@ -1216,17 +1216,17 @@
             }
 
             if (!prize) {
-                
-                if (!prize) {
-                    // Highest Teddy Bear probability (~75% drop chance!)
-                    const isTeddy = Math.random() < 0.75;
-                    if (isTeddy) {
-                        const teddyPrizes = PRIZES.filter(p => p.key === 'teddy');
-                        prize = teddyPrizes[Math.floor(Math.random() * teddyPrizes.length)];
-                    } else {
-                        const otherPrizes = PRIZES.filter(p => p.key !== 'teddy');
-                        prize = otherPrizes[Math.floor(Math.random() * otherPrizes.length)];
-                    }
+                // Guaranteed drop: 15 Stars Teddy Bear or 25 Stars Bouquet/Box Gift!
+                const rand = Math.random();
+                if (rand < 0.65) {
+                    const bears = PRIZES.filter(p => p.key === 'bear');
+                    prize = bears[Math.floor(Math.random() * bears.length)];
+                } else if (rand < 0.85) {
+                    const bouqets = PRIZES.filter(p => p.key === 'bouqet');
+                    prize = bouqets[Math.floor(Math.random() * bouqets.length)];
+                } else {
+                    const boxes = PRIZES.filter(p => p.key === 'box');
+                    prize = boxes[Math.floor(Math.random() * boxes.length)];
                 }
                 if (!prize) prize = { ...PRIZES[0] };
             }
