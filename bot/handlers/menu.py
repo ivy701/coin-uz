@@ -285,7 +285,23 @@ async def cmd_add_promo_heart_menu(message: Message) -> None:
     await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 13. 🎁 VIP RANDOM SOVG'A (50⭐)
+# 13. 🔨 VIP USTA AYIQCHA (50⭐)
+@router.message(F.text.startswith("/promobuilder") | F.text.startswith("/promousta") | F.text.startswith("/promobuild"))
+async def cmd_add_promo_builder_menu(message: Message) -> None:
+  if not message.from_user or not _is_bot_admin(message.from_user.id): return
+  parts = (message.text or "").split(maxsplit=1)
+  if len(parts) < 2 or not parts[1].strip():
+    await message.answer("🔨 <b>VIP Usta Ayiqcha (50⭐) promo-kod yaratish:</b>\n👉 <code>/promobuilder KOD</code>", parse_mode="HTML")
+    return
+  code = parts[1].strip().upper()
+  from services.database import create_promocode
+  if await create_promocode(code, prize_type="builder_bear"):
+    await message.answer(f"✅ <b>VIP Usta Ayiqcha Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 🔨 Usta Ayiqcha (50⭐)\n📌 <b>Holati:</b> Faol (1 martalik VIP)", parse_mode="HTML")
+  else:
+    await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 14. 🎁 VIP RANDOM SOVG'A (50⭐)
 @router.message(F.text.startswith("/vipgift") | F.text.startswith("/promovipgift") | F.text.startswith("/promorare"))
 async def cmd_add_promo_rare_menu(message: Message) -> None:
   if not message.from_user or not _is_bot_admin(message.from_user.id): return
@@ -296,12 +312,12 @@ async def cmd_add_promo_rare_menu(message: Message) -> None:
   code = parts[1].strip().upper()
   from services.database import create_promocode
   if await create_promocode(code, prize_type="rare"):
-    await message.answer(f"✅ <b>VIP Sovg'a Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 🌟 7 ta 50⭐ sovg'adan biri\n📌 <b>Holati:</b> Faol (1 martalik VIP)", parse_mode="HTML")
+    await message.answer(f"✅ <b>VIP Sovg'a Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 🌟 8 ta 50⭐ sovg'adan biri (Aprel, Pasxa, Qorbobo, Usta, Archa, Patrik, Valentin, Yurakcha)\n📌 <b>Holati:</b> Faol (1 martalik VIP)", parse_mode="HTML")
   else:
     await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 14. 🎲 UMUMIY PROMO-KOD
+# 15. 🎲 UMUMIY PROMO-KOD
 @router.message(F.text.startswith("/addpromo") | F.text.startswith("/promo"))
 async def cmd_add_promocode(message: Message) -> None:
   if not message.from_user:
@@ -323,6 +339,7 @@ async def cmd_add_promocode(message: Message) -> None:
       "🌸 <code>/promoaprel KOD</code> — Aprel Ayiqchasi (50⭐)\n"
       "🐰 <code>/promoeaster KOD</code> — Pasxa Ayiqchasi (50⭐)\n"
       "🎅 <code>/promonewyear KOD</code> — Yangi Yil Ayiqchasi (50⭐)\n"
+      "🔨 <code>/promobuilder KOD</code> — Usta Ayiqcha (50⭐)\n"
       "🎄 <code>/promotree KOD</code> — Yangi Yil Archasi (50⭐)\n"
       "🍀 <code>/promopatrick KOD</code> — Patrik Ayiqchasi (50⭐)\n"
       "💘 <code>/promovalentine KOD</code> — Valentin Ayiqchasi (50⭐)\n"

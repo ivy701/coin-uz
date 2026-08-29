@@ -1379,26 +1379,26 @@ async def api_spin_play(request: web.Request) -> web.Response:
   ]
 
   vip_prizes = [
-    {"key": "aprel_bear", "title": "🌸 Aprel Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 0},
+    {"key": "aprel_bear", "title": "🌸 Aprel Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 0},
     {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 15, "index": 1},
-    {"key": "easter_bear", "title": "🐰 Pasxa Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 2},
-    {"key": "newyear_bear", "title": "🎅 Yangi Yil Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 3},
-    {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 15, "index": 4},
-    {"key": "newyear_tree", "title": "🎄 Yangi Yil Archasi (100⭐)", "type": "gift", "weight": 10, "index": 5},
-    {"key": "patrick_bear", "title": "🍀 Patrik Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 6},
-    {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 15, "index": 7},
-    {"key": "valentine_bear", "title": "💘 Valentin Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 8},
-    {"key": "valentine_heart", "title": "💕 Valentin Yurakchasi (100⭐)", "type": "gift", "weight": 10, "index": 9},
+    {"key": "easter_bear", "title": "🐰 Pasxa Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 2},
+    {"key": "newyear_bear", "title": "🎅 Yangi Yil Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 3},
+    {"key": "builder_bear", "title": "🔨 Usta Ayiqcha (50⭐)", "type": "gift", "weight": 10, "index": 4},
+    {"key": "newyear_tree", "title": "🎄 Yangi Yil Archasi (50⭐)", "type": "gift", "weight": 10, "index": 5},
+    {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 15, "index": 6},
+    {"key": "patrick_bear", "title": "🍀 Patrik Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 7},
+    {"key": "valentine_bear", "title": "💘 Valentin Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 8},
+    {"key": "valentine_heart", "title": "💕 Valentinka Yurakchasi (50⭐)", "type": "gift", "weight": 10, "index": 9},
     {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 15, "index": 10},
-    {"key": "aprel_bear", "title": "🌸 Aprel Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 11},
-    {"key": "easter_bear", "title": "🐰 Pasxa Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 12},
-    {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 15, "index": 13},
-    {"key": "newyear_bear", "title": "🎅 Yangi Yil Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 14},
-    {"key": "newyear_tree", "title": "🎄 Yangi Yil Archasi (100⭐)", "type": "gift", "weight": 10, "index": 15},
+    {"key": "aprel_bear", "title": "🌸 Aprel Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 11},
+    {"key": "easter_bear", "title": "🐰 Pasxa Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 12},
+    {"key": "builder_bear", "title": "🔨 Usta Ayiqcha (50⭐)", "type": "gift", "weight": 10, "index": 13},
+    {"key": "newyear_bear", "title": "🎅 Yangi Yil Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 14},
+    {"key": "newyear_tree", "title": "🎄 Yangi Yil Archasi (50⭐)", "type": "gift", "weight": 10, "index": 15},
     {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 15, "index": 16},
-    {"key": "patrick_bear", "title": "🍀 Patrik Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 17},
-    {"key": "valentine_bear", "title": "💘 Valentin Ayiqchasi (100⭐)", "type": "gift", "weight": 10, "index": 18},
-    {"key": "valentine_heart", "title": "💕 Valentin Yurakchasi (100⭐)", "type": "gift", "weight": 10, "index": 19 },
+    {"key": "patrick_bear", "title": "🍀 Patrik Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 17},
+    {"key": "valentine_bear", "title": "💘 Valentin Ayiqchasi (50⭐)", "type": "gift", "weight": 10, "index": 18},
+    {"key": "valentine_heart", "title": "💕 Valentinka Yurakchasi (50⭐)", "type": "gift", "weight": 10, "index": 19 },
   ]
 
   all_prizes = classic_prizes + vip_prizes
@@ -1409,9 +1409,11 @@ async def api_spin_play(request: web.Request) -> web.Response:
 
   if forced_key:
     forced_clean = str(forced_key).lower().strip()
-    rare_list = ["aprel_bear", "easter_bear", "newyear_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart"]
+    rare_list = ["aprel_bear", "easter_bear", "newyear_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart", "builder_bear"]
     if forced_clean in ["vipgift", "rare", "promovipgift"]:
       forced_clean = random.choice(rare_list)
+    elif forced_clean in ["builder", "usta", "builder_bear", "promobuilder", "promousta"]:
+      forced_clean = "builder_bear"
     elif forced_clean in ["gift25", "rose", "flower", "box"]:
       forced_clean = random.choice(["rose", "box"])
     elif forced_clean in ["stars", "star50", "stars50"]:
