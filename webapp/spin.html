@@ -616,8 +616,8 @@
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </div>
-        <div class="spin-badge-vip">
-            <span>👑 Top 3 VIP Spin</span>
+        <div class="spin-badge-vip" style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.4); color: #c084fc;">
+            <span>🎟 Promo Sovg'alar</span>
         </div>
     </div>
 
@@ -626,19 +626,19 @@
         <div class="spin-page-heading">
             <span>🎡 Omad G'ildiragi</span>
         </div>
-        <div class="spin-page-subtext">Har kuni Top 3 yetakchilar uchun bepul sovg'alar!</div>
+        <div class="spin-page-subtext">Promo-kod orqali g'ildirakni bepul aylantiring va sovg'a yuting!</div>
     </div>
 
-    <!-- Top 3 Status Card -->
+    <!-- Promo Status Card -->
     <div class="top-status-card" id="topStatusCard">
         <div class="top-status-left">
-            <div class="top-status-icon" id="statusIcon">👑</div>
+            <div class="top-status-icon" id="statusIcon">🎟</div>
             <div>
-                <div class="top-status-title" id="statusTitle">Reyting tekshirilmoqda...</div>
-                <div class="top-status-desc" id="statusDesc">Iltimos, kuting</div>
+                <div class="top-status-title" id="statusTitle">Promo Kod Kiritilmagan</div>
+                <div class="top-status-desc" id="statusDesc">G'ildirakni aylantirish uchun quyida Promo Kod kiriting!</div>
             </div>
         </div>
-        <div class="top-status-badge badge-eligible" id="statusBadge">Tekshirilmoqda</div>
+        <div class="top-status-badge badge-locked" id="statusBadge">Promo Kerak 🔒</div>
     </div>
 
     <!-- Live Countdown Card -->
@@ -1023,6 +1023,7 @@
             const userId = getUserId();
             const localBonuses = getLocalBonusSpins();
 
+            const iconEl = document.getElementById('statusIcon');
             const titleEl = document.getElementById('statusTitle');
             const descEl = document.getElementById('statusDesc');
             const badgeEl = document.getElementById('statusBadge');
@@ -1031,11 +1032,11 @@
             // If user has local bonus spins
             if (localBonuses > 0) {
                 canSpin = true;
-                stopLiveCountdown();
+                if (iconEl) iconEl.textContent = '🎁';
                 titleEl.textContent = 'Bonus Spin Mavjud! 🎟';
                 descEl.textContent = `Sizda ${localBonuses} ta bepul aylantirish bor!`;
                 badgeEl.className = 'top-status-badge badge-eligible';
-                badgeEl.textContent = 'Aktiv';
+                badgeEl.textContent = 'Aktiv ✅';
                 btn.disabled = false;
                 btn.innerHTML = '<span>🎲 G\'ILDIRAKNI AYLANTRISH</span>';
                 return;
@@ -1055,37 +1056,26 @@
                 }
 
                 if (data && data.ok) {
-                    if (data.can_spin) {
+                    if (data.can_spin && data.bonus_spins > 0) {
                         canSpin = true;
-                        stopLiveCountdown();
-                        if (data.bonus_spins > 0) {
-                            titleEl.textContent = 'Bonus Spin Mavjud! 🎟';
-                            descEl.textContent = 'Sizda ' + data.bonus_spins + ' ta bepul aylantirish bor!';
-                        } else {
-                            titleEl.textContent = 'Siz Top #' + (data.rank || 1) + ' Yetakchisiz! 🎉';
-                            descEl.textContent = 'Bugungi bepul spin imkoniyatingiz mavjud!';
-                        }
+                        setLocalBonusSpins(data.bonus_spins);
+                        if (iconEl) iconEl.textContent = '🎁';
+                        titleEl.textContent = 'Bonus Spin Mavjud! 🎟';
+                        descEl.textContent = 'Sizda ' + data.bonus_spins + ' ta bepul aylantirish bor!';
                         badgeEl.className = 'top-status-badge badge-eligible';
-                        badgeEl.textContent = 'Aktiv';
+                        badgeEl.textContent = 'Aktiv ✅';
                         btn.disabled = false;
                         btn.innerHTML = '<span>🎲 G\'ILDIRAKNI AYLANTRISH</span>';
-                    } else if (!data.is_top) {
-                        canSpin = false;
-                        stopLiveCountdown();
-                        titleEl.textContent = 'Faqat Top 3 Yetakchilar uchun';
-                        descEl.textContent = 'Top 3 ga kiring yoki Promo Kod orqali oching!';
-                        badgeEl.className = 'top-status-badge badge-locked';
-                        badgeEl.textContent = 'Qulflangan 🔒';
-                        btn.disabled = true;
-                        btn.innerHTML = '<span>🔒 Promo Kod yoki Top 3 orqali ochiladi</span>';
                     } else {
                         canSpin = false;
-                        const leftSeconds = data.next_spin_seconds || 3600;
-                        titleEl.textContent = 'Siz Top #' + data.rank + ' Yetakchisiz!';
-                        descEl.textContent = 'Keyingi ochilish vaqti hisoblanmoqda...';
+                        setLocalBonusSpins(0);
+                        if (iconEl) iconEl.textContent = '🎟';
+                        titleEl.textContent = 'Promo Kod Kiritilmagan';
+                        descEl.textContent = 'G\'ildirakni aylantirish uchun quyida Promo Kod kiriting!';
                         badgeEl.className = 'top-status-badge badge-locked';
+                        badgeEl.textContent = 'Promo Kerak 🔒';
                         btn.disabled = true;
-                        startLiveCountdown(leftSeconds);
+                        btn.innerHTML = '<span>🔒 Promo Kod orqali ochiladi</span>';
                     }
                     return;
                 }
@@ -1096,12 +1086,13 @@
             // Default fallback state when offline
             if (localBonuses <= 0) {
                 canSpin = false;
-                titleEl.textContent = 'Promo Kod yoki Top 3';
-                descEl.textContent = 'Promo kod kiriting va g\'ildirakni bepul aylantiring!';
+                if (iconEl) iconEl.textContent = '🎟';
+                titleEl.textContent = 'Promo Kod Kiritilmagan';
+                descEl.textContent = 'G\'ildirakni aylantirish uchun quyida Promo Kod kiriting!';
                 badgeEl.className = 'top-status-badge badge-locked';
-                badgeEl.textContent = 'Promo kerak 🎟';
+                badgeEl.textContent = 'Promo Kerak 🎟';
                 btn.disabled = true;
-                btn.innerHTML = '<span>🔒 Promo Kod orqali oching</span>';
+                btn.innerHTML = '<span>🔒 Promo Kod orqali ochiladi</span>';
             }
         }
 

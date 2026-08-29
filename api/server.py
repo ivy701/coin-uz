@@ -1277,53 +1277,13 @@ async def api_spin_status(request: web.Request) -> web.Response:
       AND o.product_type NOT IN ('deposit', 'balance')
     GROUP BY o.telegram_id
     HAVING SUM(o.amount) > 0
-    ORDER BY total DESC
-    LIMIT 3
-  """
-  top_rows = await db_conn.fetch(query)
-  top_ids = [int(r["telegram_id"]) for r in top_rows]
-  is_top = user_id in top_ids
-  user_rank = (top_ids.index(user_id) + 1) if is_top else None
-
   bonus_spins = await get_user_bonus_spins(user_id)
   last_spin = await get_last_lucky_spin(user_id)
-  can_spin = False
-  next_spin_seconds = 0
-  cooldown_seconds = 24 * 3600  # Har 1 kunda (24 soat)
-
-  if last_spin:
-    created_at = last_spin["created_at"]
-    if isinstance(created_at, str):
-      try:
-        created_at = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
-      except Exception:
-        created_at = datetime.now()
-    if hasattr(created_at, "timestamp"):
-      now_tz = datetime.now(created_at.tzinfo) if getattr(created_at, "tzinfo", None) else datetime.now()
-      passed = (now_tz - created_at).total_seconds()
-    else:
-      passed = 86400 * 10
-
-    if passed < cooldown_seconds:
-      next_spin_seconds = int(cooldown_seconds - passed)
-      can_spin = False
-    else:
-      can_spin = is_top
-  else:
-    can_spin = is_top
-
-  # Agar foydalanuvchida promokod orqali berilgan bonus spin bo'lsa
-  if bonus_spins > 0:
-    can_spin = True
-    next_spin_seconds = 0
 
   return web.json_response({
     "ok": True,
-    "is_top": is_top,
-    "rank": user_rank,
-    "can_spin": can_spin,
+    "can_spin": bonus_spins > 0,
     "bonus_spins": bonus_spins,
-    "next_spin_seconds": next_spin_seconds,
     "last_prize": last_spin.get("prize_title") if last_spin else None
   })
 
@@ -1402,41 +1362,7 @@ async def api_spin_play(request: web.Request) -> web.Response:
   used_bonus = await consume_user_bonus_spin(user_id)
 
   if not used_bonus:
-    # Top 3 tekshiruvi (Faqat #1, #2, #3 o'rindagi yetakchilar)
-    query = """
-      SELECT o.telegram_id, SUM(o.amount) as total
-      FROM orders o
-      WHERE o.status IN ('completed', 'paid')
-        AND o.product_type NOT LIKE 'topup%'
-        AND o.product_type NOT IN ('deposit', 'balance')
-      GROUP BY o.telegram_id
-      HAVING SUM(o.amount) > 0
-      ORDER BY total DESC
-      LIMIT 3
-    """
-    top_rows = await db_conn.fetch(query)
-    top_ids = [int(r["telegram_id"]) for r in top_rows]
-    if user_id not in top_ids:
-      return web.json_response({"ok": False, "error": "Omad g'ildiragi faqat Top 3 yetakchilar uchun yoki Promo kod orqali ochiladi!"}, status=403)
-
-    last_spin = await get_last_lucky_spin(user_id)
-    cooldown_seconds = 24 * 3600  # Har 1 kunda
-    if last_spin:
-      created_at = last_spin["created_at"]
-      if isinstance(created_at, str):
-        try:
-          created_at = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
-        except Exception:
-          created_at = datetime.now()
-      if hasattr(created_at, "timestamp"):
-        now_tz = datetime.now(created_at.tzinfo) if getattr(created_at, "tzinfo", None) else datetime.now()
-        passed = (now_tz - created_at).total_seconds()
-      else:
-        passed = 86400 * 10
-      if passed < cooldown_seconds:
-        left_hours = int((cooldown_seconds - passed) // 3600)
-        left_minutes = int(((cooldown_seconds - passed) % 3600) // 60)
-        return web.json_response({"ok": False, "error": f"Siz bugun aylantirgansiz. Keyingi imkoniyat {left_hours} soat {left_minutes} daqiqadan keyin."}, status=400)
+    return web.json_response({"ok": False, "error": "Omad g'ildiragini aylantirish uchun avval Promo Kod kiriting!"}, status=403)
 
   # 20 ta sektorli boy sovg'alar ro'yxati (Teddy Bear, Rose, Champagne, Stars, Balans, Rocket, Premium)
   prizes = [

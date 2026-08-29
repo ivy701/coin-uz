@@ -82,43 +82,10 @@ module.exports = async (req, res) => {
     const usedBonus = bonusRes.rows.length > 0;
 
     if (!usedBonus) {
-      // Check Top 3 rank
-      const topQuery = `
-        SELECT o.telegram_id, SUM(o.amount) as total
-        FROM orders o
-        WHERE o.status IN ('completed', 'paid')
-          AND o.product_type NOT LIKE 'topup%'
-          AND o.product_type NOT IN ('deposit', 'balance')
-        GROUP BY o.telegram_id
-        HAVING SUM(o.amount) > 0
-        ORDER BY total DESC
-        LIMIT 3
-      `;
-      const topRes = await db.query(topQuery);
-      const isTop3 = topRes.rows.some(r => String(r.telegram_id) === String(userId));
-      if (!isTop3) {
-        return res.status(403).json({
-          ok: false,
-          error: 'Omad g\'ildiragi faqat Top 3 yetakchilar uchun yoki Promo kod orqali ochiladi!'
-        });
-      }
-
-      // Check 24h cooldown
-      const lastSpinRes = await db.query('SELECT created_at FROM lucky_spins WHERE telegram_id = $1 ORDER BY id DESC LIMIT 1', [parseInt(userId, 10)]);
-      if (lastSpinRes.rows.length > 0) {
-        const lastDate = new Date(lastSpinRes.rows[0].created_at);
-        const now = new Date();
-        const passed = (now.getTime() - lastDate.getTime()) / 1000;
-        const cooldown = 24 * 3600;
-        if (passed < cooldown) {
-          const leftHours = Math.floor((cooldown - passed) / 3600);
-          const leftMinutes = Math.floor(((cooldown - passed) % 3600) / 60);
-          return res.status(400).json({
-            ok: false,
-            error: `Siz bugun aylantirgansiz. Keyingi imkoniyat ${leftHours} soat ${leftMinutes} daqiqadan keyin.`
-          });
-        }
-      }
+      return res.status(403).json({
+        ok: false,
+        error: 'Omad g\'ildiragini aylantirish uchun avval Promo Kod kiriting!'
+      });
     }
 
     let chosenPrize = null;
