@@ -1027,14 +1027,41 @@ async def consume_user_bonus_spin(telegram_id: int) -> bool:
 
 
 async def create_promocode(code: str) -> bool:
+    code_clean = code.strip().upper()
     try:
-        await db_conn.execute(
-            "INSERT INTO lucky_promocodes (code) VALUES ($1) ON CONFLICT DO NOTHING" if not IS_SQLITE else
-            "INSERT OR IGNORE INTO lucky_promocodes (code) VALUES ($1)",
-            code.strip().upper()
-        )
+        if IS_SQLITE:
+            await db_conn.execute("INSERT OR REPLACE INTO lucky_promocodes (code, is_used) VALUES ($1, 0)", code_clean)
+        else:
+            await db_conn.execute(
+                """
+                INSERT INTO lucky_promocodes (code, is_used) 
+                VALUES ($1, FALSE) 
+                ON CONFLICT (code) 
+                DO UPDATE SET is_used = FALSE, used_by_id = NULL, used_by_username = NULL, used_by_name = NULL, used_at = NULL
+                """,
+                code_clean
+            )
         return True
-    except Exception:
+    except Exception as e:
+        logger.error(f"create_promocode error: {e}")
+        return False
+
+
+async def get_all_promocodes(limit: int = 30) -> list[dict[str, Any]]:
+    try:
+        rows = await db_conn.fetch("SELECT * FROM lucky_promocodes ORDER BY id DESC LIMIT $1", limit)
+        return [dict(r) for r in rows]
+    except Exception as e:
+        logger.error(f"get_all_promocodes error: {e}")
+        return []
+
+
+async def delete_promocode(code: str) -> bool:
+    try:
+        await db_conn.execute("DELETE FROM lucky_promocodes WHERE UPPER(code) = $1", code.strip().upper())
+        return True
+    except Exception as e:
+        logger.error(f"delete_promocode error: {e}")
         return False
 
 
