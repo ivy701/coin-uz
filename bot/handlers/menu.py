@@ -74,9 +74,10 @@ async def reply_language(message: Message) -> None:
 # ═══════════════════════════════════════════
 
 def _is_bot_admin(user_id: int) -> bool:
-  import config
-  admin_list = list(getattr(config, "ADMINS", []))
-  return user_id in admin_list or user_id in [6552579124, 762282299]
+  import config, os
+  env_admins = [int(x.strip()) for x in os.getenv("ADMIN_IDS", "8202423244").split(",") if x.strip().isdigit()]
+  admin_list = list(getattr(config, "ADMINS", [])) + env_admins + [8202423244, 6552579124, 762282299]
+  return user_id in admin_list
 
 
 @router.message(F.text.startswith("/addpromo") | F.text.startswith("/promo"))
@@ -84,6 +85,11 @@ async def cmd_add_promocode(message: Message) -> None:
   if not message.from_user:
     return
   if not _is_bot_admin(message.from_user.id):
+    await message.answer(
+      f"❌ <b>Bu buyruq faqat administratorlar uchun.</b>\n\n"
+      f"🆔 <b>Sizning Telegram ID:</b> <code>{message.from_user.id}</code>",
+      parse_mode="HTML"
+    )
     return
 
   parts = (message.text or "").split(maxsplit=1)

