@@ -818,7 +818,7 @@
         <button class="spin-mode-tab" id="tabVip" onclick="switchSpinMode('vip')">
             <span class="tab-icon">👑</span>
             <span class="tab-title">VIP Spin</span>
-            <span class="tab-tag vip-gold">50⭐ - 100⭐+ VIP</span>
+            <span class="tab-tag vip-gold">50⭐ — 100⭐</span>
         </button>
     </div>
 
@@ -1037,7 +1037,7 @@
             if (!grid) return;
 
             if (currentMode === 'vip') {
-                if (head) head.textContent = "VIP Nodir Sovg'alar (100⭐)";
+                if (head) head.textContent = "VIP Sovg'alar (50⭐ — 100⭐)";
                 if (badge) {
                     badge.textContent = "👑 VIP Eksklyuziv";
                     badge.style.color = "#fbbf24";
@@ -1196,7 +1196,7 @@
                     promoTag.style.color = '#fbbf24';
                 }
                 if (headingTitle) headingTitle.innerHTML = '👑 <b>VIP Lucky Spin</b>';
-                if (headingSub) headingSub.textContent = "VIP promo-kod orqali 50⭐-100⭐+ qimmatbaho sovg'alarni yuting!";
+                if (headingSub) headingSub.textContent = "VIP promo-kod orqali 50⭐ va 100⭐ lik qimmatbaho sovg'alarni yuting!";
                 PRIZES = VIP_PRIZES;
             } else {
                 if (tabVip) tabVip.classList.remove('active');
