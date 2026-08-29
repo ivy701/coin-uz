@@ -976,10 +976,6 @@
             trophy: 'images/trophy.webp',
             cake: 'images/cake.webp',
             aprel_bear: 'images/aprel_bear.webp',
-            easter_bear: 'images/easter_bear.webp',
-            newyear_bear: 'images/newyear_bear.webp',
-            newyear_tree: 'images/newyear_tree.webp',
-            patrick_bear: 'images/patrick_bear.webp',
             valentine_bear: 'images/valentine_bear.webp',
             valentine_heart: 'images/valentine_heart.webp'
         };
@@ -987,49 +983,49 @@
         const loadedImages = {};
 
         const CLASSIC_PRIZES = [
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 0 },
-            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", color: "#831843", textCol: "#fb7185", index: 1 },
-            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 2 },
-            { key: "uzs10000", label: "10k", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, imgKey: "money", color: "#064e3b", textCol: "#4ade80", index: 3 },
-            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 4 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 5 },
-            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", color: "#831843", textCol: "#fb7185", index: 6 },
-            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 7 },
-            { key: "uzs5000", label: "5k", title: "💰 5 000 UZS Balans", type: "balance", amount: 5000, imgKey: "money", color: "#064e3b", textCol: "#4ade80", index: 8 },
-            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 9 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 10 },
-            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", color: "#831843", textCol: "#fb7185", index: 11 },
-            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 12 },
-            { key: "uzs10000", label: "10k", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, imgKey: "money", color: "#064e3b", textCol: "#4ade80", index: 13 },
-            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 14 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 15 },
-            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", color: "#831843", textCol: "#fb7185", index: 16 },
-            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 17 },
-            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 18 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 19 }
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#3b82f6", textCol: "#ffffff", index: 0 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#ec4899", textCol: "#ffffff", index: 1 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0284c7", textCol: "#ffffff", index: 2 },
+            { key: "uzs10000", label: "10k", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, imgKey: "money", emoji: "💰", color: "#10b981", textCol: "#ffffff", index: 3 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#8b5cf6", textCol: "#ffffff", index: 4 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#2563eb", textCol: "#ffffff", index: 5 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#db2777", textCol: "#ffffff", index: 6 },
+            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "⭐️", color: "#0369a1", textCol: "#ffffff", index: 7 },
+            { key: "uzs5000", label: "5k", title: "💰 5 000 UZS Balans", type: "balance", amount: 5000, imgKey: "money", emoji: "💰", color: "#059669", textCol: "#ffffff", index: 8 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#7c3aed", textCol: "#ffffff", index: 9 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#3b82f6", textCol: "#ffffff", index: 10 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#ec4899", textCol: "#ffffff", index: 11 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0284c7", textCol: "#ffffff", index: 12 },
+            { key: "uzs10000", label: "10k", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, imgKey: "money", emoji: "💰", color: "#10b981", textCol: "#ffffff", index: 13 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#8b5cf6", textCol: "#ffffff", index: 14 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#2563eb", textCol: "#ffffff", index: 15 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#db2777", textCol: "#ffffff", index: 16 },
+            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "⭐️", color: "#0369a1", textCol: "#ffffff", index: 17 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#7c3aed", textCol: "#ffffff", index: 18 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#1d4ed8", textCol: "#ffffff", index: 19 }
         ];
 
         const VIP_PRIZES = [
-            { key: "aprel_bear", label: "Aprel🧸", title: "🌸 Aprel Ayiqchasi (100⭐)", type: "gift", imgKey: "aprel_bear", color: "#831843", textCol: "#f472b6", index: 0 },
-            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 1 },
-            { key: "easter_bear", label: "Pasxa🐰", title: "🐰 Pasxa Ayiqchasi (100⭐)", type: "gift", imgKey: "easter_bear", color: "#713f12", textCol: "#fde047", index: 2 },
-            { key: "newyear_bear", label: "Qorbobo🎅", title: "🎅 Yangi Yil Ayiqchasi (100⭐)", type: "gift", imgKey: "newyear_bear", color: "#4c0519", textCol: "#fda4af", index: 3 },
-            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 4 },
-            { key: "newyear_tree", label: "Archa🎄", title: "🎄 Yangi Yil Archasi (100⭐)", type: "gift", imgKey: "newyear_tree", color: "#064e3b", textCol: "#86efac", index: 5 },
-            { key: "patrick_bear", label: "Patrik🍀", title: "🍀 Patrik Ayiqchasi (100⭐)", type: "gift", imgKey: "patrick_bear", color: "#14532d", textCol: "#4ade80", index: 6 },
-            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 7 },
-            { key: "valentine_bear", label: "Valentin💘", title: "💘 Valentin Ayiqchasi (100⭐)", type: "gift", imgKey: "valentine_bear", color: "#831843", textCol: "#fb7185", index: 8 },
-            { key: "valentine_heart", label: "Yurak💕", title: "💕 Valentin Yurakchasi (100⭐)", type: "gift", imgKey: "valentine_heart", color: "#581c87", textCol: "#f472b6", index: 9 },
-            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 10 },
-            { key: "aprel_bear", label: "Aprel🧸", title: "🌸 Aprel Ayiqchasi (100⭐)", type: "gift", imgKey: "aprel_bear", color: "#831843", textCol: "#f472b6", index: 11 },
-            { key: "easter_bear", label: "Pasxa🐰", title: "🐰 Pasxa Ayiqchasi (100⭐)", type: "gift", imgKey: "easter_bear", color: "#713f12", textCol: "#fde047", index: 12 },
-            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 13 },
-            { key: "newyear_bear", label: "Qorbobo🎅", title: "🎅 Yangi Yil Ayiqchasi (100⭐)", type: "gift", imgKey: "newyear_bear", color: "#4c0519", textCol: "#fda4af", index: 14 },
-            { key: "newyear_tree", label: "Archa🎄", title: "🎄 Yangi Yil Archasi (100⭐)", type: "gift", imgKey: "newyear_tree", color: "#064e3b", textCol: "#86efac", index: 15 },
-            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 16 },
-            { key: "patrick_bear", label: "Patrik🍀", title: "🍀 Patrik Ayiqchasi (100⭐)", type: "gift", imgKey: "patrick_bear", color: "#14532d", textCol: "#4ade80", index: 17 },
-            { key: "valentine_bear", label: "Valentin💘", title: "💘 Valentin Ayiqchasi (100⭐)", type: "gift", imgKey: "valentine_bear", color: "#831843", textCol: "#fb7185", index: 18 },
-            { key: "valentine_heart", label: "Yurak💕", title: "💕 Valentin Yurakchasi (100⭐)", type: "gift", imgKey: "valentine_heart", color: "#581c87", textCol: "#f472b6", index: 19 }
+            { key: "aprel_bear", label: "Aprel🧸", title: "🌸 Aprel Ayiqchasi (100⭐)", type: "gift", imgKey: "aprel_bear", emoji: "🌸", color: "#f43f5e", textCol: "#ffffff", index: 0 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0284c7", textCol: "#ffffff", index: 1 },
+            { key: "easter_bear", label: "Pasxa🐰", title: "🐰 Pasxa Ayiqchasi (100⭐)", type: "gift", imgKey: "easter_bear", emoji: "🐰", color: "#eab308", textCol: "#ffffff", index: 2 },
+            { key: "newyear_bear", label: "Qorbobo🎅", title: "🎅 Yangi Yil Ayiqchasi (100⭐)", type: "gift", imgKey: "newyear_bear", emoji: "🎅", color: "#dc2626", textCol: "#ffffff", index: 3 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0369a1", textCol: "#ffffff", index: 4 },
+            { key: "newyear_tree", label: "Archa🎄", title: "🎄 Yangi Yil Archasi (100⭐)", type: "gift", imgKey: "newyear_tree", emoji: "🎄", color: "#15803d", textCol: "#ffffff", index: 5 },
+            { key: "patrick_bear", label: "Patrik🍀", title: "🍀 Patrik Ayiqchasi (100⭐)", type: "gift", imgKey: "patrick_bear", emoji: "🍀", color: "#059669", textCol: "#ffffff", index: 6 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0284c7", textCol: "#ffffff", index: 7 },
+            { key: "valentine_bear", label: "Valentin💘", title: "💘 Valentin Ayiqchasi (100⭐)", type: "gift", imgKey: "valentine_bear", emoji: "💘", color: "#ec4899", textCol: "#ffffff", index: 8 },
+            { key: "valentine_heart", label: "Yurak💕", title: "💕 Valentin Yurakchasi (100⭐)", type: "gift", imgKey: "valentine_heart", emoji: "💕", color: "#9333ea", textCol: "#ffffff", index: 9 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0369a1", textCol: "#ffffff", index: 10 },
+            { key: "aprel_bear", label: "Aprel🧸", title: "🌸 Aprel Ayiqchasi (100⭐)", type: "gift", imgKey: "aprel_bear", emoji: "🌸", color: "#e11d48", textCol: "#ffffff", index: 11 },
+            { key: "easter_bear", label: "Pasxa🐰", title: "🐰 Pasxa Ayiqchasi (100⭐)", type: "gift", imgKey: "easter_bear", emoji: "🐰", color: "#ca8a04", textCol: "#ffffff", index: 12 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0284c7", textCol: "#ffffff", index: 13 },
+            { key: "newyear_bear", label: "Qorbobo🎅", title: "🎅 Yangi Yil Ayiqchasi (100⭐)", type: "gift", imgKey: "newyear_bear", emoji: "🎅", color: "#b91c1c", textCol: "#ffffff", index: 14 },
+            { key: "newyear_tree", label: "Archa🎄", title: "🎄 Yangi Yil Archasi (100⭐)", type: "gift", imgKey: "newyear_tree", emoji: "🎄", color: "#166534", textCol: "#ffffff", index: 15 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0369a1", textCol: "#ffffff", index: 16 },
+            { key: "patrick_bear", label: "Patrik🍀", title: "🍀 Patrik Ayiqchasi (100⭐)", type: "gift", imgKey: "patrick_bear", emoji: "🍀", color: "#047857", textCol: "#ffffff", index: 17 },
+            { key: "valentine_bear", label: "Valentin💘", title: "💘 Valentin Ayiqchasi (100⭐)", type: "gift", imgKey: "valentine_bear", emoji: "💘", color: "#db2777", textCol: "#ffffff", index: 18 },
+            { key: "valentine_heart", label: "Yurak💕", title: "💕 Valentin Yurakchasi (100⭐)", type: "gift", imgKey: "valentine_heart", emoji: "💕", color: "#7e22ce", textCol: "#ffffff", index: 19 }
         ];
 
         let currentMode = 'classic';
@@ -1176,60 +1172,6 @@
                 `;
             }
         }
-                if (head) head.textContent = "G'ildirakdagi 20 ta sovg'a";
-                if (badge) {
-                    badge.textContent = "Kafolatlangan";
-                    badge.style.color = "#c084fc";
-                }
-                grid.innerHTML = `
-                    <div class="prize-item-card" style="border-color: rgba(251, 191, 36, 0.4);">
-                        <div class="prize-item-icon">
-                            <img src="images/bear.webp" alt="Teddy Bear" style="width: 32px; height: 32px; object-fit: contain;">
-                        </div>
-                        <div class="prize-item-info">
-                            <div class="prize-item-name">Teddy Bear (15⭐)</div>
-                            <div class="prize-item-chance">🧸 Eng mashhur ayiqcha</div>
-                        </div>
-                    </div>
-                    <div class="prize-item-card" style="border-color: rgba(244, 63, 94, 0.35);">
-                        <div class="prize-item-icon">
-                            <img src="images/rose.webp" alt="Rose" style="width: 32px; height: 32px; object-fit: contain;">
-                        </div>
-                        <div class="prize-item-info">
-                            <div class="prize-item-name">Rose Gift (25⭐)</div>
-                            <div class="prize-item-chance">🌹 Telegram Atirgul Sovg'asi</div>
-                        </div>
-                    </div>
-                    <div class="prize-item-card" style="border-color: rgba(232, 121, 249, 0.3);">
-                        <div class="prize-item-icon">
-                            <img src="images/box.webp" alt="Gift Box" style="width: 32px; height: 32px; object-fit: contain;">
-                        </div>
-                        <div class="prize-item-info">
-                            <div class="prize-item-name">Gift Box (25⭐)</div>
-                            <div class="prize-item-chance">🎁 Telegram Gift Box</div>
-                        </div>
-                    </div>
-                    <div class="prize-item-card" style="border-color: rgba(56, 189, 248, 0.3);">
-                        <div class="prize-item-icon">
-                            <img src="images/star.webp" alt="Stars" style="width: 32px; height: 32px; object-fit: contain;">
-                        </div>
-                        <div class="prize-item-info">
-                            <div class="prize-item-name">25 / 50 / 100 Stars</div>
-                            <div class="prize-item-chance">⭐️ Telegram Stars</div>
-                        </div>
-                    </div>
-                    <div class="prize-item-card" style="border-color: rgba(74, 222, 128, 0.3); grid-column: span 2;">
-                        <div class="prize-item-icon">
-                            <img src="images/money.webp" alt="Money" style="width: 32px; height: 32px; object-fit: contain;">
-                        </div>
-                        <div class="prize-item-info">
-                            <div class="prize-item-name">5 000 / 10 000 / 20 000 UZS Balans</div>
-                            <div class="prize-item-chance">💰 Darhol balansingizga qo'shiladi</div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
 
         function switchSpinMode(mode) {
             currentMode = mode;
@@ -1310,7 +1252,7 @@
             const arc = (2 * Math.PI) / numSlices;
             const cx = canvas.width / 2;
             const cy = canvas.height / 2;
-            const radius = cx - 8;
+            const radius = cx - 10;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -1323,26 +1265,38 @@
                 ctx.lineTo(cx, cy);
                 ctx.fill();
 
-                // Slice border
-                ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
-                ctx.lineWidth = 1.5;
+                // Slice separator lines
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+                ctx.lineWidth = 2.5;
                 ctx.stroke();
 
-                // Text & Icon
+                // Slice Content
                 ctx.save();
                 ctx.translate(cx, cy);
                 ctx.rotate(angle + arc / 2);
 
-                // Draw preloaded WebP image asset
                 const imgObj = loadedImages[PRIZES[i].imgKey];
-                const imgSize = 24;
+                const imgSize = 44;
+                let drawnImage = false;
+
                 if (imgObj && imgObj.complete && imgObj.naturalWidth !== 0) {
-                    ctx.drawImage(imgObj, radius - 30, -imgSize / 2, imgSize, imgSize);
+                    try {
+                        ctx.drawImage(imgObj, radius - 56, -imgSize / 2, imgSize, imgSize);
+                        drawnImage = true;
+                    } catch(e) {}
                 }
 
-                // Draw short label
+                if (!drawnImage) {
+                    // Crisp Emoji Fallback
+                    ctx.font = "26px sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(PRIZES[i].emoji || "🎁", radius - 36, 0);
+                }
+
+                // Short text label
                 ctx.fillStyle = PRIZES[i].textCol || "#ffffff";
-                ctx.font = "bold 11px 'Plus Jakarta Sans', sans-serif";
+                ctx.font = "900 16px 'Plus Jakarta Sans', sans-serif";
                 ctx.textAlign = "right";
                 ctx.textBaseline = "middle";
                 ctx.fillText(PRIZES[i].label, radius - 36, 0);
