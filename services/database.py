@@ -966,16 +966,17 @@ async def get_promocode(code: str) -> dict[str, Any] | None:
 
 
 async def use_promocode(code: str, telegram_id: int, username: str | None, full_name: str | None) -> bool:
-    row = await get_promocode(code)
-    if not row or row.get("is_used"):
+    promo = await get_promocode(code)
+    if not promo or promo.get("is_used"):
         return False
 
+    ptype = promo.get("prize_type", "bear") if promo else "bear"
     if IS_SQLITE:
         await db_conn.execute(
             """
             UPDATE lucky_promocodes 
             SET is_used = 1, used_by_id = $1, used_by_username = $2, used_by_name = $3, used_at = CURRENT_TIMESTAMP 
-            WHERE UPPER(code) = UPPER($4) AND is_used = 0
+            WHERE code = $4 AND is_used = 0
             """,
             telegram_id, username or "", full_name or "", code.strip()
         )
@@ -989,7 +990,7 @@ async def use_promocode(code: str, telegram_id: int, username: str | None, full_
             telegram_id, username or "", full_name or "", code.strip()
         )
 
-    await add_user_bonus_spins(telegram_id, 1)
+    await add_user_bonus_spins(telegram_id, 1, forced_prize=ptype)
     return True
 
 
@@ -1001,29 +1002,29 @@ async def get_user_bonus_spins(telegram_id: int) -> int:
     return int(row["spins_left"]) if row and row.get("spins_left") else 0
 
 
-async def add_user_bonus_spins(telegram_id: int, count: int = 1) -> None:
+async def add_user_bonus_spins(telegram_id: int, count: int = 1, forced_prize: str = "bear") -> None:
     row = await db_conn.fetchrow("SELECT spins_left FROM user_bonus_spins WHERE telegram_id = $1", telegram_id)
     if row:
         await db_conn.execute(
-            "UPDATE user_bonus_spins SET spins_left = spins_left + $1 WHERE telegram_id = $2",
-            count, telegram_id
+            "UPDATE user_bonus_spins SET spins_left = spins_left + $1, forced_prize = $3 WHERE telegram_id = $2",
+            count, telegram_id, forced_prize
         )
     else:
         await db_conn.execute(
-            "INSERT INTO user_bonus_spins (telegram_id, spins_left) VALUES ($1, $2)",
-            telegram_id, count
+            "INSERT INTO user_bonus_spins (telegram_id, spins_left, forced_prize) VALUES ($1, $2, $3)",
+            telegram_id, count, forced_prize
         )
 
 
-async def consume_user_bonus_spin(telegram_id: int) -> bool:
-    spins = await get_user_bonus_spins(telegram_id)
-    if spins > 0:
+async def consume_user_bonus_spin(telegram_id: int) -> dict[str, Any] | None:
+    row = await db_conn.fetchrow("SELECT spins_left, forced_prize FROM user_bonus_spins WHERE telegram_id = $1", telegram_id)
+    if row and int(row.get("spins_left") or 0) > 0:
         await db_conn.execute(
             "UPDATE user_bonus_spins SET spins_left = spins_left - 1 WHERE telegram_id = $1",
             telegram_id
         )
-        return True
-    return False
+        return {"ok": True, "forced_prize": row.get("forced_prize") or "bear"}
+    return None
 
 
 async def create_promocode(code: str, prize_type: str = "bear") -> bool:

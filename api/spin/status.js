@@ -35,14 +35,16 @@ module.exports = async (req, res) => {
     const db = getPool();
 
     // Check user bonus spins (Promokod orqali berilgan)
-    const bonusRes = await db.query('SELECT spins_left FROM user_bonus_spins WHERE telegram_id = $1', [parseInt(userId, 10)]);
+    const bonusRes = await db.query('SELECT spins_left, forced_prize FROM user_bonus_spins WHERE telegram_id = $1', [parseInt(userId, 10)]);
     const bonusSpins = bonusRes.rows.length > 0 ? (bonusRes.rows[0].spins_left || 0) : 0;
+    const forcedPrize = bonusRes.rows.length > 0 ? (bonusRes.rows[0].forced_prize || 'bear') : 'bear';
 
     if (bonusSpins > 0) {
       return res.status(200).json({
         ok: true,
         can_spin: true,
         bonus_spins: bonusSpins,
+        forced_prize: forcedPrize,
         message: `Sizda ${bonusSpins} ta bepul aylantirish mavjud!`
       });
     }

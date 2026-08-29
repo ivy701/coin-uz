@@ -1329,6 +1329,7 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
 
     return web.json_response({
       "ok": True,
+      "forced_prize": promo.get("prize_type", "bear"),
       "message": "Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi 🎉"
     })
   except Exception as e:
@@ -1360,26 +1361,47 @@ async def api_spin_play(request: web.Request) -> web.Response:
     {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 6, "index": 1},
     {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 5, "index": 2},
     {"key": "uzs10000", "title": "💰 10 000 UZS Balans", "type": "balance", "amount": 10000, "weight": 5, "index": 3},
-    {"key": "champagne", "title": "🍾 Champagne Gift", "type": "gift", "weight": 6, "index": 4},
+    {"key": "champagne", "title": "🎁 Gift Box", "type": "gift", "weight": 6, "index": 4},
     {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 5},
-    {"key": "rocket", "title": "🚀 Rocket Gift", "type": "gift", "weight": 3, "index": 6},
+    {"key": "rocket", "title": "💎 Telegram Premium", "type": "premium", "weight": 3, "index": 6},
     {"key": "stars25", "title": "⭐️ 25 Stars", "type": "stars", "amount": 25, "weight": 6, "index": 7},
     {"key": "uzs5000", "title": "💰 5 000 UZS Balans", "type": "balance", "amount": 5000, "weight": 6, "index": 8},
     {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 6, "index": 9},
     {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 10},
-    {"key": "champagne", "title": "🍾 Champagne Gift", "type": "gift", "weight": 6, "index": 11},
+    {"key": "champagne", "title": "🎁 Gift Box", "type": "gift", "weight": 6, "index": 11},
     {"key": "stars100", "title": "⭐️ 100 Stars", "type": "stars", "amount": 100, "weight": 3, "index": 12},
     {"key": "uzs20000", "title": "💰 20 000 UZS Balans", "type": "balance", "amount": 20000, "weight": 3, "index": 13},
     {"key": "premium", "title": "💎 Telegram Premium", "type": "premium", "weight": 2, "index": 14},
     {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 15},
     {"key": "rose", "title": "🌹 Rose Gift", "type": "gift", "weight": 6, "index": 16},
     {"key": "stars50", "title": "⭐️ 50 Stars", "type": "stars", "amount": 50, "weight": 5, "index": 17},
-    {"key": "rocket", "title": "🚀 Rocket Gift", "type": "gift", "weight": 3, "index": 18},
+    {"key": "rocket", "title": "💎 Telegram Premium", "type": "premium", "weight": 3, "index": 18},
     {"key": "teddy", "title": "🧸 Teddy Bear Gift", "type": "gift", "weight": 12, "index": 19},
   ]
 
-  weights = [p["weight"] for p in prizes]
-  chosen_prize = random.choices(prizes, weights=weights, k=1)[0]
+  chosen_prize = None
+  forced_key = body.get("forced_key") or (used_bonus.get("forced_prize") if isinstance(used_bonus, dict) else None)
+
+  if forced_key:
+    forced_clean = str(forced_key).lower().strip()
+    if forced_clean in ["gift25", "rose", "flower", "box"]:
+      forced_clean = random.choice(["rose", "champagne"])
+    elif forced_clean == "stars":
+      forced_clean = random.choice(["stars50", "stars100", "stars25"])
+    elif forced_clean == "money":
+      forced_clean = random.choice(["uzs10000", "uzs20000", "uzs5000"])
+    elif forced_clean in ["bear", "teddy"]:
+      forced_clean = "teddy"
+    elif forced_clean in ["premium", "vip"]:
+      forced_clean = "premium"
+
+    matched = [p for p in prizes if p["key"] == forced_clean]
+    if matched:
+      chosen_prize = random.choice(matched)
+
+  if not chosen_prize:
+    weights = [p["weight"] for p in prizes]
+    chosen_prize = random.choices(prizes, weights=weights, k=1)[0]
 
   # Mukofotni hisobga o'tkazish
   if chosen_prize["type"] == "balance":

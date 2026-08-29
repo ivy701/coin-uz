@@ -1169,6 +1169,10 @@
                     if (data.can_spin && data.bonus_spins > 0) {
                         canSpin = true;
                         setLocalBonusSpins(data.bonus_spins);
+                        if (data.forced_prize) {
+                            nextForcedPrizeKey = data.forced_prize;
+                            try { localStorage.setItem('coinstat_forced_prize', data.forced_prize); } catch(e) {}
+                        }
                         if (iconEl) iconEl.textContent = '🎁';
                         titleEl.textContent = 'Bonus Spin Mavjud! 🎟';
                         descEl.textContent = 'Sizda ' + data.bonus_spins + ' ta bepul aylantirish bor!';

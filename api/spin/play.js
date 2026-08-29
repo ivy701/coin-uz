@@ -77,7 +77,7 @@ module.exports = async (req, res) => {
       UPDATE user_bonus_spins
       SET spins_left = spins_left - 1, updated_at = NOW()
       WHERE telegram_id = $1 AND spins_left > 0
-      RETURNING spins_left
+      RETURNING spins_left, forced_prize
     `, [parseInt(userId, 10)]);
 
     const usedBonus = bonusRes.rows.length > 0;
@@ -90,13 +90,28 @@ module.exports = async (req, res) => {
     }
 
     let chosenPrize = null;
-    const forcedKey = body.forced_key || body.prize_key;
+    let forcedKey = body.forced_key || body.prize_key || bonusRes.rows[0]?.forced_prize;
+
     if (forcedKey) {
-      const matched = PRIZES.filter(p => p.key === forcedKey);
+      let searchKey = String(forcedKey).toLowerCase().trim();
+      if (searchKey === 'gift25' || searchKey === 'gift') {
+        searchKey = Math.random() < 0.5 ? 'rose' : 'box';
+      } else if (searchKey === 'stars') {
+        searchKey = Math.random() < 0.5 ? 'stars50' : 'stars100';
+      } else if (searchKey === 'money' || searchKey === 'balans') {
+        searchKey = Math.random() < 0.5 ? 'uzs10000' : 'uzs20000';
+      } else if (searchKey === 'bear' || searchKey === 'teddy') {
+        searchKey = 'bear';
+      } else if (searchKey === 'premium' || searchKey === 'vip') {
+        searchKey = 'premium';
+      }
+
+      const matched = PRIZES.filter(p => p.key === searchKey);
       if (matched.length > 0) {
         chosenPrize = matched[Math.floor(Math.random() * matched.length)];
       }
     }
+
     if (!chosenPrize) {
       chosenPrize = pickWeightedPrize();
     }
