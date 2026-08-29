@@ -247,6 +247,9 @@
             margin-bottom: 24px;
             backdrop-filter: blur(12px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+            width: 100%;
+            overflow: hidden;
         }
 
         .promo-voucher-title {
@@ -272,21 +275,26 @@
         .promo-input-row {
             display: flex;
             gap: 8px;
+            align-items: stretch;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .promo-input-row input {
-            flex: 1;
+            flex: 1 1 0%;
+            min-width: 0;
             background: #11121a;
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 16px;
-            padding: 14px 16px;
-            font-size: 14px;
+            padding: 12px 14px;
+            font-size: 13px;
             font-weight: 700;
             color: #ffffff;
             letter-spacing: 0.8px;
             text-transform: uppercase;
             outline: none;
             transition: all 0.2s ease;
+            box-sizing: border-box;
         }
 
         .promo-input-row input:focus {
@@ -295,17 +303,22 @@
         }
 
         .promo-submit-btn {
+            flex-shrink: 0;
             background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
             color: #ffffff;
             border: none;
             border-radius: 16px;
-            padding: 0 18px;
+            padding: 0 14px;
             font-size: 13px;
             font-weight: 800;
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
         }
 
         .promo-submit-btn:active {
