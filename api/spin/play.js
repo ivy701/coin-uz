@@ -37,26 +37,26 @@ const CLASSIC_PRIZES = [
 ];
 
 const VIP_PRIZES = [
-  { key: "aprel_bear", title: "🌸 Aprel Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 0 },
+  { key: "aprel_bear", title: "🌸 Aprel Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 0 },
   { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 1 },
-  { key: "easter_bear", title: "🐰 Pasxa Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 2 },
-  { key: "newyear_bear", title: "🎅 Yangi Yil Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 3 },
+  { key: "easter_bear", title: "🐰 Pasxa Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 2 },
+  { key: "newyear_bear", title: "🎅 Yangi Yil Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 3 },
   { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 4 },
-  { key: "newyear_tree", title: "🎄 Yangi Yil Archasi (100⭐)", type: "gift", weight: 10, index: 5 },
-  { key: "patrick_bear", title: "🍀 Patrik Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 6 },
+  { key: "newyear_tree", title: "🎄 Yangi Yil Archasi (50⭐)", type: "gift", weight: 10, index: 5 },
+  { key: "patrick_bear", title: "🍀 Patrik Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 6 },
   { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 7 },
-  { key: "valentine_bear", title: "💘 Valentin Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 8 },
-  { key: "valentine_heart", title: "💕 Valentin Yurakchasi (100⭐)", type: "gift", weight: 10, index: 9 },
+  { key: "valentine_bear", title: "💘 Valentin Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 8 },
+  { key: "valentine_heart", title: "💕 Valentin Yurakchasi (50⭐)", type: "gift", weight: 10, index: 9 },
   { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 10 },
-  { key: "aprel_bear", title: "🌸 Aprel Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 11 },
-  { key: "easter_bear", title: "🐰 Pasxa Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 12 },
+  { key: "aprel_bear", title: "🌸 Aprel Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 11 },
+  { key: "easter_bear", title: "🐰 Pasxa Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 12 },
   { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 13 },
-  { key: "newyear_bear", title: "🎅 Yangi Yil Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 14 },
-  { key: "newyear_tree", title: "🎄 Yangi Yil Archasi (100⭐)", type: "gift", weight: 10, index: 15 },
+  { key: "newyear_bear", title: "🎅 Yangi Yil Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 14 },
+  { key: "newyear_tree", title: "🎄 Yangi Yil Archasi (50⭐)", type: "gift", weight: 10, index: 15 },
   { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 16 },
-  { key: "patrick_bear", title: "🍀 Patrik Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 17 },
-  { key: "valentine_bear", title: "💘 Valentin Ayiqchasi (100⭐)", type: "gift", weight: 10, index: 18 },
-  { key: "valentine_heart", title: "💕 Valentin Yurakchasi (100⭐)", type: "gift", weight: 10, index: 19 }
+  { key: "patrick_bear", title: "🍀 Patrik Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 17 },
+  { key: "valentine_bear", title: "💘 Valentin Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 18 },
+  { key: "valentine_heart", title: "💕 Valentin Yurakchasi (50⭐)", type: "gift", weight: 10, index: 19 }
 ];
 
 const ALL_PRIZES = [...CLASSIC_PRIZES, ...VIP_PRIZES];
