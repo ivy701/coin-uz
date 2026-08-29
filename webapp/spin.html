@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CoinStat UZ — Omad G'ildiragi</title>
+    <title>CoinStat UZ — Lucky Spin</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link rel="stylesheet" href="css/style.css?v=13.0">
@@ -346,6 +346,70 @@
             color: #f87171;
         }
 
+        .promo-channel-hint {
+            margin-top: 14px;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, rgba(14, 165, 233, 0.05) 100%);
+            border: 1px dashed rgba(56, 189, 248, 0.45);
+            border-radius: 16px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .promo-channel-hint:active {
+            background: rgba(2, 132, 199, 0.25);
+            transform: scale(0.98);
+        }
+
+        .promo-channel-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .promo-channel-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .promo-channel-text {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .promo-channel-title {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .promo-channel-link {
+            font-size: 13px;
+            color: #38bdf8;
+            font-weight: 900;
+        }
+
+        .promo-channel-btn {
+            background: #0284c7;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 12px;
+            border-radius: 10px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+        }
+
         /* Wheel Outer Stage */
         .wheel-stage-container {
             position: relative;
@@ -666,9 +730,9 @@
     <!-- Page Heading -->
     <div class="page-header-wrap">
         <div class="spin-page-heading">
-            <span>🎡 Omad G'ildiragi</span>
+            <span>✨ Lucky Spin</span>
         </div>
-        <div class="spin-page-subtext">Promo-kod orqali g'ildirakni bepul aylantiring va sovg'a yuting!</div>
+        <div class="spin-page-subtext">Promo-kod orqali bepul aylantiring va Telegram sovg'alarini yuting!</div>
     </div>
 
     <!-- Promo Status Card -->
@@ -734,6 +798,18 @@
             </button>
         </div>
         <div class="promo-status-msg" id="promoStatusMsg" style="display: none;"></div>
+
+        <!-- Telegram Channel Promocodes Notice Link -->
+        <div class="promo-channel-hint" onclick="openChannelLink('https://t.me/coinstatuz')">
+            <div class="promo-channel-left">
+                <div class="promo-channel-icon">📢</div>
+                <div class="promo-channel-text">
+                    <span class="promo-channel-title">Promo-kodlar ushbu kanalda tarqatiladi:</span>
+                    <span class="promo-channel-link">@coinstatuz ↗</span>
+                </div>
+            </div>
+            <div class="promo-channel-btn">Kanalga o'tish</div>
+        </div>
     </div>
 
     <!-- Prizes Overview Grid -->
@@ -1378,6 +1454,14 @@
                 tg.openTelegramLink(adminUrl);
             } else {
                 window.open(adminUrl, '_blank');
+            }
+        }
+
+        function openChannelLink(url) {
+            if (tg && typeof tg.openTelegramLink === 'function') {
+                tg.openTelegramLink(url);
+            } else {
+                window.open(url, '_blank');
             }
         }
 
