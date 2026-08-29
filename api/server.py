@@ -1265,18 +1265,8 @@ async def api_spin_status(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
   user_id = int(user_id)
 
-  from services.database import db_conn, get_last_lucky_spin, get_user_bonus_spins
+  from services.database import get_last_lucky_spin, get_user_bonus_spins
 
-  query = """
-    SELECT 
-      o.telegram_id,
-      SUM(o.amount) as total
-    FROM orders o
-    WHERE o.status IN ('completed', 'paid')
-      AND o.product_type NOT LIKE 'topup%'
-      AND o.product_type NOT IN ('deposit', 'balance')
-    GROUP BY o.telegram_id
-    HAVING SUM(o.amount) > 0
   bonus_spins = await get_user_bonus_spins(user_id)
   last_spin = await get_last_lucky_spin(user_id)
 
