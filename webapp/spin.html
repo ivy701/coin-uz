@@ -588,21 +588,50 @@
             margin-bottom: 22px;
         }
 
-        .win-close-btn {
+        .win-actions-col {
             width: 100%;
-            background: var(--gold-gradient);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .win-claim-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             color: #000;
             border: none;
             border-radius: 16px;
-            padding: 14px;
+            padding: 15px 16px;
             font-size: 15px;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 6px 22px rgba(245, 158, 11, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
         }
 
-        .win-close-btn:active {
+        .win-claim-btn:active {
             transform: scale(0.98);
+        }
+
+        .win-dismiss-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 11px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .win-dismiss-btn:active {
+            background: rgba(255, 255, 255, 0.15);
         }
     </style>
 </head>
@@ -764,7 +793,12 @@
             <div class="win-title">TABRIKLAYMIZ!</div>
             <div class="win-prize-name" id="winPrizeTitle">Teddy Bear Gift</div>
             <div class="win-desc" id="winDesc">Siz muvaffaqiyatli sovg'ani yutib oldingiz! Sovg'a tez orada taqdim etiladi.</div>
-            <button class="win-close-btn" onclick="closeWinModal()">Ajoyib, Rahmat!</button>
+            <div class="win-actions-col">
+                <button class="win-claim-btn" id="winClaimBtn" onclick="claimPrizeToAdmin()">
+                    <span>🎁 Sovg'ani Olish (Adminga yozish)</span>
+                </button>
+                <button class="win-dismiss-btn" onclick="closeWinModal()">Yopish</button>
+            </div>
         </div>
     </div>
 
@@ -1256,7 +1290,10 @@
             }, 5200);
         }
 
+        let currentWonPrize = null;
+
         function showWinModal(prize) {
+            currentWonPrize = prize;
             if (window.confetti) {
                 window.confetti({
                     particleCount: 120,
@@ -1270,6 +1307,7 @@
             const iconEl = document.getElementById('winIcon');
             const titleEl = document.getElementById('winPrizeTitle');
             const descEl = document.getElementById('winDesc');
+            const claimBtn = document.getElementById('winClaimBtn');
 
             titleEl.textContent = prize.title || 'Sovg\'a';
             const imgKey = prize.imgKey || (prize.key.includes('bear') || prize.key.includes('teddy') ? 'bear' : (prize.key.includes('bouqet') ? 'bouqet' : (prize.key.includes('box') ? 'box' : (prize.key.includes('star') ? 'star' : (prize.key.includes('premium') ? 'premium' : 'money')))));
@@ -1277,15 +1315,42 @@
 
             if (prize.type === 'balance') {
                 descEl.textContent = `${prize.amount ? prize.amount.toLocaleString('uz-UZ') : ''} UZS avtomatik ravishda balansingizga qo'shildi!`;
+                if (claimBtn) claimBtn.style.display = 'none';
             } else if (prize.type === 'stars') {
-                descEl.textContent = `${prize.amount || ''} Telegram Stars yutib oldingiz! Sovg'angiz hisobingizga o'tkaziladi.`;
-            } else if (prize.type === 'premium') {
-                descEl.textContent = "1 oylik Telegram Premium obunasi yutib oldingiz! Admin sizga taqdim etadi.";
+                descEl.textContent = `${prize.amount || ''} Telegram Stars yutib oldingiz! Sovg'ani qabul qilish uchun quyidagi tugmani bosing.`;
+                if (claimBtn) claimBtn.style.display = 'flex';
             } else {
-                descEl.textContent = "Yutuq qayd etildi! Admin siz bilan bog'lanib sovg'ani taqdim etadi.";
+                descEl.textContent = "Sovg'angizni qabul qilib olish uchun quyidagi tugma orqali adminga xabar yuboring:";
+                if (claimBtn) claimBtn.style.display = 'flex';
             }
 
             modal.classList.add('active');
+        }
+
+        function claimPrizeToAdmin() {
+            if (!currentWonPrize) return;
+            const userId = getUserId();
+            const user = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : {};
+            const uname = user.username ? ('@' + user.username) : 'Mavjud emas';
+            const name = ((user.first_name || '') + ' ' + (user.last_name || '')).trim() || 'Foydalanuvchi';
+            
+            const prizeTitle = currentWonPrize.title || 'Telegram Sovg\'asi';
+            
+            const messageText = 
+                `Assalomu alaykum! Men Omad G'ildiragida sovg'a yutib oldim 🎁\n\n` +
+                `🎁 Sovg'a: ${prizeTitle}\n` +
+                `👤 Foydalanuvchi: ${name}\n` +
+                `🏷 Username: ${uname}\n` +
+                `🆔 Telegram ID: ${userId}\n\n` +
+                `Iltimos, sovg'amni taqdim etishingizni so'rayman!`;
+
+            const adminUrl = `https://t.me/cofeature?text=${encodeURIComponent(messageText)}`;
+
+            if (tg && typeof tg.openTelegramLink === 'function') {
+                tg.openTelegramLink(adminUrl);
+            } else {
+                window.open(adminUrl, '_blank');
+            }
         }
 
         function closeWinModal() {
