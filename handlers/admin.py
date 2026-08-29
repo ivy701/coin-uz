@@ -483,9 +483,9 @@ async def cmd_add_promo_heart(message: Message):
         await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 13. 🎲 VIP RANDOM NODIR SOVG'A (100⭐)
-@router.message(Command("promorare"))
-@router.message(F.text.startswith("/promorare"))
+# 13. 🎁 VIP NODIR SOVG'A (100⭐)
+@router.message(Command("vipgift", "promovipgift", "promorare"))
+@router.message(F.text.startswith("/vipgift") | F.text.startswith("/promovipgift") | F.text.startswith("/promorare"))
 async def cmd_add_promo_rare(message: Message):
     if not message.from_user: return
     if not _is_admin(message.from_user.id):
@@ -493,15 +493,15 @@ async def cmd_add_promo_rare(message: Message):
         return
     parts = (message.text or "").split(maxsplit=1)
     if len(parts) < 2 or not parts[1].strip():
-        await message.answer("🎲 <b>VIP Random Nodir Sovg'a (100⭐) promo-kod yaratish:</b>\n\n👉 <code>/promorare KOD</code>", parse_mode="HTML")
+        await message.answer("🎁 <b>VIP Nodir Sovg'a (100⭐) promo-kod yaratish:</b>\n\n👉 <code>/vipgift KOD</code>", parse_mode="HTML")
         return
     code = parts[1].strip().upper()
     from services.database import create_promocode
     if await create_promocode(code, prize_type="rare"):
         await message.answer(
-            f"✅ <b>VIP Random Nodir Sovg'a Promo-kodi yaratildi!</b>\n\n"
+            f"✅ <b>VIP Nodir Sovg'a Promo-kodi yaratildi!</b>\n\n"
             f"🎟 <b>Kod:</b> <code>{code}</code>\n"
-            f"🎁 <b>Kafolatlangan yutuq:</b> 🌟 7 ta nodir 100⭐ sovg'adan biri\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 🌟 7 ta nodir 100⭐ sovg'adan biri (Aprel, Pasxa, Qorbobo, Archa, Patrik, Valentin, Yurakcha)\n"
             f"📌 <b>Holati:</b> Faol (1 martalik VIP)",
             parse_mode="HTML"
         )
@@ -509,59 +509,7 @@ async def cmd_add_promo_rare(message: Message):
         await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 14. ⭐️ VIP 250-500 STARS
-@router.message(Command("promostarvip"))
-@router.message(F.text.startswith("/promostarvip"))
-async def cmd_add_promo_starvip(message: Message):
-    if not message.from_user: return
-    if not _is_admin(message.from_user.id):
-        await _deny(message)
-        return
-    parts = (message.text or "").split(maxsplit=1)
-    if len(parts) < 2 or not parts[1].strip():
-        await message.answer("⭐️ <b>VIP 250-500 Stars promo-kod yaratish:</b>\n\n👉 <code>/promostarvip KOD</code>", parse_mode="HTML")
-        return
-    code = parts[1].strip().upper()
-    from services.database import create_promocode
-    if await create_promocode(code, prize_type="starvip"):
-        await message.answer(
-            f"✅ <b>VIP Stars Promo-kodi yaratildi!</b>\n\n"
-            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
-            f"🎁 <b>Kafolatlangan yutuq:</b> ⭐️ 250 / 500 Stars\n"
-            f"📌 <b>Holati:</b> Faol (1 martalik VIP)",
-            parse_mode="HTML"
-        )
-    else:
-        await message.answer("❌ Xatolik yuz berdi!")
-
-
-# 15. 💰 VIP 50 000 - 100 000 UZS
-@router.message(Command("promomoneyvip"))
-@router.message(F.text.startswith("/promomoneyvip"))
-async def cmd_add_promo_moneyvip(message: Message):
-    if not message.from_user: return
-    if not _is_admin(message.from_user.id):
-        await _deny(message)
-        return
-    parts = (message.text or "").split(maxsplit=1)
-    if len(parts) < 2 or not parts[1].strip():
-        await message.answer("💰 <b>VIP 50k-100k UZS Balans promo-kod yaratish:</b>\n\n👉 <code>/promomoneyvip KOD</code>", parse_mode="HTML")
-        return
-    code = parts[1].strip().upper()
-    from services.database import create_promocode
-    if await create_promocode(code, prize_type="moneyvip"):
-        await message.answer(
-            f"✅ <b>VIP Balans Promo-kodi yaratildi!</b>\n\n"
-            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
-            f"🎁 <b>Kafolatlangan yutuq:</b> 💰 50 000 / 100 000 UZS\n"
-            f"📌 <b>Holati:</b> Faol (1 martalik VIP)",
-            parse_mode="HTML"
-        )
-    else:
-        await message.answer("❌ Xatolik yuz berdi!")
-
-
-# 16. 🎲 UMUMIY PROMO-KOD (Standart: 15⭐ / 25⭐)
+# 14. 🎲 UMUMIY PROMO-KOD (Standart: 15⭐ / 25⭐)
 @router.message(Command("addpromo", "promo"))
 @router.message(F.text.startswith("/addpromo") | F.text.startswith("/promo"))
 async def cmd_add_promocode(message: Message):
@@ -575,12 +523,8 @@ async def cmd_add_promocode(message: Message):
     if len(parts) < 2 or not parts[1].strip():
         await message.answer(
             "🎟 <b>Promo-kod yaratish barcha buyruqlari:</b>\n\n"
-            "<b>🎯 Klassik Spin Kodlari:</b>\n"
-            "🧸 <code>/promobear KOD</code> — Teddy Bear (15⭐)\n"
-            "🌹 <code>/promo25 KOD</code> — Rose / Box (25⭐)\n"
-            "⭐️ <code>/promostars KOD</code> — 25-100 Stars\n"
-            "💰 <code>/promomoney KOD</code> — 5k-20k UZS\n\n"
             "<b>👑 VIP Spin Nodir Sovg'alar (100⭐):</b>\n"
+            "🎁 <code>/vipgift KOD</code> — Random Nodir 100⭐ Sovg'a\n"
             "🌸 <code>/promoaprel KOD</code> — Aprel Ayiqchasi (100⭐)\n"
             "🐰 <code>/promoeaster KOD</code> — Pasxa Ayiqchasi (100⭐)\n"
             "🎅 <code>/promonewyear KOD</code> — Yangi Yil Ayiqchasi (100⭐)\n"
@@ -588,10 +532,11 @@ async def cmd_add_promocode(message: Message):
             "🍀 <code>/promopatrick KOD</code> — Patrik Ayiqchasi (100⭐)\n"
             "💘 <code>/promovalentine KOD</code> — Valentin Ayiqchasi (100⭐)\n"
             "💕 <code>/promoheart KOD</code> — Valentin Yurakchasi (100⭐)\n"
-            "🎲 <code>/promorare KOD</code> — Random Nodir Sovg'a (100⭐)\n"
-            "👑 <code>/promovip KOD</code> — Telegram Premium\n"
-            "⭐️ <code>/promostarvip KOD</code> — 250-500 Stars\n"
-            "💰 <code>/promomoneyvip KOD</code> — 50k-100k UZS\n\n"
+            "⭐️ <code>/promostars KOD</code> — ⭐️ 50 Stars\n\n"
+            "<b>🎯 Klassik Spin Kodlari:</b>\n"
+            "🧸 <code>/promobear KOD</code> — Teddy Bear (15⭐)\n"
+            "🌹 <code>/promo25 KOD</code> — Rose / Box (25⭐)\n"
+            "💰 <code>/promomoney KOD</code> — 5k-20k UZS\n\n"
             "📋 Barcha kodlar ro'yxati: <code>/promolist</code>",
             parse_mode="HTML"
         )
