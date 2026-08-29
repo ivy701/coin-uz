@@ -1379,26 +1379,26 @@ async def api_spin_play(request: web.Request) -> web.Response:
   ]
 
   vip_prizes = [
-    {"key": "rocket", "title": "🚀 Rocket Gift (100⭐)", "type": "gift", "weight": 10, "index": 0},
+    {"key": "aprel_bear", "title": "🌸 Aprel Ayiqchasi (100⭐)", "type": "gift", "weight": 15, "index": 0},
     {"key": "premium", "title": "👑 Telegram Premium", "type": "premium", "weight": 5, "index": 1},
-    {"key": "diamond", "title": "💎 Diamond Gift (50⭐)", "type": "gift", "weight": 10, "index": 2},
+    {"key": "easter_bear", "title": "🐰 Pasxa Ayiqchasi (100⭐)", "type": "gift", "weight": 15, "index": 2},
     {"key": "uzs50000", "title": "💰 50 000 UZS Balans", "type": "balance", "amount": 50000, "weight": 5, "index": 3},
-    {"key": "trophy", "title": "🏆 Trophy Gift (100⭐)", "type": "gift", "weight": 10, "index": 4},
-    {"key": "ring", "title": "💍 Ring Gift (50⭐)", "type": "gift", "weight": 10, "index": 5},
+    {"key": "newyear_bear", "title": "🎅 Yangi Yil Ayiqchasi (100⭐)", "type": "gift", "weight": 15, "index": 4},
+    {"key": "valentine_heart", "title": "💕 Valentin Yurakchasi (100⭐)", "type": "gift", "weight": 15, "index": 5},
     {"key": "stars250", "title": "⭐️ 250 Stars", "type": "stars", "amount": 250, "weight": 5, "index": 6},
-    {"key": "cake", "title": "🎂 Cake Gift (50⭐)", "type": "gift", "weight": 10, "index": 7},
-    {"key": "rocket", "title": "🚀 Rocket Gift (100⭐)", "type": "gift", "weight": 10, "index": 8},
+    {"key": "newyear_tree", "title": "🎄 Yangi Yil Archasi (100⭐)", "type": "gift", "weight": 15, "index": 7},
+    {"key": "patrick_bear", "title": "🍀 Patrik Ayiqchasi (100⭐)", "type": "gift", "weight": 15, "index": 8},
     {"key": "premium", "title": "👑 Telegram Premium", "type": "premium", "weight": 5, "index": 9},
     {"key": "uzs100000", "title": "💰 100 000 UZS Balans", "type": "balance", "amount": 100000, "weight": 5, "index": 10},
-    {"key": "diamond", "title": "💎 Diamond Gift (50⭐)", "type": "gift", "weight": 10, "index": 11},
+    {"key": "valentine_bear", "title": "💘 Valentin Ayiqchasi (100⭐)", "type": "gift", "weight": 15, "index": 11},
     {"key": "stars500", "title": "⭐️ 500 Stars", "type": "stars", "amount": 500, "weight": 5, "index": 12},
-    {"key": "ring", "title": "💍 Ring Gift (50⭐)", "type": "gift", "weight": 13, "index": 13},
-    {"key": "trophy", "title": "🏆 Trophy Gift (100⭐)", "type": "gift", "weight": 10, "index": 14},
-    {"key": "rocket", "title": "🚀 Rocket Gift (100⭐)", "type": "gift", "weight": 10, "index": 15},
+    {"key": "aprel_bear", "title": "🌸 Aprel Ayiqchasi (100⭐)", "type": "gift", "weight": 15, "index": 13},
+    {"key": "newyear_tree", "title": "🎄 Yangi Yil Archasi (100⭐)", "type": "gift", "weight": 15, "index": 14},
+    {"key": "easter_bear", "title": "🐰 Pasxa Ayiqchasi (100⭐)", "type": "gift", "weight": 15, "index": 15},
     {"key": "premium", "title": "👑 Telegram Premium", "type": "premium", "weight": 5, "index": 16},
-    {"key": "cake", "title": "🎂 Cake Gift (50⭐)", "type": "gift", "weight": 10, "index": 17},
-    {"key": "diamond", "title": "💎 Diamond Gift (50⭐)", "type": "gift", "weight": 10, "index": 18},
-    {"key": "trophy", "title": "🏆 Trophy Gift (100⭐)", "type": "gift", "weight": 10, "index": 19},
+    {"key": "patrick_bear", "title": "🍀 Patrik Ayiqchasi (100⭐)", "type": "gift", "weight": 15, "index": 17},
+    {"key": "valentine_heart", "title": "💕 Valentin Yurakchasi (100⭐)", "type": "gift", "weight": 15, "index": 18},
+    {"key": "newyear_bear", "title": "🎅 Yangi Yil Ayiqchasi (100⭐)", "type": "gift", "weight": 15, "index": 19 },
   ]
 
   all_prizes = classic_prizes + vip_prizes
@@ -1409,7 +1409,10 @@ async def api_spin_play(request: web.Request) -> web.Response:
 
   if forced_key:
     forced_clean = str(forced_key).lower().strip()
-    if forced_clean in ["gift25", "rose", "flower", "box"]:
+    rare_list = ["aprel_bear", "easter_bear", "newyear_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart"]
+    if forced_clean == "rare":
+      forced_clean = random.choice(rare_list)
+    elif forced_clean in ["gift25", "rose", "flower", "box"]:
       forced_clean = random.choice(["rose", "box"])
     elif forced_clean == "stars":
       forced_clean = random.choice(["stars50", "stars100", "stars25"])

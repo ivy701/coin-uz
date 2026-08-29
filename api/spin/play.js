@@ -37,26 +37,26 @@ const CLASSIC_PRIZES = [
 ];
 
 const VIP_PRIZES = [
-  { key: "rocket", title: "🚀 Rocket Gift (100⭐)", type: "gift", weight: 20, index: 0 },
+  { key: "aprel_bear", title: "🌸 Aprel Ayiqchasi (100⭐)", type: "gift", weight: 15, index: 0 },
   { key: "premium", title: "👑 Telegram Premium", type: "premium", weight: 10, index: 1 },
-  { key: "diamond", title: "💎 Diamond Gift (50⭐)", type: "gift", weight: 20, index: 2 },
+  { key: "easter_bear", title: "🐰 Pasxa Ayiqchasi (100⭐)", type: "gift", weight: 15, index: 2 },
   { key: "uzs50000", title: "💰 50 000 UZS Balans", type: "balance", amount: 50000, weight: 5, index: 3 },
-  { key: "trophy", title: "🏆 Trophy Gift (100⭐)", type: "gift", weight: 20, index: 4 },
-  { key: "ring", title: "💍 Ring Gift (50⭐)", type: "gift", weight: 20, index: 5 },
+  { key: "newyear_bear", title: "🎅 Yangi Yil Ayiqchasi (100⭐)", type: "gift", weight: 15, index: 4 },
+  { key: "valentine_heart", title: "💕 Valentin Yurakchasi (100⭐)", type: "gift", weight: 15, index: 5 },
   { key: "stars250", title: "⭐️ 250 Stars", type: "stars", amount: 250, weight: 10, index: 6 },
-  { key: "cake", title: "🎂 Cake Gift (50⭐)", type: "gift", weight: 20, index: 7 },
-  { key: "rocket", title: "🚀 Rocket Gift (100⭐)", type: "gift", weight: 20, index: 8 },
+  { key: "newyear_tree", title: "🎄 Yangi Yil Archasi (100⭐)", type: "gift", weight: 15, index: 7 },
+  { key: "patrick_bear", title: "🍀 Patrik Ayiqchasi (100⭐)", type: "gift", weight: 15, index: 8 },
   { key: "premium", title: "👑 Telegram Premium", type: "premium", weight: 10, index: 9 },
   { key: "uzs100000", title: "💰 100 000 UZS Balans", type: "balance", amount: 100000, weight: 5, index: 10 },
-  { key: "diamond", title: "💎 Diamond Gift (50⭐)", type: "gift", weight: 20, index: 11 },
+  { key: "valentine_bear", title: "💘 Valentin Ayiqchasi (100⭐)", type: "gift", weight: 15, index: 11 },
   { key: "stars500", title: "⭐️ 500 Stars", type: "stars", amount: 500, weight: 5, index: 12 },
-  { key: "ring", title: "💍 Ring Gift (50⭐)", type: "gift", weight: 20, index: 13 },
-  { key: "trophy", title: "🏆 Trophy Gift (100⭐)", type: "gift", weight: 20, index: 14 },
-  { key: "rocket", title: "🚀 Rocket Gift (100⭐)", type: "gift", weight: 20, index: 15 },
+  { key: "aprel_bear", title: "🌸 Aprel Ayiqchasi (100⭐)", type: "gift", weight: 15, index: 13 },
+  { key: "newyear_tree", title: "🎄 Yangi Yil Archasi (100⭐)", type: "gift", weight: 15, index: 14 },
+  { key: "easter_bear", title: "🐰 Pasxa Ayiqchasi (100⭐)", type: "gift", weight: 15, index: 15 },
   { key: "premium", title: "👑 Telegram Premium", type: "premium", weight: 10, index: 16 },
-  { key: "cake", title: "🎂 Cake Gift (50⭐)", type: "gift", weight: 20, index: 17 },
-  { key: "diamond", title: "💎 Diamond Gift (50⭐)", type: "gift", weight: 20, index: 18 },
-  { key: "trophy", title: "🏆 Trophy Gift (100⭐)", type: "gift", weight: 20, index: 19 }
+  { key: "patrick_bear", title: "🍀 Patrik Ayiqchasi (100⭐)", type: "gift", weight: 15, index: 17 },
+  { key: "valentine_heart", title: "💕 Valentin Yurakchasi (100⭐)", type: "gift", weight: 15, index: 18 },
+  { key: "newyear_bear", title: "🎅 Yangi Yil Ayiqchasi (100⭐)", type: "gift", weight: 15, index: 19 }
 ];
 
 const ALL_PRIZES = [...CLASSIC_PRIZES, ...VIP_PRIZES];
@@ -121,7 +121,10 @@ module.exports = async (req, res) => {
 
     if (forcedKey) {
       let searchKey = String(forcedKey).toLowerCase().trim();
-      if (searchKey === 'gift25' || searchKey === 'gift') {
+      const rareKeys = ['aprel_bear', 'easter_bear', 'newyear_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart'];
+      if (searchKey === 'rare') {
+        searchKey = rareKeys[Math.floor(Math.random() * rareKeys.length)];
+      } else if (searchKey === 'gift25' || searchKey === 'gift') {
         searchKey = Math.random() < 0.5 ? 'rose' : 'box';
       } else if (searchKey === 'stars') {
         searchKey = Math.random() < 0.5 ? 'stars50' : 'stars100';
