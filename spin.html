@@ -702,52 +702,57 @@
 
     <div class="prizes-grid">
         <div class="prize-item-card" style="border-color: rgba(251, 191, 36, 0.4);">
-            <div class="prize-item-icon">🧸</div>
+            <div class="prize-item-icon">
+                <img src="images/bear.webp" alt="Teddy Bear" style="width: 32px; height: 32px; object-fit: contain;">
+            </div>
             <div class="prize-item-info">
                 <div class="prize-item-name">Teddy Bear</div>
                 <div class="prize-item-chance">🔥 Eng ko'p sektorlarda!</div>
             </div>
         </div>
-        <div class="prize-item-card" style="border-color: rgba(251, 191, 36, 0.3);">
-            <div class="prize-item-icon">🍾</div>
+        <div class="prize-item-card" style="border-color: rgba(244, 114, 182, 0.3);">
+            <div class="prize-item-icon">
+                <img src="images/bouqet.webp" alt="Bouquet" style="width: 32px; height: 32px; object-fit: contain;">
+            </div>
             <div class="prize-item-info">
-                <div class="prize-item-name">Champagne Gift</div>
-                <div class="prize-item-chance">✨ Shampan / Vino</div>
+                <div class="prize-item-name">Bouquet Gift</div>
+                <div class="prize-item-chance">💐 Katta Guldasta Sovg'a</div>
             </div>
         </div>
-        <div class="prize-item-card">
-            <div class="prize-item-icon">🌹</div>
+        <div class="prize-item-card" style="border-color: rgba(232, 121, 249, 0.3);">
+            <div class="prize-item-icon">
+                <img src="images/box.webp" alt="Gift Box" style="width: 32px; height: 32px; object-fit: contain;">
+            </div>
             <div class="prize-item-info">
-                <div class="prize-item-name">Rose Gift</div>
-                <div class="prize-item-chance">⭐️ Telegram Gift</div>
+                <div class="prize-item-name">Gift Box</div>
+                <div class="prize-item-chance">🎁 Telegram Gift Box</div>
             </div>
         </div>
-        <div class="prize-item-card">
-            <div class="prize-item-icon">💎</div>
+        <div class="prize-item-card" style="border-color: rgba(125, 211, 252, 0.3);">
+            <div class="prize-item-icon">
+                <img src="images/premium.webp" alt="Premium" style="width: 32px; height: 32px; object-fit: contain;">
+            </div>
             <div class="prize-item-info">
                 <div class="prize-item-name">Telegram Premium</div>
-                <div class="prize-item-chance">👑 1 oylik obuna</div>
+                <div class="prize-item-chance">💎 1 oylik obuna</div>
             </div>
         </div>
-        <div class="prize-item-card">
-            <div class="prize-item-icon">🚀</div>
-            <div class="prize-item-info">
-                <div class="prize-item-name">Rocket Gift</div>
-                <div class="prize-item-chance">💫 Super VIP Gift</div>
+        <div class="prize-item-card" style="border-color: rgba(56, 189, 248, 0.3);">
+            <div class="prize-item-icon">
+                <img src="images/star.webp" alt="Stars" style="width: 32px; height: 32px; object-fit: contain;">
             </div>
-        </div>
-        <div class="prize-item-card">
-            <div class="prize-item-icon">⭐️</div>
             <div class="prize-item-info">
                 <div class="prize-item-name">25 / 50 / 100 Stars</div>
-                <div class="prize-item-chance">✨ Telegram Stars</div>
+                <div class="prize-item-chance">⭐️ Telegram Stars</div>
             </div>
         </div>
-        <div class="prize-item-card" style="grid-column: span 2;">
-            <div class="prize-item-icon">💰</div>
+        <div class="prize-item-card" style="border-color: rgba(74, 222, 128, 0.3); grid-column: span 2;">
+            <div class="prize-item-icon">
+                <img src="images/money.webp" alt="Money" style="width: 32px; height: 32px; object-fit: contain;">
+            </div>
             <div class="prize-item-info">
                 <div class="prize-item-name">5 000 / 10 000 / 20 000 UZS Balans</div>
-                <div class="prize-item-chance">💵 Darhol balansingizga qo'shiladi</div>
+                <div class="prize-item-chance">💰 Darhol balansingizga qo'shiladi</div>
             </div>
         </div>
     </div>
@@ -800,36 +805,66 @@
     </div>
 
     <script src="js/common.js"></script>
-    <script>
+        const IMAGE_ASSETS = {
+            bear: 'images/bear.webp',
+            bouqet: 'images/bouqet.webp',
+            box: 'images/box.webp',
+            star: 'images/star.webp',
+            premium: 'images/premium.webp',
+            money: 'images/money.webp'
+        };
+
+        const loadedImages = {};
+
         const PRIZES = [
-            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 0 },
-            { key: "rose", label: "Rose", icon: "🌹", color: "#881337", textCol: "#fda4af", index: 1 },
-            { key: "stars50", label: "50★", icon: "⭐️", color: "#1e3a8a", textCol: "#93c5fd", index: 2 },
-            { key: "uzs10000", label: "10k", icon: "💰", color: "#064e3b", textCol: "#6ee7b7", index: 3 },
-            { key: "champagne", label: "Shampan", icon: "🍾", color: "#78350f", textCol: "#fde68a", index: 4 },
-            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 5 },
-            { key: "rocket", label: "Rocket", icon: "🚀", color: "#581c87", textCol: "#d8b4fe", index: 6 },
-            { key: "stars25", label: "25★", icon: "⭐️", color: "#1e3a8a", textCol: "#93c5fd", index: 7 },
-            { key: "uzs5000", label: "5k", icon: "💰", color: "#064e3b", textCol: "#6ee7b7", index: 8 },
-            { key: "rose", label: "Rose", icon: "🌹", color: "#881337", textCol: "#fda4af", index: 9 },
-            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 10 },
-            { key: "champagne", label: "Shampan", icon: "🍾", color: "#78350f", textCol: "#fde68a", index: 11 },
-            { key: "stars100", label: "100★", icon: "⭐️", color: "#1e3a8a", textCol: "#93c5fd", index: 12 },
-            { key: "uzs20000", label: "20k", icon: "💰", color: "#064e3b", textCol: "#6ee7b7", index: 13 },
-            { key: "premium", label: "Premium", icon: "💎", color: "#0284c7", textCol: "#bae6fd", index: 14 },
-            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 15 },
-            { key: "rose", label: "Rose", icon: "🌹", color: "#881337", textCol: "#fda4af", index: 16 },
-            { key: "stars50", label: "50★", icon: "⭐️", color: "#1e3a8a", textCol: "#93c5fd", index: 17 },
-            { key: "rocket", label: "Rocket", icon: "🚀", color: "#581c87", textCol: "#d8b4fe", index: 18 },
-            { key: "teddy", label: "Teddy", icon: "🧸", color: "#312e81", textCol: "#fbbf24", index: 19 }
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 0 },
+            { key: "bouqet", label: "Bouquet", title: "💐 Bouquet Gift", type: "gift", imgKey: "bouqet", color: "#831843", textCol: "#f472b6", index: 1 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 2 },
+            { key: "uzs10000", label: "10k", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, imgKey: "money", color: "#064e3b", textCol: "#4ade80", index: 3 },
+            { key: "box", label: "Box", title: "🎁 Gift Box", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 4 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 5 },
+            { key: "premium", label: "Premium", title: "💎 Telegram Premium", type: "premium", imgKey: "premium", color: "#075985", textCol: "#7dd3fc", index: 6 },
+            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 7 },
+            { key: "uzs5000", label: "5k", title: "💰 5 000 UZS Balans", type: "balance", amount: 5000, imgKey: "money", color: "#064e3b", textCol: "#4ade80", index: 8 },
+            { key: "bouqet", label: "Bouquet", title: "💐 Bouquet Gift", type: "gift", imgKey: "bouqet", color: "#831843", textCol: "#f472b6", index: 9 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 10 },
+            { key: "box", label: "Box", title: "🎁 Gift Box", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 11 },
+            { key: "stars100", label: "100★", title: "⭐️ 100 Stars", type: "stars", amount: 100, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 12 },
+            { key: "uzs20000", label: "20k", title: "💰 20 000 UZS Balans", type: "balance", amount: 20000, imgKey: "money", color: "#064e3b", textCol: "#4ade80", index: 13 },
+            { key: "premium", label: "Premium", title: "💎 Telegram Premium", type: "premium", imgKey: "premium", color: "#075985", textCol: "#7dd3fc", index: 14 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 15 },
+            { key: "bouqet", label: "Bouquet", title: "💐 Bouquet Gift", type: "gift", imgKey: "bouqet", color: "#831843", textCol: "#f472b6", index: 16 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", color: "#0f172a", textCol: "#38bdf8", index: 17 },
+            { key: "box", label: "Box", title: "🎁 Gift Box", type: "gift", imgKey: "box", color: "#581c87", textCol: "#e879f9", index: 18 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift", type: "gift", imgKey: "bear", color: "#1e1b4b", textCol: "#fbbf24", index: 19 }
         ];
 
         let currentRotation = 0;
         let isSpinning = false;
         let canSpin = false;
 
+        function preloadAssets(callback) {
+            let loaded = 0;
+            const keys = Object.keys(IMAGE_ASSETS);
+            keys.forEach(k => {
+                const img = new Image();
+                img.onload = () => {
+                    loadedImages[k] = img;
+                    loaded++;
+                    drawWheel();
+                    if (loaded === keys.length && callback) callback();
+                };
+                img.onerror = () => {
+                    loaded++;
+                    if (loaded === keys.length && callback) callback();
+                };
+                img.src = IMAGE_ASSETS[k];
+            });
+        }
+
         function drawWheel() {
             const canvas = document.getElementById('wheelCanvas');
+            if (!canvas) return;
             const ctx = canvas.getContext('2d');
             const numSlices = PRIZES.length;
             const arc = (2 * Math.PI) / numSlices;
@@ -849,8 +884,8 @@
                 ctx.fill();
 
                 // Slice border
-                ctx.strokeStyle = "rgba(255, 255, 255, 0.22)";
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
 
                 // Text & Icon
@@ -858,107 +893,54 @@
                 ctx.translate(cx, cy);
                 ctx.rotate(angle + arc / 2);
 
-                // Draw emoji icon near edge
-                ctx.font = "20px 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText(PRIZES[i].icon, radius - 24, 0);
+                // Draw preloaded WebP image asset
+                const imgObj = loadedImages[PRIZES[i].imgKey];
+                const imgSize = 24;
+                if (imgObj && imgObj.complete && imgObj.naturalWidth !== 0) {
+                    ctx.drawImage(imgObj, radius - 30, -imgSize / 2, imgSize, imgSize);
+                }
 
                 // Draw short label
-                ctx.fillStyle = PRIZES[i].textCol;
-                ctx.font = "bold 13px 'Plus Jakarta Sans', sans-serif";
+                ctx.fillStyle = PRIZES[i].textCol || "#ffffff";
+                ctx.font = "bold 11px 'Plus Jakarta Sans', sans-serif";
                 ctx.textAlign = "right";
                 ctx.textBaseline = "middle";
-                ctx.fillText(PRIZES[i].label, radius - 46, 0);
+                ctx.fillText(PRIZES[i].label, radius - 36, 0);
 
                 ctx.restore();
             }
         }
 
-        let countdownInterval = null;
-
-        function startLiveCountdown(totalSeconds) {
-            if (countdownInterval) clearInterval(countdownInterval);
-
-            const cdCard = document.getElementById('countdownCard');
-            if (cdCard) cdCard.style.display = 'flex';
-
-            let remaining = Math.max(0, Math.floor(totalSeconds));
-
-            function tick() {
-                if (remaining <= 0) {
-                    if (countdownInterval) clearInterval(countdownInterval);
-                    if (cdCard) cdCard.style.display = 'none';
-                    checkSpinStatus();
-                    return;
-                }
-
-                const h = Math.floor(remaining / 3600);
-                const m = Math.floor((remaining % 3600) / 60);
-                const s = Math.floor(remaining % 60);
-
-                const hStr = String(h).padStart(2, '0');
-                const mStr = String(m).padStart(2, '0');
-                const sStr = String(s).padStart(2, '0');
-
-                const elH = document.getElementById('cdHours');
-                const elM = document.getElementById('cdMins');
-                const elS = document.getElementById('cdSecs');
-                if (elH) elH.textContent = hStr;
-                if (elM) elM.textContent = mStr;
-                if (elS) elS.textContent = sStr;
-
-                const badgeEl = document.getElementById('statusBadge');
-                if (badgeEl) badgeEl.textContent = `⏳ ${hStr}:${mStr}:${sStr}`;
-
-                const btn = document.getElementById('spinBtn');
-                if (btn) btn.innerHTML = `<span>⏳ ${hStr}:${mStr}:${sStr} qoldi</span>`;
-
-                remaining--;
-            }
-
-            tick();
-            countdownInterval = setInterval(tick, 1000);
-        }
-
-        function stopLiveCountdown() {
-            if (countdownInterval) clearInterval(countdownInterval);
-            const cdCard = document.getElementById('countdownCard');
-            if (cdCard) cdCard.style.display = 'none';
-        }
-
-        // Secret encrypted promo codes mapping (no one can guess the prize from code name!)
+        // Secret encrypted promo codes mapping
         const PROMO_REWARDS_MAP = {
             // 🧸 Teddy Bear (Ayiqcha)
-            'CS-7711': 'teddy',
-            'CS-781': 'teddy',
-            'BEAR-99': 'teddy',
-            'TEDDY2026': 'teddy',
-            'BEAR777': 'teddy',
+            'CS-7711': 'bear',
+            'CS-781': 'bear',
+            'BEAR-99': 'bear',
+            'TEDDY2026': 'bear',
+            'BEAR777': 'bear',
 
-            // 🍾 Champagne Gift (Shampan / Vino)
-            'CS-8822': 'champagne',
-            'CS-892': 'champagne',
-            'GOLD-77': 'champagne',
-            'VINO2026': 'champagne',
+            // 🎁 Gift Box
+            'CS-8822': 'box',
+            'CS-892': 'box',
+            'GOLD-77': 'box',
+            'VINO2026': 'box',
+            'CS-5544': 'box',
+            'CS-567': 'box',
+            'TURBO-88': 'box',
+            'ROCKET2026': 'box',
 
-            // 🌹 Rose Gift (Atirgul)
-            'CS-3399': 'rose',
-            'CS-345': 'rose',
-            'RUBY-44': 'rose',
-            'ROSE2026': 'rose',
+            // 💐 Bouquet Gift (Guldasta)
+            'CS-3399': 'bouqet',
+            'CS-345': 'bouqet',
+            'RUBY-44': 'bouqet',
+            'ROSE2026': 'bouqet',
 
             // 💎 Telegram Premium (1 oylik obuna)
             'CS-9900': 'premium',
             'CS-911': 'premium',
             'DIAMOND-7': 'premium',
             'PREMIUM2026': 'premium',
-
-            // 🚀 Rocket Gift (VIP Raketa)
-            'CS-5544': 'rocket',
-            'CS-567': 'rocket',
-            'TURBO-88': 'rocket',
-            'ROCKET2026': 'rocket',
 
             // ⭐️ 100 Stars
             'CS-1122': 'stars100',
@@ -972,14 +954,18 @@
             'CASH-20': 'uzs20000',
             'MONEY2026': 'uzs20000',
 
-            // 🎲 General Codes (Defaulting to highest Teddy drop)
-            'CS-2026': 'teddy',
-            'WIN-777': 'teddy',
-            'SPIN777': 'teddy',
-            'LUCKY-VIP': 'teddy',
-            'LUCKY2026': 'teddy',
-            'COINSTATVIP': 'teddy',
-            'GIFT2026': 'teddy'
+            // 🎲 General Codes (Defaulting to Teddy)
+            'CS-2026': 'bear',
+            'WIN-777': 'bear',
+            'SPIN777': 'bear',
+            'LUCKY-VIP': 'bear',
+            'LUCKY2026': 'bear',
+            'COINSTATVIP': 'bear',
+            'GIFT2026': 'bear',
+            'VIP2026': 'bear',
+            'TOP1': 'bear',
+            'TOP2': 'bear',
+            'TOP3': 'bear'
         };
 
         const DEFAULT_PROMO_CODES = Object.keys(PROMO_REWARDS_MAP);
@@ -1285,13 +1271,8 @@
             const descEl = document.getElementById('winDesc');
 
             titleEl.textContent = prize.title || 'Sovg\'a';
-            if (prize.key === 'teddy') iconEl.textContent = '🧸';
-            else if (prize.key === 'champagne') iconEl.textContent = '🍾';
-            else if (prize.key === 'rose') iconEl.textContent = '🌹';
-            else if (prize.key === 'premium') iconEl.textContent = '💎';
-            else if (prize.key === 'rocket') iconEl.textContent = '🚀';
-            else if (prize.key && prize.key.startsWith('stars')) iconEl.textContent = '⭐️';
-            else iconEl.textContent = '💰';
+            const imgKey = prize.imgKey || (prize.key.includes('bear') || prize.key.includes('teddy') ? 'bear' : (prize.key.includes('bouqet') ? 'bouqet' : (prize.key.includes('box') ? 'box' : (prize.key.includes('star') ? 'star' : (prize.key.includes('premium') ? 'premium' : 'money')))));
+            iconEl.innerHTML = `<img src="${IMAGE_ASSETS[imgKey] || 'images/bear.webp'}" alt="Prize" style="width: 80px; height: 80px; object-fit: contain; animation: floatAnim 3s ease-in-out infinite;">`;
 
             if (prize.type === 'balance') {
                 descEl.textContent = `${prize.amount ? prize.amount.toLocaleString('uz-UZ') : ''} UZS avtomatik ravishda balansingizga qo'shildi!`;
@@ -1311,6 +1292,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            preloadAssets(() => drawWheel());
             drawWheel();
             checkSpinStatus();
         });
