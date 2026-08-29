@@ -970,12 +970,11 @@
             star: 'images/star.webp',
             premium: 'images/premium.webp',
             money: 'images/money.webp',
-            rocket: 'images/rocket.webp',
-            diamond: 'images/diamond.webp',
-            ring: 'images/ring.webp',
-            trophy: 'images/trophy.webp',
-            cake: 'images/cake.webp',
             aprel_bear: 'images/aprel_bear.webp',
+            easter_bear: 'images/easter_bear.webp',
+            newyear_bear: 'images/newyear_bear.webp',
+            newyear_tree: 'images/newyear_tree.webp',
+            patrick_bear: 'images/patrick_bear.webp',
             valentine_bear: 'images/valentine_bear.webp',
             valentine_heart: 'images/valentine_heart.webp'
         };
@@ -1270,36 +1269,29 @@
                 ctx.lineWidth = 2.5;
                 ctx.stroke();
 
-                // Slice Content
+                // Slice Content - Pure, Clean, High-Res Gift Icon
                 ctx.save();
                 ctx.translate(cx, cy);
                 ctx.rotate(angle + arc / 2);
 
                 const imgObj = loadedImages[PRIZES[i].imgKey];
-                const imgSize = 44;
+                const imgSize = 48;
                 let drawnImage = false;
 
                 if (imgObj && imgObj.complete && imgObj.naturalWidth !== 0) {
                     try {
-                        ctx.drawImage(imgObj, radius - 56, -imgSize / 2, imgSize, imgSize);
+                        ctx.drawImage(imgObj, radius - 62, -imgSize / 2, imgSize, imgSize);
                         drawnImage = true;
                     } catch(e) {}
                 }
 
                 if (!drawnImage) {
                     // Crisp Emoji Fallback
-                    ctx.font = "26px sans-serif";
+                    ctx.font = "30px sans-serif";
                     ctx.textAlign = "center";
                     ctx.textBaseline = "middle";
-                    ctx.fillText(PRIZES[i].emoji || "🎁", radius - 36, 0);
+                    ctx.fillText(PRIZES[i].emoji || "🎁", radius - 38, 0);
                 }
-
-                // Short text label
-                ctx.fillStyle = PRIZES[i].textCol || "#ffffff";
-                ctx.font = "900 16px 'Plus Jakarta Sans', sans-serif";
-                ctx.textAlign = "right";
-                ctx.textBaseline = "middle";
-                ctx.fillText(PRIZES[i].label, radius - 36, 0);
 
                 ctx.restore();
             }
