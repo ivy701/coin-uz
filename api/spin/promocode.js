@@ -164,6 +164,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).json({
       ok: true,
+      forced_prize: promo.prize_type || 'bear',
       message: 'Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi 🎉'
     });
 

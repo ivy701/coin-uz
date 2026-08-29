@@ -80,6 +80,83 @@ def _is_bot_admin(user_id: int) -> bool:
   return user_id in admin_list
 
 
+# 1. 🧸 FAQAT AYIQCHA BERADIGAN PROMO-KOD (15⭐)
+@router.message(F.text.startswith("/promobear") | F.text.startswith("/addbear"))
+async def cmd_add_promo_bear_menu(message: Message) -> None:
+  if not message.from_user: return
+  if not _is_bot_admin(message.from_user.id):
+    await message.answer(f"❌ Administrator emassiz. ID: <code>{message.from_user.id}</code>", parse_mode="HTML")
+    return
+  parts = (message.text or "").split(maxsplit=1)
+  if len(parts) < 2 or not parts[1].strip():
+    await message.answer("🧸 <b>Ayiqcha (15⭐) promo-kodi yaratish:</b>\n👉 <code>/promobear KOD</code>", parse_mode="HTML")
+    return
+  code = parts[1].strip().upper()
+  from services.database import create_promocode
+  if await create_promocode(code, prize_type="bear"):
+    await message.answer(f"✅ <b>Ayiqcha (15⭐) Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 🧸 Teddy Bear Gift (15⭐)\n📌 <b>Holati:</b> Faol (1 martalik)", parse_mode="HTML")
+  else:
+    await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 2. 💐/🎁 FAQAT 25 TALIK GIFT BERADIGAN PROMO-KOD (25⭐)
+@router.message(F.text.startswith("/promo25") | F.text.startswith("/addgift25") | F.text.startswith("/promogift"))
+async def cmd_add_promo_gift25_menu(message: Message) -> None:
+  if not message.from_user: return
+  if not _is_bot_admin(message.from_user.id):
+    await message.answer(f"❌ Administrator emassiz. ID: <code>{message.from_user.id}</code>", parse_mode="HTML")
+    return
+  parts = (message.text or "").split(maxsplit=1)
+  if len(parts) < 2 or not parts[1].strip():
+    await message.answer("🎁 <b>25 talik Gift (Bouquet / Box) promo-kodi yaratish:</b>\n👉 <code>/promo25 KOD</code>", parse_mode="HTML")
+    return
+  code = parts[1].strip().upper()
+  from services.database import create_promocode
+  if await create_promocode(code, prize_type="gift25"):
+    await message.answer(f"✅ <b>25 talik Gift Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 💐 Bouquet yoki 🎁 Gift Box (25⭐)\n📌 <b>Holati:</b> Faol (1 martalik)", parse_mode="HTML")
+  else:
+    await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 3. ⭐️ FAQAT STARS BERADIGAN PROMO-KOD
+@router.message(F.text.startswith("/promostars") | F.text.startswith("/addstars"))
+async def cmd_add_promo_stars_menu(message: Message) -> None:
+  if not message.from_user: return
+  if not _is_bot_admin(message.from_user.id):
+    await message.answer(f"❌ Administrator emassiz. ID: <code>{message.from_user.id}</code>", parse_mode="HTML")
+    return
+  parts = (message.text or "").split(maxsplit=1)
+  if len(parts) < 2 or not parts[1].strip():
+    await message.answer("⭐️ <b>Stars promo-kodi yaratish:</b>\n👉 <code>/promostars KOD</code>", parse_mode="HTML")
+    return
+  code = parts[1].strip().upper()
+  from services.database import create_promocode
+  if await create_promocode(code, prize_type="stars"):
+    await message.answer(f"✅ <b>Stars Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> ⭐️ Telegram Stars\n📌 <b>Holati:</b> Faol (1 martalik)", parse_mode="HTML")
+  else:
+    await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 4. 💰 FAQAT BALANS (PUL) BERADIGAN PROMO-KOD
+@router.message(F.text.startswith("/promomoney") | F.text.startswith("/addmoney"))
+async def cmd_add_promo_money_menu(message: Message) -> None:
+  if not message.from_user: return
+  if not _is_bot_admin(message.from_user.id):
+    await message.answer(f"❌ Administrator emassiz. ID: <code>{message.from_user.id}</code>", parse_mode="HTML")
+    return
+  parts = (message.text or "").split(maxsplit=1)
+  if len(parts) < 2 or not parts[1].strip():
+    await message.answer("💰 <b>Balans promo-kodi yaratish:</b>\n👉 <code>/promomoney KOD</code>", parse_mode="HTML")
+    return
+  code = parts[1].strip().upper()
+  from services.database import create_promocode
+  if await create_promocode(code, prize_type="money"):
+    await message.answer(f"✅ <b>Balans Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 💰 UZS Balans\n📌 <b>Holati:</b> Faol (1 martalik)", parse_mode="HTML")
+  else:
+    await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 5. 🎲 UMUMIY PROMO-KOD
 @router.message(F.text.startswith("/addpromo") | F.text.startswith("/promo"))
 async def cmd_add_promocode(message: Message) -> None:
   if not message.from_user:
@@ -95,25 +172,26 @@ async def cmd_add_promocode(message: Message) -> None:
   parts = (message.text or "").split(maxsplit=1)
   if len(parts) < 2 or not parts[1].strip():
     await message.answer(
-      "🎟 <b>Yangi Promo-kod yaratish:</b>\n\n"
-      "Buyruqdan so'ng promo-kod nomini yozing:\n"
-      "👉 <code>/addpromo OMAD2026</code>\n"
-      "👉 <code>/promo BEAR777</code>\n"
-      "👉 <code>/promo KOD123</code>\n\n"
-      "<i>Kod faqat 1 martalik ishlaydi va Omad G'ildiragida 1 ta bepul spin beradi.</i>",
+      "🎟 <b>Promo-kod yaratish buyruqlari:</b>\n\n"
+      "🧸 <b>Faqat Ayiqcha (15⭐):</b> <code>/promobear KOD</code>\n"
+      "🎁 <b>25 talik Gift (25⭐):</b> <code>/promo25 KOD</code>\n"
+      "⭐️ <b>Telegram Stars:</b> <code>/promostars KOD</code>\n"
+      "💰 <b>UZS Balans:</b> <code>/promomoney KOD</code>\n"
+      "🎲 <b>Umumiy kod:</b> <code>/addpromo KOD</code>\n\n"
+      "📋 Barcha kodlar ro'yxati: <code>/promolist</code>",
       parse_mode="HTML"
     )
     return
 
   raw_code = parts[1].strip().upper()
   from services.database import create_promocode
-  ok = await create_promocode(raw_code)
+  ok = await create_promocode(raw_code, prize_type="bear")
   if ok:
     await message.answer(
       f"✅ <b>Yangi Promo-kod yaratildi!</b>\n\n"
       f"🎟 <b>Kod:</b> <code>{raw_code}</code>\n"
       f"📌 <b>Holati:</b> Faol (1 martalik)\n"
-      f"🎁 <b>Imkoniyat:</b> Omad G'ildiragida 1 ta bepul aylantirish\n\n"
+      f"🎁 <b>Yutuq:</b> 🧸 Teddy Bear (15⭐) yoki 🎁 Gift (25⭐)\n\n"
       f"<i>Foydalanuvchi bu kodni WebApp'dagi Omad G'ildiragi bo'limiga kiritib bemalol ishlatishi mumkin!</i>",
       parse_mode="HTML"
     )

@@ -1026,20 +1026,21 @@ async def consume_user_bonus_spin(telegram_id: int) -> bool:
     return False
 
 
-async def create_promocode(code: str) -> bool:
+async def create_promocode(code: str, prize_type: str = "bear") -> bool:
     code_clean = code.strip().upper()
+    ptype_clean = prize_type.strip().lower()
     try:
         if IS_SQLITE:
-            await db_conn.execute("INSERT OR REPLACE INTO lucky_promocodes (code, is_used) VALUES ($1, 0)", code_clean)
+            await db_conn.execute("INSERT OR REPLACE INTO lucky_promocodes (code, is_used, prize_type) VALUES ($1, 0, $2)", code_clean, ptype_clean)
         else:
             await db_conn.execute(
                 """
-                INSERT INTO lucky_promocodes (code, is_used) 
-                VALUES ($1, FALSE) 
+                INSERT INTO lucky_promocodes (code, is_used, prize_type) 
+                VALUES ($1, FALSE, $2) 
                 ON CONFLICT (code) 
-                DO UPDATE SET is_used = FALSE, used_by_id = NULL, used_by_username = NULL, used_by_name = NULL, used_at = NULL
+                DO UPDATE SET is_used = FALSE, used_by_id = NULL, used_by_username = NULL, used_by_name = NULL, used_at = NULL, prize_type = $2
                 """,
-                code_clean
+                code_clean, ptype_clean
             )
         return True
     except Exception as e:

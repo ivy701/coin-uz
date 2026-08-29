@@ -1140,6 +1140,7 @@
             const myLabel = tgUser?.username ? `@${tgUser.username}` : (tgUser?.first_name || `User#${userId || 1}`);
 
             let serverSuccess = false;
+            let serverData = null;
             let serverError = null;
 
             try {
@@ -1160,6 +1161,7 @@
                 if (data) {
                     if (data.ok) {
                         serverSuccess = true;
+                        serverData = data;
                     } else {
                         serverError = data.error || 'Promo kod yaroqsiz!';
                     }
@@ -1177,7 +1179,16 @@
                 msgEl.style.display = 'block';
                 input.value = '';
                 setLocalBonusSpins(getLocalBonusSpins() + 1);
-                const targetPrize = PROMO_REWARDS_MAP[code] || (Math.random() < 0.6 ? 'bear' : (Math.random() < 0.5 ? 'bouqet' : 'box'));
+                
+                let targetPrize = (serverData && serverData.forced_prize) || PROMO_REWARDS_MAP[code] || 'bear';
+                if (targetPrize === 'gift25') {
+                    targetPrize = Math.random() < 0.5 ? 'bouqet' : 'box';
+                } else if (targetPrize === 'stars') {
+                    targetPrize = Math.random() < 0.5 ? 'stars50' : 'stars100';
+                } else if (targetPrize === 'money') {
+                    targetPrize = Math.random() < 0.5 ? 'money10k' : 'money20k';
+                }
+                
                 nextForcedPrizeKey = targetPrize;
                 try { localStorage.setItem('coinstat_forced_prize', targetPrize); } catch(e) {}
                 if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
@@ -1241,7 +1252,11 @@
             }
 
             if (forcedKey) {
-                const matchedPrizes = PRIZES.filter(p => p.key === forcedKey);
+                let lookupKey = forcedKey;
+                if (lookupKey === 'gift25') lookupKey = Math.random() < 0.5 ? 'bouqet' : 'box';
+                if (lookupKey === 'stars') lookupKey = Math.random() < 0.5 ? 'stars50' : 'stars100';
+                if (lookupKey === 'money') lookupKey = Math.random() < 0.5 ? 'money10k' : 'money20k';
+                const matchedPrizes = PRIZES.filter(p => p.key === lookupKey);
                 if (matchedPrizes.length > 0) {
                     prize = matchedPrizes[Math.floor(Math.random() * matchedPrizes.length)];
                 }
