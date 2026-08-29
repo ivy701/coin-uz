@@ -190,25 +190,48 @@ module.exports = async (req, res) => {
 
     // Send confirmation message in Telegram Bot
     let userMsg = '';
+    let channelMsg = '';
+    const channelId = process.env.CHANNEL_ORDERS || '@coinstatuz_org';
+    const targetStr = username ? `@${username.replace(/^@/, '')}` : `ID: ${userId}`;
+
     if (productType.toLowerCase().includes('premium')) {
       userMsg = 
         `👑 <b>TELEGRAM PREMIUM XARID QILINDI!</b>\n\n` +
-        `👤 Qabul qiluvchi: <b>@${username || userId}</b>\n` +
+        `👤 Qabul qiluvchi: <b>${targetStr}</b>\n` +
         `⏳ Muddat: <b>${quantity} Oylik</b>\n` +
         `💰 To'langan: <b>${price.toLocaleString('uz-UZ')} so'm</b>\n` +
         `👛 Qolgan balans: <b>${newBal.toLocaleString('uz-UZ')} so'm</b>\n\n` +
         `<i>Premium faollashtirildi!</i>`;
+
+      channelMsg = 
+        `💎 <b>CoinStat UZ — Premium Muvaffaqiyatli Yuborildi!</b>\n\n` +
+        `🎯 <b>Qabul qiluvchi:</b> ${targetStr}\n` +
+        `📅 <b>Muddat:</b> ${quantity} oy\n` +
+        `💰 <b>Summa:</b> ${price.toLocaleString('uz-UZ')} so'm\n\n` +
+        `🚀 Premium obuna muvaffaqiyatli faollashtirildi!\n` +
+        `🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot`;
     } else {
       userMsg = 
         `⭐️ <b>STARS XARID QILINDI!</b>\n\n` +
-        `👤 Qabul qiluvchi: <b>@${username || userId}</b>\n` +
+        `👤 Qabul qiluvchi: <b>${targetStr}</b>\n` +
         `💫 Miqdor: <b>${quantity.toLocaleString('uz-UZ')} Stars</b>\n` +
         `💰 To'langan: <b>${price.toLocaleString('uz-UZ')} so'm</b>\n` +
         `👛 Qolgan balans: <b>${newBal.toLocaleString('uz-UZ')} so'm</b>\n\n` +
         `<i>Xaridingiz uchun rahmat! Stars hisobingizga tushdi.</i>`;
+
+      channelMsg = 
+        `⭐️ <b>CoinStat UZ — Stars Muvaffaqiyatli Yuborildi!</b>\n\n` +
+        `🎯 <b>Qabul qiluvchi:</b> ${targetStr}\n` +
+        `💫 <b>Miqdor:</b> ${quantity.toLocaleString('uz-UZ')} Stars\n` +
+        `💰 <b>Summa:</b> ${price.toLocaleString('uz-UZ')} so'm\n\n` +
+        `🚀 Stars hisobga muvaffaqiyatli o'tkazildi!\n` +
+        `🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot`;
     }
 
-    await sendTelegramMessage(botToken, userId, userMsg);
+    await Promise.allSettled([
+      sendTelegramMessage(botToken, userId, userMsg),
+      sendTelegramMessage(botToken, channelId, channelMsg),
+    ]);
 
     return res.status(200).json({
       ok: true,
