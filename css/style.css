@@ -27,28 +27,31 @@
 }
 
 /* =========================================
-   Floating Pill Capsule Dock Bottom Navigation 
+   Full-Width Edge-To-Edge Bottom Navigation
    ========================================= */
 .bottom-dock-nav {
     position: fixed;
-    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-    left: 16px;
-    right: 16px;
-    max-width: 480px;
-    margin: 0 auto;
-    background: rgba(12, 13, 18, 0.96);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 999px;
-    padding: 5px 6px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: rgba(12, 13, 18, 0.98);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 24px 24px 0 0;
+    padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px)) 12px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     z-index: 999;
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 4px 18px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.85);
     user-select: none;
     -webkit-user-select: none;
+    box-sizing: border-box;
 }
 
 /* Moving Active Pill Glider - Sleek Dark Obsidian / Graphite Pill */
@@ -72,9 +75,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 8px 10px;
-    border-radius: 999px;
+    gap: 3px;
+    padding: 6px 12px;
+    border-radius: 16px;
     color: #72778b;
     cursor: pointer;
     text-decoration: none;
@@ -85,14 +88,14 @@
     background: transparent;
     border: none;
     outline: none;
-    transition: color 0.25s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .dock-tab-btn svg {
     width: 22px;
     height: 22px;
     stroke: #72778b;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.2s ease;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.2s ease;
 }
 
 .dock-tab-btn span {
@@ -103,17 +106,19 @@
     transition: color 0.2s ease, font-weight 0.2s ease;
 }
 
-/* Active Tab: Pure White Icon & Text */
+/* Active Tab: Highlighted Pill & White Icon */
 .dock-tab-btn.active {
     color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .dock-tab-btn.active svg {
-    transform: scale(1.1);
     stroke: #ffffff;
+    transform: scale(1.08);
 }
 
 .dock-tab-btn.active span {
+    color: #ffffff;
     font-weight: 800;
     color: #ffffff;
 }
