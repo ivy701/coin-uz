@@ -101,6 +101,33 @@
             text-transform: uppercase;
         }
 
+        .lite-mode-pill-btn {
+            background: #141418;
+            border: 1px solid #222228;
+            color: #a1a1aa;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 6px 11px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .lite-mode-pill-btn:active {
+            transform: scale(0.92);
+        }
+
+        .lite-mode-pill-btn.active {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(37, 99, 235, 0.3) 100%);
+            border-color: #38bdf8;
+            color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+        }
+
         /* Luxury Topographic Black Hero Card (+ 3s Shimmer Glint) */
         .hero-balance-card {
             background: linear-gradient(145deg, #131419 0%, #090a0d 100%);
@@ -443,7 +470,13 @@
                 </div>
             </div>
         </div>
-        <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <button type="button" class="lite-mode-pill-btn" onclick="toggleMainLiteMode()" id="liteModeBtn" title="Animatsiyalarni yoqish/o'chirish">
+                <span class="lite-icon">⚡</span>
+                <span class="lite-text" id="liteModeText">Lite</span>
+            </button>
+            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
+        </div>
     </div>
 
     <!-- Luxury Topographic Black Hero Card (+ 3s Shimmer Glint) -->
@@ -623,6 +656,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadUserBalance();
             fetchTransactions();
+            updateLiteModeButtonUI();
 
             const userId = String(getUserId() || '');
             if (userId) {
@@ -636,6 +670,29 @@
                 holderEl.textContent = u.username ? ('@' + u.username) : (((u.first_name || '') + ' ' + (u.last_name || '')).trim() || 'VIP FOYDALANUVCHI');
             }
         });
+
+        function updateLiteModeButtonUI() {
+            const btn = document.getElementById('liteModeBtn');
+            const txt = document.getElementById('liteModeText');
+            const isLite = localStorage.getItem('coinstat_disable_animations') === 'true';
+            if (btn) {
+                if (isLite) {
+                    btn.classList.add('active');
+                    if (txt) txt.textContent = 'Lite: ON';
+                } else {
+                    btn.classList.remove('active');
+                    if (txt) txt.textContent = 'Lite';
+                }
+            }
+        }
+
+        function toggleMainLiteMode() {
+            const isLite = toggleAnimations();
+            updateLiteModeButtonUI();
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+            }
+        }
 
         async function fetchTransactions() {
             const userId = getUserId();

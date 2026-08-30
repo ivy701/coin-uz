@@ -76,6 +76,12 @@ function initAnimationsSetting() {
     if (isLite) {
         document.documentElement.classList.add('no-animations');
         if (document.body) document.body.classList.add('no-animations');
+        try {
+            document.querySelectorAll('video').forEach(v => {
+                v.pause();
+                v.currentTime = 0;
+            });
+        } catch(e){}
     } else {
         document.documentElement.classList.remove('no-animations');
         if (document.body) document.body.classList.remove('no-animations');

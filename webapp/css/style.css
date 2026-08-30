@@ -1444,7 +1444,7 @@ body.light-theme .stats-pill-btn.active {
 }
 
 /* =========================================
-   Ultra-Fast Lite Mode (Disabled Animations)
+   Ultra-Fast Lite Mode (Disabled Animations & Videos)
    ========================================= */
 html.no-animations *,
 body.no-animations *,
@@ -1461,9 +1461,21 @@ body.no-animations *::after {
   -webkit-transition: none !important;
 }
 
+html.no-animations video,
+body.no-animations video {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 html.no-animations .hero-balance-card::after,
 body.no-animations .hero-balance-card::after {
   display: none !important;
+}
+
+html.no-animations .hero-topo-bg,
+body.no-animations .hero-topo-bg {
+  opacity: 0.2 !important;
 }
 
 html.no-animations .bottom-dock-nav,
