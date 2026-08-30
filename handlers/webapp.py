@@ -40,6 +40,7 @@ async def handle_webapp_data(message: Message):
         "buy_premium": _buy_premium,
         "buy_gift": _buy_gift,
         "buy_phone": _buy_phone,
+        "topup": _topup,
     }
     handler = handlers.get(action)  
     if not handler:
@@ -329,6 +330,59 @@ async def _buy_phone(message: Message, data: dict):
         f"📱 Virtual nomer ({country}) → @{username}\n"
         f"💰 Yangi balans: {(user['balance'] - price):,.0f} so'm\n\n"
         f"<i>Admin tez orada bog'lanadi.</i>",
+        parse_mode="HTML",
+        reply_markup=keyboards.get_webapp_main_keyboard(),
+    )
+
+
+async def _topup(message: Message, data: dict):
+    user_id = message.from_user.id
+    amount = int(data.get("amount", 0))
+    order_id = data.get("order_id") or str(uuid.uuid4())[:8]
+
+    if amount < 1000:
+        await message.answer("❌ Summa kamida 1,000 so'm bo'lishi kerak.")
+        return
+
+    await db.create_order(order_id, user_id, "topup", 1, amount)
+    await db.update_order(order_id, status="pending")
+
+    # Notify admins
+    from aiogram import Bot
+    from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+    import os
+
+    card_number = os.getenv("CARD_NUMBER", "4916 9903 6986 6493")
+    card_owner = os.getenv("CARD_OWNER", "T M")
+
+    admin_kb = InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text="✅ Tasdiqlash (+Balans)", callback_data=f"approve_topup_{order_id}_{user_id}_{amount}"),
+            InlineKeyboardButton(text="❌ Rad etish", callback_data=f"reject_topup_{order_id}_{user_id}"),
+        ]
+    ])
+
+    admin_ids = [int(a) for a in config.ADMINS]
+    for admin_id in admin_ids:
+        try:
+            await message.bot.send_message(
+                admin_id,
+                f"📥 <b>YANGI TO'LOV SO'ROVI (WebApp)!</b>\n\n"
+                f"👤 Foydalanuvchi: @{message.from_user.username or 'Noma`lum'} (<code>{user_id}</code>)\n"
+                f"💰 Summa: <b>{amount:,} so'm</b>\n"
+                f"🆔 Buyurtma ID: <code>{order_id}</code>\n\n"
+                f"<i>Foydalanuvchi to'lov qilganini tasdiqladi. To'lovni tekshirib tasdiqlang:</i>",
+                parse_mode="HTML",
+                reply_markup=admin_kb
+            )
+        except Exception as ex:
+            logger.error("Failed to notify admin %s: %s", admin_id, ex)
+
+    await message.answer(
+        f"✅ <b>To'lov so'rovingiz qabul qilindi!</b>\n\n"
+        f"💰 Summa: <b>{amount:,} so'm</b>\n"
+        f"🆔 Buyurtma ID: <code>{order_id}</code>\n\n"
+        f"<i>Admin tekshirib, hisobingizga balans qo'shadi. Rahmat!</i>",
         parse_mode="HTML",
         reply_markup=keyboards.get_webapp_main_keyboard(),
     )

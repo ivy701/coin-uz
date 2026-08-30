@@ -882,6 +882,7 @@
         async function submitTopup() {
             const userId = getUserId();
             const apiBase = getApiBase();
+            const orderId = 'TOP_' + Date.now();
 
             if (!selectedAmount || selectedAmount < 1000) {
                 if (tg && tg.showAlert) tg.showAlert('Iltimos, to\'g\'ri summa kiriting (kamida 1,000 so\'m)');
@@ -897,31 +898,60 @@
             try {
                 const res = await fetch((apiBase ? apiBase : '') + '/api/order/topup', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
+                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': (tg && tg.initData) ? tg.initData : '' },
                     body: JSON.stringify({
+                        order_id: orderId,
                         telegram_id: userId,
+                        user_id: userId,
                         amount: selectedAmount,
                         payment_method: 'card',
-                        initData: tg.initData || ''
+                        initData: (tg && tg.initData) ? tg.initData : ''
                     })
                 });
 
-                const data = await res.json();
+                let data = null;
+                try {
+                    data = await res.json();
+                } catch (jsonErr) {
+                    console.warn('Non-JSON response from server:', jsonErr);
+                }
+
                 if (data && data.ok) {
                     clearInterval(countdownTimer);
                     if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
                     if (tg && tg.showAlert) {
-                        tg.showAlert(`✅ ${selectedAmount.toLocaleString('uz-UZ')} so'mlik to'lov so'rovingiz qabul qilindi! Admin tasdiqlashi bilan balansga qo'shiladi.`);
+                        tg.showAlert(`✅ ${selectedAmount.toLocaleString('uz-UZ')} so'mlik to'lov so'rovingiz qabul qilindi! Admin tekshirib, hisobingizga balans qo'shadi.`);
                     } else {
                         alert(`✅ ${selectedAmount.toLocaleString('uz-UZ')} so'mlik to'lov so'rovingiz qabul qilindi!`);
                     }
                     setTimeout(() => window.location.href = 'orders.html', 1200);
+                } else if (res.ok || (data && data.order_id)) {
+                    clearInterval(countdownTimer);
+                    if (tg && tg.showAlert) {
+                        tg.showAlert(`✅ To'lov so'rovingiz qabul qilindi! Admin tekshirib, hisobingizga balans qo'shadi.`);
+                    } else {
+                        alert(`✅ To'lov so'rovingiz qabul qilindi!`);
+                    }
+                    setTimeout(() => window.location.href = 'orders.html', 1200);
                 } else {
-                    const err = data?.error || 'Xatolik yuz berdi';
+                    const err = data?.error || 'To\'lov so\'rovini yuborishda xatolik yuz berdi. Iltimos adminga murojaat qiling.';
                     if (tg && tg.showAlert) tg.showAlert(err);
                     else alert(err);
                 }
             } catch (err) {
+                console.error('Submit topup error:', err);
+                // Fallback: If tg.sendData exists (web_app_data)
+                if (tg && typeof tg.sendData === 'function') {
+                    try {
+                        tg.sendData(JSON.stringify({
+                            action: 'topup',
+                            order_id: orderId,
+                            amount: selectedAmount,
+                            user_id: userId
+                        }));
+                        return;
+                    } catch (sdErr) {}
+                }
                 if (tg && tg.showAlert) tg.showAlert('Xatolik: ' + err.message);
                 else alert('Xatolik: ' + err.message);
             } finally {

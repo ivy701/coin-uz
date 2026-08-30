@@ -646,10 +646,13 @@ async def api_order_topup(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
 
   order_id = body.get("order_id")
+  if not order_id:
+    import time
+    order_id = f"TOP_{int(time.time() * 1000)}"
   amount = body.get("amount")
   
-  if not order_id or not amount:
-    return web.json_response({"ok": False, "error": "order_id va amount kerak"}, status=400)
+  if not amount:
+    return web.json_response({"ok": False, "error": "Summa kiritilishi kerak"}, status=400)
   
   try:
     amount_int = int(amount)
