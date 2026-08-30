@@ -685,57 +685,100 @@
         }
 
         .win-modal-card {
-            background: #13141f;
-            border: 1.5px solid #fbbf24;
-            border-radius: 30px;
-            padding: 28px 24px;
+            background: linear-gradient(180deg, #181926 0%, #0e0f17 100%);
+            border: 1.5px solid rgba(251, 191, 36, 0.6);
+            border-radius: 32px;
+            padding: 30px 22px 24px;
             width: 100%;
             max-width: 360px;
             text-align: center;
-            box-shadow: 0 0 50px rgba(251, 191, 36, 0.4);
+            box-shadow: 0 0 60px rgba(251, 191, 36, 0.35), 0 20px 40px rgba(0, 0, 0, 0.8);
             transform: scale(0.85);
             transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .win-modal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 120px;
+            background: radial-gradient(ellipse at top, rgba(251, 191, 36, 0.3) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .win-modal-overlay.active .win-modal-card {
             transform: scale(1);
         }
 
+        .win-badge-tag {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(217, 119, 6, 0.3) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.5);
+            color: #fbbf24;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+        }
+
         .win-icon-burst {
-            font-size: 64px;
-            margin-bottom: 12px;
-            animation: bounceWin 1.5s infinite alternate;
+            position: relative;
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, rgba(20, 21, 29, 0.8) 70%);
+            border: 2px solid rgba(251, 191, 36, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.35);
+            animation: bounceWin 2s infinite ease-in-out;
         }
 
         @keyframes bounceWin {
-            0% { transform: scale(1) rotate(-5deg); }
-            100% { transform: scale(1.15) rotate(5deg); }
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.06); }
         }
 
         .win-title {
             font-size: 24px;
             font-weight: 900;
-            color: #fbbf24;
+            background: linear-gradient(135deg, #ffffff 0%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .win-prize-name {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .win-desc {
             font-size: 13px;
             color: #94a3b8;
             font-weight: 600;
-            line-height: 1.45;
+            line-height: 1.5;
             margin-bottom: 22px;
+            padding: 0 8px;
         }
 
         .win-actions-col {
@@ -748,23 +791,24 @@
         .win-claim-btn {
             width: 100%;
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
-            color: #000;
+            color: #000000;
             border: none;
-            border-radius: 16px;
-            padding: 15px 16px;
+            border-radius: 18px;
+            padding: 16px 18px;
             font-size: 15px;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 6px 22px rgba(245, 158, 11, 0.45);
+            box-shadow: 0 6px 25px rgba(245, 158, 11, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .win-claim-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
+            filter: brightness(1.1);
         }
 
         .win-dismiss-btn {
@@ -772,9 +816,9 @@
             background: rgba(255, 255, 255, 0.08);
             color: #94a3b8;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 11px;
-            font-size: 13px;
+            border-radius: 16px;
+            padding: 13px;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -782,6 +826,7 @@
 
         .win-dismiss-btn:active {
             background: rgba(255, 255, 255, 0.15);
+            transform: scale(0.98);
         }
     </style>
 </head>
@@ -818,7 +863,7 @@
         <button class="spin-mode-tab" id="tabVip" onclick="switchSpinMode('vip')">
             <span class="tab-icon">👑</span>
             <span class="tab-title">VIP Spin</span>
-            <span class="tab-tag vip-gold">50⭐ — 100⭐</span>
+            <span class="tab-tag vip-gold">50⭐ Sovg'alar</span>
         </button>
     </div>
 
@@ -912,15 +957,16 @@
     <!-- Win Modal Popup -->
     <div class="win-modal-overlay" id="winModal">
         <div class="win-modal-card">
+            <div class="win-badge-tag" id="winBadgeTag">🎉 TABRIKLAYMIZ!</div>
             <div class="win-icon-burst" id="winIcon">🎉</div>
-            <div class="win-title">TABRIKLAYMIZ!</div>
+            <div class="win-title" id="winModalTitle">YUTUQ MUBORAK!</div>
             <div class="win-prize-name" id="winPrizeTitle">Teddy Bear Gift</div>
             <div class="win-desc" id="winDesc">Siz muvaffaqiyatli sovg'ani yutib oldingiz! Sovg'a tez orada taqdim etiladi.</div>
             <div class="win-actions-col">
                 <button class="win-claim-btn" id="winClaimBtn" onclick="claimPrizeToAdmin()">
                     <span>🎁 Sovg'ani Olish (Adminga yozish)</span>
                 </button>
-                <button class="win-dismiss-btn" onclick="closeWinModal()">Yopish</button>
+                <button class="win-dismiss-btn" onclick="closeWinModal()">✨ Davom etish</button>
             </div>
         </div>
     </div>
@@ -1611,6 +1657,120 @@
             if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
         }
 
+        // ----------------------------------------------------
+        // PREMIUM AUDIO SYNTHESIZER (Zero latency Web Audio)
+        // ----------------------------------------------------
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    audioCtx = new AudioContext();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        // 1. Mechanical Tick / Sector Click Sound
+        function playTickSound(pitch = 1000) {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(pitch, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.035);
+                gain.gain.setValueAtTime(0.35, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.035);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.035);
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            } catch(e) {}
+        }
+
+        // 2. Whoosh / Spin Start Sound
+        function playWhooshSound() {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(160, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(720, ctx.currentTime + 0.35);
+                gain.gain.setValueAtTime(0.01, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.15);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.45);
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
+            } catch(e) {}
+        }
+
+        // 3. Deluxe Victory / Celebration Chime
+        function playWinSound() {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                // Luxury victory arpeggio: C5 -> E5 -> G5 -> C6 -> E6 -> G6
+                const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
+                notes.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    const startTime = ctx.currentTime + (i * 0.08);
+                    osc.frequency.setValueAtTime(freq, startTime);
+                    gain.gain.setValueAtTime(0, startTime);
+                    gain.gain.linearRampToValueAtTime(0.3, startTime + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.7);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(startTime);
+                    osc.stop(startTime + 0.7);
+                });
+            } catch(e) {}
+        }
+
+        // Realistic Ticking Loop that slows down with wheel inertia
+        function startSpinTicking(durationMs = 5200) {
+            playWhooshSound();
+            const startTime = Date.now();
+            
+            function tickStep() {
+                if (!isSpinning) return;
+                const elapsed = Date.now() - startTime;
+                if (elapsed >= durationMs) return;
+
+                const progress = elapsed / durationMs;
+                // Ticks ease from 30ms up to 420ms
+                const nextDelay = 30 + Math.pow(progress, 3.2) * 390;
+                const pitch = 1100 - (progress * 400);
+                
+                playTickSound(pitch);
+
+                // Deflect needle pointer
+                const pointer = document.getElementById('wheelPointer');
+                if (pointer) {
+                    pointer.style.transform = 'translateX(-50%) rotate(' + ((Math.random() - 0.5) * 20) + 'deg)';
+                    setTimeout(() => {
+                        if (pointer) pointer.style.transform = 'translateX(-50%) rotate(0deg)';
+                    }, nextDelay * 0.4);
+                }
+
+                setTimeout(tickStep, nextDelay);
+            }
+
+            setTimeout(tickStep, 35);
+        }
+
         async function playSpin() {
             if (isSpinning || !canSpin) return;
             const apiBase = getApiBase();
@@ -1628,7 +1788,7 @@
             }
 
             const forcedKey = nextForcedPrizeKey || localStorage.getItem('coinstat_forced_prize');
-            const VIP_KEYS = ['aprel_bear', 'easter_bear', 'newyear_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart', 'rare', 'rocket', 'diamond', 'ring', 'trophy', 'cake', 'premium', 'stars250', 'stars500', 'uzs50000', 'uzs100000', 'vip', 'starvip', 'moneyvip'];
+            const VIP_KEYS = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart', 'rare', 'rocket', 'diamond', 'ring', 'trophy', 'cake', 'premium', 'stars250', 'stars500', 'uzs50000', 'uzs100000', 'vip', 'starvip', 'moneyvip'];
             
             if (forcedKey && VIP_KEYS.includes(forcedKey) && currentMode !== 'vip') {
                 switchSpinMode('vip');
@@ -1659,14 +1819,15 @@
 
             if (forcedKey) {
                 let lookupKey = forcedKey;
-                if (lookupKey === 'rare') {
-                    const rarePicks = ['aprel_bear', 'easter_bear', 'newyear_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart'];
+                if (lookupKey === 'rare' || lookupKey === 'vipgift') {
+                    const rarePicks = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart'];
                     lookupKey = rarePicks[Math.floor(Math.random() * rarePicks.length)];
-                } else if (lookupKey === 'gift25') lookupKey = Math.random() < 0.5 ? 'rose' : 'box';
-                else if (lookupKey === 'stars') lookupKey = Math.random() < 0.5 ? 'stars50' : 'stars100';
-                else if (lookupKey === 'starvip') lookupKey = Math.random() < 0.5 ? 'stars250' : 'stars500';
+                } else if (lookupKey === 'builder' || lookupKey === 'usta') lookupKey = 'builder_bear';
+                else if (lookupKey === 'football' || lookupKey === 'futbol') lookupKey = 'football_bear';
+                else if (lookupKey === 'soldier' || lookupKey === 'jangchi') lookupKey = 'soldier_bear';
+                else if (lookupKey === 'gift25') lookupKey = Math.random() < 0.5 ? 'rose' : 'box';
+                else if (lookupKey === 'stars') lookupKey = 'stars50';
                 else if (lookupKey === 'money') lookupKey = Math.random() < 0.5 ? 'uzs10000' : 'uzs20000';
-                else if (lookupKey === 'moneyvip') lookupKey = Math.random() < 0.5 ? 'uzs50000' : 'uzs100000';
                 
                 const matchedPrizes = PRIZES.filter(p => p.key === lookupKey);
                 if (matchedPrizes.length > 0) {
@@ -1711,7 +1872,8 @@
             const canvas = document.getElementById('wheelCanvas');
             canvas.style.transform = 'rotate(' + currentRotation + 'deg)';
 
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+            // Start sound and mechanical ticking!
+            startSpinTicking(5200);
 
             setTimeout(() => {
                 isSpinning = false;
@@ -1724,33 +1886,66 @@
 
         function showWinModal(prize) {
             currentWonPrize = prize;
+            
+            // Play victory sound!
+            playWinSound();
+
+            // Full screen confetti burst
             if (window.confetti) {
                 window.confetti({
-                    particleCount: 120,
-                    spread: 80,
-                    origin: { y: 0.6 }
+                    particleCount: 150,
+                    spread: 90,
+                    origin: { y: 0.55 },
+                    colors: ['#fbbf24', '#38bdf8', '#a855f7', '#ec4899', '#22c55e']
                 });
+                setTimeout(() => {
+                    if (window.confetti) {
+                        window.confetti({
+                            particleCount: 80,
+                            angle: 60,
+                            spread: 55,
+                            origin: { x: 0 }
+                        });
+                        window.confetti({
+                            particleCount: 80,
+                            angle: 120,
+                            spread: 55,
+                            origin: { x: 1 }
+                        });
+                    }
+                }, 250);
             }
             if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
 
             const modal = document.getElementById('winModal');
             const iconEl = document.getElementById('winIcon');
+            const badgeEl = document.getElementById('winBadgeTag');
+            const modalTitleEl = document.getElementById('winModalTitle');
             const titleEl = document.getElementById('winPrizeTitle');
             const descEl = document.getElementById('winDesc');
             const claimBtn = document.getElementById('winClaimBtn');
 
             titleEl.textContent = prize.title || 'Sovg\'a';
+            const isVip = currentMode === 'vip';
+            
+            if (badgeEl) {
+                badgeEl.textContent = isVip ? '👑 VIP YUTUQ!' : '🎉 TABRIKLAYMIZ!';
+            }
+            if (modalTitleEl) {
+                modalTitleEl.textContent = 'YUTUQ MUBORAK!';
+            }
+
             const imgKey = prize.imgKey || (IMAGE_ASSETS[prize.key] ? prize.key : 'bear');
-            iconEl.innerHTML = `<img src="${IMAGE_ASSETS[imgKey] || 'images/bear.webp'}" alt="Prize" style="width: 80px; height: 80px; object-fit: contain; animation: floatAnim 3s ease-in-out infinite;">`;
+            iconEl.innerHTML = `<img src="${IMAGE_ASSETS[imgKey] || 'images/bear.webp'}" alt="Prize" style="width: 72px; height: 72px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">`;
 
             if (prize.type === 'balance') {
-                descEl.textContent = `${prize.amount ? prize.amount.toLocaleString('uz-UZ') : ''} UZS avtomatik ravishda balansingizga qo'shildi!`;
+                descEl.textContent = `💰 Tabriklaymiz! ${prize.amount ? prize.amount.toLocaleString('uz-UZ') : ''} UZS yutug'i hisobingizga muvaffaqiyatli o'tkazildi!`;
                 if (claimBtn) claimBtn.style.display = 'none';
             } else if (prize.type === 'stars') {
-                descEl.textContent = `${prize.amount || ''} Telegram Stars yutib oldingiz! Sovg'ani qabul qilish uchun quyidagi tugmani bosing.`;
+                descEl.textContent = `⭐️ Tabriklaymiz! Siz ${prize.amount || 50} Telegram Stars sohibi bo'ldingiz! Stars'ni profilingizga o'tkazib olish uchun adminga yozing:`;
                 if (claimBtn) claimBtn.style.display = 'flex';
             } else {
-                descEl.textContent = "Sovg'angizni qabul qilib olish uchun quyidagi tugma orqali adminga xabar yuboring:";
+                descEl.textContent = `🎁 Tabriklaymiz! Siz haqiqiy "${prize.title || 'Telegram Gift'}" sovg'asini yutib oldingiz! Sovg'ani qabul qilib olish uchun adminga yozing:`;
                 if (claimBtn) claimBtn.style.display = 'flex';
             }
 
@@ -1769,7 +1964,7 @@
             
             const messageText = 
                 `Assalomu alaykum! Men ${modeLabel}da sovg'a yutib oldim 🎁\n\n` +
-                `🎁 Sovg'a: ${prizeTitle}\n` +
+                `🎁 Yutuq: ${prizeTitle}\n` +
                 `👤 Foydalanuvchi: ${name}\n` +
                 `🏷 Username: ${uname}\n` +
                 `🆔 Telegram ID: ${userId}\n\n` +
