@@ -32,7 +32,7 @@ function getApiBase() {
 
 
 
-// Initialize animation setting immediately
+// Initialize animation setting immediately & Auto-detect weak devices
 initAnimationsSetting();
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -44,12 +44,35 @@ document.addEventListener('DOMContentLoaded', function () {
     applyTranslations();
     hideLoader();
 
-    // Real-time live balance auto-sync every 3 seconds
-    setInterval(loadUserBalance, 3000);
+    // Optimized battery-friendly balance auto-sync (every 8 seconds, only when tab is visible)
+    setInterval(() => {
+        if (!document.hidden) {
+            loadUserBalance();
+        }
+    }, 8000);
+
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) loadUserBalance();
+    });
 });
 
+function autoDetectLowEndDevice() {
+    const savedSetting = localStorage.getItem('coinstat_disable_animations');
+    if (savedSetting === null) {
+        // Automatically check if phone has weak CPU or low RAM
+        const isLowCore = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+        const isLowRam = navigator.deviceMemory && navigator.deviceMemory <= 3;
+        const isOldAndroid = /Android\s([4-9]\.|10\.)/i.test(navigator.userAgent);
+        if (isLowCore || isLowRam || isOldAndroid) {
+            localStorage.setItem('coinstat_disable_animations', 'true');
+            return true;
+        }
+    }
+    return savedSetting === 'true';
+}
+
 function initAnimationsSetting() {
-    const isLite = localStorage.getItem('coinstat_disable_animations') === 'true';
+    const isLite = autoDetectLowEndDevice();
     if (isLite) {
         document.documentElement.classList.add('no-animations');
         if (document.body) document.body.classList.add('no-animations');
