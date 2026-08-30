@@ -1437,3 +1437,83 @@ body.light-theme .stats-pill-btn.active {
   font-weight: 800;
   color: var(--accent-sky);
 }
+
+/* =========================================
+   Ultra-Fast Lite Mode (Disabled Animations)
+   ========================================= */
+html.no-animations *,
+body.no-animations *,
+html.no-animations *::before,
+body.no-animations *::before,
+html.no-animations *::after,
+body.no-animations *::after {
+  animation: none !important;
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition: none !important;
+  transition-duration: 0.001ms !important;
+  -webkit-animation: none !important;
+  -webkit-transition: none !important;
+}
+
+html.no-animations .hero-balance-card::after,
+body.no-animations .hero-balance-card::after {
+  display: none !important;
+}
+
+html.no-animations .bottom-dock-nav,
+body.no-animations .bottom-dock-nav,
+html.no-animations .hero-pill-btn,
+body.no-animations .hero-pill-btn,
+html.no-animations .stat-card-box,
+body.no-animations .stat-card-box {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Toggle Switch UI */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #272732;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: 0.25s ease;
+  border-radius: 999px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.25s ease;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+  border-color: #38bdf8;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(22px);
+}

@@ -32,7 +32,11 @@ function getApiBase() {
 
 
 
+// Initialize animation setting immediately
+initAnimationsSetting();
+
 document.addEventListener('DOMContentLoaded', function () {
+    initAnimationsSetting();
     initTheme();
     fillUsernameFromTelegram();
     setupUserProfileHeader();
@@ -43,6 +47,27 @@ document.addEventListener('DOMContentLoaded', function () {
     // Real-time live balance auto-sync every 3 seconds
     setInterval(loadUserBalance, 3000);
 });
+
+function initAnimationsSetting() {
+    const isLite = localStorage.getItem('coinstat_disable_animations') === 'true';
+    if (isLite) {
+        document.documentElement.classList.add('no-animations');
+        if (document.body) document.body.classList.add('no-animations');
+    } else {
+        document.documentElement.classList.remove('no-animations');
+        if (document.body) document.body.classList.remove('no-animations');
+    }
+}
+
+function toggleAnimations(disable) {
+    if (typeof disable === 'undefined') {
+        const current = localStorage.getItem('coinstat_disable_animations') === 'true';
+        disable = !current;
+    }
+    localStorage.setItem('coinstat_disable_animations', disable ? 'true' : 'false');
+    initAnimationsSetting();
+    return disable;
+}
 
 function initTheme() {
     const savedTheme = localStorage.getItem('starpay_theme');

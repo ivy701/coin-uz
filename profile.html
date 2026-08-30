@@ -326,6 +326,25 @@
             </div>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
+
+        <!-- Sozlamalar: Animatsiyalarni o'chirish (Tezkor rejim / Lite Mode) -->
+        <div class="menu-action-item" style="cursor: default;">
+            <div class="menu-action-left">
+                <div class="menu-icon-box" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <div>
+                    <div class="menu-action-title">Tezkor Rejim (Lite Mode)</div>
+                    <div class="menu-action-desc">Animatsiyalarni o'chirish (qotmasligi uchun)</div>
+                </div>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="animationToggle" onchange="onAnimationToggleChange(this)">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
     </div>
 
     <!-- Floating Capsule Dock Navigation -->
@@ -369,11 +388,28 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadUserBalance();
             fetchTransactions();
+            initToggleState();
+
             if (tg.initDataUnsafe?.user?.photo_url) {
                 const av = document.getElementById('profileAvatar');
                 if (av) av.src = tg.initDataUnsafe.user.photo_url;
             }
         });
+
+        function initToggleState() {
+            const toggle = document.getElementById('animationToggle');
+            if (toggle) {
+                const isLite = localStorage.getItem('coinstat_disable_animations') === 'true';
+                toggle.checked = isLite;
+            }
+        }
+
+        function onAnimationToggleChange(checkbox) {
+            toggleAnimations(checkbox.checked);
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.selectionChanged();
+            }
+        }
 
         async function fetchTransactions() {
             const userId = getUserId();
