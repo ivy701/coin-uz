@@ -19,22 +19,31 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
             background-color: #000000;
-            background-image: 
-                radial-gradient(circle at 50% 10%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 90% 70%, rgba(245, 158, 11, 0.08) 0%, transparent 45%);
             color: #ffffff;
-            padding: 4px 12px 95px 12px;
-            min-height: 100vh;
             overflow-x: hidden;
+            box-sizing: border-box;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
 
+        body {
+            background-image: 
+                radial-gradient(circle at 50% 10%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 70%, rgba(245, 158, 11, 0.08) 0%, transparent 45%);
+            padding: 4px 8px 90px 8px;
+            min-height: 100vh;
+        }
+
         body::-webkit-scrollbar {
             display: none;
+            width: 0;
+            height: 0;
         }
 
         .gift-top-bar {
@@ -42,8 +51,10 @@
             align-items: center;
             justify-content: space-between;
             margin-top: 0;
-            margin-bottom: 12px;
-            padding: 2px 0;
+            margin-bottom: 10px;
+            padding: 0 2px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .back-pill-btn {

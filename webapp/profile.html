@@ -18,18 +18,27 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
             background-color: #000000;
             color: #ffffff;
-            padding: 4px 12px 95px 12px;
-            min-height: 100vh;
             overflow-x: hidden;
+            box-sizing: border-box;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
 
+        body {
+            padding: 4px 8px 90px 8px;
+            min-height: 100vh;
+        }
+
         body::-webkit-scrollbar {
             display: none;
+            width: 0;
+            height: 0;
         }
 
         /* Top Bar */
@@ -38,8 +47,10 @@
             align-items: center;
             justify-content: space-between;
             margin-top: 0;
-            margin-bottom: 14px;
-            padding: 2px 0;
+            margin-bottom: 12px;
+            padding: 0 2px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .back-pill-btn {
