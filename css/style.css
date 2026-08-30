@@ -1444,48 +1444,67 @@ body.light-theme .stats-pill-btn.active {
 }
 
 /* =========================================
-   Ultra-Fast Lite Mode (Disabled Animations & Videos)
+   Ultra-Fast Lite Mode (100% ZERO ANIMATIONS)
+   Stops ALL keyframes, transitions, shimmers,
+   glints, crown floats, pulses, and blurs
    ========================================= */
+html.no-animations,
 html.no-animations *,
-body.no-animations *,
 html.no-animations *::before,
-body.no-animations *::before,
 html.no-animations *::after,
+body.no-animations,
+body.no-animations *,
+body.no-animations *::before,
 body.no-animations *::after {
   animation: none !important;
-  animation-duration: 0.001ms !important;
-  animation-iteration-count: 1 !important;
-  transition: none !important;
-  transition-duration: 0.001ms !important;
   -webkit-animation: none !important;
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0s !important;
+  
+  transition: none !important;
   -webkit-transition: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+html.no-animations .hero-balance-card::after,
+body.no-animations .hero-balance-card::after,
+html.no-animations .card-shimmer,
+body.no-animations .card-shimmer,
+html.no-animations .glint-beam,
+body.no-animations .glint-beam,
+html.no-animations .podium-crown,
+body.no-animations .podium-crown,
+html.no-animations .splash-dots-row,
+body.no-animations .splash-dots-row,
+html.no-animations .splash-dot,
+body.no-animations .splash-dot {
+  display: none !important;
+  animation: none !important;
 }
 
 html.no-animations video,
-body.no-animations video {
+body.no-animations video,
+html.no-animations canvas,
+body.no-animations canvas {
   display: none !important;
   visibility: hidden !important;
   pointer-events: none !important;
 }
 
-html.no-animations .hero-balance-card::after,
-body.no-animations .hero-balance-card::after {
-  display: none !important;
-}
-
 html.no-animations .hero-topo-bg,
 body.no-animations .hero-topo-bg {
-  opacity: 0.2 !important;
+  opacity: 0.15 !important;
 }
 
-html.no-animations .bottom-dock-nav,
-body.no-animations .bottom-dock-nav,
-html.no-animations .hero-pill-btn,
-body.no-animations .hero-pill-btn,
-html.no-animations .stat-card-box,
-body.no-animations .stat-card-box {
+html.no-animations *,
+body.no-animations * {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
 }
 
 /* Toggle Switch UI */
