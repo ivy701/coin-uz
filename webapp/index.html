@@ -21,9 +21,15 @@
         body {
             background-color: #000000;
             color: #ffffff;
-            padding: 16px;
-            padding-bottom: 110px;
+            padding: 14px 14px 105px 14px;
             min-height: 100vh;
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         /* Top Header Bar */
@@ -31,8 +37,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 18px;
-            padding: 4px 0;
+            margin-bottom: 16px;
+            padding: 2px 0;
         }
 
         .user-left-info {
@@ -99,12 +105,12 @@
         .hero-balance-card {
             background: linear-gradient(145deg, #131419 0%, #090a0d 100%);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 26px;
-            padding: 22px 20px 20px 20px;
-            margin-bottom: 16px;
+            border-radius: 24px;
+            padding: 18px 18px 16px 18px;
+            margin-bottom: 14px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.14);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.14);
         }
 
         /* Topographic Vector Contour Overlay */
@@ -170,11 +176,11 @@
             z-index: 2;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
         .hero-card-top-label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: #a1a1aa;
             letter-spacing: 1.2px;
@@ -185,11 +191,11 @@
             display: flex;
             align-items: baseline;
             gap: 6px;
-            margin-top: -8px;
+            margin-top: -6px;
         }
 
         .hero-card-balance-num {
-            font-size: 38px;
+            font-size: 34px;
             font-weight: 900;
             color: #ffffff;
             letter-spacing: -0.5px;
@@ -198,7 +204,7 @@
         }
 
         .hero-card-unit {
-            font-size: 19px;
+            font-size: 17px;
             font-weight: 700;
             color: #a1a1aa;
         }
@@ -206,7 +212,7 @@
         .hero-card-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .hero-pill-btn {
@@ -216,8 +222,8 @@
             border: 1px solid rgba(255, 255, 255, 0.16);
             color: #ffffff;
             border-radius: 999px;
-            padding: 10px 18px;
-            font-size: 14px;
+            padding: 9px 15px;
+            font-size: 13px;
             font-weight: 700;
             display: inline-flex;
             align-items: center;
@@ -244,7 +250,7 @@
         }
 
         .pill-star-icon {
-            font-size: 16px;
+            font-size: 15px;
             display: flex;
             align-items: center;
         }
@@ -253,21 +259,21 @@
         .stats-tri-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
+            gap: 8px;
+            margin-bottom: 14px;
         }
 
         .stat-card-box {
             background: #121316;
             border: 1px solid #222328;
-            border-radius: 20px;
-            padding: 14px 10px;
+            border-radius: 18px;
+            padding: 12px 8px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 3px;
         }
 
         .stat-label-text {
@@ -277,7 +283,7 @@
         }
 
         .stat-value-text {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             color: #ffffff;
         }
@@ -292,20 +298,20 @@
         .services-quad-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .service-quad-card {
             background: #121316;
             border: 1px solid #222328;
-            border-radius: 22px;
-            padding: 20px 16px;
+            border-radius: 20px;
+            padding: 15px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             user-select: none;
@@ -321,23 +327,85 @@
         }
 
         .service-icon-wrap {
-            width: 46px;
-            height: 46px;
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .service-icon-wrap img {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
             object-fit: contain;
         }
 
         .service-card-title {
-            font-size: 15px;
+            font-size: 13.5px;
             font-weight: 800;
             color: #ffffff;
+        }
+
+        /* Responsive Media Queries for All Phone Heights */
+        @media screen and (max-height: 750px) {
+            body {
+                padding: 12px 12px 95px 12px;
+            }
+            .top-user-header {
+                margin-bottom: 12px;
+            }
+            .user-avatar-circle {
+                width: 38px;
+                height: 38px;
+            }
+            .hero-balance-card {
+                padding: 15px 14px 13px;
+                margin-bottom: 10px;
+                border-radius: 20px;
+            }
+            .hero-card-balance-num {
+                font-size: 28px;
+            }
+            .hero-pill-btn {
+                padding: 8px 12px;
+                font-size: 12.5px;
+            }
+            .stats-tri-grid {
+                margin-bottom: 10px;
+                gap: 6px;
+            }
+            .stat-card-box {
+                padding: 8px 4px;
+                border-radius: 14px;
+            }
+            .stat-value-text {
+                font-size: 14px;
+            }
+            .vip-spin-banner {
+                padding: 10px 12px !important;
+                margin-bottom: 10px !important;
+                border-radius: 16px !important;
+            }
+            .services-quad-grid {
+                gap: 8px;
+                margin-bottom: 16px;
+            }
+            .service-quad-card {
+                padding: 12px 8px;
+                gap: 6px;
+                border-radius: 16px;
+            }
+            .service-icon-wrap {
+                width: 36px;
+                height: 36px;
+            }
+            .service-icon-wrap img {
+                width: 28px;
+                height: 28px;
+            }
+            .service-card-title {
+                font-size: 12px;
+            }
         }
     </style>
 </head>

@@ -31,20 +31,22 @@
    ========================================= */
 .bottom-dock-nav {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    background: #08090d;
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    left: 16px;
+    right: 16px;
+    max-width: 480px;
+    margin: 0 auto;
+    background: rgba(12, 13, 18, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 999px;
-    padding: 6px 8px;
+    padding: 5px 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     z-index: 999;
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.92), 0 4px 18px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 4px 18px rgba(0, 0, 0, 0.7);
     user-select: none;
     -webkit-user-select: none;
 }
