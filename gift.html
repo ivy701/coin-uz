@@ -634,16 +634,32 @@
 
     <div class="gift-page-header">
         <div class="gift-page-title">
-            <span>🎁 Telegram Sovg'alari</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+                <line x1="12" y1="22" x2="12" y2="7"></line>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+            <span>Telegram Sovg'alari</span>
         </div>
         <div class="gift-page-subtitle">O'zingiz yoki do'stlaringiz uchun original Telegram sovg'alarini xarid qiling!</div>
     </div>
 
     <div class="gift-category-scroll">
         <button class="category-chip active" onclick="filterGifts('all', this)">Barchasi (20)</button>
-        <button class="category-chip" onclick="filterGifts('vip', this)">👑 VIP (10)</button>
-        <button class="category-chip" onclick="filterGifts('classic', this)">🧸 Klassik (3)</button>
-        <button class="category-chip" onclick="filterGifts('deluxe', this)">💎 Hashamatli (7)</button>
+        <button class="category-chip" onclick="filterGifts('vip', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>
+            <span>VIP (10)</span>
+        </button>
+        <button class="category-chip" onclick="filterGifts('classic', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+            <span>Klassik (3)</span>
+        </button>
+        <button class="category-chip" onclick="filterGifts('deluxe', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"></path></svg>
+            <span>Hashamatli (7)</span>
+        </button>
     </div>
 
     <div class="gifts-grid" id="giftsGrid">
@@ -657,13 +673,19 @@
             </div>
             <div class="modal-gift-title" id="modalTitle">Sovg'a</div>
             <div class="modal-gift-price-row">
-                <div class="modal-price-badge" id="modalStars">50⭐ Stars</div>
+                <div class="modal-price-badge" id="modalStars">50 Stars</div>
                 <div class="modal-price-badge" id="modalPrice">10 000 UZS</div>
             </div>
 
             <div class="recipient-tabs">
-                <button type="button" class="recipient-tab active" id="tabSelf" onclick="setRecipientMode('self')">👤 O'zimga</button>
-                <button type="button" class="recipient-tab" id="tabFriend" onclick="setRecipientMode('friend')">🎁 Do'stimga</button>
+                <button type="button" class="recipient-tab active" id="tabSelf" onclick="setRecipientMode('self')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span>O'zimga</span>
+                </button>
+                <button type="button" class="recipient-tab" id="tabFriend" onclick="setRecipientMode('friend')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line></svg>
+                    <span>Do'stimga</span>
+                </button>
             </div>
 
             <div class="modal-input-wrap">
@@ -675,7 +697,8 @@
 
             <div class="modal-actions-col">
                 <button type="button" class="modal-submit-btn" id="modalSubmitBtn" onclick="submitGiftOrder()">
-                    <span>🎁 Sovg'ani Xarid Qilish</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line></svg>
+                    <span>Sovg'ani Xarid Qilish</span>
                 </button>
                 <button type="button" class="modal-cancel-btn" onclick="closeOrderModal()">Bekor qilish</button>
             </div>
@@ -684,13 +707,19 @@
 
     <div class="win-modal-overlay" id="giftCelebrationModal">
         <div class="win-modal-card">
-            <div class="win-badge-tag" id="celebrationBadge">👑 XARID MUBORAK!</div>
+            <div class="win-badge-tag" id="celebrationBadge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>
+                <span>XARID MUBORAK!</span>
+            </div>
             <div class="win-icon-burst">
                 <img id="celebrationImg" src="images/bear.webp" alt="Gift">
             </div>
             <div class="win-modal-title">XARID MUBORAK!</div>
             <div class="win-prize-title" id="celebrationPrizeTitle">Telegram Sovg'asi</div>
-            <button class="win-claim-btn" onclick="claimGiftToAdmin()">🚀 Sovg'ani Qabul Qilish</button>
+            <button class="win-claim-btn" onclick="claimGiftToAdmin()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path></svg>
+                <span>Sovg'ani Qabul Qilish</span>
+            </button>
             <button class="win-close-btn" onclick="closeCelebrationModal()">Yopish</button>
         </div>
     </div>
