@@ -712,8 +712,10 @@
 
     <script src="js/common.js"></script>
     <script>
-        const tg = window.Telegram?.WebApp;
-        if (tg) { tg.ready(); tg.expand(); }
+        var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
+        if (tgApp) {
+            try { tgApp.ready(); tgApp.expand(); } catch(e){}
+        }
 
         const ALL_GIFTS = [
             // VIP 50 Stars Gifts — 10 000 UZS
@@ -768,14 +770,14 @@
             document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
             if (btn) btn.classList.add('active');
             renderGifts();
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            if (tgApp && tgApp.HapticFeedback) tgApp.HapticFeedback.selectionChanged();
         }
 
         function setRecipientMode(mode) {
             const tabSelf = document.getElementById('tabSelf');
             const tabFriend = document.getElementById('tabFriend');
             const unameInput = document.getElementById('targetUsername');
-            const tgUser = tg?.initDataUnsafe?.user;
+            const tgUser = tgApp?.initDataUnsafe?.user;
 
             if (mode === 'self') {
                 if (tabSelf) tabSelf.classList.add('active');
@@ -791,7 +793,7 @@
                 unameInput.value = '';
                 unameInput.focus();
             }
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            if (tgApp && tgApp.HapticFeedback) tgApp.HapticFeedback.selectionChanged();
         }
 
         function openOrderModal(giftId) {
@@ -811,7 +813,7 @@
             }
 
             document.getElementById('orderModal').classList.add('active');
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+            if (tgApp && tgApp.HapticFeedback) tgApp.HapticFeedback.impactOccurred('medium');
         }
 
         function closeOrderModal() {
@@ -834,15 +836,15 @@
             if (window.confetti) {
                 window.confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 } });
             }
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            if (tgApp && tgApp.HapticFeedback) tgApp.HapticFeedback.notificationOccurred('success');
 
             document.getElementById('giftCelebrationModal').classList.add('active');
         }
 
         function claimGiftToAdmin() {
             if (!lastPurchasedGift) return;
-            const userId = tg?.initDataUnsafe?.user?.id || 1;
-            const user = tg?.initDataUnsafe?.user || {};
+            const userId = tgApp?.initDataUnsafe?.user?.id || 1;
+            const user = tgApp?.initDataUnsafe?.user || {};
             const uname = user.username ? ('@' + user.username) : 'Mavjud emas';
             const name = ((user.first_name || '') + ' ' + (user.last_name || '')).trim() || 'Foydalanuvchi';
             
@@ -857,8 +859,8 @@
 
             const adminUrl = `https://t.me/cofeature?text=${encodeURIComponent(messageText)}`;
 
-            if (tg && typeof tg.openTelegramLink === 'function') {
-                tg.openTelegramLink(adminUrl);
+            if (tgApp && typeof tgApp.openTelegramLink === 'function') {
+                tgApp.openTelegramLink(adminUrl);
             } else {
                 window.open(adminUrl, '_blank');
             }
@@ -884,20 +886,20 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span>⏳ Yuborilmoqda...</span>';
 
-            const userId = tg?.initDataUnsafe?.user?.id || 1;
+            const userId = tgApp?.initDataUnsafe?.user?.id || 1;
             const apiBase = (typeof getApiBase === 'function') ? getApiBase() : '';
             const currentGift = selectedGift;
 
             try {
                 const res = await fetch((apiBase ? apiBase : '') + '/api/order/gift', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tgApp?.initData || '' },
                     body: JSON.stringify({
                         telegram_id: userId,
                         username: cleanUsername,
                         gift_name: currentGift.name,
                         amount: currentGift.price,
-                        initData: tg?.initData || ''
+                        initData: tgApp?.initData || ''
                     })
                 });
 
@@ -915,7 +917,7 @@
                         msgEl.textContent = errText;
                         msgEl.style.display = 'block';
                     }
-                    if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                    if (tgApp && tgApp.HapticFeedback) tgApp.HapticFeedback.notificationOccurred('error');
                 }
             } catch(e) {
                 if (msgEl) {
@@ -929,7 +931,7 @@
             submitBtn.innerHTML = "<span>🎁 Sovg'ani Xarid Qilish</span>";
         }
 
-        // Initialize immediately
+        // Render immediately
         renderGifts();
         if (typeof loadUserBalance === 'function') loadUserBalance();
         document.addEventListener('DOMContentLoaded', () => {
