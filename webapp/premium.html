@@ -21,8 +21,9 @@
         body {
             background-color: #000000;
             color: #ffffff;
-            padding: 16px;
-            padding-bottom: 110px;
+            padding: 4px 8px 90px 8px;
+            width: 100%;
+            box-sizing: border-box;
             min-height: 100vh;
         }
 
@@ -31,7 +32,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             padding: 4px 0;
         }
 
@@ -46,6 +47,7 @@
             justify-content: center;
             color: #ffffff;
             cursor: pointer;
+            text-decoration: none;
             transition: all 0.2s ease;
         }
 
@@ -63,20 +65,31 @@
             border-radius: 999px;
         }
 
+        .lang-badge-pill {
+            background: #141418;
+            border: 1px solid #222228;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
         .premium-page-heading {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             color: #ffffff;
             letter-spacing: -0.5px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .premium-heading-icon {
-            width: 38px;
-            height: 38px;
+            width: 32px;
+            height: 32px;
             object-fit: contain;
         }
 
@@ -120,7 +133,7 @@
         }
 
         .plan-title-text {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 800;
             color: #ffffff;
             display: flex;
@@ -171,7 +184,7 @@
             background: #141418;
             border: 1px solid #222228;
             border-radius: 18px;
-            padding: 16px 18px;
+            padding: 14px 16px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
@@ -201,6 +214,7 @@
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         /* Submit CTA */
@@ -230,57 +244,60 @@
 
     <!-- Top Bar -->
     <div class="premium-top-bar">
-        <div class="back-pill-btn" onclick="window.location.href='index.html'">
+        <a href="index.html" class="back-pill-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
-        </div>
-        <div class="balance-badge-pill">
-            <span id="balance">0</span> UZS
+        </a>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="balance-badge-pill">
+                <span id="balance">0</span> UZS
+            </div>
+            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
         </div>
     </div>
 
     <div class="premium-page-heading">
         <img src="images/premium.webp" alt="Telegram Premium" class="premium-heading-icon">
-        <span>Telegram Premium</span>
+        <span data-i18n="premium.title">Telegram Premium</span>
     </div>
 
     <!-- Plans Grid -->
     <div class="premium-plans-grid">
         <!-- 3 Oylik -->
-        <div class="premium-plan-card selected" onclick="selectPlan(3, 135000, this)">
+        <div class="premium-plan-card selected" onclick="selectPlan(3, 160000, this)">
             <div class="plan-left-col">
                 <div class="plan-title-text">
                     <img src="images/premium.webp" alt="Premium" class="plan-premium-icon">
-                    <span>3 Oylik Premium</span>
+                    <span data-i18n="premium.3_months">3 Oylik Premium</span>
                 </div>
-                <div class="plan-price-text">135 000 UZS</div>
+                <div class="plan-price-text">160 000 UZS</div>
             </div>
             <div class="plan-radio-circle"></div>
         </div>
 
         <!-- 6 Oylik -->
-        <div class="premium-plan-card" onclick="selectPlan(6, 210000, this)">
+        <div class="premium-plan-card" onclick="selectPlan(6, 225000, this)">
             <div class="plan-left-col">
                 <div class="plan-title-text">
                     <img src="images/premium.webp" alt="Premium" class="plan-premium-icon">
-                    <span>6 Oylik Premium</span>
+                    <span data-i18n="premium.6_months">6 Oylik Premium</span>
                     <span class="plan-discount-tag">-15%</span>
                 </div>
-                <div class="plan-price-text">210 000 UZS</div>
+                <div class="plan-price-text">225 000 UZS</div>
             </div>
             <div class="plan-radio-circle"></div>
         </div>
 
         <!-- 12 Oylik -->
-        <div class="premium-plan-card" onclick="selectPlan(12, 380000, this)">
+        <div class="premium-plan-card" onclick="selectPlan(12, 390000, this)">
             <div class="plan-left-col">
                 <div class="plan-title-text">
                     <img src="images/premium.webp" alt="Premium" class="plan-premium-icon">
-                    <span>12 Oylik Premium</span>
+                    <span data-i18n="premium.12_months">12 Oylik Premium</span>
                     <span class="plan-discount-tag">-30%</span>
                 </div>
-                <div class="plan-price-text">380 000 UZS</div>
+                <div class="plan-price-text">390 000 UZS</div>
             </div>
             <div class="plan-radio-circle"></div>
         </div>
@@ -289,30 +306,30 @@
     <!-- Recipient Input -->
     <div class="recipient-dark-bar">
         <input type="text" id="username" class="recipient-dark-input" placeholder="@username">
-        <button class="for-me-pill" onclick="setMyUsername()">O'zimga</button>
+        <button class="for-me-pill" onclick="setMyUsername()" data-i18n="stars.recipient_for_me">O'zimga</button>
     </div>
 
     <!-- Submit Button -->
-    <button class="premium-submit-btn" id="submitBtn" onclick="buyPremium()">Sotib olish</button>
+    <button class="premium-submit-btn" id="submitBtn" onclick="buyPremium()" data-i18n="common.buy">Sotib olish</button>
 
     <!-- Floating Capsule Dock Navigation -->
     <div class="bottom-dock-nav">
-        <div class="dock-tab-btn active" onclick="window.location.href='index.html'">
+        <a href="index.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 10.5L12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9z"></path>
                 <path d="M9 21v-7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v7"></path>
             </svg>
-            <span>Asosiy</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='gift.html'">
+            <span data-i18n="nav.home">Asosiy</span>
+        </a>
+        <a href="gift.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 3h12l4 6-10 12L2 9z"></path>
                 <path d="M2 9h20"></path>
                 <path d="M10 3l-3 6 5 12 5-12-3-6"></path>
             </svg>
-            <span>Gift</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='rating.html'">
+            <span data-i18n="nav.gifts">Gift</span>
+        </a>
+        <a href="rating.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
@@ -320,21 +337,21 @@
                 <path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path>
                 <path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path>
             </svg>
-            <span>Top</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='profile.html'">
+            <span data-i18n="nav.rating">Top</span>
+        </a>
+        <a href="profile.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span>Profil</span>
-        </div>
+            <span data-i18n="nav.profile">Profil</span>
+        </a>
     </div>
 
     <script src="js/common.js"></script>
     <script>
         let selectedMonths = 3;
-        let selectedPrice = 135000;
+        let selectedPrice = 160000;
 
         function selectPlan(months, price, el) {
             selectedMonths = months;

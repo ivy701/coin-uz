@@ -623,7 +623,13 @@ const TRANSLATIONS = {
 
         'stars.title': 'Telegram Stars sotib olish',
         'stars.amount': 'Stars miqdori',
+        'stars.custom_title': 'Boshqa miqdor',
+        'stars.custom_sub': 'Ixtiyoriy miqdorni kiriting (min 50)',
+        'stars.recipient_for_me': 'O\'zimga',
         'premium.title': 'Telegram Premium sotib olish',
+        'premium.3_months': '3 Oylik Premium',
+        'premium.6_months': '6 Oylik Premium',
+        'premium.12_months': '12 Oylik Premium',
         'spin.title': 'Lucky Spin — Omadli G\'ildirak',
 
         'common.loading': 'Yuklanmoqda...',
@@ -715,7 +721,13 @@ const TRANSLATIONS = {
 
         'stars.title': 'Купить Telegram Stars',
         'stars.amount': 'Количество Stars',
+        'stars.custom_title': 'Другое количество',
+        'stars.custom_sub': 'Введите любое количество (мин. 50)',
+        'stars.recipient_for_me': 'Себе',
         'premium.title': 'Купить Telegram Premium',
+        'premium.3_months': 'Premium на 3 Месяца',
+        'premium.6_months': 'Premium на 6 Месяцев',
+        'premium.12_months': 'Premium на 12 Месяцев',
         'spin.title': 'Lucky Spin — Колесо Удачи',
 
         'common.loading': 'Загрузка...',
@@ -807,7 +819,13 @@ const TRANSLATIONS = {
 
         'stars.title': 'Buy Telegram Stars',
         'stars.amount': 'Stars Amount',
+        'stars.custom_title': 'Custom Amount',
+        'stars.custom_sub': 'Enter any amount (min 50)',
+        'stars.recipient_for_me': 'For Myself',
         'premium.title': 'Buy Telegram Premium',
+        'premium.3_months': '3 Months Premium',
+        'premium.6_months': '6 Months Premium',
+        'premium.12_months': '12 Months Premium',
         'spin.title': 'Lucky Spin — Lucky Wheel',
 
         'common.loading': 'Loading...',

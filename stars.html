@@ -21,8 +21,9 @@
         body {
             background-color: #000000;
             color: #ffffff;
-            padding: 16px;
-            padding-bottom: 110px;
+            padding: 4px 8px 90px 8px;
+            width: 100%;
+            box-sizing: border-box;
             min-height: 100vh;
         }
 
@@ -31,7 +32,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             padding: 4px 0;
         }
 
@@ -46,6 +47,7 @@
             justify-content: center;
             color: #ffffff;
             cursor: pointer;
+            text-decoration: none;
             transition: all 0.2s ease;
         }
 
@@ -54,19 +56,19 @@
         }
 
         .stars-page-heading {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             color: #ffffff;
             letter-spacing: -0.5px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .stars-heading-icon {
-            width: 38px;
-            height: 38px;
+            width: 32px;
+            height: 32px;
             object-fit: contain;
         }
 
@@ -78,6 +80,17 @@
             font-weight: 700;
             padding: 8px 14px;
             border-radius: 999px;
+        }
+        
+        .lang-badge-pill {
+            background: #141418;
+            border: 1px solid #222228;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 999px;
+            cursor: pointer;
         }
 
         /* 2x2 Star Cards Grid */
@@ -156,22 +169,20 @@
             background: #e4e4e7;
         }
 
-        /* Custom Quantity Card */
+        /* Custom Star Quantity Card */
         .custom-stars-card {
             background: #141418;
             border: 1px solid #222228;
             border-radius: 22px;
-            padding: 18px 16px;
-            margin-bottom: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+            padding: 20px 16px;
+            margin-bottom: 18px;
         }
 
         .custom-stars-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 16px;
         }
 
         .custom-stars-title {
@@ -181,63 +192,62 @@
         }
 
         .custom-stars-sub {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: #71717a;
-            margin-top: 1px;
+            margin-top: 2px;
         }
 
         .custom-star-calc-badge {
-            background: rgba(245, 158, 11, 0.12);
-            border: 1px solid rgba(245, 158, 11, 0.35);
-            color: #f59e0b;
+            background: #27272a;
+            color: #ffffff;
             font-size: 13px;
             font-weight: 800;
-            padding: 5px 12px;
-            border-radius: 999px;
-            letter-spacing: 0.2px;
+            padding: 6px 12px;
+            border-radius: 10px;
         }
 
         .custom-input-row {
             display: flex;
             gap: 10px;
             align-items: center;
+            margin-bottom: 14px;
         }
 
         .custom-input-wrap {
             flex: 1;
-            background: #0c0d10;
-            border: 1px solid #27272a;
-            border-radius: 14px;
-            padding: 11px 14px;
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            transition: border-color 0.2s;
-        }
-
-        .custom-input-wrap:focus-within {
-            border-color: #f59e0b;
         }
 
         .custom-star-field {
-            background: transparent;
-            border: none;
-            outline: none;
+            width: 100%;
+            background: #000000;
+            border: 1px solid #27272a;
+            border-radius: 14px;
+            padding: 13px 14px;
+            padding-right: 70px;
             color: #ffffff;
             font-size: 16px;
-            font-weight: 800;
-            width: 100%;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .custom-star-field:focus {
+            border-color: #f59e0b;
         }
 
         .custom-input-suffix {
+            position: absolute;
+            right: 12px;
             display: flex;
             align-items: center;
             gap: 4px;
-            color: #a1a1aa;
-            font-size: 12px;
+            color: #71717a;
+            font-size: 13px;
             font-weight: 700;
-            white-space: nowrap;
+            pointer-events: none;
         }
 
         .custom-buy-btn {
@@ -245,7 +255,7 @@
             color: #000000;
             border: none;
             border-radius: 14px;
-            padding: 12px 18px;
+            padding: 13px 20px;
             font-size: 14px;
             font-weight: 800;
             cursor: pointer;
@@ -260,9 +270,10 @@
 
         .custom-quick-chips {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             overflow-x: auto;
             scrollbar-width: none;
+            padding-bottom: 2px;
         }
 
         .custom-quick-chips::-webkit-scrollbar {
@@ -270,12 +281,12 @@
         }
 
         .quick-chip-btn {
-            background: #1e1f24;
-            border: 1px solid #2e2f38;
-            color: #a1a1aa;
+            background: #27272a;
+            color: #d4d4d8;
+            border: 1px solid #3f3f46;
             border-radius: 10px;
             padding: 6px 12px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             white-space: nowrap;
@@ -293,8 +304,8 @@
             background: #141418;
             border: 1px solid #222228;
             border-radius: 18px;
-            padding: 16px 18px;
-            margin-bottom: 24px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -323,6 +334,7 @@
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
+            white-space: nowrap;
         }
 
     </style>
@@ -332,19 +344,22 @@
 
     <!-- Header -->
     <div class="stars-top-bar">
-        <div class="back-pill-btn" onclick="window.location.href='index.html'">
+        <a href="index.html" class="back-pill-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
-        </div>
-        <div class="balance-badge-pill">
-            <span id="balance">0</span> UZS
+        </a>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="balance-badge-pill">
+                <span id="balance">0</span> UZS
+            </div>
+            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
         </div>
     </div>
 
     <div class="stars-page-heading">
-        <img src="images/duck_anim.webp" alt="Telegram Stars" class="stars-heading-icon">
-        <span>Telegram Stars</span>
+        <img src="images/star.webp" alt="Telegram Stars" class="stars-heading-icon">
+        <span data-i18n="stars.title">Telegram Stars</span>
     </div>
 
     <!-- 2x2 Stars Grid -->
@@ -358,7 +373,7 @@
                 </div>
                 <div class="star-price-row">9 900 UZS</div>
             </div>
-            <button class="star-buy-button" onclick="buyStarTier(50, 9900, this)">Sotib olish</button>
+            <button class="star-buy-button" onclick="buyStarTier(50, 9900, this)" data-i18n="common.buy">Sotib olish</button>
         </div>
 
         <!-- 100 Stars -->
@@ -371,7 +386,7 @@
                 </div>
                 <div class="star-price-row">19 800 UZS</div>
             </div>
-            <button class="star-buy-button" onclick="buyStarTier(100, 19800, this)">Sotib olish</button>
+            <button class="star-buy-button" onclick="buyStarTier(100, 19800, this)" data-i18n="common.buy">Sotib olish</button>
         </div>
 
         <!-- 500 Stars -->
@@ -384,7 +399,7 @@
                 </div>
                 <div class="star-price-row">99 000 UZS</div>
             </div>
-            <button class="star-buy-button" onclick="buyStarTier(500, 99000, this)">Sotib olish</button>
+            <button class="star-buy-button" onclick="buyStarTier(500, 99000, this)" data-i18n="common.buy">Sotib olish</button>
         </div>
 
         <!-- 1000 Stars -->
@@ -397,7 +412,7 @@
                 </div>
                 <div class="star-price-row">198 000 UZS</div>
             </div>
-            <button class="star-buy-button" onclick="buyStarTier(1000, 198000, this)">Sotib olish</button>
+            <button class="star-buy-button" onclick="buyStarTier(1000, 198000, this)" data-i18n="common.buy">Sotib olish</button>
         </div>
     </div>
 
@@ -405,8 +420,8 @@
     <div class="custom-stars-card">
         <div class="custom-stars-top">
             <div>
-                <div class="custom-stars-title">Boshqa miqdor</div>
-                <div class="custom-stars-sub">Ixtiyoriy miqdorni kiriting (min 50)</div>
+                <div class="custom-stars-title" data-i18n="stars.custom_title">Boshqa miqdor</div>
+                <div class="custom-stars-sub" data-i18n="stars.custom_sub">Ixtiyoriy miqdorni kiriting (min 50)</div>
             </div>
             <div class="custom-star-calc-badge">
                 <span id="customPricePreview">9 900</span> UZS
@@ -421,7 +436,7 @@
                     <span>Stars</span>
                 </div>
             </div>
-            <button class="custom-buy-btn" id="customBuyBtn" onclick="buyCustomStars(this)">
+            <button class="custom-buy-btn" id="customBuyBtn" onclick="buyCustomStars(this)" data-i18n="common.buy">
                 Sotib olish
             </button>
         </div>
@@ -439,27 +454,27 @@
     <!-- Recipient Input -->
     <div class="recipient-dark-bar">
         <input type="text" id="username" class="recipient-dark-input" placeholder="@username">
-        <button class="for-me-pill" onclick="setMyUsername()">O'zimga</button>
+        <button class="for-me-pill" onclick="setMyUsername()" data-i18n="stars.recipient_for_me">O'zimga</button>
     </div>
 
     <!-- Floating Capsule Dock Navigation -->
     <div class="bottom-dock-nav">
-        <div class="dock-tab-btn" onclick="window.location.href='index.html'">
+        <a href="index.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 10.5L12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9z"></path>
                 <path d="M9 21v-7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v7"></path>
             </svg>
-            <span>Asosiy</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='gift.html'">
+            <span data-i18n="nav.home">Asosiy</span>
+        </a>
+        <a href="gift.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 3h12l4 6-10 12L2 9z"></path>
                 <path d="M2 9h20"></path>
                 <path d="M10 3l-3 6 5 12 5-12-3-6"></path>
             </svg>
-            <span>Gift</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='rating.html'">
+            <span data-i18n="nav.gifts">Gift</span>
+        </a>
+        <a href="rating.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
@@ -467,15 +482,15 @@
                 <path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path>
                 <path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path>
             </svg>
-            <span>Top</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='profile.html'">
+            <span data-i18n="nav.rating">Top</span>
+        </a>
+        <a href="profile.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span>Profil</span>
-        </div>
+            <span data-i18n="nav.profile">Profil</span>
+        </a>
     </div>
 
     <script src="js/common.js"></script>
