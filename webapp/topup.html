@@ -806,12 +806,21 @@
             }
 
             const formatted = selectedAmount.toLocaleString('uz-UZ') + ' UZS';
-            document.getElementById('summaryAmountText').textContent = formatted;
-            document.getElementById('noticeAmountText').textContent = formatted;
-            document.getElementById('stepSubtext').textContent = '2-qadam: Kartaga to\'lov qiling';
+            const sumEl = document.getElementById('summaryAmountText');
+            if (sumEl) sumEl.textContent = formatted;
 
-            document.getElementById('step1Container').classList.remove('active');
-            document.getElementById('step2Container').classList.add('active');
+            const stepSubEl = document.getElementById('stepSubtext');
+            if (stepSubEl) {
+                const lang = localStorage.getItem('starpay_lang') || 'uz';
+                if (lang === 'ru') stepSubEl.textContent = 'Шаг 2: Оплатите на карту';
+                else if (lang === 'en') stepSubEl.textContent = 'Step 2: Pay to card';
+                else stepSubEl.textContent = '2-qadam: Kartaga to\'lov qiling';
+            }
+
+            const s1 = document.getElementById('step1Container');
+            const s2 = document.getElementById('step2Container');
+            if (s1) s1.classList.remove('active');
+            if (s2) s2.classList.add('active');
 
             if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
 
@@ -821,9 +830,18 @@
 
         function backToStep1() {
             clearInterval(countdownTimer);
-            document.getElementById('step2Container').classList.remove('active');
-            document.getElementById('step1Container').classList.add('active');
-            document.getElementById('stepSubtext').textContent = '1-qadam: Kerakli to\'lov summasini tanlang';
+            const s1 = document.getElementById('step1Container');
+            const s2 = document.getElementById('step2Container');
+            if (s2) s2.classList.remove('active');
+            if (s1) s1.classList.add('active');
+
+            const stepSubEl = document.getElementById('stepSubtext');
+            if (stepSubEl) {
+                const lang = localStorage.getItem('starpay_lang') || 'uz';
+                if (lang === 'ru') stepSubEl.textContent = 'Шаг 1: Выберите сумму пополнения';
+                else if (lang === 'en') stepSubEl.textContent = 'Step 1: Select top-up amount';
+                else stepSubEl.textContent = '1-qadam: Kerakli to\'lov summasini tanlang';
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
