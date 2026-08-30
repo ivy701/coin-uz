@@ -888,6 +888,10 @@ function applyTranslations() {
         const key = el.getAttribute('data-i18n-title');
         el.title = t(key);
     });
+
+    if (typeof renderGifts === 'function') {
+        renderGifts();
+    }
 }
 
 function toggleLanguage() {

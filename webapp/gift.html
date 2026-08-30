@@ -627,8 +627,11 @@
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </a>
-        <div class="balance-badge-pill">
-            <span data-i18n="gift.balance_label">Balans:</span> <span id="balance">0</span> UZS
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="balance-badge-pill">
+                <span data-i18n="gift.balance_label">Balans:</span> <span id="balance">0</span> UZS
+            </div>
+            <button class="lang-badge-pill" onclick="toggleLanguage(); renderGifts();" id="langBtn">uz</button>
         </div>
     </div>
 
@@ -769,30 +772,30 @@
 
         const ALL_GIFTS = [
             // VIP 50 Stars Gifts — 10 000 UZS
-            { id: 'aprel_bear', name: 'Aprel Ayiqchasi', category: 'vip', stars: 50, price: 10000, img: 'images/aprel_bear.webp', badge: 'VIP' },
-            { id: 'easter_bear', name: 'Pasxa Ayiqchasi', category: 'vip', stars: 50, price: 10000, img: 'images/easter_bear.webp', badge: 'VIP' },
-            { id: 'newyear_bear', name: 'Qorbobo Ayiqchasi', category: 'vip', stars: 50, price: 10000, img: 'images/newyear_bear.webp', badge: 'VIP' },
-            { id: 'builder_bear', name: 'Usta Ayiqchasi', category: 'vip', stars: 50, price: 10000, img: 'images/builder_bear.webp', badge: 'VIP' },
-            { id: 'football_bear', name: 'Futbolchi Ayiqcha', category: 'vip', stars: 50, price: 10000, img: 'images/football_bear.webp', badge: 'VIP' },
-            { id: 'soldier_bear', name: 'Jangchi Ayiqchasi', category: 'vip', stars: 50, price: 10000, img: 'images/soldier_bear.webp', badge: 'VIP' },
-            { id: 'newyear_tree', name: 'Yangi Yil Archasi', category: 'vip', stars: 50, price: 10000, img: 'images/newyear_tree.webp', badge: 'VIP' },
-            { id: 'patrick_bear', name: 'Patrik Ayiqchasi', category: 'vip', stars: 50, price: 10000, img: 'images/patrick_bear.webp', badge: 'VIP' },
-            { id: 'valentine_bear', name: 'Valentin Ayiqchasi', category: 'vip', stars: 50, price: 10000, img: 'images/valentine_bear.webp', badge: 'VIP' },
-            { id: 'valentine_heart', name: 'Valentinka Yurakcha', category: 'vip', stars: 50, price: 10000, img: 'images/valentine_heart.webp', badge: 'VIP' },
+            { id: 'aprel_bear', name_uz: 'Aprel Ayiqchasi', name_ru: 'Апрельский Мишка', name_en: 'April Bear', category: 'vip', stars: 50, price: 10000, img: 'images/aprel_bear.webp', badge: 'VIP' },
+            { id: 'easter_bear', name_uz: 'Pasxa Ayiqchasi', name_ru: 'Пасхальный Мишка', name_en: 'Easter Bear', category: 'vip', stars: 50, price: 10000, img: 'images/easter_bear.webp', badge: 'VIP' },
+            { id: 'newyear_bear', name_uz: 'Qorbobo Ayiqchasi', name_ru: 'Новогодний Мишка', name_en: 'Santa Bear', category: 'vip', stars: 50, price: 10000, img: 'images/newyear_bear.webp', badge: 'VIP' },
+            { id: 'builder_bear', name_uz: 'Usta Ayiqchasi', name_ru: 'Мишка Строитель', name_en: 'Builder Bear', category: 'vip', stars: 50, price: 10000, img: 'images/builder_bear.webp', badge: 'VIP' },
+            { id: 'football_bear', name_uz: 'Futbolchi Ayiqcha', name_ru: 'Мишка Футболист', name_en: 'Football Bear', category: 'vip', stars: 50, price: 10000, img: 'images/football_bear.webp', badge: 'VIP' },
+            { id: 'soldier_bear', name_uz: 'Jangchi Ayiqchasi', name_ru: 'Мишка Солдат', name_en: 'Soldier Bear', category: 'vip', stars: 50, price: 10000, img: 'images/soldier_bear.webp', badge: 'VIP' },
+            { id: 'newyear_tree', name_uz: 'Yangi Yil Archasi', name_ru: 'Новогодняя Ёлка', name_en: 'Christmas Tree', category: 'vip', stars: 50, price: 10000, img: 'images/newyear_tree.webp', badge: 'VIP' },
+            { id: 'patrick_bear', name_uz: 'Patrik Ayiqchasi', name_ru: 'Мишка Патрик', name_en: 'Patrick Bear', category: 'vip', stars: 50, price: 10000, img: 'images/patrick_bear.webp', badge: 'VIP' },
+            { id: 'valentine_bear', name_uz: 'Valentin Ayiqchasi', name_ru: 'Мишка Валентин', name_en: 'Valentine Bear', category: 'vip', stars: 50, price: 10000, img: 'images/valentine_bear.webp', badge: 'VIP' },
+            { id: 'valentine_heart', name_uz: 'Valentinka Yurakcha', name_ru: 'Сердце Валентинка', name_en: 'Valentine Heart', category: 'vip', stars: 50, price: 10000, img: 'images/valentine_heart.webp', badge: 'VIP' },
 
             // Classic 15-25 Stars Gifts
-            { id: 'bear', name: 'Teddy Bear', category: 'classic', stars: 15, price: 2800, img: 'images/bear.webp', badge: '15⭐' },
-            { id: 'rose', name: 'Qizil Atirgul', category: 'classic', stars: 25, price: 5000, img: 'images/rose.webp', badge: '25⭐' },
-            { id: 'box', name: 'Oltin Quticha', category: 'classic', stars: 25, price: 5000, img: 'images/box.webp', badge: '25⭐' },
+            { id: 'bear', name_uz: 'Teddy Bear', name_ru: 'Мишка Тедди', name_en: 'Teddy Bear', category: 'classic', stars: 15, price: 2800, img: 'images/bear.webp', badge: '15⭐' },
+            { id: 'rose', name_uz: 'Qizil Atirgul', name_ru: 'Красная Роза', name_en: 'Red Rose', category: 'classic', stars: 25, price: 5000, img: 'images/rose.webp', badge: '25⭐' },
+            { id: 'box', name_uz: 'Oltin Quticha', name_ru: 'Золотая Коробка', name_en: 'Golden Giftbox', category: 'classic', stars: 25, price: 5000, img: 'images/box.webp', badge: '25⭐' },
 
             // Deluxe 50-100 Stars Gifts
-            { id: 'bouqet', name: 'Guldasta', category: 'deluxe', stars: 50, price: 10000, img: 'images/bouqet.webp', badge: '50⭐' },
-            { id: 'cake', name: 'Bayram Torti', category: 'deluxe', stars: 50, price: 10000, img: 'images/cake.webp', badge: '50⭐' },
-            { id: 'rocket', name: 'Kosmik Raketa', category: 'deluxe', stars: 50, price: 10000, img: 'images/rocket.webp', badge: '50⭐' },
-            { id: 'heart', name: 'Oltin Yurak', category: 'deluxe', stars: 50, price: 10000, img: 'images/heart.webp', badge: '50⭐' },
-            { id: 'diamond', name: 'Brilliant', category: 'deluxe', stars: 100, price: 20000, img: 'images/diamond.webp', badge: '100⭐' },
-            { id: 'ring', name: 'Olmos Uzuk', category: 'deluxe', stars: 100, price: 20000, img: 'images/ring.webp', badge: '100⭐' },
-            { id: 'trophy', name: 'Oltin Kubok', category: 'deluxe', stars: 100, price: 20000, img: 'images/trophy.webp', badge: '100⭐' }
+            { id: 'bouqet', name_uz: 'Guldasta', name_ru: 'Букет Цветов', name_en: 'Bouquet', category: 'deluxe', stars: 50, price: 10000, img: 'images/bouqet.webp', badge: '50⭐' },
+            { id: 'cake', name_uz: 'Bayram Torti', name_ru: 'Праздничный Торт', name_en: 'Birthday Cake', category: 'deluxe', stars: 50, price: 10000, img: 'images/cake.webp', badge: '50⭐' },
+            { id: 'rocket', name_uz: 'Kosmik Raketa', name_ru: 'Космическая Ракета', name_en: 'Space Rocket', category: 'deluxe', stars: 50, price: 10000, img: 'images/rocket.webp', badge: '50⭐' },
+            { id: 'heart', name_uz: 'Oltin Yurak', name_ru: 'Золотое Сердце', name_en: 'Golden Heart', category: 'deluxe', stars: 50, price: 10000, img: 'images/heart.webp', badge: '50⭐' },
+            { id: 'diamond', name_uz: 'Brilliant', name_ru: 'Бриллиант', name_en: 'Diamond', category: 'deluxe', stars: 100, price: 20000, img: 'images/diamond.webp', badge: '100⭐' },
+            { id: 'ring', name_uz: 'Olmos Uzuk', name_ru: 'Кольцо с Бриллиантом', name_en: 'Diamond Ring', category: 'deluxe', stars: 100, price: 20000, img: 'images/ring.webp', badge: '100⭐' },
+            { id: 'trophy', name_uz: 'Oltin Kubok', name_ru: 'Золотой Кубок', name_en: 'Golden Trophy', category: 'deluxe', stars: 100, price: 20000, img: 'images/trophy.webp', badge: '100⭐' }
         ];
 
         let currentCategory = 'all';
@@ -800,19 +803,27 @@
         let lastPurchasedGift = null;
         let lastPurchasedUsername = '';
 
+        function getGiftName(g) {
+            if (!g) return '';
+            const lang = (typeof currentLang !== 'undefined' ? currentLang : (localStorage.getItem('starpay_lang') || 'uz'));
+            return g['name_' + lang] || g.name_uz || g.name || '';
+        }
+
         function renderGifts() {
             const grid = document.getElementById('giftsGrid');
             if (!grid) return;
             const filtered = currentCategory === 'all' ? ALL_GIFTS : ALL_GIFTS.filter(g => g.category === currentCategory);
-            grid.innerHTML = filtered.map(g => `
+            grid.innerHTML = filtered.map(g => {
+                const gName = getGiftName(g);
+                return `
                 <div class="gift-card" onclick="openOrderModal('${g.id}')">
                     <span class="gift-card-badge">${g.badge}</span>
-                    <div class="gift-card-icon-wrap"><img src="${g.img}" alt="${g.name}"></div>
-                    <div class="gift-card-name">${g.name}</div>
+                    <div class="gift-card-icon-wrap"><img src="${g.img}" alt="${gName}"></div>
+                    <div class="gift-card-name">${gName}</div>
                     <div class="gift-card-stars">${g.stars} Stars</div>
                     <button type="button" class="gift-card-buy-btn">${g.price.toLocaleString('uz-UZ')} UZS</button>
                 </div>
-            `).join('');
+            `}).join('');
 
             const isLite = localStorage.getItem('coinstat_disable_animations') === 'true';
             if (isLite && typeof freezeAnimatedImages === 'function') {
@@ -855,8 +866,9 @@
             const gift = ALL_GIFTS.find(g => g.id === giftId);
             if (!gift) return;
             selectedGift = gift;
+            const gName = getGiftName(gift);
             document.getElementById('modalImg').src = gift.img;
-            document.getElementById('modalTitle').textContent = gift.name;
+            document.getElementById('modalTitle').textContent = gName;
             document.getElementById('modalStars').textContent = `${gift.stars}⭐ Stars`;
             document.getElementById('modalPrice').textContent = `${gift.price.toLocaleString('uz-UZ')} UZS`;
             setRecipientMode('self');
@@ -884,9 +896,10 @@
             lastPurchasedGift = gift;
             lastPurchasedUsername = targetUname;
 
+            const gName = getGiftName(gift);
             document.getElementById('celebrationImg').src = gift.img;
             document.getElementById('celebrationBadge').textContent = gift.category === 'vip' ? '👑 VIP XARID!' : '🎉 XARID MUBORAK!';
-            document.getElementById('celebrationPrizeTitle').textContent = `${gift.name} (${gift.stars} Stars)`;
+            document.getElementById('celebrationPrizeTitle').textContent = `${gName} (${gift.stars} Stars)`;
             
             if (window.confetti) {
                 window.confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 } });
