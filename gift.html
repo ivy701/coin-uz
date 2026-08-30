@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CoinStat UZ - Sovg'alar</title>
+    <title>CoinStat UZ — Telegram Sovg'alari</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="css/style.css?v=12.0">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="css/style.css?v=14.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
         * {
             margin: 0;
@@ -19,11 +20,16 @@
         }
 
         body {
-            background-color: #000000;
+            background-color: #08080c;
+            background-image: 
+                radial-gradient(circle at 50% 10%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 70%, rgba(245, 158, 11, 0.08) 0%, transparent 45%);
             color: #ffffff;
             padding: 16px;
-            padding-bottom: 110px;
+            padding-bottom: 120px;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Top Bar */
@@ -31,22 +37,23 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             padding: 4px 0;
         }
 
         .back-pill-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: #141418;
-            border: 1px solid #222228;
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: rgba(24, 25, 34, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .back-pill-btn:active {
@@ -54,144 +61,368 @@
         }
 
         .balance-badge-pill {
-            background: #141418;
-            border: 1px solid #222228;
+            background: linear-gradient(135deg, rgba(24, 25, 34, 0.9) 0%, rgba(18, 19, 26, 0.95) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.3);
             color: #ffffff;
             font-size: 13px;
-            font-weight: 700;
-            padding: 8px 14px;
+            font-weight: 800;
+            padding: 9px 16px;
             border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
-        .gift-page-heading {
+        .balance-badge-pill span {
+            color: #38bdf8;
+        }
+
+        /* Page Heading */
+        .gift-page-header {
+            margin-bottom: 18px;
+        }
+
+        .gift-page-title {
             font-size: 24px;
-            font-weight: 800;
+            font-weight: 900;
             color: #ffffff;
-            letter-spacing: -0.5px;
-            margin-bottom: 20px;
-        }
-
-        /* Coming Soon Hero Banner */
-        .coming-soon-card {
-            background: #121316;
-            border: 1px solid #222328;
-            border-radius: 26px;
-            padding: 32px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .coming-soon-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: #1c1d22;
-            border: 1px solid #2c2d35;
+            letter-spacing: -0.6px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-        }
-
-        .coming-soon-icon img {
-            width: 52px;
-            height: 52px;
-            object-fit: contain;
-        }
-
-        .coming-soon-badge {
-            background: #27272a;
-            color: #ffffff;
-            font-size: 12px;
-            font-weight: 800;
-            padding: 6px 14px;
-            border-radius: 999px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .coming-soon-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: #ffffff;
-        }
-
-        .coming-soon-desc {
-            font-size: 14px;
-            color: #a1a1aa;
-            line-height: 1.5;
-            max-width: 280px;
-        }
-
-        .go-stars-btn {
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 16px;
-            padding: 14px 28px;
-            font-size: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-        }
-
-        .go-stars-btn:active {
-            transform: scale(0.98);
-            background: #e4e4e7;
-        }
-
-        /* 2x4 Preview Grid (Disabled/Preview look) */
-        .preview-grid-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #71717a;
-            margin-bottom: 12px;
-        }
-
-        .gifts-preview-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            opacity: 0.6;
-            margin-bottom: 24px;
-            pointer-events: none;
-        }
-
-        .gift-preview-card {
-            background: #141418;
-            border: 1px solid #222228;
-            border-radius: 20px;
-            padding: 16px 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
             gap: 8px;
         }
 
-        .gift-preview-card img {
-            width: 42px;
-            height: 42px;
-            object-fit: contain;
+        .gift-page-subtitle {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 600;
+            margin-top: 4px;
         }
 
-        .gift-preview-name {
+        /* Category Filter Chips */
+        .gift-category-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 18px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .gift-category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-chip {
+            flex-shrink: 0;
+            background: rgba(24, 25, 34, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .category-chip.active {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.3) 0%, rgba(124, 58, 237, 0.4) 100%);
+            border-color: rgba(168, 85, 247, 0.6);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25);
+        }
+
+        /* Gifts Grid */
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 24px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .gift-card {
+            background: linear-gradient(180deg, rgba(26, 27, 38, 0.95) 0%, rgba(15, 16, 24, 0.98) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 14px 10px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .gift-card:active {
+            transform: scale(0.97);
+        }
+
+        .gift-card-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            color: #fbbf24;
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 999px;
+        }
+
+        .gift-card-icon-wrap {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 4px 0 8px 0;
+        }
+
+        .gift-card-icon-wrap img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+            transition: transform 0.3s ease;
+        }
+
+        .gift-card:hover .gift-card-icon-wrap img {
+            transform: scale(1.08);
+        }
+
+        .gift-card-name {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .gift-card-stars {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+
+        .gift-card-buy-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 9px 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        }
+
+        .gift-card-buy-btn:active {
+            transform: scale(0.96);
+            filter: brightness(1.1);
+        }
+
+        /* Order Modal */
+        .order-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(14px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .order-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .order-modal-card {
+            background: linear-gradient(180deg, #181926 0%, #0e0f17 100%);
+            border: 1.5px solid rgba(56, 189, 248, 0.4);
+            border-radius: 30px;
+            padding: 26px 20px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(56, 189, 248, 0.25), 0 20px 40px rgba(0, 0, 0, 0.8);
+            transform: scale(0.85);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .order-modal-overlay.active .order-modal-card {
+            transform: scale(1);
+        }
+
+        .modal-gift-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .modal-gift-icon img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 14px rgba(0,0,0,0.6));
+            animation: floatGift 3s infinite ease-in-out;
+        }
+
+        @keyframes floatGift {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .modal-gift-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .modal-gift-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .modal-price-badge {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: #38bdf8;
             font-size: 13px;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 999px;
+        }
+
+        .modal-input-wrap {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 16px;
+        }
+
+        .modal-input-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .modal-input-field {
+            width: 100%;
+            background: #101118;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 12px 14px;
+            font-size: 14px;
             font-weight: 700;
             color: #ffffff;
+            outline: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
         }
 
-        .gift-preview-tag {
-            font-size: 11px;
-            font-weight: 600;
-            color: #71717a;
+        .modal-input-field:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
         }
 
+        .modal-status-msg {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            line-height: 1.4;
+            display: none;
+        }
+
+        .modal-status-msg.error {
+            color: #f87171;
+            display: block;
+        }
+
+        .modal-status-msg.success {
+            color: #4ade80;
+            display: block;
+        }
+
+        .modal-actions-col {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .modal-submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .modal-cancel-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-cancel-btn:active {
+            background: rgba(255, 255, 255, 0.15);
+        }
     </style>
 </head>
 
@@ -200,52 +431,61 @@
     <!-- Top Bar -->
     <div class="gift-top-bar">
         <div class="back-pill-btn" onclick="window.location.href='index.html'">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </div>
         <div class="balance-badge-pill">
-            <span id="balance">0</span> UZS
+            <span>Balans:</span> <span id="balance">0</span> UZS
         </div>
     </div>
 
-    <div class="gift-page-heading">Telegram Sovg'alari</div>
-
-    <!-- Coming Soon Card -->
-    <div class="coming-soon-card">
-        <div class="coming-soon-icon">
-            <img src="./images/gift.webp" alt="Gift">
+    <!-- Page Heading -->
+    <div class="gift-page-header">
+        <div class="gift-page-title">
+            <span>🎁 Telegram Sovg'alari</span>
         </div>
-        <div class="coming-soon-badge">Tez kunda</div>
-        <div class="coming-soon-title">Yaqinda ishga tushadi</div>
-        <div class="coming-soon-desc">
-            Telegram Sovg'alar xizmati tez orada ishga tushiriladi. Hozirda Stars va Premium xizmatlaridan foydalanishingiz mumkin!
-        </div>
-        <button class="go-stars-btn" onclick="window.location.href='stars.html'">⭐ Stars xarid qilish</button>
+        <div class="gift-page-subtitle">O'zingiz yoki do'stlaringiz uchun original Telegram sovg'alarini xarid qiling!</div>
     </div>
 
-    <!-- Preview Items Grid -->
-    <div class="preview-grid-title">Rejalashtirilgan sovg'alar</div>
-    <div class="gifts-preview-grid">
-        <div class="gift-preview-card">
-            <img src="./images/cake.webp" alt="Cake">
-            <div class="gift-preview-name">Delicious Cake</div>
-            <div class="gift-preview-tag">Tez kunda</div>
-        </div>
-        <div class="gift-preview-card">
-            <img src="./images/star.webp" alt="Star">
-            <div class="gift-preview-name">Telegram Star</div>
-            <div class="gift-preview-tag">Tez kunda</div>
-        </div>
-        <div class="gift-preview-card">
-            <img src="./images/box.webp" alt="Box">
-            <div class="gift-preview-name">Golden Box</div>
-            <div class="gift-preview-tag">Tez kunda</div>
-        </div>
-        <div class="gift-preview-card">
-            <img src="./images/heart.webp" alt="Heart">
-            <div class="gift-preview-name">Luxury Heart</div>
-            <div class="gift-preview-tag">Tez kunda</div>
+    <!-- Category Filter Chips -->
+    <div class="gift-category-scroll">
+        <button class="category-chip active" onclick="filterGifts('all', this)">Barchasi (20)</button>
+        <button class="category-chip" onclick="filterGifts('vip', this)">👑 VIP Sovg'alar (10)</button>
+        <button class="category-chip" onclick="filterGifts('classic', this)">🧸 Klassik (3)</button>
+        <button class="category-chip" onclick="filterGifts('deluxe', this)">💎 Hashamatli (7)</button>
+    </div>
+
+    <!-- Gifts Grid -->
+    <div class="gifts-grid" id="giftsGrid">
+        <!-- Rendered dynamically via JavaScript -->
+    </div>
+
+    <!-- Order Modal -->
+    <div class="order-modal-overlay" id="orderModal">
+        <div class="order-modal-card">
+            <div class="modal-gift-icon">
+                <img id="modalImg" src="images/bear.webp" alt="Selected Gift">
+            </div>
+            <div class="modal-gift-title" id="modalTitle">Sovg'a</div>
+            <div class="modal-gift-price-row">
+                <div class="modal-price-badge" id="modalStars">50⭐</div>
+                <div class="modal-price-badge" id="modalPrice">14 000 UZS</div>
+            </div>
+
+            <div class="modal-input-wrap">
+                <label class="modal-input-label" for="targetUsername">Qabul qiluvchi Telegram Username:</label>
+                <input type="text" id="targetUsername" class="modal-input-field" placeholder="@username" autocomplete="off" autocapitalize="none">
+            </div>
+
+            <div class="modal-status-msg" id="modalMsg"></div>
+
+            <div class="modal-actions-col">
+                <button type="button" class="modal-submit-btn" id="modalSubmitBtn" onclick="submitGiftOrder()">
+                    <span>🎁 Sovg'ani Yuborish</span>
+                </button>
+                <button type="button" class="modal-cancel-btn" onclick="closeOrderModal()">Bekor qilish</button>
+            </div>
         </div>
     </div>
 
@@ -287,7 +527,174 @@
 
     <script src="js/common.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', loadUserBalance);
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
+
+        const ALL_GIFTS = [
+            // VIP 50 Stars Gifts
+            { id: 'aprel_bear', name: 'Aprel Ayiqchasi', category: 'vip', stars: 50, price: 14000, img: 'images/aprel_bear.webp', badge: 'VIP' },
+            { id: 'easter_bear', name: 'Pasxa Ayiqchasi', category: 'vip', stars: 50, price: 14000, img: 'images/easter_bear.webp', badge: 'VIP' },
+            { id: 'newyear_bear', name: 'Qorbobo Ayiqchasi', category: 'vip', stars: 50, price: 14000, img: 'images/newyear_bear.webp', badge: 'VIP' },
+            { id: 'builder_bear', name: 'Usta Ayiqchasi', category: 'vip', stars: 50, price: 14000, img: 'images/builder_bear.webp', badge: 'VIP' },
+            { id: 'football_bear', name: 'Futbolchi Ayiqcha', category: 'vip', stars: 50, price: 14000, img: 'images/football_bear.webp', badge: 'VIP' },
+            { id: 'soldier_bear', name: 'Jangchi Ayiqchasi', category: 'vip', stars: 50, price: 14000, img: 'images/soldier_bear.webp', badge: 'VIP' },
+            { id: 'newyear_tree', name: 'Yangi Yil Archasi', category: 'vip', stars: 50, price: 14000, img: 'images/newyear_tree.webp', badge: 'VIP' },
+            { id: 'patrick_bear', name: 'Patrik Ayiqchasi', category: 'vip', stars: 50, price: 14000, img: 'images/patrick_bear.webp', badge: 'VIP' },
+            { id: 'valentine_bear', name: 'Valentin Ayiqchasi', category: 'vip', stars: 50, price: 14000, img: 'images/valentine_bear.webp', badge: 'VIP' },
+            { id: 'valentine_heart', name: 'Valentinka Yurakcha', category: 'vip', stars: 50, price: 14000, img: 'images/valentine_heart.webp', badge: 'VIP' },
+
+            // Classic 15-25 Stars Gifts
+            { id: 'bear', name: 'Teddy Bear', category: 'classic', stars: 15, price: 4200, img: 'images/bear.webp', badge: 'Klassik' },
+            { id: 'rose', name: 'Qizil Atirgul', category: 'classic', stars: 25, price: 7000, img: 'images/rose.webp', badge: 'Klassik' },
+            { id: 'box', name: 'Oltin Quticha', category: 'classic', stars: 25, price: 7000, img: 'images/box.webp', badge: 'Klassik' },
+
+            // Deluxe 50-100 Stars Gifts
+            { id: 'bouqet', name: 'Guldasta', category: 'deluxe', stars: 50, price: 14000, img: 'images/bouqet.webp', badge: 'Deluxe' },
+            { id: 'cake', name: 'Bayram Torti', category: 'deluxe', stars: 50, price: 14000, img: 'images/cake.webp', badge: 'Deluxe' },
+            { id: 'heart', name: 'Oltin Yurak', category: 'deluxe', stars: 50, price: 14000, img: 'images/heart.webp', badge: 'Deluxe' },
+            { id: 'diamond', name: 'Brilliant', category: 'deluxe', stars: 100, price: 28000, img: 'images/diamond.webp', badge: '100⭐' },
+            { id: 'rocket', name: 'Kosmik Raketa', category: 'deluxe', stars: 100, price: 28000, img: 'images/rocket.webp', badge: '100⭐' },
+            { id: 'ring', name: 'Olmos Uzuk', category: 'deluxe', stars: 100, price: 28000, img: 'images/ring.webp', badge: '100⭐' },
+            { id: 'trophy', name: 'Oltin Kubok', category: 'deluxe', stars: 100, price: 28000, img: 'images/trophy.webp', badge: '100⭐' }
+        ];
+
+        let currentCategory = 'all';
+        let selectedGift = null;
+
+        function renderGifts() {
+            const grid = document.getElementById('giftsGrid');
+            if (!grid) return;
+
+            const filtered = currentCategory === 'all' 
+                ? ALL_GIFTS 
+                : ALL_GIFTS.filter(g => g.category === currentCategory);
+
+            grid.innerHTML = filtered.map(g => `
+                <div class="gift-card" onclick="openOrderModal('${g.id}')">
+                    <span class="gift-card-badge">${g.badge}</span>
+                    <div class="gift-card-icon-wrap">
+                        <img src="${g.img}" alt="${g.name}">
+                    </div>
+                    <div class="gift-card-name">${g.name}</div>
+                    <div class="gift-card-stars">${g.stars} Telegram Stars</div>
+                    <button type="button" class="gift-card-buy-btn">${g.price.toLocaleString('uz-UZ')} UZS</button>
+                </div>
+            `).join('');
+        }
+
+        function filterGifts(category, btn) {
+            currentCategory = category;
+            document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            renderGifts();
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        }
+
+        function openOrderModal(giftId) {
+            const gift = ALL_GIFTS.find(g => g.id === giftId);
+            if (!gift) return;
+            selectedGift = gift;
+
+            document.getElementById('modalImg').src = gift.img;
+            document.getElementById('modalTitle').textContent = gift.name;
+            document.getElementById('modalStars').textContent = `${gift.stars}⭐ Stars`;
+            document.getElementById('modalPrice').textContent = `${gift.price.toLocaleString('uz-UZ')} UZS`;
+            
+            const unameInput = document.getElementById('targetUsername');
+            const tgUser = tg?.initDataUnsafe?.user;
+            if (tgUser && tgUser.username && !unameInput.value) {
+                unameInput.value = '@' + tgUser.username;
+            }
+
+            const msgEl = document.getElementById('modalMsg');
+            msgEl.className = 'modal-status-msg';
+            msgEl.style.display = 'none';
+
+            document.getElementById('orderModal').classList.add('active');
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.remove('active');
+            selectedGift = null;
+        }
+
+        async function submitGiftOrder() {
+            if (!selectedGift) return;
+
+            const usernameInput = document.getElementById('targetUsername');
+            const rawUsername = (usernameInput.value || '').trim();
+            const cleanUsername = rawUsername.replace(/^@/, '');
+            const msgEl = document.getElementById('modalMsg');
+            const submitBtn = document.getElementById('modalSubmitBtn');
+
+            if (!cleanUsername) {
+                msgEl.className = 'modal-status-msg error';
+                msgEl.textContent = "Iltimos, Telegram username'ni kiriting!";
+                msgEl.style.display = 'block';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>⏳ Yuborilmoqda...</span>';
+
+            const userId = tg?.initDataUnsafe?.user?.id || 1;
+            const apiBase = (typeof getApiBase === 'function') ? getApiBase() : '';
+
+            try {
+                const res = await fetch((apiBase ? apiBase : '') + '/api/order/gift', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+                    body: JSON.stringify({
+                        telegram_id: userId,
+                        username: cleanUsername,
+                        gift_name: selectedGift.name,
+                        amount: selectedGift.price,
+                        initData: tg?.initData || ''
+                    })
+                });
+
+                let data = null;
+                try { data = await res.json(); } catch(e) {}
+
+                if (data && data.ok) {
+                    msgEl.className = 'modal-status-msg success';
+                    msgEl.textContent = `🎉 Tabriklaymiz! "${selectedGift.name}" sovg'asi @${cleanUsername} ga muvaffaqiyatli yuborildi!`;
+                    msgEl.style.display = 'block';
+                    
+                    if (window.confetti) {
+                        window.confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                    }
+                    if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+
+                    setTimeout(() => {
+                        closeOrderModal();
+                        if (typeof loadUserBalance === 'function') loadUserBalance();
+                    }, 2500);
+                } else {
+                    const errText = data?.error || "Hisobingizda mablag' yetarli emas yoki xatolik yuz berdi!";
+                    msgEl.className = 'modal-status-msg error';
+                    msgEl.textContent = errText;
+                    msgEl.style.display = 'block';
+                    if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                }
+            } catch(e) {
+                msgEl.className = 'modal-status-msg error';
+                msgEl.textContent = "Server bilan aloqa o'rnatilmadi. Iltimos, keyinroq qayta urinib ko'ring!";
+                msgEl.style.display = 'block';
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = "<span>🎁 Sovg'ani Yuborish</span>";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGifts();
+            if (typeof loadUserBalance === 'function') loadUserBalance();
+        });
     </script>
 </body>
 
