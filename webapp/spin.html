@@ -639,31 +639,35 @@
 
         .prizes-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
             margin-bottom: 24px;
             width: 100%;
+            max-width: 100%;
             box-sizing: border-box;
         }
 
         .prize-item-card {
-            background: linear-gradient(135deg, rgba(24, 25, 36, 0.9) 0%, rgba(15, 16, 24, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(24, 25, 36, 0.92) 0%, rgba(15, 16, 24, 0.96) 100%);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
-            padding: 12px;
+            border-radius: 16px;
+            padding: 10px 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             backdrop-filter: blur(12px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
             box-sizing: border-box;
-            transition: all 0.2s ease;
+            min-width: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .prize-item-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
@@ -673,31 +677,33 @@
         }
 
         .prize-item-icon img {
-            width: 30px;
-            height: 30px;
+            width: 26px;
+            height: 26px;
             object-fit: contain;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
         .prize-item-info {
             display: flex;
             flex-direction: column;
             min-width: 0;
-            flex: 1;
+            flex: 1 1 0%;
+            overflow: hidden;
         }
 
         .prize-item-name {
-            font-size: 12.5px;
+            font-size: 11.5px;
             font-weight: 800;
             color: #ffffff;
             line-height: 1.25;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            width: 100%;
         }
 
         .prize-item-chance {
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 700;
             color: #fbbf24;
             margin-top: 2px;
@@ -705,6 +711,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            width: 100%;
         }
 
         /* Win Modal */
