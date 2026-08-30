@@ -382,32 +382,172 @@
             display: block;
         }
 
-        .modal-actions-col {
-            width: 100%;
+        /* Recipient Mode Tabs */
+        .recipient-tabs {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            background: #101118;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 3px;
+            margin-bottom: 12px;
+            gap: 4px;
         }
 
-        .modal-submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-            color: #ffffff;
+        .recipient-tab {
+            flex: 1;
+            background: transparent;
             border: none;
-            border-radius: 16px;
-            padding: 14px;
-            font-size: 14px;
-            font-weight: 900;
+            color: #94a3b8;
+            padding: 8px 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            border-radius: 9px;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
             transition: all 0.2s ease;
         }
 
-        .modal-submit-btn:active {
-            transform: scale(0.98);
+        .recipient-tab.active {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
         }
 
-        .modal-cancel-btn {
+        /* Deluxe Celebration Modal (Identical to Wheel Win Modal) */
+        .win-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(14px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .win-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .win-modal-card {
+            background: linear-gradient(180deg, #181926 0%, #0e0f17 100%);
+            border: 1.5px solid rgba(251, 191, 36, 0.6);
+            border-radius: 32px;
+            padding: 28px 22px 22px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(251, 191, 36, 0.35), 0 20px 40px rgba(0, 0, 0, 0.8);
+            transform: scale(0.85);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .win-modal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 120px;
+            background: radial-gradient(ellipse at top, rgba(251, 191, 36, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .win-modal-overlay.active .win-modal-card {
+            transform: scale(1);
+        }
+
+        .win-badge-tag {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(217, 119, 6, 0.3) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.5);
+            color: #fbbf24;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+        }
+
+        .win-icon-burst {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, rgba(20, 21, 29, 0.8) 70%);
+            border: 2px solid rgba(251, 191, 36, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.35);
+        }
+
+        .win-modal-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .win-prize-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #fbbf24;
+            margin-bottom: 10px;
+            text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+        }
+
+        .win-desc {
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.45;
+            margin-bottom: 20px;
+            padding: 0 4px;
+        }
+
+        .win-claim-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            color: #000000;
+            border: none;
+            border-radius: 16px;
+            padding: 15px;
+            font-size: 14.5px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .win-claim-btn:active {
+            transform: scale(0.98);
+            filter: brightness(1.1);
+        }
+
+        .win-close-btn {
             width: 100%;
             background: rgba(255, 255, 255, 0.08);
             color: #94a3b8;
@@ -420,7 +560,7 @@
             transition: all 0.2s ease;
         }
 
-        .modal-cancel-btn:active {
+        .win-close-btn:active {
             background: rgba(255, 255, 255, 0.15);
         }
     </style>
@@ -473,6 +613,12 @@
                 <div class="modal-price-badge" id="modalPrice">14 000 UZS</div>
             </div>
 
+            <!-- Self / Friend Switch -->
+            <div class="recipient-tabs">
+                <button type="button" class="recipient-tab active" id="tabSelf" onclick="setRecipientMode('self')">👤 O'zimga olish</button>
+                <button type="button" class="recipient-tab" id="tabFriend" onclick="setRecipientMode('friend')">🎁 Do'stimga yuborish</button>
+            </div>
+
             <div class="modal-input-wrap">
                 <label class="modal-input-label" for="targetUsername">Qabul qiluvchi Telegram Username:</label>
                 <input type="text" id="targetUsername" class="modal-input-field" placeholder="@username" autocomplete="off" autocapitalize="none">
@@ -482,10 +628,29 @@
 
             <div class="modal-actions-col">
                 <button type="button" class="modal-submit-btn" id="modalSubmitBtn" onclick="submitGiftOrder()">
-                    <span>🎁 Sovg'ani Yuborish</span>
+                    <span>🎁 Sovg'ani Xarid Qilish</span>
                 </button>
                 <button type="button" class="modal-cancel-btn" onclick="closeOrderModal()">Bekor qilish</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Deluxe Gift Celebration Modal (Wheel Style) -->
+    <div class="win-modal-overlay" id="giftCelebrationModal">
+        <div class="win-modal-card">
+            <div class="win-badge-tag" id="celebrationBadge">👑 XARID MUBORAK!</div>
+            <div class="win-icon-burst" id="celebrationIconBurst">
+                <img id="celebrationImg" src="images/bear.webp" alt="Purchased Gift" style="width: 68px; height: 68px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));">
+            </div>
+            <div class="win-modal-title">XARID MUBORAK!</div>
+            <div class="win-prize-title" id="celebrationPrizeTitle">Telegram Sovg'asi</div>
+            <div class="win-desc" id="celebrationDesc">
+                Tabriklaymiz! Siz haqiqiy Telegram sovg'asini muvaffaqiyatli xarid qildingiz! Sovg'angizni profilingizga qabul qilib olish uchun quyidagi tugmani bosing:
+            </div>
+            <button class="win-claim-btn" onclick="claimGiftToAdmin()">
+                <span>🚀 Sovg'ani Qabul Qilish</span>
+            </button>
+            <button class="win-close-btn" onclick="closeCelebrationModal()">Yopish</button>
         </div>
     </div>
 
@@ -533,6 +698,39 @@
             tg.expand();
         }
 
+        // Web Audio Synthesizer
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) audioCtx = new AudioContext();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function playWinSound() {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+                const chords = [523.25, 659.25, 783.99, 1046.50];
+                chords.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                    gain.gain.setValueAtTime(0, now + idx * 0.1);
+                    gain.gain.linearRampToValueAtTime(0.3, now + idx * 0.1 + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 1.2);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + idx * 0.1);
+                    osc.stop(now + idx * 0.1 + 1.3);
+                });
+            } catch(e) {}
+        }
+
         const ALL_GIFTS = [
             // VIP 50 Stars Gifts
             { id: 'aprel_bear', name: 'Aprel Ayiqchasi', category: 'vip', stars: 50, price: 14000, img: 'images/aprel_bear.webp', badge: 'VIP' },
@@ -563,6 +761,8 @@
 
         let currentCategory = 'all';
         let selectedGift = null;
+        let lastPurchasedGift = null;
+        let lastPurchasedUsername = '';
 
         function renderGifts() {
             const grid = document.getElementById('giftsGrid');
@@ -593,6 +793,29 @@
             if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
+        function setRecipientMode(mode) {
+            const tabSelf = document.getElementById('tabSelf');
+            const tabFriend = document.getElementById('tabFriend');
+            const unameInput = document.getElementById('targetUsername');
+            const tgUser = tg?.initDataUnsafe?.user;
+
+            if (mode === 'self') {
+                tabSelf.classList.add('active');
+                tabFriend.classList.remove('active');
+                if (tgUser && tgUser.username) {
+                    unameInput.value = '@' + tgUser.username;
+                } else {
+                    unameInput.value = '';
+                }
+            } else {
+                tabFriend.classList.add('active');
+                tabSelf.classList.remove('active');
+                unameInput.value = '';
+                unameInput.focus();
+            }
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        }
+
         function openOrderModal(giftId) {
             const gift = ALL_GIFTS.find(g => g.id === giftId);
             if (!gift) return;
@@ -603,11 +826,7 @@
             document.getElementById('modalStars').textContent = `${gift.stars}⭐ Stars`;
             document.getElementById('modalPrice').textContent = `${gift.price.toLocaleString('uz-UZ')} UZS`;
             
-            const unameInput = document.getElementById('targetUsername');
-            const tgUser = tg?.initDataUnsafe?.user;
-            if (tgUser && tgUser.username && !unameInput.value) {
-                unameInput.value = '@' + tgUser.username;
-            }
+            setRecipientMode('self');
 
             const msgEl = document.getElementById('modalMsg');
             msgEl.className = 'modal-status-msg';
@@ -620,6 +839,55 @@
         function closeOrderModal() {
             document.getElementById('orderModal').classList.remove('active');
             selectedGift = null;
+        }
+
+        function showCelebrationModal(gift, targetUname) {
+            lastPurchasedGift = gift;
+            lastPurchasedUsername = targetUname;
+
+            document.getElementById('celebrationImg').src = gift.img;
+            document.getElementById('celebrationBadge').textContent = gift.category === 'vip' ? '👑 VIP XARID!' : '🎉 XARID MUBORAK!';
+            document.getElementById('celebrationPrizeTitle').textContent = `${gift.name} (${gift.stars} Stars)`;
+            document.getElementById('celebrationDesc').textContent = 
+                `Tabriklaymiz! Siz haqiqiy "${gift.name}" sovg'asini (@${targetUname} uchun) xarid qildingiz! Sovg'ani Telegram profilingizga qabul qilib olish uchun quyidagi tugmani bosing:`;
+
+            // Victory Sound & Confetti!
+            playWinSound();
+            if (window.confetti) {
+                window.confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 } });
+            }
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+
+            document.getElementById('giftCelebrationModal').classList.add('active');
+        }
+
+        function closeCelebrationModal() {
+            document.getElementById('giftCelebrationModal').classList.remove('active');
+        }
+
+        function claimGiftToAdmin() {
+            if (!lastPurchasedGift) return;
+            const userId = tg?.initDataUnsafe?.user?.id || 1;
+            const user = tg?.initDataUnsafe?.user || {};
+            const uname = user.username ? ('@' + user.username) : 'Mavjud emas';
+            const name = ((user.first_name || '') + ' ' + (user.last_name || '')).trim() || 'Foydalanuvchi';
+            
+            const messageText = 
+                `Assalomu alaykum! Men CoinStat UZ'dan sovg'a sotib oldim 🎁\n\n` +
+                `🎁 Sovg'a: ${lastPurchasedGift.name} (${lastPurchasedGift.stars} Stars)\n` +
+                `👤 Xaridor: ${name}\n` +
+                `🏷 Username: ${uname}\n` +
+                `🎯 Qabul qiluvchi: @${lastPurchasedUsername}\n` +
+                `🆔 Telegram ID: ${userId}\n\n` +
+                `Iltimos, sovg'amni profilimga yuborishingizni so'rayman!`;
+
+            const adminUrl = `https://t.me/cofeature?text=${encodeURIComponent(messageText)}`;
+
+            if (tg && typeof tg.openTelegramLink === 'function') {
+                tg.openTelegramLink(adminUrl);
+            } else {
+                window.open(adminUrl, '_blank');
+            }
         }
 
         async function submitGiftOrder() {
@@ -643,6 +911,7 @@
 
             const userId = tg?.initDataUnsafe?.user?.id || 1;
             const apiBase = (typeof getApiBase === 'function') ? getApiBase() : '';
+            const currentGift = selectedGift;
 
             try {
                 const res = await fetch((apiBase ? apiBase : '') + '/api/order/gift', {
@@ -651,8 +920,8 @@
                     body: JSON.stringify({
                         telegram_id: userId,
                         username: cleanUsername,
-                        gift_name: selectedGift.name,
-                        amount: selectedGift.price,
+                        gift_name: currentGift.name,
+                        amount: currentGift.price,
                         initData: tg?.initData || ''
                     })
                 });
@@ -661,19 +930,9 @@
                 try { data = await res.json(); } catch(e) {}
 
                 if (data && data.ok) {
-                    msgEl.className = 'modal-status-msg success';
-                    msgEl.textContent = `🎉 Tabriklaymiz! "${selectedGift.name}" sovg'asi @${cleanUsername} ga muvaffaqiyatli yuborildi!`;
-                    msgEl.style.display = 'block';
-                    
-                    if (window.confetti) {
-                        window.confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                    }
-                    if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-
-                    setTimeout(() => {
-                        closeOrderModal();
-                        if (typeof loadUserBalance === 'function') loadUserBalance();
-                    }, 2500);
+                    closeOrderModal();
+                    if (typeof loadUserBalance === 'function') loadUserBalance();
+                    showCelebrationModal(currentGift, cleanUsername);
                 } else {
                     const errText = data?.error || "Hisobingizda mablag' yetarli emas yoki xatolik yuz berdi!";
                     msgEl.className = 'modal-status-msg error';
@@ -688,7 +947,7 @@
             }
 
             submitBtn.disabled = false;
-            submitBtn.innerHTML = "<span>🎁 Sovg'ani Yuborish</span>";
+            submitBtn.innerHTML = "<span>🎁 Sovg'ani Xarid Qilish</span>";
         }
 
         document.addEventListener('DOMContentLoaded', () => {
