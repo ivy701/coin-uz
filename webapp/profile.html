@@ -245,12 +245,12 @@
 
     <!-- Top Bar -->
     <div class="profile-top-bar">
-        <div class="back-pill-btn" onclick="window.location.href='index.html'">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <a href="index.html" class="profile-back-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
-        </div>
-        <div class="profile-page-title">Profil</div>
+        </a>
+        <div class="profile-page-title" data-i18n="nav.profile">Profil</div>
         <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
     </div>
 
@@ -272,16 +272,16 @@
     <!-- 3-Column Stats Grid -->
     <div class="stats-tri-grid">
         <div class="stat-card-box" onclick="window.location.href='orders.html'" style="cursor: pointer;">
-            <div class="stat-label-text">Buyurtmalar</div>
+            <div class="stat-label-text" data-i18n="home.orders">Buyurtmalar</div>
             <div class="stat-value-text" id="ordersCount">0</div>
         </div>
         <div class="stat-card-box">
-            <div class="stat-label-text">Sarflangan</div>
+            <div class="stat-label-text" data-i18n="home.spent">Sarflangan</div>
             <div class="stat-value-text" id="totalSpent">0</div>
             <div class="stat-unit-text">UZS</div>
         </div>
         <div class="stat-card-box">
-            <div class="stat-label-text">Balans</div>
+            <div class="stat-label-text" data-i18n="home.balance_stat">Balans</div>
             <div class="stat-value-text" id="userBalanceStat">0</div>
             <div class="stat-unit-text">UZS</div>
         </div>
@@ -296,8 +296,8 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                 </div>
                 <div>
-                    <div class="menu-action-title">Balans To'ldirish</div>
-                    <div class="menu-action-desc">Hisobingizni to'ldiring</div>
+                    <div class="menu-action-title" data-i18n="topup.header_title">Balans To'ldirish</div>
+                    <div class="menu-action-desc" data-i18n="topup.step1_sub">Hisobingizni to'ldiring</div>
                 </div>
             </div>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -310,8 +310,8 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 </div>
                 <div>
-                    <div class="menu-action-title">Buyurtmalarim</div>
-                    <div class="menu-action-desc">Xaridlar va to'lovlar tarixi</div>
+                    <div class="menu-action-title" data-i18n="home.orders">Buyurtmalarim</div>
+                    <div class="menu-action-desc" data-i18n="rating.subtitle">Xaridlar va to'lovlar tarixi</div>
                 </div>
             </div>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -324,8 +324,8 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path></svg>
                 </div>
                 <div>
-                    <div class="menu-action-title">Top Reyting</div>
-                    <div class="menu-action-desc">Eng yaxshi sotuvchilar ro'yxati</div>
+                    <div class="menu-action-title" data-i18n="rating.title">Top Reyting</div>
+                    <div class="menu-action-desc" data-i18n="rating.subtitle">Eng yaxshi sotuvchilar ro'yxati</div>
                 </div>
             </div>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -338,8 +338,8 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 </div>
                 <div>
-                    <div class="menu-action-title">Qo'llab-quvvatlash</div>
-                    <div class="menu-action-desc">Savol va murojaatlar (@cofeature)</div>
+                    <div class="menu-action-title" data-i18n="profile.support">Qo'llab-quvvatlash</div>
+                    <div class="menu-action-desc">@cofeature</div>
                 </div>
             </div>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -354,8 +354,8 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="menu-action-title">Tezkor Rejim (Lite Mode)</div>
-                    <div class="menu-action-desc">Animatsiyalarni o'chirish (qotmasligi uchun)</div>
+                    <div class="menu-action-title" data-i18n="profile.lite_mode">Tezkor Rejim (Lite Mode)</div>
+                    <div class="menu-action-desc" data-i18n="profile.lite_sub">Animatsiyalarni o'chirish (qotmasligi uchun)</div>
                 </div>
             </div>
             <label class="toggle-switch">
@@ -367,22 +367,22 @@
 
     <!-- Floating Capsule Dock Navigation -->
     <div class="bottom-dock-nav">
-        <div class="dock-tab-btn" onclick="window.location.href='index.html'">
+        <a href="index.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 10.5L12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9z"></path>
                 <path d="M9 21v-7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v7"></path>
             </svg>
-            <span>Asosiy</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='gift.html'">
+            <span data-i18n="nav.home">Asosiy</span>
+        </a>
+        <a href="gift.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 3h12l4 6-10 12L2 9z"></path>
                 <path d="M2 9h20"></path>
                 <path d="M10 3l-3 6 5 12 5-12-3-6"></path>
             </svg>
-            <span>Gift</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='rating.html'">
+            <span data-i18n="nav.gifts">Gift</span>
+        </a>
+        <a href="rating.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
@@ -390,15 +390,15 @@
                 <path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path>
                 <path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path>
             </svg>
-            <span>Top</span>
-        </div>
-        <div class="dock-tab-btn active" onclick="window.location.href='profile.html'">
+            <span data-i18n="nav.rating">Top</span>
+        </a>
+        <a href="profile.html" class="dock-tab-btn active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span>Profil</span>
-        </div>
+            <span data-i18n="nav.profile">Profil</span>
+        </a>
     </div>
 
     <script src="js/common.js"></script>

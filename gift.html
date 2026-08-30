@@ -628,7 +628,7 @@
             </svg>
         </a>
         <div class="balance-badge-pill">
-            <span>Balans:</span> <span id="balance">0</span> UZS
+            <span data-i18n="gift.balance_label">Balans:</span> <span id="balance">0</span> UZS
         </div>
     </div>
 
@@ -641,24 +641,24 @@
                 <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
                 <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
             </svg>
-            <span>Telegram Sovg'alari</span>
+            <span data-i18n="gift.header_title">Telegram Sovg'alari</span>
         </div>
-        <div class="gift-page-subtitle">O'zingiz yoki do'stlaringiz uchun original Telegram sovg'alarini xarid qiling!</div>
+        <div class="gift-page-subtitle" data-i18n="gift.header_subtitle">O'zingiz yoki do'stlaringiz uchun original Telegram sovg'alarini xarid qiling!</div>
     </div>
 
     <div class="gift-category-scroll">
-        <button class="category-chip active" onclick="filterGifts('all', this)">Barchasi (20)</button>
+        <button class="category-chip active" onclick="filterGifts('all', this)" data-i18n="gift.cat_all">Barchasi (20)</button>
         <button class="category-chip" onclick="filterGifts('vip', this)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>
-            <span>VIP (10)</span>
+            <span data-i18n="gift.cat_vip">VIP (10)</span>
         </button>
         <button class="category-chip" onclick="filterGifts('classic', this)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
-            <span>Klassik (3)</span>
+            <span data-i18n="gift.cat_classic">Klassik (3)</span>
         </button>
         <button class="category-chip" onclick="filterGifts('deluxe', this)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"></path></svg>
-            <span>Hashamatli (7)</span>
+            <span data-i18n="gift.cat_deluxe">Hashamatli (7)</span>
         </button>
     </div>
 
@@ -680,11 +680,11 @@
             <div class="recipient-tabs">
                 <button type="button" class="recipient-tab active" id="tabSelf" onclick="setRecipientMode('self')">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span>O'zimga</span>
+                    <span data-i18n="gift.modal_for_self">O'zimga</span>
                 </button>
                 <button type="button" class="recipient-tab" id="tabFriend" onclick="setRecipientMode('friend')">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line></svg>
-                    <span>Do'stimga</span>
+                    <span data-i18n="gift.modal_for_friend">Do'stimga</span>
                 </button>
             </div>
 
@@ -698,9 +698,9 @@
             <div class="modal-actions-col">
                 <button type="button" class="modal-submit-btn" id="modalSubmitBtn" onclick="submitGiftOrder()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line></svg>
-                    <span>Sovg'ani Xarid Qilish</span>
+                    <span data-i18n="gift.modal_buy_btn">Sovg'ani Xarid Qilish</span>
                 </button>
-                <button type="button" class="modal-cancel-btn" onclick="closeOrderModal()">Bekor qilish</button>
+                <button type="button" class="modal-cancel-btn" onclick="closeOrderModal()" data-i18n="gift.modal_cancel">Bekor qilish</button>
             </div>
         </div>
     </div>
@@ -709,18 +709,18 @@
         <div class="win-modal-card">
             <div class="win-badge-tag" id="celebrationBadge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>
-                <span>XARID MUBORAK!</span>
+                <span data-i18n="gift.win_title">XARID MUBORAK!</span>
             </div>
             <div class="win-icon-burst">
                 <img id="celebrationImg" src="images/bear.webp" alt="Gift">
             </div>
-            <div class="win-modal-title">XARID MUBORAK!</div>
+            <div class="win-modal-title" data-i18n="gift.win_title">XARID MUBORAK!</div>
             <div class="win-prize-title" id="celebrationPrizeTitle">Telegram Sovg'asi</div>
             <button class="win-claim-btn" onclick="claimGiftToAdmin()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path></svg>
-                <span>Sovg'ani Qabul Qilish</span>
+                <span data-i18n="gift.win_claim">Sovg'ani Qabul Qilish</span>
             </button>
-            <button class="win-close-btn" onclick="closeCelebrationModal()">Yopish</button>
+            <button class="win-close-btn" onclick="closeCelebrationModal()" data-i18n="gift.win_close">Yopish</button>
         </div>
     </div>
 
@@ -731,7 +731,7 @@
                 <path d="M3 10.5L12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9z"></path>
                 <path d="M9 21v-7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v7"></path>
             </svg>
-            <span>Asosiy</span>
+            <span data-i18n="nav.home">Asosiy</span>
         </a>
         <a href="gift.html" class="dock-tab-btn active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -739,7 +739,7 @@
                 <path d="M2 9h20"></path>
                 <path d="M10 3l-3 6 5 12 5-12-3-6"></path>
             </svg>
-            <span>Gift</span>
+            <span data-i18n="nav.gifts">Gift</span>
         </a>
         <a href="rating.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -749,14 +749,14 @@
                 <path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path>
                 <path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path>
             </svg>
-            <span>Top</span>
+            <span data-i18n="nav.rating">Top</span>
         </a>
         <a href="profile.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span>Profil</span>
+            <span data-i18n="nav.profile">Profil</span>
         </a>
     </div>
 

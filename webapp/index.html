@@ -523,12 +523,12 @@
 
         <div class="hero-card-content">
             <!-- Top Label -->
-            <div class="hero-card-top-label">BALANS</div>
+            <div class="hero-card-top-label" data-i18n="home.balance_title">BALANS</div>
 
             <!-- Main Balance Value -->
             <div class="hero-card-amount-row">
                 <span class="hero-card-balance-num" id="balance">0</span>
-                <span class="hero-card-unit">so'm</span>
+                <span class="hero-card-unit" data-i18n="common.unit_som">so'm</span>
             </div>
 
             <!-- Two Bottom Action Buttons -->
@@ -547,7 +547,7 @@
 
                 <!-- Top-up Button Pill -->
                 <button type="button" class="hero-pill-btn topup-pill" onclick="window.location.href='topup.html'">
-                    <span>+ To'ldirish</span>
+                    <span data-i18n="home.topup">+ To'ldirish</span>
                 </button>
             </div>
         </div>
@@ -556,16 +556,16 @@
     <!-- 3-Column Stats Grid -->
     <div class="stats-tri-grid">
         <div class="stat-card-box" onclick="window.location.href='orders.html'" style="cursor: pointer;">
-            <div class="stat-label-text">Buyurtmalar</div>
+            <div class="stat-label-text" data-i18n="home.orders">Buyurtmalar</div>
             <div class="stat-value-text" id="ordersCount">0</div>
         </div>
         <div class="stat-card-box">
-            <div class="stat-label-text">Sarflangan</div>
+            <div class="stat-label-text" data-i18n="home.spent">Sarflangan</div>
             <div class="stat-value-text" id="totalSpent">0</div>
             <div class="stat-unit-text">UZS</div>
         </div>
         <div class="stat-card-box">
-            <div class="stat-label-text">Balans</div>
+            <div class="stat-label-text" data-i18n="home.balance_stat">Balans</div>
             <div class="stat-value-text" id="userBalanceStat">0</div>
             <div class="stat-unit-text">UZS</div>
         </div>
@@ -579,9 +579,9 @@
             </div>
             <div>
                 <div style="font-size: 15px; font-weight: 900; color: #ffffff; display: flex; align-items: center; gap: 6px; letter-spacing: -0.2px;">
-                    Lucky Spin <span style="font-size: 10px; font-weight: 800; background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff; padding: 2px 8px; border-radius: 999px;">PROMO KOD 🎟</span>
+                    <span data-i18n="home.lucky_spin">Lucky Spin</span> <span style="font-size: 10px; font-weight: 800; background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff; padding: 2px 8px; border-radius: 999px;" data-i18n="home.promo_code">PROMO KOD</span>
                 </div>
-                <div style="font-size: 11px; font-weight: 600; color: #94a3b8; margin-top: 2px;">
+                <div style="font-size: 11px; font-weight: 600; color: #94a3b8; margin-top: 2px;" data-i18n="home.spin_subtext">
                     Promo-kod orqali bepul Telegram sovg'alarini yuting!
                 </div>
             </div>
@@ -600,7 +600,7 @@
             <div class="service-icon-wrap">
                 <img src="./images/star.webp" alt="Stars">
             </div>
-            <div class="service-card-title">Stars</div>
+            <div class="service-card-title" data-i18n="home.service_stars">Stars</div>
         </div>
 
         <!-- Premium -->
@@ -608,7 +608,7 @@
             <div class="service-icon-wrap">
                 <img src="./images/premium.webp" alt="Premium">
             </div>
-            <div class="service-card-title">Premium</div>
+            <div class="service-card-title" data-i18n="home.service_premium">Premium</div>
         </div>
 
         <!-- Sovg'alar -->
@@ -616,7 +616,7 @@
             <div class="service-icon-wrap">
                 <img src="./images/gift.webp" alt="Sovg'alar">
             </div>
-            <div class="service-card-title">Sovg'alar</div>
+            <div class="service-card-title" data-i18n="home.service_gifts">Sovg'alar</div>
         </div>
 
         <!-- Virtual Nomer -->
@@ -627,28 +627,28 @@
                     <line x1="12" y1="18" x2="12.01" y2="18"></line>
                 </svg>
             </div>
-            <div class="service-card-title">Virtual Nomer</div>
+            <div class="service-card-title" data-i18n="home.service_phone">Virtual Nomer</div>
         </div>
     </div>
 
     <!-- Floating Capsule Dock Navigation -->
     <div class="bottom-dock-nav">
-        <div class="dock-tab-btn active" onclick="window.location.href='index.html'">
+        <a href="index.html" class="dock-tab-btn active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 10.5L12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9z"></path>
                 <path d="M9 21v-7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v7"></path>
             </svg>
-            <span>Asosiy</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='gift.html'">
+            <span data-i18n="nav.home">Asosiy</span>
+        </a>
+        <a href="gift.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 3h12l4 6-10 12L2 9z"></path>
                 <path d="M2 9h20"></path>
                 <path d="M10 3l-3 6 5 12 5-12-3-6"></path>
             </svg>
-            <span>Gift</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='rating.html'">
+            <span data-i18n="nav.gifts">Gift</span>
+        </a>
+        <a href="rating.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
@@ -656,15 +656,15 @@
                 <path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path>
                 <path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path>
             </svg>
-            <span>Top</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='profile.html'">
+            <span data-i18n="nav.rating">Top</span>
+        </a>
+        <a href="profile.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span>Profil</span>
-        </div>
+            <span data-i18n="nav.profile">Profil</span>
+        </a>
     </div>
 
     <script src="js/common.js"></script>
