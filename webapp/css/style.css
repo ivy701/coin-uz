@@ -26,6 +26,30 @@
   --font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
 }
 
+/* Global Language Pill */
+.lang-badge-pill {
+    background: #141418;
+    border: 1px solid #222228;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 8px 14px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    user-select: none;
+    outline: none;
+}
+
+.lang-badge-pill:active {
+    transform: scale(0.92);
+    background: #27272a;
+}
+
 /* =========================================
    Full-Width Edge-To-Edge Bottom Navigation
    ========================================= */
