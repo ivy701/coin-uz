@@ -813,6 +813,11 @@
                     <button type="button" class="gift-card-buy-btn">${g.price.toLocaleString('uz-UZ')} UZS</button>
                 </div>
             `).join('');
+
+            const isLite = localStorage.getItem('coinstat_disable_animations') === 'true';
+            if (isLite && typeof freezeAnimatedImages === 'function') {
+                setTimeout(freezeAnimatedImages, 50);
+            }
         }
 
         function filterGifts(category, btn) {

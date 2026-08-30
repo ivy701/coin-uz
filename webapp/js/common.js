@@ -127,6 +127,51 @@ function autoDetectLowEndDevice() {
     return savedSetting === 'true';
 }
 
+// Freeze animated WebP and GIF images to static snapshot in Lite mode
+function freezeAnimatedImages() {
+    try {
+        document.querySelectorAll('img').forEach(img => {
+            const rawSrc = img.getAttribute('src') || img.src || '';
+            if (rawSrc && (rawSrc.includes('.webp') || rawSrc.includes('.gif'))) {
+                if (img.dataset.originalSrc) return; // already frozen
+
+                const doFreeze = () => {
+                    try {
+                        if (img.naturalWidth === 0 || img.naturalHeight === 0) return;
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.naturalWidth;
+                        canvas.height = img.naturalHeight;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        const staticDataUrl = canvas.toDataURL('image/png');
+                        img.dataset.originalSrc = rawSrc;
+                        img.src = staticDataUrl;
+                    } catch(err) {
+                        // ignore cross-origin security
+                    }
+                };
+
+                if (img.complete && img.naturalWidth > 0) {
+                    doFreeze();
+                } else {
+                    img.addEventListener('load', doFreeze, { once: true });
+                }
+            }
+        });
+    } catch(e){}
+}
+
+function unfreezeAnimatedImages() {
+    try {
+        document.querySelectorAll('img').forEach(img => {
+            if (img.dataset.originalSrc) {
+                img.src = img.dataset.originalSrc;
+                delete img.dataset.originalSrc;
+            }
+        });
+    } catch(e){}
+}
+
 function initAnimationsSetting() {
     const isLite = autoDetectLowEndDevice();
     if (isLite) {
@@ -138,9 +183,11 @@ function initAnimationsSetting() {
                 v.currentTime = 0;
             });
         } catch(e){}
+        freezeAnimatedImages();
     } else {
         document.documentElement.classList.remove('no-animations');
         if (document.body) document.body.classList.remove('no-animations');
+        unfreezeAnimatedImages();
     }
 }
 
