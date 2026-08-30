@@ -47,11 +47,12 @@
     justify-content: space-around;
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
-    z-index: 999;
+    z-index: 9999;
     box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.85);
     user-select: none;
     -webkit-user-select: none;
     box-sizing: border-box;
+    pointer-events: auto !important;
 }
 
 /* Moving Active Pill Glider - Sleek Dark Obsidian / Graphite Pill */
@@ -80,14 +81,15 @@
     border-radius: 16px;
     color: #72778b;
     cursor: pointer;
-    text-decoration: none;
+    text-decoration: none !important;
     user-select: none;
     position: relative;
-    z-index: 2;
+    z-index: 10;
     flex: 1;
     background: transparent;
     border: none;
     outline: none;
+    pointer-events: auto !important;
     transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
