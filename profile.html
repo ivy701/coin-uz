@@ -21,9 +21,15 @@
         body {
             background-color: #000000;
             color: #ffffff;
-            padding: 16px;
-            padding-bottom: 110px;
+            padding: 4px 12px 95px 12px;
             min-height: 100vh;
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         /* Top Bar */
@@ -31,8 +37,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding: 4px 0;
+            margin-top: 0;
+            margin-bottom: 14px;
+            padding: 2px 0;
         }
 
         .back-pill-btn {

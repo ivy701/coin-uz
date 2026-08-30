@@ -29,16 +29,21 @@
         }
 
         body {
-            background-color: #08080c;
+            background-color: #000000;
             background-image: 
                 radial-gradient(circle at 50% 10%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
                 radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.06) 0%, transparent 45%),
                 radial-gradient(circle at 90% 60%, rgba(168, 85, 247, 0.06) 0%, transparent 45%);
             color: #ffffff;
-            padding: 16px;
-            padding-bottom: 130px;
+            padding: 4px 12px 95px 12px;
             min-height: 100vh;
             overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         /* Top Brand Header */
@@ -47,8 +52,9 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 4px;
-            padding-top: 4px;
+            margin-top: 0;
+            margin-bottom: 2px;
+            padding-top: 2px;
         }
 
         .rating-top-brand img {

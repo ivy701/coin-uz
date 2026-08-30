@@ -3,11 +3,15 @@
 const STARS_MIN = 50;
 const STARS_MAX = 1000000;
 
-const tg = window.Telegram.WebApp;
-tg.expand();
-tg.ready();
-tg.setHeaderColor('#030712');
-tg.setBackgroundColor('#030712');
+const tg = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
+if (tg) {
+    try {
+        tg.expand();
+        tg.ready();
+        tg.setHeaderColor('#000000');
+        tg.setBackgroundColor('#000000');
+    } catch(e){}
+}
 
 let userBalance = 0;
 
