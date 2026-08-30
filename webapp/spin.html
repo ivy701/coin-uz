@@ -483,10 +483,6 @@
             box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
         }
 
-        /* Wheel Outer Stage */
-        .wheel-stage-container {
-            position: relative;
-            width: 320px;
         /* Wheel Stage Container */
         .wheel-stage-container {
             position: relative;
@@ -635,7 +631,7 @@
             font-weight: 800;
             color: #94a3b8;
             margin-bottom: 12px;
-            padding-left: 4px;
+            padding: 0 4px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -646,39 +642,69 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             margin-bottom: 24px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .prize-item-card {
-            background: rgba(20, 21, 29, 0.8);
-            border: 1px solid var(--glass-border);
+            background: linear-gradient(135deg, rgba(24, 25, 36, 0.9) 0%, rgba(15, 16, 24, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
-            padding: 12px 14px;
+            padding: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            box-sizing: border-box;
+            transition: all 0.2s ease;
         }
 
         .prize-item-icon {
-            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .prize-item-icon img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
         }
 
         .prize-item-info {
             display: flex;
             flex-direction: column;
+            min-width: 0;
+            flex: 1;
         }
 
         .prize-item-name {
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 800;
             color: #ffffff;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .prize-item-chance {
             font-size: 10px;
             font-weight: 700;
             color: #fbbf24;
-            margin-top: 1px;
+            margin-top: 2px;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* Win Modal */
@@ -1104,109 +1130,109 @@
             if (!grid) return;
 
             if (currentMode === 'vip') {
-                if (head) head.textContent = "VIP Sovg'alar (50⭐)";
+                if (head) head.textContent = "VIP Sovg'alar (50 Stars)";
                 if (badge) {
-                    badge.textContent = "👑 VIP Sovg'alar";
+                    badge.textContent = "VIP Sovg'alar";
                     badge.style.color = "#fbbf24";
                 }
                 grid.innerHTML = `
                     <div class="prize-item-card" style="border-color: rgba(244, 63, 94, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/aprel_bear.webp" alt="Aprel Bear" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/aprel_bear.webp" alt="Aprel Bear">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #f472b6;">🌸 Aprel Ayiqchasi</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #f472b6;">Aprel Ayiqchasi</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(234, 179, 8, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/easter_bear.webp" alt="Easter Bear" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/easter_bear.webp" alt="Easter Bear">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #fde047;">🐰 Pasxa Ayiqchasi</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #fde047;">Pasxa Ayiqchasi</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(239, 68, 68, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/newyear_bear.webp" alt="New Year Bear" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/newyear_bear.webp" alt="New Year Bear">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #fda4af;">🎅 Qorbobo Ayiqcha</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #fda4af;">Qorbobo Ayiqchasi</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(234, 88, 12, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/builder_bear.webp" alt="Builder Bear" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/builder_bear.webp" alt="Builder Bear">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #fb923c;">🔨 Usta Ayiqcha</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #fb923c;">Usta Ayiqchasi</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(2, 132, 199, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/football_bear.webp" alt="Football Bear" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/football_bear.webp" alt="Football Bear">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #38bdf8;">⚽ Futbolchi Ayiqcha</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #38bdf8;">Futbolchi Ayiqcha</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(202, 138, 4, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/soldier_bear.webp" alt="Soldier Bear" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/soldier_bear.webp" alt="Soldier Bear">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #facc15;">💣 Jangchi Ayiqcha</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #facc15;">Jangchi Ayiqchasi</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(34, 197, 94, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/newyear_tree.webp" alt="New Year Tree" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/newyear_tree.webp" alt="New Year Tree">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #86efac;">🎄 Yangi Yil Archasi</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #86efac;">Yangi Yil Archasi</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(74, 222, 128, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/patrick_bear.webp" alt="Patrick Bear" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/patrick_bear.webp" alt="Patrick Bear">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #4ade80;">🍀 Patrik Ayiqchasi</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #4ade80;">Patrik Ayiqchasi</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(244, 114, 182, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/valentine_bear.webp" alt="Valentine Bear" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/valentine_bear.webp" alt="Valentine Bear">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #fb7185;">💘 Valentin Ayiqcha</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #fb7185;">Valentin Ayiqchasi</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(236, 72, 153, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/valentine_heart.webp" alt="Valentine Heart" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/valentine_heart.webp" alt="Valentine Heart">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #f472b6;">💕 Valentinka Yurakcha</div>
-                            <div class="prize-item-chance">🎁 50⭐ Telegram Gift</div>
+                            <div class="prize-item-name" style="color: #f472b6;">Valentinka Yurakcha</div>
+                            <div class="prize-item-chance">50 Stars Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(56, 189, 248, 0.4); grid-column: span 2;">
                         <div class="prize-item-icon">
-                            <img src="images/star.webp" alt="Stars" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/star.webp" alt="Stars">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #38bdf8;">⭐️ 50 Stars</div>
-                            <div class="prize-item-chance">⭐️ 50 Telegram Stars</div>
+                            <div class="prize-item-name" style="color: #38bdf8;">50 Telegram Stars</div>
+                            <div class="prize-item-chance" style="color: #38bdf8;">Kafolatlangan Stars</div>
                         </div>
                     </div>
                 `;
@@ -1219,47 +1245,47 @@
                 grid.innerHTML = `
                     <div class="prize-item-card" style="border-color: rgba(251, 191, 36, 0.4);">
                         <div class="prize-item-icon">
-                            <img src="images/bear.webp" alt="Teddy Bear" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/bear.webp" alt="Teddy Bear">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name">Teddy Bear (15⭐)</div>
-                            <div class="prize-item-chance">🧸 Eng mashhur ayiqcha</div>
+                            <div class="prize-item-name">Teddy Bear (15 Stars)</div>
+                            <div class="prize-item-chance">Mashhur Ayiqcha Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(244, 63, 94, 0.35);">
                         <div class="prize-item-icon">
-                            <img src="images/rose.webp" alt="Rose" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/rose.webp" alt="Rose">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name">Rose Gift (25⭐)</div>
-                            <div class="prize-item-chance">🌹 Telegram Atirgul Sovg'asi</div>
+                            <div class="prize-item-name">Rose Gift (25 Stars)</div>
+                            <div class="prize-item-chance">Atirgul Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(232, 121, 249, 0.3);">
                         <div class="prize-item-icon">
-                            <img src="images/box.webp" alt="Gift Box" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/box.webp" alt="Gift Box">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name">Gift Box (25⭐)</div>
-                            <div class="prize-item-chance">🎁 Telegram Gift Box</div>
+                            <div class="prize-item-name">Gift Box (25 Stars)</div>
+                            <div class="prize-item-chance">Quticha Sovg'asi</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(56, 189, 248, 0.3);">
                         <div class="prize-item-icon">
-                            <img src="images/star.webp" alt="Stars" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/star.webp" alt="Stars">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name">25 / 50 / 100 Stars</div>
-                            <div class="prize-item-chance">⭐️ Telegram Stars</div>
+                            <div class="prize-item-name">25 / 50 Stars</div>
+                            <div class="prize-item-chance" style="color: #38bdf8;">Telegram Stars Sovrini</div>
                         </div>
                     </div>
                     <div class="prize-item-card" style="border-color: rgba(74, 222, 128, 0.3); grid-column: span 2;">
                         <div class="prize-item-icon">
-                            <img src="images/money.webp" alt="Money" style="width: 32px; height: 32px; object-fit: contain;">
+                            <img src="images/money.webp" alt="Money">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name">5 000 / 10 000 / 20 000 UZS Balans</div>
-                            <div class="prize-item-chance">💰 Darhol balansingizga qo'shiladi</div>
+                            <div class="prize-item-name" style="color: #4ade80;">5 000 - 20 000 UZS</div>
+                            <div class="prize-item-chance" style="color: #4ade80;">Hisob Balansi</div>
                         </div>
                     </div>
                 `;
