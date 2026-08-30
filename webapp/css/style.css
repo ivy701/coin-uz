@@ -1448,7 +1448,7 @@ body.light-theme .stats-pill-btn.active {
 /* =========================================
    Ultra-Fast Lite Mode (100% ZERO ANIMATIONS)
    Stops ALL keyframes, transitions, shimmers,
-   glints, crown floats, pulses, and blurs
+   glints, and blurs WITHOUT hiding media or canvas
    ========================================= */
 html.no-animations,
 html.no-animations *,
@@ -1470,43 +1470,37 @@ body.no-animations *::after {
   transition-delay: 0s !important;
 }
 
+/* Hide continuous floating shine rays only */
 html.no-animations .hero-balance-card::after,
 body.no-animations .hero-balance-card::after,
 html.no-animations .card-shimmer,
 body.no-animations .card-shimmer,
 html.no-animations .glint-beam,
-body.no-animations .glint-beam,
-html.no-animations .podium-crown,
-body.no-animations .podium-crown,
-html.no-animations .splash-dots-row,
-body.no-animations .splash-dots-row,
-html.no-animations .splash-dot,
-body.no-animations .splash-dot {
+body.no-animations .glint-beam {
   display: none !important;
-  animation: none !important;
 }
 
+/* Keep canvas, images, and videos fully visible statically */
+html.no-animations canvas,
+body.no-animations canvas,
 html.no-animations video,
 body.no-animations video,
-html.no-animations canvas,
-body.no-animations canvas {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
+html.no-animations img,
+body.no-animations img {
+  display: block;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 html.no-animations .hero-topo-bg,
 body.no-animations .hero-topo-bg {
-  opacity: 0.15 !important;
+  opacity: 0.2 !important;
 }
 
 html.no-animations *,
 body.no-animations * {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-  filter: none !important;
 }
 
 /* Toggle Switch UI */
