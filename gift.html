@@ -160,6 +160,7 @@
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             box-sizing: border-box;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .gift-card:active {
@@ -331,6 +332,38 @@
             border-radius: 999px;
         }
 
+        /* Recipient Mode Tabs */
+        .recipient-tabs {
+            display: flex;
+            background: #101118;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 3px;
+            margin-bottom: 12px;
+            gap: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .recipient-tab {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 8px 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .recipient-tab.active {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+        }
+
         .modal-input-wrap {
             width: 100%;
             text-align: left;
@@ -382,34 +415,46 @@
             display: block;
         }
 
-        /* Recipient Mode Tabs */
-        .recipient-tabs {
+        .modal-actions-col {
+            width: 100%;
             display: flex;
-            background: #101118;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 3px;
-            margin-bottom: 12px;
-            gap: 4px;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .recipient-tab {
-            flex: 1;
-            background: transparent;
+        .modal-submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            color: #ffffff;
             border: none;
+            border-radius: 16px;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .modal-submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .modal-cancel-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
             color: #94a3b8;
-            padding: 8px 6px;
-            font-size: 11.5px;
-            font-weight: 800;
-            border-radius: 9px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .recipient-tab.active {
-            background: #2563eb;
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+        .modal-cancel-btn:active {
+            background: rgba(255, 255, 255, 0.15);
         }
 
         /* Deluxe Celebration Modal (Identical to Wheel Win Modal) */
@@ -568,7 +613,6 @@
 
 <body>
 
-    <!-- Top Bar -->
     <div class="gift-top-bar">
         <div class="back-pill-btn" onclick="window.location.href='index.html'">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -580,7 +624,6 @@
         </div>
     </div>
 
-    <!-- Page Heading -->
     <div class="gift-page-header">
         <div class="gift-page-title">
             <span>🎁 Telegram Sovg'alari</span>
@@ -588,20 +631,15 @@
         <div class="gift-page-subtitle">O'zingiz yoki do'stlaringiz uchun original Telegram sovg'alarini xarid qiling!</div>
     </div>
 
-    <!-- Category Filter Chips -->
     <div class="gift-category-scroll">
-        <button class="category-chip active" onclick="filterGifts('all', this)">Barchasi (20)</button>
-        <button class="category-chip" onclick="filterGifts('vip', this)">👑 VIP Sovg'alar (10)</button>
-        <button class="category-chip" onclick="filterGifts('classic', this)">🧸 Klassik (3)</button>
-        <button class="category-chip" onclick="filterGifts('deluxe', this)">💎 Hashamatli (7)</button>
+        <button class="category-chip active" onclick="filterGifts('all', this)">Barchasi</button>
+        <button class="category-chip" onclick="filterGifts('vip', this)">👑 VIP</button>
+        <button class="category-chip" onclick="filterGifts('classic', this)">🧸 Klassik</button>
+        <button class="category-chip" onclick="filterGifts('deluxe', this)">💎 Hashamatli</button>
     </div>
 
-    <!-- Gifts Grid -->
-    <div class="gifts-grid" id="giftsGrid">
-        <!-- Rendered dynamically via JavaScript -->
-    </div>
+    <div class="gifts-grid" id="giftsGrid"></div>
 
-    <!-- Order Modal -->
     <div class="order-modal-overlay" id="orderModal">
         <div class="order-modal-card">
             <div class="modal-gift-icon">
@@ -613,15 +651,14 @@
                 <div class="modal-price-badge" id="modalPrice">14 000 UZS</div>
             </div>
 
-            <!-- Self / Friend Switch -->
             <div class="recipient-tabs">
-                <button type="button" class="recipient-tab active" id="tabSelf" onclick="setRecipientMode('self')">👤 O'zimga olish</button>
-                <button type="button" class="recipient-tab" id="tabFriend" onclick="setRecipientMode('friend')">🎁 Do'stimga yuborish</button>
+                <button type="button" class="recipient-tab active" id="tabSelf" onclick="setRecipientMode('self')">👤 O'zimga</button>
+                <button type="button" class="recipient-tab" id="tabFriend" onclick="setRecipientMode('friend')">🎁 Do'stimga</button>
             </div>
 
             <div class="modal-input-wrap">
-                <label class="modal-input-label" for="targetUsername">Qabul qiluvchi Telegram Username:</label>
-                <input type="text" id="targetUsername" class="modal-input-field" placeholder="@username" autocomplete="off" autocapitalize="none">
+                <label class="modal-input-label" for="targetUsername">Username:</label>
+                <input type="text" id="targetUsername" class="modal-input-field" placeholder="@username" autocomplete="off">
             </div>
 
             <div class="modal-status-msg" id="modalMsg"></div>
@@ -635,21 +672,15 @@
         </div>
     </div>
 
-    <!-- Deluxe Gift Celebration Modal (Wheel Style) -->
     <div class="win-modal-overlay" id="giftCelebrationModal">
         <div class="win-modal-card">
             <div class="win-badge-tag" id="celebrationBadge">👑 XARID MUBORAK!</div>
-            <div class="win-icon-burst" id="celebrationIconBurst">
-                <img id="celebrationImg" src="images/bear.webp" alt="Purchased Gift" style="width: 68px; height: 68px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));">
+            <div class="win-icon-burst">
+                <img id="celebrationImg" src="images/bear.webp" alt="Gift">
             </div>
             <div class="win-modal-title">XARID MUBORAK!</div>
             <div class="win-prize-title" id="celebrationPrizeTitle">Telegram Sovg'asi</div>
-            <div class="win-desc" id="celebrationDesc">
-                Tabriklaymiz! Siz haqiqiy Telegram sovg'asini muvaffaqiyatli xarid qildingiz! Sovg'angizni profilingizga qabul qilib olish uchun quyidagi tugmani bosing:
-            </div>
-            <button class="win-claim-btn" onclick="claimGiftToAdmin()">
-                <span>🚀 Sovg'ani Qabul Qilish</span>
-            </button>
+            <button class="win-claim-btn" onclick="claimGiftToAdmin()">🚀 Qabul Qilish</button>
             <button class="win-close-btn" onclick="closeCelebrationModal()">Yopish</button>
         </div>
     </div>
@@ -693,43 +724,7 @@
     <script src="js/common.js"></script>
     <script>
         const tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.ready();
-            tg.expand();
-        }
-
-        // Web Audio Synthesizer
-        let audioCtx = null;
-        function getAudioContext() {
-            if (!audioCtx) {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (AudioContext) audioCtx = new AudioContext();
-            }
-            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-            return audioCtx;
-        }
-
-        function playWinSound() {
-            try {
-                const ctx = getAudioContext();
-                if (!ctx) return;
-                const now = ctx.currentTime;
-                const chords = [523.25, 659.25, 783.99, 1046.50];
-                chords.forEach((freq, idx) => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(freq, now + idx * 0.1);
-                    gain.gain.setValueAtTime(0, now + idx * 0.1);
-                    gain.gain.linearRampToValueAtTime(0.3, now + idx * 0.1 + 0.05);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 1.2);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(now + idx * 0.1);
-                    osc.stop(now + idx * 0.1 + 1.3);
-                });
-            } catch(e) {}
-        }
+        if (tg) { tg.ready(); tg.expand(); }
 
         const ALL_GIFTS = [
             // VIP 50 Stars Gifts — 10 000 UZS
@@ -767,19 +762,13 @@
         function renderGifts() {
             const grid = document.getElementById('giftsGrid');
             if (!grid) return;
-
-            const filtered = currentCategory === 'all' 
-                ? ALL_GIFTS 
-                : ALL_GIFTS.filter(g => g.category === currentCategory);
-
+            const filtered = currentCategory === 'all' ? ALL_GIFTS : ALL_GIFTS.filter(g => g.category === currentCategory);
             grid.innerHTML = filtered.map(g => `
                 <div class="gift-card" onclick="openOrderModal('${g.id}')">
                     <span class="gift-card-badge">${g.badge}</span>
-                    <div class="gift-card-icon-wrap">
-                        <img src="${g.img}" alt="${g.name}">
-                    </div>
+                    <div class="gift-card-icon-wrap"><img src="${g.img}" alt="${g.name}"></div>
                     <div class="gift-card-name">${g.name}</div>
-                    <div class="gift-card-stars">${g.stars} Telegram Stars</div>
+                    <div class="gift-card-stars">${g.stars} Stars</div>
                     <button type="button" class="gift-card-buy-btn">${g.price.toLocaleString('uz-UZ')} UZS</button>
                 </div>
             `).join('');
@@ -800,16 +789,16 @@
             const tgUser = tg?.initDataUnsafe?.user;
 
             if (mode === 'self') {
-                tabSelf.classList.add('active');
-                tabFriend.classList.remove('active');
+                if (tabSelf) tabSelf.classList.add('active');
+                if (tabFriend) tabFriend.classList.remove('active');
                 if (tgUser && tgUser.username) {
                     unameInput.value = '@' + tgUser.username;
                 } else {
                     unameInput.value = '';
                 }
             } else {
-                tabFriend.classList.add('active');
-                tabSelf.classList.remove('active');
+                if (tabFriend) tabFriend.classList.add('active');
+                if (tabSelf) tabSelf.classList.remove('active');
                 unameInput.value = '';
                 unameInput.focus();
             }
@@ -820,17 +809,17 @@
             const gift = ALL_GIFTS.find(g => g.id === giftId);
             if (!gift) return;
             selectedGift = gift;
-
             document.getElementById('modalImg').src = gift.img;
             document.getElementById('modalTitle').textContent = gift.name;
             document.getElementById('modalStars').textContent = `${gift.stars}⭐ Stars`;
             document.getElementById('modalPrice').textContent = `${gift.price.toLocaleString('uz-UZ')} UZS`;
-            
             setRecipientMode('self');
-
+            
             const msgEl = document.getElementById('modalMsg');
-            msgEl.className = 'modal-status-msg';
-            msgEl.style.display = 'none';
+            if (msgEl) {
+                msgEl.className = 'modal-status-msg';
+                msgEl.style.display = 'none';
+            }
 
             document.getElementById('orderModal').classList.add('active');
             if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
@@ -841,6 +830,10 @@
             selectedGift = null;
         }
 
+        function closeCelebrationModal() {
+            document.getElementById('giftCelebrationModal').classList.remove('active');
+        }
+
         function showCelebrationModal(gift, targetUname) {
             lastPurchasedGift = gift;
             lastPurchasedUsername = targetUname;
@@ -848,21 +841,13 @@
             document.getElementById('celebrationImg').src = gift.img;
             document.getElementById('celebrationBadge').textContent = gift.category === 'vip' ? '👑 VIP XARID!' : '🎉 XARID MUBORAK!';
             document.getElementById('celebrationPrizeTitle').textContent = `${gift.name} (${gift.stars} Stars)`;
-            document.getElementById('celebrationDesc').textContent = 
-                `Tabriklaymiz! Siz haqiqiy "${gift.name}" sovg'asini (@${targetUname} uchun) xarid qildingiz! Sovg'ani Telegram profilingizga qabul qilib olish uchun quyidagi tugmani bosing:`;
-
-            // Victory Sound & Confetti!
-            playWinSound();
+            
             if (window.confetti) {
                 window.confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 } });
             }
             if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
 
             document.getElementById('giftCelebrationModal').classList.add('active');
-        }
-
-        function closeCelebrationModal() {
-            document.getElementById('giftCelebrationModal').classList.remove('active');
         }
 
         function claimGiftToAdmin() {
@@ -892,7 +877,6 @@
 
         async function submitGiftOrder() {
             if (!selectedGift) return;
-
             const usernameInput = document.getElementById('targetUsername');
             const rawUsername = (usernameInput.value || '').trim();
             const cleanUsername = rawUsername.replace(/^@/, '');
@@ -900,9 +884,11 @@
             const submitBtn = document.getElementById('modalSubmitBtn');
 
             if (!cleanUsername) {
-                msgEl.className = 'modal-status-msg error';
-                msgEl.textContent = "Iltimos, Telegram username'ni kiriting!";
-                msgEl.style.display = 'block';
+                if (msgEl) {
+                    msgEl.className = 'modal-status-msg error';
+                    msgEl.textContent = "Iltimos, Telegram username'ni kiriting!";
+                    msgEl.style.display = 'block';
+                }
                 return;
             }
 
@@ -935,21 +921,28 @@
                     showCelebrationModal(currentGift, cleanUsername);
                 } else {
                     const errText = data?.error || "Hisobingizda mablag' yetarli emas yoki xatolik yuz berdi!";
-                    msgEl.className = 'modal-status-msg error';
-                    msgEl.textContent = errText;
-                    msgEl.style.display = 'block';
+                    if (msgEl) {
+                        msgEl.className = 'modal-status-msg error';
+                        msgEl.textContent = errText;
+                        msgEl.style.display = 'block';
+                    }
                     if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
                 }
             } catch(e) {
-                msgEl.className = 'modal-status-msg error';
-                msgEl.textContent = "Server bilan aloqa o'rnatilmadi. Iltimos, keyinroq qayta urinib ko'ring!";
-                msgEl.style.display = 'block';
+                if (msgEl) {
+                    msgEl.className = 'modal-status-msg error';
+                    msgEl.textContent = "Server bilan aloqa o'rnatilmadi. Iltimos, keyinroq qayta urinib ko'ring!";
+                    msgEl.style.display = 'block';
+                }
             }
 
             submitBtn.disabled = false;
             submitBtn.innerHTML = "<span>🎁 Sovg'ani Xarid Qilish</span>";
         }
 
+        // Initialize immediately
+        renderGifts();
+        if (typeof loadUserBalance === 'function') loadUserBalance();
         document.addEventListener('DOMContentLoaded', () => {
             renderGifts();
             if (typeof loadUserBalance === 'function') loadUserBalance();
