@@ -40,23 +40,23 @@ const VIP_PRIZES = [
   { key: "aprel_bear", title: "🌸 Aprel Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 0 },
   { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 1 },
   { key: "easter_bear", title: "🐰 Pasxa Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 2 },
-  { key: "newyear_bear", title: "🎅 Yangi Yil Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 3 },
-  { key: "builder_bear", title: "🔨 Usta Ayiqcha (50⭐)", type: "gift", weight: 10, index: 4 },
-  { key: "newyear_tree", title: "🎄 Yangi Yil Archasi (50⭐)", type: "gift", weight: 10, index: 5 },
-  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 6 },
-  { key: "patrick_bear", title: "🍀 Patrik Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 7 },
-  { key: "valentine_bear", title: "💘 Valentin Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 8 },
-  { key: "valentine_heart", title: "💕 Valentinka Yurakchasi (50⭐)", type: "gift", weight: 10, index: 9 },
-  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 10 },
-  { key: "aprel_bear", title: "🌸 Aprel Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 11 },
-  { key: "easter_bear", title: "🐰 Pasxa Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 12 },
-  { key: "builder_bear", title: "🔨 Usta Ayiqcha (50⭐)", type: "gift", weight: 10, index: 13 },
-  { key: "newyear_bear", title: "🎅 Yangi Yil Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 14 },
-  { key: "newyear_tree", title: "🎄 Yangi Yil Archasi (50⭐)", type: "gift", weight: 10, index: 15 },
-  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 16 },
-  { key: "patrick_bear", title: "🍀 Patrik Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 17 },
-  { key: "valentine_bear", title: "💘 Valentin Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 18 },
-  { key: "valentine_heart", title: "💕 Valentinka Yurakchasi (50⭐)", type: "gift", weight: 10, index: 19 }
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 3 },
+  { key: "newyear_bear", title: "🎅 Yangi Yil Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 4 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 5 },
+  { key: "builder_bear", title: "🔨 Usta Ayiqcha (50⭐)", type: "gift", weight: 10, index: 6 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 7 },
+  { key: "football_bear", title: "⚽ Futbolchi Ayiqcha (50⭐)", type: "gift", weight: 10, index: 8 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 9 },
+  { key: "soldier_bear", title: "💣 Jangchi Ayiqcha (50⭐)", type: "gift", weight: 10, index: 10 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 11 },
+  { key: "newyear_tree", title: "🎄 Yangi Yil Archasi (50⭐)", type: "gift", weight: 10, index: 12 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 13 },
+  { key: "patrick_bear", title: "🍀 Patrik Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 14 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 15 },
+  { key: "valentine_bear", title: "💘 Valentin Ayiqchasi (50⭐)", type: "gift", weight: 10, index: 16 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 17 },
+  { key: "valentine_heart", title: "💕 Valentinka Yurakchasi (50⭐)", type: "gift", weight: 10, index: 18 },
+  { key: "stars50", title: "⭐️ 50 Stars", type: "stars", amount: 50, weight: 15, index: 19 }
 ];
 
 const ALL_PRIZES = [...CLASSIC_PRIZES, ...VIP_PRIZES];
@@ -86,17 +86,16 @@ module.exports = async (req, res) => {
     return res.status(405).json({ ok: false, error: 'Method not allowed' });
   }
 
-  try {
-    let body = req.body || {};
-    if (typeof body === 'string') {
-      try { body = JSON.parse(body); } catch (e) {}
-    }
-    const userId = body.telegram_id || body.user_id;
-    if (!userId) {
-      return res.status(200).json({ ok: false, error: 'User ID missing' });
-    }
+  const db = getPool();
 
-    const db = getPool();
+  try {
+    const body = req.body || {};
+    const userId = body.user_id || body.telegram_id;
+    const forcedKey = body.forced_prize;
+
+    if (!userId) {
+      return res.status(400).json({ ok: false, error: 'Missing user_id' });
+    }
 
     // Consume bonus spin if available
     const bonusRes = await db.query(`
@@ -116,22 +115,25 @@ module.exports = async (req, res) => {
     }
 
     let chosenPrize = null;
-    let forcedKey = body.forced_key || body.prize_key || bonusRes.rows[0]?.forced_prize;
     const isVipMode = body.mode === 'vip';
 
     if (forcedKey) {
       let searchKey = String(forcedKey).toLowerCase().trim();
-      const rareKeys = ['aprel_bear', 'easter_bear', 'newyear_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart', 'builder_bear'];
+      const rareKeys = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart'];
       if (searchKey === 'rare' || searchKey === 'vipgift') {
         searchKey = rareKeys[Math.floor(Math.random() * rareKeys.length)];
       } else if (searchKey === 'builder' || searchKey === 'usta' || searchKey === 'builder_bear') {
         searchKey = 'builder_bear';
+      } else if (searchKey === 'football' || searchKey === 'futbol' || searchKey === 'football_bear') {
+        searchKey = 'football_bear';
+      } else if (searchKey === 'soldier' || searchKey === 'jangchi' || searchKey === 'military' || searchKey === 'cs' || searchKey === 'soldier_bear') {
+        searchKey = 'soldier_bear';
       } else if (searchKey === 'gift25' || searchKey === 'gift') {
         searchKey = Math.random() < 0.5 ? 'rose' : 'box';
       } else if (searchKey === 'stars') {
-        searchKey = Math.random() < 0.5 ? 'stars50' : 'stars100';
+        searchKey = 'stars50';
       } else if (searchKey === 'starvip') {
-        searchKey = Math.random() < 0.5 ? 'stars250' : 'stars500';
+        searchKey = 'stars50';
       } else if (searchKey === 'money' || searchKey === 'balans') {
         searchKey = Math.random() < 0.5 ? 'uzs10000' : 'uzs20000';
       } else if (searchKey === 'moneyvip') {

@@ -301,7 +301,39 @@ async def cmd_add_promo_builder_menu(message: Message) -> None:
     await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 14. 🎁 VIP RANDOM SOVG'A (50⭐)
+# 14. ⚽ VIP FUTBOLCHI AYIQCHA (50⭐)
+@router.message(F.text.startswith("/promofootball") | F.text.startswith("/promofutbol"))
+async def cmd_add_promo_football_menu(message: Message) -> None:
+  if not message.from_user or not _is_bot_admin(message.from_user.id): return
+  parts = (message.text or "").split(maxsplit=1)
+  if len(parts) < 2 or not parts[1].strip():
+    await message.answer("⚽ <b>VIP Futbolchi Ayiqcha (50⭐) promo-kod yaratish:</b>\n👉 <code>/promofootball KOD</code>", parse_mode="HTML")
+    return
+  code = parts[1].strip().upper()
+  from services.database import create_promocode
+  if await create_promocode(code, prize_type="football_bear"):
+    await message.answer(f"✅ <b>VIP Futbolchi Ayiqcha Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> ⚽ Futbolchi Ayiqcha (50⭐)\n📌 <b>Holati:</b> Faol (1 martalik VIP)", parse_mode="HTML")
+  else:
+    await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 15. 💣 VIP JANGCHI AYIQCHA (50⭐)
+@router.message(F.text.startswith("/promosoldier") | F.text.startswith("/promojangchi") | F.text.startswith("/promomilitary") | F.text.startswith("/promocs"))
+async def cmd_add_promo_soldier_menu(message: Message) -> None:
+  if not message.from_user or not _is_bot_admin(message.from_user.id): return
+  parts = (message.text or "").split(maxsplit=1)
+  if len(parts) < 2 or not parts[1].strip():
+    await message.answer("💣 <b>VIP Jangchi Ayiqcha (50⭐) promo-kod yaratish:</b>\n👉 <code>/promosoldier KOD</code>", parse_mode="HTML")
+    return
+  code = parts[1].strip().upper()
+  from services.database import create_promocode
+  if await create_promocode(code, prize_type="soldier_bear"):
+    await message.answer(f"✅ <b>VIP Jangchi Ayiqcha Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 💣 Jangchi Ayiqcha (50⭐)\n📌 <b>Holati:</b> Faol (1 martalik VIP)", parse_mode="HTML")
+  else:
+    await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 16. 🎁 VIP RANDOM SOVG'A (50⭐)
 @router.message(F.text.startswith("/vipgift") | F.text.startswith("/promovipgift") | F.text.startswith("/promorare"))
 async def cmd_add_promo_rare_menu(message: Message) -> None:
   if not message.from_user or not _is_bot_admin(message.from_user.id): return
@@ -312,12 +344,12 @@ async def cmd_add_promo_rare_menu(message: Message) -> None:
   code = parts[1].strip().upper()
   from services.database import create_promocode
   if await create_promocode(code, prize_type="rare"):
-    await message.answer(f"✅ <b>VIP Sovg'a Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 🌟 8 ta 50⭐ sovg'adan biri (Aprel, Pasxa, Qorbobo, Usta, Archa, Patrik, Valentin, Yurakcha)\n📌 <b>Holati:</b> Faol (1 martalik VIP)", parse_mode="HTML")
+    await message.answer(f"✅ <b>VIP Sovg'a Promo-kodi yaratildi!</b>\n\n🎟 <b>Kod:</b> <code>{code}</code>\n🎁 <b>Yutuq:</b> 🌟 10 ta 50⭐ sovg'adan biri (Aprel, Pasxa, Qorbobo, Usta, Futbolchi, Jangchi, Archa, Patrik, Valentin, Yurakcha)\n📌 <b>Holati:</b> Faol (1 martalik VIP)", parse_mode="HTML")
   else:
     await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 15. 🎲 UMUMIY PROMO-KOD
+# 17. 🎲 UMUMIY PROMO-KOD
 @router.message(F.text.startswith("/addpromo") | F.text.startswith("/promo"))
 async def cmd_add_promocode(message: Message) -> None:
   if not message.from_user:
@@ -340,6 +372,8 @@ async def cmd_add_promocode(message: Message) -> None:
       "🐰 <code>/promoeaster KOD</code> — Pasxa Ayiqchasi (50⭐)\n"
       "🎅 <code>/promonewyear KOD</code> — Yangi Yil Ayiqchasi (50⭐)\n"
       "🔨 <code>/promobuilder KOD</code> — Usta Ayiqcha (50⭐)\n"
+      "⚽ <code>/promofootball KOD</code> — Futbolchi Ayiqcha (50⭐)\n"
+      "💣 <code>/promosoldier KOD</code> — Jangchi Ayiqcha (50⭐)\n"
       "🎄 <code>/promotree KOD</code> — Yangi Yil Archasi (50⭐)\n"
       "🍀 <code>/promopatrick KOD</code> — Patrik Ayiqchasi (50⭐)\n"
       "💘 <code>/promovalentine KOD</code> — Valentin Ayiqchasi (50⭐)\n"

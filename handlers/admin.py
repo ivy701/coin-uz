@@ -509,7 +509,59 @@ async def cmd_add_promo_builder(message: Message):
         await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 14. 🎁 VIP RANDOM SOVG'A (50⭐)
+# 14. ⚽ VIP FUTBOLCHI AYIQCHA (50⭐)
+@router.message(Command("promofootball", "promofutbol"))
+@router.message(F.text.startswith("/promofootball") | F.text.startswith("/promofutbol"))
+async def cmd_add_promo_football(message: Message):
+    if not message.from_user: return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("⚽ <b>VIP Futbolchi Ayiqcha (50⭐) promo-kod yaratish:</b>\n\n👉 <code>/promofootball KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import create_promocode
+    if await create_promocode(code, prize_type="football_bear"):
+        await message.answer(
+            f"✅ <b>VIP Futbolchi Ayiqcha Promo-kodi yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> ⚽ Futbolchi Ayiqcha (50⭐)\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik VIP)",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 15. 💣 VIP JANGCHI AYIQCHA (50⭐)
+@router.message(Command("promosoldier", "promojangchi", "promomilitary", "promocs"))
+@router.message(F.text.startswith("/promosoldier") | F.text.startswith("/promojangchi") | F.text.startswith("/promomilitary") | F.text.startswith("/promocs"))
+async def cmd_add_promo_soldier(message: Message):
+    if not message.from_user: return
+    if not _is_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("💣 <b>VIP Jangchi Ayiqcha (50⭐) promo-kod yaratish:</b>\n\n👉 <code>/promosoldier KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import create_promocode
+    if await create_promocode(code, prize_type="soldier_bear"):
+        await message.answer(
+            f"✅ <b>VIP Jangchi Ayiqcha Promo-kodi yaratildi!</b>\n\n"
+            f"🎟 <b>Kod:</b> <code>{code}</code>\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 💣 Jangchi Ayiqcha (50⭐)\n"
+            f"📌 <b>Holati:</b> Faol (1 martalik VIP)",
+            parse_mode="HTML"
+        )
+    else:
+        await message.answer("❌ Xatolik yuz berdi!")
+
+
+# 16. 🎁 VIP RANDOM SOVG'A (50⭐)
 @router.message(Command("vipgift", "promovipgift", "promorare"))
 @router.message(F.text.startswith("/vipgift") | F.text.startswith("/promovipgift") | F.text.startswith("/promorare"))
 async def cmd_add_promo_rare(message: Message):
@@ -527,7 +579,7 @@ async def cmd_add_promo_rare(message: Message):
         await message.answer(
             f"✅ <b>VIP Sovg'a Promo-kodi yaratildi!</b>\n\n"
             f"🎟 <b>Kod:</b> <code>{code}</code>\n"
-            f"🎁 <b>Kafolatlangan yutuq:</b> 🌟 8 ta 50⭐ sovg'adan biri (Aprel, Pasxa, Qorbobo, Usta, Archa, Patrik, Valentin, Yurakcha)\n"
+            f"🎁 <b>Kafolatlangan yutuq:</b> 🌟 10 ta 50⭐ sovg'adan biri (Aprel, Pasxa, Qorbobo, Usta, Futbolchi, Jangchi, Archa, Patrik, Valentin, Yurakcha)\n"
             f"📌 <b>Holati:</b> Faol (1 martalik VIP)",
             parse_mode="HTML"
         )
@@ -535,7 +587,7 @@ async def cmd_add_promo_rare(message: Message):
         await message.answer("❌ Xatolik yuz berdi!")
 
 
-# 15. 🎲 UMUMIY PROMO-KOD (Standart: 15⭐ / 25⭐)
+# 17. 🎲 UMUMIY PROMO-KOD (Standart: 15⭐ / 25⭐)
 @router.message(Command("addpromo", "promo"))
 @router.message(F.text.startswith("/addpromo") | F.text.startswith("/promo"))
 async def cmd_add_promocode(message: Message):
@@ -555,6 +607,8 @@ async def cmd_add_promocode(message: Message):
             "🐰 <code>/promoeaster KOD</code> — Pasxa Ayiqchasi (50⭐)\n"
             "🎅 <code>/promonewyear KOD</code> — Yangi Yil Ayiqchasi (50⭐)\n"
             "🔨 <code>/promobuilder KOD</code> — Usta Ayiqcha (50⭐)\n"
+            "⚽ <code>/promofootball KOD</code> — Futbolchi Ayiqcha (50⭐)\n"
+            "💣 <code>/promosoldier KOD</code> — Jangchi Ayiqcha (50⭐)\n"
             "🎄 <code>/promotree KOD</code> — Yangi Yil Archasi (50⭐)\n"
             "🍀 <code>/promopatrick KOD</code> — Patrik Ayiqchasi (50⭐)\n"
             "💘 <code>/promovalentine KOD</code> — Valentin Ayiqchasi (50⭐)\n"
