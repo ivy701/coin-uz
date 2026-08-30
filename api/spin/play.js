@@ -114,14 +114,32 @@ module.exports = async (req, res) => {
       });
     }
 
-    let chosenPrize = null;
     const isVipMode = body.mode === 'vip';
+    const effectiveForcedKey = forcedKey || bonusRes.rows[0]?.forced_prize || 'bear';
+    const searchClean = String(effectiveForcedKey).toLowerCase().trim();
+    const rareKeys = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart', 'rare', 'vipgift'];
 
-    if (forcedKey) {
-      let searchKey = String(forcedKey).toLowerCase().trim();
-      const rareKeys = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart'];
+    // Security: Block Classic Promo on VIP wheel
+    if (isVipMode && !rareKeys.includes(searchClean)) {
+      await db.query(`
+        UPDATE user_bonus_spins
+        SET spins_left = spins_left + 1
+        WHERE telegram_id = $1
+      `, [parseInt(userId, 10)]);
+
+      return res.status(400).json({
+        ok: false,
+        error: '❌ Siz kiritgan promo-kod faqat Klassik Spin uchun! Iltimos, \'Klassik Spin\' bo\'limiga o\'ting.'
+      });
+    }
+
+    let chosenPrize = null;
+
+    if (effectiveForcedKey) {
+      let searchKey = searchClean;
       if (searchKey === 'rare' || searchKey === 'vipgift') {
-        searchKey = rareKeys[Math.floor(Math.random() * rareKeys.length)];
+        const giftList = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart'];
+        searchKey = giftList[Math.floor(Math.random() * giftList.length)];
       } else if (searchKey === 'builder' || searchKey === 'usta' || searchKey === 'builder_bear') {
         searchKey = 'builder_bear';
       } else if (searchKey === 'football' || searchKey === 'futbol' || searchKey === 'football_bear') {

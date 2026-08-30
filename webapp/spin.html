@@ -1248,6 +1248,8 @@
             }
         }
 
+        let availableBonusSpinType = null;
+
         function switchSpinMode(mode) {
             currentMode = mode;
             const tabClassic = document.getElementById('tabClassic');
@@ -1272,7 +1274,7 @@
                     promoTag.style.color = '#fbbf24';
                 }
                 if (headingTitle) headingTitle.innerHTML = '👑 <b>VIP Lucky Spin</b>';
-                if (headingSub) headingSub.textContent = "VIP promo-kod orqali 50⭐ va 100⭐ lik qimmatbaho sovg'alarni yuting!";
+                if (headingSub) headingSub.textContent = "VIP promo-kod orqali 50⭐ lik noyob sovg'alarni yuting!";
                 PRIZES = VIP_PRIZES;
             } else {
                 if (tabVip) tabVip.classList.remove('active');
@@ -1293,6 +1295,7 @@
 
             renderPrizesGrid();
             drawWheel();
+            updateSpinUIState();
             if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
@@ -1466,27 +1469,111 @@
             } catch(e) {}
         }
 
-        async function checkSpinStatus() {
-            const apiBase = getApiBase();
-            const userId = getUserId();
-            const localBonuses = getLocalBonusSpins();
+        function isVipPrizeKey(key) {
+            if (!key) return false;
+            const VIP_KEYS = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart', 'rare', 'vipgift', 'stars50_vip', 'rocket', 'diamond', 'ring', 'trophy', 'cake', 'premium', 'stars250', 'stars500', 'uzs50000', 'uzs100000', 'vip', 'starvip', 'moneyvip'];
+            return VIP_KEYS.includes(String(key).toLowerCase().trim());
+        }
 
+        function updateSpinUIState() {
             const iconEl = document.getElementById('statusIcon');
             const titleEl = document.getElementById('statusTitle');
             const descEl = document.getElementById('statusDesc');
             const badgeEl = document.getElementById('statusBadge');
             const btn = document.getElementById('spinBtn');
+            if (!btn) return;
 
-            // If user has local bonus spins
+            const localBonuses = getLocalBonusSpins();
+            const forcedKey = nextForcedPrizeKey || localStorage.getItem('coinstat_forced_prize');
+            const isVipBonus = isVipPrizeKey(forcedKey);
+            availableBonusSpinType = isVipBonus ? 'vip' : 'classic';
+
             if (localBonuses > 0) {
-                canSpin = true;
-                if (iconEl) iconEl.textContent = '🎁';
-                titleEl.textContent = 'Bonus Spin Mavjud! 🎟';
-                descEl.textContent = `Sizda ${localBonuses} ta bepul aylantirish bor!`;
-                badgeEl.className = 'top-status-badge badge-eligible';
-                badgeEl.textContent = 'Aktiv ✅';
-                btn.disabled = false;
-                btn.innerHTML = '<span>🎲 G\'ILDIRAKNI AYLANTRISH</span>';
+                if (currentMode === 'vip') {
+                    if (isVipBonus) {
+                        canSpin = true;
+                        if (iconEl) iconEl.textContent = '👑';
+                        if (titleEl) titleEl.textContent = 'VIP Spin Mavjud! 👑';
+                        if (descEl) descEl.textContent = `Sizda ${localBonuses} ta VIP bepul aylantirish bor!`;
+                        if (badgeEl) {
+                            badgeEl.className = 'top-status-badge badge-eligible';
+                            badgeEl.textContent = 'VIP Aktiv ✅';
+                        }
+                        btn.disabled = false;
+                        btn.innerHTML = '<span>🎲 VIP G\'ILDIRAKNI AYLANTRISH</span>';
+                    } else {
+                        // User has classic bonus, but is currently viewing VIP tab
+                        canSpin = false;
+                        if (iconEl) iconEl.textContent = '🔒';
+                        if (titleEl) titleEl.textContent = 'VIP Promo Kerak 🔒';
+                        if (descEl) descEl.textContent = 'Sizdagi promo-kod faqat Klassik Spin uchun! Klassik bo\'limga o\'ting.';
+                        if (badgeEl) {
+                            badgeEl.className = 'top-status-badge badge-locked';
+                            badgeEl.textContent = 'Klassik Promo 🎟';
+                        }
+                        btn.disabled = true;
+                        btn.innerHTML = '<span>🔒 Faqat VIP Promo Kod orqali (Klassik bo\'limga o\'ting)</span>';
+                    }
+                } else {
+                    // Classic mode
+                    if (!isVipBonus) {
+                        canSpin = true;
+                        if (iconEl) iconEl.textContent = '🎁';
+                        if (titleEl) titleEl.textContent = 'Bonus Spin Mavjud! 🎟';
+                        if (descEl) descEl.textContent = `Sizda ${localBonuses} ta bepul aylantirish bor!`;
+                        if (badgeEl) {
+                            badgeEl.className = 'top-status-badge badge-eligible';
+                            badgeEl.textContent = 'Aktiv ✅';
+                        }
+                        btn.disabled = false;
+                        btn.innerHTML = '<span>🎲 G\'ILDIRAKNI AYLANTRISH</span>';
+                    } else {
+                        // User has VIP bonus, but is on Classic tab
+                        canSpin = false;
+                        if (iconEl) iconEl.textContent = '👑';
+                        if (titleEl) titleEl.textContent = 'VIP Spin Mavjud! 👑';
+                        if (descEl) descEl.textContent = 'Sizda VIP promo-kod mavjud! Iltimos, "VIP Spin" bo\'limiga o\'ting.';
+                        if (badgeEl) {
+                            badgeEl.className = 'top-status-badge badge-eligible';
+                            badgeEl.textContent = 'VIP Bo\'limga o\'ting ↗';
+                        }
+                        btn.disabled = false;
+                        btn.innerHTML = '<span>👑 VIP Spin bo\'limiga o\'tish ↗</span>';
+                    }
+                }
+            } else {
+                canSpin = false;
+                if (currentMode === 'vip') {
+                    if (iconEl) iconEl.textContent = '👑';
+                    if (titleEl) titleEl.textContent = 'VIP Promo Kod Kiritilmagan';
+                    if (descEl) descEl.textContent = 'VIP g\'ildirakni aylantirish uchun quyida VIP Promo Kod kiriting!';
+                    if (badgeEl) {
+                        badgeEl.className = 'top-status-badge badge-locked';
+                        badgeEl.textContent = 'VIP Kerak 🔒';
+                    }
+                    btn.disabled = true;
+                    btn.innerHTML = '<span>🔒 VIP Promo Kod orqali ochiladi</span>';
+                } else {
+                    if (iconEl) iconEl.textContent = '🎟';
+                    if (titleEl) titleEl.textContent = 'Promo Kod Kiritilmagan';
+                    if (descEl) descEl.textContent = 'G\'ildirakni aylantirish uchun quyida Promo Kod kiriting!';
+                    if (badgeEl) {
+                        badgeEl.className = 'top-status-badge badge-locked';
+                        badgeEl.textContent = 'Promo Kerak 🔒';
+                    }
+                    btn.disabled = true;
+                    btn.innerHTML = '<span>🔒 Promo Kod orqali ochiladi</span>';
+                }
+            }
+        }
+
+        async function checkSpinStatus() {
+            const apiBase = getApiBase();
+            const userId = getUserId();
+            const localBonuses = getLocalBonusSpins();
+
+            if (localBonuses > 0) {
+                updateSpinUIState();
                 return;
             }
 
@@ -1505,47 +1592,22 @@
 
                 if (data && data.ok) {
                     if (data.can_spin && data.bonus_spins > 0) {
-                        canSpin = true;
                         setLocalBonusSpins(data.bonus_spins);
                         if (data.forced_prize) {
                             nextForcedPrizeKey = data.forced_prize;
                             try { localStorage.setItem('coinstat_forced_prize', data.forced_prize); } catch(e) {}
                         }
-                        if (iconEl) iconEl.textContent = '🎁';
-                        titleEl.textContent = 'Bonus Spin Mavjud! 🎟';
-                        descEl.textContent = 'Sizda ' + data.bonus_spins + ' ta bepul aylantirish bor!';
-                        badgeEl.className = 'top-status-badge badge-eligible';
-                        badgeEl.textContent = 'Aktiv ✅';
-                        btn.disabled = false;
-                        btn.innerHTML = '<span>🎲 G\'ILDIRAKNI AYLANTRISH</span>';
                     } else {
-                        canSpin = false;
                         setLocalBonusSpins(0);
-                        if (iconEl) iconEl.textContent = '🎟';
-                        titleEl.textContent = 'Promo Kod Kiritilmagan';
-                        descEl.textContent = 'G\'ildirakni aylantirish uchun quyida Promo Kod kiriting!';
-                        badgeEl.className = 'top-status-badge badge-locked';
-                        badgeEl.textContent = 'Promo Kerak 🔒';
-                        btn.disabled = true;
-                        btn.innerHTML = '<span>🔒 Promo Kod orqali ochiladi</span>';
                     }
+                    updateSpinUIState();
                     return;
                 }
             } catch (err) {
                 // Fallback for offline/static deployment
             }
 
-            // Default fallback state when offline
-            if (localBonuses <= 0) {
-                canSpin = false;
-                if (iconEl) iconEl.textContent = '🎟';
-                titleEl.textContent = 'Promo Kod Kiritilmagan';
-                descEl.textContent = 'G\'ildirakni aylantirish uchun quyida Promo Kod kiriting!';
-                badgeEl.className = 'top-status-badge badge-locked';
-                badgeEl.textContent = 'Promo Kerak 🎟';
-                btn.disabled = true;
-                btn.innerHTML = '<span>🔒 Promo Kod orqali ochiladi</span>';
-            }
+            updateSpinUIState();
         }
 
         async function activatePromocode() {
@@ -1567,8 +1629,6 @@
 
             const apiBase = getApiBase();
             const userId = getUserId();
-            const tgUser = tg.initDataUnsafe?.user;
-            const myLabel = tgUser?.username ? `@${tgUser.username}` : (tgUser?.first_name || `User#${userId || 1}`);
 
             let serverSuccess = false;
             let serverData = null;
@@ -1612,33 +1672,29 @@
                 setLocalBonusSpins(getLocalBonusSpins() + 1);
                 
                 let targetPrize = (serverData && serverData.forced_prize) || PROMO_REWARDS_MAP[code] || 'bear';
-                const VIP_KEYS = ['aprel_bear', 'easter_bear', 'newyear_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart', 'rare', 'rocket', 'diamond', 'ring', 'trophy', 'cake', 'premium', 'stars250', 'stars500', 'uzs50000', 'uzs100000', 'vip', 'starvip', 'moneyvip'];
-                
-                if (VIP_KEYS.includes(targetPrize)) {
+                const isVip = isVipPrizeKey(targetPrize);
+
+                if (isVip) {
                     switchSpinMode('vip');
                 } else {
                     switchSpinMode('classic');
                 }
 
-                if (targetPrize === 'rare') {
-                    const rarePicks = ['aprel_bear', 'easter_bear', 'newyear_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart'];
+                if (targetPrize === 'rare' || targetPrize === 'vipgift') {
+                    const rarePicks = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart'];
                     targetPrize = rarePicks[Math.floor(Math.random() * rarePicks.length)];
                 } else if (targetPrize === 'gift25') {
                     targetPrize = Math.random() < 0.5 ? 'rose' : 'box';
                 } else if (targetPrize === 'stars') {
-                    targetPrize = Math.random() < 0.5 ? 'stars50' : 'stars100';
-                } else if (targetPrize === 'starvip') {
-                    targetPrize = Math.random() < 0.5 ? 'stars250' : 'stars500';
+                    targetPrize = 'stars50';
                 } else if (targetPrize === 'money') {
                     targetPrize = Math.random() < 0.5 ? 'uzs10000' : 'uzs20000';
-                } else if (targetPrize === 'moneyvip') {
-                    targetPrize = Math.random() < 0.5 ? 'uzs50000' : 'uzs100000';
                 }
                 
                 nextForcedPrizeKey = targetPrize;
                 try { localStorage.setItem('coinstat_forced_prize', targetPrize); } catch(e) {}
                 if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                checkSpinStatus();
+                updateSpinUIState();
                 return;
             }
 
@@ -1772,26 +1828,38 @@
         }
 
         async function playSpin() {
-            if (isSpinning || !canSpin) return;
+            if (isSpinning) return;
             const apiBase = getApiBase();
             const userId = getUserId();
             const btn = document.getElementById('spinBtn');
+
+            const currentBonuses = getLocalBonusSpins();
+            const forcedKey = nextForcedPrizeKey || localStorage.getItem('coinstat_forced_prize');
+            const isVipBonus = isVipPrizeKey(forcedKey);
+
+            // Block classic promo on VIP wheel
+            if (currentMode === 'vip' && !isVipBonus) {
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                alert("❌ Siz kiritgan promo-kod faqat Klassik Spin uchun mo'ljallangan! Iltimos, 'Klassik Spin' bo'limiga o'ting.");
+                switchSpinMode('classic');
+                return;
+            }
+
+            // Auto-switch to VIP if user has VIP bonus
+            if (currentMode === 'classic' && isVipBonus) {
+                switchSpinMode('vip');
+                return;
+            }
+
+            if (!canSpin && currentBonuses <= 0) return;
 
             isSpinning = true;
             btn.disabled = true;
             btn.innerHTML = '<span>⏳ G\'ildirak aylanmoqda...</span>';
 
             // Consume local bonus spin if available
-            const currentBonuses = getLocalBonusSpins();
             if (currentBonuses > 0) {
                 setLocalBonusSpins(currentBonuses - 1);
-            }
-
-            const forcedKey = nextForcedPrizeKey || localStorage.getItem('coinstat_forced_prize');
-            const VIP_KEYS = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart', 'rare', 'rocket', 'diamond', 'ring', 'trophy', 'cake', 'premium', 'stars250', 'stars500', 'uzs50000', 'uzs100000', 'vip', 'starvip', 'moneyvip'];
-            
-            if (forcedKey && VIP_KEYS.includes(forcedKey) && currentMode !== 'vip') {
-                switchSpinMode('vip');
             }
 
             let prize = null;

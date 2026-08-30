@@ -1002,6 +1002,16 @@ async def get_user_bonus_spins(telegram_id: int) -> int:
     return int(row["spins_left"]) if row and row.get("spins_left") else 0
 
 
+async def get_user_bonus_info(telegram_id: int) -> dict[str, Any] | None:
+    row = await db_conn.fetchrow(
+        "SELECT spins_left, forced_prize FROM user_bonus_spins WHERE telegram_id = $1",
+        telegram_id
+    )
+    if row:
+        return {"spins_left": int(row.get("spins_left") or 0), "forced_prize": row.get("forced_prize") or "bear"}
+    return None
+
+
 async def add_user_bonus_spins(telegram_id: int, count: int = 1, forced_prize: str = "bear") -> None:
     row = await db_conn.fetchrow("SELECT spins_left FROM user_bonus_spins WHERE telegram_id = $1", telegram_id)
     if row:

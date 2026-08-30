@@ -1265,15 +1265,22 @@ async def api_spin_status(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
   user_id = int(user_id)
 
-  from services.database import get_last_lucky_spin, get_user_bonus_spins
+  from services.database import get_last_lucky_spin, get_user_bonus_info
 
-  bonus_spins = await get_user_bonus_spins(user_id)
+  bonus_info = await get_user_bonus_info(user_id)
+  spins_left = bonus_info.get("spins_left", 0) if bonus_info else 0
+  forced_prize = bonus_info.get("forced_prize", "bear") if bonus_info else "bear"
   last_spin = await get_last_lucky_spin(user_id)
+
+  vip_keys = ["aprel_bear", "easter_bear", "newyear_bear", "builder_bear", "football_bear", "soldier_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart", "rare", "vipgift"]
+  is_vip_spin = forced_prize.lower().strip() in vip_keys
 
   return web.json_response({
     "ok": True,
-    "can_spin": bonus_spins > 0,
-    "bonus_spins": bonus_spins,
+    "can_spin": spins_left > 0,
+    "bonus_spins": spins_left,
+    "forced_prize": forced_prize,
+    "spin_type": "vip" if is_vip_spin else "classic",
     "last_prize": last_spin.get("prize_title") if last_spin else None
   })
 
@@ -1327,9 +1334,14 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
     if not success:
       return web.json_response({"ok": False, "error": "Promo kodni faollashtirishda xatolik yuz berdi!"})
 
+    ptype = promo.get("prize_type", "bear")
+    vip_keys = ["aprel_bear", "easter_bear", "newyear_bear", "builder_bear", "football_bear", "soldier_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart", "rare", "vipgift"]
+    is_vip = ptype.lower().strip() in vip_keys
+
     return web.json_response({
       "ok": True,
-      "forced_prize": promo.get("prize_type", "bear"),
+      "forced_prize": ptype,
+      "spin_type": "vip" if is_vip else "classic",
       "message": "Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi 🎉"
     })
   except Exception as e:
@@ -1348,12 +1360,26 @@ async def api_spin_play(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
   user_id = int(user_id)
 
-  from services.database import db_conn, get_last_lucky_spin, record_lucky_spin, add_balance, get_user, consume_user_bonus_spin
+  from services.database import db_conn, get_last_lucky_spin, record_lucky_spin, add_balance, get_user, consume_user_bonus_spin, add_user_bonus_spins
 
   used_bonus = await consume_user_bonus_spin(user_id)
 
   if not used_bonus:
     return web.json_response({"ok": False, "error": "Omad g'ildiragini aylantirish uchun avval Promo Kod kiriting!"}, status=403)
+
+  is_vip_mode = body.get("mode") == "vip"
+  forced_key = body.get("forced_key") or (used_bonus.get("forced_prize") if isinstance(used_bonus, dict) else None)
+  forced_clean = str(forced_key or "bear").lower().strip()
+
+  vip_keys = ["aprel_bear", "easter_bear", "newyear_bear", "builder_bear", "football_bear", "soldier_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart", "rare", "vipgift"]
+
+  # Security check: User cannot play VIP spin with a classic promo code!
+  if is_vip_mode and forced_clean not in vip_keys:
+    await add_user_bonus_spins(user_id, 1, forced_prize=forced_key or "bear")
+    return web.json_response({
+      "ok": False,
+      "error": "❌ Siz kiritgan promo-kod faqat Klassik Spin uchun! Iltimos, 'Klassik Spin' bo'limiga o'ting."
+    }, status=400)
 
   classic_prizes = [
     {"key": "teddy", "title": "🧸 Teddy Bear Gift (15⭐)", "type": "gift", "weight": 12, "index": 0},
