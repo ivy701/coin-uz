@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     loadUserBalance();
     applyTranslations();
     hideLoader();
+    initInstantNavigation();
 
     // Optimized battery-friendly balance auto-sync (every 8 seconds, only when tab is visible)
     setInterval(() => {
@@ -59,6 +60,57 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!document.hidden) loadUserBalance();
     });
 });
+
+// Instant Page Navigation & Cache Accelerator (0ms Switching)
+function initInstantNavigation() {
+    const pagesToPrefetch = [
+        'index.html',
+        'gift.html',
+        'rating.html',
+        'profile.html',
+        'stars.html',
+        'premium.html',
+        'spin.html',
+        'topup.html',
+        'phone.html',
+        'orders.html'
+    ];
+
+    const prefetchPages = () => {
+        pagesToPrefetch.forEach(page => {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.as = 'document';
+            link.href = page;
+            document.head.appendChild(link);
+        });
+    };
+
+    if (window.requestIdleCallback) {
+        requestIdleCallback(prefetchPages);
+    } else {
+        setTimeout(prefetchPages, 300);
+    }
+
+    const handleFastInteraction = (e) => {
+        const target = e.target.closest('a') || e.target.closest('.dock-tab-btn') || e.target.closest('.service-quad-card') || e.target.closest('.service-card') || e.target.closest('.back-pill-btn');
+        if (!target) return;
+        const href = target.getAttribute('href') || target.getAttribute('onclick');
+        if (href && typeof href === 'string') {
+            const match = href.match(/([a-zA-Z0-9_-]+\.html)/);
+            if (match && match[1]) {
+                const link = document.createElement('link');
+                link.rel = 'prefetch';
+                link.as = 'document';
+                link.href = match[1];
+                document.head.appendChild(link);
+            }
+        }
+    };
+
+    document.addEventListener('touchstart', handleFastInteraction, { passive: true });
+    document.addEventListener('mouseover', handleFastInteraction, { passive: true });
+}
 
 function autoDetectLowEndDevice() {
     const savedSetting = localStorage.getItem('coinstat_disable_animations');
@@ -412,8 +464,15 @@ function showLoader(text) {
 
 function hideLoader() {
   const overlay = document.getElementById('loaderOverlay');
-  if (!overlay) return;
-  overlay.classList.add('hidden');
+  if (overlay) overlay.classList.add('hidden');
+  const splash = document.getElementById('appSplashScreen');
+  if (splash) {
+    splash.style.opacity = '0';
+    splash.style.pointerEvents = 'none';
+    setTimeout(() => {
+        splash.style.display = 'none';
+    }, 80);
+  }
 }
 
 function validateStarsAmount(amount) {
