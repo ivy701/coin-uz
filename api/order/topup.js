@@ -46,6 +46,54 @@ function sendTelegramMessage(botToken, chatId, text, inlineKeyboard) {
   });
 }
 
+const crypto = require('crypto');
+
+// In-memory rate limiter: max 5 requests per 60 seconds per user
+const rateLimitMap = new Map();
+function checkRateLimit(userId, maxRequests = 5, windowMs = 60000) {
+  const now = Date.now();
+  const windowStart = now - windowMs;
+  const userTimestamps = (rateLimitMap.get(userId) || []).filter(t => t > windowStart);
+  if (userTimestamps.length >= maxRequests) {
+    rateLimitMap.set(userId, userTimestamps);
+    return false;
+  }
+  userTimestamps.push(now);
+  rateLimitMap.set(userId, userTimestamps);
+  return true;
+}
+
+function validateTelegramInitData(initData, botToken) {
+  if (!initData || !botToken) return null;
+  try {
+    const urlParams = new URLSearchParams(initData);
+    const hash = urlParams.get('hash');
+    if (!hash) return null;
+    urlParams.delete('hash');
+
+    const dataCheckArr = [];
+    for (const [key, val] of Array.from(urlParams.entries()).sort(([a], [b]) => a.localeCompare(b))) {
+      dataCheckArr.push(`${key}=${val}`);
+    }
+    const dataCheckString = dataCheckArr.join('\n');
+
+    const secretKey = crypto.createHmac('sha256', 'WebAppData').update(botToken).digest();
+    const calculatedHash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+
+    if (calculatedHash !== hash) return null;
+
+    const userRaw = urlParams.get('user');
+    if (userRaw) {
+      try {
+        return { user: JSON.parse(userRaw) };
+      } catch (e) {}
+    }
+    return {};
+  } catch (e) {
+    return null;
+  }
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -55,41 +103,68 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
+  const botToken = process.env.BOT_TOKEN;
+  if (!botToken) {
+    console.error('BOT_TOKEN environment variable is not defined');
+    return res.status(500).json({ ok: false, error: 'Server sozlamalari to\'liq emas (BOT_TOKEN yo\'q)' });
+  }
+
   const body = req.body || {};
-  let userId = body.telegram_id || body.user_id;
+  const initData = req.headers['x-telegram-init-data'] || body.initData || '';
+  
+  // 1. Validate initData HMAC signature
+  const validated = validateTelegramInitData(initData, botToken);
+  let authUserId = validated?.user?.id;
+
+  if (!authUserId) {
+    if (process.env.ALLOW_UNSAFE_DEV_AUTH === 'true') {
+      authUserId = body.telegram_id || body.user_id;
+    }
+  }
+
+  if (!authUserId) {
+    return res.status(401).json({ ok: false, error: 'Telegram initData yaroqsiz yoki muddati o\'tgan (Unauthorized)' });
+  }
+
+  // 4. User ID mismatch verification
+  const claimedId = body.telegram_id || body.user_id;
+  if (claimedId && parseInt(claimedId, 10) !== parseInt(authUserId, 10)) {
+    return res.status(403).json({ ok: false, error: 'Foydalanuvchi identifikatori mos kelmadi (Forbidden)' });
+  }
+
+  // 3. Rate limiting (max 5 req/min)
+  if (!checkRateLimit(authUserId, 5, 60000)) {
+    return res.status(429).json({ ok: false, error: 'Juda ko\'p so\'rov yuborildi. Iltimos, 1 daqiqadan so\'ng qayta urinib ko\'ring.' });
+  }
+
   const amount = parseInt(body.amount, 10);
   const paymentMethod = body.payment_method || 'card';
 
-  if (!userId && body.initData) {
-    try {
-      const params = new URLSearchParams(body.initData);
-      const userStr = params.get('user');
-      if (userStr) {
-        const u = JSON.parse(userStr);
-        userId = u.id;
-      }
-    } catch (e) {}
-  }
+  // 6. Topup Limit Validation: 1,000 UZS <= amount <= 10,000,000 UZS
+  const MIN_TOPUP = parseInt(process.env.MIN_TOPUP_AMOUNT, 10) || 1000;
+  const MAX_TOPUP = parseInt(process.env.MAX_TOPUP_AMOUNT, 10) || 10000000;
 
-  if (!userId || isNaN(amount) || amount < 1000) {
-    return res.status(400).json({ ok: false, error: 'Invalid parameters' });
+  if (isNaN(amount) || amount < MIN_TOPUP || amount > MAX_TOPUP) {
+    return res.status(400).json({
+      ok: false,
+      error: `To'lov summasi ${MIN_TOPUP.toLocaleString('uz-UZ')} va ${MAX_TOPUP.toLocaleString('uz-UZ')} so'm oralig'ida bo'lishi kerak.`
+    });
   }
 
   const orderId = 'TOP_' + Date.now();
-  const botToken = process.env.BOT_TOKEN || '8540635645:AAE3c-NEqdR4F05X_7Vyiq7kP3XD5PmzX7Y';
-  const adminId = 8202423244;
+  const adminId = process.env.ADMIN_ID ? parseInt(process.env.ADMIN_ID, 10) : 8202423244;
 
   try {
     const db = getPool();
     await db.query(
       `INSERT INTO orders (telegram_id, product_type, amount, status, external_id, created_at)
        VALUES ($1, 'topup', $2, 'pending', $3, NOW())`,
-      [userId, amount, orderId]
+      [authUserId, amount, orderId]
     ).catch(e => console.error('Error recording order:', e));
 
     const adminText = 
       `💳 <b>YANGI BALANS TO'LDIRISH SO'ROVI!</b>\n\n` +
-      `👤 Foydalanuvchi ID: <code>${userId}</code>\n` +
+      `👤 Foydalanuvchi ID: <code>${authUserId}</code>\n` +
       `💰 Summa: <b>${amount.toLocaleString('uz-UZ')} so'm</b>\n` +
       `📌 To'lov usuli: <b>${paymentMethod.toUpperCase()}</b>\n` +
       `🆔 Buyurtma ID: <code>${orderId}</code>\n\n` +
@@ -97,10 +172,10 @@ module.exports = async (req, res) => {
 
     const keyboard = [
       [
-        { text: '✅ Tasdiqlash (+ pul qo\'shish)', callback_data: `approve_topup_${orderId}_${userId}_${amount}` },
+        { text: '✅ Tasdiqlash (+ pul qo\'shish)', callback_data: `approve_topup_${orderId}_${authUserId}_${amount}` },
       ],
       [
-        { text: '❌ Bekor qilish (Rad etish)', callback_data: `reject_topup_${orderId}_${userId}` },
+        { text: '❌ Bekor qilish (Rad etish)', callback_data: `reject_topup_${orderId}_${authUserId}` },
       ],
     ];
 
@@ -114,6 +189,6 @@ module.exports = async (req, res) => {
     });
   } catch (err) {
     console.error('Topup request error:', err);
-    return res.status(500).json({ ok: false, error: err.message });
+    return res.status(500).json({ ok: false, error: 'Server xatoligi yuz berdi' });
   }
 };

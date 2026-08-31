@@ -55,6 +55,37 @@ def _set_cors(resp: web.Response, origin: str) -> None:
 
 
 
+import time
+from collections import defaultdict
+import os
+
+# Rate Limiter Configuration: max 5 requests per 60 seconds per user
+class RateLimiter:
+    """Sliding window in-memory rate limiter per Telegram ID / Key."""
+    def __init__(self, max_requests: int = 5, window_seconds: int = 60):
+        self.max_requests = max_requests
+        self.window_seconds = window_seconds
+        self.requests = defaultdict(list)
+
+    def is_allowed(self, key: str | int) -> tuple[bool, int]:
+        now = time.time()
+        window_start = now - self.window_seconds
+        # Evict old timestamps
+        self.requests[key] = [t for t in self.requests[key] if t > window_start]
+        
+        if len(self.requests[key]) >= self.max_requests:
+            oldest = self.requests[key][0]
+            retry_after = max(1, int(self.window_seconds - (now - oldest)))
+            return False, retry_after
+
+        self.requests[key].append(now)
+        return True, 0
+
+# Rate limiter instances for orders, topups, and promo codes
+order_rate_limiter = RateLimiter(max_requests=5, window_seconds=60)
+spin_rate_limiter = RateLimiter(max_requests=5, window_seconds=60)
+
+
 async def _json_body(request: web.Request) -> dict:
   try:
     return await request.json()
@@ -63,10 +94,18 @@ async def _json_body(request: web.Request) -> dict:
 
 
 async def _auth_user(request: web.Request) -> dict | None:
-  init_data = request.headers.get("X-Telegram-Init-Data") or ""
+  """Extract and validate initData using official Telegram HMAC-SHA256."""
+  init_data = request.headers.get("X-Telegram-Init-Data") or request.headers.get("Authorization") or ""
+  if init_data.startswith("tma "):
+    init_data = init_data[4:]
   body = await _json_body(request)
   if not init_data:
     init_data = body.get("initData", "")
+  
+  if not settings.bot_token:
+    logger.warning("BOT_TOKEN is not configured! Cannot validate initData.")
+    return None
+    
   return validate_init_data(init_data, settings.bot_token)
 
 
@@ -79,6 +118,67 @@ def _user_id_from_auth(auth: dict | None) -> int | None:
   return None
 
 
+async def _authenticate_request(request: web.Request, check_rate_limit: bool = True, limiter: RateLimiter = order_rate_limiter) -> tuple[int, dict, dict]:
+  """
+  Unified security helper:
+  1. Validates Telegram initData signature (HMAC-SHA256) -> 401 if invalid.
+  2. Verifies that request body/params user_id matches authenticated user -> 403 if mismatch.
+  3. Checks Rate Limiting (max 5 req/min) -> 429 if exceeded.
+  """
+  body = await _json_body(request)
+  auth = await _auth_user(request)
+  auth_user_id = _user_id_from_auth(auth)
+
+  # Check initData authenticity
+  if not auth or not auth_user_id:
+    # Allow development bypass ONLY if explicitly configured in environment
+    if os.getenv("ALLOW_UNSAFE_DEV_AUTH", "").lower() == "true":
+      auth_user_id = body.get("telegram_id") or body.get("user_id")
+      if not auth_user_id:
+        raise web.HTTPUnauthorized(
+          text=json.dumps({"ok": False, "error": "Telegram avtorizatsiyasi talab qilinadi."}),
+          content_type="application/json"
+        )
+    else:
+      raise web.HTTPUnauthorized(
+        text=json.dumps({"ok": False, "error": "Telegram initData yaroqsiz yoki muddati o'tgan (Unauthorized)."}),
+        content_type="application/json"
+      )
+
+  auth_user_id = int(auth_user_id)
+
+  # User ID verification: Check that claimed user matches authenticated user
+  claimed_user_id = body.get("telegram_id") or body.get("user_id")
+  if claimed_user_id is not None:
+    try:
+      if int(claimed_user_id) != auth_user_id:
+        logger.warning("User ID mismatch attack prevented: auth=%s claimed=%s", auth_user_id, claimed_user_id)
+        raise web.HTTPForbidden(
+          text=json.dumps({"ok": False, "error": "Foydalanuvchi identifikatori mos kelmadi (Forbidden)."}),
+          content_type="application/json"
+        )
+    except (ValueError, TypeError):
+      raise web.HTTPForbidden(
+        text=json.dumps({"ok": False, "error": "Noto'g'ri foydalanuvchi identifikatori."}),
+        content_type="application/json"
+      )
+
+  # Rate limiting
+  if check_rate_limit:
+    allowed, retry_after = limiter.is_allowed(auth_user_id)
+    if not allowed:
+      raise web.HTTPTooManyRequests(
+        headers={"Retry-After": str(retry_after)},
+        text=json.dumps({
+          "ok": False,
+          "error": f"Juda ko'p so'rov yuborildi. Iltimos, {retry_after} soniyadan so'ng qayta urinib ko'ring."
+        }),
+        content_type="application/json"
+      )
+
+  return auth_user_id, (auth or {}), body
+
+
 async def health(_: web.Request) -> web.Response:
   return web.json_response({"ok": True, "service": "StarPayUz"})
 
@@ -88,13 +188,10 @@ async def webapp_index(_: web.Request) -> web.FileResponse:
 
 
 async def api_user_balance(request: web.Request) -> web.Response:
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  if not user_id:
-    user_id = body.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=False)
+  except web.HTTPException as ex:
+    return ex
   
   # Ensure user exists (create if not)
   from services.database import ensure_user
@@ -105,7 +202,7 @@ async def api_user_balance(request: web.Request) -> web.Response:
     username = u.get("username")
     full_name = f"{u.get('first_name', '')} {u.get('last_name', '')}".strip()
   
-  user = await ensure_user(int(user_id), username, full_name or "User")
+  user = await ensure_user(user_id, username, full_name or "User")
   return web.json_response({"ok": True, "balance": user.get("balance", 0)})
 
 
@@ -203,19 +300,53 @@ async def api_stars_price(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": str(e)}, status=400)
 
 
+# Official Pricing Tables (Server-authoritative, never trust client input)
+STAR_PRICE_UZS = 198  # 198 UZS per star (50 stars = 9,900 UZS)
+
+PREMIUM_PRICES = {
+    3: 160000,
+    6: 225000,
+    12: 390000
+}
+
+GIFT_PRICES = {
+    # Classic (15-25 Stars)
+    "bear": 2800,
+    "rose": 5000,
+    "box": 5000,
+    
+    # Deluxe (50-100 Stars)
+    "bouqet": 10000,
+    "bouquet": 10000,
+    "cake": 10000,
+    "rocket": 10000,
+    "heart": 10000,
+    "diamond": 20000,
+    "ring": 20000,
+    "trophy": 20000,
+    
+    # VIP Collection (50 Stars — 10,000 UZS)
+    "aprel_bear": 10000,
+    "easter_bear": 10000,
+    "newyear_bear": 10000,
+    "builder_bear": 10000,
+    "football_bear": 10000,
+    "soldier_bear": 10000,
+    "newyear_tree": 10000,
+    "patrick_bear": 10000,
+    "valentine_bear": 10000,
+    "valentine_heart": 10000,
+}
+
+
 async def api_order_stars(request: web.Request) -> web.Response:
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  if not user_id:
-    user_id = body.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=True)
+  except web.HTTPException as ex:
+    return ex
 
   username = (body.get("username") or "").strip().lstrip("@")
   quantity = _parse_stars_quantity(body)
-  
-  logger.info("api_order_stars: user_id=%s, username=%s, quantity=%s", user_id, username, quantity)
   
   if not username:
     return web.json_response({"ok": False, "error": "Username ko'rsatilmagan"}, status=400)
@@ -223,19 +354,16 @@ async def api_order_stars(request: web.Request) -> web.Response:
   if err:
     return web.json_response({"ok": False, "error": err}, status=400)
 
-  user = await get_user(int(user_id))
+  user = await get_user(user_id)
   if not user:
-    logger.warning("User %s not found in DB", user_id)
     return web.json_response({"ok": False, "error": "Foydalanuvchi topilmadi. /start bosing."}, status=400)
   
   balance = user.get("balance", 0)
-  logger.info("User %s balance: %s", user_id, balance)
   
-  # Calculate price (simple: 200 sum per star)
-  price = quantity * 200
+  # SECURITY: Server-side price calculation (198 UZS per star). Ignore client price!
+  price = quantity * STAR_PRICE_UZS
   
   if balance < price:
-    logger.warning("Insufficient balance: have %s, need %s", balance, price)
     return web.json_response(
       {"ok": False, "error": f"Balans yetarli emas. Kerak: {price:,} so'm, Balans: {balance:,} so'm"},
       status=400
@@ -244,38 +372,39 @@ async def api_order_stars(request: web.Request) -> web.Response:
   try:
     result = await fragment.buy_stars(username, quantity)
     order_id = await create_order(
-      int(user_id), "stars", username, quantity, None, str(result.get("id", "")), "completed"
+      user_id, "stars", username, quantity, price, str(result.get("id", "")), "completed"
     )
-    await deduct_balance(int(user_id), price)
+    await deduct_balance(user_id, price)
     from services.channel_notify import notify_stars
     asyncio.ensure_future(notify_stars(username, quantity, price))
     return web.json_response({"ok": True, "order_id": order_id, "result": result})
   except FragmentAPIError as e:
-    await create_order(int(user_id), "stars", username, quantity, None, status="failed")
+    await create_order(user_id, "stars", username, quantity, price, status="failed")
     return web.json_response({"ok": False, "error": str(e)}, status=400)
 
 
 async def api_order_premium(request: web.Request) -> web.Response:
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  if not user_id:
-    user_id = body.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=True)
+  except web.HTTPException as ex:
+    return ex
 
   username = (body.get("username") or "").strip().lstrip("@")
   if not username:
     return web.json_response({"ok": False, "error": "Username ko'rsatilmagan"}, status=400)
 
-  months = int(body.get("months", 3))
-  if months not in (3, 6, 12):
+  try:
+    months = int(body.get("months", 3))
+  except (ValueError, TypeError):
     months = 3
-  
-  premium_prices = {3: 160000, 6: 225000, 12: 380000}
-  price = int(body.get("price") or premium_prices.get(months, 160000))
 
-  user = await get_user(int(user_id))
+  if months not in PREMIUM_PRICES:
+    return web.json_response({"ok": False, "error": "Noto'g'ri obuna muddati (3, 6 yoki 12 oy tanlang)"}, status=400)
+  
+  # SECURITY: Server recalculates price from official table
+  price = PREMIUM_PRICES[months]
+
+  user = await get_user(user_id)
   if not user:
     return web.json_response({"ok": False, "error": "Foydalanuvchi topilmadi. /start bosing."}, status=400)
 
@@ -289,38 +418,39 @@ async def api_order_premium(request: web.Request) -> web.Response:
   try:
     result = await fragment.buy_premium(username, months)
     order_id = await create_order(
-      int(user_id), "premium", username, months, price, str(result.get("id", "")), "completed"
+      user_id, "premium", username, months, price, str(result.get("id", "")), "completed"
     )
-    await deduct_balance(int(user_id), price)
+    await deduct_balance(user_id, price)
     from services.channel_notify import notify_premium
     asyncio.ensure_future(notify_premium(username, months, price))
     return web.json_response({"ok": True, "order_id": order_id, "result": result})
   except FragmentAPIError as e:
-    await create_order(int(user_id), "premium", username, months, price, status="failed")
+    await create_order(user_id, "premium", username, months, price, status="failed")
     return web.json_response({"ok": False, "error": str(e)}, status=400)
 
 
 async def api_order_gift(request: web.Request) -> web.Response:
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  if not user_id:
-    user_id = body.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=True)
+  except web.HTTPException as ex:
+    return ex
 
   username = (body.get("username") or "").strip().lstrip("@")
   gift = (body.get("gift") or "").strip().lower()
-  price = int(body.get("price", 0))
   
   if not username:
     return web.json_response({"ok": False, "error": "Username ko'rsatilmagan"}, status=400)
   
-  if not gift or price <= 0:
+  if not gift:
     return web.json_response({"ok": False, "error": "Gift tanlanmagan"}, status=400)
   
+  # SECURITY: Server recalculates price from official GIFT_PRICES table
+  price = GIFT_PRICES.get(gift)
+  if price is None or price <= 0:
+    return web.json_response({"ok": False, "error": "Noto'g'ri yoki noma'lum sovg'a turi"}, status=400)
+  
   # Check balance
-  user = await get_user(int(user_id))
+  user = await get_user(user_id)
   if not user:
     return web.json_response({"ok": False, "error": "Foydalanuvchi topilmadi"}, status=400)
   
@@ -634,16 +764,16 @@ async def payment_webhook(request: web.Request) -> web.Response:
   return web.json_response({"ok": True, "message": "Payment processed"})
 
 
+TOPUP_MIN_AMOUNT = int(os.getenv("MIN_TOPUP_AMOUNT", 1000))
+TOPUP_MAX_AMOUNT = int(os.getenv("MAX_TOPUP_AMOUNT", 10000000))  # 10,000,000 UZS maximum limit
+
+
 async def api_order_topup(request: web.Request) -> web.Response:
-  """Create topup order with 5 minute expiration"""
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  
-  if not user_id:
-    user_id = body.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  """Create topup order with 5 minute expiration and max limits"""
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=True)
+  except web.HTTPException as ex:
+    return ex
 
   order_id = body.get("order_id")
   if not order_id:
@@ -656,14 +786,17 @@ async def api_order_topup(request: web.Request) -> web.Response:
   
   try:
     amount_int = int(amount)
-    if amount_int < 1000 or amount_int > 100000000:
-      return web.json_response({"ok": False, "error": "Summa noto'g'ri (1,000 — 100,000,000)"}, status=400)
+    if amount_int < TOPUP_MIN_AMOUNT or amount_int > TOPUP_MAX_AMOUNT:
+      return web.json_response({
+        "ok": False,
+        "error": f"To'lov summasi {TOPUP_MIN_AMOUNT:,} va {TOPUP_MAX_AMOUNT:,} so'm oralig'ida bo'lishi kerak."
+      }, status=400)
   except (TypeError, ValueError):
-    return web.json_response({"ok": False, "error": "Noto'g'ri summa"}, status=400)
+    return web.json_response({"ok": False, "error": "Noto'g'ri summa formati"}, status=400)
 
   # Save topup order — use keyword args to ensure external_id is stored
   await create_order(
-      telegram_id=int(user_id),
+      telegram_id=user_id,
       product_type="topup",
       target_username="",
       quantity=None,
@@ -968,22 +1101,19 @@ async def payment_success_page(request: web.Request) -> web.Response:
 
 
 async def api_user_transactions(request: web.Request) -> web.Response:
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  if not user_id:
-    user_id = body.get("telegram_id") or request.query.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=False)
+  except web.HTTPException as ex:
+    return ex
 
   from services.database import db_conn
   orders_rows = await db_conn.fetch(
     "SELECT * FROM orders WHERE telegram_id = $1 ORDER BY id DESC LIMIT 100",
-    int(user_id)
+    user_id
   )
   balance_rows = await db_conn.fetch(
     "SELECT * FROM balance_history WHERE telegram_id = $1 ORDER BY id DESC LIMIT 100",
-    int(user_id)
+    user_id
   )
 
   def serialize(row):
@@ -1017,18 +1147,15 @@ def _serialize_row(row):
 
 
 async def api_user_gifts(request: web.Request) -> web.Response:
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  if not user_id:
-    user_id = body.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=False)
+  except web.HTTPException as ex:
+    return ex
 
   from services.database import db_conn
   rows = await db_conn.fetch(
     "SELECT * FROM orders WHERE telegram_id = $1 AND product_type = 'gift' ORDER BY id DESC LIMIT 50",
-    int(user_id)
+    user_id
   )
 
   gifts = [_serialize_row(r) for r in rows]
@@ -1036,18 +1163,15 @@ async def api_user_gifts(request: web.Request) -> web.Response:
 
 
 async def api_user_referrals(request: web.Request) -> web.Response:
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  if not user_id:
-    user_id = body.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=False)
+  except web.HTTPException as ex:
+    return ex
 
   from services.database import db_conn
   user = await db_conn.fetchrow(
     "SELECT telegram_id, referrals, balance FROM users WHERE telegram_id = $1",
-    int(user_id)
+    user_id
   )
   referred_rows = await db_conn.fetch(
     "SELECT telegram_id, username, full_name, created_at FROM users WHERE referred_by = $1 ORDER BY created_at DESC LIMIT 50",
@@ -1290,43 +1414,22 @@ async def api_spin_status(request: web.Request) -> web.Response:
 
 async def api_spin_promocode(request: web.Request) -> web.Response:
   try:
-    auth = await _auth_user(request)
-    user_id = _user_id_from_auth(auth)
-    body = await _json_body(request)
-    if not user_id:
-      user_id = body.get("telegram_id")
-    if not user_id:
-      return web.json_response({"ok": False, "error": "Foydalanuvchi aniqlanmadi. Iltimos botdan qayta kiring!"})
-    user_id = int(user_id)
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=True, limiter=spin_rate_limiter)
+  except web.HTTPException as ex:
+    return ex
 
+  try:
     code = (body.get("code") or "").strip().upper()
     if not code:
-      return web.json_response({"ok": False, "error": "Iltimos, promo kodni kiriting!"})
+      return web.json_response({"ok": False, "error": "Promo kod yaroqsiz"}, status=400)
 
     from services.database import get_promocode, use_promocode, get_user
 
     promo = await get_promocode(code)
-    if not promo:
-      return web.json_response({"ok": False, "error": f"'{code}' nomli promo kod topilmadi!"})
-
-    if promo.get("is_used"):
-      used_by_uname = promo.get("used_by_username")
-      used_by_name = promo.get("used_by_name")
-      used_by_id = promo.get("used_by_id")
-
-      if used_by_uname:
-        user_label = f"@{used_by_uname.replace('@','')}"
-      elif used_by_name:
-        user_label = used_by_name
-      else:
-        user_label = f"Foydalanuvchi #{used_by_id}"
-
-      return web.json_response({
-        "ok": False,
-        "already_used": True,
-        "used_by": user_label,
-        "error": f"Ushbu promo kodni {user_label} faollashtirdi!"
-      })
+    # SECURITY: Return generic error message for non-existent, expired, or used promo codes
+    # This completely eliminates brute-force enumeration of promo codes
+    if not promo or promo.get("is_used"):
+      return web.json_response({"ok": False, "error": "Promo kod yaroqsiz"}, status=400)
 
     # Faollashtirish
     user = await get_user(user_id)
@@ -1335,7 +1438,7 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
 
     success = await use_promocode(code, user_id, uname, fname)
     if not success:
-      return web.json_response({"ok": False, "error": "Promo kodni faollashtirishda xatolik yuz berdi!"})
+      return web.json_response({"ok": False, "error": "Promo kod yaroqsiz"}, status=400)
 
     ptype = promo.get("prize_type", "bear")
     vip_keys = ["aprel_bear", "easter_bear", "newyear_bear", "builder_bear", "football_bear", "soldier_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart", "rare", "vipgift"]
@@ -1349,19 +1452,15 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
     })
   except Exception as e:
     logger.exception("api_spin_promocode error: %s", e)
-    return web.json_response({"ok": False, "error": f"Server xatoligi: {str(e)}"})
+    return web.json_response({"ok": False, "error": "Server xatoligi yuz berdi"}, status=500)
 
 
 async def api_spin_play(request: web.Request) -> web.Response:
   import random
-  auth = await _auth_user(request)
-  user_id = _user_id_from_auth(auth)
-  body = await _json_body(request)
-  if not user_id:
-    user_id = body.get("telegram_id")
-  if not user_id:
-    return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
-  user_id = int(user_id)
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=True, limiter=spin_rate_limiter)
+  except web.HTTPException as ex:
+    return ex
 
   from services.database import db_conn, get_last_lucky_spin, record_lucky_spin, add_balance, get_user, consume_user_bonus_spin, add_user_bonus_spins
 
