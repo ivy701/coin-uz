@@ -18,21 +18,32 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html, body {
+        html {
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #000000;
+            min-height: 100%;
+            background-color: #08090d;
             color: #ffffff;
             overflow-x: hidden;
+            overflow-y: auto;
             box-sizing: border-box;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            padding: 4px 8px 90px 8px;
+            margin: 0;
+            padding: 14px 14px 110px 14px;
+            width: 100%;
             min-height: 100vh;
+            background-color: #08090d;
+            color: #ffffff;
+            overflow-x: hidden;
+            overflow-y: visible;
+            box-sizing: border-box;
         }
 
         body::-webkit-scrollbar {

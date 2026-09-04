@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>StarPayUz - 404</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body {
+            background: #030712; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 20px; text-align: center;
+        }
+        .container { max-width: 320px; }
+        .error-img {
+            width: 200px; height: auto;
+            margin-bottom: 24px;
+            border-radius: 16px;
+        }
+        h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+        p { font-size: 14px; color: #9CA3AF; margin-bottom: 32px; line-height: 1.5; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 32px; border-radius: 18px;
+            background: #3B82F6; color: #fff;
+            font-size: 16px; font-weight: 700;
+            text-decoration: none; cursor: pointer;
+            box-shadow: 0 0 25px rgba(59,130,246,.3);
+            transition: .3s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 0 35px rgba(59,130,246,.45); }
+        .footer-text { margin-top: 32px; font-size: 12px; color: #4B5563; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="./images/404__page.webp" alt="404" class="error-img">
+        <h1 data-i18n="404.title">Sahifa topilmadi</h1>
+        <p data-i18n="404.desc">Kechirasiz, siz qidirayotgan sahifa mavjud emas yoki olib tashlangan.</p>
+        <a href="stars.html" class="btn" data-i18n="404.back">🏠 Bosh sahifaga qaytish</a>
+        <div class="footer-text">@coinstatuzBot</div>
+    </div>
+    <script>window.Telegram.WebApp.expand(); window.Telegram.WebApp.ready();</script>
+</body>
+</html>

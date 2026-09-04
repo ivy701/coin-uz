@@ -1,98 +1,118 @@
 /* ==========================================================================
-   StarPayUz - Ultra Premium WebApp Stylesheet
+   CoinStat UZ - Modern Minimal SaaS Stylesheet
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg-main: #0c0d12;
-  --bg-card: #14161f;
-  --bg-card-solid: #181a24;
+  --bg-main: #08090d;
+  --bg-card: #101218;
+  --bg-card-solid: #151720;
   --border-card: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(255, 255, 255, 0.12);
+  --border-glow: rgba(255, 255, 255, 0.14);
 
   --accent-cyan: #38bdf8;
   --accent-blue: #0284c7;
   --accent-sky: #ffffff;
-  --accent-gradient: linear-gradient(135deg, #1e2230 0%, #12141c 100%);
-  --accent-glow: rgba(0, 0, 0, 0.5);
+  --accent-gradient: linear-gradient(135deg, #1c1f2b 0%, #0f1118 100%);
+  --accent-glow: rgba(0, 0, 0, 0.4);
 
   --text-main: #ffffff;
-  --text-muted: #8e98a8;
+  --text-muted: #94a3b8;
   --text-sub: #64748b;
 
-  --nav-bg: rgba(20, 23, 36, 0.95);
-  --nav-border: rgba(255, 255, 255, 0.1);
-  --font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --nav-bg: rgba(12, 14, 20, 0.88);
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 🚀 Ultra-Smooth 60/120fps Hardware Acceleration & Tactile Responsiveness */
+* {
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+button, a, input, select, textarea, .dock-tab-btn, .service-quad-card, .gift-card, .menu-action-item, .star-2x2-card, .premium-plan-card, .stat-card-box, .vip-spin-banner, .hero-pill-btn, .lang-badge-pill {
+    touch-action: manipulation;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
+}
+
+body, html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* SaaS Entry Animation */
+@keyframes modernSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes modernFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
 }
 
 /* Global Language Pill */
 .lang-badge-pill {
-    background: #141418;
-    border: 1px solid #222228;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 800;
-    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e4e4e7;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 14px;
     border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     text-transform: uppercase;
-    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     user-select: none;
     outline: none;
 }
 
 .lang-badge-pill:active {
     transform: scale(0.92);
-    background: #27272a;
+    background: rgba(255, 255, 255, 0.12);
 }
 
 /* =========================================
-   Full-Width Edge-To-Edge Bottom Navigation
+   Modern Minimal Floating Capsule Bottom Navigation
    ========================================= */
 .bottom-dock-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100%;
-    background: rgba(12, 13, 18, 0.98);
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    border-radius: 24px 24px 0 0;
-    padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px)) 12px;
+    margin: 0 14px calc(12px + env(safe-area-inset-bottom, 0px)) 14px;
+    background: rgba(12, 14, 20, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    padding: 6px 8px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     z-index: 9999;
-    box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.85);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
     user-select: none;
     -webkit-user-select: none;
     box-sizing: border-box;
-    pointer-events: auto !important;
-}
-
-/* Moving Active Pill Glider - Sleek Dark Obsidian / Graphite Pill */
-.dock-active-glider {
-    position: absolute;
-    top: 5px;
-    bottom: 5px;
-    left: 0;
-    width: 25%;
-    background: #191b24;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 999px;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.2);
-    transition: transform 0.35s cubic-bezier(0.34, 1.45, 0.64, 1), width 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
+    animation: modernSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
 }
 
 .dock-tab-btn {
@@ -102,8 +122,8 @@
     justify-content: center;
     gap: 3px;
     padding: 6px 12px;
-    border-radius: 16px;
-    color: #72778b;
+    border-radius: 14px;
+    color: #71717a;
     cursor: pointer;
     text-decoration: none !important;
     user-select: none;
@@ -113,26 +133,25 @@
     background: transparent;
     border: none;
     outline: none;
-    pointer-events: auto !important;
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
 }
 
 .dock-tab-btn svg {
     width: 22px;
     height: 22px;
-    stroke: #72778b;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.2s ease;
+    stroke: #71717a;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dock-tab-btn span {
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.2px;
-    color: #72778b;
-    transition: color 0.2s ease, font-weight 0.2s ease;
+    letter-spacing: 0.1px;
+    color: #71717a;
+    transition: color 0.2s ease;
 }
 
-/* Active Tab: Highlighted Pill & White Icon */
 .dock-tab-btn.active {
     color: #ffffff;
     background: rgba(255, 255, 255, 0.08);
@@ -140,17 +159,16 @@
 
 .dock-tab-btn.active svg {
     stroke: #ffffff;
-    transform: scale(1.08);
+    transform: scale(1.06);
 }
 
 .dock-tab-btn.active span {
     color: #ffffff;
     font-weight: 800;
-    color: #ffffff;
 }
 
-.dock-tab-btn:active svg {
-    transform: scale(0.9);
+.dock-tab-btn:active {
+    transform: scale(0.92);
 }
 
 /* =========================================

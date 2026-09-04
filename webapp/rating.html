@@ -28,25 +28,32 @@
             --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        html, body {
+        html {
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #000000;
+            min-height: 100%;
+            background-color: #08090d;
             color: #ffffff;
             overflow-x: hidden;
+            overflow-y: auto;
             box-sizing: border-box;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            background-image: 
-                radial-gradient(circle at 50% 10%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.06) 0%, transparent 45%),
-                radial-gradient(circle at 90% 60%, rgba(168, 85, 247, 0.06) 0%, transparent 45%);
-            padding: 4px 8px 90px 8px;
+            margin: 0;
+            padding: 14px 14px 110px 14px;
+            width: 100%;
             min-height: 100vh;
+            background-color: #08090d;
+            color: #ffffff;
+            overflow-x: hidden;
+            overflow-y: visible;
+            box-sizing: border-box;
         }
 
         body::-webkit-scrollbar {
