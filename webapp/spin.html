@@ -31,29 +31,17 @@
             --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100%;
-            background-color: #08090d;
-            color: #ffffff;
-            overflow-x: hidden;
-            overflow-y: auto;
-            box-sizing: border-box;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
         body {
-            background-color: #08090d;
+            background-color: #08080c;
+            background-image: 
+                radial-gradient(circle at 50% 15%, rgba(245, 158, 11, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 45%);
             color: #ffffff;
-            padding: 14px 14px 110px 14px;
+            padding: 16px;
+            padding-bottom: 120px;
             min-height: 100vh;
             overflow-x: hidden;
-            overflow-y: visible;
         }
 
         /* Top Bar */
@@ -1747,10 +1735,38 @@
             updateSpinUIState();
         }
 
+        function isDesktopDevice() {
+            const tg = window.Telegram?.WebApp;
+            const tgPlatform = (tg?.platform || '').toLowerCase();
+            if (['tdesktop', 'macos', 'web', 'weba', 'webk'].includes(tgPlatform)) {
+                return true;
+            }
+            const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+            const isDesktopUA = /Windows NT|Macintosh|Mac OS X(?!.*iPhone|.*iPad)|Linux (x86_64|i686)|X11/i.test(ua);
+            if (isDesktopUA && !isMobileUA) {
+                return true;
+            }
+            return false;
+        }
+
         async function activatePromocode() {
             const input = document.getElementById('promoInput');
             const msgEl = document.getElementById('promoStatusMsg');
             const btn = document.getElementById('promoBtn');
+
+            // 🛡️ Anti-PC Security Check
+            if (isDesktopDevice()) {
+                if (msgEl) {
+                    msgEl.className = 'promo-status-msg error';
+                    msgEl.textContent = "❌ Promo-kod faqat mobil telefonlar (Telegram ilovasi) orqali ishlaydi! Kompyuter (PC) orqali foydalanish taqiqlangan.";
+                    msgEl.style.display = 'block';
+                }
+                const tg = window.Telegram?.WebApp;
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                return;
+            }
+
             const rawCode = (input.value || '').trim();
             const code = rawCode.toUpperCase();
 
@@ -1966,6 +1982,13 @@
 
         async function playSpin() {
             if (isSpinning) return;
+
+            // 🛡️ Anti-PC Security Check
+            if (isDesktopDevice()) {
+                alert("❌ Omad g'ildiragi faqat mobil telefonlar (Telegram ilovasi) orqali aylantiriladi! Kompyuterdan foydalanish cheklangan.");
+                return;
+            }
+
             const apiBase = getApiBase();
             const userId = getUserId();
             const btn = document.getElementById('spinBtn');
