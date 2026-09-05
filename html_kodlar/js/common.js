@@ -127,13 +127,13 @@ function autoDetectLowEndDevice() {
     return savedSetting === 'true';
 }
 
-// Freeze animated WebP and GIF images to static snapshot in Lite mode
+/// Freeze animated WebP and GIF images to static snapshot images
 function freezeAnimatedImages() {
     try {
         document.querySelectorAll('img').forEach(img => {
             const rawSrc = img.getAttribute('src') || img.src || '';
             if (rawSrc && (rawSrc.includes('.webp') || rawSrc.includes('.gif'))) {
-                if (img.dataset.originalSrc) return; // already frozen
+                if (img.dataset.originalSrc || rawSrc.includes('logo')) return; // already frozen or logo
 
                 const doFreeze = () => {
                     try {
@@ -146,9 +146,7 @@ function freezeAnimatedImages() {
                         const staticDataUrl = canvas.toDataURL('image/png');
                         img.dataset.originalSrc = rawSrc;
                         img.src = staticDataUrl;
-                    } catch(err) {
-                        // ignore cross-origin security
-                    }
+                    } catch(err) {}
                 };
 
                 if (img.complete && img.naturalWidth > 0) {
@@ -173,33 +171,33 @@ function unfreezeAnimatedImages() {
 }
 
 function initAnimationsSetting() {
-    const isLite = autoDetectLowEndDevice();
-    if (isLite) {
-        document.documentElement.classList.add('no-animations');
-        if (document.body) document.body.classList.add('no-animations');
-        try {
-            document.querySelectorAll('video').forEach(v => {
-                v.pause();
-                v.currentTime = 0;
-            });
-        } catch(e){}
-        freezeAnimatedImages();
-    } else {
-        document.documentElement.classList.remove('no-animations');
-        if (document.body) document.body.classList.remove('no-animations');
-        unfreezeAnimatedImages();
-    }
+    freezeAnimatedImages();
+    try {
+        document.querySelectorAll('video').forEach(v => {
+            v.pause();
+            v.currentTime = 0;
+        });
+    } catch(e){}
 }
 
 function toggleAnimations(disable) {
     if (typeof disable === 'undefined') {
-        const current = localStorage.getItem('coinstat_disable_animations') === 'true';
+        const current = isAnimationsDisabled();
         disable = !current;
     }
     localStorage.setItem('coinstat_disable_animations', disable ? 'true' : 'false');
     initAnimationsSetting();
     return disable;
 }
+
+// Auto-run freeze on DOM ready and window load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', freezeAnimatedImages);
+} else {
+    freezeAnimatedImages();
+}
+window.addEventListener('load', freezeAnimatedImages);
+setInterval(freezeAnimatedImages, 1500);
 
 function initTheme() {
     const savedTheme = localStorage.getItem('starpay_theme');
@@ -1037,7 +1035,7 @@ function initSplashScreen() {
         splash.id = 'appSplashScreen';
         splash.innerHTML = `
             <div class="splash-icon-box">
-                <img src="images/loader.webp" alt="CoinStat">
+                <img src="images/logo.png?v=99.0" alt="CoinStat UZ">
             </div>
             <div class="splash-brand-title">COINSTAT UZ</div>
             <div class="splash-dots-row">
