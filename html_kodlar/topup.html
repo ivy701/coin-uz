@@ -914,6 +914,10 @@
             btn.innerHTML = '<span>⏳</span> Yuborilmoqda...';
 
             try {
+                const tgUser = tg?.initDataUnsafe?.user;
+                const uname = tgUser?.username ? ('@' + tgUser.username.replace('@', '')) : '';
+                const uFullName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ');
+
                 const res = await fetch((apiBase ? apiBase : '') + '/api/order/topup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': (tg && tg.initData) ? tg.initData : '' },
@@ -921,6 +925,9 @@
                         order_id: orderId,
                         telegram_id: userId,
                         user_id: userId,
+                        username: uname,
+                        first_name: tgUser?.first_name || '',
+                        name: uFullName,
                         amount: selectedAmount,
                         payment_method: 'card',
                         initData: (tg && tg.initData) ? tg.initData : ''

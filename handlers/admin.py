@@ -2008,13 +2008,28 @@ async def admin_approve_topup_cb(callback: CallbackQuery):
 
         # Edit admin message
         try:
+            user_info_str = f"<code>{user_id}</code>"
+            try:
+                u = await db.get_user(user_id)
+                if u:
+                    u_uname = u.get("username")
+                    u_fname = u.get("full_name") or u.get("first_name")
+                    if u_uname and u_fname:
+                        user_info_str = f"<b>{u_fname}</b> (@{u_uname.replace('@', '')}) | <code>{user_id}</code>"
+                    elif u_uname:
+                        user_info_str = f"@{u_uname.replace('@', '')} | <code>{user_id}</code>"
+                    elif u_fname:
+                        user_info_str = f"<b>{u_fname}</b> | <code>{user_id}</code>"
+            except Exception:
+                pass
+
             updated_text = (
                 f"✅ <b>TO'LOV TASDIQLANDI!</b>\n\n"
-                f"👤 Foydalanuvchi ID: <code>{user_id}</code>\n"
-                f"💰 Summa: <b>+{amount:,} so'm</b>\n"
-                f"💳 Yangi balans: <b>{new_balance:,} so'm</b>\n"
-                f"🆔 Buyurtma: <code>{order_id}</code>\n"
-                f"👨‍💻 Tasdiqladi: @{callback.from_user.username or callback.from_user.id}\n\n"
+                f"👤 <b>Foydalanuvchi:</b> {user_info_str}\n"
+                f"💰 <b>Summa:</b> <b>+{amount:,} so'm</b>\n"
+                f"💳 <b>Yangi balans:</b> <b>{new_balance:,} so'm</b>\n"
+                f"🆔 <b>Buyurtma:</b> <code>{order_id}</code>\n"
+                f"👨‍💻 <b>Tasdiqladi:</b> @{callback.from_user.username or callback.from_user.id}\n\n"
                 f"<i>Foydalanuvchi hisobiga pul qo'shildi va xabar yuborildi.</i>"
             )
             if callback.message.photo or callback.message.document:
@@ -2089,10 +2104,27 @@ async def admin_reject_topup_cb(callback: CallbackQuery):
             logger.warning("Could not notify user %s: %s", user_id, ex)
 
     try:
+        user_info_str = f"<code>{user_id}</code>"
+        if user_id:
+            try:
+                u = await db.get_user(user_id)
+                if u:
+                    u_uname = u.get("username")
+                    u_fname = u.get("full_name") or u.get("first_name")
+                    if u_uname and u_fname:
+                        user_info_str = f"<b>{u_fname}</b> (@{u_uname.replace('@', '')}) | <code>{user_id}</code>"
+                    elif u_uname:
+                        user_info_str = f"@{u_uname.replace('@', '')} | <code>{user_id}</code>"
+                    elif u_fname:
+                        user_info_str = f"<b>{u_fname}</b> | <code>{user_id}</code>"
+            except Exception:
+                pass
+
         updated_text = (
             f"❌ <b>TO'LOV RAD ETILDI!</b>\n\n"
-            f"🆔 Buyurtma: <code>{order_id}</code>\n"
-            f"👨‍💻 Rad etdi: @{callback.from_user.username or callback.from_user.id}"
+            f"👤 <b>Foydalanuvchi:</b> {user_info_str}\n"
+            f"🆔 <b>Buyurtma:</b> <code>{order_id}</code>\n"
+            f"👨‍💻 <b>Rad etdi:</b> @{callback.from_user.username or callback.from_user.id}"
         )
         if callback.message.photo or callback.message.document:
             await callback.message.edit_caption(caption=updated_text, parse_mode="HTML", reply_markup=None)

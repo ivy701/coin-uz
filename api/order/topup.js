@@ -156,18 +156,37 @@ module.exports = async (req, res) => {
 
   try {
     const db = getPool();
-    await db.query(
-      `INSERT INTO orders (telegram_id, product_type, amount, status, external_id, created_at)
-       VALUES ($1, 'topup', $2, 'pending', $3, NOW())`,
-      [authUserId, amount, orderId]
-    ).catch(e => console.error('Error recording order:', e));
+    const tgUser = validated?.user || {};
+    const username = (body.username || (tgUser.username ? `@${tgUser.username.replace('@', '')}` : '') || '').trim();
+    const fullName = (body.name || body.first_name || [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ') || '').trim();
+
+    let userDisplay = `<code>${authUserId}</code>`;
+    if (username && fullName) {
+      userDisplay = `<b>${fullName}</b> (${username}) | <code>${authUserId}</code>`;
+    } else if (username) {
+      userDisplay = `${username} | <code>${authUserId}</code>`;
+    } else if (fullName) {
+      userDisplay = `<b>${fullName}</b> | <code>${authUserId}</code>`;
+    }
+
+    // Save/update user profile info in database
+    if (username || fullName) {
+      await db.query(
+        `INSERT INTO users (telegram_id, username, full_name, created_at)
+         VALUES ($1, $2, $3, NOW())
+         ON CONFLICT (telegram_id) DO UPDATE 
+         SET username = COALESCE(NULLIF(EXCLUDED.username, ''), users.username),
+             full_name = COALESCE(NULLIF(EXCLUDED.full_name, ''), users.full_name)`,
+        [authUserId, username.replace('@', ''), fullName]
+      ).catch(() => {});
+    }
 
     const adminText = 
       `💳 <b>YANGI BALANS TO'LDIRISH SO'ROVI!</b>\n\n` +
-      `👤 Foydalanuvchi ID: <code>${authUserId}</code>\n` +
-      `💰 Summa: <b>${amount.toLocaleString('uz-UZ')} so'm</b>\n` +
-      `📌 To'lov usuli: <b>${paymentMethod.toUpperCase()}</b>\n` +
-      `🆔 Buyurtma ID: <code>${orderId}</code>\n\n` +
+      `👤 <b>Foydalanuvchi:</b> ${userDisplay}\n` +
+      `💰 <b>Summa:</b> <b>${amount.toLocaleString('uz-UZ')} so'm</b>\n` +
+      `📌 <b>To'lov usuli:</b> <b>${paymentMethod.toUpperCase()}</b>\n` +
+      `🆔 <b>Buyurtma ID:</b> <code>${orderId}</code>\n\n` +
       `<i>Foydalanuvchi kartaga pul o'tkazganini tasdiqlagan bo'lsa, quyidagi tugma orqali tasdiqlang:</i>`;
 
     const keyboard = [
