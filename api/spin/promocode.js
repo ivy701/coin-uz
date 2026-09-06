@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 let pool;
 function getPool() {
   if (!pool) {
-    const connectionString = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_FOH4kIY9gEte@ep-dawn-pond-axw9wntv-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require';
+    const connectionString = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_gbusDUvG1z8M@ep-dawn-pond-axw9wntv-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require';
     pool = new Pool({
       connectionString,
       ssl: { rejectUnauthorized: false },
@@ -78,7 +78,31 @@ module.exports = async (req, res) => {
       );
     `);
 
-    // Check if code exists
+    // 1. 12-soatlik cheklov (G'olib bo'lgan foydalanuvchi 12 soat ichida yana promo-kod ishlata olmaydi)
+    const lastUsedRes = await db.query(`
+      SELECT used_at FROM lucky_promocodes 
+      WHERE used_by_id = $1 AND is_used = TRUE AND used_at IS NOT NULL 
+      ORDER BY used_at DESC LIMIT 1
+    `, [parseInt(userId, 10)]);
+
+    if (lastUsedRes.rows.length > 0 && lastUsedRes.rows[0].used_at) {
+      const lastUsedAt = new Date(lastUsedRes.rows[0].used_at).getTime();
+      const now = Date.now();
+      const diffMs = now - lastUsedAt;
+      const twelveHoursMs = 12 * 60 * 60 * 1000;
+      if (diffMs < twelveHoursMs) {
+        const remMs = twelveHoursMs - diffMs;
+        const remHours = Math.floor(remMs / (60 * 60 * 1000));
+        const remMins = Math.floor((remMs % (60 * 60 * 1000)) / (60 * 1000));
+        const timeMsg = remHours > 0 ? `${remHours} soat ${remMins} daqiqadan` : `${remMins} daqiqadan`;
+        return res.status(200).json({
+          ok: false,
+          error: `⏳ Siz so'nggi 12 soat ichida allaqachon promo-kod orqali g'olib bo'lgansiz! Yangi promo-kodni ${timeMsg} so'ng ishlatishingiz mumkin.`
+        });
+      }
+    }
+
+    // 2. Check if code exists
     let promoRes = await db.query('SELECT * FROM lucky_promocodes WHERE UPPER(code) = UPPER($1)', [code]);
     
     // Auto-seed default promo codes
@@ -99,34 +123,17 @@ module.exports = async (req, res) => {
     }
 
     if (promoRes.rows.length === 0) {
-      return res.status(200).json({ ok: false, error: `'${code}' nomli promo kod topilmadi!` });
+      return res.status(200).json({ ok: false, error: `❌ '${code}' nomli promo-kod topilmadi yoki muddati tugagan!` });
     }
 
     const promo = promoRes.rows[0];
 
+    // 3. Single-use check (Bitta odam ishlatdi - boshqa hech kim ishlata olmaydi)
     if (promo.is_used) {
-      let userLabel = 'boshqa foydalanuvchi';
-      if (promo.used_by_username) {
-        userLabel = `@${promo.used_by_username.replace('@', '')}`;
-      } else if (promo.used_by_name) {
-        userLabel = promo.used_by_name;
-      } else if (promo.used_by_id) {
-        userLabel = `Foydalanuvchi #${promo.used_by_id}`;
-      }
-
-      if (promo.used_by_id && String(promo.used_by_id) === String(userId)) {
-        return res.status(200).json({
-          ok: false,
-          already_used: true,
-          error: 'Siz ushbu promo kodni allaqachon faollashtirgansiz!'
-        });
-      }
-
       return res.status(200).json({
         ok: false,
         already_used: true,
-        used_by: userLabel,
-        error: `Ushbu promo kod allaqachon faollashtirilgan! (${userLabel})`
+        error: '❌ Ushbu promo-kod allaqachon ishlatilgan! (Har bir kod faqat 1 kishi uchun)'
       });
     }
 
@@ -150,7 +157,7 @@ module.exports = async (req, res) => {
     if (updateRes.rows.length === 0) {
       return res.status(200).json({
         ok: false,
-        error: 'Ushbu promo kod boshqa foydalanuvchi tomonidan hozirgina faollashtirildi!'
+        error: '❌ Ushbu promo-kod boshqa foydalanuvchi tomonidan hozirgina ishlatildi!'
       });
     }
 

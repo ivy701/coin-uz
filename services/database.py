@@ -977,23 +977,87 @@ async def get_promocode(code: str) -> dict[str, Any] | None:
         return None
 
 
+async def check_user_promocode_cooldown(telegram_id: int) -> tuple[bool, int, int]:
+    """
+    Foydalanuvchi so'nggi 12 soat ichida promo-kod ishlatganmi yoki yo'qligini tekshiradi.
+    Qaytaradi: (in_cooldown, remaining_hours, remaining_minutes)
+    """
+    try:
+        if IS_SQLITE:
+            row = await db_conn.fetchrow(
+                """
+                SELECT used_at FROM lucky_promocodes 
+                WHERE used_by_id = $1 AND is_used = 1 AND used_at IS NOT NULL 
+                ORDER BY used_at DESC LIMIT 1
+                """,
+                telegram_id
+            )
+        else:
+            row = await db_conn.fetchrow(
+                """
+                SELECT used_at FROM lucky_promocodes 
+                WHERE used_by_id = $1 AND is_used = TRUE AND used_at IS NOT NULL 
+                ORDER BY used_at DESC LIMIT 1
+                """,
+                telegram_id
+            )
+        if not row or not row.get("used_at"):
+            return False, 0, 0
+
+        used_at = row["used_at"]
+        import datetime
+        now = datetime.datetime.now(datetime.timezone.utc)
+
+        if isinstance(used_at, str):
+            try:
+                used_dt = datetime.datetime.fromisoformat(used_at.replace("Z", "+00:00"))
+            except Exception:
+                used_dt = datetime.datetime.strptime(used_at[:19], "%Y-%m-%d %H:%M:%S").replace(tzinfo=datetime.timezone.utc)
+        elif isinstance(used_at, datetime.datetime):
+            used_dt = used_at
+        else:
+            return False, 0, 0
+
+        if used_dt.tzinfo is None:
+            used_dt = used_dt.replace(tzinfo=datetime.timezone.utc)
+
+        diff_seconds = (now - used_dt).total_seconds()
+        cooldown_seconds = 12 * 3600  # 12 soat
+
+        if diff_seconds < cooldown_seconds:
+            remaining = int(cooldown_seconds - diff_seconds)
+            hrs = max(0, remaining // 3600)
+            mins = max(0, (remaining % 3600) // 60)
+            return True, hrs, mins
+
+        return False, 0, 0
+    except Exception as e:
+        logger.error(f"check_user_promocode_cooldown error: {e}")
+        return False, 0, 0
+
+
 async def use_promocode(code: str, telegram_id: int, username: str | None, full_name: str | None) -> bool:
+    # 12 soatlik cheklovni tekshirish
+    in_cooldown, _, _ = await check_user_promocode_cooldown(telegram_id)
+    if in_cooldown:
+        return False
+
     promo = await get_promocode(code)
     if not promo or promo.get("is_used"):
         return False
 
     ptype = promo.get("prize_type", "bear") if promo else "bear"
     if IS_SQLITE:
-        await db_conn.execute(
+        res = await db_conn.execute(
             """
             UPDATE lucky_promocodes 
             SET is_used = 1, used_by_id = $1, used_by_username = $2, used_by_name = $3, used_at = CURRENT_TIMESTAMP 
-            WHERE code = $4 AND is_used = 0
+            WHERE UPPER(code) = UPPER($4) AND is_used = 0
             """,
             telegram_id, username or "", full_name or "", code.strip()
         )
     else:
-        await db_conn.execute(
+        res = await db_conn.execute(
             """
             UPDATE lucky_promocodes 
             SET is_used = TRUE, used_by_id = $1, used_by_username = $2, used_by_name = $3, used_at = NOW() 

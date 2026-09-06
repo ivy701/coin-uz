@@ -1421,24 +1421,42 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
   try:
     code = (body.get("code") or "").strip().upper()
     if not code:
-      return web.json_response({"ok": False, "error": "Promo kod yaroqsiz"}, status=400)
+      return web.json_response({"ok": False, "error": "Iltimos, promo-kodni kiriting!"}, status=400)
 
-    from services.database import get_promocode, use_promocode, get_user
+    from services.database import get_promocode, use_promocode, get_user, check_user_promocode_cooldown
 
+    # 1. 12 soatlik cheklov (G'olib bo'lgan odam 12 soat ichida yana kod ishlata olmaydi)
+    in_cooldown, rem_hrs, rem_mins = await check_user_promocode_cooldown(user_id)
+    if in_cooldown:
+      time_msg = f"{rem_hrs} soat {rem_mins} daqiqadan" if rem_hrs > 0 else f"{rem_mins} daqiqadan"
+      return web.json_response({
+        "ok": False,
+        "error": f"⏳ Siz so'nggi 12 soat ichida allaqachon promo-kod orqali g'olib bo'lgansiz! Yangi promo-kodni {time_msg} so'ng ishlatishingiz mumkin."
+      }, status=400)
+
+    # 2. Promo-kod mavjudligi va bir martalik ekanligini tekshirish
     promo = await get_promocode(code)
-    # SECURITY: Return generic error message for non-existent, expired, or used promo codes
-    # This completely eliminates brute-force enumeration of promo codes
-    if not promo or promo.get("is_used"):
-      return web.json_response({"ok": False, "error": "Promo kod yaroqsiz"}, status=400)
+    if not promo:
+      return web.json_response({"ok": False, "error": "❌ Bunday promo-kod topilmadi yoki muddati tugagan!"}, status=400)
 
-    # Faollashtirish
+    if promo.get("is_used"):
+      return web.json_response({
+        "ok": False,
+        "error": "❌ Ushbu promo-kod allaqachon ishlatilgan! (Har bir kod faqat 1 kishi uchun)"
+      }, status=400)
+
+    # 3. Faollashtirish
     user = await get_user(user_id)
     uname = user.get("username") if user else ""
     fname = user.get("full_name") if user else ""
 
     success = await use_promocode(code, user_id, uname, fname)
     if not success:
-      return web.json_response({"ok": False, "error": "Promo kod yaroqsiz"}, status=400)
+      # Agar boshqa foydalanuvchi ayni paytda faollashtirib qo'ygan bo'lsa
+      return web.json_response({
+        "ok": False,
+        "error": "❌ Ushbu promo-kod allaqachon ishlatildi!"
+      }, status=400)
 
     ptype = promo.get("prize_type", "bear")
     vip_keys = ["aprel_bear", "easter_bear", "newyear_bear", "builder_bear", "football_bear", "soldier_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart", "rare", "vipgift"]
