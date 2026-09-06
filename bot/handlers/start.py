@@ -1,3 +1,4 @@
+import os
 from aiogram import Router
 from aiogram.filters import Command, CommandStart
 from aiogram.types import (
@@ -5,6 +6,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     Message,
     WebAppInfo,
+    FSInputFile,
 )
 
 from bot.config import settings
@@ -12,6 +14,10 @@ from bot.keyboards import bottom_reply_keyboard, main_inline_keyboard
 from services.database import ensure_user, get_user
 
 router = Router()
+
+BANNER_FILE = os.path.abspath("images/start_banner.jpg")
+if not os.path.exists(BANNER_FILE):
+    BANNER_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "images", "start_banner.jpg")
 
 EMOJI_DUCK_WAVE = "5472235990955334730"  # 👋 / 🐥 Custom Wave
 EMOJI_LIGHTNING = "5825794181183836432"  # ⚡️ Custom lightning
@@ -35,6 +41,25 @@ def menu_text(
     f'<tg-emoji emoji-id="{EMOJI_ID_ICON}">💼</tg-emoji> User ID: {user_id_val}\n\n'
     f'Pastdagi tugmani bosing va hoziroq boshlang <tg-emoji emoji-id="{EMOJI_DOWN}">⬇️</tg-emoji>'
   )
+
+
+async def send_start_banner(message: Message, text: str, reply_markup: InlineKeyboardMarkup) -> None:
+    if os.path.exists(BANNER_FILE):
+        try:
+            await message.answer_photo(
+                photo=FSInputFile(BANNER_FILE),
+                caption=text,
+                reply_markup=reply_markup,
+                parse_mode="HTML"
+            )
+            return
+        except Exception:
+            pass
+    await message.answer(
+        text,
+        reply_markup=reply_markup,
+        parse_mode="HTML",
+    )
 
 
 @router.message(Command("admin"))
@@ -71,11 +96,10 @@ async def cmd_start(message: Message) -> None:
       ref_id = int(arg)
 
   user = await ensure_user(tg.id, tg.username, tg.full_name, referred_by=ref_id)
-
-  await message.answer(
-    menu_text(user, tg.username, tg.first_name),
+  await send_start_banner(
+    message=message,
+    text=menu_text(user, tg.username, tg.first_name),
     reply_markup=main_inline_keyboard(user_id=tg.id),
-    parse_mode="HTML",
   )
 
 
@@ -87,8 +111,9 @@ async def cmd_menu(message: Message) -> None:
   user = await get_user(tg.id) or await ensure_user(
     tg.id, tg.username, tg.full_name
   )
-  await message.answer(
-    menu_text(user, tg.username, tg.first_name),
+  await send_start_banner(
+    message=message,
+    text=menu_text(user, tg.username, tg.first_name),
     reply_markup=main_inline_keyboard(user_id=tg.id),
-    parse_mode="HTML",
   )
+

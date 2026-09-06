@@ -1,17 +1,22 @@
 from aiogram import Router, F, Bot
-from aiogram.types import Message, MessageEntity, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import Message, MessageEntity, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.formatting import Text, Bold, as_list, as_marked_section
 from aiogram.enums import ParseMode
 import logging
+import os
 import keyboards
 from services.database import db
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
 router = Router()
+
+BANNER_FILE = os.path.abspath("images/start_banner.jpg")
+if not os.path.exists(BANNER_FILE):
+    BANNER_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "images", "start_banner.jpg")
 
 # Premium emoji IDs
 EMOJI_DUCK_WAVE = "5472235990955334730"  # 👋 / 🐥 Custom Wave
@@ -55,6 +60,38 @@ def get_welcome_text(user: dict | None, username: str | None, first_name: str | 
         f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> To\'liq avtomatlashtirilgan xizmat\n\n'
         f'<tg-emoji emoji-id="{EMOJI_ID_ICON}">💼</tg-emoji> User ID: {user_id_val}\n\n'
         f'Pastdagi tugmani bosing va hoziroq boshlang <tg-emoji emoji-id="{EMOJI_DOWN}">⬇️</tg-emoji>'
+    )
+
+
+async def send_welcome_screen(
+    target_msg: Message,
+    user: dict | None,
+    username: str | None,
+    first_name: str | None,
+    user_id: int,
+    lang: str = "uz",
+    balance: int = 0
+):
+    welcome_text = get_welcome_text(user, username, first_name)
+    reply_markup = keyboards.get_webapp_main_keyboard(user_id, lang=lang, balance=balance)
+
+    if os.path.exists(BANNER_FILE):
+        try:
+            photo = FSInputFile(BANNER_FILE)
+            await target_msg.answer_photo(
+                photo=photo,
+                caption=welcome_text,
+                reply_markup=reply_markup,
+                parse_mode="HTML"
+            )
+            return
+        except Exception as e:
+            logger.warning("Failed to send start banner photo: %s", e)
+
+    await target_msg.answer(
+        welcome_text,
+        reply_markup=reply_markup,
+        parse_mode="HTML"
     )
 
 
@@ -140,13 +177,16 @@ async def cmd_start(message: Message):
             )
             return
 
-        welcome_text = get_welcome_text(user, username, first_name)
         user_bal = user.get("balance", 0) if user else 0
 
-        await message.answer(
-            welcome_text,
-            reply_markup=keyboards.get_webapp_main_keyboard(user_id, lang=lang, balance=user_bal),
-            parse_mode="HTML"
+        await send_welcome_screen(
+            target_msg=message,
+            user=user,
+            username=username,
+            first_name=first_name,
+            user_id=user_id,
+            lang=lang,
+            balance=user_bal
         )
     except Exception as e:
         logger.exception("Error in cmd_start: %s", e)
@@ -184,11 +224,14 @@ async def check_subscription_callback(callback: CallbackQuery):
     except Exception:
         pass
 
-    welcome_text = get_welcome_text(user, callback.from_user.username, callback.from_user.first_name)
-    await callback.message.answer(
-        welcome_text,
-        reply_markup=keyboards.get_webapp_main_keyboard(user_id, lang=lang, balance=user_bal),
-        parse_mode="HTML"
+    await send_welcome_screen(
+        target_msg=callback.message,
+        user=user,
+        username=callback.from_user.username,
+        first_name=callback.from_user.first_name,
+        user_id=user_id,
+        lang=lang,
+        balance=user_bal
     )
 
 
