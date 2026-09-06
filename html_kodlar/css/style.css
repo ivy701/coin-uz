@@ -45,6 +45,50 @@
     box-sizing: border-box;
 }
 
+/* ==========================================================================
+   60 FPS WebP & Animated Media Hardware Acceleration Engine
+   ========================================================================== */
+img, picture, video, canvas {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+/* Isolate animated WebP icons onto dedicated GPU compositor layers */
+.gift-card-icon-wrap,
+.gift-card-icon-wrap img,
+.prize-item-icon,
+.prize-item-icon img,
+.lucky-banner-img,
+.modal-gift-icon img,
+.win-icon-burst img,
+.wheel-center-pin,
+.action-circle-icon img,
+.spin-mode-tab .tab-icon img {
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+    contain: paint layout;
+}
+
+/* Off-screen rendering containment for 60 FPS scrolling */
+.gifts-grid,
+.prizes-grid {
+    contain: layout style;
+}
+
+.gift-card,
+.prize-item-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 140px;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
 /* Page Zero-Reflow GPU Transition */
 .page-transition {
     opacity: 0;

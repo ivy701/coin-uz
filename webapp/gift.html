@@ -221,6 +221,10 @@
             box-sizing: border-box;
             overflow: hidden;
             cursor: pointer;
+            content-visibility: auto;
+            contain-intrinsic-size: 140px;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
 
         .gift-card:active {
@@ -244,18 +248,27 @@
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.04);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 4px 0 8px 0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            contain: paint layout;
         }
 
         .gift-card-icon-wrap img {
             width: 52px;
             height: 52px;
             object-fit: contain;
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            will-change: transform;
+            image-rendering: -webkit-optimize-contrast;
         }
 
         .gift-card-name {
@@ -868,7 +881,7 @@
                 return `
                 <div class="gift-card" onclick="openOrderModal('${g.id}')">
                     <span class="gift-card-badge">${g.badge}</span>
-                    <div class="gift-card-icon-wrap"><img src="${g.img}" alt="${gName}"></div>
+                    <div class="gift-card-icon-wrap"><img src="${g.img}" alt="${gName}" loading="lazy" decoding="async" width="52" height="52"></div>
                     <div class="gift-card-name">${gName}</div>
                     <div class="gift-card-stars">⭐ ${g.stars} Stars</div>
                     <button type="button" class="gift-card-buy-btn">${g.price.toLocaleString('uz-UZ')} UZS</button>
