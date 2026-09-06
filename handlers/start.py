@@ -16,7 +16,7 @@ router = Router()
 # Premium emoji IDs
 EMOJI_DUCK_WAVE = "5472235990955334730"  # 👋 / 🐥 Custom Wave
 EMOJI_LIGHTNING = "5825794181183836432"  # ⚡️ Custom lightning
-EMOJI_ID_ICON = "5818885490065017876"    # 💼 Duck ID / Suitcase
+EMOJI_ID_ICON = "5879770735999717115"    # 💼 User ID icon
 EMOJI_DOWN = "5229212516415978792"       # ⬇️ Circle down arrow
 EMOJI_WAVE = "5312345830382910731"       # 👋
 EMOJI_ORANGE = "5336936725765700868"     # 🟠
