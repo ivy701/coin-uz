@@ -53,8 +53,6 @@ html {
 
 body {
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-    overscroll-behavior-x: none;
 }
 
 /* Smooth High-Quality Media Rendering */
@@ -232,6 +230,10 @@ img, picture, video {
     pointer-events: auto !important;
     transition: transform 120ms ease, background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
     will-change: transform;
+}
+
+.dock-tab-btn * {
+    pointer-events: none;
 }
 
 .dock-tab-btn svg {

@@ -10,12 +10,6 @@ if (tg) {
         tg.ready();
         tg.setHeaderColor('#0a0a0f');
         tg.setBackgroundColor('#0a0a0f');
-        if (typeof tg.disableVerticalSwipes === 'function') {
-            tg.disableVerticalSwipes();
-        }
-        if (typeof tg.enableClosingConfirmation === 'function') {
-            tg.enableClosingConfirmation();
-        }
     } catch(e){}
 }
 
@@ -54,14 +48,15 @@ function triggerHaptic(type = 'light') {
 
 function initHaptics() {
     document.addEventListener('click', (e) => {
-        const clickable = e.target.closest(
-            'a, button, .dock-tab-btn, .service-quad-card, .service-card, .gift-card, ' +
-            '.back-pill-btn, .lang-badge-pill, .stars-equiv-badge-btn, .stat-card-box, ' +
-            '.vip-spin-banner, .spin-mode-tab, .filter-chip-btn, .package-card, .tab-btn'
-        );
-        if (clickable) {
-            triggerHaptic('light');
-        }
+        try {
+            const clickable = e.target.closest(
+                'button, .back-pill-btn, .lang-badge-pill, .stars-equiv-badge-btn, ' +
+                '.spin-mode-tab, .filter-chip-btn, .package-card, .tab-btn'
+            );
+            if (clickable && !clickable.closest('.dock-tab-btn')) {
+                triggerHaptic('light');
+            }
+        } catch(err) {}
     }, { passive: true });
 }
 
@@ -233,32 +228,38 @@ function initInstantNavigation() {
         setTimeout(prefetchPages, 200);
     }
 
-    const handleFastInteraction = (e) => {
-        const target = e.target.closest('a') || e.target.closest('.dock-tab-btn') || e.target.closest('.service-quad-card') || e.target.closest('.service-card') || e.target.closest('.back-pill-btn');
-        if (!target) return;
-        const href = target.getAttribute('href') || target.getAttribute('onclick');
-        if (href && typeof href === 'string') {
-            const match = href.match(/([a-zA-Z0-9_-]+\.html)/);
-            if (match && match[1]) {
-                const link = document.createElement('link');
-                link.rel = 'prefetch';
-                link.as = 'document';
-                link.href = match[1];
-                document.head.appendChild(link);
+    // Bulletproof click navigation for bottom dock navigation tabs
+    document.addEventListener('click', function(e) {
+        const tabBtn = e.target.closest('.dock-tab-btn');
+        if (tabBtn) {
+            const href = tabBtn.getAttribute('href');
+            if (href && href !== '#' && !href.startsWith('javascript:')) {
+                const current = (window.location.pathname || '').split('/').pop() || 'index.html';
+                if (current !== href) {
+                    e.preventDefault();
+                    document.querySelectorAll('.dock-tab-btn').forEach(b => b.classList.remove('active'));
+                    tabBtn.classList.add('active');
+                    triggerHaptic('selection');
+                    window.location.href = href;
+                }
             }
         }
-    };
+    });
 
-    document.addEventListener('touchstart', handleFastInteraction, { passive: true });
-    document.addEventListener('mouseover', handleFastInteraction, { passive: true });
-
-    // Instant active tab visual response
-    document.querySelectorAll('.dock-tab-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.dock-tab-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            triggerHaptic('selection');
-        }, { passive: true });
+    // Delegated click navigation for service cards, banners and stat boxes
+    document.addEventListener('click', function(e) {
+        const card = e.target.closest('.service-quad-card, .vip-spin-banner, .stat-card-box');
+        if (card) {
+            const oc = card.getAttribute('onclick');
+            if (oc && oc.includes('window.location.href')) {
+                const match = oc.match(/window\.location\.href\s*=\s*['"]([^'"]+)['"]/);
+                if (match && match[1]) {
+                    e.preventDefault();
+                    triggerHaptic('light');
+                    window.location.href = match[1];
+                }
+            }
+        }
     });
 }
 
