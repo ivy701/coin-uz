@@ -8,7 +8,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="css/style.css?v=13.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
         * {
             margin: 0;
@@ -19,9 +19,10 @@
         }
 
         body {
-            background-color: #000000;
+            background-color: #0a0a0f;
+            background-image: radial-gradient(circle at 50% 0%, #151624 0%, #0a0a0f 65%);
             color: #ffffff;
-            padding: 4px 8px 90px 8px;
+            padding: 4px 10px 92px 10px;
             width: 100%;
             box-sizing: border-box;
             min-height: 100vh;
@@ -32,98 +33,157 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding: 4px 0;
+            margin-bottom: 12px;
+            padding: 2px 0;
+            transform: translateZ(0);
         }
 
         .back-pill-btn {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 12px;
-            background: #141418;
-            border: 1px solid #222228;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease;
         }
 
         .back-pill-btn:active {
-            transform: scale(0.92);
+            transform: scale(0.94);
+        }
+
+        .premium-top-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.3px;
         }
 
         .balance-badge-pill {
-            background: #141418;
-            border: 1px solid #222228;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            padding: 8px 14px;
+            padding: 7px 12px;
             border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .balance-badge-pill span {
+            color: #38bdf8;
         }
 
         .lang-badge-pill {
-            background: #141418;
-            border: 1px solid #222228;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            padding: 8px 14px;
+            padding: 7px 11px;
             border-radius: 999px;
             cursor: pointer;
+            transition: transform 120ms ease;
         }
 
-        .premium-page-heading {
-            font-size: 22px;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: -0.5px;
-            margin-bottom: 18px;
+        .lang-badge-pill:active {
+            transform: scale(0.94);
+        }
+
+        /* Recipient Section (Prominently Placed at the Top) */
+        .recipient-section {
+            margin-bottom: 14px;
+            width: 100%;
+        }
+
+        .recipient-dark-bar {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: border-color 0.2s ease;
         }
 
-        .premium-heading-icon {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
+        .recipient-dark-bar:focus-within {
+            border-color: #a855f7;
         }
 
-        .plan-premium-icon {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-            display: inline-block;
+        .recipient-dark-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            width: 100%;
         }
 
-        /* Premium Plans Grid */
+        .recipient-dark-input::placeholder {
+            color: #64748b;
+        }
+
+        .for-me-pill {
+            background: #252633;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: transform 120ms ease, background-color 120ms ease;
+        }
+
+        .for-me-pill:active {
+            transform: scale(0.94);
+            background: #2f3142;
+        }
+
+        /* Premium Plan Cards */
         .premium-plans-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         .premium-plan-card {
-            background: #141418;
-            border: 1px solid #222228;
-            border-radius: 22px;
-            padding: 18px 20px;
+            background: #1c1c24;
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 16px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative;
             cursor: pointer;
-            transition: all 0.2s ease;
+            user-select: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            transition: transform 120ms ease, border-color 150ms ease, background-color 150ms ease;
+        }
+
+        .premium-plan-card:active {
+            transform: scale(0.98);
         }
 
         .premium-plan-card.selected {
-            border-color: #ffffff;
-            background: #1a1a22;
+            border-color: #a855f7;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, #1c1c24 100%);
         }
 
         .plan-left-col {
@@ -133,7 +193,7 @@
         }
 
         .plan-title-text {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 800;
             color: #ffffff;
             display: flex;
@@ -141,19 +201,31 @@
             gap: 8px;
         }
 
+        .plan-premium-icon {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            display: inline-block;
+        }
+
         .plan-discount-tag {
-            background: #27272a;
-            color: #a1a1aa;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
             font-size: 11px;
             font-weight: 800;
-            padding: 2px 8px;
+            padding: 2px 7px;
             border-radius: 999px;
         }
 
         .plan-price-text {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
-            color: #a1a1aa;
+            color: #82879a;
+        }
+
+        .premium-plan-card.selected .plan-price-text {
+            color: #c084fc;
         }
 
         .plan-radio-circle {
@@ -164,11 +236,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 150ms ease;
+            flex-shrink: 0;
         }
 
         .premium-plan-card.selected .plan-radio-circle {
-            border-color: #ffffff;
-            background: #ffffff;
+            border-color: #a855f7;
+            background: #a855f7;
         }
 
         .premium-plan-card.selected .plan-radio-circle::after {
@@ -176,65 +250,67 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #000000;
+            background: #ffffff;
         }
 
-        /* Recipient Input */
-        .recipient-dark-bar {
-            background: #141418;
-            border: 1px solid #222228;
-            border-radius: 18px;
-            padding: 14px 16px;
-            margin-bottom: 20px;
+        /* Benefits Feature Bar */
+        .premium-features-card {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+        }
+
+        .features-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .feature-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-        }
-
-        .recipient-dark-input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: 600;
-            width: 100%;
-        }
-
-        .recipient-dark-input::placeholder {
-            color: #52525b;
-        }
-
-        .for-me-pill {
-            background: #27272a;
-            color: #ffffff;
-            border: none;
-            border-radius: 10px;
-            padding: 6px 12px;
+            gap: 6px;
             font-size: 12px;
             font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
+            color: #cbd5e1;
+        }
+
+        .feature-item svg {
+            color: #a855f7;
+            flex-shrink: 0;
         }
 
         /* Submit CTA */
         .premium-submit-btn {
             width: 100%;
-            background: #ffffff;
-            color: #000000;
+            background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+            color: #ffffff;
             border: none;
             border-radius: 16px;
-            padding: 15px;
+            padding: 14px 18px;
             font-size: 15px;
             font-weight: 800;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease;
             text-align: center;
+            box-shadow: 0 4px 16px rgba(168, 85, 247, 0.35);
+            margin-bottom: 16px;
         }
 
         .premium-submit-btn:active {
-            transform: scale(0.98);
-            background: #e4e4e7;
+            transform: scale(0.97);
         }
 
     </style>
@@ -245,11 +321,15 @@
     <!-- Top Bar -->
     <div class="premium-top-bar">
         <a href="index.html" class="back-pill-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </a>
-        <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="premium-top-title">
+            <img src="images/premium.webp" alt="Telegram Premium" style="width: 22px; height: 22px; object-fit: contain;">
+            <span data-i18n="premium.title">Telegram Premium</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
             <div class="balance-badge-pill">
                 <span id="balance">0</span> UZS
             </div>
@@ -257,12 +337,19 @@
         </div>
     </div>
 
-    <div class="premium-page-heading">
-        <img src="images/premium.webp" alt="Telegram Premium" class="premium-heading-icon">
-        <span data-i18n="premium.title">Telegram Premium</span>
+    <!-- Recipient Section (Prominently Placed at the Top) -->
+    <div class="recipient-section">
+        <div class="recipient-dark-bar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" id="username" class="recipient-dark-input" placeholder="@username" autocomplete="off" autocapitalize="none">
+            <button type="button" class="for-me-pill" onclick="setMyUsername()" data-i18n="stars.recipient_for_me">O'zimga</button>
+        </div>
     </div>
 
-    <!-- Plans Grid -->
+    <!-- Premium Plans Grid -->
     <div class="premium-plans-grid">
         <!-- 3 Oylik -->
         <div class="premium-plan-card selected" onclick="selectPlan(3, 160000, this)">
@@ -303,14 +390,33 @@
         </div>
     </div>
 
-    <!-- Recipient Input -->
-    <div class="recipient-dark-bar">
-        <input type="text" id="username" class="recipient-dark-input" placeholder="@username">
-        <button class="for-me-pill" onclick="setMyUsername()" data-i18n="stars.recipient_for_me">O'zimga</button>
+    <!-- Premium Features Preview -->
+    <div class="premium-features-card">
+        <div class="features-title">Imkoniyatlar</div>
+        <div class="features-list">
+            <div class="feature-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>4 GB Fayllar</span>
+            </div>
+            <div class="feature-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Maksimal tezlik</span>
+            </div>
+            <div class="feature-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Ovozni matnga o'girish</span>
+            </div>
+            <div class="feature-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Eksklyuziv reaksiyalar</span>
+            </div>
+        </div>
     </div>
 
     <!-- Submit Button -->
-    <button class="premium-submit-btn" id="submitBtn" onclick="buyPremium()" data-i18n="common.buy">Sotib olish</button>
+    <button class="premium-submit-btn" id="submitBtn" onclick="buyPremium()">
+        <span data-i18n="common.buy">Sotib olish</span> — <span id="btnPriceText">160 000</span> UZS
+    </button>
 
     <!-- Floating Capsule Dock Navigation -->
     <div class="bottom-dock-nav">
@@ -358,10 +464,13 @@
             selectedPrice = price;
             document.querySelectorAll('.premium-plan-card').forEach(c => c.classList.remove('selected'));
             if (el) el.classList.add('selected');
+            
+            const priceEl = document.getElementById('btnPriceText');
+            if (priceEl) priceEl.textContent = price.toLocaleString('uz-UZ');
         }
 
         function setMyUsername() {
-            const user = tg.initDataUnsafe?.user;
+            const user = tg?.initDataUnsafe?.user;
             const input = document.getElementById('username');
             if (input) {
                 if (user && user.username) input.value = '@' + user.username;
@@ -373,20 +482,21 @@
         async function buyPremium() {
             let uVal = (document.getElementById('username')?.value || '').trim().replace(/^@/, '');
             if (!uVal) {
-                const tgUser = tg.initDataUnsafe?.user;
+                const tgUser = tg?.initDataUnsafe?.user;
                 if (tgUser?.username) uVal = tgUser.username;
+                else if (tgUser?.id) uVal = String(tgUser.id);
             }
 
             if (!uVal) {
-                if (tg.showAlert) tg.showAlert('Iltimos, Telegram foydalanuvchi nomini kiriting!');
+                if (tg?.showAlert) tg.showAlert('Iltimos, Telegram foydalanuvchi nomini kiriting!');
                 else alert('Iltimos, Telegram foydalanuvchi nomini kiriting!');
                 return;
             }
 
             const btn = document.getElementById('submitBtn');
-            const oldText = btn.textContent;
+            const oldHtml = btn.innerHTML;
             btn.disabled = true;
-            btn.textContent = '⏳ ...';
+            btn.textContent = '⏳ Yuklanmoqda...';
 
             const userId = getUserId();
             const apiBase = getApiBase();
@@ -394,33 +504,33 @@
             try {
                 const res = await fetch((apiBase ? apiBase : '') + '/api/order/stars', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
+                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
                     body: JSON.stringify({
                         telegram_id: userId,
                         username: uVal,
                         months: selectedMonths,
                         product_type: `Premium ${selectedMonths} oy`,
                         amount: selectedPrice,
-                        initData: tg.initData || ''
+                        initData: tg?.initData || ''
                     })
                 });
 
                 const data = await res.json();
                 if (data && data.ok) {
-                    if (tg.showAlert) tg.showAlert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
+                    if (tg?.showAlert) tg.showAlert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
                     else alert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
                     setTimeout(() => window.location.href = 'orders.html', 1000);
                 } else {
                     const err = data?.error || 'Xaridda xatolik yuz berdi.';
-                    if (tg.showAlert) tg.showAlert(err);
+                    if (tg?.showAlert) tg.showAlert(err);
                     else alert(err);
                 }
             } catch (err) {
-                if (tg.showAlert) tg.showAlert('Serverga ulanishda xatolik: ' + err.message);
+                if (tg?.showAlert) tg.showAlert('Serverga ulanishda xatolik: ' + err.message);
                 else alert('Serverga ulanishda xatolik: ' + err.message);
             } finally {
                 btn.disabled = false;
-                btn.textContent = oldText;
+                btn.innerHTML = oldHtml;
             }
         }
 

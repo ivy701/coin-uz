@@ -14,19 +14,21 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 # Premium emoji IDs
-EMOJI_WAVE = "5312345830382910731"  # 👋
-EMOJI_ORANGE = "5336936725765700868"  # 🟠
-EMOJI_WALLET = "5215420556089776398"  # 👛
-EMOJI_MONEY = "5407091881219736716"  # 💰
-EMOJI_PEOPLE = "5879905000972358125"  # 👥
-EMOJI_LIGHTNING = "5224496844188458905"  # ⚡️
-EMOJI_STAR = "5807791714093502248"  # ⭐️
-EMOJI_GIFT = "5348068314629315530"  # 🎁
+EMOJI_DUCK_WAVE = "5361664082409740777"  # 🐥 Duck wave / smile
+EMOJI_LIGHTNING = "5224496844188458905"  # ⚡️ Neon lightning
+EMOJI_ID_ICON = "5818885490065017876"    # 💼 Duck ID / Suitcase
+EMOJI_DOWN = "5229212516415978792"       # ⬇️ Circle down arrow
+EMOJI_WAVE = "5312345830382910731"       # 👋
+EMOJI_ORANGE = "5336936725765700868"     # 🟠
+EMOJI_WALLET = "5215420556089776398"     # 👛
+EMOJI_MONEY = "5407091881219736716"      # 💰
+EMOJI_PEOPLE = "5879905000972358125"     # 👥
+EMOJI_STAR = "5807791714093502248"       # ⭐️
+EMOJI_GIFT = "5348068314629315530"       # 🎁
 EMOJI_CHECKMARK = "5980930633298350051"  # ✅
-EMOJI_CROSS = "5273914604752216432"  # ❌
+EMOJI_CROSS = "5273914604752216432"      # ❌
 EMOJI_MONEY_TEXT = "5811989245761426317"  # 💰 в тексте
-EMOJI_DOWN = "5229212516415978792"  # ⬇️
-EMOJI_UP = "5229113938326599381"  # ⬆️
+EMOJI_UP = "5229113938326599381"         # ⬆️
 
 
 def get_welcome_text(user: dict | None, username: str | None, first_name: str | None) -> str:
@@ -34,22 +36,25 @@ def get_welcome_text(user: dict | None, username: str | None, first_name: str | 
     lang = user_dict.get("language", "uz")
     default_name = "Пользователь" if lang == "ru" else "Foydalanuvchi"
     display = f"@{username}" if username else (first_name or default_name)
-    sp_id = user_dict.get("sp_id") or user_dict.get("id", "—")
-    referrals = user_dict.get("referrals", 0) or 0
+    user_id_val = user_dict.get("sp_id") or user_dict.get("id") or user_dict.get("telegram_id", "—")
 
     if lang == "ru":
         return (
-            f'<tg-emoji emoji-id="{EMOJI_WAVE}">👋</tg-emoji> <b>Здравствуйте, {display}</b>\n\n'
-            f'<tg-emoji emoji-id="{EMOJI_ORANGE}">🟠</tg-emoji> <b>CoinStat UZ ID:</b> <code>{sp_id}</code>\n'
-            f'┗ <tg-emoji emoji-id="{EMOJI_PEOPLE}">👥</tg-emoji> <b>Рефералы:</b> {referrals} чел\n\n'
-            f'<blockquote><b>Выберите нужный раздел:</b></blockquote>'
+            f'<tg-emoji emoji-id="{EMOJI_DUCK_WAVE}">🐥</tg-emoji> Xush kelibsiz, {display}\n\n'
+            f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> Qulay interfeys\n'
+            f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> Qulay to\'lov\n'
+            f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> To\'liq avtomatlashtirilgan xizmat\n\n'
+            f'<tg-emoji emoji-id="{EMOJI_ID_ICON}">💼</tg-emoji> User ID: {user_id_val}\n\n'
+            f'Pastdagi tugmani bosing va hoziroq boshlang <tg-emoji emoji-id="{EMOJI_DOWN}">⬇️</tg-emoji>'
         )
 
     return (
-        f'<tg-emoji emoji-id="{EMOJI_WAVE}">👋</tg-emoji> <b>Assalomu alaykum, {display}</b>\n\n'
-        f'<tg-emoji emoji-id="{EMOJI_ORANGE}">🟠</tg-emoji> <b>CoinStat UZ ID:</b> <code>{sp_id}</code>\n'
-        f'┗ <tg-emoji emoji-id="{EMOJI_PEOPLE}">👥</tg-emoji> <b>Referallar:</b> {referrals} ta\n\n'
-        f'<blockquote><b>Kerakli bo\'limni tanlang:</b></blockquote>'
+        f'<tg-emoji emoji-id="{EMOJI_DUCK_WAVE}">🐥</tg-emoji> Xush kelibsiz, {display}\n\n'
+        f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> Qulay interfeys\n'
+        f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> Qulay to\'lov\n'
+        f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> To\'liq avtomatlashtirilgan xizmat\n\n'
+        f'<tg-emoji emoji-id="{EMOJI_ID_ICON}">💼</tg-emoji> User ID: {user_id_val}\n\n'
+        f'Pastdagi tugmani bosing va hoziroq boshlang <tg-emoji emoji-id="{EMOJI_DOWN}">⬇️</tg-emoji>'
     )
 
 

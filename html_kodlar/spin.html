@@ -50,40 +50,61 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 16px;
-            padding: 4px 0;
+            padding: 2px 0;
+            width: 100%;
         }
 
         .back-pill-btn {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             border-radius: 14px;
-            background: rgba(24, 25, 34, 0.8);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(12px);
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 120ms ease, background-color 120ms ease;
+            user-select: none;
+            flex-shrink: 0;
         }
 
         .back-pill-btn:active {
-            transform: scale(0.92);
+            transform: scale(0.94);
+            background: #272733;
         }
 
-        .spin-badge-vip {
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(217, 119, 6, 0.25) 100%);
-            border: 1px solid rgba(251, 191, 36, 0.4);
-            color: #fbbf24;
-            font-size: 12px;
+        .balance-pill-badge {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #38bdf8;
+            font-size: 13px;
             font-weight: 800;
             padding: 8px 14px;
             border-radius: 999px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+            letter-spacing: -0.2px;
+            white-space: nowrap;
+        }
+
+        .lang-badge-pill {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: transform 120ms ease, background-color 120ms ease;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .lang-badge-pill:active {
+            transform: scale(0.94);
+            background: #272733;
         }
 
         /* Page Heading */
@@ -111,34 +132,45 @@
             font-weight: 600;
         }
 
-        /* Top 3 Status Banner */
-        .top-status-card {
-            background: rgba(20, 21, 29, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 14px 16px;
-            margin-bottom: 20px;
+        /* Promocode Voucher & Status Card */
+        .promo-voucher-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.65) 0%, rgba(20, 21, 29, 0.95) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            border-radius: 22px;
+            padding: 16px 18px;
+            margin-bottom: 22px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .top-status-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            gap: 10px;
+            margin-bottom: 12px;
         }
 
         .top-status-left {
             display: flex;
             align-items: center;
             gap: 10px;
+            min-width: 0;
         }
 
         .top-status-icon {
-            font-size: 26px;
+            font-size: 24px;
+            flex-shrink: 0;
         }
 
         .top-status-title {
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 800;
             color: #ffffff;
+            line-height: 1.2;
         }
 
         .top-status-desc {
@@ -146,14 +178,16 @@
             color: #94a3b8;
             font-weight: 600;
             margin-top: 2px;
+            line-height: 1.25;
         }
 
         .top-status-badge {
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 800;
-            padding: 6px 12px;
+            padding: 5px 11px;
             border-radius: 999px;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .badge-eligible {
@@ -498,15 +532,8 @@
             position: absolute;
             inset: -14px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, rgba(56, 189, 248, 0.18) 45%, transparent 70%);
-            animation: auraPulse 3.5s infinite ease-in-out;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, rgba(56, 189, 248, 0.08) 50%, transparent 70%);
             pointer-events: none;
-            filter: blur(8px);
-        }
-
-        @keyframes auraPulse {
-            0%, 100% { transform: scale(1); opacity: 0.75; }
-            50% { transform: scale(1.09); opacity: 1; }
         }
 
         /* 3D Metallic Casino Bezel Outer Ring */
@@ -891,15 +918,16 @@
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </div>
-        <div class="spin-badge-vip" style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.4); color: #c084fc;">
-            <span>🎟 Promo Sovg'alar</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="balance-pill-badge">Balans: <span id="balance">0</span> UZS</div>
+            <div class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">UZ</div>
         </div>
     </div>
 
     <!-- Page Heading -->
     <div class="page-header-wrap">
         <div class="spin-page-heading">
-            <span id="pageHeadingTitle">✨ Lucky Spin</span>
+            <span id="pageHeadingTitle">Lucky Spin</span>
         </div>
         <div class="spin-page-subtext" id="pageHeadingSub">Promo-kod orqali bepul aylantiring va Telegram sovg'alarini yuting!</div>
     </div>
@@ -907,27 +935,51 @@
     <!-- Spin Mode Selector Tabs (Klassik / VIP) -->
     <div class="spin-mode-tabs">
         <button class="spin-mode-tab active" id="tabClassic" onclick="switchSpinMode('classic')">
-            <span class="tab-icon">🎯</span>
+            <span class="tab-icon"><img src="images/gift.webp" alt="Klassik" style="width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(168, 85, 247, 0.4));"></span>
             <span class="tab-title">Klassik Spin</span>
             <span class="tab-tag">15⭐ / 25⭐ Gift</span>
         </button>
         <button class="spin-mode-tab" id="tabVip" onclick="switchSpinMode('vip')">
-            <span class="tab-icon">👑</span>
+            <span class="tab-icon"><img src="images/diamond.webp" alt="VIP" style="width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.4));"></span>
             <span class="tab-title">VIP Spin</span>
             <span class="tab-tag vip-gold">50⭐ Sovg'alar</span>
         </button>
     </div>
 
-    <!-- Promo Status Card -->
-    <div class="top-status-card" id="topStatusCard">
-        <div class="top-status-left">
-            <div class="top-status-icon" id="statusIcon">🎟</div>
-            <div>
-                <div class="top-status-title" id="statusTitle">Promo Kod Kiritilmagan</div>
-                <div class="top-status-desc" id="statusDesc">G'ildirakni aylantirish uchun quyida Promo Kod kiriting!</div>
+    <!-- Integrated Promocode & Status Voucher Card (Above Wheel) -->
+    <div class="promo-voucher-card" id="promoVoucherCard">
+        <div class="top-status-header">
+            <div class="top-status-left">
+                <div class="top-status-icon" id="statusIcon">
+                    <img src="images/box.webp" alt="Promo" style="width: 26px; height: 26px; object-fit: contain;">
+                </div>
+                <div>
+                    <div class="top-status-title" id="statusTitle">Promo Kod Kiritilmagan</div>
+                    <div class="top-status-desc" id="statusDesc">G'ildirakni aylantirish uchun quyida Promo Kod kiriting!</div>
+                </div>
             </div>
+            <div class="top-status-badge badge-locked" id="statusBadge">Promo Kerak 🔒</div>
         </div>
-        <div class="top-status-badge badge-locked" id="statusBadge">Promo Kerak 🔒</div>
+
+        <div class="promo-input-row" style="margin-top: 10px;">
+            <input type="text" id="promoInput" placeholder="Masalan: CS-7711" maxlength="24" autocomplete="off" autocorrect="off" autocapitalize="characters">
+            <button type="button" class="promo-submit-btn" id="promoBtn" onclick="activatePromocode()">
+                <span>Faollashtirish</span>
+            </button>
+        </div>
+        <div class="promo-status-msg" id="promoStatusMsg" style="display: none;"></div>
+
+        <!-- Telegram Channel Promocodes Notice Link -->
+        <div class="promo-channel-hint" onclick="openChannelLink('https://t.me/coinstatuz')">
+            <div class="promo-channel-left">
+                <div class="promo-channel-icon">📢</div>
+                <div class="promo-channel-text">
+                    <span class="promo-channel-title">Promo-kodlar ushbu kanalda tarqatiladi:</span>
+                    <span class="promo-channel-link">@coinstatuz ↗</span>
+                </div>
+            </div>
+            <div class="promo-channel-btn">Kanalga o'tish</div>
+        </div>
     </div>
 
     <!-- Live Countdown Card -->
@@ -959,41 +1011,16 @@
         <div class="wheel-top-pointer" id="wheelPointer"></div>
         <div class="wheel-outer-ring" id="wheelRing">
             <canvas id="wheelCanvas" width="568" height="568"></canvas>
-            <div class="wheel-center-pin" id="wheelPin">🎁</div>
+            <div class="wheel-center-pin" id="wheelPin">
+                <img src="images/box.webp" alt="Center" style="width: 32px; height: 32px; object-fit: contain;">
+            </div>
         </div>
     </div>
 
     <!-- Spin Button -->
     <button class="spin-action-button" id="spinBtn" onclick="playSpin()" disabled>
-        <span>🎲 G'ILDIRAKNI AYLANTRISH</span>
+        <span>🎲 G'ILDIRAKNI AYLANTIRISH</span>
     </button>
-
-    <!-- Promocode VIP Voucher Card -->
-    <div class="promo-voucher-card" id="promoVoucherCard">
-        <div class="promo-voucher-title">
-            <span id="promoCardTitle">🎟 Promo Kod bilan Ochish</span>
-            <span class="promo-badge-tag" id="promoCardTag">1 martalik</span>
-        </div>
-        <div class="promo-input-row">
-            <input type="text" id="promoInput" placeholder="Masalan: CS-7711" maxlength="24" autocomplete="off" autocorrect="off" autocapitalize="characters">
-            <button type="button" class="promo-submit-btn" id="promoBtn" onclick="activatePromocode()">
-                <span>Faollashtirish</span>
-            </button>
-        </div>
-        <div class="promo-status-msg" id="promoStatusMsg" style="display: none;"></div>
-
-        <!-- Telegram Channel Promocodes Notice Link -->
-        <div class="promo-channel-hint" onclick="openChannelLink('https://t.me/coinstatuz')">
-            <div class="promo-channel-left">
-                <div class="promo-channel-icon">📢</div>
-                <div class="promo-channel-text">
-                    <span class="promo-channel-title">Promo-kodlar ushbu kanalda tarqatiladi:</span>
-                    <span class="promo-channel-link">@coinstatuz ↗</span>
-                </div>
-            </div>
-            <div class="promo-channel-btn">Kanalga o'tish</div>
-        </div>
-    </div>
 
     <!-- Prizes Overview Grid -->
     <div class="prizes-grid-title">
@@ -1024,22 +1051,22 @@
 
     <!-- Floating Capsule Dock Navigation -->
     <div class="bottom-dock-nav">
-        <div class="dock-tab-btn" onclick="window.location.href='index.html'">
+        <a href="index.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 10.5L12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9z"></path>
                 <path d="M9 21v-7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v7"></path>
             </svg>
-            <span>Asosiy</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='gift.html'">
+            <span data-i18n="nav.home">Asosiy</span>
+        </a>
+        <a href="gift.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 3h12l4 6-10 12L2 9z"></path>
                 <path d="M2 9h20"></path>
                 <path d="M10 3l-3 6 5 12 5-12-3-6"></path>
             </svg>
-            <span>Gift</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='rating.html'">
+            <span data-i18n="nav.gifts">Gift</span>
+        </a>
+        <a href="rating.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
@@ -1047,15 +1074,15 @@
                 <path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path>
                 <path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path>
             </svg>
-            <span>Top</span>
-        </div>
-        <div class="dock-tab-btn" onclick="window.location.href='profile.html'">
+            <span data-i18n="nav.rating">Top</span>
+        </a>
+        <a href="profile.html" class="dock-tab-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span>Profil</span>
-        </div>
+            <span data-i18n="nav.profile">Profil</span>
+        </a>
     </div>
 
     <script src="js/common.js"></script>
@@ -1085,22 +1112,22 @@
             { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#3b82f6", textCol: "#ffffff", index: 0 },
             { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#ec4899", textCol: "#ffffff", index: 1 },
             { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0284c7", textCol: "#ffffff", index: 2 },
-            { key: "uzs10000", label: "10k", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, imgKey: "money", emoji: "💰", color: "#10b981", textCol: "#ffffff", index: 3 },
-            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#8b5cf6", textCol: "#ffffff", index: 4 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#2563eb", textCol: "#ffffff", index: 5 },
-            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#db2777", textCol: "#ffffff", index: 6 },
-            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "⭐️", color: "#0369a1", textCol: "#ffffff", index: 7 },
-            { key: "uzs5000", label: "5k", title: "💰 5 000 UZS Balans", type: "balance", amount: 5000, imgKey: "money", emoji: "💰", color: "#059669", textCol: "#ffffff", index: 8 },
-            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#7c3aed", textCol: "#ffffff", index: 9 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#3b82f6", textCol: "#ffffff", index: 10 },
-            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#ec4899", textCol: "#ffffff", index: 11 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#8b5cf6", textCol: "#ffffff", index: 3 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#2563eb", textCol: "#ffffff", index: 4 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#db2777", textCol: "#ffffff", index: 5 },
+            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "⭐️", color: "#0369a1", textCol: "#ffffff", index: 6 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#7c3aed", textCol: "#ffffff", index: 7 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0284c7", textCol: "#ffffff", index: 8 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#3b82f6", textCol: "#ffffff", index: 9 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#ec4899", textCol: "#ffffff", index: 10 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#8b5cf6", textCol: "#ffffff", index: 11 },
             { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#0284c7", textCol: "#ffffff", index: 12 },
-            { key: "uzs10000", label: "10k", title: "💰 10 000 UZS Balans", type: "balance", amount: 10000, imgKey: "money", emoji: "💰", color: "#10b981", textCol: "#ffffff", index: 13 },
-            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#8b5cf6", textCol: "#ffffff", index: 14 },
-            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#2563eb", textCol: "#ffffff", index: 15 },
-            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#db2777", textCol: "#ffffff", index: 16 },
-            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "⭐️", color: "#0369a1", textCol: "#ffffff", index: 17 },
-            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#7c3aed", textCol: "#ffffff", index: 18 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#db2777", textCol: "#ffffff", index: 13 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#2563eb", textCol: "#ffffff", index: 14 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#7c3aed", textCol: "#ffffff", index: 15 },
+            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "⭐️", color: "#0369a1", textCol: "#ffffff", index: 16 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#ec4899", textCol: "#ffffff", index: 17 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#8b5cf6", textCol: "#ffffff", index: 18 },
             { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#1d4ed8", textCol: "#ffffff", index: 19 }
         ];
 
@@ -1244,7 +1271,7 @@
                     </div>
                 `;
             } else {
-                if (head) head.textContent = "G'ildirakdagi 20 ta sovg'a";
+                if (head) head.textContent = "G'ildirakdagi sovg'alar";
                 if (badge) {
                     badge.textContent = "Kafolatlangan";
                     badge.style.color = "#c084fc";
@@ -1286,15 +1313,6 @@
                             <div class="prize-item-chance" style="color: #38bdf8;">Telegram Stars Sovrini</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(74, 222, 128, 0.3); grid-column: span 2;">
-                        <div class="prize-item-icon">
-                            <img src="images/money.webp" alt="Money">
-                        </div>
-                        <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #4ade80;">5 000 - 20 000 UZS</div>
-                            <div class="prize-item-chance" style="color: #4ade80;">Hisob Balansi</div>
-                        </div>
-                    </div>
                 `;
             }
         }
@@ -1315,31 +1333,31 @@
             if (mode === 'vip') {
                 if (tabClassic) tabClassic.classList.remove('active');
                 if (tabVip) tabVip.classList.add('active');
-                if (pin) pin.textContent = '👑';
+                if (pin) pin.innerHTML = '<img src="images/diamond.webp" alt="VIP" style="width: 30px; height: 30px; object-fit: contain;">';
                 if (aura) aura.style.background = 'radial-gradient(circle, rgba(245, 158, 11, 0.4) 0%, rgba(217, 119, 6, 0.15) 50%, transparent 70%)';
-                if (promoTitle) promoTitle.innerHTML = '👑 <b>VIP Promo Kod bilan Ochish</b>';
+                if (promoTitle) promoTitle.innerHTML = '<b>VIP Promo Kod bilan Ochish</b>';
                 if (promoTag) {
                     promoTag.textContent = 'VIP 1 martalik';
                     promoTag.style.background = 'rgba(245, 158, 11, 0.2)';
                     promoTag.style.borderColor = 'rgba(245, 158, 11, 0.5)';
                     promoTag.style.color = '#fbbf24';
                 }
-                if (headingTitle) headingTitle.innerHTML = '👑 <b>VIP Lucky Spin</b>';
+                if (headingTitle) headingTitle.innerHTML = '<b>VIP Lucky Spin</b>';
                 if (headingSub) headingSub.textContent = "VIP promo-kod orqali 50⭐ lik noyob sovg'alarni yuting!";
                 PRIZES = VIP_PRIZES;
             } else {
                 if (tabVip) tabVip.classList.remove('active');
                 if (tabClassic) tabClassic.classList.add('active');
-                if (pin) pin.textContent = '🎁';
+                if (pin) pin.innerHTML = '<img src="images/box.webp" alt="Gift" style="width: 30px; height: 30px; object-fit: contain;">';
                 if (aura) aura.style.background = 'radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(124, 58, 237, 0.15) 50%, transparent 70%)';
-                if (promoTitle) promoTitle.innerHTML = '🎟 <b>Promo Kod bilan Ochish</b>';
+                if (promoTitle) promoTitle.innerHTML = '<b>Promo Kod bilan Ochish</b>';
                 if (promoTag) {
                     promoTag.textContent = '1 martalik';
                     promoTag.style.background = 'rgba(168, 85, 247, 0.2)';
                     promoTag.style.borderColor = 'rgba(168, 85, 247, 0.4)';
                     promoTag.style.color = '#c084fc';
                 }
-                if (headingTitle) headingTitle.innerHTML = '✨ <b>Lucky Spin</b>';
+                if (headingTitle) headingTitle.innerHTML = '<b>Lucky Spin</b>';
                 if (headingSub) headingSub.textContent = "Promo-kod orqali bepul aylantiring va Telegram sovg'alarini yuting!";
                 PRIZES = CLASSIC_PRIZES;
             }
@@ -1538,11 +1556,11 @@
             'MEGA-50': 'stars100',
             'STARS2026': 'stars100',
 
-            // 💰 20 000 UZS Balans
-            'CS-4433': 'uzs20000',
-            'CS-456': 'uzs20000',
-            'CASH-20': 'uzs20000',
-            'MONEY2026': 'uzs20000',
+            // 🎁 Gift Box
+            'CS-4433': 'box',
+            'CS-456': 'box',
+            'CASH-20': 'box',
+            'MONEY2026': 'box',
 
             // 🎲 General Codes (Defaulting to Teddy)
             'CS-2026': 'bear',
@@ -1625,7 +1643,7 @@
                             badgeEl.textContent = 'VIP Aktiv ✅';
                         }
                         btn.disabled = false;
-                        btn.innerHTML = '<span>🎲 VIP G\'ILDIRAKNI AYLANTRISH</span>';
+                        btn.innerHTML = '<span>🎲 VIP G\'ILDIRAKNI AYLANTIRISH</span>';
                     } else {
                         // User has classic bonus, but is currently viewing VIP tab
                         canSpin = false;
@@ -1651,7 +1669,7 @@
                             badgeEl.textContent = 'Aktiv ✅';
                         }
                         btn.disabled = false;
-                        btn.innerHTML = '<span>🎲 G\'ILDIRAKNI AYLANTRISH</span>';
+                        btn.innerHTML = '<span>🎲 G\'ILDIRAKNI AYLANTIRISH</span>';
                     } else {
                         // User has VIP bonus, but is on Classic tab
                         canSpin = false;
@@ -2220,6 +2238,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            loadUserBalance();
             renderPrizesGrid();
             preloadAssets(() => drawWheel());
             drawWheel();

@@ -170,8 +170,14 @@ function unfreezeAnimatedImages() {
     } catch(e){}
 }
 
+function isAnimationsDisabled() {
+    return localStorage.getItem('coinstat_disable_animations') === 'true';
+}
+
 function initAnimationsSetting() {
-    freezeAnimatedImages();
+    if (isAnimationsDisabled()) {
+        freezeAnimatedImages();
+    }
     try {
         document.querySelectorAll('video').forEach(v => {
             v.pause();
@@ -186,18 +192,20 @@ function toggleAnimations(disable) {
         disable = !current;
     }
     localStorage.setItem('coinstat_disable_animations', disable ? 'true' : 'false');
-    initAnimationsSetting();
+    if (disable) {
+        freezeAnimatedImages();
+    } else {
+        unfreezeAnimatedImages();
+    }
     return disable;
 }
 
-// Auto-run freeze on DOM ready and window load
+// Run once on DOM ready without polling
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', freezeAnimatedImages);
+    document.addEventListener('DOMContentLoaded', initAnimationsSetting);
 } else {
-    freezeAnimatedImages();
+    initAnimationsSetting();
 }
-window.addEventListener('load', freezeAnimatedImages);
-setInterval(freezeAnimatedImages, 1500);
 
 function initTheme() {
     const savedTheme = localStorage.getItem('starpay_theme');
@@ -304,14 +312,38 @@ function getUserId() {
     return null;
 }
 
-let _initialBalRendered = false;
+let _previousBalance = null;
+let isBalanceHidden = localStorage.getItem('coinstat_hide_balance') === 'true';
+
+function toggleBalanceVisibility() {
+    isBalanceHidden = !isBalanceHidden;
+    localStorage.setItem('coinstat_hide_balance', isBalanceHidden ? 'true' : 'false');
+    if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+    setBalUI(userBalance);
+}
 
 function setBalUI(val) {
+    const prev = userBalance;
     userBalance = Number(val) || 0;
-    const formatted = userBalance.toLocaleString('uz-UZ');
+    const isHidden = localStorage.getItem('coinstat_hide_balance') === 'true';
+    const formatted = isHidden ? '••••••' : userBalance.toLocaleString('uz-UZ');
+
+    const eyeSvg = document.getElementById('eyeIconSvg');
+    if (eyeSvg) {
+        if (isHidden) {
+            eyeSvg.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+        } else {
+            eyeSvg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+        }
+    }
 
     const balanceElement = document.getElementById('balance');
     if (balanceElement) {
+        if (_previousBalance !== null && _previousBalance !== userBalance) {
+            balanceElement.classList.remove('balance-num-updated');
+            void balanceElement.offsetWidth;
+            balanceElement.classList.add('balance-num-updated');
+        }
         balanceElement.textContent = formatted;
     }
 
@@ -325,6 +357,7 @@ function setBalUI(val) {
     });
 
     updateStarsEquivalent(userBalance);
+    _previousBalance = userBalance;
 }
 
 function loadUserBalance() {
@@ -547,7 +580,7 @@ const TRANSLATIONS = {
         'nav.menu': 'Menu',
 
         'home.balance_title': 'BALANS',
-        'home.topup': '+ To\'ldirish',
+        'home.topup': 'To\'ldirish',
         'home.orders': 'Buyurtmalar',
         'home.spent': 'Sarflangan',
         'home.balance_stat': 'Balans',
@@ -561,7 +594,7 @@ const TRANSLATIONS = {
 
         'gift.header_title': 'Telegram Sovg\'alari',
         'gift.header_subtitle': 'O\'zingiz yoki do\'stlaringiz uchun original Telegram sovg\'alarini xarid qiling!',
-        'gift.cat_all': 'Barchasi (20)',
+        'gift.cat_all': 'Barchasi (19)',
         'gift.cat_vip': 'VIP (10)',
         'gift.cat_classic': 'Klassik (3)',
         'gift.cat_deluxe': 'Hashamatli (7)',
@@ -605,6 +638,12 @@ const TRANSLATIONS = {
         'rating.error': 'Yuklashda xatolik yuz berdi',
 
         'profile.section.main': 'ASOSIY',
+        'profile.topup_title': 'Balans To\'ldirish',
+        'profile.topup_sub': 'Hisobni to\'ldirish va xarid qilish',
+        'profile.orders_title': 'Buyurtmalarim',
+        'profile.orders_sub': 'Xaridlar va to\'lovlar tarixi',
+        'profile.rating_title': 'Savdo Reytingi',
+        'profile.rating_sub': 'Eng faol foydalanuvchilar ro\'yxati',
         'profile.gifts': 'Giftlarim',
         'profile.referrals': 'Takliflarim',
         'profile.section.transactions': 'TRANZAKSIYALAR',
@@ -612,6 +651,7 @@ const TRANSLATIONS = {
         'profile.lite_mode': 'Tezkor Rejim (Lite Mode)',
         'profile.lite_sub': 'Animatsiyalarni o\'chirib, tezlikni oshirish',
         'profile.support': 'Qo\'llab-quvvatlash',
+        'profile.support_sub': 'Admin va yordam markazi',
         'profile.news_channel': 'Yangiliklar kanali',
         'profile.news': 'Yangiliklar va E\'lonlar',
         'profile.news_sub': 'Rasmiy telegram kanalimiz: @CoinStatUz',
@@ -645,7 +685,7 @@ const TRANSLATIONS = {
         'nav.menu': 'Меню',
 
         'home.balance_title': 'БАЛАНС',
-        'home.topup': '+ Пополнить',
+        'home.topup': 'Пополнить',
         'home.orders': 'Заказы',
         'home.spent': 'Потрачено',
         'home.balance_stat': 'Баланс',
@@ -659,7 +699,7 @@ const TRANSLATIONS = {
 
         'gift.header_title': 'Telegram Подарки',
         'gift.header_subtitle': 'Купите оригинальные подарки Telegram для себя или друзей!',
-        'gift.cat_all': 'Все (20)',
+        'gift.cat_all': 'Все (19)',
         'gift.cat_vip': 'VIP (10)',
         'gift.cat_classic': 'Классика (3)',
         'gift.cat_deluxe': 'Премиум (7)',
@@ -703,6 +743,12 @@ const TRANSLATIONS = {
         'rating.error': 'Ошибка загрузки',
 
         'profile.section.main': 'ОСНОВНОЕ',
+        'profile.topup_title': 'Пополнение Баланса',
+        'profile.topup_sub': 'Пополнить счет для покупок',
+        'profile.orders_title': 'Мои Заказы',
+        'profile.orders_sub': 'История покупок и платежей',
+        'profile.rating_title': 'Рейтинг Продаж',
+        'profile.rating_sub': 'Список лучших пользователей',
         'profile.gifts': 'Мои подарки',
         'profile.referrals': 'Мои приглашения',
         'profile.section.transactions': 'ТРАНЗАКЦИИ',
@@ -710,6 +756,7 @@ const TRANSLATIONS = {
         'profile.lite_mode': 'Быстрый режим (Lite Mode)',
         'profile.lite_sub': 'Отключить анимации для ускорения',
         'profile.support': 'Поддержка',
+        'profile.support_sub': 'Администратор и помощь',
         'profile.news_channel': 'Новостной канал',
         'profile.news': 'Новости и Объявления',
         'profile.news_sub': 'Официальный telegram-канал: @CoinStatUz',
@@ -743,7 +790,7 @@ const TRANSLATIONS = {
         'nav.menu': 'Menu',
 
         'home.balance_title': 'BALANCE',
-        'home.topup': '+ Top Up',
+        'home.topup': 'Top Up',
         'home.orders': 'Orders',
         'home.spent': 'Spent',
         'home.balance_stat': 'Balance',
@@ -757,7 +804,7 @@ const TRANSLATIONS = {
 
         'gift.header_title': 'Telegram Gifts',
         'gift.header_subtitle': 'Purchase authentic Telegram gifts for yourself or friends!',
-        'gift.cat_all': 'All (20)',
+        'gift.cat_all': 'All (19)',
         'gift.cat_vip': 'VIP (10)',
         'gift.cat_classic': 'Classic (3)',
         'gift.cat_deluxe': 'Deluxe (7)',
@@ -801,6 +848,12 @@ const TRANSLATIONS = {
         'rating.error': 'Failed to load',
 
         'profile.section.main': 'MAIN',
+        'profile.topup_title': 'Top Up Balance',
+        'profile.topup_sub': 'Add funds to balance and purchase',
+        'profile.orders_title': 'My Orders',
+        'profile.orders_sub': 'Purchases and payments history',
+        'profile.rating_title': 'Sales Leaderboard',
+        'profile.rating_sub': 'Top active users ranking',
         'profile.gifts': 'My Gifts',
         'profile.referrals': 'My Referrals',
         'profile.section.transactions': 'TRANSACTIONS',
@@ -808,6 +861,7 @@ const TRANSLATIONS = {
         'profile.lite_mode': 'Lite Mode (Ultra Fast)',
         'profile.lite_sub': 'Disable animations for maximum speed',
         'profile.support': 'Support',
+        'profile.support_sub': 'Admin and help center',
         'profile.news_channel': 'News Channel',
         'profile.news': 'News & Announcements',
         'profile.news_sub': 'Official telegram channel: @CoinStatUz',
@@ -918,99 +972,54 @@ function openOrders() {
 }
 
 /* =========================================
-   Bottom Dock Sliding Capsule Navigation
+   Bottom Dock Fast Capsule Navigation
    ========================================= */
 function initDockNavigation() {
     const dock = document.querySelector('.bottom-dock-nav');
     if (!dock) return;
 
-    let glider = dock.querySelector('.dock-active-glider');
-    if (!glider) {
-        glider = document.createElement('div');
-        glider.className = 'dock-active-glider';
-        dock.prepend(glider);
-    }
-
     const tabs = Array.from(dock.querySelectorAll('.dock-tab-btn'));
     if (!tabs.length) return;
 
-    let activeIdx = tabs.findIndex(t => t.classList.contains('active'));
-    if (activeIdx === -1) activeIdx = 0;
-
-    const setGlider = (idx, animated = true) => {
-        const targetTab = tabs[idx];
-        if (!targetTab || !glider) return;
-        
-        const dockRect = dock.getBoundingClientRect();
-        const tabRect = targetTab.getBoundingClientRect();
-        
-        const leftOffset = tabRect.left - dockRect.left;
-        const width = tabRect.width;
-
-        if (!animated) {
-            glider.style.transition = 'none';
-        } else {
-            glider.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.45, 0.64, 1), width 0.3s ease';
-        }
-
-        glider.style.width = width + 'px';
-        glider.style.transform = `translateX(${leftOffset}px)`;
-    };
-
-    // Check if we came from another tab for seamless sliding entrance
-    const prevIdxStr = sessionStorage.getItem('starpay_last_tab_idx');
-    if (prevIdxStr !== null && !isNaN(parseInt(prevIdxStr, 10)) && parseInt(prevIdxStr, 10) !== activeIdx) {
-        const prevIdx = parseInt(prevIdxStr, 10);
-        if (prevIdx >= 0 && prevIdx < tabs.length) {
-            setGlider(prevIdx, false);
-            setTimeout(() => {
-                setGlider(activeIdx, true);
-            }, 30);
-        } else {
-            setGlider(activeIdx, false);
-        }
-    } else {
-        setGlider(activeIdx, false);
-        setTimeout(() => setGlider(activeIdx, true), 50);
+    // Detect current page filename from URL accurately (ignoring query/hashes/trailing slash)
+    let currentPath = (window.location.pathname.split('/').filter(Boolean).pop() || 'index.html').toLowerCase();
+    if (!currentPath.endsWith('.html')) {
+        currentPath = currentPath ? (currentPath + '.html') : 'index.html';
     }
 
-    sessionStorage.setItem('starpay_last_tab_idx', String(activeIdx));
+    let activeIdx = tabs.findIndex(t => {
+        const href = (t.getAttribute('href') || '').toLowerCase();
+        return href.includes(currentPath);
+    });
 
-    // Handle tab clicks with fluid sliding animation & haptic feedback
-    tabs.forEach((tab, idx) => {
-        const onclickAttr = tab.getAttribute('onclick') || '';
-        const match = onclickAttr.match(/window\.location\.href\s*=\s*['"]([^'"]+)['"]/);
-        const targetUrl = match ? match[1] : tab.getAttribute('href');
+    if (activeIdx !== -1) {
+        tabs.forEach((t, i) => {
+            if (i === activeIdx) {
+                t.classList.add('active');
+            } else {
+                t.classList.remove('active');
+            }
+        });
+    }
 
-        tab.removeAttribute('onclick');
-
+    // Handle tab clicks with instant feedback & haptic
+    tabs.forEach((tab) => {
         tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            if (tab.classList.contains('active')) {
+                e.preventDefault();
+                return;
+            }
 
             // Haptic Feedback
             try {
                 if (window.Telegram?.WebApp?.HapticFeedback) {
-                    window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+                    window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
                 }
             } catch(err) {}
 
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            setGlider(idx, true);
-            sessionStorage.setItem('starpay_last_tab_idx', String(idx));
-
-            if (targetUrl) {
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 130);
-            }
         });
-    });
-
-    window.addEventListener('resize', () => {
-        const curActive = tabs.findIndex(t => t.classList.contains('active'));
-        if (curActive !== -1) setGlider(curActive, false);
     });
 }
 
@@ -1025,48 +1034,16 @@ if (document.readyState === 'loading') {
 }
 
 /* =========================================
-   App Launch Splash Loading Screen
+   App Launch Splash Loading Screen (Disabled on tab navigation)
    ========================================= */
 function initSplashScreen() {
-    let splash = document.getElementById('appSplashScreen');
-    if (!splash) {
-        splash = document.createElement('div');
-        splash.className = 'app-splash-screen';
-        splash.id = 'appSplashScreen';
-        splash.innerHTML = `
-            <div class="splash-icon-box">
-                <img src="images/logo.png?v=99.0" alt="CoinStat UZ">
-            </div>
-            <div class="splash-brand-title">COINSTAT UZ</div>
-            <div class="splash-dots-row">
-                <div class="splash-dot"></div>
-                <div class="splash-dot"></div>
-                <div class="splash-dot"></div>
-            </div>
-            <div class="splash-loading-text">Yuklanmoqda...</div>
-        `;
-        document.body.prepend(splash);
+    const splash = document.getElementById('appSplashScreen');
+    if (splash) {
+        splash.remove();
     }
-
-    const startTime = Date.now();
-    const minDisplayTime = 750; // Smooth 750ms branding screen
-
-    function dismissSplash() {
-        const elapsed = Date.now() - startTime;
-        const remaining = Math.max(0, minDisplayTime - elapsed);
-        setTimeout(() => {
-            splash.classList.add('fade-out');
-            setTimeout(() => {
-                splash.remove();
-            }, 500);
-        }, remaining);
-    }
-
-    if (document.readyState === 'complete') {
-        dismissSplash();
-    } else {
-        window.addEventListener('load', dismissSplash);
-        setTimeout(dismissSplash, 1500);
+    const loader = document.getElementById('loaderOverlay');
+    if (loader) {
+        loader.remove();
     }
 }
 

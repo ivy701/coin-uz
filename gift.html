@@ -23,7 +23,8 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #000000;
+            background-color: #0a0a0f;
+            background-image: radial-gradient(circle at 50% 0%, #151624 0%, #0a0a0f 65%);
             color: #ffffff;
             overflow-x: hidden;
             box-sizing: border-box;
@@ -32,11 +33,7 @@
         }
 
         body {
-            background-image: 
-                radial-gradient(circle at 50% 10%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 90% 70%, rgba(245, 158, 11, 0.08) 0%, transparent 45%);
-            padding: 4px 8px 90px 8px;
+            padding: 4px 10px 92px 10px;
             min-height: 100vh;
         }
 
@@ -50,44 +47,56 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 8px;
             margin-top: 0;
-            margin-bottom: 10px;
-            padding: 0 2px;
+            margin-bottom: 14px;
+            padding: 2px 0;
             width: 100%;
             box-sizing: border-box;
+            transform: translateZ(0);
+        }
+
+        .gift-top-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.3px;
         }
 
         .back-pill-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 14px;
-            background: rgba(24, 25, 34, 0.8);
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #1c1c24;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 120ms ease;
+            flex-shrink: 0;
         }
 
         .back-pill-btn:active {
-            transform: scale(0.92);
+            transform: scale(0.94);
         }
 
         .balance-badge-pill {
-            background: linear-gradient(135deg, rgba(24, 25, 34, 0.9) 0%, rgba(18, 19, 26, 0.95) 100%);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
-            padding: 9px 16px;
+            padding: 7px 12px;
             border-radius: 999px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            gap: 5px;
+            white-space: nowrap;
         }
 
         .balance-badge-pill span {
@@ -95,56 +104,66 @@
         }
 
         .lang-badge-pill {
-            background: linear-gradient(135deg, rgba(24, 25, 34, 0.9) 0%, rgba(18, 19, 26, 0.95) 100%);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
-            padding: 9px 14px;
+            padding: 7px 11px;
             border-radius: 999px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            user-select: none;
-            outline: none;
-            text-transform: uppercase;
+            transition: transform 120ms ease;
+            flex-shrink: 0;
         }
 
         .lang-badge-pill:active {
-            transform: scale(0.92);
+            transform: scale(0.94);
+        }
+
+        /* Search & Filter Controls */
+        .gift-search-wrap {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .gift-search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 10px 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .gift-search-box:focus-within {
             border-color: #38bdf8;
         }
 
-        .gift-page-header {
-            margin-bottom: 18px;
-        }
-
-        .gift-page-title {
-            font-size: 24px;
-            font-weight: 900;
+        .gift-search-input {
+            background: transparent;
+            border: none;
+            outline: none;
             color: #ffffff;
-            letter-spacing: -0.6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 13.5px;
+            font-weight: 600;
+            width: 100%;
         }
 
-        .gift-page-subtitle {
-            font-size: 13px;
-            color: #94a3b8;
-            font-weight: 600;
-            margin-top: 4px;
+        .gift-search-input::placeholder {
+            color: #64748b;
         }
 
         .gift-category-scroll {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             overflow-x: auto;
-            padding-bottom: 6px;
-            margin-bottom: 18px;
+            padding-bottom: 4px;
+            margin-bottom: 14px;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -155,23 +174,27 @@
 
         .category-chip {
             flex-shrink: 0;
-            background: rgba(24, 25, 34, 0.85);
+            background: #1c1c24;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #94a3b8;
-            padding: 8px 14px;
+            color: #82879a;
+            padding: 7px 13px;
             border-radius: 999px;
             font-size: 12px;
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease, background-color 150ms ease, border-color 150ms ease, color 150ms ease;
             white-space: nowrap;
         }
 
+        .category-chip:active {
+            transform: scale(0.95);
+        }
+
         .category-chip.active {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.3) 0%, rgba(124, 58, 237, 0.4) 100%);
-            border-color: rgba(168, 85, 247, 0.6);
+            background: linear-gradient(135deg, #272836 0%, #1b1c26 100%);
+            border-color: rgba(255, 255, 255, 0.2);
             color: #ffffff;
-            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
         }
 
         .gifts-grid {
@@ -184,44 +207,44 @@
         }
 
         .gift-card {
-            background: linear-gradient(180deg, rgba(26, 27, 38, 0.95) 0%, rgba(15, 16, 24, 0.98) 100%);
+            background: #1c1c24;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
+            border-radius: 18px;
             padding: 14px 10px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             position: relative;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            transition: transform 120ms ease;
             box-sizing: border-box;
             overflow: hidden;
             cursor: pointer;
         }
 
         .gift-card:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
 
         .gift-card-badge {
             position: absolute;
             top: 8px;
             right: 8px;
-            background: rgba(251, 191, 36, 0.15);
-            border: 1px solid rgba(251, 191, 36, 0.35);
+            background: rgba(251, 191, 36, 0.12);
+            border: 1px solid rgba(251, 191, 36, 0.25);
             color: #fbbf24;
-            font-size: 9.5px;
+            font-size: 10px;
             font-weight: 800;
             padding: 2px 7px;
             border-radius: 999px;
         }
 
         .gift-card-icon-wrap {
-            width: 68px;
-            height: 68px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+            background: rgba(255, 255, 255, 0.03);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -232,16 +255,11 @@
             width: 52px;
             height: 52px;
             object-fit: contain;
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
-            transition: transform 0.3s ease;
-        }
-
-        .gift-card:hover .gift-card-icon-wrap img {
-            transform: scale(1.08);
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
         }
 
         .gift-card-name {
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 800;
             color: #ffffff;
             line-height: 1.3;
@@ -253,7 +271,7 @@
         }
 
         .gift-card-stars {
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 700;
             color: #fbbf24;
             margin-bottom: 10px;
@@ -265,17 +283,16 @@
             color: #ffffff;
             border: none;
             border-radius: 12px;
-            padding: 9px 6px;
-            font-size: 11.5px;
+            padding: 8px 6px;
+            font-size: 12px;
             font-weight: 800;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+            transition: transform 120ms ease;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
         }
 
         .gift-card-buy-btn:active {
             transform: scale(0.96);
-            filter: brightness(1.1);
         }
 
         .order-modal-overlay {
@@ -651,7 +668,10 @@
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </a>
-        <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="gift-top-title">
+            <span data-i18n="gift.header_title">🎁 Telegram Sovg'alari</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
             <div class="balance-badge-pill">
                 <span data-i18n="gift.balance_label">Balans:</span> <span id="balance">0</span> UZS
             </div>
@@ -659,34 +679,23 @@
         </div>
     </div>
 
-    <div class="gift-page-header">
-        <div class="gift-page-title">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-                <line x1="12" y1="22" x2="12" y2="7"></line>
-                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
-                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+    <!-- Search Bar -->
+    <div class="gift-search-wrap">
+        <div class="gift-search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#72778b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <span data-i18n="gift.header_title">Telegram Sovg'alari</span>
+            <input type="text" id="giftSearchInput" class="gift-search-input" placeholder="Sovg'alarni qidirish..." oninput="onSearchGifts(this.value)">
         </div>
-        <div class="gift-page-subtitle" data-i18n="gift.header_subtitle">O'zingiz yoki do'stlaringiz uchun original Telegram sovg'alarini xarid qiling!</div>
     </div>
 
+    <!-- Filter Categories -->
     <div class="gift-category-scroll">
-        <button class="category-chip active" onclick="filterGifts('all', this)" data-i18n="gift.cat_all">Barchasi (20)</button>
-        <button class="category-chip" onclick="filterGifts('vip', this)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>
-            <span data-i18n="gift.cat_vip">VIP (10)</span>
-        </button>
-        <button class="category-chip" onclick="filterGifts('classic', this)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
-            <span data-i18n="gift.cat_classic">Klassik (3)</span>
-        </button>
-        <button class="category-chip" onclick="filterGifts('deluxe', this)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"></path></svg>
-            <span data-i18n="gift.cat_deluxe">Hashamatli (7)</span>
-        </button>
+        <button class="category-chip active" onclick="filterGifts('all', this)" data-i18n="gift.cat_all">Barchasi (19)</button>
+        <button class="category-chip" onclick="filterGifts('15-25', this)">⭐ 15-25 Stars (3)</button>
+        <button class="category-chip" onclick="filterGifts('50', this)">⭐ 50 Stars (13)</button>
+        <button class="category-chip" onclick="filterGifts('100', this)">⭐ 100 Stars (3)</button>
     </div>
 
     <div class="gifts-grid" id="giftsGrid">
@@ -795,34 +804,34 @@
         }
 
         const ALL_GIFTS = [
-            // VIP 50 Stars Gifts — 10 000 UZS
-            { id: 'aprel_bear', name_uz: 'Aprel Ayiqchasi', name_ru: 'Апрельский Мишка', name_en: 'April Bear', category: 'vip', stars: 50, price: 10000, img: 'images/aprel_bear.webp', badge: 'VIP' },
-            { id: 'easter_bear', name_uz: 'Pasxa Ayiqchasi', name_ru: 'Пасхальный Мишка', name_en: 'Easter Bear', category: 'vip', stars: 50, price: 10000, img: 'images/easter_bear.webp', badge: 'VIP' },
-            { id: 'newyear_bear', name_uz: 'Qorbobo Ayiqchasi', name_ru: 'Новогодний Мишка', name_en: 'Santa Bear', category: 'vip', stars: 50, price: 10000, img: 'images/newyear_bear.webp', badge: 'VIP' },
-            { id: 'builder_bear', name_uz: 'Usta Ayiqchasi', name_ru: 'Мишка Строитель', name_en: 'Builder Bear', category: 'vip', stars: 50, price: 10000, img: 'images/builder_bear.webp', badge: 'VIP' },
-            { id: 'football_bear', name_uz: 'Futbolchi Ayiqcha', name_ru: 'Мишка Футболист', name_en: 'Football Bear', category: 'vip', stars: 50, price: 10000, img: 'images/football_bear.webp', badge: 'VIP' },
-            { id: 'soldier_bear', name_uz: 'Jangchi Ayiqchasi', name_ru: 'Мишка Солдат', name_en: 'Soldier Bear', category: 'vip', stars: 50, price: 10000, img: 'images/soldier_bear.webp', badge: 'VIP' },
-            { id: 'newyear_tree', name_uz: 'Yangi Yil Archasi', name_ru: 'Новогодняя Ёлка', name_en: 'Christmas Tree', category: 'vip', stars: 50, price: 10000, img: 'images/newyear_tree.webp', badge: 'VIP' },
-            { id: 'patrick_bear', name_uz: 'Patrik Ayiqchasi', name_ru: 'Мишка Патрик', name_en: 'Patrick Bear', category: 'vip', stars: 50, price: 10000, img: 'images/patrick_bear.webp', badge: 'VIP' },
-            { id: 'valentine_bear', name_uz: 'Valentin Ayiqchasi', name_ru: 'Мишка Валентин', name_en: 'Valentine Bear', category: 'vip', stars: 50, price: 10000, img: 'images/valentine_bear.webp', badge: 'VIP' },
-            { id: 'valentine_heart', name_uz: 'Valentinka Yurakcha', name_ru: 'Сердце Валентинка', name_en: 'Valentine Heart', category: 'vip', stars: 50, price: 10000, img: 'images/valentine_heart.webp', badge: 'VIP' },
+            // 15-25 Stars
+            { id: 'bear', name_uz: 'Teddy Bear', name_ru: 'Мишка Тедди', name_en: 'Teddy Bear', category: '15-25', stars: 15, price: 2800, img: 'images/bear.webp', badge: '15⭐' },
+            { id: 'rose', name_uz: 'Qizil Atirgul', name_ru: 'Красная Роза', name_en: 'Red Rose', category: '15-25', stars: 25, price: 5000, img: 'images/rose.webp', badge: '25⭐' },
+            { id: 'box', name_uz: 'Oltin Quticha', name_ru: 'Золотая Коробка', name_en: 'Golden Giftbox', category: '15-25', stars: 25, price: 5000, img: 'images/box.webp', badge: '25⭐' },
 
-            // Classic 15-25 Stars Gifts
-            { id: 'bear', name_uz: 'Teddy Bear', name_ru: 'Мишка Тедди', name_en: 'Teddy Bear', category: 'classic', stars: 15, price: 2800, img: 'images/bear.webp', badge: '15⭐' },
-            { id: 'rose', name_uz: 'Qizil Atirgul', name_ru: 'Красная Роза', name_en: 'Red Rose', category: 'classic', stars: 25, price: 5000, img: 'images/rose.webp', badge: '25⭐' },
-            { id: 'box', name_uz: 'Oltin Quticha', name_ru: 'Золотая Коробка', name_en: 'Golden Giftbox', category: 'classic', stars: 25, price: 5000, img: 'images/box.webp', badge: '25⭐' },
+            // 50 Stars
+            { id: 'bouqet', name_uz: 'Guldasta', name_ru: 'Букет Цветов', name_en: 'Bouquet', category: '50', stars: 50, price: 10000, img: 'images/bouqet.webp', badge: '50⭐' },
+            { id: 'cake', name_uz: 'Bayram Torti', name_ru: 'Праздничный Торт', name_en: 'Birthday Cake', category: '50', stars: 50, price: 10000, img: 'images/cake.webp', badge: '50⭐' },
+            { id: 'rocket', name_uz: 'Kosmik Raketa', name_ru: 'Космическая Ракета', name_en: 'Space Rocket', category: '50', stars: 50, price: 10000, img: 'images/rocket.webp', badge: '50⭐' },
+            { id: 'heart', name_uz: 'Oltin Yurak', name_ru: 'Золотое Сердце', name_en: 'Golden Heart', category: '50', stars: 50, price: 10000, img: 'images/heart.webp', badge: '50⭐' },
+            { id: 'aprel_bear', name_uz: 'Aprel Ayiqchasi', name_ru: 'Апрельский Мишка', name_en: 'April Bear', category: '50', stars: 50, price: 10000, img: 'images/aprel_bear.webp', badge: '50⭐' },
+            { id: 'easter_bear', name_uz: 'Pasxa Ayiqchasi', name_ru: 'Пасхальный Мишка', name_en: 'Easter Bear', category: '50', stars: 50, price: 10000, img: 'images/easter_bear.webp', badge: '50⭐' },
+            { id: 'newyear_bear', name_uz: 'Qorbobo Ayiqchasi', name_ru: 'Новогодний Мишка', name_en: 'Santa Bear', category: '50', stars: 50, price: 10000, img: 'images/newyear_bear.webp', badge: '50⭐' },
+            { id: 'builder_bear', name_uz: 'Usta Ayiqchasi', name_ru: 'Мишка Строитель', name_en: 'Builder Bear', category: '50', stars: 50, price: 10000, img: 'images/builder_bear.webp', badge: '50⭐' },
+            { id: 'football_bear', name_uz: 'Futbolchi Ayiqcha', name_ru: 'Мишка Футболист', name_en: 'Football Bear', category: '50', stars: 50, price: 10000, img: 'images/football_bear.webp', badge: '50⭐' },
+            { id: 'soldier_bear', name_uz: 'Jangchi Ayiqchasi', name_ru: 'Мишка Солдат', name_en: 'Soldier Bear', category: '50', stars: 50, price: 10000, img: 'images/soldier_bear.webp', badge: '50⭐' },
+            { id: 'newyear_tree', name_uz: 'Yangi Yil Archasi', name_ru: 'Новогодняя Ёлка', name_en: 'Christmas Tree', category: '50', stars: 50, price: 10000, img: 'images/newyear_tree.webp', badge: '50⭐' },
+            { id: 'patrick_bear', name_uz: 'Patrik Ayiqchasi', name_ru: 'Мишка Патрик', name_en: 'Patrick Bear', category: '50', stars: 50, price: 10000, img: 'images/patrick_bear.webp', badge: '50⭐' },
+            { id: 'valentine_bear', name_uz: 'Valentin Ayiqchasi', name_ru: 'Мишка Валентин', name_en: 'Valentine Bear', category: '50', stars: 50, price: 10000, img: 'images/valentine_bear.webp', badge: '50⭐' },
 
-            // Deluxe 50-100 Stars Gifts
-            { id: 'bouqet', name_uz: 'Guldasta', name_ru: 'Букет Цветов', name_en: 'Bouquet', category: 'deluxe', stars: 50, price: 10000, img: 'images/bouqet.webp', badge: '50⭐' },
-            { id: 'cake', name_uz: 'Bayram Torti', name_ru: 'Праздничный Торт', name_en: 'Birthday Cake', category: 'deluxe', stars: 50, price: 10000, img: 'images/cake.webp', badge: '50⭐' },
-            { id: 'rocket', name_uz: 'Kosmik Raketa', name_ru: 'Космическая Ракета', name_en: 'Space Rocket', category: 'deluxe', stars: 50, price: 10000, img: 'images/rocket.webp', badge: '50⭐' },
-            { id: 'heart', name_uz: 'Oltin Yurak', name_ru: 'Золотое Сердце', name_en: 'Golden Heart', category: 'deluxe', stars: 50, price: 10000, img: 'images/heart.webp', badge: '50⭐' },
-            { id: 'diamond', name_uz: 'Brilliant', name_ru: 'Бриллиант', name_en: 'Diamond', category: 'deluxe', stars: 100, price: 20000, img: 'images/diamond.webp', badge: '100⭐' },
-            { id: 'ring', name_uz: 'Olmos Uzuk', name_ru: 'Кольцо с Бриллиантом', name_en: 'Diamond Ring', category: 'deluxe', stars: 100, price: 20000, img: 'images/ring.webp', badge: '100⭐' },
-            { id: 'trophy', name_uz: 'Oltin Kubok', name_ru: 'Золотой Кубок', name_en: 'Golden Trophy', category: 'deluxe', stars: 100, price: 20000, img: 'images/trophy.webp', badge: '100⭐' }
+            // 100 Stars
+            { id: 'diamond', name_uz: 'Brilliant', name_ru: 'Бриллиант', name_en: 'Diamond', category: '100', stars: 100, price: 20000, img: 'images/diamond.webp', badge: '100⭐' },
+            { id: 'ring', name_uz: 'Olmos Uzuk', name_ru: 'Кольцо с Бриллиантом', name_en: 'Diamond Ring', category: '100', stars: 100, price: 20000, img: 'images/ring.webp', badge: '100⭐' },
+            { id: 'trophy', name_uz: 'Oltin Kubok', name_ru: 'Золотой Кубок', name_en: 'Golden Trophy', category: '100', stars: 100, price: 20000, img: 'images/trophy.webp', badge: '100⭐' }
         ];
 
         let currentCategory = 'all';
+        let searchQuery = '';
         let selectedGift = null;
         let lastPurchasedGift = null;
         let lastPurchasedUsername = '';
@@ -836,7 +845,24 @@
         function renderGifts() {
             const grid = document.getElementById('giftsGrid');
             if (!grid) return;
-            const filtered = currentCategory === 'all' ? ALL_GIFTS : ALL_GIFTS.filter(g => g.category === currentCategory);
+            
+            let filtered = currentCategory === 'all' ? ALL_GIFTS : ALL_GIFTS.filter(g => g.category === currentCategory);
+            
+            if (searchQuery) {
+                const q = searchQuery.toLowerCase().trim();
+                filtered = filtered.filter(g => {
+                    const uz = (g.name_uz || '').toLowerCase();
+                    const ru = (g.name_ru || '').toLowerCase();
+                    const en = (g.name_en || '').toLowerCase();
+                    return uz.includes(q) || ru.includes(q) || en.includes(q) || String(g.stars).includes(q);
+                });
+            }
+
+            if (!filtered.length) {
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px 10px; color: #64748b; font-weight: 700; font-size: 13px;">Sovg\'a topilmadi</div>';
+                return;
+            }
+
             grid.innerHTML = filtered.map(g => {
                 const gName = getGiftName(g);
                 return `
@@ -844,14 +870,10 @@
                     <span class="gift-card-badge">${g.badge}</span>
                     <div class="gift-card-icon-wrap"><img src="${g.img}" alt="${gName}"></div>
                     <div class="gift-card-name">${gName}</div>
-                    <div class="gift-card-stars">${g.stars} Stars</div>
+                    <div class="gift-card-stars">⭐ ${g.stars} Stars</div>
                     <button type="button" class="gift-card-buy-btn">${g.price.toLocaleString('uz-UZ')} UZS</button>
                 </div>
             `}).join('');
-
-            if (typeof freezeAnimatedImages === 'function') {
-                setTimeout(freezeAnimatedImages, 10);
-            }
         }
 
         function filterGifts(category, btn) {
@@ -860,6 +882,11 @@
             if (btn) btn.classList.add('active');
             renderGifts();
             if (tgApp && tgApp.HapticFeedback) tgApp.HapticFeedback.selectionChanged();
+        }
+
+        function onSearchGifts(val) {
+            searchQuery = val || '';
+            renderGifts();
         }
 
         function setRecipientMode(mode) {

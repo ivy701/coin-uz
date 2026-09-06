@@ -8,13 +8,13 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="css/style.css?v=12.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -22,7 +22,8 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #000000;
+            background-color: #0a0a0f;
+            background-image: radial-gradient(circle at 50% 0%, #151624 0%, #0a0a0f 65%);
             color: #ffffff;
             overflow-x: hidden;
             box-sizing: border-box;
@@ -31,7 +32,7 @@
         }
 
         body {
-            padding: 4px 8px 90px 8px;
+            padding: 4px 10px 92px 10px;
             min-height: 100vh;
         }
 
@@ -41,16 +42,17 @@
             height: 0;
         }
 
-        /* Top Header Bar */
+        /* Top Header Bar (Zero scroll repaint with translateZ) */
         .top-user-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-top: 0;
-            margin-bottom: 10px;
-            padding: 0 2px;
+            margin-bottom: 12px;
+            padding: 2px 2px;
             width: 100%;
             box-sizing: border-box;
+            transform: translateZ(0);
         }
 
         .user-left-info {
@@ -63,8 +65,8 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: #141418;
-            border: 1px solid #222228;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -89,209 +91,220 @@
             font-size: 16px;
             font-weight: 800;
             color: #ffffff;
+            letter-spacing: -0.2px;
         }
 
         .user-handle-name {
             font-size: 13px;
             font-weight: 600;
-            color: #71717a;
+            color: #82879a;
             display: flex;
             align-items: center;
             gap: 4px;
             cursor: pointer;
+            transition: opacity 120ms ease;
+        }
+
+        .user-handle-name:active {
+            opacity: 0.7;
         }
 
         .lang-badge-pill {
-            background: #141418;
-            border: 1px solid #222228;
-            color: #a1a1aa;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
             font-size: 12px;
             font-weight: 700;
             padding: 6px 12px;
-            border-radius: 10px;
+            border-radius: 999px;
             cursor: pointer;
             text-transform: uppercase;
-        }
-
-        .lite-mode-pill-btn {
-            background: #141418;
-            border: 1px solid #222228;
-            color: #a1a1aa;
-            font-size: 12px;
-            font-weight: 800;
-            padding: 6px 11px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease, background-color 120ms ease;
             user-select: none;
         }
 
-        .lite-mode-pill-btn:active {
-            transform: scale(0.92);
+        .lang-badge-pill:active {
+            transform: scale(0.94);
+            background: #272733;
         }
 
-        .lite-mode-pill-btn.active {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(37, 99, 235, 0.3) 100%);
-            border-color: #38bdf8;
-            color: #38bdf8;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
-        }
-
-        /* Luxury Topographic Black Hero Card (+ 3s Shimmer Glint) */
+        /* Sleek Modern Fintech Balance Card with Geometric Lines */
         .hero-balance-card {
-            background: linear-gradient(145deg, #131419 0%, #090a0d 100%);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 24px;
-            padding: 18px 18px 16px 18px;
-            margin-bottom: 14px;
+            background: linear-gradient(145deg, #161724 0%, #0f1018 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 20px 18px 18px 18px;
+            margin-bottom: 12px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.14);
-        }
-
-        /* Topographic Vector Contour Overlay */
-        .hero-topo-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.9;
-        }
-
-        .hero-topo-bg svg {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* 3-Second Metallic Shimmer Beam Animation */
-        .hero-balance-card::after {
-            content: '';
-            position: absolute;
-            top: -60%;
-            left: -80%;
-            width: 45%;
-            height: 220%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.08) 25%,
-                rgba(255, 255, 255, 0.35) 50%,
-                rgba(255, 255, 255, 0.08) 75%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(25deg);
-            pointer-events: none;
-            z-index: 3;
-            animation: cardShimmerGlint 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
-
-        @keyframes cardShimmerGlint {
-            0% {
-                left: -80%;
-                opacity: 0;
-            }
-            8% {
-                opacity: 1;
-            }
-            45% {
-                left: 150%;
-                opacity: 1;
-            }
-            46%, 100% {
-                left: 150%;
-                opacity: 0;
-            }
-        }
-
-        .hero-card-content {
-            position: relative;
-            z-index: 2;
+            box-shadow: 
+                0 12px 30px -8px rgba(0, 0, 0, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             gap: 14px;
+            transform: translateZ(0);
+        }
+
+        /* Abstract Concentric Radar Lines Pattern */
+        .card-radar-lines {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 240px;
+            height: 240px;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .card-radar-lines svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-card-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .hero-card-top-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: #a1a1aa;
-            letter-spacing: 1.2px;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #82879a;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
         }
 
-        .hero-card-amount-row {
+        .balance-eye-btn {
+            background: transparent;
+            border: none;
+            color: #82879a;
+            cursor: pointer;
+            padding: 2px 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 120ms ease;
+        }
+
+        .balance-eye-btn:hover, .balance-eye-btn:active {
+            color: #ffffff;
+        }
+
+        .hero-header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-glowing-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffffff, 0 0 4px #38bdf8;
+            display: inline-block;
+        }
+
+        .hero-card-tag-pill {
+            font-size: 11px;
+            font-weight: 800;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.22);
+            padding: 4px 10px;
+            border-radius: 999px;
+            letter-spacing: 0.3px;
+        }
+
+        .hero-card-middle {
             display: flex;
             align-items: baseline;
             gap: 6px;
-            margin-top: -6px;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-card-balance-num {
             font-size: 34px;
             font-weight: 900;
             color: #ffffff;
-            letter-spacing: -0.5px;
-            line-height: 1.1;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: -0.6px;
+            line-height: 1;
+            display: inline-block;
         }
 
         .hero-card-unit {
-            font-size: 17px;
-            font-weight: 700;
-            color: #a1a1aa;
+            font-size: 16px;
+            font-weight: 800;
+            color: #82879a;
         }
 
         .hero-card-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            position: relative;
+            z-index: 2;
+            margin-top: 2px;
         }
 
-        .hero-pill-btn {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            color: #ffffff;
-            border-radius: 999px;
-            padding: 9px 15px;
+        .stars-equiv-badge-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #1c1d28;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 12px 10px;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
+            color: #fbbf24;
+            cursor: pointer;
+            transition: transform 120ms ease, background-color 120ms ease;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .stars-equiv-badge-btn:active {
+            transform: scale(0.96);
+            background: #252736;
+        }
+
+        .hero-btn-primary {
+            flex: 1.1;
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 14px;
+            font-size: 13.5px;
+            font-weight: 800;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 120ms ease;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
             user-select: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
         }
 
-        .hero-pill-btn:active {
-            transform: scale(0.95);
-            background: rgba(255, 255, 255, 0.18);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .hero-pill-btn.star-convert-pill {
-            flex: 1.2;
-        }
-
-        .hero-pill-btn.topup-pill {
-            flex: 1;
-        }
-
-        .pill-star-icon {
-            font-size: 15px;
-            display: flex;
-            align-items: center;
+        .hero-btn-primary:active {
+            transform: scale(0.96);
         }
 
         /* 3-Column Stats Grid */
@@ -299,26 +312,32 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .stat-card-box {
-            background: #121316;
-            border: 1px solid #222328;
-            border-radius: 18px;
-            padding: 12px 8px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            padding: 12px 6px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 3px;
+            transition: transform 120ms ease, background-color 120ms ease;
+        }
+
+        .stat-card-box:active {
+            transform: scale(0.96);
+            background: #232430;
         }
 
         .stat-label-text {
             font-size: 11px;
             font-weight: 600;
-            color: #71717a;
+            color: #82879a;
         }
 
         .stat-value-text {
@@ -330,7 +349,26 @@
         .stat-unit-text {
             font-size: 10px;
             font-weight: 700;
-            color: #71717a;
+            color: #82879a;
+        }
+
+        /* VIP Lucky Spin Banner */
+        .vip-spin-banner {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(28, 28, 36, 0.95) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            border-radius: 18px;
+            padding: 13px 15px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: transform 120ms ease, background-color 120ms ease;
+            user-select: none;
+        }
+
+        .vip-spin-banner:active {
+            transform: scale(0.97);
         }
 
         /* 4 Services Grid (2x2) */
@@ -338,44 +376,44 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
 
         .service-quad-card {
-            background: #121316;
-            border: 1px solid #222328;
-            border-radius: 20px;
-            padding: 15px 12px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 18px;
+            padding: 14px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             gap: 8px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 120ms ease, background-color 120ms ease, border-color 120ms ease;
             user-select: none;
         }
 
         .service-quad-card:hover {
-            border-color: #3f3f46;
-            background: #18191e;
+            border-color: rgba(255, 255, 255, 0.15);
+            background: #232430;
         }
 
         .service-quad-card:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
 
         .service-icon-wrap {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .service-icon-wrap img {
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             object-fit: contain;
         }
 
@@ -385,85 +423,19 @@
             color: #ffffff;
         }
 
-        /* Responsive Media Queries for All Phone Heights */
+        /* Responsive */
         @media screen and (max-height: 750px) {
             body {
-                padding: 12px 12px 95px 12px;
-            }
-            .top-user-header {
-                margin-bottom: 12px;
-            }
-            .user-avatar-circle {
-                width: 38px;
-                height: 38px;
-            }
-            .hero-balance-card {
-                padding: 15px 14px 13px;
-                margin-bottom: 10px;
-                border-radius: 20px;
+                padding: 8px 8px 90px 8px;
             }
             .hero-card-balance-num {
                 font-size: 28px;
-            }
-            .hero-pill-btn {
-                padding: 8px 12px;
-                font-size: 12.5px;
-            }
-            .stats-tri-grid {
-                margin-bottom: 10px;
-                gap: 6px;
-            }
-            .stat-card-box {
-                padding: 8px 4px;
-                border-radius: 14px;
-            }
-            .stat-value-text {
-                font-size: 14px;
-            }
-            .vip-spin-banner {
-                padding: 10px 12px !important;
-                margin-bottom: 10px !important;
-                border-radius: 16px !important;
-            }
-            .services-quad-grid {
-                gap: 8px;
-                margin-bottom: 16px;
-            }
-            .service-quad-card {
-                padding: 12px 8px;
-                gap: 6px;
-                border-radius: 16px;
-            }
-            .service-icon-wrap {
-                width: 36px;
-                height: 36px;
-            }
-            .service-icon-wrap img {
-                width: 28px;
-                height: 28px;
-            }
-            .service-card-title {
-                font-size: 12px;
             }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- App Launch Splash Loading Screen -->
-    <div class="app-splash-screen" id="appSplashScreen">
-        <div class="splash-icon-box">
-            <img src="images/logo.png?v=99.0" alt="CoinStat UZ">
-        </div>
-        <div class="splash-brand-title">COINSTAT UZ</div>
-        <div class="splash-dots-row">
-            <div class="splash-dot"></div>
-            <div class="splash-dot"></div>
-            <div class="splash-dot"></div>
-        </div>
-        <div class="splash-loading-text">Yuklanmoqda...</div>
-    </div>
 
     <!-- User Header -->
     <div class="top-user-header">
@@ -482,74 +454,61 @@
                 </div>
             </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <button type="button" class="lite-mode-pill-btn" onclick="toggleMainLiteMode()" id="liteModeBtn" title="Animatsiyalarni yoqish/o'chirish">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                </svg>
-                <span class="lite-text" id="liteModeText">Lite</span>
-            </button>
-            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
-        </div>
+        <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
     </div>
 
-    <!-- Luxury Topographic Black Hero Card (+ 3s Shimmer Glint) -->
+    <!-- Sleek Modern Fintech Balance Card with Geometric Lines -->
     <div class="hero-balance-card">
-        <!-- Topographic Contour Curves Vector Background -->
-        <div class="hero-topo-bg">
-            <svg viewBox="0 0 400 200" fill="none" preserveAspectRatio="none">
-                <!-- Topo Island 1 (Top Right) -->
-                <path d="M280 15 C295 5, 330 10, 350 25 C370 40, 380 65, 370 85 C360 105, 330 115, 300 105 C270 95, 260 65, 270 45 C275 25, 280 20, 280 15 Z" stroke="rgba(255,255,255,0.22)" stroke-width="1.4" stroke-linecap="round" />
-                <path d="M290 30 C302 22, 325 26, 338 38 C350 50, 355 68, 346 80 C338 92, 318 98, 298 90 C278 82, 272 65, 280 50 C286 36, 288 34, 290 30 Z" stroke="rgba(255,255,255,0.16)" stroke-width="1.4" stroke-linecap="round" />
-                <path d="M302 44 C310 38, 322 42, 328 50 C334 58, 336 70, 330 76 C324 82, 312 84, 302 80 C292 76, 288 64, 292 54 C296 44, 298 43, 302 44 Z" stroke="rgba(255,255,255,0.26)" stroke-width="1.4" stroke-linecap="round" />
-                <circle cx="312" cy="60" r="6" stroke="rgba(255,255,255,0.32)" stroke-width="1.4" />
-
-                <!-- Topo Island 2 (Bottom Left) -->
-                <path d="M-20 110 C20 90, 70 100, 90 130 C110 160, 90 195, 60 205 C30 215, -10 195, -30 165 Z" stroke="rgba(255,255,255,0.20)" stroke-width="1.4" stroke-linecap="round" />
-                <path d="M-10 125 C20 110, 55 118, 70 140 C85 162, 70 185, 45 192 C20 198, -5 182, -20 158 Z" stroke="rgba(255,255,255,0.15)" stroke-width="1.4" stroke-linecap="round" />
-                <path d="M5 140 C25 130, 45 135, 55 150 C65 165, 55 180, 35 182 C15 184, 0 170, -5 155 Z" stroke="rgba(255,255,255,0.24)" stroke-width="1.4" stroke-linecap="round" />
-
-                <!-- Flowing Connecting Topographic Contours -->
-                <path d="M100 -20 C120 40, 160 80, 220 70 C270 60, 290 10, 300 -20" stroke="rgba(255,255,255,0.14)" stroke-width="1.4" stroke-linecap="round" />
-                <path d="M80 -20 C105 45, 150 95, 230 85 C285 75, 310 20, 320 -20" stroke="rgba(255,255,255,0.11)" stroke-width="1.4" stroke-linecap="round" />
-                <path d="M60 -20 C90 50, 140 110, 240 100 C300 90, 330 30, 340 -20" stroke="rgba(255,255,255,0.08)" stroke-width="1.4" stroke-linecap="round" />
-
-                <path d="M-20 60 C50 70, 120 50, 180 120 C230 180, 300 170, 420 190" stroke="rgba(255,255,255,0.15)" stroke-width="1.4" stroke-linecap="round" />
-                <path d="M-20 45 C55 55, 130 35, 195 110 C245 170, 310 155, 420 175" stroke="rgba(255,255,255,0.12)" stroke-width="1.4" stroke-linecap="round" />
-                <path d="M-20 30 C60 40, 140 20, 210 100 C260 160, 320 140, 420 160" stroke="rgba(255,255,255,0.09)" stroke-width="1.4" stroke-linecap="round" />
-                <path d="M-20 75 C45 85, 110 65, 165 130 C215 190, 290 185, 420 205" stroke="rgba(255,255,255,0.13)" stroke-width="1.4" stroke-linecap="round" />
+        <!-- Abstract Concentric Radar Lines Pattern -->
+        <div class="card-radar-lines" aria-hidden="true">
+            <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="200" cy="40" r="45" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" />
+                <circle cx="200" cy="40" r="85" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
+                <circle cx="200" cy="40" r="125" stroke="rgba(255,255,255,0.04)" stroke-width="1.5" />
+                <circle cx="200" cy="40" r="165" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
+                <circle cx="200" cy="40" r="205" stroke="rgba(255,255,255,0.02)" stroke-width="1.5" />
             </svg>
         </div>
 
-        <div class="hero-card-content">
-            <!-- Top Label -->
-            <div class="hero-card-top-label" data-i18n="home.balance_title">BALANS</div>
-
-            <!-- Main Balance Value -->
-            <div class="hero-card-amount-row">
-                <span class="hero-card-balance-num" id="balance">0</span>
-                <span class="hero-card-unit" data-i18n="common.unit_som">so'm</span>
-            </div>
-
-            <!-- Two Bottom Action Buttons -->
-            <div class="hero-card-actions">
-                <!-- Stars Equivalent Pill -->
-                <button type="button" class="hero-pill-btn star-convert-pill" onclick="window.location.href='stars.html'">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                    <span>≈ <span id="approxStars">0</span> Stars</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
+        <!-- Top Row: BALANS + Eye & Tag with Glowing Dot -->
+        <div class="hero-card-header">
+            <div class="hero-card-title-wrap">
+                <span class="hero-card-top-label" data-i18n="home.balance_title">ASOSIY BALANS</span>
+                <button type="button" class="balance-eye-btn" onclick="toggleBalanceVisibility()" id="balanceEyeBtn" title="Balansni yashirish / ko'rsatish">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="eyeIconSvg">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
                     </svg>
                 </button>
-
-                <!-- Top-up Button Pill -->
-                <button type="button" class="hero-pill-btn topup-pill" onclick="window.location.href='topup.html'">
-                    <span data-i18n="home.topup">+ To'ldirish</span>
-                </button>
             </div>
+            <div class="hero-header-right">
+                <span class="card-glowing-dot"></span>
+                <div class="hero-card-tag-pill">UZS & Stars</div>
+            </div>
+        </div>
+
+        <!-- Middle Balance Display -->
+        <div class="hero-card-middle">
+            <span class="hero-card-balance-num" id="balance">0</span>
+            <span class="hero-card-unit" data-i18n="common.unit_som">so'm</span>
+        </div>
+
+        <!-- Bottom Action Row: Stars Equivalent Pill + To'ldirish CTA -->
+        <div class="hero-card-actions">
+            <button type="button" class="stars-equiv-badge-btn" onclick="window.location.href='stars.html'">
+                <img src="images/star.webp" alt="Star" style="width: 15px; height: 15px; object-fit: contain;">
+                <span>≈ <span id="approxStars">0</span> Stars</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+            <button type="button" class="hero-btn-primary" onclick="window.location.href='topup.html'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span data-i18n="home.topup">To'ldirish</span>
+            </button>
         </div>
     </div>
 
@@ -571,15 +530,15 @@
         </div>
     </div>
 
-    <!-- Lucky Spin Banner (Promo Kod orqali) -->
-    <div class="vip-spin-banner" onclick="window.location.href='spin.html'" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.18) 0%, rgba(20, 21, 29, 0.95) 100%); border: 1.5px solid rgba(168, 85, 247, 0.45); border-radius: 22px; padding: 14px 16px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; box-shadow: 0 8px 25px rgba(168, 85, 247, 0.2); transition: all 0.2s ease;">
+    <!-- Lucky Spin Banner -->
+    <div class="vip-spin-banner" onclick="window.location.href='spin.html'">
         <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 46px; height: 46px; border-radius: 15px; background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); flex-shrink: 0;">
-                ✨
+            <div style="width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(99, 102, 241, 0.2) 100%); border: 1px solid rgba(168, 85, 247, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);">
+                <img src="./images/spin_banner.webp" alt="Lucky Spin" style="width: 36px; height: 36px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(168, 85, 247, 0.5));">
             </div>
             <div>
-                <div style="font-size: 15px; font-weight: 900; color: #ffffff; display: flex; align-items: center; gap: 6px; letter-spacing: -0.2px;">
-                    <span data-i18n="home.lucky_spin">Lucky Spin</span> <span style="font-size: 10px; font-weight: 800; background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff; padding: 2px 8px; border-radius: 999px;" data-i18n="home.promo_code">PROMO KOD</span>
+                <div style="font-size: 14.5px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 6px;">
+                    <span data-i18n="home.lucky_spin">Lucky Spin</span> <span style="font-size: 10px; font-weight: 800; background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff; padding: 2px 7px; border-radius: 999px;" data-i18n="home.promo_code">PROMO KOD</span>
                 </div>
                 <div style="font-size: 11px; font-weight: 600; color: #94a3b8; margin-top: 2px;" data-i18n="home.spin_subtext">
                     Promo-kod orqali bepul Telegram sovg'alarini yuting!
@@ -622,7 +581,7 @@
         <!-- Virtual Nomer -->
         <div class="service-quad-card" onclick="window.location.href='phone.html'">
             <div class="service-icon-wrap">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
                     <line x1="12" y1="18" x2="12.01" y2="18"></line>
                 </svg>
@@ -672,7 +631,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadUserBalance();
             fetchTransactions();
-            updateLiteModeButtonUI();
 
             const userId = String(getUserId() || '');
             if (userId) {
@@ -686,29 +644,6 @@
                 holderEl.textContent = u.username ? ('@' + u.username) : (((u.first_name || '') + ' ' + (u.last_name || '')).trim() || 'VIP FOYDALANUVCHI');
             }
         });
-
-        function updateLiteModeButtonUI() {
-            const btn = document.getElementById('liteModeBtn');
-            const txt = document.getElementById('liteModeText');
-            const isLite = localStorage.getItem('coinstat_disable_animations') === 'true';
-            if (btn) {
-                if (isLite) {
-                    btn.classList.add('active');
-                    if (txt) txt.textContent = 'Lite: ON';
-                } else {
-                    btn.classList.remove('active');
-                    if (txt) txt.textContent = 'Lite';
-                }
-            }
-        }
-
-        function toggleMainLiteMode() {
-            const isLite = toggleAnimations();
-            updateLiteModeButtonUI();
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-            }
-        }
 
         async function fetchTransactions() {
             const userId = getUserId();

@@ -13,11 +13,10 @@ from services.database import ensure_user, get_user
 
 router = Router()
 
-EMOJI_WAVE = "5312345830382910731"  # 👋
-EMOJI_ORANGE = "5336936725765700868"  # 🟠
-EMOJI_WALLET = "5215420556089776398"  # 👛
-EMOJI_PEOPLE = "5879905000972358125"  # 👥
-EMOJI_LIGHTNING = "5224496844188458905"  # ⚡️
+EMOJI_DUCK_WAVE = "5361664082409740777"  # 🐥 Duck wave / smile
+EMOJI_LIGHTNING = "5224496844188458905"  # ⚡️ Neon lightning
+EMOJI_ID_ICON = "5818885490065017876"    # 💼 Duck ID / Suitcase
+EMOJI_DOWN = "5229212516415978792"       # ⬇️ Circle down arrow
 
 
 def menu_text(
@@ -25,23 +24,16 @@ def menu_text(
   username: str | None,
   first_name: str | None,
 ) -> str:
-  balance = user.get("balance", 0)
-  refs = user.get("referrals", 0)
-  sp_id = user.get("sp_id") or user.get("id") or user.get("telegram_id", "—")
+  user_dict = user or {}
   display = f"@{username}" if username else (first_name or "Foydalanuvchi")
+  user_id_val = user_dict.get("sp_id") or user_dict.get("id") or user_dict.get("telegram_id", "—")
   return (
-    f'<tg-emoji emoji-id="{EMOJI_WAVE}">👋</tg-emoji> '
-    f"<b>Assalomu alaykum, {display}</b>\n\n"
-    f'<tg-emoji emoji-id="{EMOJI_ORANGE}">🟠</tg-emoji> '
-    f"<b>StarPayUz ID:</b> <code>{sp_id}</code>\n"
-    f"┗ <tg-emoji emoji-id=\"{EMOJI_WALLET}\">👛</tg-emoji> "
-    f"<b>Balans:</b> {balance:,} so'm\n"
-    f"┗ <tg-emoji emoji-id=\"{EMOJI_PEOPLE}\">👥</tg-emoji> "
-    f"<b>Referallar:</b> {refs} ta\n\n"
-    f"<blockquote>"
-    f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> '
-    f"<b>Kerakli bo'limni tanlang:</b>"
-    f"</blockquote>"
+    f'<tg-emoji emoji-id="{EMOJI_DUCK_WAVE}">🐥</tg-emoji> Xush kelibsiz, {display}\n\n'
+    f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> Qulay interfeys\n'
+    f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> Qulay to\'lov\n'
+    f'<tg-emoji emoji-id="{EMOJI_LIGHTNING}">⚡️</tg-emoji> To\'liq avtomatlashtirilgan xizmat\n\n'
+    f'<tg-emoji emoji-id="{EMOJI_ID_ICON}">💼</tg-emoji> User ID: {user_id_val}\n\n'
+    f'Pastdagi tugmani bosing va hoziroq boshlang <tg-emoji emoji-id="{EMOJI_DOWN}">⬇️</tg-emoji>'
   )
 
 
@@ -82,11 +74,8 @@ async def cmd_start(message: Message) -> None:
 
   await message.answer(
     menu_text(user, tg.username, tg.first_name),
-    reply_markup=main_inline_keyboard(),
-  )
-  await message.answer(
-    "📋 Pastki menyu:",
-    reply_markup=bottom_reply_keyboard(),
+    reply_markup=main_inline_keyboard(user_id=tg.id),
+    parse_mode="HTML",
   )
 
 
@@ -100,5 +89,6 @@ async def cmd_menu(message: Message) -> None:
   )
   await message.answer(
     menu_text(user, tg.username, tg.first_name),
-    reply_markup=main_inline_keyboard(),
+    reply_markup=main_inline_keyboard(user_id=tg.id),
+    parse_mode="HTML",
   )

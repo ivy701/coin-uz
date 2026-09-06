@@ -19,9 +19,10 @@
         }
 
         body {
-            background-color: #000000;
+            background-color: #0a0a0f;
+            background-image: radial-gradient(circle at 50% 0%, #151624 0%, #0a0a0f 65%);
             color: #ffffff;
-            padding: 4px 8px 90px 8px;
+            padding: 4px 10px 92px 10px;
             width: 100%;
             box-sizing: border-box;
             min-height: 100vh;
@@ -32,186 +33,252 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding: 4px 0;
+            margin-bottom: 12px;
+            padding: 2px 0;
+            transform: translateZ(0);
         }
 
         .back-pill-btn {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 12px;
-            background: #141418;
-            border: 1px solid #222228;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease;
         }
 
         .back-pill-btn:active {
-            transform: scale(0.92);
+            transform: scale(0.94);
         }
 
-        .stars-page-heading {
-            font-size: 22px;
+        .stars-top-title {
+            font-size: 16px;
             font-weight: 800;
             color: #ffffff;
-            letter-spacing: -0.5px;
-            margin-bottom: 18px;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .stars-heading-icon {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
+            gap: 6px;
+            letter-spacing: -0.3px;
         }
 
         .balance-badge-pill {
-            background: #141418;
-            border: 1px solid #222228;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            padding: 8px 14px;
+            padding: 7px 12px;
             border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .balance-badge-pill span {
+            color: #38bdf8;
         }
         
         .lang-badge-pill {
-            background: #141418;
-            border: 1px solid #222228;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            padding: 8px 14px;
+            padding: 7px 11px;
             border-radius: 999px;
             cursor: pointer;
+            transition: transform 120ms ease;
+        }
+
+        .lang-badge-pill:active {
+            transform: scale(0.94);
+        }
+
+        /* Recipient Section (Prominently Placed at the Top) */
+        .recipient-section {
+            margin-bottom: 14px;
+            width: 100%;
+        }
+
+        .recipient-dark-bar {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: border-color 0.2s ease;
+        }
+
+        .recipient-dark-bar:focus-within {
+            border-color: #38bdf8;
+        }
+
+        .recipient-dark-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            width: 100%;
+        }
+
+        .recipient-dark-input::placeholder {
+            color: #64748b;
+        }
+
+        .for-me-pill {
+            background: #252633;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: transform 120ms ease, background-color 120ms ease;
+        }
+
+        .for-me-pill:active {
+            transform: scale(0.94);
+            background: #2f3142;
         }
 
         /* 2x2 Star Cards Grid */
         .stars-2x2-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 14px;
         }
 
         .star-2x2-card {
-            background: #141418;
-            border: 1px solid #222228;
-            border-radius: 22px;
-            padding: 18px 14px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 14px 12px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
-            min-height: 155px;
+            min-height: 135px;
             user-select: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            transition: transform 120ms ease;
         }
 
         .discount-pill {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #27272a;
-            color: #a1a1aa;
-            font-size: 11px;
+            top: 10px;
+            right: 10px;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+            font-size: 10px;
             font-weight: 800;
-            padding: 3px 8px;
+            padding: 2px 7px;
             border-radius: 999px;
         }
 
         .star-quantity-row {
             font-size: 20px;
-            font-weight: 800;
+            font-weight: 900;
             color: #ffffff;
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .star-badge-icon {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             object-fit: contain;
             display: inline-block;
         }
 
         .star-price-row {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            color: #a1a1aa;
-            margin-bottom: 14px;
+            color: #82879a;
+            margin-bottom: 12px;
         }
 
         .star-buy-button {
             width: 100%;
-            background: #ffffff;
-            color: #000000;
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            color: #ffffff;
             border: none;
-            border-radius: 14px;
-            padding: 12px;
-            font-size: 14px;
+            border-radius: 12px;
+            padding: 9px;
+            font-size: 12px;
             font-weight: 800;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease;
             text-align: center;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
         }
 
         .star-buy-button:active {
             transform: scale(0.96);
-            background: #e4e4e7;
         }
 
         /* Custom Star Quantity Card */
         .custom-stars-card {
-            background: #141418;
-            border: 1px solid #222228;
-            border-radius: 22px;
-            padding: 20px 16px;
-            margin-bottom: 18px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 16px 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
         }
 
         .custom-stars-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .custom-stars-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             color: #ffffff;
         }
 
         .custom-stars-sub {
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 600;
-            color: #71717a;
-            margin-top: 2px;
+            color: #82879a;
+            margin-top: 1px;
         }
 
         .custom-star-calc-badge {
-            background: #27272a;
-            color: #ffffff;
-            font-size: 13px;
+            background: #252633;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #38bdf8;
+            font-size: 12px;
             font-weight: 800;
-            padding: 6px 12px;
-            border-radius: 10px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
         }
 
         .custom-input-row {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .custom-input-wrap {
@@ -223,54 +290,55 @@
 
         .custom-star-field {
             width: 100%;
-            background: #000000;
-            border: 1px solid #27272a;
-            border-radius: 14px;
-            padding: 13px 14px;
-            padding-right: 70px;
+            background: #151620;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 11px 12px;
+            padding-right: 65px;
             color: #ffffff;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
             outline: none;
+            transition: border-color 0.2s ease;
         }
 
         .custom-star-field:focus {
-            border-color: #f59e0b;
+            border-color: #38bdf8;
         }
 
         .custom-input-suffix {
             position: absolute;
-            right: 12px;
+            right: 10px;
             display: flex;
             align-items: center;
             gap: 4px;
-            color: #71717a;
-            font-size: 13px;
+            color: #82879a;
+            font-size: 12px;
             font-weight: 700;
             pointer-events: none;
         }
 
         .custom-buy-btn {
-            background: #ffffff;
-            color: #000000;
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            color: #ffffff;
             border: none;
-            border-radius: 14px;
-            padding: 13px 20px;
-            font-size: 14px;
+            border-radius: 12px;
+            padding: 11px 16px;
+            font-size: 13px;
             font-weight: 800;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
         }
 
         .custom-buy-btn:active {
             transform: scale(0.96);
-            background: #e4e4e7;
         }
 
         .custom-quick-chips {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             overflow-x: auto;
             scrollbar-width: none;
             padding-bottom: 2px;
@@ -281,60 +349,22 @@
         }
 
         .quick-chip-btn {
-            background: #27272a;
-            color: #d4d4d8;
-            border: 1px solid #3f3f46;
-            border-radius: 10px;
-            padding: 6px 12px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.15s ease;
-        }
-
-        .quick-chip-btn:active, .quick-chip-btn.active {
-            background: rgba(245, 158, 11, 0.2);
-            border-color: #f59e0b;
-            color: #ffffff;
-        }
-
-        /* Recipient Input */
-        .recipient-dark-bar {
-            background: #141418;
-            border: 1px solid #222228;
-            border-radius: 18px;
-            padding: 14px 16px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .recipient-dark-input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: 600;
-            width: 100%;
-        }
-
-        .recipient-dark-input::placeholder {
-            color: #52525b;
-        }
-
-        .for-me-pill {
-            background: #27272a;
-            color: #ffffff;
-            border: none;
+            background: #252633;
+            color: #82879a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 10px;
             padding: 6px 12px;
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
             white-space: nowrap;
+            transition: transform 120ms ease, background-color 120ms ease, color 120ms ease;
+        }
+
+        .quick-chip-btn:active, .quick-chip-btn.active {
+            background: linear-gradient(135deg, #272836 0%, #1b1c26 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
         }
 
     </style>
@@ -345,11 +375,15 @@
     <!-- Header -->
     <div class="stars-top-bar">
         <a href="index.html" class="back-pill-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </a>
-        <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="stars-top-title">
+            <img src="images/star.webp" alt="Stars" style="width: 22px; height: 22px; object-fit: contain;">
+            <span data-i18n="stars.title">Telegram Stars</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
             <div class="balance-badge-pill">
                 <span id="balance">0</span> UZS
             </div>
@@ -357,9 +391,16 @@
         </div>
     </div>
 
-    <div class="stars-page-heading">
-        <img src="images/star.webp" alt="Telegram Stars" class="stars-heading-icon">
-        <span data-i18n="stars.title">Telegram Stars</span>
+    <!-- Recipient Input (Prominently Placed at the Top) -->
+    <div class="recipient-section">
+        <div class="recipient-dark-bar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" id="username" class="recipient-dark-input" placeholder="@username" autocomplete="off" autocapitalize="none">
+            <button type="button" class="for-me-pill" onclick="setMyUsername()" data-i18n="stars.recipient_for_me">O'zimga</button>
+        </div>
     </div>
 
     <!-- 2x2 Stars Grid -->
@@ -389,6 +430,19 @@
             <button class="star-buy-button" onclick="buyStarTier(100, 19800, this)" data-i18n="common.buy">Sotib olish</button>
         </div>
 
+        <!-- 250 Stars -->
+        <div class="star-2x2-card">
+            <div class="discount-pill">-15%</div>
+            <div>
+                <div class="star-quantity-row">
+                    <span>250</span>
+                    <img src="images/star.webp" alt="Stars" class="star-badge-icon">
+                </div>
+                <div class="star-price-row">49 500 UZS</div>
+            </div>
+            <button class="star-buy-button" onclick="buyStarTier(250, 49500, this)" data-i18n="common.buy">Sotib olish</button>
+        </div>
+
         <!-- 500 Stars -->
         <div class="star-2x2-card">
             <div class="discount-pill">-15%</div>
@@ -414,6 +468,19 @@
             </div>
             <button class="star-buy-button" onclick="buyStarTier(1000, 198000, this)" data-i18n="common.buy">Sotib olish</button>
         </div>
+
+        <!-- 2500 Stars -->
+        <div class="star-2x2-card">
+            <div class="discount-pill">-20%</div>
+            <div>
+                <div class="star-quantity-row">
+                    <span>2 500</span>
+                    <img src="images/star.webp" alt="Stars" class="star-badge-icon">
+                </div>
+                <div class="star-price-row">495 000 UZS</div>
+            </div>
+            <button class="star-buy-button" onclick="buyStarTier(2500, 495000, this)" data-i18n="common.buy">Sotib olish</button>
+        </div>
     </div>
 
     <!-- Custom Stars Amount Card -->
@@ -432,7 +499,7 @@
             <div class="custom-input-wrap">
                 <input type="number" id="customStarInput" class="custom-star-field" placeholder="Masalan: 75" min="50" max="100000" value="50" oninput="calcCustomStarPrice()">
                 <div class="custom-input-suffix">
-                    <img src="images/star.webp" alt="Star" class="star-badge-icon" style="width: 18px; height: 18px;">
+                    <img src="images/star.webp" alt="Star" class="star-badge-icon" style="width: 16px; height: 16px;">
                     <span>Stars</span>
                 </div>
             </div>
@@ -442,19 +509,13 @@
         </div>
 
         <div class="custom-quick-chips">
-            <button type="button" class="quick-chip-btn" onclick="setQuickStars(50)">50</button>
+            <button type="button" class="quick-chip-btn active" onclick="setQuickStars(50)">50</button>
             <button type="button" class="quick-chip-btn" onclick="setQuickStars(150)">150</button>
             <button type="button" class="quick-chip-btn" onclick="setQuickStars(250)">250</button>
             <button type="button" class="quick-chip-btn" onclick="setQuickStars(750)">750</button>
             <button type="button" class="quick-chip-btn" onclick="setQuickStars(2500)">2 500</button>
             <button type="button" class="quick-chip-btn" onclick="setQuickStars(5000)">5 000</button>
         </div>
-    </div>
-
-    <!-- Recipient Input -->
-    <div class="recipient-dark-bar">
-        <input type="text" id="username" class="recipient-dark-input" placeholder="@username">
-        <button class="for-me-pill" onclick="setMyUsername()" data-i18n="stars.recipient_for_me">O'zimga</button>
     </div>
 
     <!-- Floating Capsule Dock Navigation -->

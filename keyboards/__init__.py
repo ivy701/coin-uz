@@ -12,36 +12,51 @@ import config
 def get_webapp_main_keyboard(user_id: int | None = None, lang: str = "uz", balance: int | None = None) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     admin_url = getattr(config, 'SUPPORT_URL', 'https://t.me/cofeature') or "https://t.me/cofeature"
+    channel_url = "https://t.me/CoinStatUz"
     webapp_url = getattr(config, 'WEBAPP_URL', '') or ''
+    if not webapp_url:
+        webapp_url = "https://t.me/CoinStatuz_bot/app"
 
-    if webapp_url.startswith("https://"):
-        query_params = []
-        if user_id:
-            query_params.append(f"uid={user_id}")
-        if balance is not None:
-            query_params.append(f"bal={balance}")
-        query_str = f"?{'&'.join(query_params)}" if query_params else ""
-        url = f"{webapp_url}/index.html{query_str}"
+    query_params = []
+    if user_id:
+        query_params.append(f"uid={user_id}")
+    if balance is not None:
+        query_params.append(f"bal={balance}")
+    query_str = f"?{'&'.join(query_params)}" if query_params else ""
 
-        btn_text = "🚀 Webapp-ni ochish" if lang != "ru" else "🚀 Открыть Webapp"
+    if webapp_url.startswith("http://") or webapp_url.startswith("https://"):
+        if webapp_url.startswith("https://t.me/"):
+            builder.row(
+                InlineKeyboardButton(
+                    text="🦆 Web App",
+                    url=webapp_url,
+                )
+            )
+        else:
+            url = f"{webapp_url.rstrip('/')}/index.html{query_str}"
+            builder.row(
+                InlineKeyboardButton(
+                    text="🦆 Web App",
+                    web_app=WebAppInfo(url=url),
+                )
+            )
+    else:
+        url = f"https://{webapp_url.lstrip('/')}/index.html{query_str}"
         builder.row(
             InlineKeyboardButton(
-                text=btn_text,
+                text="🦆 Web App",
                 web_app=WebAppInfo(url=url),
             )
         )
 
-    support_text = "💬 Support" if lang != "ru" else "💬 Поддержка"
-    lang_text = "🌐 Til (Язык)" if lang != "ru" else "🌐 Язык (Til)"
-
     builder.row(
         InlineKeyboardButton(
-            text=support_text,
+            text="🤓 Admin",
             url=admin_url,
         ),
         InlineKeyboardButton(
-            text=lang_text,
-            callback_data="select_language",
+            text="📢 Yangiliklar",
+            url=channel_url,
         )
     )
 

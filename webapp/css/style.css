@@ -1,57 +1,118 @@
 /* ==========================================================================
-   StarPayUz - Ultra Premium WebApp Stylesheet
+   CoinStat UZ - Performance-First Dark UI Stylesheet (60 FPS Optimized)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  --bg-main: #0c0d12;
-  --bg-card: #14161f;
-  --bg-card-solid: #181a24;
-  --border-card: rgba(255, 255, 255, 0.08);
+  /* Performance-First Dark Theme Tokens */
+  --bg-main: #0a0a0f;
+  --bg-main-gradient: linear-gradient(180deg, #0a0a0f 0%, #12131c 50%, #0d0e15 100%);
+  --bg-card: #1c1c24;
+  --bg-card-solid: #16171f;
+  --bg-card-hover: #22222d;
+  --border-card: rgba(255, 255, 255, 0.07);
   --border-glow: rgba(255, 255, 255, 0.12);
 
+  --accent-gold: #fbbf24;
+  --accent-purple: #a855f7;
   --accent-cyan: #38bdf8;
-  --accent-blue: #0284c7;
+  --accent-pink: #ec4899;
+  --accent-green: #22c55e;
+  --accent-blue: #3b82f6;
   --accent-sky: #ffffff;
-  --accent-gradient: linear-gradient(135deg, #1e2230 0%, #12141c 100%);
-  --accent-glow: rgba(0, 0, 0, 0.5);
+  --accent-gradient: linear-gradient(135deg, #1f202b 0%, #15161f 100%);
 
   --text-main: #ffffff;
-  --text-muted: #8e98a8;
+  --text-muted: #94a3b8;
   --text-sub: #64748b;
 
-  --nav-bg: rgba(20, 23, 36, 0.95);
-  --nav-border: rgba(255, 255, 255, 0.1);
-  --font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --nav-bg: rgba(14, 15, 22, 0.98);
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius-card: 18px;
+  --radius-pill: 999px;
+  --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-fast: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Global Hardware Acceleration & Smooth Typography */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    box-sizing: border-box;
+}
+
+/* Page Zero-Reflow GPU Transition */
+.page-transition {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    transition: opacity 180ms var(--ease-spring), transform 180ms var(--ease-spring);
+}
+
+.page-transition.page-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+/* Balance Updated Pulse Animation (Reflow-free transform only) */
+@keyframes balancePulseAnim {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+.balance-num-updated {
+    animation: balancePulseAnim 180ms var(--ease-spring);
+}
+
+/* Performance-First Card & Button Helpers */
+.perf-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-card);
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.perf-btn {
+    transition: transform 120ms ease, opacity 120ms ease;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+.perf-btn:active {
+    transform: scale(0.96);
 }
 
 /* Global Language Pill */
 .lang-badge-pill {
-    background: #141418;
-    border: 1px solid #222228;
+    background: #14141c;
+    border: 1px solid var(--border-card);
     color: #ffffff;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 800;
-    padding: 8px 14px;
+    padding: 6px 12px;
     border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     text-transform: uppercase;
-    transition: all 0.2s ease;
+    transition: transform 120ms ease, background-color 120ms ease;
     user-select: none;
     outline: none;
 }
 
 .lang-badge-pill:active {
-    transform: scale(0.92);
-    background: #27272a;
+    transform: scale(0.94);
+    background: #232430;
 }
 
 /* =========================================
-   Full-Width Edge-To-Edge Bottom Navigation
+   Full-Width Fast Bottom Navigation Dock
    ========================================= */
 .bottom-dock-nav {
     position: fixed;
@@ -59,40 +120,28 @@
     left: 0;
     right: 0;
     width: 100%;
-    background: rgba(12, 13, 18, 0.98);
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--nav-bg);
+    border-top: 1px solid var(--nav-border);
     border-left: none;
     border-right: none;
     border-bottom: none;
-    border-radius: 24px 24px 0 0;
-    padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px)) 12px;
+    border-radius: 22px 22px 0 0;
+    padding: 8px 12px calc(10px + env(safe-area-inset-bottom, 0px)) 12px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    gap: 8px;
     z-index: 9999;
-    box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.85);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
     user-select: none;
     -webkit-user-select: none;
     box-sizing: border-box;
     pointer-events: auto !important;
+    transform: translateZ(0); /* Hardware layer */
 }
 
-/* Moving Active Pill Glider - Sleek Dark Obsidian / Graphite Pill */
 .dock-active-glider {
-    position: absolute;
-    top: 5px;
-    bottom: 5px;
-    left: 0;
-    width: 25%;
-    background: #191b24;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 999px;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.2);
-    transition: transform 0.35s cubic-bezier(0.34, 1.45, 0.64, 1), width 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
+    display: none !important;
 }
 
 .dock-tab-btn {
@@ -101,27 +150,29 @@
     align-items: center;
     justify-content: center;
     gap: 3px;
-    padding: 6px 12px;
-    border-radius: 16px;
+    padding: 6px 8px;
+    border-radius: 999px;
     color: #72778b;
     cursor: pointer;
     text-decoration: none !important;
     user-select: none;
+    -webkit-user-select: none;
     position: relative;
-    z-index: 10;
+    z-index: 2;
     flex: 1;
     background: transparent;
-    border: none;
+    border: 1px solid transparent;
     outline: none;
     pointer-events: auto !important;
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 120ms ease, background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+    will-change: transform;
 }
 
 .dock-tab-btn svg {
     width: 22px;
     height: 22px;
     stroke: #72778b;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.2s ease;
+    transition: transform 150ms cubic-bezier(0.34, 1.4, 0.64, 1), stroke 150ms ease;
 }
 
 .dock-tab-btn span {
@@ -129,50 +180,37 @@
     font-weight: 700;
     letter-spacing: 0.2px;
     color: #72778b;
-    transition: color 0.2s ease, font-weight 0.2s ease;
+    transition: color 150ms ease;
 }
 
-/* Active Tab: Highlighted Pill & White Icon */
+/* Active Tab: Modern Sleek Capsule (Always at correct position from frame 0) */
 .dock-tab-btn.active {
+    background: linear-gradient(135deg, #272836 0%, #1b1c26 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.18);
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
 }
 
 .dock-tab-btn.active svg {
     stroke: #ffffff;
-    transform: scale(1.08);
+    transform: scale(1.12);
 }
 
 .dock-tab-btn.active span {
     color: #ffffff;
     font-weight: 800;
-    color: #ffffff;
 }
 
-.dock-tab-btn:active svg {
-    transform: scale(0.9);
+.dock-tab-btn:active {
+    transform: scale(0.92);
 }
 
 /* =========================================
-   App Launch Splash Loading Screen 
+   App Launch Splash Loading Screen (Disabled on tab navigation)
    ========================================= */
-.app-splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #090c14;
-    z-index: 9999999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s;
-    user-select: none;
-    -webkit-user-select: none;
+.app-splash-screen,
+.loader-overlay {
+    display: none !important;
 }
 
 .app-splash-screen.fade-out {
@@ -634,26 +672,22 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
-  padding: 10px 24px;
-  border-radius: 999px;
-  font-size: 15px;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
   font-weight: 800;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 120ms ease, background-color 120ms ease;
   white-space: nowrap;
 }
 
 .balance-topup-btn:active {
   transform: scale(0.96);
-  background: rgba(255, 255, 255, 0.32);
-}
-  transform: scale(0.95);
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* ===== STATISTIKA TIME FILTER PILLS ===== */

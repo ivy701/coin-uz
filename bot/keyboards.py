@@ -33,32 +33,30 @@ def _btn(
     return InlineKeyboardButton(**kwargs)
 
 
-def main_inline_keyboard() -> InlineKeyboardMarkup:
-    base = settings.webapp_base_url
-    wallet_emoji = settings.custom_emoji_wallet
-    support_url = settings.support_url or "https://t.me/"
+def main_inline_keyboard(user_id: int | None = None) -> InlineKeyboardMarkup:
+    base = settings.webapp_base_url or "https://t.me/CoinStatuz_bot/app"
+    admin_url = settings.support_url or "https://t.me/cofeature"
+    channel_url = "https://t.me/CoinStatUz"
+    
+    if base.startswith("http://") or base.startswith("https://"):
+        url = f"{base.rstrip('/')}/index.html"
+        if user_id:
+            url += f"?uid={user_id}"
+        web_app_btn = InlineKeyboardButton(text="🦆 Web App", web_app=WebAppInfo(url=url))
+    elif base.startswith("https://t.me/"):
+        web_app_btn = InlineKeyboardButton(text="🦆 Web App", url=base)
+    else:
+        url = f"https://{base.lstrip('/')}/index.html"
+        if user_id:
+            url += f"?uid={user_id}"
+        web_app_btn = InlineKeyboardButton(text="🦆 Web App", web_app=WebAppInfo(url=url))
+
     return InlineKeyboardMarkup(
         inline_keyboard=[
+            [web_app_btn],
             [
-                _btn(
-                    "Webapp",
-                    web_app_url=f"{base}/stars.html",
-                    style="success",
-                ),
-            ],
-            [
-                _btn(
-                    "Balans To'ldirish",
-                    callback_data="topup",
-                    style="primary",
-                    icon_custom_emoji_id=wallet_emoji,
-                ),
-                _btn(
-                    "Support",
-                    url=support_url,
-                    style="danger",
-                    icon_custom_emoji_id=settings.custom_emoji_user,
-                ),
+                InlineKeyboardButton(text="🤓 Admin", url=admin_url),
+                InlineKeyboardButton(text="📢 Yangiliklar", url=channel_url),
             ],
         ]
     )

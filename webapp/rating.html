@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CoinStat UZ — Top Reyting</title>
+    <title>CoinStat UZ — Savdo Reytingi</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="css/style.css?v=12.0">
+    <link rel="stylesheet" href="css/style.css?v=13.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
@@ -18,21 +18,12 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-            --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-            --gold-glow: rgba(245, 158, 11, 0.25);
-            --silver-gradient: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
-            --bronze-gradient: linear-gradient(135deg, #fb923c 0%, #b45309 100%);
-            --glass-bg: rgba(20, 21, 29, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.08);
-        }
-
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #000000;
+            background-color: #0a0a0f;
+            background-image: radial-gradient(circle at 50% 0%, #151624 0%, #0a0a0f 65%);
             color: #ffffff;
             overflow-x: hidden;
             box-sizing: border-box;
@@ -41,11 +32,7 @@
         }
 
         body {
-            background-image: 
-                radial-gradient(circle at 50% 10%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.06) 0%, transparent 45%),
-                radial-gradient(circle at 90% 60%, rgba(168, 85, 247, 0.06) 0%, transparent 45%);
-            padding: 4px 8px 90px 8px;
+            padding: 4px 10px 115px 10px;
             min-height: 100vh;
         }
 
@@ -55,158 +42,176 @@
             height: 0;
         }
 
-        /* Top Brand Header */
-        .rating-top-brand {
+        /* Top Bar */
+        .rating-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 2px 0;
+            transform: translateZ(0);
+        }
+
+        .back-pill-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin-top: 0;
-            margin-bottom: 2px;
-            padding-top: 2px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .rating-top-brand img {
-            width: 24px;
-            height: 24px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
-        }
-
-        .rating-top-brand span {
-            font-size: 14px;
-            font-weight: 800;
-            color: #94a3b8;
-            letter-spacing: -0.2px;
-        }
-
-        .rating-page-title {
-            text-align: center;
-            font-size: 26px;
-            font-weight: 900;
             color: #ffffff;
-            letter-spacing: -0.8px;
-            margin-bottom: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 120ms ease;
+        }
+
+        .back-pill-btn:active {
+            transform: scale(0.94);
+        }
+
+        .rating-top-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
+            gap: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .balance-badge-pill {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 7px 12px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .balance-badge-pill span {
+            color: #38bdf8;
+        }
+
+        .lang-badge-pill {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 7px 11px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 120ms ease;
+        }
+
+        .lang-badge-pill:active {
+            transform: scale(0.94);
         }
 
         /* Period Filter Tabs */
         .period-tabs-bar {
             display: flex;
-            background: rgba(22, 23, 31, 0.85);
-            border: 1px solid var(--glass-border);
-            border-radius: 999px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
             padding: 4px;
-            margin-bottom: 22px;
+            margin-bottom: 14px;
             justify-content: space-between;
             gap: 4px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
         }
 
         .period-tab-btn {
             flex: 1;
             background: transparent;
             border: none;
-            color: #64748b;
+            color: #82879a;
             font-size: 12px;
             font-weight: 700;
-            padding: 9px 4px;
-            border-radius: 999px;
+            padding: 8px 4px;
+            border-radius: 10px;
             cursor: pointer;
             text-align: center;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 120ms ease, background-color 150ms ease, color 150ms ease;
+            user-select: none;
         }
 
         .period-tab-btn.active {
             background: #ffffff;
             color: #000000;
             font-weight: 800;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-            transform: scale(1.02);
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .period-tab-btn:active {
+            transform: scale(0.96);
         }
 
         /* Top 3 Podium Box */
         .podium-box-container {
-            background: rgba(18, 19, 26, 0.75);
+            background: #1c1c24;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            padding: 20px 14px 16px 14px;
-            margin-bottom: 24px;
-            backdrop-filter: blur(14px);
-            box-shadow: 
-                0 20px 40px -15px rgba(0, 0, 0, 0.7),
-                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            border-radius: 22px;
+            padding: 16px 12px 14px 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
             position: relative;
             overflow: hidden;
-        }
-
-        .podium-box-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
-            pointer-events: none;
         }
 
         .podium-box-header {
             text-align: center;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
-            color: #f1f5f9;
-            margin-bottom: 18px;
+            color: #ffffff;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.2px;
         }
 
         .podium-cylinders-row {
             display: grid;
-            grid-template-columns: 1fr 1.18fr 1fr;
+            grid-template-columns: 1fr 1.15fr 1fr;
             align-items: end;
             gap: 8px;
-            min-height: 220px;
+            min-height: 195px;
         }
 
         .podium-column {
-            border-radius: 22px;
+            border-radius: 18px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 16px 6px 14px 6px;
+            padding: 14px 6px 12px 6px;
             text-align: center;
             position: relative;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 120ms ease;
             overflow: hidden;
             cursor: pointer;
+            user-select: none;
         }
 
         .podium-column:active {
             transform: scale(0.96);
         }
 
-        /* 1st Place (Center - Gold Masterpiece) */
+        /* 1st Place (Center - Gold) */
         .podium-column.first {
-            min-height: 220px;
-            background: linear-gradient(180deg, rgba(251, 191, 36, 0.22) 0%, rgba(30, 24, 16, 0.95) 45%, rgba(18, 19, 26, 0.98) 100%);
-            border: 1px solid rgba(251, 191, 36, 0.5);
-            box-shadow: 
-                0 10px 30px rgba(245, 158, 11, 0.22),
-                inset 0 1px 2px rgba(251, 191, 36, 0.4);
+            min-height: 200px;
+            background: linear-gradient(180deg, rgba(251, 191, 36, 0.18) 0%, #171822 55%, #13141c 100%);
+            border: 1.5px solid rgba(251, 191, 36, 0.45);
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.18);
             transform: translateY(-4px);
         }
 
@@ -214,41 +219,31 @@
             transform: translateY(-2px) scale(0.96);
         }
 
-        /* 2nd Place (Left - Silver Masterpiece) */
+        /* 2nd Place (Left - Silver) */
         .podium-column.second {
-            min-height: 185px;
-            background: linear-gradient(180deg, rgba(203, 213, 225, 0.16) 0%, rgba(24, 25, 34, 0.95) 45%, rgba(18, 19, 26, 0.98) 100%);
-            border: 1px solid rgba(203, 213, 225, 0.35);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            min-height: 172px;
+            background: linear-gradient(180deg, rgba(203, 213, 225, 0.12) 0%, #171822 55%, #13141c 100%);
+            border: 1px solid rgba(203, 213, 225, 0.25);
         }
 
-        /* 3rd Place (Right - Bronze Masterpiece) */
+        /* 3rd Place (Right - Bronze) */
         .podium-column.third {
-            min-height: 170px;
-            background: linear-gradient(180deg, rgba(251, 146, 60, 0.14) 0%, rgba(28, 22, 18, 0.95) 45%, rgba(18, 19, 26, 0.98) 100%);
-            border: 1px solid rgba(251, 146, 60, 0.35);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            min-height: 160px;
+            background: linear-gradient(180deg, rgba(251, 146, 60, 0.12) 0%, #171822 55%, #13141c 100%);
+            border: 1px solid rgba(251, 146, 60, 0.25);
         }
 
-        /* Crown on #1 */
         .podium-crown {
             position: absolute;
-            top: -2px;
+            top: 2px;
             font-size: 16px;
-            filter: drop-shadow(0 2px 8px rgba(251, 191, 36, 0.8));
-            animation: crownFloat 2.5s ease-in-out infinite;
             z-index: 5;
-        }
-
-        @keyframes crownFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
         }
 
         .podium-avatar-wrap {
             position: relative;
-            margin-bottom: 10px;
-            margin-top: 10px;
+            margin-bottom: 8px;
+            margin-top: 8px;
         }
 
         .podium-column.first .podium-avatar-wrap {
@@ -256,54 +251,46 @@
         }
 
         .podium-avatar-img {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2.5px solid rgba(255, 255, 255, 0.2);
-            background: #1e293b;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            transition: all 0.2s ease;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: #151620;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
         .podium-column.first .podium-avatar-img {
-            width: 58px;
-            height: 58px;
-            border: 3px solid #fbbf24;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+            width: 52px;
+            height: 52px;
+            border: 2.5px solid #fbbf24;
+            box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
         }
 
         .podium-column.second .podium-avatar-img {
-            border: 2.5px solid #cbd5e1;
-            box-shadow: 0 0 15px rgba(203, 213, 225, 0.3);
+            border: 2px solid #cbd5e1;
         }
 
         .podium-column.third .podium-avatar-img {
-            border: 2.5px solid #fb923c;
-            box-shadow: 0 0 15px rgba(251, 146, 60, 0.3);
+            border: 2px solid #fb923c;
         }
 
         .podium-badge-pill {
             position: absolute;
-            bottom: -7px;
+            bottom: -6px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 11px;
-            font-weight: 900;
-            padding: 2px 9px;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
             border-radius: 999px;
             white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-            letter-spacing: 0.2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
         .badge-gold {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             color: #000000;
-            box-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
         }
 
         .badge-silver {
@@ -317,53 +304,50 @@
         }
 
         .podium-username {
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 800;
             color: #ffffff;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 90px;
-            margin-top: 6px;
-            margin-bottom: 3px;
-            letter-spacing: -0.2px;
+            max-width: 85px;
+            margin-top: 4px;
+            margin-bottom: 2px;
         }
 
         .podium-column.first .podium-username {
-            font-size: 13px;
+            font-size: 12.5px;
             color: #fef08a;
-            max-width: 100px;
+            max-width: 95px;
         }
 
         .podium-amount {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 900;
             color: #ffffff;
             line-height: 1.2;
-            letter-spacing: -0.3px;
         }
 
         .podium-column.first .podium-amount {
             color: #fbbf24;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .podium-subtext {
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 700;
-            color: #64748b;
+            color: #82879a;
             margin-top: 2px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         /* Leaderboard List Rows */
         .list-section-header {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
-            color: #94a3b8;
-            margin-bottom: 12px;
-            padding-left: 4px;
+            color: #82879a;
+            margin-bottom: 10px;
+            padding: 0 4px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -372,44 +356,44 @@
         .rating-list-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 22px;
+            gap: 8px;
+            margin-bottom: 14px;
         }
 
         .leader-row-card {
-            background: rgba(20, 21, 29, 0.85);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 14px 16px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 12px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 120ms ease, background-color 150ms ease;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
             cursor: pointer;
+            user-select: none;
         }
 
         .leader-row-card:active {
-            background: rgba(30, 32, 44, 0.95);
             transform: scale(0.98);
+            background: #232430;
         }
 
         .leader-row-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             min-width: 0;
         }
 
         .leader-row-rank {
-            font-size: 13px;
-            font-weight: 900;
-            color: #64748b;
-            width: 26px;
-            height: 26px;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #82879a;
+            width: 24px;
+            height: 24px;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.04);
+            background: #151620;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -417,14 +401,13 @@
         }
 
         .leader-row-avatar {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             overflow: hidden;
-            background: #1e293b;
-            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            background: #151620;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
         .leader-row-avatar img {
@@ -440,13 +423,13 @@
         }
 
         .leader-row-username {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 800;
-            color: #f1f5f9;
+            color: #ffffff;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 135px;
+            max-width: 130px;
             letter-spacing: -0.2px;
         }
 
@@ -463,36 +446,33 @@
         }
 
         .leader-row-turnover-val {
-            font-size: 15px;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: -0.4px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #38bdf8;
         }
 
         .leader-row-turnover-label {
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 700;
-            color: #64748b;
+            color: #82879a;
             text-transform: uppercase;
             margin-top: 1px;
         }
 
         /* User My Rank Floating Card */
         .user-my-rank-dock {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 22px;
-            padding: 14px 18px;
+            background: #1c1c24;
+            border: 1.5px solid rgba(56, 189, 248, 0.3);
+            border-radius: 18px;
+            padding: 12px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px;
-            backdrop-filter: blur(16px);
-            box-shadow: 
-                0 10px 30px -5px rgba(0, 0, 0, 0.6),
-                0 0 25px rgba(56, 189, 248, 0.15);
+            margin-bottom: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease;
+            user-select: none;
         }
 
         .user-my-rank-dock:active {
@@ -500,11 +480,10 @@
         }
 
         .my-rank-avatar {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: 2px solid #38bdf8;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
             overflow: hidden;
             flex-shrink: 0;
         }
@@ -520,11 +499,11 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.25s ease, visibility 0.25s ease;
             z-index: 1000;
             display: flex;
             align-items: flex-end;
@@ -538,18 +517,15 @@
         }
 
         .user-modal-sheet {
-            background: #111219;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 60%),
-                radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
+            background: #1c1c24;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 32px 32px 0 0;
+            border-radius: 28px 28px 0 0;
             width: 100%;
             max-width: 500px;
-            padding: 24px 20px 38px 20px;
+            padding: 20px 18px 34px 18px;
             transform: translateY(100%);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 -15px 45px rgba(0, 0, 0, 0.9);
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 -15px 40px rgba(0, 0, 0, 0.8);
             position: relative;
             display: flex;
             flex-direction: column;
@@ -561,48 +537,46 @@
         }
 
         .modal-drag-pill {
-            width: 44px;
-            height: 5px;
+            width: 40px;
+            height: 4px;
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.2);
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .modal-close-btn {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 34px;
-            height: 34px;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
+            background: #151620;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #94a3b8;
+            color: #82879a;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease;
         }
 
         .modal-close-btn:active {
             transform: scale(0.9);
-            background: rgba(255, 255, 255, 0.15);
         }
 
         .modal-avatar-wrapper {
             position: relative;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .modal-avatar-img {
-            width: 76px;
-            height: 76px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #38bdf8;
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
-            background: #1e293b;
+            border: 2.5px solid #38bdf8;
+            background: #151620;
         }
 
         .modal-badge-rank {
@@ -614,26 +588,25 @@
             color: #000;
             font-size: 11px;
             font-weight: 900;
-            padding: 3px 10px;
+            padding: 2px 10px;
             border-radius: 999px;
             white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         .modal-user-name {
-            font-size: 20px;
-            font-weight: 900;
+            font-size: 18px;
+            font-weight: 800;
             color: #ffffff;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
             margin-bottom: 2px;
             text-align: center;
         }
 
         .modal-user-username {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             color: #38bdf8;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             text-align: center;
         }
 
@@ -642,54 +615,51 @@
             width: 100%;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         .modal-stat-card {
-            background: rgba(25, 27, 38, 0.7);
+            background: #151620;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
-            padding: 14px 12px;
+            border-radius: 16px;
+            padding: 12px 10px;
             text-align: center;
-            backdrop-filter: blur(10px);
         }
 
         .modal-stat-label {
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
-            color: #64748b;
+            color: #82879a;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .modal-stat-value {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 900;
             color: #ffffff;
-            letter-spacing: -0.3px;
         }
 
         /* Modal Actions */
         .modal-action-btn {
             width: 100%;
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
             color: #ffffff;
             border: none;
-            border-radius: 16px;
-            padding: 14px;
-            font-size: 15px;
+            border-radius: 14px;
+            padding: 13px;
+            font-size: 14px;
             font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
             text-decoration: none;
             margin-bottom: 8px;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease;
         }
 
         .modal-action-btn:active {
@@ -698,32 +668,49 @@
 
         .modal-cancel-btn {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            color: #94a3b8;
+            background: #151620;
+            color: #82879a;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 12px;
-            font-size: 14px;
+            border-radius: 14px;
+            padding: 11px;
+            font-size: 13.5px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease;
         }
 
         .modal-cancel-btn:active {
-            background: rgba(255, 255, 255, 0.1);
+            transform: scale(0.98);
+            color: #ffffff;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Top Brand Header -->
-    <div class="rating-top-brand">
-        <img src="./images/logo.png" alt="CoinStat">
-        <span>CoinStat UZ</span>
-    </div>
-    <div class="rating-page-title">
-        <span data-i18n="rating.title">Savdo Statistikasi</span>
+    <!-- Top Bar -->
+    <div class="rating-top-bar">
+        <a href="index.html" class="back-pill-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="rating-top-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                <path d="M4 22h16"></path>
+                <path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path>
+                <path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path>
+            </svg>
+            <span data-i18n="rating.title">Savdo Statistikasi</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <div class="balance-badge-pill">
+                <span id="balance">0</span> UZS
+            </div>
+            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
+        </div>
     </div>
 
     <!-- Period Filter Tabs -->
@@ -746,7 +733,7 @@
                     <img src="./images/logo.png" id="podiumAvatar2" class="podium-avatar-img" alt="2nd">
                     <div class="podium-badge-pill badge-silver">🥈 #2</div>
                 </div>
-                <div class="podium-username" id="podiumUser2">@usdt_guru</div>
+                <div class="podium-username" id="podiumUser2">Bo'sh</div>
                 <div class="podium-amount" id="podiumAmount2">0 UZS</div>
                 <div class="podium-subtext">Aylanma</div>
             </div>
@@ -758,7 +745,7 @@
                     <img src="./images/logo.png" id="podiumAvatar1" class="podium-avatar-img" alt="1st">
                     <div class="podium-badge-pill badge-gold">🥇 #1</div>
                 </div>
-                <div class="podium-username" id="podiumUser1">@coinstat_king</div>
+                <div class="podium-username" id="podiumUser1">Bo'sh</div>
                 <div class="podium-amount" id="podiumAmount1">0 UZS</div>
                 <div class="podium-subtext">Aylanma</div>
             </div>
@@ -769,7 +756,7 @@
                     <img src="./images/logo.png" id="podiumAvatar3" class="podium-avatar-img" alt="3rd">
                     <div class="podium-badge-pill badge-bronze">🥉 #3</div>
                 </div>
-                <div class="podium-username" id="podiumUser3">@crypto_king</div>
+                <div class="podium-username" id="podiumUser3">Bo'sh</div>
                 <div class="podium-amount" id="podiumAmount3">0 UZS</div>
                 <div class="podium-subtext">Aylanma</div>
             </div>
@@ -786,21 +773,21 @@
         <!-- Dynamic content filled by JavaScript -->
     </div>
 
-    <!-- User My Rank Bottom Floating Card -->
+    <!-- User My Rank Floating Card -->
     <div class="user-my-rank-dock" id="myRankDock">
         <div class="leader-row-left">
             <div class="my-rank-avatar">
                 <img src="./images/logo.png" id="myAvatarImg" alt="Me" onerror="this.src='./images/logo.png'">
             </div>
             <div class="leader-row-info">
-                <div style="font-size: 14px; font-weight: 900; color: #ffffff; display: flex; align-items: center; gap: 6px;">
+                <div style="font-size: 13.5px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 6px;">
                     Sizning o'rningiz: <span id="myRankNum" style="color: #fbbf24;">—</span>
                 </div>
-                <div style="font-size: 11px; font-weight: 600; color: #94a3b8;">Umumiy faollik reytingida</div>
+                <div style="font-size: 11px; font-weight: 600; color: #82879a;">Umumiy faollik reytingida</div>
             </div>
         </div>
         <div class="leader-row-right">
-            <div class="leader-row-turnover-val" id="myTurnoverVal" style="color: #38bdf8;">0 UZS</div>
+            <div class="leader-row-turnover-val" id="myTurnoverVal">0 UZS</div>
             <div class="leader-row-turnover-label">Aylanma</div>
         </div>
     </div>
@@ -889,6 +876,7 @@
         function switchPeriod(period, btn) {
             document.querySelectorAll('.period-tab-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
             loadRatingData(period);
         }
 
@@ -899,8 +887,8 @@
             try {
                 const res = await fetch((apiBase ? apiBase : '') + '/api/rating', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
-                    body: JSON.stringify({ period: period, initData: tg.initData || '' })
+                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+                    body: JSON.stringify({ period: period, initData: tg?.initData || '' })
                 });
                 const data = await res.json();
                 const list = (data && data.ok && Array.isArray(data.rating)) ? data.rating : [];
@@ -975,13 +963,13 @@
             const av3 = document.getElementById('podiumAvatar3');
             const myAv = document.getElementById('myAvatarImg');
 
-            if (myAv && tg.initDataUnsafe?.user?.photo_url) {
+            if (myAv && tg?.initDataUnsafe?.user?.photo_url) {
                 myAv.src = tg.initDataUnsafe.user.photo_url;
             }
 
             // 1st Place (Center)
             const p1 = document.getElementById('podium1');
-            if (list[0] && list[0].total > 0) {
+            if (list[0] && Number(list[0].total) > 0) {
                 const u1 = (list[0].username || 'User#' + list[0].telegram_id);
                 const amt1 = Number(list[0].total).toLocaleString('uz-UZ') + ' UZS';
                 const avatar1 = getAvatarUrl(list[0], currentUserId);
@@ -991,16 +979,16 @@
                 if (av1) av1.src = avatar1;
                 p1.onclick = () => openUserProfile(1, u1, amt1, avatar1, list[0].full_name);
             } else {
-                document.getElementById('podiumUser1').textContent = 'Bo\'sh';
+                document.getElementById('podiumUser1').textContent = '—';
                 document.getElementById('podiumAmount1').textContent = '0 UZS';
-                p1.style.opacity = '0.5';
+                p1.style.opacity = '0.7';
                 if (av1) av1.src = './images/logo.png';
                 p1.onclick = null;
             }
 
             // 2nd Place (Left)
             const p2 = document.getElementById('podium2');
-            if (list[1] && list[1].total > 0) {
+            if (list[1] && Number(list[1].total) > 0) {
                 const u2 = (list[1].username || 'User#' + list[1].telegram_id);
                 const amt2 = Number(list[1].total).toLocaleString('uz-UZ') + ' UZS';
                 const avatar2 = getAvatarUrl(list[1], currentUserId);
@@ -1010,16 +998,16 @@
                 if (av2) av2.src = avatar2;
                 p2.onclick = () => openUserProfile(2, u2, amt2, avatar2, list[1].full_name);
             } else {
-                document.getElementById('podiumUser2').textContent = 'Bo\'sh';
+                document.getElementById('podiumUser2').textContent = '—';
                 document.getElementById('podiumAmount2').textContent = '0 UZS';
-                p2.style.opacity = '0.5';
+                p2.style.opacity = '0.7';
                 if (av2) av2.src = './images/logo.png';
                 p2.onclick = null;
             }
 
             // 3rd Place (Right)
             const p3 = document.getElementById('podium3');
-            if (list[2] && list[2].total > 0) {
+            if (list[2] && Number(list[2].total) > 0) {
                 const u3 = (list[2].username || 'User#' + list[2].telegram_id);
                 const amt3 = Number(list[2].total).toLocaleString('uz-UZ') + ' UZS';
                 const avatar3 = getAvatarUrl(list[2], currentUserId);
@@ -1029,9 +1017,9 @@
                 if (av3) av3.src = avatar3;
                 p3.onclick = () => openUserProfile(3, u3, amt3, avatar3, list[2].full_name);
             } else {
-                document.getElementById('podiumUser3').textContent = 'Bo\'sh';
+                document.getElementById('podiumUser3').textContent = '—';
                 document.getElementById('podiumAmount3').textContent = '0 UZS';
-                p3.style.opacity = '0.5';
+                p3.style.opacity = '0.7';
                 if (av3) av3.src = './images/logo.png';
                 p3.onclick = null;
             }
@@ -1050,7 +1038,7 @@
                 const rowAvatar = getAvatarUrl(item, currentUserId);
                 const fullNameSafe = (item.full_name || '').replace(/'/g, "\\'");
 
-                const tgUsername = (tg.initDataUnsafe?.user?.username || '').replace(/^@/, '');
+                const tgUsername = (tg?.initDataUnsafe?.user?.username || '').replace(/^@/, '');
                 if (String(item.telegram_id) === currentUserId || (tgUsername && rawUsername.toLowerCase() === tgUsername.toLowerCase())) {
                     myRank = rank;
                     myTurnover = totalVal;
@@ -1080,8 +1068,8 @@
 
             if (list.length === 0) {
                 html = `
-                    <div style="text-align: center; padding: 35px 16px; color: #64748b; font-size: 13px; font-weight: 700; background: rgba(22,23,31,0.5); border-radius: 20px; border: 1px dashed rgba(255,255,255,0.06);">
-                        🛍 Hozircha hech kim xarid qilmagan.<br><span style="color: #38bdf8;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
+                    <div style="text-align: center; padding: 28px 16px; color: #82879a; font-size: 13px; font-weight: 700; background: #1c1c24; border-radius: 18px; border: 1px dashed rgba(255,255,255,0.08); box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
+                        🛍 Hozircha bu davrda xaridlar yo'q.<br><span style="color: #38bdf8; font-weight: 800; display: inline-block; margin-top: 4px;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
                     </div>
                 `;
             }
@@ -1102,9 +1090,9 @@
                     myTurnoverEl.textContent = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
                 }
                 if (myRankDock) {
-                    const myUname = tg.initDataUnsafe?.user?.username || 'Men';
-                    const myFullName = (tg.initDataUnsafe?.user?.first_name || '') + ' ' + (tg.initDataUnsafe?.user?.last_name || '');
-                    const myPhoto = tg.initDataUnsafe?.user?.photo_url || './images/logo.png';
+                    const myUname = tg?.initDataUnsafe?.user?.username || 'Men';
+                    const myFullName = (tg?.initDataUnsafe?.user?.first_name || '') + ' ' + (tg?.initDataUnsafe?.user?.last_name || '');
+                    const myPhoto = tg?.initDataUnsafe?.user?.photo_url || './images/logo.png';
                     const formattedTurnover = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
                     myRankDock.onclick = () => openUserProfile(rank, myUname, formattedTurnover, myPhoto, myFullName.trim());
                 }
@@ -1117,8 +1105,8 @@
             if (currentUserId && !myRank) {
                 fetch((apiBase ? apiBase : '') + '/api/user/transactions', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
-                    body: JSON.stringify({ telegram_id: currentUserId, initData: tg.initData || '' })
+                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+                    body: JSON.stringify({ telegram_id: currentUserId, initData: tg?.initData || '' })
                 }).then(r => r.json()).then(tData => {
                     if (tData && tData.ok && typeof tData.total_spent === 'number') {
                         if (tData.total_spent > 0) {
@@ -1129,17 +1117,17 @@
                 }).catch(() => {});
             }
 
-            if (tg.initDataUnsafe?.user?.photo_url) {
+            if (tg?.initDataUnsafe?.user?.photo_url) {
                 const myAv = document.getElementById('myAvatarImg');
                 if (myAv) myAv.src = tg.initDataUnsafe.user.photo_url;
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            loadUserBalance();
             loadRatingData('week');
         });
     </script>
 </body>
 
 </html>
-

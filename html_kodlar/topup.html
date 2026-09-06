@@ -18,20 +18,12 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-            --accent-glow: rgba(56, 189, 248, 0.25);
-            --card-gradient: linear-gradient(135deg, #181924 0%, #0f1017 50%, #151829 100%);
-            --glass-bg: rgba(22, 23, 30, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-muted: #94a3b8;
-        }
-
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #000000;
+            background-color: #0a0a0f;
+            background-image: radial-gradient(circle at 50% 0%, #151624 0%, #0a0a0f 65%);
             color: #ffffff;
             overflow-x: hidden;
             box-sizing: border-box;
@@ -40,10 +32,7 @@
         }
 
         body {
-            background-image: 
-                radial-gradient(circle at 10% 15%, rgba(56, 189, 248, 0.07) 0%, transparent 40%),
-                radial-gradient(circle at 90% 40%, rgba(99, 102, 241, 0.06) 0%, transparent 45%);
-            padding: 4px 8px 90px 8px;
+            padding: 4px 10px 115px 10px;
             min-height: 100vh;
         }
 
@@ -58,71 +47,108 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: 0;
-            margin-bottom: 10px;
-            padding: 0 2px;
-            width: 100%;
-            box-sizing: border-box;
+            margin-bottom: 12px;
+            padding: 2px 0;
+            transform: translateZ(0);
         }
 
         .back-pill-btn {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 12px;
-            background: #141418;
-            border: 1px solid #222228;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 120ms ease;
         }
 
         .back-pill-btn:active {
-            transform: scale(0.92);
+            transform: scale(0.94);
         }
 
-        .balance-badge-pill {
-            background: rgba(24, 25, 34, 0.8);
-            border: 1px solid rgba(56, 189, 248, 0.2);
+        .topup-top-title {
+            font-size: 16px;
+            font-weight: 800;
             color: #ffffff;
-            font-size: 13px;
-            font-weight: 700;
-            padding: 7px 14px;
-            border-radius: 999px;
             display: flex;
             align-items: center;
             gap: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .balance-badge-pill {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 7px 12px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
         }
 
         .balance-badge-pill span {
             color: #38bdf8;
-            font-weight: 800;
         }
 
-        /* Page Heading */
-        .page-header-wrap {
-            margin-bottom: 16px;
-            padding: 0 2px;
-        }
-
-        .topup-page-heading {
-            font-size: 24px;
-            font-weight: 900;
+        .lang-badge-pill {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #ffffff;
-            letter-spacing: -0.6px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 7px 11px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 120ms ease;
+        }
+
+        .lang-badge-pill:active {
+            transform: scale(0.94);
+        }
+
+        /* Step Progress Header */
+        .step-indicator-bar {
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
         }
 
-        .topup-page-subtext {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 3px;
-            font-weight: 500;
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #38bdf8;
+        }
+
+        .step-badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #38bdf8;
+            box-shadow: 0 0 8px #38bdf8;
+        }
+
+        .step-desc-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #82879a;
         }
 
         /* Step Containers */
@@ -133,7 +159,7 @@
 
         .topup-step-container.active {
             display: block;
-            animation: fadeInStep 0.25s ease;
+            animation: fadeInStep 0.2s ease;
         }
 
         @keyframes fadeInStep {
@@ -141,25 +167,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Section Titles */
-        .section-header-title {
-            font-size: 13.5px;
-            font-weight: 800;
-            color: #cbd5e1;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2px;
-        }
-
-        .section-header-title span {
-            color: #64748b;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        /* Amount Presets Grid */
+        /* Amount Presets Grid (2x3) */
         .amount-chips-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -169,28 +177,30 @@
         }
 
         .amount-chip-card {
-            background: #14161f;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #1c1c24;
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             padding: 14px 6px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 120ms ease, border-color 150ms ease, background-color 150ms ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 2px;
+            gap: 3px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            user-select: none;
         }
 
         .amount-chip-card:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
 
         .amount-chip-card.selected {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(37, 99, 235, 0.25) 100%);
             border-color: #38bdf8;
-            box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, #1c1c24 100%);
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.25);
         }
 
         .amount-chip-val {
@@ -204,29 +214,30 @@
         }
 
         .amount-chip-unit {
-            font-size: 10.5px;
+            font-size: 10px;
             font-weight: 700;
-            color: #64748b;
+            color: #82879a;
             text-transform: uppercase;
         }
 
-        /* Custom Input */
+        /* Custom Input Card */
         .custom-amount-card {
-            background: #14161f;
+            background: #1c1c24;
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
-            padding: 14px 16px;
-            margin-bottom: 20px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             gap: 10px;
             width: 100%;
             box-sizing: border-box;
+            transition: border-color 0.2s ease;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
         }
 
         .custom-amount-card:focus-within {
             border-color: #38bdf8;
-            box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
         }
 
         .custom-amount-input {
@@ -234,31 +245,38 @@
             border: none;
             outline: none;
             color: #ffffff;
-            font-size: 16px;
+            font-size: 14.5px;
             font-weight: 700;
             width: 100%;
         }
 
+        .custom-amount-input::placeholder {
+            color: #64748b;
+        }
+
         .custom-amount-currency {
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 800;
             color: #38bdf8;
+            background: #252633;
+            padding: 4px 10px;
+            border-radius: 8px;
         }
 
         /* Buttons */
         .primary-action-btn {
             width: 100%;
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
             color: #ffffff;
             border: none;
             border-radius: 16px;
-            padding: 15px;
-            font-size: 15.5px;
+            padding: 14px 18px;
+            font-size: 15px;
             font-weight: 800;
             cursor: pointer;
-            transition: all 0.2s ease;
-            margin-bottom: 12px;
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+            transition: transform 120ms ease;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -266,44 +284,46 @@
         }
 
         .primary-action-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
 
         .secondary-back-btn {
             width: 100%;
-            background: #14161f;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #94a3b8;
             border-radius: 16px;
-            padding: 13px;
-            font-size: 14px;
+            padding: 12px;
+            font-size: 13.5px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+            transition: transform 120ms ease;
         }
 
         .secondary-back-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
             color: #ffffff;
         }
 
         /* STEP 2 SPECIFIC STYLES */
         /* 5-Minute Timer Banner */
         .timer-banner-card {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(245, 158, 11, 0.18) 100%);
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            border-radius: 18px;
-            padding: 12px 16px;
+            background: #1c1c24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 12px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 12px;
             width: 100%;
             box-sizing: border-box;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
         .timer-left-col {
@@ -312,114 +332,115 @@
             gap: 10px;
         }
 
-        .timer-flame-icon {
-            font-size: 22px;
-        }
-
         .timer-info-text {
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 800;
+            color: #ffffff;
         }
 
         .timer-sub-hint {
-            font-size: 10.5px;
-            color: #f87171;
+            font-size: 11px;
+            color: #fbbf24;
             font-weight: 600;
         }
 
         .timer-digits-box {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 900;
-            color: #f87171;
+            color: #fbbf24;
             font-variant-numeric: tabular-nums;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            background: #252633;
+            padding: 4px 10px;
+            border-radius: 10px;
         }
 
-        /* Exact Amount To Pay Highlight Box */
+        /* Exact Amount Box */
         .pay-amount-highlight-box {
-            background: #14161f;
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            border-radius: 18px;
+            background: #1c1c24;
+            border: 1.5px solid rgba(56, 189, 248, 0.3);
+            border-radius: 16px;
             padding: 14px 16px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             width: 100%;
             box-sizing: border-box;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
 
         .pay-label-title {
             font-size: 13px;
-            font-weight: 600;
-            color: #94a3b8;
+            font-weight: 700;
+            color: #82879a;
         }
 
         .pay-value-badge {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 900;
             color: #38bdf8;
         }
 
         /* 3D Bank Card */
         .credit-card {
-            background: var(--card-gradient);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: linear-gradient(135deg, #181926 0%, #12131c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 18px 16px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             position: relative;
             overflow: hidden;
             width: 100%;
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
 
         .card-top-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .chip-icon {
             width: 32px;
             height: 24px;
-            background: linear-gradient(135deg, #e2c069 0%, #b8860b 100%);
-            border-radius: 5px;
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            border-radius: 6px;
         }
 
         .card-status-badge {
-            background: rgba(34, 197, 94, 0.15);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #4ade80;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 3px 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 900;
+            font-style: italic;
+            padding: 3px 12px;
             border-radius: 999px;
+            letter-spacing: 1px;
         }
 
         .card-number-wrapper {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             cursor: pointer;
         }
 
         .card-label-small {
-            font-size: 10px;
+            font-size: 10.5px;
             font-weight: 700;
-            color: #94a3b8;
+            color: #82879a;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.5px;
             margin-bottom: 4px;
         }
 
         .card-number-display {
-            font-size: 20px;
-            font-weight: 800;
+            font-size: 19px;
+            font-weight: 900;
             color: #ffffff;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             font-variant-numeric: tabular-nums;
         }
 
@@ -437,7 +458,7 @@
         }
 
         .copy-pill-button {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
             color: #ffffff;
             border: none;
             border-radius: 10px;
@@ -448,21 +469,23 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            transition: transform 120ms ease;
+            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
         }
 
         .copy-pill-button:active {
-            transform: scale(0.93);
+            transform: scale(0.94);
         }
 
-        /* Warning / Instruction Notice */
+        /* Instruction Notice */
         .instruction-notice-box {
-            background: rgba(245, 158, 11, 0.08);
-            border: 1px solid rgba(245, 158, 11, 0.25);
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             padding: 12px 14px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             font-size: 12px;
-            color: #fde68a;
+            color: #94a3b8;
             line-height: 1.45;
             display: flex;
             align-items: flex-start;
@@ -471,61 +494,56 @@
             box-sizing: border-box;
         }
 
-        /* Admin Help Section */
+        .instruction-notice-box svg {
+            color: #38bdf8;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Help Box */
         .topup-help-box {
-            background: rgba(18, 19, 26, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 18px;
-            padding: 16px 14px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
             box-sizing: border-box;
-        }
-
-        .help-header-pill {
-            background: rgba(56, 189, 248, 0.1);
-            color: #38bdf8;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 3px 10px;
-            border-radius: 999px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            text-transform: uppercase;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
         }
 
         .topup-help-text {
-            font-size: 12.5px;
-            color: #94a3b8;
-            line-height: 1.4;
-            font-weight: 500;
+            font-size: 12px;
+            color: #82879a;
+            font-weight: 600;
         }
 
         .topup-admin-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            gap: 6px;
+            background: #252633;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #ffffff;
-            padding: 11px 18px;
+            padding: 10px 16px;
             border-radius: 12px;
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 700;
             text-decoration: none;
             width: 100%;
             box-sizing: border-box;
+            transition: transform 120ms ease;
         }
 
         .topup-admin-btn:active {
             transform: scale(0.98);
+            background: #2e2f3e;
         }
 
         /* Toast notification */
@@ -534,7 +552,7 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%) translateY(-100px);
-            background: #1e293b;
+            background: #1c1c24;
             color: #38bdf8;
             border: 1px solid #38bdf8;
             padding: 10px 20px;
@@ -572,31 +590,33 @@
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </a>
-        <div class="balance-badge-pill">
-            <span>Balans:</span> <span id="balance">0</span> UZS
-        </div>
-    </div>
-
-    <!-- Page Heading -->
-    <div class="page-header-wrap">
-        <div class="topup-page-heading">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <div class="topup-top-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="1" y="4" width="22" height="16" rx="3" ry="3"></rect>
                 <line x1="1" y1="10" x2="23" y2="10"></line>
             </svg>
             <span data-i18n="topup.header_title">Balans To'ldirish</span>
         </div>
-        <div class="topup-page-subtext" id="stepSubtext" data-i18n="topup.step1_sub">1-qadam: Kerakli to'lov summasini tanlang</div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <div class="balance-badge-pill">
+                <span id="balance">0</span> UZS
+            </div>
+            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
+        </div>
+    </div>
+
+    <!-- Step Progress Indicator -->
+    <div class="step-indicator-bar">
+        <div class="step-badge">
+            <div class="step-badge-dot"></div>
+            <span id="stepBadgeText">1-QADAM</span>
+        </div>
+        <div class="step-desc-text" id="stepSubtext">Kerakli to'lov summasini tanlang</div>
     </div>
 
     <!-- STEP 1: SELECT AMOUNT -->
     <div class="topup-step-container active" id="step1Container">
         <!-- Amount Presets Grid -->
-        <div class="section-header-title">
-            <span data-i18n="topup.select_amount_title">Summani tanlang</span>
-            <span>UZS</span>
-        </div>
-
         <div class="amount-chips-grid">
             <div class="amount-chip-card" onclick="selectAmount(10000, this)">
                 <span class="amount-chip-val">10 000</span>
@@ -632,7 +652,7 @@
 
         <!-- Go To Step 2 Button -->
         <button class="primary-action-btn" onclick="proceedToPaymentStep()">
-            <span data-i18n="topup.proceed_btn">To'lovga o'tish</span>
+            <span><span data-i18n="topup.proceed_btn">To'lovga o'tish</span> — <span id="ctaPriceText">25 000</span> UZS</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
@@ -644,7 +664,7 @@
         <!-- 5-Minute Live Countdown Timer Banner -->
         <div class="timer-banner-card">
             <div class="timer-left-col">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="13" r="8"></circle>
                     <path d="M12 9v4l2 2"></path>
                     <path d="M5 3L2 6"></path>
@@ -652,7 +672,7 @@
                     <path d="M12 2v2"></path>
                 </svg>
                 <div>
-                    <div class="timer-info-text" data-i18n="topup.timer_label">To'lov uchun berilgan vaqt:</div>
+                    <div class="timer-info-text" data-i18n="topup.timer_label">To'lov uchun vaqt:</div>
                     <div class="timer-sub-hint" data-i18n="topup.timer_hint">5 daqiqa ichida to'lang</div>
                 </div>
             </div>
@@ -669,9 +689,7 @@
         <div class="credit-card">
             <div class="card-top-row">
                 <div class="chip-icon"></div>
-                <div class="card-status-badge">
-                    <span>UZCARD / HUMO</span>
-                </div>
+                <div class="card-status-badge">VISA</div>
             </div>
 
             <div class="card-number-wrapper" onclick="copyCardNumber()">
@@ -684,7 +702,7 @@
                     <div class="card-label-small" data-i18n="topup.receiver_label">Qabul qiluvchi</div>
                     <div class="card-holder-name" id="cardHolderName">T M</div>
                 </div>
-                <button class="copy-pill-button" onclick="copyCardNumber()">
+                <button type="button" class="copy-pill-button" onclick="copyCardNumber()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -696,12 +714,12 @@
 
         <!-- Instruction Notice -->
         <div class="instruction-notice-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                <line x1="12" y1="9" x2="12" y2="13"></line>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
-            <span data-i18n="topup.warning_notice">Iltimos, 5 daqiqa ichida ko'rsatilgan kartaga aniq to'lovni o'tkazing va quyidagi tugmani bosing.</span>
+            <span data-i18n="topup.warning_notice">Iltimos, ko'rsatilgan kartaga aniq summani o'tkazing va quyidagi tugmani bosing.</span>
         </div>
 
         <!-- Submit Payment Button -->
@@ -723,17 +741,9 @@
 
     <!-- Help & Support Box -->
     <div class="topup-help-box">
-        <div class="help-header-pill">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            <span data-i18n="topup.help_title">Yordam kerakmi?</span>
-        </div>
-        <div class="topup-help-text" data-i18n="topup.help_text">To'lov qilishda qiyinchilik bo'lsa yoki savollaringiz bo'lsa, adminga yozing:</div>
+        <div class="topup-help-text" data-i18n="topup.help_text">To'lov bo'yicha savollaringiz bo'lsa, adminga yozing:</div>
         <a href="https://t.me/cofeature" target="_blank" class="topup-admin-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
             </svg>
             <span data-i18n="topup.admin_btn">Adminga murojaat qilish</span>
@@ -782,11 +792,17 @@
         let countdownTimer = null;
         let timeLeftSeconds = 300; // 5 minutes = 300 seconds
 
+        function updateCtaPrice(val) {
+            const el = document.getElementById('ctaPriceText');
+            if (el) el.textContent = val ? val.toLocaleString('uz-UZ') : '0';
+        }
+
         function selectAmount(val, el) {
             selectedAmount = val;
             document.querySelectorAll('.amount-chip-card').forEach(c => c.classList.remove('selected'));
             if (el) el.classList.add('selected');
             document.getElementById('customAmountInput').value = '';
+            updateCtaPrice(val);
             if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
@@ -795,6 +811,10 @@
             if (val && val > 0) {
                 selectedAmount = val;
                 document.querySelectorAll('.amount-chip-card').forEach(c => c.classList.remove('selected'));
+                updateCtaPrice(val);
+            } else {
+                selectedAmount = 0;
+                updateCtaPrice(0);
             }
         }
 
@@ -809,12 +829,14 @@
             const sumEl = document.getElementById('summaryAmountText');
             if (sumEl) sumEl.textContent = formatted;
 
+            const stepBadge = document.getElementById('stepBadgeText');
             const stepSubEl = document.getElementById('stepSubtext');
+            if (stepBadge) stepBadge.textContent = '2-QADAM';
             if (stepSubEl) {
                 const lang = localStorage.getItem('starpay_lang') || 'uz';
-                if (lang === 'ru') stepSubEl.textContent = 'Шаг 2: Оплатите на карту';
-                else if (lang === 'en') stepSubEl.textContent = 'Step 2: Pay to card';
-                else stepSubEl.textContent = '2-qadam: Kartaga to\'lov qiling';
+                if (lang === 'ru') stepSubEl.textContent = 'Оплатите на карту и подтвердите';
+                else if (lang === 'en') stepSubEl.textContent = 'Transfer to card & confirm';
+                else stepSubEl.textContent = 'Kartaga to\'lov qiling va tasdiqlang';
             }
 
             const s1 = document.getElementById('step1Container');
@@ -835,12 +857,14 @@
             if (s2) s2.classList.remove('active');
             if (s1) s1.classList.add('active');
 
+            const stepBadge = document.getElementById('stepBadgeText');
             const stepSubEl = document.getElementById('stepSubtext');
+            if (stepBadge) stepBadge.textContent = '1-QADAM';
             if (stepSubEl) {
                 const lang = localStorage.getItem('starpay_lang') || 'uz';
-                if (lang === 'ru') stepSubEl.textContent = 'Шаг 1: Выберите сумму пополнения';
-                else if (lang === 'en') stepSubEl.textContent = 'Step 1: Select top-up amount';
-                else stepSubEl.textContent = '1-qadam: Kerakli to\'lov summasini tanlang';
+                if (lang === 'ru') stepSubEl.textContent = 'Выберите сумму пополнения';
+                else if (lang === 'en') stepSubEl.textContent = 'Select top-up amount';
+                else stepSubEl.textContent = 'Kerakli to\'lov summasini tanlang';
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -897,7 +921,11 @@
             }
         }
 
+        let isTopupSubmitting = false;
+
         async function submitTopup() {
+            if (isTopupSubmitting) return; // Prevent duplicate requests on multiple clicks!
+
             const userId = getUserId();
             const apiBase = getApiBase();
             const orderId = 'TOP_' + Date.now();
@@ -908,10 +936,13 @@
                 return;
             }
 
+            isTopupSubmitting = true;
             const btn = document.getElementById('submitBtn');
             const oldHtml = btn.innerHTML;
             btn.disabled = true;
-            btn.innerHTML = '<span>⏳</span> Yuborilmoqda...';
+            btn.style.pointerEvents = 'none';
+            btn.style.opacity = '0.7';
+            btn.innerHTML = '<span>⏳</span> Yuborildi, tekshirilmoqda...';
 
             try {
                 const tgUser = tg?.initDataUnsafe?.user;
@@ -937,9 +968,7 @@
                 let data = null;
                 try {
                     data = await res.json();
-                } catch (jsonErr) {
-                    console.warn('Non-JSON response from server:', jsonErr);
-                }
+                } catch (jsonErr) {}
 
                 if (data && data.ok) {
                     clearInterval(countdownTimer);
@@ -949,7 +978,7 @@
                     } else {
                         alert(`✅ ${selectedAmount.toLocaleString('uz-UZ')} so'mlik to'lov so'rovingiz qabul qilindi!`);
                     }
-                    setTimeout(() => window.location.href = 'orders.html', 1200);
+                    setTimeout(() => window.location.href = 'orders.html', 1000);
                 } else if (res.ok || (data && data.order_id)) {
                     clearInterval(countdownTimer);
                     if (tg && tg.showAlert) {
@@ -957,35 +986,32 @@
                     } else {
                         alert(`✅ To'lov so'rovingiz qabul qilindi!`);
                     }
-                    setTimeout(() => window.location.href = 'orders.html', 1200);
+                    setTimeout(() => window.location.href = 'orders.html', 1000);
                 } else {
                     const err = data?.error || 'To\'lov so\'rovini yuborishda xatolik yuz berdi. Iltimos adminga murojaat qiling.';
                     if (tg && tg.showAlert) tg.showAlert(err);
                     else alert(err);
+                    isTopupSubmitting = false;
+                    btn.disabled = false;
+                    btn.style.pointerEvents = 'auto';
+                    btn.style.opacity = '1';
+                    btn.innerHTML = oldHtml;
                 }
             } catch (err) {
-                console.error('Submit topup error:', err);
-                // Fallback: If tg.sendData exists (web_app_data)
-                if (tg && typeof tg.sendData === 'function') {
-                    try {
-                        tg.sendData(JSON.stringify({
-                            action: 'topup',
-                            order_id: orderId,
-                            amount: selectedAmount,
-                            user_id: userId
-                        }));
-                        return;
-                    } catch (sdErr) {}
-                }
                 if (tg && tg.showAlert) tg.showAlert('Xatolik: ' + err.message);
                 else alert('Xatolik: ' + err.message);
-            } finally {
+                isTopupSubmitting = false;
                 btn.disabled = false;
+                btn.style.pointerEvents = 'auto';
+                btn.style.opacity = '1';
                 btn.innerHTML = oldHtml;
             }
         }
 
-        document.addEventListener('DOMContentLoaded', loadUserBalance);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserBalance();
+            updateCtaPrice(selectedAmount);
+        });
     </script>
 </body>
 

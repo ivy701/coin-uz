@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CoinStat UZ - Profil</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="css/style.css?v=12.0">
+    <link rel="stylesheet" href="css/style.css?v=13.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
         * {
             margin: 0;
@@ -22,7 +22,8 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #000000;
+            background-color: #0a0a0f;
+            background-image: radial-gradient(circle at 50% 0%, #151624 0%, #0a0a0f 65%);
             color: #ffffff;
             overflow-x: hidden;
             box-sizing: border-box;
@@ -31,7 +32,7 @@
         }
 
         body {
-            padding: 4px 8px 90px 8px;
+            padding: 4px 10px 115px 10px;
             min-height: 100vh;
         }
 
@@ -48,69 +49,81 @@
             justify-content: space-between;
             margin-top: 0;
             margin-bottom: 12px;
-            padding: 0 2px;
+            padding: 2px 0;
             width: 100%;
             box-sizing: border-box;
+            transform: translateZ(0);
         }
 
         .back-pill-btn {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 12px;
-            background: #141418;
-            border: 1px solid #222228;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
             cursor: pointer;
-            transition: all 0.2s ease;
+            text-decoration: none;
+            transition: transform 120ms ease;
         }
 
         .back-pill-btn:active {
-            transform: scale(0.92);
+            transform: scale(0.94);
         }
 
         .profile-page-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             color: #ffffff;
+            letter-spacing: -0.3px;
         }
 
         .lang-badge-pill {
-            background: #141418;
-            border: 1px solid #222228;
-            color: #a1a1aa;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
             font-size: 12px;
             font-weight: 700;
-            padding: 6px 12px;
-            border-radius: 10px;
+            padding: 7px 12px;
+            border-radius: 999px;
             cursor: pointer;
             text-transform: uppercase;
+            transition: transform 120ms ease;
+        }
+
+        .lang-badge-pill:active {
+            transform: scale(0.94);
         }
 
         /* User Main Card */
         .user-hero-card {
-            background: #121316;
-            border: 1px solid #222328;
-            border-radius: 26px;
-            padding: 24px 20px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 20px 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
         }
 
         .user-big-avatar {
-            width: 76px;
-            height: 76px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
-            background: #1c1d22;
-            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: #151620;
+            border: 2px solid rgba(255, 255, 255, 0.12);
             overflow: hidden;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .user-big-avatar img {
@@ -120,52 +133,65 @@
         }
 
         .user-card-name {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
         }
 
         .user-card-id-tag {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: #1c1d22;
-            border: 1px solid #2c2d35;
+            background: #151620;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             padding: 5px 12px;
             border-radius: 999px;
             font-size: 12px;
-            font-weight: 600;
-            color: #a1a1aa;
+            font-weight: 700;
+            color: #94a3b8;
             cursor: pointer;
+            transition: transform 120ms ease, background-color 120ms ease;
+        }
+
+        .user-card-id-tag:active {
+            transform: scale(0.95);
+            background: #20222e;
         }
 
         /* 3-Column Stats Grid */
         .stats-tri-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
+            gap: 8px;
+            margin-bottom: 14px;
             width: 100%;
         }
 
         .stat-card-box {
-            background: #121316;
-            border: 1px solid #222328;
-            border-radius: 20px;
-            padding: 14px 10px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 12px 8px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 3px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            transition: transform 120ms ease;
+        }
+
+        .stat-card-box:active {
+            transform: scale(0.96);
         }
 
         .stat-label-text {
             font-size: 11px;
-            font-weight: 600;
-            color: #71717a;
+            font-weight: 700;
+            color: #82879a;
         }
 
         .stat-value-text {
@@ -177,65 +203,67 @@
         .stat-unit-text {
             font-size: 10px;
             font-weight: 700;
-            color: #71717a;
+            color: #82879a;
         }
 
         /* Profile Menu List */
         .profile-menu-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 24px;
+            gap: 8px;
+            margin-bottom: 20px;
         }
 
         .menu-action-item {
-            background: #141418;
-            border: 1px solid #222228;
-            border-radius: 20px;
-            padding: 16px 18px;
+            background: #1c1c24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .menu-action-item:hover {
-            background: #1a1a20;
-            border-color: #33333e;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            transition: transform 120ms ease, background-color 150ms ease;
+            user-select: none;
         }
 
         .menu-action-item:active {
             transform: scale(0.98);
+            background: #232430;
         }
 
         .menu-action-left {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
 
         .menu-icon-box {
             width: 38px;
             height: 38px;
             border-radius: 12px;
-            background: #1e1f26;
+            background: #151620;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
+            color: #38bdf8;
+            flex-shrink: 0;
         }
 
         .menu-action-title {
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 14.5px;
+            font-weight: 800;
             color: #ffffff;
+            letter-spacing: -0.2px;
         }
 
         .menu-action-desc {
-            font-size: 12px;
-            font-weight: 500;
-            color: #71717a;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: #82879a;
+            margin-top: 1px;
         }
 
     </style>
@@ -245,7 +273,7 @@
 
     <!-- Top Bar -->
     <div class="profile-top-bar">
-        <a href="index.html" class="profile-back-btn">
+        <a href="index.html" class="back-pill-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
@@ -262,7 +290,7 @@
         <div class="user-card-name" id="profileName">username</div>
         <div class="user-card-id-tag" onclick="copyUserId()">
             <span id="profileUserId">ID: —</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
@@ -292,64 +320,64 @@
         <!-- Balans To'ldirish -->
         <div class="menu-action-item" onclick="window.location.href='topup.html'">
             <div class="menu-action-left">
-                <div class="menu-icon-box">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                <div class="menu-icon-box" style="color: #38bdf8;">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                 </div>
                 <div>
-                    <div class="menu-action-title" data-i18n="topup.header_title">Balans To'ldirish</div>
-                    <div class="menu-action-desc" data-i18n="topup.step1_sub">Hisobingizni to'ldiring</div>
+                    <div class="menu-action-title" data-i18n="profile.topup_title">Balans To'ldirish</div>
+                    <div class="menu-action-desc" data-i18n="profile.topup_sub">Hisobni to'ldirish va xarid qilish</div>
                 </div>
             </div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
 
         <!-- Buyurtmalar Tarixi -->
         <div class="menu-action-item" onclick="window.location.href='orders.html'">
             <div class="menu-action-left">
-                <div class="menu-icon-box">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <div class="menu-icon-box" style="color: #fbbf24;">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 </div>
                 <div>
-                    <div class="menu-action-title" data-i18n="home.orders">Buyurtmalarim</div>
-                    <div class="menu-action-desc" data-i18n="rating.subtitle">Xaridlar va to'lovlar tarixi</div>
+                    <div class="menu-action-title" data-i18n="profile.orders_title">Buyurtmalarim</div>
+                    <div class="menu-action-desc" data-i18n="profile.orders_sub">Xaridlar va to'lovlar tarixi</div>
                 </div>
             </div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
 
         <!-- Reyting -->
         <div class="menu-action-item" onclick="window.location.href='rating.html'">
             <div class="menu-action-left">
-                <div class="menu-icon-box">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path></svg>
+                <div class="menu-icon-box" style="color: #f59e0b;">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path></svg>
                 </div>
                 <div>
-                    <div class="menu-action-title" data-i18n="rating.title">Top Reyting</div>
-                    <div class="menu-action-desc" data-i18n="rating.subtitle">Eng yaxshi sotuvchilar ro'yxati</div>
+                    <div class="menu-action-title" data-i18n="profile.rating_title">Savdo Reytingi</div>
+                    <div class="menu-action-desc" data-i18n="profile.rating_sub">Eng faol foydalanuvchilar ro'yxati</div>
                 </div>
             </div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
 
         <!-- Support -->
         <div class="menu-action-item" onclick="window.open('https://t.me/cofeature', '_blank')">
             <div class="menu-action-left">
-                <div class="menu-icon-box">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                <div class="menu-icon-box" style="color: #a855f7;">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 </div>
                 <div>
                     <div class="menu-action-title" data-i18n="profile.support">Qo'llab-quvvatlash</div>
-                    <div class="menu-action-desc">@cofeature</div>
+                    <div class="menu-action-desc" data-i18n="profile.support_sub">Admin va yordam markazi</div>
                 </div>
             </div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
 
         <!-- Sozlamalar: Animatsiyalarni o'chirish (Tezkor rejim / Lite Mode) -->
         <div class="menu-action-item" style="cursor: default;">
             <div class="menu-action-left">
                 <div class="menu-icon-box" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                     </svg>
                 </div>
@@ -408,7 +436,7 @@
             fetchTransactions();
             initToggleState();
 
-            if (tg.initDataUnsafe?.user?.photo_url) {
+            if (tg?.initDataUnsafe?.user?.photo_url) {
                 const av = document.getElementById('profileAvatar');
                 if (av) av.src = tg.initDataUnsafe.user.photo_url;
             }
@@ -437,8 +465,8 @@
             try {
                 const res = await fetch((apiBase ? apiBase : '') + '/api/user/transactions', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
-                    body: JSON.stringify({ telegram_id: userId, initData: tg.initData || '' })
+                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+                    body: JSON.stringify({ telegram_id: userId, initData: tg?.initData || '' })
                 });
                 const data = await res.json();
                 if (data && data.ok) {
