@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 # Premium emoji IDs
-EMOJI_DUCK_WAVE = "5361664082409740777"  # 🐥 Duck wave / smile
+EMOJI_DUCK_WAVE = "5472235990955334730"  # 👋 / 🐥 Custom Wave
 EMOJI_LIGHTNING = "5224496844188458905"  # ⚡️ Neon lightning
 EMOJI_ID_ICON = "5818885490065017876"    # 💼 Duck ID / Suitcase
 EMOJI_DOWN = "5229212516415978792"       # ⬇️ Circle down arrow

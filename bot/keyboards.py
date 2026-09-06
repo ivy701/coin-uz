@@ -33,6 +33,11 @@ def _btn(
     return InlineKeyboardButton(**kwargs)
 
 
+EMOJI_BTN_WEBAPP = "5472401690793614752"
+EMOJI_BTN_ADMIN = "5474667187258006816"
+EMOJI_BTN_NEWS = "5307943162486994719"
+
+
 def main_inline_keyboard(user_id: int | None = None) -> InlineKeyboardMarkup:
     base = settings.webapp_base_url or "https://t.me/CoinStatuz_bot/app"
     admin_url = settings.support_url or "https://t.me/cofeature"
@@ -42,21 +47,21 @@ def main_inline_keyboard(user_id: int | None = None) -> InlineKeyboardMarkup:
         url = f"{base.rstrip('/')}/index.html"
         if user_id:
             url += f"?uid={user_id}"
-        web_app_btn = InlineKeyboardButton(text="🦆 Web App", web_app=WebAppInfo(url=url))
+        web_app_btn = InlineKeyboardButton(text="Web App", web_app=WebAppInfo(url=url), icon_custom_emoji_id=EMOJI_BTN_WEBAPP)
     elif base.startswith("https://t.me/"):
-        web_app_btn = InlineKeyboardButton(text="🦆 Web App", url=base)
+        web_app_btn = InlineKeyboardButton(text="Web App", url=base, icon_custom_emoji_id=EMOJI_BTN_WEBAPP)
     else:
         url = f"https://{base.lstrip('/')}/index.html"
         if user_id:
             url += f"?uid={user_id}"
-        web_app_btn = InlineKeyboardButton(text="🦆 Web App", web_app=WebAppInfo(url=url))
+        web_app_btn = InlineKeyboardButton(text="Web App", web_app=WebAppInfo(url=url), icon_custom_emoji_id=EMOJI_BTN_WEBAPP)
 
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [web_app_btn],
             [
-                InlineKeyboardButton(text="🤓 Admin", url=admin_url),
-                InlineKeyboardButton(text="📢 Yangiliklar", url=channel_url),
+                InlineKeyboardButton(text="Admin", url=admin_url, icon_custom_emoji_id=EMOJI_BTN_ADMIN),
+                InlineKeyboardButton(text="Yangiliklar", url=channel_url, icon_custom_emoji_id=EMOJI_BTN_NEWS),
             ],
         ]
     )

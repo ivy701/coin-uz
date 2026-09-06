@@ -9,6 +9,11 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 import config
 
 
+EMOJI_BTN_WEBAPP = "5472401690793614752"
+EMOJI_BTN_ADMIN = "5474667187258006816"
+EMOJI_BTN_NEWS = "5307943162486994719"
+
+
 def get_webapp_main_keyboard(user_id: int | None = None, lang: str = "uz", balance: int | None = None) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     admin_url = getattr(config, 'SUPPORT_URL', 'https://t.me/cofeature') or "https://t.me/cofeature"
@@ -28,35 +33,40 @@ def get_webapp_main_keyboard(user_id: int | None = None, lang: str = "uz", balan
         if webapp_url.startswith("https://t.me/"):
             builder.row(
                 InlineKeyboardButton(
-                    text="🦆 Web App",
+                    text="Web App",
                     url=webapp_url,
+                    icon_custom_emoji_id=EMOJI_BTN_WEBAPP,
                 )
             )
         else:
             url = f"{webapp_url.rstrip('/')}/index.html{query_str}"
             builder.row(
                 InlineKeyboardButton(
-                    text="🦆 Web App",
+                    text="Web App",
                     web_app=WebAppInfo(url=url),
+                    icon_custom_emoji_id=EMOJI_BTN_WEBAPP,
                 )
             )
     else:
         url = f"https://{webapp_url.lstrip('/')}/index.html{query_str}"
         builder.row(
             InlineKeyboardButton(
-                text="🦆 Web App",
+                text="Web App",
                 web_app=WebAppInfo(url=url),
+                icon_custom_emoji_id=EMOJI_BTN_WEBAPP,
             )
         )
 
     builder.row(
         InlineKeyboardButton(
-            text="🤓 Admin",
+            text="Admin",
             url=admin_url,
+            icon_custom_emoji_id=EMOJI_BTN_ADMIN,
         ),
         InlineKeyboardButton(
-            text="📢 Yangiliklar",
+            text="Yangiliklar",
             url=channel_url,
+            icon_custom_emoji_id=EMOJI_BTN_NEWS,
         )
     )
 
