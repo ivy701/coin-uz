@@ -8,38 +8,178 @@ if (tg) {
     try {
         tg.expand();
         tg.ready();
-        tg.setHeaderColor('#000000');
-        tg.setBackgroundColor('#000000');
+        tg.setHeaderColor('#0a0a0f');
+        tg.setBackgroundColor('#0a0a0f');
+        if (typeof tg.disableVerticalSwipes === 'function') {
+            tg.disableVerticalSwipes();
+        }
+        if (typeof tg.enableClosingConfirmation === 'function') {
+            tg.enableClosingConfirmation();
+        }
     } catch(e){}
 }
 
 let userBalance = 0;
 
 // API base — can be overridden per-page via window.API_BASE
-// e.g. in stars.html:    <script>window.API_BASE = 'https://web-production-49c65.up.railway.app';</script>
 function getApiBase() {
     if (typeof window.API_BASE !== 'undefined' && window.API_BASE && window.API_BASE.trim() !== '') {
         return window.API_BASE.replace(/\/$/, '');
     }
-    if (typeof window !== 'undefined' && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
-        return window.location.origin;
+    if (typeof window !== 'undefined' && window.location) {
+        const host = (window.location.hostname || '').toLowerCase();
+        if (host.includes('vercel.app') || host.includes('github.io')) {
+            return 'https://coinstat-uz-wepapp-1.onrender.com';
+        }
+        if (window.location.protocol && window.location.protocol.startsWith('http')) {
+            return window.location.origin;
+        }
     }
-    return '';
+    return 'https://coinstat-uz-wepapp-1.onrender.com';
 }
 
+// Telegram Native Haptic Engine
+function triggerHaptic(type = 'light') {
+    if (!tg || !tg.HapticFeedback) return;
+    try {
+        if (type === 'light' || type === 'medium' || type === 'heavy' || type === 'rigid' || type === 'soft') {
+            tg.HapticFeedback.impactOccurred(type);
+        } else if (type === 'selection') {
+            tg.HapticFeedback.selectionChanged();
+        } else if (type === 'success' || type === 'error' || type === 'warning') {
+            tg.HapticFeedback.notificationOccurred(type);
+        }
+    } catch (e) {}
+}
 
+function initHaptics() {
+    document.addEventListener('click', (e) => {
+        const clickable = e.target.closest(
+            'a, button, .dock-tab-btn, .service-quad-card, .service-card, .gift-card, ' +
+            '.back-pill-btn, .lang-badge-pill, .stars-equiv-badge-btn, .stat-card-box, ' +
+            '.vip-spin-banner, .spin-mode-tab, .filter-chip-btn, .package-card, .tab-btn'
+        );
+        if (clickable) {
+            triggerHaptic('light');
+        }
+    }, { passive: true });
+}
 
+// Instant Zero-Flash Hydration for Header, User Profile and Cached Stats
+function hydrateInstantUserData() {
+    try {
+        const tgUser = tg?.initDataUnsafe?.user;
+        const uid = getUserId();
 
+        // 1. User Display Name
+        const nameEl = document.getElementById('profileName');
+        if (nameEl) {
+            const cachedName = localStorage.getItem('cs_cached_name');
+            if (tgUser?.first_name) {
+                const fullName = (tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '')).trim();
+                nameEl.textContent = fullName;
+                localStorage.setItem('cs_cached_name', fullName);
+            } else if (cachedName) {
+                nameEl.textContent = cachedName;
+            } else if (!nameEl.textContent.trim() || nameEl.textContent === 'username') {
+                nameEl.textContent = 'Foydalanuvchi';
+            }
+        }
 
+        // 2. User Handle or ID
+        const idEl = document.getElementById('profileUserId');
+        if (idEl) {
+            const cachedHandle = localStorage.getItem('cs_cached_handle');
+            if (tgUser?.username) {
+                idEl.textContent = '@' + tgUser.username;
+                localStorage.setItem('cs_cached_handle', '@' + tgUser.username);
+            } else if (tgUser?.id || uid) {
+                const idStr = 'ID: ' + (tgUser?.id || uid);
+                idEl.textContent = idStr;
+                localStorage.setItem('cs_cached_handle', idStr);
+            } else if (cachedHandle) {
+                idEl.textContent = cachedHandle;
+            } else if (!idEl.textContent.trim() || idEl.textContent === '@coinuser') {
+                idEl.textContent = 'ID: —';
+            }
+        }
 
+        // 3. User Avatar
+        const avatarImg = document.getElementById('avatarImg');
+        const placeholderEl = document.getElementById('avatarPlaceholder');
+        const photoUrl = tgUser?.photo_url || localStorage.getItem('cs_cached_photo');
+        if (photoUrl && avatarImg) {
+            avatarImg.src = photoUrl;
+            avatarImg.style.display = 'block';
+            if (placeholderEl) placeholderEl.style.display = 'none';
+            if (tgUser?.photo_url) localStorage.setItem('cs_cached_photo', tgUser.photo_url);
+        } else if (placeholderEl && tgUser?.first_name) {
+            placeholderEl.textContent = tgUser.first_name.charAt(0).toUpperCase();
+        }
 
+        // 4. Cached Balance
+        const userKey = uid || 'guest';
+        const cachedBal = localStorage.getItem('starpay_balance_' + userKey) || localStorage.getItem('cs_cached_balance');
+        if (cachedBal !== null && !isNaN(parseInt(cachedBal, 10))) {
+            setBalUI(parseInt(cachedBal, 10));
+        }
 
+        // 5. Cached Stats (Orders count & Total spent)
+        const ordersEl = document.getElementById('ordersCount');
+        const spentEl = document.getElementById('totalSpent');
+        if (ordersEl) {
+            const cachedOrders = localStorage.getItem('cs_stat_orders_' + userKey);
+            if (cachedOrders !== null) ordersEl.textContent = cachedOrders;
+        }
+        if (spentEl) {
+            const cachedSpent = localStorage.getItem('cs_stat_spent_' + userKey);
+            if (cachedSpent !== null) spentEl.textContent = cachedSpent;
+        }
 
+        // 6. Card mask and holder on Index page
+        if (uid) {
+            const maskEl = document.getElementById('cardMaskUid');
+            if (maskEl) maskEl.textContent = String(uid).slice(-4) || '0000';
+        }
+        const holderEl = document.getElementById('cardHolderName');
+        if (holderEl && tgUser) {
+            holderEl.textContent = tgUser.username ? ('@' + tgUser.username) : (((tgUser.first_name || '') + ' ' + (tgUser.last_name || '')).trim() || 'VIP FOYDALANUVCHI');
+        }
+    } catch (e) {
+        console.warn('Hydration error:', e);
+    }
+}
 
-// Initialize animation setting immediately & Auto-detect weak devices
+// Lite Mode (Low Motion & High Efficiency without freezing images)
+function isAnimationsDisabled() {
+    return localStorage.getItem('coinstat_disable_animations') === 'true';
+}
+
+function initAnimationsSetting() {
+    if (isAnimationsDisabled()) {
+        document.documentElement.classList.add('lite-mode');
+        if (document.body) document.body.classList.add('lite-mode');
+    } else {
+        document.documentElement.classList.remove('lite-mode');
+        if (document.body) document.body.classList.remove('lite-mode');
+    }
+}
+
+function toggleAnimations(disable) {
+    if (typeof disable === 'undefined') {
+        disable = !isAnimationsDisabled();
+    }
+    localStorage.setItem('coinstat_disable_animations', disable ? 'true' : 'false');
+    initAnimationsSetting();
+    return disable;
+}
+
+// Immediate execution of hydration & animation settings
 initAnimationsSetting();
+hydrateInstantUserData();
 
 document.addEventListener('DOMContentLoaded', function () {
+    hydrateInstantUserData();
     initAnimationsSetting();
     initTheme();
     fillUsernameFromTelegram();
@@ -48,20 +188,21 @@ document.addEventListener('DOMContentLoaded', function () {
     applyTranslations();
     hideLoader();
     initInstantNavigation();
+    initHaptics();
 
-    // Optimized battery-friendly balance auto-sync (every 8 seconds, only when tab is visible)
+    // Battery-friendly balance auto-sync (every 10 seconds, only when tab is visible)
     setInterval(() => {
         if (!document.hidden) {
             loadUserBalance();
         }
-    }, 8000);
+    }, 10000);
 
     document.addEventListener('visibilitychange', () => {
         if (!document.hidden) loadUserBalance();
     });
 });
 
-// Instant Page Navigation & Cache Accelerator (0ms Switching)
+// Instant Page Navigation & Cache Accelerator
 function initInstantNavigation() {
     const pagesToPrefetch = [
         'index.html',
@@ -89,7 +230,7 @@ function initInstantNavigation() {
     if (window.requestIdleCallback) {
         requestIdleCallback(prefetchPages);
     } else {
-        setTimeout(prefetchPages, 300);
+        setTimeout(prefetchPages, 200);
     }
 
     const handleFastInteraction = (e) => {
@@ -110,101 +251,15 @@ function initInstantNavigation() {
 
     document.addEventListener('touchstart', handleFastInteraction, { passive: true });
     document.addEventListener('mouseover', handleFastInteraction, { passive: true });
-}
 
-function autoDetectLowEndDevice() {
-    const savedSetting = localStorage.getItem('coinstat_disable_animations');
-    if (savedSetting === null) {
-        // Automatically check if phone has weak CPU or low RAM
-        const isLowCore = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
-        const isLowRam = navigator.deviceMemory && navigator.deviceMemory <= 3;
-        const isOldAndroid = /Android\s([4-9]\.|10\.)/i.test(navigator.userAgent);
-        if (isLowCore || isLowRam || isOldAndroid) {
-            localStorage.setItem('coinstat_disable_animations', 'true');
-            return true;
-        }
-    }
-    return savedSetting === 'true';
-}
-
-/// Freeze animated WebP and GIF images to static snapshot images
-function freezeAnimatedImages() {
-    try {
-        document.querySelectorAll('img').forEach(img => {
-            const rawSrc = img.getAttribute('src') || img.src || '';
-            if (rawSrc && (rawSrc.includes('.webp') || rawSrc.includes('.gif'))) {
-                if (img.dataset.originalSrc || rawSrc.includes('logo')) return; // already frozen or logo
-
-                const doFreeze = () => {
-                    try {
-                        if (img.naturalWidth === 0 || img.naturalHeight === 0) return;
-                        const canvas = document.createElement('canvas');
-                        canvas.width = img.naturalWidth;
-                        canvas.height = img.naturalHeight;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0);
-                        const staticDataUrl = canvas.toDataURL('image/png');
-                        img.dataset.originalSrc = rawSrc;
-                        img.src = staticDataUrl;
-                    } catch(err) {}
-                };
-
-                if (img.complete && img.naturalWidth > 0) {
-                    doFreeze();
-                } else {
-                    img.addEventListener('load', doFreeze, { once: true });
-                }
-            }
-        });
-    } catch(e){}
-}
-
-function unfreezeAnimatedImages() {
-    try {
-        document.querySelectorAll('img').forEach(img => {
-            if (img.dataset.originalSrc) {
-                img.src = img.dataset.originalSrc;
-                delete img.dataset.originalSrc;
-            }
-        });
-    } catch(e){}
-}
-
-function isAnimationsDisabled() {
-    return localStorage.getItem('coinstat_disable_animations') === 'true';
-}
-
-function initAnimationsSetting() {
-    if (isAnimationsDisabled()) {
-        freezeAnimatedImages();
-    }
-    try {
-        document.querySelectorAll('video').forEach(v => {
-            v.pause();
-            v.currentTime = 0;
-        });
-    } catch(e){}
-}
-
-function toggleAnimations(disable) {
-    if (typeof disable === 'undefined') {
-        const current = isAnimationsDisabled();
-        disable = !current;
-    }
-    localStorage.setItem('coinstat_disable_animations', disable ? 'true' : 'false');
-    if (disable) {
-        freezeAnimatedImages();
-    } else {
-        unfreezeAnimatedImages();
-    }
-    return disable;
-}
-
-// Run once on DOM ready without polling
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAnimationsSetting);
-} else {
-    initAnimationsSetting();
+    // Instant active tab visual response
+    document.querySelectorAll('.dock-tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.dock-tab-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            triggerHaptic('selection');
+        }, { passive: true });
+    });
 }
 
 function initTheme() {
@@ -222,30 +277,7 @@ function toggleTheme() {
 }
 
 function setupUserProfileHeader() {
-    const user = tg.initDataUnsafe?.user;
-    const nameEl = document.getElementById('profileName');
-    const idEl = document.getElementById('profileUserId');
-    const placeholderEl = document.getElementById('avatarPlaceholder');
-    const avatarImg = document.getElementById('avatarImg');
-
-    const uid = getUserId();
-
-    if (user) {
-        if (nameEl) nameEl.textContent = (user.first_name || '') + (user.last_name ? ' ' + user.last_name : '');
-        if (idEl) idEl.textContent = 'ID: ' + (user.id || uid || '—');
-        if (placeholderEl && user.first_name) placeholderEl.textContent = user.first_name.charAt(0).toUpperCase();
-        if (avatarImg && user.photo_url) {
-            avatarImg.src = user.photo_url;
-            avatarImg.style.display = 'block';
-            if (placeholderEl) placeholderEl.style.display = 'none';
-        }
-    } else if (uid) {
-        if (nameEl && !nameEl.textContent.trim()) nameEl.textContent = 'Foydalanuvchi';
-        if (idEl) idEl.textContent = 'ID: ' + uid;
-    } else {
-        if (nameEl && !nameEl.textContent.trim()) nameEl.textContent = 'Foydalanuvchi';
-        if (idEl) idEl.textContent = 'ID: —';
-    }
+    hydrateInstantUserData();
 }
 
 function updateStarsEquivalent(bal) {
@@ -405,7 +437,10 @@ function loadUserBalance() {
         if (data && data.ok && typeof data.balance === 'number') {
             const newBal = Number(data.balance);
             setBalUI(newBal);
-            try { localStorage.setItem('starpay_balance_' + userId, String(newBal)); } catch(e) {}
+            try { 
+                localStorage.setItem('starpay_balance_' + userId, String(newBal)); 
+                localStorage.setItem('cs_cached_balance', String(newBal));
+            } catch(e) {}
         }
     })
     .catch(() => {});

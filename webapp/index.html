@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CoinStat UZ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="css/style.css?v=12.0">
+    <link rel="stylesheet" href="css/style.css?v=15.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
@@ -674,6 +676,7 @@
 
                     const ordersCount = (typeof data.orders_count === 'number') ? data.orders_count : purchaseOrders.length;
                     if (cnt) cnt.textContent = String(ordersCount);
+                    try { localStorage.setItem('cs_stat_orders_' + userId, String(ordersCount)); } catch(e){}
 
                     let totalSpent = 0;
                     if (typeof data.total_spent === 'number') {
@@ -687,15 +690,18 @@
                     }
 
                     if (spent) {
+                        let formattedText = '';
                         if (totalSpent >= 1000000) {
                             const m = (totalSpent / 1000000);
-                            spent.textContent = (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M';
+                            formattedText = (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M';
                         } else if (totalSpent >= 1000) {
                             const k = (totalSpent / 1000);
-                            spent.textContent = (k % 1 === 0 ? k.toFixed(0) : k.toFixed(1)) + 'k';
+                            formattedText = (k % 1 === 0 ? k.toFixed(0) : k.toFixed(1)) + 'k';
                         } else {
-                            spent.textContent = totalSpent.toLocaleString('uz-UZ');
+                            formattedText = totalSpent.toLocaleString('uz-UZ');
                         }
+                        spent.textContent = formattedText;
+                        try { localStorage.setItem('cs_stat_spent_' + userId, formattedText); } catch(e){}
                     }
                 }
             } catch (e) {}

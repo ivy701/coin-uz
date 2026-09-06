@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CoinStat UZ — Telegram Sovg'alari</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link rel="stylesheet" href="css/style.css?v=14.0">
+    <link rel="stylesheet" href="css/style.css?v=15.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
@@ -217,14 +219,13 @@
             text-align: center;
             position: relative;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-            transition: transform 120ms ease;
+            transition: transform 140ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 150ms ease, border-color 150ms ease;
             box-sizing: border-box;
             overflow: hidden;
             cursor: pointer;
-            content-visibility: auto;
-            contain-intrinsic-size: 140px;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .gift-card:active {
@@ -256,7 +257,6 @@
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
             transform: translateZ(0);
             -webkit-transform: translateZ(0);
-            contain: paint layout;
         }
 
         .gift-card-icon-wrap img {
@@ -268,7 +268,7 @@
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
             will-change: transform;
-            image-rendering: -webkit-optimize-contrast;
+            image-rendering: auto;
         }
 
         .gift-card-name {
