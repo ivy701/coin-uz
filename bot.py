@@ -76,9 +76,10 @@ async def start_api_server():
             logger.warning(f"Could not generate SSL cert: {e}")
 
     ssl_context = None
-    if cert_file.exists() and key_file.exists():
-        ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-        ssl_context.load_cert_chain(str(cert_file), str(key_file))
+    if os.environ.get("USE_SSL", "").lower() in ("1", "true", "yes"):
+        if cert_file.exists() and key_file.exists():
+            ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+            ssl_context.load_cert_chain(str(cert_file), str(key_file))
 
     port = int(os.environ.get("PORT") or os.environ.get("API_PORT") or 8085)
     host = os.environ.get("API_HOST", "0.0.0.0")

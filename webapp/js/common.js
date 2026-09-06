@@ -21,10 +21,16 @@ function getApiBase() {
     if (typeof window.API_BASE !== 'undefined' && window.API_BASE && window.API_BASE.trim() !== '') {
         return window.API_BASE.replace(/\/$/, '');
     }
-    if (typeof window !== 'undefined' && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
-        return window.location.origin;
+    if (typeof window !== 'undefined' && window.location) {
+        const host = (window.location.hostname || '').toLowerCase();
+        if (host.includes('vercel.app') || host.includes('github.io')) {
+            return 'https://coinstat-uz-wepapp-1.onrender.com';
+        }
+        if (window.location.protocol && window.location.protocol.startsWith('http')) {
+            return window.location.origin;
+        }
     }
-    return '';
+    return 'https://coinstat-uz-wepapp-1.onrender.com';
 }
 
 
