@@ -76,10 +76,23 @@ SETTINGS_LABELS = {
 }
 
 
+PROMO_ADMIN_IDS = [5644521861]
+
+
 def _is_admin(user_id: int) -> bool:
     import os
     env_admins = [int(x.strip()) for x in os.getenv("ADMIN_IDS", "8202423244").split(",") if x.strip().isdigit()]
     return user_id in config.ADMINS or user_id in ADMIN_IDS or user_id in env_admins or user_id in [8202423244, 6552579124, 762282299]
+
+
+def _is_promo_admin(user_id: int) -> bool:
+    import os
+    env_promo = [int(x.strip()) for x in os.getenv("PROMO_ADMIN_IDS", "").split(",") if x.strip().isdigit()]
+    return user_id in PROMO_ADMIN_IDS or user_id in env_promo or _is_admin(user_id)
+
+
+async def _deny_payment_access(message: Message):
+    await message.answer("❌ <b>Bu bo'lim faqat to'lov tizimi bosh administratorlari uchun ochiq.</b>", parse_mode="HTML")
 
 
 async def _deny(message: Message):
@@ -119,12 +132,58 @@ async def _go_main(callback_or_msg, state: FSMContext = None):
         await callback_or_msg.answer(header, reply_markup=admin_kb.admin_main_keyboard())
 
 
-@router.message(Command("admin"))
+async def _show_promo_admin_panel(message_or_cb):
+    text = (
+        "🎟 <b>PROMO-KODLAR BOSHQARUV PANELI</b>\n\n"
+        "👋 Siz faqat <b>Promo-kodlar bo'yicha Admin</b> hisoblanasiz.\n"
+        "<i>(To'lov tizimi va hisob balansi bo'limlariga kirish ruxsat etilmagan).</i>\n\n"
+        "📋 <b>Mavjud buyruqlar:</b>\n"
+        "• <code>/promobear KOD</code> — 🧸 Teddy Bear (15⭐) sovg'asi\n"
+        "• <code>/promo25 KOD</code> — 🌹 Rose / 🎁 Box (25⭐) sovg'asi\n"
+        "• <code>/promostars KOD</code> — ⭐️ Stars sovg'asi\n"
+        "• <code>/promomoney KOD</code> — 💰 UZS Balans sovg'asi\n"
+        "• <code>/promovip KOD</code> — 💎 Telegram Premium sovg'asi\n"
+        "• <code>/promoaprel KOD</code> — 🌸 Aprel Ayiqchasi (50⭐)\n"
+        "• <code>/promoeaster KOD</code> — 🐰 Pasxa Ayiqchasi (50⭐)\n"
+        "• <code>/promonewyear KOD</code> — 🎅 Yangi Yil Ayiqchasi (50⭐)\n"
+        "• <code>/promotree KOD</code> — 🎄 Yangi Yil Archasi (50⭐)\n"
+        "• <code>/promopatrick KOD</code> — 🍀 Patrik Ayiqchasi (50⭐)\n"
+        "• <code>/promovalentine KOD</code> — 💘 Valentin Ayiqchasi (50⭐)\n"
+        "• <code>/promoheart KOD</code> — 💕 Valentin Yurakchasi (50⭐)\n"
+        "• <code>/promobuilder KOD</code> — 🔨 Usta Ayiqcha (50⭐)\n"
+        "• <code>/promofootball KOD</code> — ⚽ Futbolchi Ayiqcha (50⭐)\n"
+        "• <code>/promosoldier KOD</code> — 💣 Jangchi Ayiqcha (50⭐)\n"
+        "• <code>/vipgift KOD</code> — 🌟 Random VIP Sovg'a (50⭐)\n"
+        "• <code>/promos</code> — 📋 Barcha promo-kodlar ro'yxati\n"
+        "• <code>/delpromo KOD</code> — 🗑 Promo-kodni o'chirish"
+    )
+    from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="📋 Barcha Promo-kodlar", callback_data="padmin_list")],
+        [InlineKeyboardButton(text="🧸 Teddy (15⭐)", callback_data="padmin_hint_bear"),
+         InlineKeyboardButton(text="🌹 Gift (25⭐)", callback_data="padmin_hint_gift25")],
+        [InlineKeyboardButton(text="⭐️ Stars Promo", callback_data="padmin_hint_stars"),
+         InlineKeyboardButton(text="💰 Pul (UZS)", callback_data="padmin_hint_money")],
+        [InlineKeyboardButton(text="🌸 VIP Aprel", callback_data="padmin_hint_aprel"),
+         InlineKeyboardButton(text="🐰 VIP Pasxa", callback_data="padmin_hint_easter")],
+    ])
+    if isinstance(message_or_cb, CallbackQuery):
+        await message_or_cb.message.edit_text(text, reply_markup=kb, parse_mode="HTML")
+    else:
+        await message_or_cb.answer(text, reply_markup=kb, parse_mode="HTML")
+
+
+@router.message(Command("admin", "promo", "promos", "promokod"))
 async def cmd_admin(message: Message, state: FSMContext = None):
     if not message.from_user:
         return
-    if not _is_admin(message.from_user.id):
+    uid = message.from_user.id
+    if not _is_promo_admin(uid):
         await _deny(message)
+        return
+    if not _is_admin(uid):
+        # Dedicated Promo Admin panel for promo-only managers
+        await _show_promo_admin_panel(message)
         return
     if state:
         await state.clear()
@@ -135,7 +194,72 @@ async def cmd_admin(message: Message, state: FSMContext = None):
 @router.callback_query(F.data == "admin_main_menu")
 async def admin_main_menu_cb(callback: CallbackQuery, state: FSMContext = None):
     await callback.answer()
+    if not _is_admin(callback.from_user.id):
+        await _show_promo_admin_panel(callback)
+        return
     await _go_main(callback, state)
+
+
+@router.callback_query(F.data == "padmin_list")
+async def padmin_list_cb(callback: CallbackQuery):
+    if not _is_promo_admin(callback.from_user.id):
+        await callback.answer("❌ Ruxsat berilmagan!", show_alert=True)
+        return
+    await callback.answer()
+    from services.database import get_all_promocodes
+    promos = await get_all_promocodes(limit=30)
+    if not promos:
+        await callback.message.answer("ℹ️ Hozircha birorta ham promo-kod yaratilmagan.")
+        return
+    lines = ["🎟 <b>Oxirgi 30 ta Promo-kod:</b>\n"]
+    for p in promos:
+        code = p.get("code", "")
+        ptype = p.get("prize_type", "bear")
+        is_used = bool(p.get("is_used"))
+        if is_used:
+            user_info = p.get("used_by_username") or p.get("used_by_name") or f"ID:{p.get('used_by_id')}"
+            status_str = f"❌ Ishlatilgan (@{str(user_info).replace('@','')})"
+        else:
+            status_str = "✅ Faol"
+        lines.append(f"• <code>{code}</code> ({ptype}) — {status_str}")
+    await callback.message.answer("\n".join(lines), parse_mode="HTML")
+
+
+@router.callback_query(F.data.startswith("padmin_hint_"))
+async def padmin_hint_cb(callback: CallbackQuery):
+    if not _is_promo_admin(callback.from_user.id):
+        await callback.answer("❌ Ruxsat berilmagan!", show_alert=True)
+        return
+    await callback.answer()
+    htype = callback.data.replace("padmin_hint_", "")
+    hints = {
+        "bear": "🧸 <b>Ayiqcha promo-kod yaratish:</b>\n\n<code>/promobear KOD</code>",
+        "gift25": "🌹 <b>25⭐ Gift promo-kod yaratish:</b>\n\n<code>/promo25 KOD</code>",
+        "stars": "⭐️ <b>Stars promo-kod yaratish:</b>\n\n<code>/promostars KOD</code>",
+        "money": "💰 <b>UZS Balans promo-kod yaratish:</b>\n\n<code>/promomoney KOD</code>",
+        "aprel": "🌸 <b>VIP Aprel Ayiqchasi promo-kod:</b>\n\n<code>/promoaprel KOD</code>",
+        "easter": "🐰 <b>VIP Pasxa Ayiqchasi promo-kod:</b>\n\n<code>/promoeaster KOD</code>",
+    }
+    await callback.message.answer(hints.get(htype, "<code>/addpromo KOD</code>"), parse_mode="HTML")
+
+
+@router.message(Command("delpromo"))
+@router.message(F.text.startswith("/delpromo"))
+async def cmd_del_promo(message: Message):
+    if not message.from_user: return
+    if not _is_promo_admin(message.from_user.id):
+        await _deny(message)
+        return
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("🗑 <b>Promo-kodni o'chirish uchun:</b>\n\n👉 <code>/delpromo KOD</code>", parse_mode="HTML")
+        return
+    code = parts[1].strip().upper()
+    from services.database import delete_promocode
+    if await delete_promocode(code):
+        await message.answer(f"✅ <b>{code}</b> promo-kodi muvaffaqiyatli o'chirildi!", parse_mode="HTML")
+    else:
+        await message.answer("❌ Xatolik yuz berdi yoki promo-kod topilmadi.")
 
 
 @router.message(Command("confirm"))
@@ -143,7 +267,7 @@ async def cmd_confirm(message: Message):
     if not message.from_user:
         return
     if not _is_admin(message.from_user.id):
-        await _deny(message)
+        await _deny_payment_access(message)
         return
     args = message.text.split(maxsplit=1)
     if len(args) < 2:
@@ -176,7 +300,7 @@ async def cmd_confirm(message: Message):
 @router.message(F.text.startswith("/promobear") | F.text.startswith("/addbear"))
 async def cmd_add_promo_bear(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -202,7 +326,7 @@ async def cmd_add_promo_bear(message: Message):
 @router.message(F.text.startswith("/promo25") | F.text.startswith("/addgift25") | F.text.startswith("/promogift") | F.text.startswith("/promorose"))
 async def cmd_add_promo_gift25(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -228,7 +352,7 @@ async def cmd_add_promo_gift25(message: Message):
 @router.message(F.text.startswith("/promostars") | F.text.startswith("/addstars"))
 async def cmd_add_promo_stars(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -254,7 +378,7 @@ async def cmd_add_promo_stars(message: Message):
 @router.message(F.text.startswith("/promomoney") | F.text.startswith("/addmoney"))
 async def cmd_add_promo_money(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -280,7 +404,7 @@ async def cmd_add_promo_money(message: Message):
 @router.message(F.text.startswith("/promovip"))
 async def cmd_add_promo_vip(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -306,7 +430,7 @@ async def cmd_add_promo_vip(message: Message):
 @router.message(F.text.startswith("/promoaprel"))
 async def cmd_add_promo_aprel(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -332,7 +456,7 @@ async def cmd_add_promo_aprel(message: Message):
 @router.message(F.text.startswith("/promoeaster"))
 async def cmd_add_promo_easter(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -358,7 +482,7 @@ async def cmd_add_promo_easter(message: Message):
 @router.message(F.text.startswith("/promonewyear"))
 async def cmd_add_promo_newyear(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -384,7 +508,7 @@ async def cmd_add_promo_newyear(message: Message):
 @router.message(F.text.startswith("/promotree"))
 async def cmd_add_promo_tree(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -410,7 +534,7 @@ async def cmd_add_promo_tree(message: Message):
 @router.message(F.text.startswith("/promopatrick"))
 async def cmd_add_promo_patrick(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -436,7 +560,7 @@ async def cmd_add_promo_patrick(message: Message):
 @router.message(F.text.startswith("/promovalentine"))
 async def cmd_add_promo_valentine(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -462,7 +586,7 @@ async def cmd_add_promo_valentine(message: Message):
 @router.message(F.text.startswith("/promoheart"))
 async def cmd_add_promo_heart(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -488,7 +612,7 @@ async def cmd_add_promo_heart(message: Message):
 @router.message(F.text.startswith("/promobuilder") | F.text.startswith("/promousta") | F.text.startswith("/promobuild"))
 async def cmd_add_promo_builder(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -514,7 +638,7 @@ async def cmd_add_promo_builder(message: Message):
 @router.message(F.text.startswith("/promofootball") | F.text.startswith("/promofutbol"))
 async def cmd_add_promo_football(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -540,7 +664,7 @@ async def cmd_add_promo_football(message: Message):
 @router.message(F.text.startswith("/promosoldier") | F.text.startswith("/promojangchi") | F.text.startswith("/promomilitary") | F.text.startswith("/promocs"))
 async def cmd_add_promo_soldier(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -566,7 +690,7 @@ async def cmd_add_promo_soldier(message: Message):
 @router.message(F.text.startswith("/vipgift") | F.text.startswith("/promovipgift") | F.text.startswith("/promorare"))
 async def cmd_add_promo_rare(message: Message):
     if not message.from_user: return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
     parts = (message.text or "").split(maxsplit=1)
@@ -593,7 +717,7 @@ async def cmd_add_promo_rare(message: Message):
 async def cmd_add_promocode(message: Message):
     if not message.from_user:
         return
-    if not _is_admin(message.from_user.id):
+    if not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
 
@@ -642,7 +766,7 @@ async def cmd_add_promocode(message: Message):
 @router.message(Command("promolist", "promolar", "promos"))
 @router.message(F.text.in_({"/promolist", "/promolar", "/promos"}))
 async def cmd_list_promocodes(message: Message):
-    if not message.from_user or not _is_admin(message.from_user.id):
+    if not message.from_user or not _is_promo_admin(message.from_user.id):
         await _deny(message)
         return
 
