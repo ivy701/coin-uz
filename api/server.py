@@ -1425,13 +1425,13 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
 
     from services.database import get_promocode, use_promocode, get_user, check_user_promocode_cooldown
 
-    # 1. 12 soatlik cheklov (G'olib bo'lgan odam 12 soat ichida yana kod ishlata olmaydi)
+    # 1. 2 soatlik cheklov (G'olib bo'lgan odam 2 soat ichida yana kod ishlata olmaydi)
     in_cooldown, rem_hrs, rem_mins = await check_user_promocode_cooldown(user_id)
     if in_cooldown:
       time_msg = f"{rem_hrs} soat {rem_mins} daqiqadan" if rem_hrs > 0 else f"{rem_mins} daqiqadan"
       return web.json_response({
         "ok": False,
-        "error": f"⏳ Siz so'nggi 12 soat ichida allaqachon promo-kod orqali g'olib bo'lgansiz! Yangi promo-kodni {time_msg} so'ng ishlatishingiz mumkin."
+        "error": f"⏳ Siz so'nggi 2 soat ichida allaqachon promo-kod orqali g'olib bo'lgansiz! Yangi promo-kodni {time_msg} so'ng ishlatishingiz mumkin."
       }, status=400)
 
     # 2. Promo-kod mavjudligi va bir martalik ekanligini tekshirish

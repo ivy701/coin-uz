@@ -78,7 +78,7 @@ module.exports = async (req, res) => {
       );
     `);
 
-    // 1. 12-soatlik cheklov (G'olib bo'lgan foydalanuvchi 12 soat ichida yana promo-kod ishlata olmaydi)
+    // 1. 2-soatlik cheklov (G'olib bo'lgan foydalanuvchi 2 soat ichida yana promo-kod ishlata olmaydi)
     const lastUsedRes = await db.query(`
       SELECT used_at FROM lucky_promocodes 
       WHERE used_by_id = $1 AND is_used = TRUE AND used_at IS NOT NULL 
@@ -89,15 +89,15 @@ module.exports = async (req, res) => {
       const lastUsedAt = new Date(lastUsedRes.rows[0].used_at).getTime();
       const now = Date.now();
       const diffMs = now - lastUsedAt;
-      const twelveHoursMs = 12 * 60 * 60 * 1000;
-      if (diffMs < twelveHoursMs) {
-        const remMs = twelveHoursMs - diffMs;
+      const twoHoursMs = 2 * 60 * 60 * 1000;
+      if (diffMs < twoHoursMs) {
+        const remMs = twoHoursMs - diffMs;
         const remHours = Math.floor(remMs / (60 * 60 * 1000));
         const remMins = Math.floor((remMs % (60 * 60 * 1000)) / (60 * 1000));
         const timeMsg = remHours > 0 ? `${remHours} soat ${remMins} daqiqadan` : `${remMins} daqiqadan`;
         return res.status(200).json({
           ok: false,
-          error: `⏳ Siz so'nggi 12 soat ichida allaqachon promo-kod orqali g'olib bo'lgansiz! Yangi promo-kodni ${timeMsg} so'ng ishlatishingiz mumkin.`
+          error: `⏳ Siz so'nggi 2 soat ichida allaqachon promo-kod orqali g'olib bo'lgansiz! Yangi promo-kodni ${timeMsg} so'ng ishlatishingiz mumkin.`
         });
       }
     }

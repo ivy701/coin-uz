@@ -979,7 +979,7 @@ async def get_promocode(code: str) -> dict[str, Any] | None:
 
 async def check_user_promocode_cooldown(telegram_id: int) -> tuple[bool, int, int]:
     """
-    Foydalanuvchi so'nggi 12 soat ichida promo-kod ishlatganmi yoki yo'qligini tekshiradi.
+    Foydalanuvchi so'nggi 2 soat ichida promo-kod ishlatganmi yoki yo'qligini tekshiradi.
     Qaytaradi: (in_cooldown, remaining_hours, remaining_minutes)
     """
     try:
@@ -1022,7 +1022,7 @@ async def check_user_promocode_cooldown(telegram_id: int) -> tuple[bool, int, in
             used_dt = used_dt.replace(tzinfo=datetime.timezone.utc)
 
         diff_seconds = (now - used_dt).total_seconds()
-        cooldown_seconds = 12 * 3600  # 12 soat
+        cooldown_seconds = 2 * 3600  # 2 soat
 
         if diff_seconds < cooldown_seconds:
             remaining = int(cooldown_seconds - diff_seconds)
