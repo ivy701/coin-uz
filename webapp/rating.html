@@ -730,7 +730,7 @@
             <!-- #2 Second (Left) -->
             <div class="podium-column second" id="podium2">
                 <div class="podium-avatar-wrap">
-                    <img src="./images/logo.png" id="podiumAvatar2" class="podium-avatar-img" alt="2nd">
+                    <img src="./images/logo.webp?v=3" id="podiumAvatar2" class="podium-avatar-img" alt="2nd">
                     <div class="podium-badge-pill badge-silver">🥈 #2</div>
                 </div>
                 <div class="podium-username" id="podiumUser2">Bo'sh</div>
@@ -742,7 +742,7 @@
             <div class="podium-column first" id="podium1">
                 <div class="podium-crown">👑</div>
                 <div class="podium-avatar-wrap">
-                    <img src="./images/logo.png" id="podiumAvatar1" class="podium-avatar-img" alt="1st">
+                    <img src="./images/logo.webp?v=3" id="podiumAvatar1" class="podium-avatar-img" alt="1st">
                     <div class="podium-badge-pill badge-gold">🥇 #1</div>
                 </div>
                 <div class="podium-username" id="podiumUser1">Bo'sh</div>
@@ -753,7 +753,7 @@
             <!-- #3 Third (Right) -->
             <div class="podium-column third" id="podium3">
                 <div class="podium-avatar-wrap">
-                    <img src="./images/logo.png" id="podiumAvatar3" class="podium-avatar-img" alt="3rd">
+                    <img src="./images/logo.webp?v=3" id="podiumAvatar3" class="podium-avatar-img" alt="3rd">
                     <div class="podium-badge-pill badge-bronze">🥉 #3</div>
                 </div>
                 <div class="podium-username" id="podiumUser3">Bo'sh</div>
@@ -777,7 +777,7 @@
     <div class="user-my-rank-dock" id="myRankDock">
         <div class="leader-row-left">
             <div class="my-rank-avatar">
-                <img src="./images/logo.png" id="myAvatarImg" alt="Me" onerror="this.src='./images/logo.png'">
+                <img src="./images/logo.webp?v=3" id="myAvatarImg" alt="Me" onerror="this.src='./images/logo.webp?v=3'">
             </div>
             <div class="leader-row-info">
                 <div style="font-size: 13.5px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 6px;">
@@ -804,7 +804,7 @@
             </div>
 
             <div class="modal-avatar-wrapper">
-                <img src="./images/logo.png" id="modalAvatarImg" class="modal-avatar-img" alt="Avatar">
+                <img src="./images/logo.webp?v=3" id="modalAvatarImg" class="modal-avatar-img" alt="Avatar">
                 <div class="modal-badge-rank" id="modalRankBadge">#1</div>
             </div>
 
@@ -901,7 +901,7 @@
         }
 
         function getAvatarUrl(item, currentUserId) {
-            if (!item) return './images/logo.png';
+            if (!item) return './images/logo.webp?v=3';
             const tgUser = tg?.initDataUnsafe?.user;
             const rawUsername = String(item.username || '').replace(/^@/, '').toLowerCase();
             const tgUsername = String(tgUser?.username || '').replace(/^@/, '').toLowerCase();
@@ -932,7 +932,7 @@
             const statTurnoverEl = document.getElementById('modalStatTurnover');
             const tgLinkBtn = document.getElementById('modalTgLink');
 
-            avatarEl.src = avatarUrl || './images/logo.png';
+            avatarEl.src = avatarUrl || './images/logo.webp?v=3';
             rankBadgeEl.textContent = rank ? `#${rank}` : '—';
             statRankEl.textContent = rank ? `#${rank} O'rin` : '—';
             statTurnoverEl.textContent = amountFormatted || '0 UZS';
@@ -982,7 +982,7 @@
                 document.getElementById('podiumUser1').textContent = '—';
                 document.getElementById('podiumAmount1').textContent = '0 UZS';
                 p1.style.opacity = '0.7';
-                if (av1) av1.src = './images/logo.png';
+                if (av1) av1.src = './images/logo.webp?v=3';
                 p1.onclick = null;
             }
 
@@ -1001,7 +1001,7 @@
                 document.getElementById('podiumUser2').textContent = '—';
                 document.getElementById('podiumAmount2').textContent = '0 UZS';
                 p2.style.opacity = '0.7';
-                if (av2) av2.src = './images/logo.png';
+                if (av2) av2.src = './images/logo.webp?v=3';
                 p2.onclick = null;
             }
 
@@ -1020,7 +1020,7 @@
                 document.getElementById('podiumUser3').textContent = '—';
                 document.getElementById('podiumAmount3').textContent = '0 UZS';
                 p3.style.opacity = '0.7';
-                if (av3) av3.src = './images/logo.png';
+                if (av3) av3.src = './images/logo.webp?v=3';
                 p3.onclick = null;
             }
 
@@ -1050,7 +1050,7 @@
                             <div class="leader-row-left">
                                 <div class="leader-row-rank">#${rank}</div>
                                 <div class="leader-row-avatar">
-                                    <img src="${rowAvatar}" alt="${uname}" onerror="this.src='./images/logo.png'">
+                                    <img src="${rowAvatar}" alt="${uname}" onerror="this.src='./images/logo.webp?v=3'">
                                 </div>
                                 <div class="leader-row-info">
                                     <div class="leader-row-username">${uname}</div>
@@ -1092,7 +1092,7 @@
                 if (myRankDock) {
                     const myUname = tg?.initDataUnsafe?.user?.username || 'Men';
                     const myFullName = (tg?.initDataUnsafe?.user?.first_name || '') + ' ' + (tg?.initDataUnsafe?.user?.last_name || '');
-                    const myPhoto = tg?.initDataUnsafe?.user?.photo_url || './images/logo.png';
+                    const myPhoto = tg?.initDataUnsafe?.user?.photo_url || './images/logo.webp?v=3';
                     const formattedTurnover = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
                     myRankDock.onclick = () => openUserProfile(rank, myUname, formattedTurnover, myPhoto, myFullName.trim());
                 }
