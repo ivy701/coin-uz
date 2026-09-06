@@ -139,7 +139,12 @@ async def init_db() -> None:
     if not IS_SQLITE:
         try:
             import asyncpg
-            _pg_pool = await asyncpg.create_pool(DATABASE_URL, min_size=2, max_size=10)
+            import ssl
+            ssl_ctx = ssl.create_default_context()
+            ssl_ctx.check_hostname = False
+            ssl_ctx.verify_mode = ssl.CERT_NONE
+            clean_url = DATABASE_URL.split("?")[0]
+            _pg_pool = await asyncpg.create_pool(clean_url, min_size=2, max_size=10, ssl=ssl_ctx)
             db_conn.pg_pool = _pg_pool
             db_conn.is_sqlite = False
             logger.info("Connected to PostgreSQL database successfully")
