@@ -10,8 +10,8 @@ load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-# Read DATABASE_URL from env (default to sqlite:///database.db if not postgres)
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://neondb_owner:npg_FOH4kIY9gEte@ep-dawn-pond-axw9wntv-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require")
+# Read DATABASE_URL from env (default to empty string so SQLite database.db is used safely)
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 if DATABASE_URL:
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
@@ -128,20 +128,27 @@ async def get_pool():
 
 async def init_db() -> None:
     global _pg_pool, db_conn, IS_SQLITE, DATABASE_URL
-    DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://neondb_owner:npg_FOH4kIY9gEte@ep-dawn-pond-axw9wntv-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require")
+    DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
     if "channel_binding" in DATABASE_URL:
         DATABASE_URL = DATABASE_URL.replace("&channel_binding=require", "").replace("channel_binding=require&", "").replace("?channel_binding=require", "")
 
     IS_SQLITE = not (DATABASE_URL and DATABASE_URL.startswith("postgres"))
-    db_conn.is_sqlite = IS_SQLITE
 
     if not IS_SQLITE:
-        import asyncpg
-        _pg_pool = await asyncpg.create_pool(DATABASE_URL, min_size=2, max_size=10)
-        db_conn.pg_pool = _pg_pool
+        try:
+            import asyncpg
+            _pg_pool = await asyncpg.create_pool(DATABASE_URL, min_size=2, max_size=10)
+            db_conn.pg_pool = _pg_pool
+            db_conn.is_sqlite = False
+            logger.info("Connected to PostgreSQL database successfully")
+        except Exception as e:
+            logger.error("Failed to connect to PostgreSQL (%s), safely falling back to SQLite: %s", e, SQLITE_DB_PATH)
+            IS_SQLITE = True
+            db_conn.is_sqlite = True
     else:
+        db_conn.is_sqlite = True
         logger.info("Using SQLite database: %s", SQLITE_DB_PATH)
 
     await db_conn.execute(
