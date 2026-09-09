@@ -1,12 +1,19 @@
 {
   "version": 2,
-  "framework": null,
   "cleanUrls": true,
-  "buildCommand": null,
-  "outputDirectory": ".",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://coinstatuzbot.alwaysdata.net/api/:path*"
+    },
+    {
+      "source": "/health",
+      "destination": "https://coinstatuzbot.alwaysdata.net/health"
+    }
+  ],
   "headers": [
     {
-      "source": "/api/(.*)",
+      "source": "/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         { "key": "Access-Control-Allow-Origin", "value": "*" },

@@ -22,10 +22,7 @@ function getApiBase() {
     }
     if (typeof window !== 'undefined' && window.location) {
         const host = (window.location.hostname || '').toLowerCase();
-        if (host.includes('vercel.app') || host.includes('github.io')) {
-            return 'https://coinstatuzbot.alwaysdata.net';
-        }
-        if (window.location.protocol && window.location.protocol.startsWith('http')) {
+        if (host.includes('alwaysdata.net') || host.includes('localhost') || host.includes('127.0.0.1')) {
             return window.location.origin;
         }
     }
