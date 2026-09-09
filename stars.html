@@ -588,10 +588,11 @@
             btn.textContent = '⏳ ...';
 
             const userId = getUserId();
-            const apiBase = getApiBase();
+            const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://coinstatuzbot.alwaysdata.net')) || 'https://coinstatuzbot.alwaysdata.net';
+            const endpoint = apiBase.replace(/\/$/, '') + '/api/order/stars';
 
             try {
-                const res = await fetch((apiBase ? apiBase : '') + '/api/order/stars', {
+                const res = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
                     body: JSON.stringify({
@@ -604,19 +605,23 @@
                     })
                 });
 
-                const data = await res.json();
+                let data = null;
+                try {
+                    data = await res.json();
+                } catch(e) {}
+
                 if (data && data.ok) {
                     if (tg?.showAlert) tg.showAlert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
                     else alert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
                     setTimeout(() => window.location.href = 'orders.html', 1000);
                 } else {
-                    const err = data?.error || 'Xaridda xatolik yuz berdi.';
+                    const err = data?.error || (res.status !== 200 ? `Server xatosi (${res.status})` : 'Xaridda xatolik yuz berdi.');
                     if (tg?.showAlert) tg.showAlert(err);
                     else alert(err);
                 }
             } catch (err) {
-                if (tg?.showAlert) tg.showAlert('Serverga ulanishda xatolik: ' + err.message);
-                else alert('Serverga ulanishda xatolik: ' + err.message);
+                if (tg?.showAlert) tg.showAlert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
+                else alert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
             } finally {
                 btn.disabled = false;
                 btn.textContent = oldText;

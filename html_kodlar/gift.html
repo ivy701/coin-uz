@@ -1018,12 +1018,13 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span>⏳ Yuborilmoqda...</span>';
 
-            const userId = tgApp?.initDataUnsafe?.user?.id || 1;
-            const apiBase = (typeof getApiBase === 'function') ? getApiBase() : '';
+            const userId = tgApp?.initDataUnsafe?.user?.id || (typeof getUserId === 'function' ? getUserId() : 1);
+            const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://coinstatuzbot.alwaysdata.net')) || 'https://coinstatuzbot.alwaysdata.net';
             const currentGift = selectedGift;
+            const endpoint = apiBase.replace(/\/$/, '') + '/api/order/gift';
 
             try {
-                const res = await fetch((apiBase ? apiBase : '') + '/api/order/gift', {
+                const res = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tgApp?.initData || '' },
                     body: JSON.stringify({
