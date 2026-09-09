@@ -324,9 +324,11 @@ GIFT_PRICES = {
     "diamond": 20000,
     "ring": 20000,
     "trophy": 20000,
+    "champagne": 10000,
     
     # VIP Collection (50 Stars — 10,000 UZS)
     "aprel_bear": 10000,
+    "april_bear": 10000,
     "easter_bear": 10000,
     "newyear_bear": 10000,
     "builder_bear": 10000,
@@ -336,6 +338,16 @@ GIFT_PRICES = {
     "patrick_bear": 10000,
     "valentine_bear": 10000,
     "valentine_heart": 10000,
+
+    # Deluxe / Custom Stars
+    "deluxe_rose": 5000,
+    "deluxe_heart": 5000,
+    "deluxe_cake": 10000,
+    "deluxe_diamond": 20000,
+    "golden_trophy": 50000,
+    "star_crown": 100000,
+    "blue_gem": 200000,
+    "fire_phoenix": 500000,
 }
 
 
@@ -369,18 +381,33 @@ async def api_order_stars(request: web.Request) -> web.Response:
       status=400
     )
 
-  try:
-    result = await fragment.buy_stars(username, quantity)
-    order_id = await create_order(
-      user_id, "stars", username, quantity, price, str(result.get("id", "")), "completed"
-    )
-    await deduct_balance(user_id, price)
-    from services.channel_notify import notify_stars
-    asyncio.ensure_future(notify_stars(username, quantity, price))
-    return web.json_response({"ok": True, "order_id": order_id, "result": result})
-  except FragmentAPIError as e:
-    await create_order(user_id, "stars", username, quantity, price, status="failed")
-    return web.json_response({"ok": False, "error": str(e)}, status=400)
+  # Check if Fragment API is available and try to fulfill automatically
+  is_fragment_ready = bool(fragment.api_key and fragment.api_key.strip())
+  if is_fragment_ready:
+    try:
+      result = await fragment.buy_stars(username, quantity)
+      order_id = await create_order(
+        user_id, "stars", username, quantity, price, str(result.get("id", "")), "completed"
+      )
+      await deduct_balance(user_id, price)
+      from services.channel_notify import notify_stars
+      asyncio.ensure_future(notify_stars(username, quantity, price))
+      return web.json_response({"ok": True, "order_id": order_id, "result": result})
+    except Exception as e:
+      logger.warning(f"Automated Fragment buy_stars failed: {e}, placing order in pending queue...")
+
+  # Fallback to Pending queue (Deduct balance, record pending order, notify admin/channel)
+  await deduct_balance(user_id, price)
+  order_id = await create_order(
+    user_id, "stars", username, quantity, price, None, "pending"
+  )
+  from services.channel_notify import notify_stars
+  asyncio.ensure_future(notify_stars(username, quantity, price))
+  return web.json_response({
+    "ok": True,
+    "order_id": order_id,
+    "message": f"⭐️ {quantity} Stars buyurtmasi qabul qilindi! Tez orada hisobingizga tushiriladi."
+  })
 
 
 async def api_order_premium(request: web.Request) -> web.Response:
@@ -394,7 +421,7 @@ async def api_order_premium(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": "Username ko'rsatilmagan"}, status=400)
 
   try:
-    months = int(body.get("months", 3))
+    months = int(body.get("months") or body.get("month") or body.get("quantity") or 3)
   except (ValueError, TypeError):
     months = 3
 
@@ -415,18 +442,33 @@ async def api_order_premium(request: web.Request) -> web.Response:
       status=400
     )
 
-  try:
-    result = await fragment.buy_premium(username, months)
-    order_id = await create_order(
-      user_id, "premium", username, months, price, str(result.get("id", "")), "completed"
-    )
-    await deduct_balance(user_id, price)
-    from services.channel_notify import notify_premium
-    asyncio.ensure_future(notify_premium(username, months, price))
-    return web.json_response({"ok": True, "order_id": order_id, "result": result})
-  except FragmentAPIError as e:
-    await create_order(user_id, "premium", username, months, price, status="failed")
-    return web.json_response({"ok": False, "error": str(e)}, status=400)
+  # Check if Fragment API is available and try to fulfill automatically
+  is_fragment_ready = bool(fragment.api_key and fragment.api_key.strip())
+  if is_fragment_ready:
+    try:
+      result = await fragment.buy_premium(username, months)
+      order_id = await create_order(
+        user_id, "premium", username, months, price, str(result.get("id", "")), "completed"
+      )
+      await deduct_balance(user_id, price)
+      from services.channel_notify import notify_premium
+      asyncio.ensure_future(notify_premium(username, months, price))
+      return web.json_response({"ok": True, "order_id": order_id, "result": result})
+    except Exception as e:
+      logger.warning(f"Automated Fragment buy_premium failed: {e}, placing order in pending queue...")
+
+  # Fallback to Pending queue (Deduct balance, record pending order, notify admin/channel)
+  await deduct_balance(user_id, price)
+  order_id = await create_order(
+    user_id, "premium", username, months, price, None, "pending"
+  )
+  from services.channel_notify import notify_premium
+  asyncio.ensure_future(notify_premium(username, months, price))
+  return web.json_response({
+    "ok": True,
+    "order_id": order_id,
+    "message": f"⭐ {months} oylik Telegram Premium buyurtmasi qabul qilindi! Tez orada faollashtiriladi."
+  })
 
 
 async def api_order_gift(request: web.Request) -> web.Response:
@@ -436,13 +478,55 @@ async def api_order_gift(request: web.Request) -> web.Response:
     return ex
 
   username = (body.get("username") or "").strip().lstrip("@")
-  gift = (body.get("gift") or "").strip().lower()
+  raw_gift = (body.get("gift") or body.get("gift_id") or body.get("gift_name") or body.get("id") or "").strip().lower()
   
   if not username:
     return web.json_response({"ok": False, "error": "Username ko'rsatilmagan"}, status=400)
   
-  if not gift:
+  if not raw_gift:
     return web.json_response({"ok": False, "error": "Gift tanlanmagan"}, status=400)
+
+  # Normalize gift name / id
+  name_mapping = {
+    "teddy bear": "bear",
+    "qizil atirgul": "rose",
+    "red rose": "rose",
+    "oltin quticha": "box",
+    "golden giftbox": "box",
+    "guldasta": "bouqet",
+    "bouquet": "bouqet",
+    "bayram torti": "cake",
+    "birthday cake": "cake",
+    "kosmik raketa": "rocket",
+    "space rocket": "rocket",
+    "oltin yurak": "heart",
+    "golden heart": "heart",
+    "aprel ayiqchasi": "aprel_bear",
+    "april bear": "aprel_bear",
+    "pasxa ayiqchasi": "easter_bear",
+    "easter bear": "easter_bear",
+    "qorbobo ayiqchasi": "newyear_bear",
+    "santa bear": "newyear_bear",
+    "usta ayiqchasi": "builder_bear",
+    "builder bear": "builder_bear",
+    "futbolchi ayiqcha": "football_bear",
+    "football bear": "football_bear",
+    "jangchi ayiqchasi": "soldier_bear",
+    "soldier bear": "soldier_bear",
+    "yangi yil archasi": "newyear_tree",
+    "christmas tree": "newyear_tree",
+    "patrik ayiqchasi": "patrick_bear",
+    "patrick bear": "patrick_bear",
+    "valentin ayiqchasi": "valentine_bear",
+    "valentine bear": "valentine_bear",
+    "valentine heart": "valentine_heart",
+    "brilliant": "diamond",
+    "olmos uzuk": "ring",
+    "diamond ring": "ring",
+    "oltin kubok": "trophy",
+    "golden trophy": "trophy",
+  }
+  gift = name_mapping.get(raw_gift, raw_gift)
   
   # SECURITY: Server recalculates price from official GIFT_PRICES table
   price = GIFT_PRICES.get(gift)
@@ -471,37 +555,37 @@ async def api_order_gift(request: web.Request) -> web.Response:
     "cake": "5170144170496491616",
     "rocket": "5170564780938756245",
     "champagne": "6028601630662853006",
+    "bouqet": "5170314324215857265",
     "bouquet": "5170314324215857265",
     "diamond": "5170521118301225164",
     "trophy": "5168043875654172773",
     "ring": "5170690322832818290",
     
-    # Deluxe/Limited gifts (IDs need to be obtained from GetStarGiftsRequest)
-    # These are placeholder IDs - update with real IDs from Telegram API
-    "deluxe_rose": "5170145012310081616",      # Deluxe Rose - 25 stars
-    "deluxe_heart": "5170145012310081617",     # Deluxe Heart - 25 stars
-    "deluxe_cake": "5170144170496491617",      # Deluxe Cake - 50 stars
-    "deluxe_diamond": "5170521118301225165",   # Deluxe Diamond - 100 stars
-    "golden_trophy": "5168043875654172774",    # Golden Trophy - 250 stars
-    "star_crown": "5170145012310081618",       # Star Crown - 500 stars
-    "blue_gem": "5170145012310081619",         # Blue Gem - 1000 stars
-    "fire_phoenix": "5170145012310081620",     # Fire Phoenix - 2500 stars
-    
-    # Limited Edition gifts (removed Telegram gifts)
-    "newyear_tree": "5922558454332916696",       # New Year Tree - 50 stars
-    "newyear_bear": "5956217000635139069",       # New Year Bear - 50 stars
-    "valentine_heart": "5801108895304779062",    # Valentine Heart - 50 stars
-    "valentine_bear": "5800655655995968830",     # Valentine Bear - 50 stars
-    "march8_bear": "5866352046986232958",        # March 8 Bear - 50 stars
-    "patrick_bear": "5893356958802511476",       # St. Patrick Bear - 50 stars
-    "april_bear": "5935895822435615975",         # April Fools Bear - 50 stars
-    "easter_bear": "5969796561943660080",        # Easter Bear - 50 stars
-    "may_bear": "6026193266406327981",           # May Day Bear - 50 stars
+    # VIP Collection / Limited Edition
+    "aprel_bear": "5935895822435615975",
+    "april_bear": "5935895822435615975",
+    "easter_bear": "5969796561943660080",
+    "newyear_bear": "5956217000635139069",
+    "builder_bear": "5893356958802511476",
+    "football_bear": "5866352046986232958",
+    "soldier_bear": "6026193266406327981",
+    "newyear_tree": "5922558454332916696",
+    "patrick_bear": "5893356958802511476",
+    "valentine_bear": "5800655655995968830",
+    "valentine_heart": "5801108895304779062",
+
+    # Deluxe / Custom Stars
+    "deluxe_rose": "5170145012310081616",
+    "deluxe_heart": "5170145012310081617",
+    "deluxe_cake": "5170144170496491617",
+    "deluxe_diamond": "5170521118301225165",
+    "golden_trophy": "5168043875654172774",
+    "star_crown": "5170145012310081618",
+    "blue_gem": "5170145012310081619",
+    "fire_phoenix": "5170145012310081620",
   }
   
-  gift_id = gift_mapping.get(gift.lower()) or (gift if gift.isdigit() else None)
-  if not gift_id:
-    return web.json_response({"ok": False, "error": f"Noma'lum gift: {gift}"}, status=400)
+  gift_id = gift_mapping.get(gift.lower()) or (gift if gift.isdigit() else f"gift_{gift.lower()}")
   
   # Send gift via Telethon (MTProto)
   from services.telethon_client import gift_sender
@@ -518,7 +602,7 @@ async def api_order_gift(request: web.Request) -> web.Response:
       if result.get("ok"):
         await deduct_balance(int(user_id), price)
         order_id = await create_order(
-          int(user_id), "gift", username, None, price, gift_id, "completed"
+          int(user_id), "gift", username, 1, price, gift_id, "completed"
         )
         from services.channel_notify import notify_gift
         asyncio.ensure_future(notify_gift(username, gift, gift, price))
@@ -535,7 +619,7 @@ async def api_order_gift(request: web.Request) -> web.Response:
   # Fallback / Queue mode: Deduct balance and create pending order for auto-worker / admin completion
   await deduct_balance(int(user_id), price)
   order_id = await create_order(
-    int(user_id), "gift", username, None, price, gift_id, "pending"
+    int(user_id), "gift", username, 1, price, gift_id, "pending"
   )
   from services.channel_notify import notify_gift
   asyncio.ensure_future(notify_gift(username, gift, gift, price))

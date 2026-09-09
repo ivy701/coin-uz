@@ -504,7 +504,7 @@
             const apiBase = getApiBase();
 
             try {
-                const res = await fetch((apiBase ? apiBase : '') + '/api/order/stars', {
+                const res = await fetch((apiBase ? apiBase : '') + '/api/order/premium', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
                     body: JSON.stringify({

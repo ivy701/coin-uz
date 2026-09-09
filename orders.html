@@ -381,17 +381,19 @@
 
                 const rawType = (o.product_type || o.type || 'xarid').toLowerCase();
                 const typeTitle = typeNames[rawType] || (rawType.charAt(0).toUpperCase() + rawType.slice(1));
+                const targetUser = o.target_username ? ` · @${o.target_username.replace(/^@/, '')}` : '';
+                const qtyText = (rawType === 'stars' && o.quantity) ? ` (${o.quantity} ⭐)` : (rawType === 'premium' && o.quantity) ? ` (${o.quantity} oy)` : '';
                 const amount = Number(o.amount || o.price || 0).toLocaleString('uz-UZ') + " UZS";
                 const dateStr = o.created_at ? new Date(o.created_at).toLocaleString('uz-UZ') : 'Yaqinda';
 
                 html += `
                     <div class="order-item-card">
                         <div class="order-card-header">
-                            <div class="order-type-title">${typeTitle}</div>
+                            <div class="order-type-title">${typeTitle}${qtyText}</div>
                             <div class="order-status-badge ${stClass}">${stLabel}</div>
                         </div>
                         <div class="order-card-body">
-                            <div class="order-date-text">${dateStr}</div>
+                            <div class="order-date-text">${dateStr}${targetUser}</div>
                             <div class="order-amount-text">${amount}</div>
                         </div>
                     </div>

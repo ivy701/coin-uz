@@ -1028,7 +1028,9 @@
                     body: JSON.stringify({
                         telegram_id: userId,
                         username: cleanUsername,
-                        gift_name: currentGift.name,
+                        gift: currentGift.id,
+                        gift_id: currentGift.id,
+                        gift_name: getGiftName(currentGift) || currentGift.name_uz || currentGift.id,
                         amount: currentGift.price,
                         initData: tgApp?.initData || ''
                     })
