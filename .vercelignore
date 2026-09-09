@@ -1,6 +1,7 @@
 *.py
 *.pyc
 __pycache__/
+api/
 bot/
 handlers/
 services/

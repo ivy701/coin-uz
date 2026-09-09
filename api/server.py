@@ -40,10 +40,18 @@ async def cors_middleware(request: web.Request, handler):
     origin = request.headers.get("Origin", "")
     # Allow preflight
     if request.method == "OPTIONS":
-        resp = web.Response()
+        resp = web.Response(status=200)
         _set_cors(resp, origin)
         return resp
-    resp = await handler(request)
+    try:
+        resp = await handler(request)
+    except web.HTTPException as ex:
+        _set_cors(ex, origin)
+        return ex
+    except Exception as ex:
+        logger.error(f"Unhandled exception in API request: {ex}", exc_info=True)
+        resp = web.json_response({"ok": False, "error": f"Server xatoligi: {str(ex)}"}, status=500)
+    
     _set_cors(resp, origin)
     return resp
 
@@ -52,6 +60,7 @@ def _set_cors(resp: web.Response, origin: str) -> None:
     resp.headers["Access-Control-Allow-Origin"] = "*"
     resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, PUT, DELETE"
     resp.headers["Access-Control-Allow-Headers"] = "*"
+    resp.headers["Access-Control-Allow-Credentials"] = "true"
 
 
 
