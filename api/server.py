@@ -131,7 +131,7 @@ async def _authenticate_request(request: web.Request, check_rate_limit: bool = T
   """
   Unified security helper:
   1. Validates Telegram initData signature (HMAC-SHA256) -> 401 if invalid.
-  2. Verifies that request body/params user_id matches authenticated user -> 403 if mismatch.
+  2. Uses authenticated user_id from initData.
   3. Checks Rate Limiting (max 5 req/min) -> 429 if exceeded.
   """
   body = await _json_body(request)
@@ -155,22 +155,6 @@ async def _authenticate_request(request: web.Request, check_rate_limit: bool = T
       )
 
   auth_user_id = int(auth_user_id)
-
-  # User ID verification: Check that claimed user matches authenticated user
-  claimed_user_id = body.get("telegram_id") or body.get("user_id")
-  if claimed_user_id is not None:
-    try:
-      if int(claimed_user_id) != auth_user_id:
-        logger.warning("User ID mismatch attack prevented: auth=%s claimed=%s", auth_user_id, claimed_user_id)
-        raise web.HTTPForbidden(
-          text=json.dumps({"ok": False, "error": "Foydalanuvchi identifikatori mos kelmadi (Forbidden)."}),
-          content_type="application/json"
-        )
-    except (ValueError, TypeError):
-      raise web.HTTPForbidden(
-        text=json.dumps({"ok": False, "error": "Noto'g'ri foydalanuvchi identifikatori."}),
-        content_type="application/json"
-      )
 
   # Rate limiting
   if check_rate_limit:
