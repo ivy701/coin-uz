@@ -82,7 +82,7 @@ async def start_api_server():
             ssl_context.load_cert_chain(str(cert_file), str(key_file))
 
     port = int(os.environ.get("PORT") or os.environ.get("API_PORT") or 8085)
-    host = os.environ.get("API_HOST", "0.0.0.0")
+    host = os.environ.get("IP") or os.environ.get("API_HOST") or "0.0.0.0"
     app = create_app()
     runner = web.AppRunner(app)
     await runner.setup()

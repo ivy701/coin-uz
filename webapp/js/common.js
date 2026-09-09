@@ -23,13 +23,13 @@ function getApiBase() {
     if (typeof window !== 'undefined' && window.location) {
         const host = (window.location.hostname || '').toLowerCase();
         if (host.includes('vercel.app') || host.includes('github.io')) {
-            return 'https://coinstat-uz-wepapp-1.onrender.com';
+            return 'https://coinstatuzbot.alwaysdata.net';
         }
         if (window.location.protocol && window.location.protocol.startsWith('http')) {
             return window.location.origin;
         }
     }
-    return 'https://coinstat-uz-wepapp-1.onrender.com';
+    return 'https://coinstatuzbot.alwaysdata.net';
 }
 
 // Telegram Native Haptic Engine
