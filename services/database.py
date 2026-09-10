@@ -731,8 +731,8 @@ class _LegacyDB:
     async def update_user_activity(self, user_id: int):
         pass
 
-    async def create_order(self, order_id: str, user_id: int, product_type: str, amount: int, price: int):
-        return await create_order(user_id, product_type, "", None, amount, external_id=order_id)
+    async def create_order(self, order_id: str, user_id: int, product_type: str, amount: int, price: int, target_username: str = "", status: str = "pending"):
+        return await create_order(user_id, product_type, target_username or "", amount, price, external_id=order_id, status=status)
 
     async def get_order(self, order_id: str | int):
         oid_str = str(order_id)

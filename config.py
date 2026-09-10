@@ -20,7 +20,7 @@ TELETHON_SESSION_STRING = os.getenv("TELETHON_SESSION_STRING", "")  # String ses
 
 # Fragment API settings
 FRAGMENT_API_KEY = os.getenv("FRAGMENT_API_KEY")
-FRAGMENT_API_URL = os.getenv("FRAGMENT_API_URL", "https://fragment-api.uz/api")
+FRAGMENT_API_URL = os.getenv("FRAGMENT_API_URL", "https://fragment-api.uz/api/v1")
 
 # Shop settings
 SHOP_ID = os.getenv("SHOP_ID")

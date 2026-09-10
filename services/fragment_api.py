@@ -26,7 +26,13 @@ class FragmentAPI:
     ):
         raw_key = api_key or getattr(config, 'FRAGMENT_API_KEY', '') or ""
         self.api_key = "".join(raw_key.split())
-        self.base_url = (base_url or getattr(config, 'FRAGMENT_API_URL', 'https://fragment-api.uz/api/v1')).rstrip("/")
+        raw_url = (base_url or getattr(config, 'FRAGMENT_API_URL', 'https://fragment-api.uz/api/v1') or 'https://fragment-api.uz/api/v1').strip().rstrip('/')
+        if not raw_url.endswith('/v1'):
+            if raw_url.endswith('/api'):
+                raw_url = f"{raw_url}/v1"
+            else:
+                raw_url = f"{raw_url}/api/v1"
+        self.base_url = raw_url
 
     def _headers(self) -> dict[str, str]:
         return {

@@ -88,16 +88,19 @@ async def start_api_server():
     await runner.setup()
 
     # Try binding to port, if busy try next ports
+    import errno
     for p in range(port, port + 10):
         try:
-            site = web.TCPSite(runner, host, p, ssl_context=ssl_context)
+            site = web.TCPSite(runner, host, p, ssl_context=ssl_context, reuse_address=True)
             await site.start()
             protocol = "https" if ssl_context else "http"
             logger.info("API server started on %s://%s:%s", protocol, host, p)
             return runner
         except OSError as e:
-            if e.errno == 10048 or "10048" in str(e):
-                logger.warning("Port %s is busy, trying %s...", p, p + 1)
+            err_code = getattr(e, 'errno', None)
+            is_busy = err_code in (getattr(errno, 'EADDRINUSE', 98), 98, 10048) or "already in use" in str(e).lower() or "10048" in str(e)
+            if is_busy:
+                logger.warning("Port %s is busy (%s), trying %s...", p, e, p + 1)
                 continue
             raise
     logger.warning("Could not bind API server to ports %s-%s, continuing bot only...", port, port + 9)
@@ -150,6 +153,13 @@ async def main():
 
     await database.init_db()
     logger.info("Database initialized, bot starting...")
+
+    # Drop any pending webhook so polling starts cleanly without 409 Conflict
+    try:
+        await bot.delete_webhook(drop_pending_updates=True)
+        logger.info("Webhook cleared for polling")
+    except Exception as e:
+        logger.warning("Could not clear webhook: %s", e)
 
     try:
         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())

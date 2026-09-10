@@ -5,9 +5,11 @@ import keyboards
 from services.database import db
 import config
 import uuid
+import logging
 from services.fragment_api import fragment_client
 from datetime import datetime
 
+logger = logging.getLogger(__name__)
 router = Router()
 
 
@@ -87,36 +89,60 @@ async def process_buy_stars(callback: CallbackQuery):
         
         # Create order
         order_id = str(uuid.uuid4())[:8]
-        await db.create_order(order_id, user_id, "stars", amount, price)
+        username = callback.from_user.username or str(user_id)
+        await db.create_order(order_id, user_id, "stars", amount, price, target_username=username, status="processing")
         await db.update_order(order_id, status="processing")
         
-        username = callback.from_user.username or str(user_id)
-        result = await fragment_client.buy_stars(username, amount)
+        is_fragment_ready = bool(fragment_client.api_key and fragment_client.api_key.strip())
+        success = False
+        result = None
         
-        if result and result.get("ok"):
+        if is_fragment_ready:
+            try:
+                result = await fragment_client.buy_stars(username, amount)
+                if result and (result.get("ok") or result.get("status") == "success" or result.get("id")):
+                    success = True
+            except Exception as e:
+                logger.warning(f"Automated Fragment buy_stars failed: {e}, falling back to pending queue...")
+        
+        if success:
             await db.update_order(
                 order_id, 
                 status="completed",
                 completed_at=datetime.utcnow().isoformat()
             )
-            
             from services.channel_notify import notify_stars
-            await notify_stars(username, amount, price)
+            try:
+                await notify_stars(username, amount, price)
+            except Exception as e:
+                logger.warning(f"notify_stars error: {e}")
             
             user = await db.get_user(user_id)
             await callback.message.answer(
                 f"✅ <b>Muvaffaqiyatli!</b>\n\n"
-                f"⭐ {amount} Stars hisobingizga qo'shildi!\n"
+                f"⭐ <b>{amount}</b> Stars hisobingizga qo'shildi!\n"
+                f"👤 Qabul qiluvchi: @{username}\n"
                 f"💰 Yangi balans: {user['balance']:,.0f} so'm",
                 parse_mode="HTML",
                 reply_markup=keyboards.get_main_keyboard()
             )
         else:
-            await db.update_order(order_id, status="failed")
-            await db.update_balance(user_id, price, 'add')  # Refund
+            # Fallback mode: Order is queued as pending
+            await db.update_order(order_id, status="pending")
+            from services.channel_notify import notify_stars
+            try:
+                await notify_stars(username, amount, price)
+            except Exception as e:
+                logger.warning(f"notify_stars error: {e}")
             
+            user = await db.get_user(user_id)
             await callback.message.answer(
-                "❌ Xatolik yuz berdi. Pul hisobingizga qaytarildi.",
+                f"✅ <b>Buyurtmangiz qabul qilindi!</b>\n\n"
+                f"⭐ <b>{amount} Stars</b> → @{username}\n"
+                f"🆔 Buyurtma ID: <code>{order_id}</code>\n"
+                f"⏳ Holat: <i>Kutilmoqda (Tez orada yetkaziladi)</i>\n"
+                f"💰 Yangi balans: {user['balance']:,.0f} so'm",
+                parse_mode="HTML",
                 reply_markup=keyboards.get_main_keyboard()
             )
     else:
@@ -169,36 +195,60 @@ async def process_buy_premium(callback: CallbackQuery):
         
         # Create order
         order_id = str(uuid.uuid4())[:8]
-        await db.create_order(order_id, user_id, "premium", duration, price)
+        username = callback.from_user.username or str(user_id)
+        await db.create_order(order_id, user_id, "premium", duration, price, target_username=username, status="processing")
         await db.update_order(order_id, status="processing")
         
-        username = callback.from_user.username or str(user_id)
-        result = await fragment_client.buy_premium(username, duration)
+        is_fragment_ready = bool(fragment_client.api_key and fragment_client.api_key.strip())
+        success = False
+        result = None
         
-        if result and result.get("ok"):
+        if is_fragment_ready:
+            try:
+                result = await fragment_client.buy_premium(username, duration)
+                if result and (result.get("ok") or result.get("status") == "success" or result.get("id")):
+                    success = True
+            except Exception as e:
+                logger.warning(f"Automated Fragment buy_premium failed: {e}, falling back to pending queue...")
+        
+        if success:
             await db.update_order(
                 order_id,
                 status="completed",
                 completed_at=datetime.utcnow().isoformat()
             )
-            
             from services.channel_notify import notify_premium
-            await notify_premium(username, duration, price)
+            try:
+                await notify_premium(username, duration, price)
+            except Exception as e:
+                logger.warning(f"notify_premium error: {e}")
             
             user = await db.get_user(user_id)
             await callback.message.answer(
                 f"✅ <b>Muvaffaqiyatli!</b>\n\n"
                 f"💎 Telegram Premium {duration} oyga faollashtirildi!\n"
+                f"👤 Qabul qiluvchi: @{username}\n"
                 f"💰 Yangi balans: {user['balance']:,.0f} so'm",
                 parse_mode="HTML",
                 reply_markup=keyboards.get_main_keyboard()
             )
         else:
-            await db.update_order(order_id, status="failed")
-            await db.update_balance(user_id, price, 'add')  # Refund
+            # Fallback mode: Order is queued as pending
+            await db.update_order(order_id, status="pending")
+            from services.channel_notify import notify_premium
+            try:
+                await notify_premium(username, duration, price)
+            except Exception as e:
+                logger.warning(f"notify_premium error: {e}")
             
+            user = await db.get_user(user_id)
             await callback.message.answer(
-                "❌ Xatolik yuz berdi. Pul hisobingizga qaytarildi.",
+                f"✅ <b>Buyurtmangiz qabul qilindi!</b>\n\n"
+                f"💎 <b>Telegram Premium {duration} oy</b> → @{username}\n"
+                f"🆔 Buyurtma ID: <code>{order_id}</code>\n"
+                f"⏳ Holat: <i>Kutilmoqda (Tez orada faollashtiriladi)</i>\n"
+                f"💰 Yangi balans: {user['balance']:,.0f} so'm",
+                parse_mode="HTML",
                 reply_markup=keyboards.get_main_keyboard()
             )
     else:
