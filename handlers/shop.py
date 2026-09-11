@@ -78,10 +78,11 @@ async def process_buy_stars(callback: CallbackQuery):
     
     # Check user balance
     user = await db.get_user(user_id)
-    
     if not user:
-        await callback.message.answer("❌ Foydalanuvchi topilmadi!")
-        return
+        from services.database import ensure_user
+        username = callback.from_user.username or ""
+        full_name = callback.from_user.full_name or "User"
+        user = await ensure_user(user_id, username, full_name)
     
     if user['balance'] >= price:
         # Sufficient balance, process immediately
@@ -184,10 +185,11 @@ async def process_buy_premium(callback: CallbackQuery):
     
     # Check user balance
     user = await db.get_user(user_id)
-    
     if not user:
-        await callback.message.answer("❌ Foydalanuvchi topilmadi!")
-        return
+        from services.database import ensure_user
+        username = callback.from_user.username or ""
+        full_name = callback.from_user.full_name or "User"
+        user = await ensure_user(user_id, username, full_name)
     
     if user['balance'] >= price:
         # Sufficient balance, process immediately

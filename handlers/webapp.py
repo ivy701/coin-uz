@@ -73,8 +73,10 @@ async def _buy_stars(message: Message, data: dict):
 
     user = await db.get_user(user_id)
     if not user:
-        await message.answer("❌ Foydalanuvchi topilmadi. /start bosing.")
-        return
+        from services.database import ensure_user
+        username_fb = message.from_user.username or username or ""
+        full_name = message.from_user.full_name or "User"
+        user = await ensure_user(user_id, username_fb, full_name)
     if user["balance"] < price:
         await message.answer(
             f"💰 <b>Balans yetarli emas!</b>\n\n"
@@ -160,8 +162,10 @@ async def _buy_premium(message: Message, data: dict):
 
     user = await db.get_user(user_id)
     if not user:
-        await message.answer("❌ Foydalanuvchi topilmadi. /start bosing.")
-        return
+        from services.database import ensure_user
+        username_fb = message.from_user.username or username or ""
+        full_name = message.from_user.full_name or "User"
+        user = await ensure_user(user_id, username_fb, full_name)
     if user["balance"] < price:
         await message.answer(
             f"💰 <b>Balans yetarli emas!</b>\n\n"
@@ -242,8 +246,10 @@ async def _buy_gift(message: Message, data: dict):
 
     user = await db.get_user(user_id)
     if not user:
-        await message.answer("❌ Foydalanuvchi topilmadi. /start bosing.")
-        return
+        from services.database import ensure_user
+        username_fb = message.from_user.username or username or ""
+        full_name = message.from_user.full_name or "User"
+        user = await ensure_user(user_id, username_fb, full_name)
     if user["balance"] < price:
         await message.answer(
             f"💰 <b>Balans yetarli emas!</b>\n\n"
