@@ -154,15 +154,39 @@ async def main():
     await database.init_db()
     logger.info("Database initialized, bot starting...")
 
-    # Drop any pending webhook so polling starts cleanly without 409 Conflict
-    try:
-        await bot.delete_webhook(drop_pending_updates=True)
-        logger.info("Webhook cleared for polling")
-    except Exception as e:
-        logger.warning("Could not clear webhook: %s", e)
+    # Attach bot and dispatcher to running API server
+    if hasattr(runner, 'app'):
+        runner.app["bot"] = bot
+        runner.app["dp"] = dp
+
+    use_webhook = os.environ.get("USE_WEBHOOK", "1").lower() in ("1", "true", "yes")
+    webhook_url = os.environ.get("WEBHOOK_URL") or "https://coinstatuzbot.alwaysdata.net/webhook/telegram"
 
     try:
-        await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
+        if use_webhook:
+            try:
+                logger.info("Setting Telegram Webhook to %s...", webhook_url)
+                await bot.set_webhook(
+                    url=webhook_url,
+                    drop_pending_updates=True,
+                    allowed_updates=dp.resolve_used_update_types()
+                )
+                logger.info("Telegram Webhook active at %s! Listening for updates...", webhook_url)
+            except Exception as e:
+                logger.warning("Could not set webhook: %s", e)
+
+            # Keep server running to serve webhook requests
+            while True:
+                await asyncio.sleep(3600)
+        else:
+            # Polling mode (fallback)
+            try:
+                await bot.delete_webhook(drop_pending_updates=True)
+                logger.info("Webhook cleared for polling")
+            except Exception as e:
+                logger.warning("Could not clear webhook: %s", e)
+
+            await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
     finally:
         # Cleanup
         from services.telethon_client import stop_gift_sender

@@ -1061,8 +1061,140 @@ async def on_startup(app: web.Application) -> None:
     logger.info("Telethon gift sender initialized")
   except Exception as e:
     logger.warning("Failed to initialize Telethon: %s", e)
+
+  # Initialize Telegram Bot & Dispatcher for Webhook
+  if "bot" not in app or "dp" not in app:
+    try:
+      import config as cfg
+      if cfg.BOT_TOKEN:
+        from aiogram import Bot, Dispatcher
+        from aiogram.client.default import DefaultBotProperties
+        from aiogram.enums import ParseMode
+        from aiogram.fsm.storage.memory import MemoryStorage
+        from middlewares import AccessControlMiddleware
+        from handlers import start, shop, balance, profile, webapp, admin
+
+        bot = Bot(token=cfg.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+        dp = Dispatcher(storage=MemoryStorage())
+        dp.update.middleware(AccessControlMiddleware())
+        dp.include_router(admin.router)
+        dp.include_router(start.router)
+        dp.include_router(webapp.router)
+        dp.include_router(shop.router)
+        dp.include_router(balance.router)
+        dp.include_router(profile.router)
+
+        app["bot"] = bot
+        app["dp"] = dp
+        logger.info("Telegram Bot & Dispatcher initialized for Webhook")
+    except Exception as e:
+      logger.warning("Failed to initialize Bot & Dispatcher for Webhook: %s", e)
   
   logger.info("API server ready — webapp at /app/")
+
+
+async def telegram_webhook_check(request: web.Request) -> web.Response:
+  return web.json_response({
+    "ok": True,
+    "service": "CoinStat Telegram Webhook",
+    "endpoint": "https://coinstatuzbot.alwaysdata.net/webhook/telegram"
+  })
+
+
+async def telegram_webhook(request: web.Request) -> web.Response:
+  bot = request.app.get("bot")
+  dp = request.app.get("dp")
+  if not bot or not dp:
+    logger.error("Telegram bot/dp not initialized in app")
+    return web.Response(status=503, text="Bot not initialized")
+
+  try:
+    data = await request.json()
+  except Exception as e:
+    logger.warning("Invalid telegram webhook payload: %s", e)
+    return web.Response(status=400, text="Invalid JSON")
+
+  from aiogram.types import Update
+  try:
+    update = Update(**data)
+    asyncio.create_task(dp.feed_update(bot, update))
+    return web.Response(text="OK")
+  except Exception as e:
+    logger.exception("Error processing telegram update: %s", e)
+    return web.Response(text="OK")
+
+
+async def api_set_webhook(request: web.Request) -> web.Response:
+  import config as cfg
+  if not cfg.BOT_TOKEN:
+    return web.json_response({"ok": False, "error": "BOT_TOKEN not configured"}, status=500)
+
+  bot = request.app.get("bot")
+  if not bot:
+    from aiogram import Bot
+    from aiogram.client.default import DefaultBotProperties
+    from aiogram.enums import ParseMode
+    bot = Bot(token=cfg.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+
+  webhook_url = request.query.get("url") or "https://coinstatuzbot.alwaysdata.net/webhook/telegram"
+  try:
+    res = await bot.set_webhook(url=webhook_url, drop_pending_updates=True)
+    info = await bot.get_webhook_info()
+    return web.json_response({
+      "ok": True,
+      "message": f"Telegram Webhook muvaffaqiyatli ulandi: {webhook_url}",
+      "set_result": res,
+      "webhook_url": info.url,
+      "pending_update_count": info.pending_update_count
+    })
+  except Exception as e:
+    logger.exception("set_webhook error: %s", e)
+    return web.json_response({"ok": False, "error": str(e)}, status=500)
+
+
+async def api_get_webhook(request: web.Request) -> web.Response:
+  import config as cfg
+  if not cfg.BOT_TOKEN:
+    return web.json_response({"ok": False, "error": "BOT_TOKEN not configured"}, status=500)
+
+  bot = request.app.get("bot")
+  if not bot:
+    from aiogram import Bot
+    bot = Bot(token=cfg.BOT_TOKEN)
+
+  try:
+    info = await bot.get_webhook_info()
+    return web.json_response({
+      "ok": True,
+      "url": info.url,
+      "has_custom_certificate": info.has_custom_certificate,
+      "pending_update_count": info.pending_update_count,
+      "last_error_date": info.last_error_date,
+      "last_error_message": info.last_error_message
+    })
+  except Exception as e:
+    return web.json_response({"ok": False, "error": str(e)}, status=500)
+
+
+async def api_delete_webhook(request: web.Request) -> web.Response:
+  import config as cfg
+  if not cfg.BOT_TOKEN:
+    return web.json_response({"ok": False, "error": "BOT_TOKEN not configured"}, status=500)
+
+  bot = request.app.get("bot")
+  if not bot:
+    from aiogram import Bot
+    bot = Bot(token=cfg.BOT_TOKEN)
+
+  try:
+    res = await bot.delete_webhook(drop_pending_updates=True)
+    return web.json_response({
+      "ok": True,
+      "message": "Webhook muvaffaqiyatli o'chirildi (polling uchun)",
+      "result": res
+    })
+  except Exception as e:
+    return web.json_response({"ok": False, "error": str(e)}, status=500)
 
 
 async def click_webhook(request: web.Request) -> web.Response:
@@ -1725,13 +1857,25 @@ def create_app() -> web.Application:
   app.router.add_post("/api/spin/play", api_spin_play)
   app.router.add_post("/api/spin/promocode", api_spin_promocode)
 
+  app.router.add_get("/webhook/telegram", telegram_webhook_check)
+  app.router.add_post("/webhook/telegram", telegram_webhook)
+  app.router.add_get("/api/set_webhook", api_set_webhook)
+  app.router.add_post("/api/set_webhook", api_set_webhook)
+  app.router.add_get("/api/get_webhook", api_get_webhook)
+  app.router.add_get("/api/delete_webhook", api_delete_webhook)
+
   app.router.add_static("/app", WEBAPP_DIR, name="webapp")
   app.router.add_static("/", WEBAPP_DIR, name="root")
   return app
 
 
 async def _on_shutdown(app: web.Application) -> None:
-    pass
+    bot = app.get("bot")
+    if bot:
+        try:
+            await bot.session.close()
+        except Exception:
+            pass
 
 
 def main() -> None:
