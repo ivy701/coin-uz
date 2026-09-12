@@ -53,6 +53,7 @@ html {
 
 body {
     -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
 /* Smooth High-Quality Media Rendering */
@@ -178,34 +179,31 @@ img, picture, video {
 /* =========================================
    Full-Width Fast Bottom Navigation Dock
    ========================================= */
+/* =========================================
+   Ultra Modern Floating Glassmorphism Bottom Navigation + FAB
+   ========================================= */
 .bottom-dock-nav {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background: var(--nav-bg);
-    border-top: 1px solid var(--nav-border);
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    border-radius: 22px 22px 0 0;
-    padding: 8px 12px calc(10px + env(safe-area-inset-bottom, 0px)) 12px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    left: 14px;
+    right: 14px;
+    max-width: 440px;
+    margin: 0 auto;
+    background: rgba(14, 16, 26, 0.82);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 30px;
+    padding: 6px 10px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    gap: 8px;
     z-index: 9999;
-    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(56, 189, 248, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.16);
     user-select: none;
     -webkit-user-select: none;
     box-sizing: border-box;
-    pointer-events: auto !important;
-    transform: translateZ(0); /* Hardware layer */
-}
-
-.dock-active-glider {
-    display: none !important;
+    transform: translateZ(0);
 }
 
 .dock-tab-btn {
@@ -214,22 +212,17 @@ img, picture, video {
     align-items: center;
     justify-content: center;
     gap: 3px;
-    padding: 6px 8px;
-    border-radius: 999px;
-    color: #72778b;
+    padding: 6px 6px 7px 6px;
+    border-radius: 20px;
+    color: #7e849b;
     cursor: pointer;
     text-decoration: none !important;
-    user-select: none;
-    -webkit-user-select: none;
     position: relative;
-    z-index: 2;
     flex: 1;
     background: transparent;
-    border: 1px solid transparent;
+    border: none;
     outline: none;
-    pointer-events: auto !important;
-    transition: transform 120ms ease, background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
-    will-change: transform;
+    transition: all 180ms cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
 .dock-tab-btn * {
@@ -237,31 +230,110 @@ img, picture, video {
 }
 
 .dock-tab-btn svg {
-    width: 22px;
-    height: 22px;
-    stroke: #72778b;
-    transition: transform 150ms cubic-bezier(0.34, 1.4, 0.64, 1), stroke 150ms ease;
+    width: 21px;
+    height: 21px;
+    stroke: #7e849b;
+    transition: all 180ms cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 
 .dock-tab-btn span {
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
-    letter-spacing: 0.2px;
-    color: #72778b;
-    transition: color 150ms ease;
+    letter-spacing: 0.1px;
+    color: #7e849b;
+    transition: color 180ms ease;
 }
 
-/* Active Tab: Modern Sleek Capsule (Always at correct position from frame 0) */
+/* Active State with Neon Glow & Indicator */
 .dock-tab-btn.active {
-    background: linear-gradient(135deg, #272836 0%, #1b1c26 100%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.18);
-    color: #ffffff;
+    color: #38bdf8;
 }
 
 .dock-tab-btn.active svg {
-    stroke: #ffffff;
-    transform: scale(1.12);
+    stroke: #38bdf8;
+    transform: translateY(-2px) scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+}
+
+.dock-tab-btn.active span {
+    color: #38bdf8;
+    font-weight: 800;
+}
+
+/* Neon Active Dot Indicator */
+.dock-tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    width: 14px;
+    height: 3px;
+    border-radius: 99px;
+    background: #38bdf8;
+    box-shadow: 0 0 8px #38bdf8, 0 0 14px rgba(56, 189, 248, 0.8);
+    animation: dockDotFadeIn 220ms ease forwards;
+}
+
+@keyframes dockDotFadeIn {
+    from { opacity: 0; transform: scaleX(0.4); }
+    to { opacity: 1; transform: scaleX(1); }
+}
+
+.dock-tab-btn:active {
+    transform: scale(0.92);
+}
+
+/* =========================================
+   Center Floating Action Button (FAB - Stars)
+   ========================================= */
+.dock-fab-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: -24px;
+    text-decoration: none !important;
+    cursor: pointer;
+    z-index: 10;
+    padding: 0 4px;
+}
+
+.dock-fab-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 45%, #f97316 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 22px rgba(245, 158, 11, 0.5), 0 0 14px rgba(251, 191, 36, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+    border: 3px solid #0e101a;
+    transition: transform 180ms cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 180ms ease;
+}
+
+.dock-fab-circle img, .dock-fab-circle svg {
+    width: 25px;
+    height: 25px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.dock-fab-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #fbbf24;
+    margin-top: 2px;
+    letter-spacing: 0.2px;
+    text-shadow: 0 0 6px rgba(251, 191, 36, 0.5);
+}
+
+.dock-fab-btn:active .dock-fab-circle {
+    transform: scale(0.92);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.dock-fab-btn.active .dock-fab-circle {
+    border-color: #38bdf8;
+    box-shadow: 0 8px 26px rgba(245, 158, 11, 0.65), 0 0 20px rgba(56, 189, 248, 0.6);
 }
 
 .dock-tab-btn.active span {

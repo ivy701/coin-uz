@@ -422,15 +422,16 @@
     </button>
 
     <!-- Floating Capsule Dock Navigation -->
+        <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
     <div class="bottom-dock-nav">
-        <a href="index.html" class="dock-tab-btn">
+        <a href="index.html" class="dock-tab-btn ">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 10.5L12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9z"></path>
                 <path d="M9 21v-7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v7"></path>
             </svg>
             <span data-i18n="nav.home">Asosiy</span>
         </a>
-        <a href="gift.html" class="dock-tab-btn">
+        <a href="gift.html" class="dock-tab-btn ">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 3h12l4 6-10 12L2 9z"></path>
                 <path d="M2 9h20"></path>
@@ -438,7 +439,14 @@
             </svg>
             <span data-i18n="nav.gifts">Gift</span>
         </a>
-        <a href="rating.html" class="dock-tab-btn">
+        <!-- Center Glowing FAB for Stars -->
+        <a href="stars.html" class="dock-fab-btn " title="Telegram Stars">
+            <div class="dock-fab-circle">
+                <img src="images/star.webp?v=3" alt="Stars">
+            </div>
+            <span class="dock-fab-label">Stars</span>
+        </a>
+        <a href="rating.html" class="dock-tab-btn ">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
@@ -448,7 +456,7 @@
             </svg>
             <span data-i18n="nav.rating">Top</span>
         </a>
-        <a href="profile.html" class="dock-tab-btn">
+        <a href="profile.html" class="dock-tab-btn ">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
