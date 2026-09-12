@@ -120,29 +120,28 @@ async def main():
     else:
         logger.warning(f"Telethon not configured: API_ID={config.API_ID}, API_HASH={'set' if config.API_HASH else 'not set'}")
 
-    # Initialize bot
-    bot = Bot(
-        token=config.BOT_TOKEN,
-        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
-    )
-    storage = MemoryStorage()
-    dp = Dispatcher(storage=storage)
-
-    # Add access control middleware
-    dp.update.middleware(AccessControlMiddleware())
-    logger.info("Access control middleware enabled")
-
-    dp.include_router(admin.router)   # Admin first — to prevent /admin being caught by start.router
-    dp.include_router(start.router)
-    dp.include_router(webapp.router)
-    dp.include_router(shop.router)
-    dp.include_router(balance.router)
-    dp.include_router(profile.router)
+    # Reuse bot and dispatcher created during API server startup
+    if hasattr(runner, 'app') and "bot" in runner.app and "dp" in runner.app:
+        bot = runner.app["bot"]
+        dp = runner.app["dp"]
+    else:
+        bot = Bot(
+            token=config.BOT_TOKEN,
+            default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+        )
+        storage = MemoryStorage()
+        dp = Dispatcher(storage=storage)
+        dp.update.middleware(AccessControlMiddleware())
+        dp.include_router(admin.router)
+        dp.include_router(start.router)
+        dp.include_router(webapp.router)
+        dp.include_router(shop.router)
+        dp.include_router(balance.router)
+        dp.include_router(profile.router)
 
     await database.init_db()
     logger.info("Database initialized, bot starting...")
 
-    # Attach bot and dispatcher to running API server
     if hasattr(runner, 'app'):
         runner.app["bot"] = bot
         runner.app["dp"] = dp
@@ -154,7 +153,7 @@ async def main():
     if not railway_domain and os.environ.get("API_PUBLIC_URL"):
         railway_domain = os.environ.get("API_PUBLIC_URL").replace("https://", "").replace("http://", "").strip("/")
     
-    default_webhook = f"https://{railway_domain}/webhook/telegram" if railway_domain else "https://web-production-1b7cb.up.railway.app/webhook/telegram"
+    default_webhook = f"https://{railway_domain}/webhook/telegram" if railway_domain else "https://web-production-4014a4.up.railway.app/webhook/telegram"
     webhook_url = os.environ.get("WEBHOOK_URL") or default_webhook
 
     try:
