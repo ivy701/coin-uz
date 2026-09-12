@@ -30,7 +30,7 @@ SHOP_KEY = os.getenv("SHOP_KEY")
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///database.db")
 
 # Web App
-WEBAPP_URL = os.getenv("WEBAPP_URL", "https://web-production-4014a4.up.railway.app/app")
+WEBAPP_URL = os.getenv("WEBAPP_URL", "https://coin-uz.vercel.app")
 
 # Admin IDs (read from environment)
 ADMINS = [int(x.strip()) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip().isdigit()]
