@@ -17,14 +17,14 @@ let userBalance = 0;
 
 // API base — can be overridden per-page via window.API_BASE
 function getApiBase() {
-    if (typeof window.API_BASE !== 'undefined' && window.API_BASE && window.API_BASE.trim() !== '') {
-        return window.API_BASE.replace(/\/$/, '');
-    }
     if (typeof window !== 'undefined' && window.location) {
         const host = (window.location.hostname || '').toLowerCase();
-        if (host.includes('alwaysdata.net') || host.includes('localhost') || host.includes('127.0.0.1')) {
+        if (host.includes('railway.app') || host.includes('localhost') || host.includes('127.0.0.1')) {
             return window.location.origin;
         }
+    }
+    if (typeof window.API_BASE !== 'undefined' && window.API_BASE && window.API_BASE.trim() !== '') {
+        return window.API_BASE.replace(/\/$/, '');
     }
     return 'https://web-production-4014a4.up.railway.app';
 }
