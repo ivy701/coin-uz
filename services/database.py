@@ -979,50 +979,86 @@ async def get_promocode(code: str) -> dict[str, Any] | None:
 
 async def check_user_promocode_cooldown(telegram_id: int) -> tuple[bool, int, int]:
     """
-    Foydalanuvchi so'nggi 2 soat ichida promo-kod ishlatganmi yoki yo'qligini tekshiradi.
+    Foydalanuvchi so'nggi 24 soat ichida promo-kod ishlatganmi yoki g'ildirakni aylantirganmi tekshiradi.
     Qaytaradi: (in_cooldown, remaining_hours, remaining_minutes)
     """
     try:
-        if IS_SQLITE:
-            row = await db_conn.fetchrow(
-                """
-                SELECT used_at FROM lucky_promocodes 
-                WHERE used_by_id = $1 AND is_used = 1 AND used_at IS NOT NULL 
-                ORDER BY used_at DESC LIMIT 1
-                """,
-                telegram_id
-            )
-        else:
-            row = await db_conn.fetchrow(
-                """
-                SELECT used_at FROM lucky_promocodes 
-                WHERE used_by_id = $1 AND is_used = TRUE AND used_at IS NOT NULL 
-                ORDER BY used_at DESC LIMIT 1
-                """,
-                telegram_id
-            )
-        if not row or not row.get("used_at"):
-            return False, 0, 0
-
-        used_at = row["used_at"]
         import datetime
         now = datetime.datetime.now(datetime.timezone.utc)
+        latest_dt = None
 
-        if isinstance(used_at, str):
-            try:
-                used_dt = datetime.datetime.fromisoformat(used_at.replace("Z", "+00:00"))
-            except Exception:
-                used_dt = datetime.datetime.strptime(used_at[:19], "%Y-%m-%d %H:%M:%S").replace(tzinfo=datetime.timezone.utc)
-        elif isinstance(used_at, datetime.datetime):
-            used_dt = used_at
-        else:
+        # 1. lucky_promocodes jadvalini tekshirish
+        try:
+            if IS_SQLITE:
+                promo_row = await db_conn.fetchrow(
+                    """
+                    SELECT used_at FROM lucky_promocodes 
+                    WHERE used_by_id = $1 AND is_used = 1 AND used_at IS NOT NULL 
+                    ORDER BY used_at DESC LIMIT 1
+                    """,
+                    telegram_id
+                )
+            else:
+                promo_row = await db_conn.fetchrow(
+                    """
+                    SELECT used_at FROM lucky_promocodes 
+                    WHERE used_by_id = $1 AND is_used = TRUE AND used_at IS NOT NULL 
+                    ORDER BY used_at DESC LIMIT 1
+                    """,
+                    telegram_id
+                )
+            if promo_row and promo_row.get("used_at"):
+                used_at = promo_row["used_at"]
+                if isinstance(used_at, str):
+                    try:
+                        dt = datetime.datetime.fromisoformat(used_at.replace("Z", "+00:00"))
+                    except Exception:
+                        dt = datetime.datetime.strptime(used_at[:19], "%Y-%m-%d %H:%M:%S").replace(tzinfo=datetime.timezone.utc)
+                elif isinstance(used_at, datetime.datetime):
+                    dt = used_at
+                else:
+                    dt = None
+                if dt:
+                    if dt.tzinfo is None:
+                        dt = dt.replace(tzinfo=datetime.timezone.utc)
+                    latest_dt = dt
+        except Exception as ex:
+            logger.warning(f"cooldown check promo error: {ex}")
+
+        # 2. lucky_wheel_spins jadvalini ham tekshirish (oldin aylantirganlar)
+        try:
+            spin_row = await db_conn.fetchrow(
+                """
+                SELECT created_at FROM lucky_wheel_spins 
+                WHERE telegram_id = $1 AND created_at IS NOT NULL 
+                ORDER BY created_at DESC LIMIT 1
+                """,
+                telegram_id
+            )
+            if spin_row and spin_row.get("created_at"):
+                spin_at = spin_row["created_at"]
+                if isinstance(spin_at, str):
+                    try:
+                        s_dt = datetime.datetime.fromisoformat(spin_at.replace("Z", "+00:00"))
+                    except Exception:
+                        s_dt = datetime.datetime.strptime(spin_at[:19], "%Y-%m-%d %H:%M:%S").replace(tzinfo=datetime.timezone.utc)
+                elif isinstance(spin_at, datetime.datetime):
+                    s_dt = spin_at
+                else:
+                    s_dt = None
+                if s_dt:
+                    if s_dt.tzinfo is None:
+                        s_dt = s_dt.replace(tzinfo=datetime.timezone.utc)
+                    if latest_dt is None or s_dt > latest_dt:
+                        latest_dt = s_dt
+        except Exception as ex:
+            logger.warning(f"cooldown check spin error: {ex}")
+
+        if latest_dt is None:
             return False, 0, 0
 
-        if used_dt.tzinfo is None:
-            used_dt = used_dt.replace(tzinfo=datetime.timezone.utc)
-
-        diff_seconds = (now - used_dt).total_seconds()
-        cooldown_seconds = 2 * 3600  # 2 soat
+        diff_seconds = (now - latest_dt).total_seconds()
+        cooldown_seconds = 24 * 3600  # Qat'iy 24 soat
 
         if diff_seconds < cooldown_seconds:
             remaining = int(cooldown_seconds - diff_seconds)

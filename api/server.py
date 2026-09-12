@@ -1624,23 +1624,31 @@ async def api_spin_status(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": "Unauthorized"}, status=401)
   user_id = int(user_id)
 
-  from services.database import get_last_lucky_spin, get_user_bonus_info
+  from services.database import get_last_lucky_spin, get_user_bonus_info, check_user_promocode_cooldown
 
   bonus_info = await get_user_bonus_info(user_id)
   spins_left = bonus_info.get("spins_left", 0) if bonus_info else 0
   forced_prize = bonus_info.get("forced_prize", "bear") if bonus_info else "bear"
   last_spin = await get_last_lucky_spin(user_id)
 
+  in_cooldown, rem_hrs, rem_mins = await check_user_promocode_cooldown(user_id)
+
   vip_keys = ["aprel_bear", "easter_bear", "newyear_bear", "builder_bear", "football_bear", "soldier_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart", "rare", "vipgift"]
   is_vip_spin = forced_prize.lower().strip() in vip_keys
 
+  rem_secs = (rem_hrs * 3600 + rem_mins * 60) if in_cooldown else 0
+
   return web.json_response({
     "ok": True,
-    "can_spin": spins_left > 0,
-    "bonus_spins": spins_left,
+    "can_spin": spins_left > 0 and not in_cooldown,
+    "bonus_spins": 0 if in_cooldown else spins_left,
     "forced_prize": forced_prize,
     "spin_type": "vip" if is_vip_spin else "classic",
-    "last_prize": last_spin.get("prize_title") if last_spin else None
+    "last_prize": last_spin.get("prize_title") if last_spin else None,
+    "in_cooldown": in_cooldown,
+    "cooldown_hours": rem_hrs,
+    "cooldown_minutes": rem_mins,
+    "cooldown_seconds": rem_secs
   })
 
 
@@ -1657,13 +1665,13 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
 
     from services.database import get_promocode, use_promocode, get_user, check_user_promocode_cooldown
 
-    # 1. 2 soatlik cheklov (G'olib bo'lgan odam 2 soat ichida yana kod ishlata olmaydi)
+    # 1. Qat'iy 24 soatlik cheklov (Oldin aylantirganlar yoki kod ishlatganlar 24 soat ichida qayta ishlata olmaydi)
     in_cooldown, rem_hrs, rem_mins = await check_user_promocode_cooldown(user_id)
     if in_cooldown:
       time_msg = f"{rem_hrs} soat {rem_mins} daqiqadan" if rem_hrs > 0 else f"{rem_mins} daqiqadan"
       return web.json_response({
         "ok": False,
-        "error": f"⏳ Siz so'nggi 2 soat ichida allaqachon promo-kod orqali g'olib bo'lgansiz! Yangi promo-kodni {time_msg} so'ng ishlatishingiz mumkin."
+        "error": f"⏳ Siz so'nggi 24 soat ichida allaqachon promo-kod yoki g'ildirakdan foydalangansiz! Yangi promo-kodni {time_msg} so'ng ishlatishingiz mumkin."
       }, status=400)
 
     # 2. Promo-kod mavjudligi va bir martalik ekanligini tekshirish
@@ -1684,10 +1692,9 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
 
     success = await use_promocode(code, user_id, uname, fname)
     if not success:
-      # Agar boshqa foydalanuvchi ayni paytda faollashtirib qo'ygan bo'lsa
       return web.json_response({
         "ok": False,
-        "error": "❌ Ushbu promo-kod allaqachon ishlatildi!"
+        "error": "❌ Ushbu promo-kod allaqachon ishlatildi yoki 24 soatlik limit faol!"
       }, status=400)
 
     ptype = promo.get("prize_type", "bear")
@@ -1712,12 +1719,42 @@ async def api_spin_play(request: web.Request) -> web.Response:
   except web.HTTPException as ex:
     return ex
 
-  from services.database import db_conn, get_last_lucky_spin, record_lucky_spin, add_balance, get_user, consume_user_bonus_spin, add_user_bonus_spins
+  from services.database import db_conn, get_last_lucky_spin, record_lucky_spin, add_balance, get_user, consume_user_bonus_spin, add_user_bonus_spins, check_user_promocode_cooldown
+
+  # Oxirgi spin 24 soatlik limitini tekshirish
+  last_spin = await get_last_lucky_spin(user_id)
+  if last_spin and last_spin.get("created_at"):
+    import datetime
+    now = datetime.datetime.now(datetime.timezone.utc)
+    s_at = last_spin["created_at"]
+    if isinstance(s_at, str):
+      try:
+        s_dt = datetime.datetime.fromisoformat(s_at.replace("Z", "+00:00"))
+      except Exception:
+        s_dt = datetime.datetime.strptime(s_at[:19], "%Y-%m-%d %H:%M:%S").replace(tzinfo=datetime.timezone.utc)
+    elif isinstance(s_at, datetime.datetime):
+      s_dt = s_at
+    else:
+      s_dt = None
+
+    if s_dt:
+      if s_dt.tzinfo is None:
+        s_dt = s_dt.replace(tzinfo=datetime.timezone.utc)
+      diff = (now - s_dt).total_seconds()
+      if diff < 24 * 3600:
+        rem = int(24 * 3600 - diff)
+        hrs = max(0, rem // 3600)
+        mins = max(0, (rem % 3600) // 60)
+        time_msg = f"{hrs} soat {mins} daqiqadan" if hrs > 0 else f"{mins} daqiqadan"
+        return web.json_response({
+          "ok": False,
+          "error": f"⏳ Siz so'nggi 24 soat ichida g'ildirakni aylantirgansiz! Keyingi imkoniyat {time_msg} so'ng ochiladi."
+        }, status=400)
 
   used_bonus = await consume_user_bonus_spin(user_id)
 
   if not used_bonus:
-    return web.json_response({"ok": False, "error": "Omad g'ildiragini aylantirish uchun avval Promo Kod kiriting!"}, status=403)
+    return web.json_response({"ok": False, "error": "Omad g'ildiragini aylantirish uchun yangi Promo Kod kiriting!"}, status=403)
 
   is_vip_mode = body.get("mode") == "vip"
   forced_key = body.get("forced_key") or (used_bonus.get("forced_prize") if isinstance(used_bonus, dict) else None)

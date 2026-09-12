@@ -1634,6 +1634,62 @@
             return VIP_KEYS.includes(String(key).toLowerCase().trim());
         }
 
+        let countdownTimerInterval = null;
+        let cooldownSecondsRemaining = 0;
+        let isCooldownActive = false;
+
+        function startCooldownTimer(seconds) {
+            cooldownSecondsRemaining = Math.max(0, Math.floor(seconds));
+            isCooldownActive = cooldownSecondsRemaining > 0;
+            
+            const card = document.getElementById('countdownCard');
+            if (!isCooldownActive) {
+                if (card) card.style.display = 'none';
+                if (countdownTimerInterval) {
+                    clearInterval(countdownTimerInterval);
+                    countdownTimerInterval = null;
+                }
+                return;
+            }
+
+            if (card) card.style.display = 'flex';
+
+            function updateDigits() {
+                if (cooldownSecondsRemaining <= 0) {
+                    isCooldownActive = false;
+                    if (card) card.style.display = 'none';
+                    if (countdownTimerInterval) {
+                        clearInterval(countdownTimerInterval);
+                        countdownTimerInterval = null;
+                    }
+                    checkSpinStatus();
+                    return;
+                }
+                const hrs = Math.floor(cooldownSecondsRemaining / 3600);
+                const mins = Math.floor((cooldownSecondsRemaining % 3600) / 60);
+                const secs = cooldownSecondsRemaining % 60;
+
+                const hEl = document.getElementById('cdHours');
+                const mEl = document.getElementById('cdMins');
+                const sEl = document.getElementById('cdSecs');
+                if (hEl) hEl.textContent = String(hrs).padStart(2, '0');
+                if (mEl) mEl.textContent = String(mins).padStart(2, '0');
+                if (sEl) sEl.textContent = String(secs).padStart(2, '0');
+
+                const btn = document.getElementById('spinBtn');
+                if (btn && isCooldownActive) {
+                    btn.disabled = true;
+                    btn.innerHTML = `<span>⏳ 24 soatlik limit (${hrs}s ${mins}d qoldi)</span>`;
+                }
+
+                cooldownSecondsRemaining--;
+            }
+
+            updateDigits();
+            if (countdownTimerInterval) clearInterval(countdownTimerInterval);
+            countdownTimerInterval = setInterval(updateDigits, 1000);
+        }
+
         function updateSpinUIState() {
             const iconEl = document.getElementById('statusIcon');
             const titleEl = document.getElementById('statusTitle');
@@ -1641,6 +1697,22 @@
             const badgeEl = document.getElementById('statusBadge');
             const btn = document.getElementById('spinBtn');
             if (!btn) return;
+
+            if (isCooldownActive) {
+                canSpin = false;
+                const hrs = Math.floor(cooldownSecondsRemaining / 3600);
+                const mins = Math.floor((cooldownSecondsRemaining % 3600) / 60);
+                if (iconEl) iconEl.textContent = '⏳';
+                if (titleEl) titleEl.textContent = '24 Soatlik Tanaffus ⏳';
+                if (descEl) descEl.textContent = `Siz so'nggi 24 soat ichida g'ildirakdan foydalangansiz. Keyingi urinish ${hrs} soat ${mins} daqiqadan so'ng ochiladi.`;
+                if (badgeEl) {
+                    badgeEl.className = 'top-status-badge badge-locked';
+                    badgeEl.textContent = '24h Limit ⏳';
+                }
+                btn.disabled = true;
+                btn.innerHTML = `<span>⏳ 24 soatlik limit (${hrs}s ${mins}d qoldi)</span>`;
+                return;
+            }
 
             const localBonuses = getLocalBonusSpins();
             const forcedKey = nextForcedPrizeKey || localStorage.getItem('coinstat_forced_prize');
@@ -1729,12 +1801,6 @@
         async function checkSpinStatus() {
             const apiBase = getApiBase();
             const userId = getUserId();
-            const localBonuses = getLocalBonusSpins();
-
-            if (localBonuses > 0) {
-                updateSpinUIState();
-                return;
-            }
 
             try {
                 const res = await fetch((apiBase ? apiBase : '') + '/api/spin/status', {
@@ -1750,6 +1816,18 @@
                 }
 
                 if (data && data.ok) {
+                    if (data.in_cooldown) {
+                        setLocalBonusSpins(0);
+                        const totalSecs = (typeof data.cooldown_seconds === 'number' && data.cooldown_seconds > 0)
+                            ? data.cooldown_seconds
+                            : (((data.cooldown_hours || 0) * 3600) + ((data.cooldown_minutes || 0) * 60));
+                        startCooldownTimer(totalSecs);
+                        updateSpinUIState();
+                        return;
+                    }
+
+                    // Not in cooldown
+                    startCooldownTimer(0);
                     if (data.can_spin && data.bonus_spins > 0) {
                         setLocalBonusSpins(data.bonus_spins);
                         if (data.forced_prize) {
@@ -1867,6 +1945,9 @@
                 msgEl.textContent = serverError;
                 msgEl.style.display = 'block';
                 if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                if (serverError.includes('24 soat') || serverError.includes('limit')) {
+                    checkSpinStatus();
+                }
                 return;
             }
 
@@ -1994,6 +2075,12 @@
         async function playSpin() {
             if (isSpinning) return;
 
+            if (isCooldownActive) {
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                alert("⏳ Siz so'nggi 24 soat ichida allaqachon g'ildirakdan foydalangansiz! Keyingi imkoniyat 24 soatdan so'ng ochiladi.");
+                return;
+            }
+
             const apiBase = getApiBase();
             const userId = getUserId();
             const btn = document.getElementById('spinBtn');
@@ -2016,16 +2103,14 @@
                 return;
             }
 
-            if (!canSpin && currentBonuses <= 0) return;
+            if (!canSpin && currentBonuses <= 0) {
+                alert("G'ildirakni aylantirish uchun avval Promo Kod kiriting!");
+                return;
+            }
 
             isSpinning = true;
             btn.disabled = true;
-            btn.innerHTML = '<span>⏳ G\'ildirak aylanmoqda...</span>';
-
-            // Consume local bonus spin if available
-            if (currentBonuses > 0) {
-                setLocalBonusSpins(currentBonuses - 1);
-            }
+            btn.innerHTML = '<span>⏳ Tekshirilmoqda...</span>';
 
             let prize = null;
 
@@ -2043,12 +2128,30 @@
                     data = null;
                 }
 
+                if (!res.ok || (data && !data.ok)) {
+                    isSpinning = false;
+                    const errMsg = (data && data.error) ? data.error : "G'ildirakni aylantirib bo'lmadi yoki 24 soatlik limit faol!";
+                    if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                    alert(errMsg);
+                    checkSpinStatus();
+                    return;
+                }
+
                 if (data && data.ok && data.prize) {
                     prize = data.prize;
                 }
             } catch (err) {
-                // Fallback spin calculation
+                isSpinning = false;
+                alert("Server bilan aloqa uzildi. Iltimos, keyinroq qayta urinib ko'ring!");
+                checkSpinStatus();
+                return;
             }
+
+            // Consume local bonus spin if available
+            if (currentBonuses > 0) {
+                setLocalBonusSpins(currentBonuses - 1);
+            }
+            btn.innerHTML = '<span>⏳ G\'ildirak aylanmoqda...</span>';
 
             if (forcedKey) {
                 let lookupKey = forcedKey;

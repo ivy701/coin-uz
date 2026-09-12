@@ -24,8 +24,10 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #0a0a0f;
-            background-image: radial-gradient(circle at 50% 0%, #151624 0%, #0a0a0f 65%);
+            background-color: #08090e;
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(59, 130, 246, 0.22) 0%, rgba(15, 17, 30, 0.8) 45%, #08090e 85%),
+                radial-gradient(circle at 100% 40%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
             color: #ffffff;
             overflow-x: hidden;
             box-sizing: border-box;
@@ -34,7 +36,7 @@
         }
 
         body {
-            padding: 4px 10px 92px 10px;
+            padding: 6px 12px 96px 12px;
             min-height: 100vh;
         }
 
@@ -44,13 +46,12 @@
             height: 0;
         }
 
-        /* Top Header Bar (Zero scroll repaint with translateZ) */
+        /* Top Header Bar */
         .top-user-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: 0;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             padding: 2px 2px;
             width: 100%;
             box-sizing: border-box;
@@ -67,13 +68,14 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: #1c1c24;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, #1e2238 0%, #111322 100%);
+            border: 1.5px solid rgba(99, 102, 241, 0.35);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
         }
 
         .user-avatar-circle img {
@@ -86,7 +88,7 @@
         .user-names-col {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 3px;
         }
 
         .user-display-name {
@@ -94,75 +96,79 @@
             font-weight: 800;
             color: #ffffff;
             letter-spacing: -0.2px;
+            line-height: 1.15;
         }
 
         .user-handle-name {
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 600;
-            color: #82879a;
+            color: #8b92aa;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
             cursor: pointer;
             transition: opacity 120ms ease;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 2px 8px 2px 4px;
+            border-radius: 8px;
+            width: fit-content;
         }
 
         .user-handle-name:active {
             opacity: 0.7;
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .lang-badge-pill {
-            background: #1c1c24;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #94a3b8;
             font-size: 12px;
             font-weight: 700;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 999px;
             cursor: pointer;
             text-transform: uppercase;
             transition: transform 120ms ease, background-color 120ms ease;
             user-select: none;
+            backdrop-filter: blur(8px);
         }
 
         .lang-badge-pill:active {
             transform: scale(0.94);
-            background: #272733;
+            background: rgba(255, 255, 255, 0.12);
         }
 
-        /* Sleek Modern Fintech Balance Card with Geometric Lines */
+        /* Luxury Fintech Balance Card */
         .hero-balance-card {
-            background: linear-gradient(145deg, #161724 0%, #0f1018 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 22px;
+            background: linear-gradient(135deg, #15182d 0%, #101222 55%, #0a0c16 100%);
+            border: 1px solid rgba(99, 102, 241, 0.22);
+            border-radius: 24px;
             padding: 20px 18px 18px 18px;
             margin-bottom: 12px;
             position: relative;
             overflow: hidden;
             box-shadow: 
-                0 12px 30px -8px rgba(0, 0, 0, 0.55),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                0 16px 36px -10px rgba(0, 0, 0, 0.65),
+                0 0 0 1px rgba(255, 255, 255, 0.06),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
             display: flex;
             flex-direction: column;
             gap: 14px;
             transform: translateZ(0);
         }
 
-        /* Abstract Concentric Radar Lines Pattern */
-        .card-radar-lines {
+        /* Subtle glowing corner highlight */
+        .hero-balance-card::before {
+            content: '';
             position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 240px;
-            height: 240px;
+            top: -60px;
+            right: -60px;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 70%);
+            border-radius: 50%;
             pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .card-radar-lines svg {
-            width: 100%;
-            height: 100%;
         }
 
         .hero-card-header {
@@ -176,72 +182,86 @@
         .hero-card-title-wrap {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .hero-card-top-label {
             font-size: 11.5px;
             font-weight: 800;
-            color: #82879a;
+            color: #8b92aa;
             letter-spacing: 0.8px;
             text-transform: uppercase;
         }
 
         .balance-eye-btn {
-            background: transparent;
-            border: none;
-            color: #82879a;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            color: #94a3b8;
             cursor: pointer;
-            padding: 2px 4px;
+            padding: 4px 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: color 120ms ease;
+            transition: all 120ms ease;
         }
 
         .balance-eye-btn:hover, .balance-eye-btn:active {
             color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .hero-header-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .card-glowing-dot {
-            width: 6px;
-            height: 6px;
-            background-color: #ffffff;
+            width: 7px;
+            height: 7px;
+            background-color: #22c55e;
             border-radius: 50%;
-            box-shadow: 0 0 10px #ffffff, 0 0 4px #38bdf8;
+            box-shadow: 0 0 10px #22c55e, 0 0 4px #22c55e;
             display: inline-block;
+            animation: pulse-dot 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
         }
 
         .hero-card-tag-pill {
             font-size: 11px;
             font-weight: 800;
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.22);
-            padding: 4px 10px;
+            color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            padding: 3px 9px;
             border-radius: 999px;
             letter-spacing: 0.3px;
         }
 
         .hero-card-middle {
             display: flex;
-            align-items: baseline;
+            flex-direction: column;
             gap: 6px;
             position: relative;
             z-index: 2;
         }
 
+        .balance-num-container {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
         .hero-card-balance-num {
-            font-size: 34px;
+            font-size: 36px;
             font-weight: 900;
             color: #ffffff;
-            letter-spacing: -0.6px;
+            letter-spacing: -0.8px;
             line-height: 1;
             display: inline-block;
         }
@@ -249,7 +269,33 @@
         .hero-card-unit {
             font-size: 16px;
             font-weight: 800;
-            color: #82879a;
+            color: #8b92aa;
+        }
+
+        .stars-conversion-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .stars-preview-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            border-radius: 10px;
+            padding: 4px 10px;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #fbbf24;
+            cursor: pointer;
+            transition: transform 120ms ease, background 120ms ease;
+            user-select: none;
+        }
+
+        .stars-preview-chip:active {
+            transform: scale(0.96);
+            background: rgba(251, 191, 36, 0.18);
         }
 
         .hero-card-actions {
@@ -258,58 +304,59 @@
             gap: 10px;
             position: relative;
             z-index: 2;
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
-        .stars-equiv-badge-btn {
+        .hero-btn-primary {
+            flex: 1.2;
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 13px 14px;
+            font-size: 13.5px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 120ms ease, box-shadow 120ms ease;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.38);
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .hero-btn-primary:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .hero-btn-secondary {
             flex: 1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 13px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #e2e8f0;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            background: #1c1d28;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 12px 10px;
-            font-size: 13px;
-            font-weight: 800;
-            color: #fbbf24;
             cursor: pointer;
             transition: transform 120ms ease, background-color 120ms ease;
             user-select: none;
             white-space: nowrap;
         }
 
-        .stars-equiv-badge-btn:active {
-            transform: scale(0.96);
-            background: #252736;
+        .hero-btn-secondary:active {
+            transform: scale(0.97);
+            background: rgba(255, 255, 255, 0.12);
         }
 
-        .hero-btn-primary {
-            flex: 1.1;
-            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-            color: #ffffff;
-            border: none;
-            border-radius: 14px;
-            padding: 12px 14px;
-            font-size: 13.5px;
-            font-weight: 800;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: transform 120ms ease;
-            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
-            user-select: none;
-            white-space: nowrap;
-        }
-
-        .hero-btn-primary:active {
-            transform: scale(0.96);
-        }
-
-        /* 3-Column Stats Grid */
+        /* Streamlined 3-Column Stats Grid */
         .stats-tri-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -318,7 +365,7 @@
         }
 
         .stat-card-box {
-            background: #1c1c24;
+            background: linear-gradient(145deg, #141624 0%, #10111d 100%);
             border: 1px solid rgba(255, 255, 255, 0.07);
             border-radius: 16px;
             padding: 12px 6px;
@@ -328,52 +375,114 @@
             align-items: center;
             justify-content: center;
             gap: 3px;
-            transition: transform 120ms ease, background-color 120ms ease;
+            transition: transform 120ms ease, border-color 120ms ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .stat-card-box:active {
             transform: scale(0.96);
-            background: #232430;
+            border-color: rgba(99, 102, 241, 0.3);
         }
 
         .stat-label-text {
             font-size: 11px;
             font-weight: 600;
-            color: #82879a;
+            color: #8b92aa;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .stat-value-text {
             font-size: 16px;
             font-weight: 800;
             color: #ffffff;
+            line-height: 1.2;
         }
 
         .stat-unit-text {
             font-size: 10px;
             font-weight: 700;
-            color: #82879a;
+            color: #8b92aa;
         }
 
         /* VIP Lucky Spin Banner */
         .vip-spin-banner {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(28, 28, 36, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.22) 0%, rgba(30, 27, 75, 0.65) 50%, rgba(14, 16, 28, 0.95) 100%);
             border: 1px solid rgba(168, 85, 247, 0.35);
-            border-radius: 18px;
-            padding: 13px 15px;
+            border-radius: 20px;
+            padding: 13px 16px;
             margin-bottom: 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            transition: transform 120ms ease, background-color 120ms ease;
+            transition: transform 120ms ease, border-color 120ms ease;
             user-select: none;
+            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.18);
+            position: relative;
+            overflow: hidden;
         }
 
         .vip-spin-banner:active {
-            transform: scale(0.97);
+            transform: scale(0.98);
+            border-color: rgba(168, 85, 247, 0.6);
         }
 
-        /* 4 Services Grid (2x2) */
+        .spin-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .spin-icon-bubble {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.35) 0%, rgba(99, 102, 241, 0.25) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(168, 85, 247, 0.3);
+        }
+
+        .spin-icon-bubble img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(168, 85, 247, 0.5));
+        }
+
+        .spin-banner-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .spin-promo-badge {
+            font-size: 9.5px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 999px;
+            letter-spacing: 0.4px;
+        }
+
+        .spin-banner-sub {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: #a5b4fc;
+            margin-top: 2px;
+            line-height: 1.25;
+        }
+
+        /* 4 Services Quad Grid (2x2) */
         .services-quad-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -382,56 +491,143 @@
         }
 
         .service-quad-card {
-            background: #1c1c24;
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            background: linear-gradient(145deg, #141624 0%, #0f101c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
-            padding: 14px 12px;
+            padding: 16px 14px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 8px;
+            align-items: flex-start;
+            gap: 10px;
             cursor: pointer;
-            transition: transform 120ms ease, background-color 120ms ease, border-color 120ms ease;
+            transition: transform 120ms ease, border-color 120ms ease, background-color 120ms ease;
             user-select: none;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            position: relative;
+            overflow: hidden;
         }
 
         .service-quad-card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            background: #232430;
+            border-color: rgba(255, 255, 255, 0.18);
         }
 
         .service-quad-card:active {
             transform: scale(0.96);
         }
 
-        .service-icon-wrap {
-            width: 40px;
-            height: 40px;
+        .service-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .service-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
-        .service-icon-wrap img {
+        .service-icon-box img {
             width: 32px;
             height: 32px;
             object-fit: contain;
         }
 
+        .service-badge-pill {
+            font-size: 10.5px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 999px;
+            letter-spacing: 0.2px;
+        }
+
         .service-card-title {
-            font-size: 13.5px;
+            font-size: 14.5px;
             font-weight: 800;
             color: #ffffff;
+            line-height: 1.15;
+        }
+
+        .service-card-desc {
+            font-size: 11px;
+            font-weight: 600;
+            color: #8b92aa;
+            margin-top: -4px;
+        }
+
+        /* Specific accents for cards */
+        .card-stars {
+            border-color: rgba(245, 158, 11, 0.18);
+        }
+        .card-stars:active {
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+        .card-stars .service-icon-box {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+        .card-stars .service-badge-pill {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+        }
+
+        .card-premium {
+            border-color: rgba(56, 189, 248, 0.18);
+        }
+        .card-premium:active {
+            border-color: rgba(56, 189, 248, 0.5);
+        }
+        .card-premium .service-icon-box {
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+        .card-premium .service-badge-pill {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+        }
+
+        .card-gift {
+            border-color: rgba(244, 63, 94, 0.18);
+        }
+        .card-gift:active {
+            border-color: rgba(244, 63, 94, 0.5);
+        }
+        .card-gift .service-icon-box {
+            background: rgba(244, 63, 94, 0.12);
+            border: 1px solid rgba(244, 63, 94, 0.25);
+        }
+        .card-gift .service-badge-pill {
+            background: rgba(244, 63, 94, 0.15);
+            color: #fb7185;
+        }
+
+        .card-phone {
+            border-color: rgba(168, 85, 247, 0.18);
+        }
+        .card-phone:active {
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+        .card-phone .service-icon-box {
+            background: rgba(168, 85, 247, 0.12);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+        }
+        .card-phone .service-badge-pill {
+            background: rgba(168, 85, 247, 0.15);
+            color: #c084fc;
         }
 
         /* Responsive */
         @media screen and (max-height: 750px) {
             body {
-                padding: 8px 8px 90px 8px;
+                padding: 6px 10px 90px 10px;
             }
             .hero-card-balance-num {
-                font-size: 28px;
+                font-size: 30px;
             }
         }
     </style>
@@ -447,10 +643,10 @@
                 <img src="./images/logo.webp?v=3" id="avatarImg" alt="CoinStat">
             </div>
             <div class="user-names-col">
-                <div class="user-display-name" id="profileName">username</div>
-                <div class="user-handle-name" onclick="copyUserId()">
+                <div class="user-display-name" id="profileName">CoinStat User</div>
+                <div class="user-handle-name" onclick="copyUserId()" title="ID nusxalash">
                     <span id="profileUserId">@coinuser</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                     </svg>
@@ -460,25 +656,14 @@
         <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
     </div>
 
-    <!-- Sleek Modern Fintech Balance Card with Geometric Lines -->
+    <!-- Luxury Fintech Balance Card -->
     <div class="hero-balance-card">
-        <!-- Abstract Concentric Radar Lines Pattern -->
-        <div class="card-radar-lines" aria-hidden="true">
-            <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="200" cy="40" r="45" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" />
-                <circle cx="200" cy="40" r="85" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
-                <circle cx="200" cy="40" r="125" stroke="rgba(255,255,255,0.04)" stroke-width="1.5" />
-                <circle cx="200" cy="40" r="165" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
-                <circle cx="200" cy="40" r="205" stroke="rgba(255,255,255,0.02)" stroke-width="1.5" />
-            </svg>
-        </div>
-
-        <!-- Top Row: BALANS + Eye & Tag with Glowing Dot -->
+        <!-- Top Row: ASOSIY BALANS + Eye & Active Status -->
         <div class="hero-card-header">
             <div class="hero-card-title-wrap">
                 <span class="hero-card-top-label" data-i18n="home.balance_title">ASOSIY BALANS</span>
                 <button type="button" class="balance-eye-btn" onclick="toggleBalanceVisibility()" id="balanceEyeBtn" title="Balansni yashirish / ko'rsatish">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="eyeIconSvg">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="eyeIconSvg">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
                     </svg>
@@ -486,115 +671,156 @@
             </div>
             <div class="hero-header-right">
                 <span class="card-glowing-dot"></span>
-                <div class="hero-card-tag-pill">UZS & Stars</div>
+                <div class="hero-card-tag-pill">Faol hisob</div>
             </div>
         </div>
 
         <!-- Middle Balance Display -->
         <div class="hero-card-middle">
-            <span class="hero-card-balance-num" id="balance">0</span>
-            <span class="hero-card-unit" data-i18n="common.unit_som">so'm</span>
+            <div class="balance-num-container">
+                <span class="hero-card-balance-num" id="balance">0</span>
+                <span class="hero-card-unit" data-i18n="common.unit_som">so'm</span>
+            </div>
+            <div class="stars-conversion-row">
+                <div class="stars-preview-chip" onclick="window.location.href='stars.html'">
+                    <img src="images/star.webp?v=3" alt="Star" width="15" height="15" style="object-fit: contain;">
+                    <span>≈ <span id="approxStars">0</span> Stars</span>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+            </div>
         </div>
 
-        <!-- Bottom Action Row: Stars Equivalent Pill + To'ldirish CTA -->
+        <!-- Bottom Action Row: To'ldirish CTA + Buyurtmalar Tarixi -->
         <div class="hero-card-actions">
-            <button type="button" class="stars-equiv-badge-btn" onclick="window.location.href='stars.html'">
-                <img src="images/star.webp?v=3" alt="Star" style="width: 15px; height: 15px; object-fit: contain;">
-                <span>≈ <span id="approxStars">0</span> Stars</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </button>
             <button type="button" class="hero-btn-primary" onclick="window.location.href='topup.html'">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
-                <span data-i18n="home.topup">To'ldirish</span>
+                <span data-i18n="home.topup">Hisobni to'ldirish</span>
+            </button>
+            <button type="button" class="hero-btn-secondary" onclick="window.location.href='orders.html'">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span data-i18n="home.orders">Buyurtmalar</span>
             </button>
         </div>
     </div>
 
-    <!-- 3-Column Stats Grid -->
+    <!-- Modern 3-Column Stats Grid (Zero duplicate balance) -->
     <div class="stats-tri-grid">
         <div class="stat-card-box" onclick="window.location.href='orders.html'" style="cursor: pointer;">
-            <div class="stat-label-text" data-i18n="home.orders">Buyurtmalar</div>
-            <div class="stat-value-text" id="ordersCount">0</div>
+            <div class="stat-label-text" data-i18n="home.orders">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                Xaridlar
+            </div>
+            <div class="stat-value-text"><span id="ordersCount">0</span> ta</div>
         </div>
         <div class="stat-card-box">
-            <div class="stat-label-text" data-i18n="home.spent">Sarflangan</div>
-            <div class="stat-value-text" id="totalSpent">0</div>
-            <div class="stat-unit-text">UZS</div>
+            <div class="stat-label-text" data-i18n="home.spent">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                Sarflangan
+            </div>
+            <div class="stat-value-text"><span id="totalSpent">0</span> <span class="stat-unit-text">UZS</span></div>
         </div>
         <div class="stat-card-box">
-            <div class="stat-label-text" data-i18n="home.balance_stat">Balans</div>
-            <div class="stat-value-text" id="userBalanceStat">0</div>
-            <div class="stat-unit-text">UZS</div>
+            <div class="stat-label-text">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                Keshbek
+            </div>
+            <div class="stat-value-text" style="color: #38bdf8;">3% <span id="userBalanceStat" style="display: none;">0</span></div>
         </div>
     </div>
 
-    <!-- Lucky Spin Banner -->
+    <!-- VIP Lucky Spin Feature Banner -->
     <div class="vip-spin-banner" onclick="window.location.href='spin.html'">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(99, 102, 241, 0.2) 100%); border: 1px solid rgba(168, 85, 247, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);">
-                <img src="./images/spin_banner.webp?v=3" alt="Lucky Spin" style="width: 36px; height: 36px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(168, 85, 247, 0.5));">
+        <div class="spin-banner-left">
+            <div class="spin-icon-bubble">
+                <img src="./images/spin_banner.webp?v=3" alt="Lucky Spin">
             </div>
             <div>
-                <div style="font-size: 14.5px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 6px;">
-                    <span data-i18n="home.lucky_spin">Lucky Spin</span> <span style="font-size: 10px; font-weight: 800; background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff; padding: 2px 7px; border-radius: 999px;" data-i18n="home.promo_code">PROMO KOD</span>
+                <div class="spin-banner-title">
+                    <span data-i18n="home.lucky_spin">Lucky Spin</span> 
+                    <span class="spin-promo-badge">1 TA BEPUL</span>
                 </div>
-                <div style="font-size: 11px; font-weight: 600; color: #94a3b8; margin-top: 2px;" data-i18n="home.spin_subtext">
-                    Promo-kod orqali bepul Telegram sovg'alarini yuting!
+                <div class="spin-banner-sub" data-i18n="home.spin_subtext">
+                    Promo-kod orqali bepul aylantiring va yutuqlarni oling!
                 </div>
             </div>
         </div>
-        <div style="color: #c084fc; display: flex; align-items: center; flex-shrink: 0;">
+        <div style="color: #c084fc; display: flex; align-items: center; flex-shrink: 0; padding-left: 8px;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
         </div>
     </div>
 
-    <!-- 4 Services Grid (2x2) -->
+    <!-- 4 Services Grid (2x2) with Distinct Accents -->
     <div class="services-quad-grid">
         <!-- Stars -->
-        <div class="service-quad-card" onclick="window.location.href='stars.html'">
-            <div class="service-icon-wrap">
-                <img src="./images/star.webp?v=3" alt="Stars">
+        <div class="service-quad-card card-stars" onclick="window.location.href='stars.html'">
+            <div class="service-top-row">
+                <div class="service-icon-box">
+                    <img src="./images/star.webp?v=3" alt="Stars">
+                </div>
+                <span class="service-badge-pill">-10% Chegirma</span>
             </div>
-            <div class="service-card-title" data-i18n="home.service_stars">Stars</div>
+            <div>
+                <div class="service-card-title" data-i18n="home.service_stars">Telegram Stars</div>
+                <div class="service-card-desc">Eng tezkor yetkazish</div>
+            </div>
         </div>
 
         <!-- Premium -->
-        <div class="service-quad-card" onclick="window.location.href='premium.html'">
-            <div class="service-icon-wrap">
-                <img src="./images/premium.webp?v=3" alt="Premium">
+        <div class="service-quad-card card-premium" onclick="window.location.href='premium.html'">
+            <div class="service-top-row">
+                <div class="service-icon-box">
+                    <img src="./images/premium.webp?v=3" alt="Premium">
+                </div>
+                <span class="service-badge-pill">3 / 6 / 12 oy</span>
             </div>
-            <div class="service-card-title" data-i18n="home.service_premium">Premium</div>
+            <div>
+                <div class="service-card-title" data-i18n="home.service_premium">Telegram Premium</div>
+                <div class="service-card-desc">Rasmiy obuna</div>
+            </div>
         </div>
 
         <!-- Sovg'alar -->
-        <div class="service-quad-card" onclick="window.location.href='gift.html'">
-            <div class="service-icon-wrap">
-                <img src="./images/gift.webp?v=3" alt="Sovg'alar">
+        <div class="service-quad-card card-gift" onclick="window.location.href='gift.html'">
+            <div class="service-top-row">
+                <div class="service-icon-box">
+                    <img src="./images/gift.webp?v=3" alt="Sovg'alar">
+                </div>
+                <span class="service-badge-pill">Jonli Gifts</span>
             </div>
-            <div class="service-card-title" data-i18n="home.service_gifts">Sovg'alar</div>
+            <div>
+                <div class="service-card-title" data-i18n="home.service_gifts">Telegram Gifts</div>
+                <div class="service-card-desc">Teddy, Rose & Box</div>
+            </div>
         </div>
 
         <!-- Virtual Nomer -->
-        <div class="service-quad-card" onclick="window.location.href='phone.html'">
-            <div class="service-icon-wrap">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                </svg>
+        <div class="service-quad-card card-phone" onclick="window.location.href='phone.html'">
+            <div class="service-top-row">
+                <div class="service-icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
+                <span class="service-badge-pill">SMS Tasdiq</span>
             </div>
-            <div class="service-card-title" data-i18n="home.service_phone">Virtual Nomer</div>
+            <div>
+                <div class="service-card-title" data-i18n="home.service_phone">Virtual Nomer</div>
+                <div class="service-card-desc">Telegram faollashtirish</div>
+            </div>
         </div>
     </div>
 
-    <!-- Floating Capsule Dock Navigation -->
-        <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
+    <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
     <div class="bottom-dock-nav">
         <a href="index.html" class="dock-tab-btn active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
