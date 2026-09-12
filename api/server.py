@@ -394,31 +394,33 @@ async def api_order_stars(request: web.Request) -> web.Response:
 
   # Check if Fragment API is available and try to fulfill automatically
   is_fragment_ready = bool(fragment.api_key and fragment.api_key.strip())
-  if is_fragment_ready:
-    try:
-      result = await fragment.buy_stars(username, quantity)
-      order_id = await create_order(
-        user_id, "stars", username, quantity, price, str(result.get("id", "")), "completed"
-      )
-      await deduct_balance(user_id, price)
-      from services.channel_notify import notify_stars
-      asyncio.ensure_future(notify_stars(username, quantity, price))
-      return web.json_response({"ok": True, "order_id": order_id, "result": result})
-    except Exception as e:
-      logger.warning(f"Automated Fragment buy_stars failed: {e}, placing order in pending queue...")
+  if not is_fragment_ready:
+    return web.json_response({
+      "ok": False,
+      "error": "Kechirasiz, Stars xarid qilish xizmati vaqtincha faol emas. Iltimos, adminga murojaat qiling."
+    }, status=503)
 
-  # Fallback to Pending queue (Deduct balance, record pending order, notify admin/channel)
-  await deduct_balance(user_id, price)
-  order_id = await create_order(
-    user_id, "stars", username, quantity, price, None, "pending"
-  )
-  from services.channel_notify import notify_stars
-  asyncio.ensure_future(notify_stars(username, quantity, price))
-  return web.json_response({
-    "ok": True,
-    "order_id": order_id,
-    "message": f"⭐️ {quantity} Stars buyurtmasi qabul qilindi! Tez orada hisobingizga tushiriladi."
-  })
+  try:
+    result = await fragment.buy_stars(username, quantity)
+    order_id = await create_order(
+      user_id, "stars", username, quantity, price, str(result.get("id", "")), "completed"
+    )
+    await deduct_balance(user_id, price)
+    from services.channel_notify import notify_stars
+    asyncio.ensure_future(notify_stars(username, quantity, price))
+    return web.json_response({"ok": True, "order_id": order_id, "result": result})
+  except Exception as e:
+    err_str = str(e).lower()
+    logger.error(f"Fragment buy_stars failed: {e}")
+    if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
+      return web.json_response({
+        "ok": False,
+        "error": "❌ Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
+      }, status=400)
+    return web.json_response({
+      "ok": False,
+      "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(e)}"
+    }, status=400)
 
 
 async def api_order_premium(request: web.Request) -> web.Response:
@@ -456,31 +458,33 @@ async def api_order_premium(request: web.Request) -> web.Response:
 
   # Check if Fragment API is available and try to fulfill automatically
   is_fragment_ready = bool(fragment.api_key and fragment.api_key.strip())
-  if is_fragment_ready:
-    try:
-      result = await fragment.buy_premium(username, months)
-      order_id = await create_order(
-        user_id, "premium", username, months, price, str(result.get("id", "")), "completed"
-      )
-      await deduct_balance(user_id, price)
-      from services.channel_notify import notify_premium
-      asyncio.ensure_future(notify_premium(username, months, price))
-      return web.json_response({"ok": True, "order_id": order_id, "result": result})
-    except Exception as e:
-      logger.warning(f"Automated Fragment buy_premium failed: {e}, placing order in pending queue...")
+  if not is_fragment_ready:
+    return web.json_response({
+      "ok": False,
+      "error": "Kechirasiz, Telegram Premium xizmati vaqtincha ishlamayapti. Iltimos, adminga murojaat qiling."
+    }, status=503)
 
-  # Fallback to Pending queue (Deduct balance, record pending order, notify admin/channel)
-  await deduct_balance(user_id, price)
-  order_id = await create_order(
-    user_id, "premium", username, months, price, None, "pending"
-  )
-  from services.channel_notify import notify_premium
-  asyncio.ensure_future(notify_premium(username, months, price))
-  return web.json_response({
-    "ok": True,
-    "order_id": order_id,
-    "message": f"⭐ {months} oylik Telegram Premium buyurtmasi qabul qilindi! Tez orada faollashtiriladi."
-  })
+  try:
+    result = await fragment.buy_premium(username, months)
+    order_id = await create_order(
+      user_id, "premium", username, months, price, str(result.get("id", "")), "completed"
+    )
+    await deduct_balance(user_id, price)
+    from services.channel_notify import notify_premium
+    asyncio.ensure_future(notify_premium(username, months, price))
+    return web.json_response({"ok": True, "order_id": order_id, "result": result})
+  except Exception as e:
+    err_str = str(e).lower()
+    logger.error(f"Fragment buy_premium failed: {e}")
+    if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
+      return web.json_response({
+        "ok": False,
+        "error": "❌ Kechirasiz, xizmat hisobida yetarli mablag' mavjud emasligi sababli Premium faollashtirilmadi. Balansingizdan pul yechilmadi."
+      }, status=400)
+    return web.json_response({
+      "ok": False,
+      "error": f"❌ Premium faollashtirishda xatolik: {str(e)}"
+    }, status=400)
 
 
 async def api_order_gift(request: web.Request) -> web.Response:

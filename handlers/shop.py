@@ -85,33 +85,26 @@ async def process_buy_stars(callback: CallbackQuery):
         user = await ensure_user(user_id, username, full_name)
     
     if user['balance'] >= price:
-        # Sufficient balance, process immediately
-        await db.update_balance(user_id, price, 'subtract')
-        
-        # Create order
-        order_id = str(uuid.uuid4())[:8]
-        username = callback.from_user.username or str(user_id)
-        await db.create_order(order_id, user_id, "stars", amount, price, target_username=username, status="processing")
-        await db.update_order(order_id, status="processing")
-        
         is_fragment_ready = bool(fragment_client.api_key and fragment_client.api_key.strip())
-        success = False
-        result = None
-        
-        if is_fragment_ready:
-            try:
-                result = await fragment_client.buy_stars(username, amount)
-                if result and (result.get("ok") or result.get("status") == "success" or result.get("id")):
-                    success = True
-            except Exception as e:
-                logger.warning(f"Automated Fragment buy_stars failed: {e}, falling back to pending queue...")
-        
-        if success:
-            await db.update_order(
-                order_id, 
-                status="completed",
-                completed_at=datetime.utcnow().isoformat()
+        if not is_fragment_ready:
+            await callback.message.answer(
+                "❌ Kechirasiz, Stars xarid qilish xizmati vaqtincha ishlamayapti. Iltimos, adminga murojaat qiling.",
+                reply_markup=keyboards.get_main_keyboard()
             )
+            return
+
+        username = callback.from_user.username or str(user_id)
+        
+        try:
+            result = await fragment_client.buy_stars(username, amount)
+            if not result or (isinstance(result, dict) and result.get("ok") is False):
+                raise Exception(result.get("message") if isinstance(result, dict) else "Xatolik")
+            
+            # Subtract balance only after successful API call
+            await db.update_balance(user_id, price, 'subtract')
+            order_id = str(uuid.uuid4())[:8]
+            await db.create_order(order_id, user_id, "stars", amount, price, target_username=username, status="completed")
+            
             from services.channel_notify import notify_stars
             try:
                 await notify_stars(username, amount, price)
@@ -127,22 +120,23 @@ async def process_buy_stars(callback: CallbackQuery):
                 parse_mode="HTML",
                 reply_markup=keyboards.get_main_keyboard()
             )
-        else:
-            # Fallback mode: Order is queued as pending
-            await db.update_order(order_id, status="pending")
-            from services.channel_notify import notify_stars
-            try:
-                await notify_stars(username, amount, price)
-            except Exception as e:
-                logger.warning(f"notify_stars error: {e}")
-            
-            user = await db.get_user(user_id)
-            await callback.message.answer(
-                f"✅ <b>Buyurtmangiz qabul qilindi!</b>\n\n"
-                f"⭐ <b>{amount} Stars</b> → @{username}\n"
-                f"🆔 Buyurtma ID: <code>{order_id}</code>\n"
-                f"⏳ Holat: <i>Kutilmoqda (Tez orada yetkaziladi)</i>\n"
-                f"💰 Yangi balans: {user['balance']:,.0f} so'm",
+        except Exception as e:
+            err_str = str(e).lower()
+            logger.error(f"Fragment buy_stars failed: {e}")
+            if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
+                await callback.message.answer(
+                    "❌ <b>Xatolik!</b>\n\n"
+                    "Kechirasiz, xizmat hisobida mablag' yetarli emasligi sababli buyurtma bajarilmadi.\n"
+                    "Balansingizdan pul yechilmadi.",
+                    parse_mode="HTML",
+                    reply_markup=keyboards.get_main_keyboard()
+                )
+            else:
+                await callback.message.answer(
+                    f"❌ <b>Xatolik yuz berdi:</b> {str(e)}\nBalansingizdan pul yechilmadi.",
+                    parse_mode="HTML",
+                    reply_markup=keyboards.get_main_keyboard()
+                )
                 parse_mode="HTML",
                 reply_markup=keyboards.get_main_keyboard()
             )
@@ -193,32 +187,25 @@ async def process_buy_premium(callback: CallbackQuery):
     
     if user['balance'] >= price:
         # Sufficient balance, process immediately
-        await db.update_balance(user_id, price, 'subtract')
-        
-        # Create order
-        order_id = str(uuid.uuid4())[:8]
-        username = callback.from_user.username or str(user_id)
-        await db.create_order(order_id, user_id, "premium", duration, price, target_username=username, status="processing")
-        await db.update_order(order_id, status="processing")
-        
         is_fragment_ready = bool(fragment_client.api_key and fragment_client.api_key.strip())
-        success = False
-        result = None
-        
-        if is_fragment_ready:
-            try:
-                result = await fragment_client.buy_premium(username, duration)
-                if result and (result.get("ok") or result.get("status") == "success" or result.get("id")):
-                    success = True
-            except Exception as e:
-                logger.warning(f"Automated Fragment buy_premium failed: {e}, falling back to pending queue...")
-        
-        if success:
-            await db.update_order(
-                order_id,
-                status="completed",
-                completed_at=datetime.utcnow().isoformat()
+        if not is_fragment_ready:
+            await callback.message.answer(
+                "❌ Kechirasiz, Telegram Premium xarid qilish xizmati vaqtincha ishlamayapti. Iltimos, adminga murojaat qiling.",
+                reply_markup=keyboards.get_main_keyboard()
             )
+            return
+
+        username = callback.from_user.username or str(user_id)
+        
+        try:
+            result = await fragment_client.buy_premium(username, duration)
+            if not result or (isinstance(result, dict) and result.get("ok") is False):
+                raise Exception(result.get("message") if isinstance(result, dict) else "Xatolik")
+
+            await db.update_balance(user_id, price, 'subtract')
+            order_id = str(uuid.uuid4())[:8]
+            await db.create_order(order_id, user_id, "premium", duration, price, target_username=username, status="completed")
+            
             from services.channel_notify import notify_premium
             try:
                 await notify_premium(username, duration, price)
@@ -234,25 +221,23 @@ async def process_buy_premium(callback: CallbackQuery):
                 parse_mode="HTML",
                 reply_markup=keyboards.get_main_keyboard()
             )
-        else:
-            # Fallback mode: Order is queued as pending
-            await db.update_order(order_id, status="pending")
-            from services.channel_notify import notify_premium
-            try:
-                await notify_premium(username, duration, price)
-            except Exception as e:
-                logger.warning(f"notify_premium error: {e}")
-            
-            user = await db.get_user(user_id)
-            await callback.message.answer(
-                f"✅ <b>Buyurtmangiz qabul qilindi!</b>\n\n"
-                f"💎 <b>Telegram Premium {duration} oy</b> → @{username}\n"
-                f"🆔 Buyurtma ID: <code>{order_id}</code>\n"
-                f"⏳ Holat: <i>Kutilmoqda (Tez orada faollashtiriladi)</i>\n"
-                f"💰 Yangi balans: {user['balance']:,.0f} so'm",
-                parse_mode="HTML",
-                reply_markup=keyboards.get_main_keyboard()
-            )
+        except Exception as e:
+            err_str = str(e).lower()
+            logger.error(f"Fragment buy_premium failed: {e}")
+            if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
+                await callback.message.answer(
+                    "❌ <b>Xatolik!</b>\n\n"
+                    "Kechirasiz, xizmat hisobida mablag' yetarli emasligi sababli Premium faollashtirilmadi.\n"
+                    "Balansingizdan pul yechilmadi.",
+                    parse_mode="HTML",
+                    reply_markup=keyboards.get_main_keyboard()
+                )
+            else:
+                await callback.message.answer(
+                    f"❌ <b>Xatolik yuz berdi:</b> {str(e)}\nBalansingizdan pul yechilmadi.",
+                    parse_mode="HTML",
+                    reply_markup=keyboards.get_main_keyboard()
+                )
     else:
         # Need to top up
         needed = price - user['balance']
