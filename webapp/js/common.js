@@ -225,18 +225,18 @@ function initInstantNavigation() {
         setTimeout(prefetchPages, 200);
     }
 
-    // Bulletproof click navigation for bottom dock navigation tabs
+    // Bulletproof click navigation for bottom dock navigation tabs and FAB
     document.addEventListener('click', function(e) {
-        const tabBtn = e.target.closest('.dock-tab-btn');
+        const tabBtn = e.target.closest('.dock-tab-btn, .dock-fab-btn');
         if (tabBtn) {
             const href = tabBtn.getAttribute('href');
             if (href && href !== '#' && !href.startsWith('javascript:')) {
                 const current = (window.location.pathname || '').split('/').pop() || 'index.html';
                 if (current !== href) {
                     e.preventDefault();
-                    document.querySelectorAll('.dock-tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.dock-tab-btn, .dock-fab-btn').forEach(b => b.classList.remove('active'));
                     tabBtn.classList.add('active');
-                    triggerHaptic('selection');
+                    triggerHaptic('medium');
                     window.location.href = href;
                 }
             }

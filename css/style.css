@@ -180,7 +180,7 @@ img, picture, video {
    Full-Width Fast Bottom Navigation Dock
    ========================================= */
 /* =========================================
-   Ultra Modern Floating Glassmorphism Bottom Navigation + FAB
+   Ultra Modern Floating Glassmorphism Bottom Navigation + Animated Icons
    ========================================= */
 .bottom-dock-nav {
     position: fixed;
@@ -189,7 +189,7 @@ img, picture, video {
     right: 14px;
     max-width: 440px;
     margin: 0 auto;
-    background: rgba(14, 16, 26, 0.82);
+    background: rgba(14, 16, 26, 0.85);
     backdrop-filter: blur(28px) saturate(190%);
     -webkit-backdrop-filter: blur(28px) saturate(190%);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -222,7 +222,7 @@ img, picture, video {
     background: transparent;
     border: none;
     outline: none;
-    transition: all 180ms cubic-bezier(0.34, 1.3, 0.64, 1);
+    transition: transform 200ms cubic-bezier(0.34, 1.4, 0.64, 1), color 200ms ease;
 }
 
 .dock-tab-btn * {
@@ -230,56 +230,110 @@ img, picture, video {
 }
 
 .dock-tab-btn svg {
-    width: 21px;
-    height: 21px;
+    width: 22px;
+    height: 22px;
     stroke: #7e849b;
-    transition: all 180ms cubic-bezier(0.34, 1.4, 0.64, 1);
+    transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1), stroke 200ms ease, filter 250ms ease;
 }
 
 .dock-tab-btn span {
     font-size: 10.5px;
     font-weight: 700;
-    letter-spacing: 0.1px;
+    letter-spacing: 0.15px;
     color: #7e849b;
-    transition: color 180ms ease;
+    transition: color 200ms ease, transform 200ms ease;
 }
 
-/* Active State with Neon Glow & Indicator */
+/* --- Active States & Dynamic Animations per Icon --- */
 .dock-tab-btn.active {
     color: #38bdf8;
 }
 
 .dock-tab-btn.active svg {
     stroke: #38bdf8;
-    transform: translateY(-2px) scale(1.1);
-    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+    transform: translateY(-3px) scale(1.15);
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.65));
 }
 
 .dock-tab-btn.active span {
-    color: #38bdf8;
+    color: #ffffff;
     font-weight: 800;
+    transform: translateY(-1px);
 }
 
-/* Neon Active Dot Indicator */
+/* 1. Home Active Pop Animation */
+.dock-tab-btn[href*="index.html"].active svg {
+    animation: tabHomeBounce 600ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes tabHomeBounce {
+    0% { transform: translateY(0) scale(1); }
+    35% { transform: translateY(-7px) scale(1.22); }
+    65% { transform: translateY(-2px) scale(1.12); }
+    100% { transform: translateY(-3px) scale(1.15); }
+}
+
+/* 2. Gift Active 3D Shimmer Animation */
+.dock-tab-btn[href*="gift.html"].active svg {
+    animation: tabGiftShimmer 750ms ease-in-out forwards;
+}
+
+@keyframes tabGiftShimmer {
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: translateY(-4px) scale(1.18) rotate(-10deg); }
+    50% { transform: translateY(-4px) scale(1.18) rotate(10deg); }
+    75% { transform: translateY(-3px) scale(1.14) rotate(-4deg); }
+    100% { transform: translateY(-3px) scale(1.15) rotate(0deg); }
+}
+
+/* 3. Top / Rating Active Trophy Shine Animation */
+.dock-tab-btn[href*="rating.html"].active svg {
+    animation: tabTrophyTilt 700ms cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+@keyframes tabTrophyTilt {
+    0% { transform: scale(1); }
+    30% { transform: translateY(-5px) scale(1.2) rotate(6deg); }
+    60% { transform: translateY(-3px) scale(1.12) rotate(-4deg); }
+    100% { transform: translateY(-3px) scale(1.15) rotate(0deg); }
+}
+
+/* 4. Profile Active Wave Animation */
+.dock-tab-btn[href*="profile.html"].active svg {
+    animation: tabProfileWave 650ms cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+@keyframes tabProfileWave {
+    0% { transform: scale(1); }
+    40% { transform: translateY(-5px) scale(1.18); }
+    70% { transform: translateY(-2px) scale(1.12); }
+    100% { transform: translateY(-3px) scale(1.15); }
+}
+
+/* Neon Active Indicator Glow Pill */
 .dock-tab-btn.active::after {
     content: '';
     position: absolute;
     bottom: 2px;
-    width: 14px;
+    width: 16px;
     height: 3px;
     border-radius: 99px;
     background: #38bdf8;
-    box-shadow: 0 0 8px #38bdf8, 0 0 14px rgba(56, 189, 248, 0.8);
-    animation: dockDotFadeIn 220ms ease forwards;
+    box-shadow: 0 0 10px #38bdf8, 0 0 16px rgba(56, 189, 248, 0.9);
+    animation: dockIndicatorSlide 280ms cubic-bezier(0.34, 1.5, 0.64, 1) forwards;
 }
 
-@keyframes dockDotFadeIn {
-    from { opacity: 0; transform: scaleX(0.4); }
-    to { opacity: 1; transform: scaleX(1); }
+@keyframes dockIndicatorSlide {
+    0% { opacity: 0; transform: scaleX(0.2) translateY(2px); }
+    100% { opacity: 1; transform: scaleX(1) translateY(0); }
 }
 
 .dock-tab-btn:active {
-    transform: scale(0.92);
+    transform: scale(0.90);
+}
+
+.dock-tab-btn:active svg {
+    transform: scale(0.95);
 }
 
 /* =========================================
@@ -291,58 +345,68 @@ img, picture, video {
     align-items: center;
     justify-content: center;
     position: relative;
-    margin-top: -24px;
+    margin-top: -26px;
     text-decoration: none !important;
     cursor: pointer;
     z-index: 10;
     padding: 0 4px;
+    transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .dock-fab-circle {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 45%, #f97316 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 22px rgba(245, 158, 11, 0.5), 0 0 14px rgba(251, 191, 36, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.55), 0 0 16px rgba(251, 191, 36, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.5);
     border: 3px solid #0e101a;
-    transition: transform 180ms cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 180ms ease;
+    transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 220ms ease;
+    animation: fabBreath 3s ease-in-out infinite alternate;
+}
+
+@keyframes fabBreath {
+    0% { box-shadow: 0 8px 24px rgba(245, 158, 11, 0.45), 0 0 14px rgba(251, 191, 36, 0.3); transform: scale(1); }
+    100% { box-shadow: 0 12px 28px rgba(245, 158, 11, 0.7), 0 0 22px rgba(251, 191, 36, 0.55); transform: scale(1.04); }
 }
 
 .dock-fab-circle img, .dock-fab-circle svg {
-    width: 25px;
-    height: 25px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    width: 26px;
+    height: 26px;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
+    transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .dock-fab-label {
     font-size: 10px;
     font-weight: 800;
     color: #fbbf24;
-    margin-top: 2px;
+    margin-top: 3px;
     letter-spacing: 0.2px;
-    text-shadow: 0 0 6px rgba(251, 191, 36, 0.5);
+    text-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+    transition: color 200ms ease;
 }
 
 .dock-fab-btn:active .dock-fab-circle {
-    transform: scale(0.92);
+    transform: scale(0.90);
     box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.dock-fab-btn:active .dock-fab-circle img {
+    transform: rotate(45deg) scale(0.9);
 }
 
 .dock-fab-btn.active .dock-fab-circle {
     border-color: #38bdf8;
-    box-shadow: 0 8px 26px rgba(245, 158, 11, 0.65), 0 0 20px rgba(56, 189, 248, 0.6);
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.75), 0 0 24px rgba(56, 189, 248, 0.7);
+    animation: fabActiveGlow 1.8s ease-in-out infinite alternate;
 }
 
-.dock-tab-btn.active span {
-    color: #ffffff;
-    font-weight: 800;
-}
-
-.dock-tab-btn:active {
-    transform: scale(0.92);
+@keyframes fabActiveGlow {
+    0% { box-shadow: 0 8px 24px rgba(245, 158, 11, 0.6), 0 0 16px rgba(56, 189, 248, 0.5); }
+    100% { box-shadow: 0 12px 32px rgba(245, 158, 11, 0.85), 0 0 26px rgba(56, 189, 248, 0.85); }
 }
 
 /* =========================================
