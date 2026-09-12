@@ -137,9 +137,6 @@ async def process_buy_stars(callback: CallbackQuery):
                     parse_mode="HTML",
                     reply_markup=keyboards.get_main_keyboard()
                 )
-                parse_mode="HTML",
-                reply_markup=keyboards.get_main_keyboard()
-            )
     else:
         # Need to top up
         needed = price - user['balance']
