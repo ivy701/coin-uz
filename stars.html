@@ -620,8 +620,10 @@
                     else alert(err);
                 }
             } catch (err) {
-                if (tg?.showAlert) tg.showAlert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
-                else alert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
+                console.error("Order stars error:", err);
+                const msg = err?.message || String(err);
+                if (tg?.showAlert) tg.showAlert("Aloqa xatosi: " + msg);
+                else alert("Aloqa xatosi: " + msg);
             } finally {
                 btn.disabled = false;
                 btn.textContent = oldText;

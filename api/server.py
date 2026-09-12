@@ -57,10 +57,14 @@ async def cors_middleware(request: web.Request, handler):
 
 
 def _set_cors(resp: web.Response, origin: str) -> None:
-    resp.headers["Access-Control-Allow-Origin"] = "*"
+    if origin:
+        resp.headers["Access-Control-Allow-Origin"] = origin
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+    else:
+        resp.headers["Access-Control-Allow-Origin"] = "*"
     resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, PUT, DELETE"
-    resp.headers["Access-Control-Allow-Headers"] = "*"
-    resp.headers["Access-Control-Allow-Credentials"] = "true"
+    resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Telegram-Init-Data, X-Requested-With, Accept, Origin"
+    resp.headers["Access-Control-Max-Age"] = "86400"
 
 
 
