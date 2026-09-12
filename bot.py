@@ -146,37 +146,16 @@ async def main():
         runner.app["bot"] = bot
         runner.app["dp"] = dp
 
-    use_webhook = os.environ.get("USE_WEBHOOK", "1").lower() in ("1", "true", "yes")
-    
-    webhook_url = os.environ.get("WEBHOOK_URL") or "https://web-production-4014a4.up.railway.app/webhook/telegram"
-    if "1b7cb" in webhook_url:
-        webhook_url = "https://web-production-4014a4.up.railway.app/webhook/telegram"
-
+    # Clean any stale webhook and start solid polling
     try:
-        if use_webhook:
-            try:
-                logger.info("Setting Telegram Webhook to %s...", webhook_url)
-                await bot.set_webhook(
-                    url=webhook_url,
-                    drop_pending_updates=True,
-                    allowed_updates=dp.resolve_used_update_types()
-                )
-                logger.info("Telegram Webhook active at %s! Listening for updates...", webhook_url)
-            except Exception as e:
-                logger.warning("Could not set webhook: %s", e)
+        await bot.delete_webhook(drop_pending_updates=True)
+        logger.info("Stale webhooks cleared successfully")
+    except Exception as e:
+        logger.warning(f"delete_webhook notice: {e}")
 
-            # Keep server running to serve webhook requests
-            while True:
-                await asyncio.sleep(3600)
-        else:
-            # Polling mode (fallback)
-            try:
-                await bot.delete_webhook(drop_pending_updates=True)
-                logger.info("Webhook cleared for polling")
-            except Exception as e:
-                logger.warning("Could not clear webhook: %s", e)
-
-            await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
+    logger.info("Bot starting in LONG POLLING mode (fastest & most reliable)...")
+    try:
+        await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
     finally:
         # Cleanup
         from services.telethon_client import stop_gift_sender
