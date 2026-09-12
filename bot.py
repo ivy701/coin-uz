@@ -87,23 +87,11 @@ async def start_api_server():
     runner = web.AppRunner(app)
     await runner.setup()
 
-    # Try binding to port, if busy try next ports
-    import errno
-    for p in range(port, port + 10):
-        try:
-            site = web.TCPSite(runner, host, p, ssl_context=ssl_context, reuse_address=True)
-            await site.start()
-            protocol = "https" if ssl_context else "http"
-            logger.info("API server started on %s://%s:%s", protocol, host, p)
-            return runner
-        except OSError as e:
-            err_code = getattr(e, 'errno', None)
-            is_busy = err_code in (getattr(errno, 'EADDRINUSE', 98), 98, 10048) or "already in use" in str(e).lower() or "10048" in str(e)
-            if is_busy:
-                logger.warning("Port %s is busy (%s), trying %s...", p, e, p + 1)
-                continue
-            raise
-    logger.warning("Could not bind API server to ports %s-%s, continuing bot only...", port, port + 9)
+    # Bind to designated port
+    site = web.TCPSite(runner, host, port, ssl_context=ssl_context, reuse_address=True)
+    await site.start()
+    protocol = "https" if ssl_context else "http"
+    logger.info("API server started on %s://%s:%s", protocol, host, port)
     return runner
 
 
@@ -160,7 +148,14 @@ async def main():
         runner.app["dp"] = dp
 
     use_webhook = os.environ.get("USE_WEBHOOK", "1").lower() in ("1", "true", "yes")
-    webhook_url = os.environ.get("WEBHOOK_URL") or "https://coinstatuzbot.alwaysdata.net/webhook/telegram"
+    
+    # Auto-detect webhook URL from Railway or environment
+    railway_domain = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
+    if not railway_domain and os.environ.get("API_PUBLIC_URL"):
+        railway_domain = os.environ.get("API_PUBLIC_URL").replace("https://", "").replace("http://", "").strip("/")
+    
+    default_webhook = f"https://{railway_domain}/webhook/telegram" if railway_domain else "https://web-production-1b7cb.up.railway.app/webhook/telegram"
+    webhook_url = os.environ.get("WEBHOOK_URL") or default_webhook
 
     try:
         if use_webhook:
