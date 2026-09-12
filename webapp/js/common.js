@@ -26,7 +26,7 @@ function getApiBase() {
             return window.location.origin;
         }
     }
-    return 'https://coinstatuzbot.alwaysdata.net';
+    return 'https://web-production-4014a4.up.railway.app';
 }
 
 // Telegram Native Haptic Engine
