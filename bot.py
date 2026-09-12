@@ -148,13 +148,9 @@ async def main():
 
     use_webhook = os.environ.get("USE_WEBHOOK", "1").lower() in ("1", "true", "yes")
     
-    # Auto-detect webhook URL from Railway or environment
-    railway_domain = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
-    if not railway_domain and os.environ.get("API_PUBLIC_URL"):
-        railway_domain = os.environ.get("API_PUBLIC_URL").replace("https://", "").replace("http://", "").strip("/")
-    
-    default_webhook = f"https://{railway_domain}/webhook/telegram" if railway_domain else "https://web-production-4014a4.up.railway.app/webhook/telegram"
-    webhook_url = os.environ.get("WEBHOOK_URL") or default_webhook
+    webhook_url = os.environ.get("WEBHOOK_URL") or "https://web-production-4014a4.up.railway.app/webhook/telegram"
+    if "1b7cb" in webhook_url:
+        webhook_url = "https://web-production-4014a4.up.railway.app/webhook/telegram"
 
     try:
         if use_webhook:
