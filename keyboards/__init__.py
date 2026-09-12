@@ -17,10 +17,7 @@ EMOJI_BTN_NEWS = "5307943162486994719"
 def get_webapp_main_keyboard(user_id: int | None = None, lang: str = "uz", balance: int | None = None) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     admin_url = getattr(config, 'SUPPORT_URL', 'https://t.me/cofeature') or "https://t.me/cofeature"
-    channel_url = "https://t.me/CoinStatUz"
-    webapp_url = getattr(config, 'WEBAPP_URL', '') or 'https://coin-uz.vercel.app'
-    if 'coin-uz' in webapp_url or not webapp_url:
-        webapp_url = 'https://coin-uz.vercel.app'
+    webapp_url = "https://coin-uz.vercel.app"
 
     query_params = []
     if user_id:
