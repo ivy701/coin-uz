@@ -130,20 +130,24 @@ module.exports = async (req, res) => {
 
     // 3. Single-use check (Bitta odam ishlatdi - boshqa hech kim ishlata olmaydi)
     if (promo.is_used) {
+      let who = promo.used_by_username ? `@${String(promo.used_by_username).replace('@','')}` : (promo.used_by_name || (promo.used_by_id ? `ID:${promo.used_by_id}` : 'boshqa foydalanuvchi'));
       return res.status(200).json({
         ok: false,
         already_used: true,
-        error: '❌ Ushbu promo-kod allaqachon ishlatilgan! (Har bir kod faqat 1 kishi uchun)'
+        used_by: who,
+        error: `❌ Ushbu promo-kod allaqachon ${who} tomonidan ishlatilgan!`
       });
     }
 
     // Get user info if available
-    let uname = '';
-    let fname = '';
-    const userRes = await db.query('SELECT username, full_name FROM users WHERE telegram_id = $1', [parseInt(userId, 10)]);
-    if (userRes.rows.length > 0) {
-      uname = userRes.rows[0].username || '';
-      fname = userRes.rows[0].full_name || '';
+    let uname = (req.body?.username || '').replace('@', '').trim();
+    let fname = (req.body?.full_name || '').trim();
+    if (!uname && !fname) {
+      const userRes = await db.query('SELECT username, full_name FROM users WHERE telegram_id = $1', [parseInt(userId, 10)]);
+      if (userRes.rows.length > 0) {
+        uname = userRes.rows[0].username || '';
+        fname = userRes.rows[0].full_name || '';
+      }
     }
 
     // Mark as used atomically

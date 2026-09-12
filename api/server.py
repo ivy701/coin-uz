@@ -1680,15 +1680,48 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
       return web.json_response({"ok": False, "error": "❌ Bunday promo-kod topilmadi yoki muddati tugagan!"}, status=400)
 
     if promo.get("is_used"):
+      u_name = promo.get("used_by_username")
+      f_name = promo.get("used_by_name")
+      u_id = promo.get("used_by_id")
+
+      who = ""
+      if u_name:
+        who = f"@{str(u_name).replace('@', '')}"
+      elif f_name:
+        who = f"{f_name}" + (f" (ID: {u_id})" if u_id else "")
+      elif u_id:
+        who = f"ID: {u_id}"
+      else:
+        who = "boshqa foydalanuvchi"
+
+      used_time_str = ""
+      if promo.get("used_at"):
+        try:
+          import datetime
+          uat = promo["used_at"]
+          if isinstance(uat, str):
+            dt = datetime.datetime.fromisoformat(uat.replace("Z", "+00:00"))
+          elif isinstance(uat, datetime.datetime):
+            dt = uat
+          else:
+            dt = None
+          if dt:
+            dt_uz = dt + datetime.timedelta(hours=5) if dt.tzinfo is None else dt.astimezone(datetime.timezone(datetime.timedelta(hours=5)))
+            used_time_str = f" [{dt_uz.strftime('%d.%m.%Y %H:%M')}]"
+        except Exception:
+          pass
+
       return web.json_response({
         "ok": False,
-        "error": "❌ Ushbu promo-kod allaqachon ishlatilgan! (Har bir kod faqat 1 kishi uchun)"
+        "already_used": True,
+        "used_by": who,
+        "error": f"❌ Ushbu promo-kod allaqachon {who} tomonidan ishlatilgan!{used_time_str}"
       }, status=400)
 
     # 3. Faollashtirish
     user = await get_user(user_id)
-    uname = user.get("username") if user else ""
-    fname = user.get("full_name") if user else ""
+    uname = (body.get("username") or "").replace("@", "").strip() or (user.get("username") if user else "") or ""
+    fname = (body.get("full_name") or "").strip() or (user.get("full_name") if user else "") or ""
 
     success = await use_promocode(code, user_id, uname, fname)
     if not success:
@@ -1700,6 +1733,25 @@ async def api_spin_promocode(request: web.Request) -> web.Response:
     ptype = promo.get("prize_type", "bear")
     vip_keys = ["aprel_bear", "easter_bear", "newyear_bear", "builder_bear", "football_bear", "soldier_bear", "newyear_tree", "patrick_bear", "valentine_bear", "valentine_heart", "rare", "vipgift"]
     is_vip = ptype.lower().strip() in vip_keys
+
+    # Kanal / Adminga kim ishlatganini bildirishnoma qilish
+    try:
+      from aiogram import Bot
+      from config import CHANNEL_ORDERS
+      bot = Bot(token=settings.bot_token)
+      user_disp = f"@{uname}" if uname else (fname or f"ID: {user_id}")
+      admin_msg = (
+        f"🎟 <b>Promo-kod ishlatildi!</b>\n\n"
+        f"🔑 Kod: <code>{code}</code>\n"
+        f"👤 Kim ishlatdi: <b>{fname}</b> ({user_disp})\n"
+        f"🆔 ID: <code>{user_id}</code>\n"
+        f"🎁 Sovg'a turi: <b>{ptype}</b>"
+      )
+      if CHANNEL_ORDERS:
+        await bot.send_message(chat_id=CHANNEL_ORDERS, text=admin_msg, parse_mode="HTML")
+      await bot.session.close()
+    except Exception as ex:
+      logger.warning(f"Promo admin notify error: {ex}")
 
     return web.json_response({
       "ok": True,

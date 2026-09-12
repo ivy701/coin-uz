@@ -217,8 +217,22 @@ async def padmin_list_cb(callback: CallbackQuery):
         ptype = p.get("prize_type", "bear")
         is_used = bool(p.get("is_used"))
         if is_used:
-            user_info = p.get("used_by_username") or p.get("used_by_name") or f"ID:{p.get('used_by_id')}"
-            status_str = f"❌ Ishlatilgan (@{str(user_info).replace('@','')})"
+            u_name = p.get("used_by_username")
+            f_name = p.get("used_by_name")
+            u_id = p.get("used_by_id")
+            who = f"@{str(u_name).replace('@','')}" if u_name else (f_name or f"ID:{u_id}")
+            time_str = ""
+            if p.get("used_at"):
+                try:
+                    import datetime
+                    uat = p["used_at"]
+                    dt = datetime.datetime.fromisoformat(str(uat).replace("Z", "+00:00")) if isinstance(uat, str) else uat
+                    if dt:
+                        dt_uz = dt + datetime.timedelta(hours=5) if getattr(dt, 'tzinfo', None) is None else dt.astimezone(datetime.timezone(datetime.timedelta(hours=5)))
+                        time_str = f" [{dt_uz.strftime('%d.%m %H:%M')}]"
+                except Exception:
+                    pass
+            status_str = f"❌ Ishlatilgan: <b>{who}</b>{time_str}"
         else:
             status_str = "✅ Faol"
         lines.append(f"• <code>{code}</code> ({ptype}) — {status_str}")
@@ -779,17 +793,92 @@ async def cmd_list_promocodes(message: Message):
     lines = ["🎟 <b>So'nggi Promo-kodlar ro'yxati:</b>\n"]
     for p in promos:
         code = p.get("code")
+        ptype = p.get("prize_type", "bear")
         is_used = bool(p.get("is_used"))
         if is_used:
-            user_name = p.get("used_by_username") or p.get("used_by_name") or str(p.get("used_by_id"))
-            lines.append(f"❌ <code>{code}</code> — Ishlatilgan (@{user_name})")
+            u_name = p.get("used_by_username")
+            f_name = p.get("used_by_name")
+            u_id = p.get("used_by_id")
+            who = f"@{str(u_name).replace('@','')}" if u_name else (f_name or (f"ID:{u_id}" if u_id else "Noma'lum"))
+            time_str = ""
+            if p.get("used_at"):
+                try:
+                    import datetime
+                    uat = p["used_at"]
+                    dt = datetime.datetime.fromisoformat(str(uat).replace("Z", "+00:00")) if isinstance(uat, str) else uat
+                    if dt:
+                        dt_uz = dt + datetime.timedelta(hours=5) if getattr(dt, 'tzinfo', None) is None else dt.astimezone(datetime.timezone(datetime.timedelta(hours=5)))
+                        time_str = f" [{dt_uz.strftime('%d.%m.%Y %H:%M')}]"
+                except Exception:
+                    pass
+            extra_name = f" ({f_name})" if (u_name and f_name) else ""
+            lines.append(f"❌ <code>{code}</code> ({ptype}) — Ishlatilgan: <b>{who}</b>{extra_name}{time_str}")
         else:
-            lines.append(f"✅ <code>{code}</code> — <b>Faol (1 martalik)</b>")
+            lines.append(f"✅ <code>{code}</code> ({ptype}) — <b>Faol (1 martalik)</b>")
 
     lines.append("\n👉 Yangi kod qo'shish: <code>/addpromo KOD</code>")
     lines.append("👉 Kodni o'chirish: <code>/delpromo KOD</code>")
+    lines.append("👉 Kodni tekshirish: <code>/checkpromo KOD</code>")
 
     await message.answer("\n".join(lines), parse_mode="HTML")
+
+
+@router.message(Command("checkpromo", "promoinfo"))
+@router.message(F.text.startswith("/checkpromo") | F.text.startswith("/promoinfo"))
+async def cmd_check_promocode(message: Message):
+    if not message.from_user or not _is_promo_admin(message.from_user.id):
+        await _deny(message)
+        return
+
+    parts = (message.text or "").split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.answer("❌ Tekshirish uchun kodni kiriting:\nMasalan: <code>/checkpromo CS-7711</code>", parse_mode="HTML")
+        return
+
+    code_to_check = parts[1].strip().upper()
+    from services.database import get_promocode
+    promo = await get_promocode(code_to_check)
+    if not promo:
+        await message.answer(f"❌ <code>{code_to_check}</code> nomli promo-kod bazada topilmadi!", parse_mode="HTML")
+        return
+
+    ptype = promo.get("prize_type", "bear")
+    is_used = bool(promo.get("is_used"))
+
+    if is_used:
+        u_name = promo.get("used_by_username")
+        f_name = promo.get("used_by_name")
+        u_id = promo.get("used_by_id")
+        who = f"@{str(u_name).replace('@','')}" if u_name else (f_name or f"ID: {u_id}")
+        time_str = "Noma'lum"
+        if promo.get("used_at"):
+            try:
+                import datetime
+                uat = promo["used_at"]
+                dt = datetime.datetime.fromisoformat(str(uat).replace("Z", "+00:00")) if isinstance(uat, str) else uat
+                if dt:
+                    dt_uz = dt + datetime.timedelta(hours=5) if getattr(dt, 'tzinfo', None) is None else dt.astimezone(datetime.timezone(datetime.timedelta(hours=5)))
+                    time_str = dt_uz.strftime('%d.%m.%Y %H:%M:%S')
+            except Exception:
+                time_str = str(promo.get("used_at"))
+
+        resp = (
+            f"🎟 <b>Promo-kod Ma'lumoti:</b>\n\n"
+            f"🔑 Kod: <code>{code_to_check}</code>\n"
+            f"🎁 Sovg'a: <b>{ptype}</b>\n"
+            f"📌 Holati: ❌ <b>Ishlatilgan</b>\n\n"
+            f"👤 Kim ishlatgan: <b>{f_name or 'Mavjud emas'}</b> ({who})\n"
+            f"🆔 Telegram ID: <code>{u_id}</code>\n"
+            f"🕒 Ishlatilgan vaqti: <b>{time_str}</b>"
+        )
+    else:
+        resp = (
+            f"🎟 <b>Promo-kod Ma'lumoti:</b>\n\n"
+            f"🔑 Kod: <code>{code_to_check}</code>\n"
+            f"🎁 Sovg'a: <b>{ptype}</b>\n"
+            f"📌 Holati: ✅ <b>Faol (hech kim ishlatmagan, 1 martalik)</b>"
+        )
+    await message.answer(resp, parse_mode="HTML")
 
 
 @router.message(Command("delpromo"))
