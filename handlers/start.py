@@ -480,7 +480,7 @@ async def callback_support(callback: CallbackQuery):
         "🔒 <b>Qo'llab-quvvatlash</b>\n\n"
         "Savol yoki muammo bo'lsa, biz bilan bog'laning:\n\n"
         "👤 Admin: @cofeature\n"
-        "📢 Kanal: @coinstatuz_org\n\n"
+        "📢 Kanal: @CoinStatUz\n\n"
         "⏰ Ish vaqti: 24/7 (har kuni)"
     )
     

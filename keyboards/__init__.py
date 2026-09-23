@@ -17,12 +17,10 @@ EMOJI_BTN_NEWS = "5307943162486994719"
 def get_webapp_main_keyboard(user_id: int | None = None, lang: str = "uz", balance: int | None = None) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     admin_url = getattr(config, 'SUPPORT_URL', 'https://t.me/cofeature') or "https://t.me/cofeature"
-    channel_url = getattr(config, 'CHANNEL_ORDERS', 'https://t.me/CoinStatUz') or "https://t.me/CoinStatUz"
-    if not channel_url.startswith("http"):
-        channel_url = f"https://t.me/{channel_url.lstrip('@')}"
+    channel_url = "https://t.me/CoinStatUz"
     webapp_url = "https://coin-uz.vercel.app"
 
-    query_params = ["v=26.0"]
+    query_params = ["v=27.0"]
     if user_id:
         query_params.append(f"uid={user_id}")
     if balance is not None:
@@ -184,7 +182,7 @@ def get_webapp_keyboard() -> ReplyKeyboardMarkup:
     builder.row(
         KeyboardButton(
             text="🛒 Magazin ochish",
-            web_app=WebAppInfo(url=f"{config.WEBAPP_URL}/index.html?v=26.0")
+            web_app=WebAppInfo(url=f"{config.WEBAPP_URL}/index.html?v=27.0")
         )
     )
     builder.row(

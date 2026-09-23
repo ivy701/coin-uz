@@ -1270,7 +1270,7 @@ function injectChannelGateHTML() {
                 CoinStat UZ xizmatlaridan foydalanish va xarid qilish uchun rasmiy kanalimizga a'zo bo'lishingiz shart.
             </div>
             <div class="cs-sub-channel-pill" id="csSubChannelPill">
-                📢 ${_csRequiredChannel}
+                📢 @CoinStatUz
             </div>
             <button type="button" class="cs-sub-join-btn" onclick="openRequiredChannelLink()">
                 🚀 Kanalga a'zo bo'lish
@@ -1286,7 +1286,7 @@ function injectChannelGateHTML() {
 
 function openRequiredChannelLink() {
     triggerHaptic('medium');
-    const url = _csRequiredChannelUrl || 'https://t.me/CoinStatUz';
+    const url = 'https://t.me/CoinStatUz';
     if (tg && typeof tg.openTelegramLink === 'function') {
         tg.openTelegramLink(url);
     } else {
@@ -1380,11 +1380,11 @@ async function fetchSubscriptionStatus(force = false) {
 
         if (data && data.ok) {
             _csSubscribed = Boolean(data.subscribed);
-            if (data.channel) _csRequiredChannel = data.channel;
-            if (data.channel_url) _csRequiredChannelUrl = data.channel_url;
+            _csRequiredChannel = '@CoinStatUz';
+            _csRequiredChannelUrl = 'https://t.me/CoinStatUz';
 
             const pill = document.getElementById('csSubChannelPill');
-            if (pill) pill.textContent = '📢 ' + _csRequiredChannel;
+            if (pill) pill.textContent = '📢 @CoinStatUz';
 
             sessionStorage.setItem(cacheKey, JSON.stringify({
                 subscribed: _csSubscribed,

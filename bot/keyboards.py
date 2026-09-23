@@ -43,7 +43,7 @@ def main_inline_keyboard(user_id: int | None = None) -> InlineKeyboardMarkup:
     admin_url = settings.support_url or "https://t.me/cofeature"
     channel_url = "https://t.me/CoinStatUz"
     
-    params = ["v=26.0"]
+    params = ["v=27.0"]
     if user_id:
         params.append(f"uid={user_id}")
     query_str = f"?{'&'.join(params)}"
