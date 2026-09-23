@@ -54,11 +54,10 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  const body = req.body || {};
-  let userId = body.telegram_id || body.user_id;
-  const username = (body.username || '').replace(/^@/, '').trim();
-  const giftName = body.gift_name || 'Telegram Gift';
-  const price = parseInt(body.amount, 10);
+  return res.status(503).json({
+    ok: false,
+    error: "🔧 Hozirda Telegram Sovg'alari (Gift) bo'limida texnik ishlar olib borilmoqda. Xizmat tez orada qayta ishga tushadi!"
+  });
 
   if (!userId && body.initData) {
     try {

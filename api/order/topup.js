@@ -94,6 +94,32 @@ function validateTelegramInitData(initData, botToken) {
   }
 }
 
+function checkTelegramMembership(botToken, channel, userId) {
+  return new Promise((resolve) => {
+    const cleanChannel = channel.startsWith('@') ? channel : `@${channel}`;
+    const url = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=${encodeURIComponent(cleanChannel)}&user_id=${encodeURIComponent(userId)}`;
+
+    https.get(url, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          if (json.ok && json.result) {
+            const status = json.result.status;
+            const isMember = ['creator', 'administrator', 'member'].includes(status) || 
+                             (status === 'restricted' && Boolean(json.result.is_member));
+            return resolve(Boolean(isMember));
+          }
+          resolve(false);
+        } catch (e) {
+          resolve(false);
+        }
+      });
+    }).on('error', () => resolve(true));
+  });
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -124,6 +150,19 @@ module.exports = async (req, res) => {
 
   if (!authUserId) {
     return res.status(401).json({ ok: false, error: 'Telegram initData yaroqsiz yoki muddati o\'tgan (Unauthorized)' });
+  }
+
+  // 2. Channel Subscription Check
+  const channel = (process.env.REQUIRED_CHANNEL || process.env.CHANNEL_ORDERS || '@CoinStatUz').trim();
+  const isSub = await checkTelegramMembership(botToken, channel, authUserId);
+  if (!isSub) {
+    return res.status(403).json({
+      ok: false,
+      error: `Xizmatdan foydalanish uchun avval ${channel} kanaliga a'zo bo'ling!`,
+      requires_subscription: true,
+      channel: channel,
+      channel_url: `https://t.me/${channel.replace(/^@/, '')}`
+    });
   }
 
   // 4. User ID mismatch verification

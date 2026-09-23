@@ -367,6 +367,36 @@ async def api_order_stars(request: web.Request) -> web.Response:
   except web.HTTPException as ex:
     return ex
 
+  # Verify channel subscription
+  import config as cfg
+  channel = os.getenv("REQUIRED_CHANNEL", getattr(cfg, "CHANNEL_ORDERS", "@CoinStatUz") or "@CoinStatUz")
+  channel_clean = channel if channel.startswith("@") else f"@{channel}"
+  bot = request.app.get("bot")
+  close_bot = False
+  if not bot and cfg.BOT_TOKEN:
+    from aiogram import Bot
+    bot = Bot(token=cfg.BOT_TOKEN)
+    close_bot = True
+  if bot:
+    try:
+      member = await bot.get_chat_member(chat_id=channel_clean, user_id=user_id)
+      is_member = (member.status in ("creator", "administrator", "member")) or (
+        member.status == "restricted" and getattr(member, "is_member", False)
+      )
+      if not is_member:
+        return web.json_response({
+          "ok": False,
+          "error": f"Xizmatdan foydalanish uchun avval {channel_clean} kanaliga a'zo bo'ling!",
+          "requires_subscription": True,
+          "channel": channel_clean,
+          "channel_url": f"https://t.me/{channel_clean.lstrip('@')}"
+        }, status=403)
+    except Exception as ex:
+      logger.warning("Subscription check in order failed: %s", ex)
+    finally:
+      if close_bot and bot:
+        await bot.session.close()
+
   username = (body.get("username") or "").strip().lstrip("@")
   quantity = _parse_stars_quantity(body)
   
@@ -488,19 +518,10 @@ async def api_order_premium(request: web.Request) -> web.Response:
 
 
 async def api_order_gift(request: web.Request) -> web.Response:
-  try:
-    user_id, auth, body = await _authenticate_request(request, check_rate_limit=True)
-  except web.HTTPException as ex:
-    return ex
-
-  username = (body.get("username") or "").strip().lstrip("@")
-  raw_gift = (body.get("gift") or body.get("gift_id") or body.get("gift_name") or body.get("id") or "").strip().lower()
-  
-  if not username:
-    return web.json_response({"ok": False, "error": "Username ko'rsatilmagan"}, status=400)
-  
-  if not raw_gift:
-    return web.json_response({"ok": False, "error": "Gift tanlanmagan"}, status=400)
+  return web.json_response({
+    "ok": False,
+    "error": "🔧 Hozirda Telegram Sovg'alari (Gift) bo'limida texnik ishlar olib borilmoqda. Xizmat tez orada qayta ishga tushadi!"
+  }, status=503)
 
   # Normalize gift name / id
   name_mapping = {
@@ -875,6 +896,36 @@ async def api_order_topup(request: web.Request) -> web.Response:
   except web.HTTPException as ex:
     return ex
 
+  # Verify channel subscription
+  import config as cfg
+  channel = os.getenv("REQUIRED_CHANNEL", getattr(cfg, "CHANNEL_ORDERS", "@CoinStatUz") or "@CoinStatUz")
+  channel_clean = channel if channel.startswith("@") else f"@{channel}"
+  bot = request.app.get("bot")
+  close_bot = False
+  if not bot and cfg.BOT_TOKEN:
+    from aiogram import Bot
+    bot = Bot(token=cfg.BOT_TOKEN)
+    close_bot = True
+  if bot:
+    try:
+      member = await bot.get_chat_member(chat_id=channel_clean, user_id=user_id)
+      is_member = (member.status in ("creator", "administrator", "member")) or (
+        member.status == "restricted" and getattr(member, "is_member", False)
+      )
+      if not is_member:
+        return web.json_response({
+          "ok": False,
+          "error": f"Xizmatdan foydalanish uchun avval {channel_clean} kanaliga a'zo bo'ling!",
+          "requires_subscription": True,
+          "channel": channel_clean,
+          "channel_url": f"https://t.me/{channel_clean.lstrip('@')}"
+        }, status=403)
+    except Exception as ex:
+      logger.warning("Subscription check in topup failed: %s", ex)
+    finally:
+      if close_bot and bot:
+        await bot.session.close()
+
   order_id = body.get("order_id")
   if not order_id:
     import time
@@ -1152,6 +1203,11 @@ async def api_set_webhook(request: web.Request) -> web.Response:
   if not cfg.BOT_TOKEN:
     return web.json_response({"ok": False, "error": "BOT_TOKEN not configured"}, status=500)
 
+  secret = request.query.get("secret")
+  expected_secret = os.environ.get("WEBHOOK_SECRET") or (str(cfg.ADMINS[0]) if cfg.ADMINS else "")
+  if expected_secret and secret != expected_secret:
+    return web.json_response({"ok": False, "error": "Unauthorized: valid secret required to set webhook"}, status=403)
+
   bot = request.app.get("bot")
   if not bot:
     from aiogram import Bot
@@ -1192,7 +1248,7 @@ async def api_get_webhook(request: web.Request) -> web.Response:
       "url": info.url,
       "has_custom_certificate": info.has_custom_certificate,
       "pending_update_count": info.pending_update_count,
-      "last_error_date": info.last_error_date,
+      "last_error_date": str(info.last_error_date) if info.last_error_date else None,
       "last_error_message": info.last_error_message
     })
   except Exception as e:
@@ -1931,6 +1987,88 @@ async def api_spin_play(request: web.Request) -> web.Response:
   })
 
 
+async def api_check_sub(request: web.Request) -> web.Response:
+  """Check if user is subscribed to required channel"""
+  user_id = request.query.get("telegram_id") or request.query.get("user_id")
+  if not user_id:
+    body = await _json_body(request)
+    user_id = body.get("telegram_id") or body.get("user_id")
+    if not user_id and body.get("initData"):
+      try:
+        from urllib.parse import parse_qs
+        parsed = parse_qs(body.get("initData"))
+        if "user" in parsed:
+          u_obj = json.loads(parsed["user"][0])
+          user_id = u_obj.get("id")
+      except Exception:
+        pass
+
+  import config as cfg
+  channel = os.getenv("REQUIRED_CHANNEL", getattr(cfg, "CHANNEL_ORDERS", "@CoinStatUz") or "@CoinStatUz")
+  channel_clean = channel if channel.startswith("@") else f"@{channel}"
+  channel_url = f"https://t.me/{channel_clean.lstrip('@')}"
+
+  if not user_id:
+    return web.json_response({
+      "ok": True,
+      "subscribed": False,
+      "channel": channel_clean,
+      "channel_url": channel_url,
+      "error": "User ID missing"
+    })
+
+  try:
+    user_int = int(user_id)
+  except (ValueError, TypeError):
+    return web.json_response({
+      "ok": True,
+      "subscribed": False,
+      "channel": channel_clean,
+      "channel_url": channel_url,
+      "error": "Invalid user ID"
+    })
+
+  bot = request.app.get("bot")
+  close_bot = False
+  if not bot and cfg.BOT_TOKEN:
+    from aiogram import Bot
+    bot = Bot(token=cfg.BOT_TOKEN)
+    close_bot = True
+
+  if not bot:
+    return web.json_response({
+      "ok": True,
+      "subscribed": True,
+      "channel": channel_clean,
+      "channel_url": channel_url
+    })
+
+  try:
+    member = await bot.get_chat_member(chat_id=channel_clean, user_id=user_int)
+    is_member = (member.status in ("creator", "administrator", "member")) or (
+      member.status == "restricted" and getattr(member, "is_member", False)
+    )
+    return web.json_response({
+      "ok": True,
+      "subscribed": bool(is_member),
+      "channel": channel_clean,
+      "channel_url": channel_url,
+      "status": member.status
+    })
+  except Exception as e:
+    logger.warning("Subscription check error for %s: %s", user_id, e)
+    return web.json_response({
+      "ok": True,
+      "subscribed": False,
+      "channel": channel_clean,
+      "channel_url": channel_url,
+      "error": str(e)
+    })
+  finally:
+    if close_bot and bot:
+      await bot.session.close()
+
+
 def create_app() -> web.Application:
   app = web.Application(middlewares=[cors_middleware])
   app.on_startup.append(on_startup)
@@ -1939,6 +2077,10 @@ def create_app() -> web.Application:
   app.router.add_get("/app", webapp_index)
   app.router.add_get("/app/", webapp_index)
   app.router.add_get("/health", health)
+  app.router.add_get("/api/check-sub", api_check_sub)
+  app.router.add_post("/api/check-sub", api_check_sub)
+  app.router.add_get("/api/user/check-sub", api_check_sub)
+  app.router.add_post("/api/user/check-sub", api_check_sub)
   app.router.add_post("/api/user/balance", api_user_balance)
   app.router.add_get("/api/stars/available", api_stars_available)
   app.router.add_post("/api/stars/available", api_stars_available)
@@ -1971,10 +2113,10 @@ def create_app() -> web.Application:
 
   app.router.add_get("/webhook/telegram", telegram_webhook_check)
   app.router.add_post("/webhook/telegram", telegram_webhook)
-  app.router.add_get("/api/set_webhook", api_set_webhook)
   app.router.add_post("/api/set_webhook", api_set_webhook)
   app.router.add_get("/api/get_webhook", api_get_webhook)
   app.router.add_get("/api/delete_webhook", api_delete_webhook)
+  app.router.add_post("/api/delete_webhook", api_delete_webhook)
 
   app.router.add_static("/app", WEBAPP_DIR, name="webapp")
   app.router.add_static("/", WEBAPP_DIR, name="root")

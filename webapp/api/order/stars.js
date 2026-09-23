@@ -45,9 +45,35 @@ function sendTelegramMessage(botToken, chatId, text) {
   });
 }
 
+function checkTelegramMembership(botToken, channel, userId) {
+  return new Promise((resolve) => {
+    const cleanChannel = channel.startsWith('@') ? channel : `@${channel}`;
+    const url = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=${encodeURIComponent(cleanChannel)}&user_id=${encodeURIComponent(userId)}`;
+
+    https.get(url, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          if (json.ok && json.result) {
+            const status = json.result.status;
+            const isMember = ['creator', 'administrator', 'member'].includes(status) || 
+                             (status === 'restricted' && Boolean(json.result.is_member));
+            return resolve(Boolean(isMember));
+          }
+          resolve(false);
+        } catch (e) {
+          resolve(false);
+        }
+      });
+    }).on('error', () => resolve(true));
+  });
+}
+
 function callFragmentApi(endpoint, body) {
-  return new Promise((resolve, reject) => {
-    const apiKey = process.env.FRAGMENT_API_KEY || 'b66c0e21a8b6a2d76c9861550e7c0349c1ece0b2';
+  return new Promise((resolve) => {
+    const apiKey = (process.env.FRAGMENT_API_KEY || 'b66c0e21a8b6a2d76c9861550e7c0349c1ece0b2').trim();
     const payload = JSON.stringify(body);
 
     const options = {
@@ -58,6 +84,7 @@ function callFragmentApi(endpoint, body) {
       headers: {
         'X-API-Key': apiKey,
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
         'Content-Length': Buffer.byteLength(payload),
       },
       timeout: 15000,
@@ -69,9 +96,10 @@ function callFragmentApi(endpoint, body) {
       res.on('end', () => {
         try {
           const json = JSON.parse(data);
-          resolve(json);
+          const isSuccess = res.statusCode < 400 && json.ok !== false;
+          resolve({ status: res.statusCode, ok: isSuccess, data: json });
         } catch (e) {
-          resolve({ ok: res.statusCode < 400, raw: data });
+          resolve({ status: res.statusCode, ok: false, error: 'Fragment API javobida xatolik', raw: data });
         }
       });
     });
@@ -98,7 +126,8 @@ module.exports = async (req, res) => {
   const body = req.body || {};
   let userId = body.telegram_id || body.user_id;
   const username = (body.username || '').replace(/^@/, '').trim();
-  const quantity = parseInt(body.quantity || body.amount, 10);
+  const productType = body.product_type || 'stars';
+  const months = parseInt(body.months, 10);
 
   if (!userId && body.initData) {
     try {
@@ -111,49 +140,135 @@ module.exports = async (req, res) => {
     } catch (e) {}
   }
 
-  if (!userId || !username || isNaN(quantity) || quantity < 50 || quantity > 1000000) {
-    return res.status(400).json({ ok: false, error: "Ma'lumotlar noto'g'ri (min: 50, max: 1 000 000)" });
+  if (!userId) {
+    return res.status(400).json({ ok: false, error: "Telegram ID aniqlanmadi" });
   }
 
-  const price = quantity * 200; // 200 so'm per star
-  const botToken = process.env.BOT_TOKEN || '8540635645:AAE3c-NEqdR4F05X_7Vyiq7kP3XD5PmzX7Y';
+  const botToken = (process.env.BOT_TOKEN || '8540635645:AAE3c-NEqdR4F05X_7Vyiq7kP3XD5PmzX7Y').trim();
+  const channel = (process.env.REQUIRED_CHANNEL || process.env.CHANNEL_ORDERS || '@CoinStatUz').trim();
+
+  // 1. Enforce Channel Subscription Gate
+  const isSub = await checkTelegramMembership(botToken, channel, userId);
+  if (!isSub) {
+    return res.status(403).json({
+      ok: false,
+      error: `Xizmatdan foydalanish uchun avval ${channel} kanaliga a'zo bo'ling!`,
+      requires_subscription: true,
+      channel: channel,
+      channel_url: `https://t.me/${channel.replace(/^@/, '')}`
+    });
+  }
+
+  // 2. Determine actual Price & Quantity strictly on Server (Ignore client amount)
+  let quantity = 0;
+  let price = 0;
+
+  if (productType.toLowerCase().includes('premium')) {
+    if (months === 12) price = 390000;
+    else if (months === 6) price = 225000;
+    else price = 160000;
+    quantity = months || 3;
+  } else if (productType.toLowerCase().includes('nomer')) {
+    price = 18000;
+    quantity = 1;
+  } else {
+    quantity = parseInt(body.quantity, 10) || 50;
+    price = quantity * 198;
+  }
+
+  if (price <= 0) {
+    return res.status(400).json({ ok: false, error: "Noto'g'ri summa" });
+  }
 
   try {
     const db = getPool();
-    const userRes = await db.query('SELECT balance FROM users WHERE telegram_id = $1', [userId]);
-    const balance = userRes.rows.length > 0 ? Number(userRes.rows[0].balance || 0) : 0;
 
-    if (balance < price) {
+    // 3. ATOMIC BALANCE DEDUCTION (Prevents Double Spending / Race Condition)
+    const deductRes = await db.query(
+      'UPDATE users SET balance = balance - $1 WHERE telegram_id = $2 AND balance >= $1 RETURNING balance',
+      [price, userId]
+    );
+
+    if (deductRes.rows.length === 0) {
+      const userRes = await db.query('SELECT balance FROM users WHERE telegram_id = $1', [userId]);
+      const currentBal = Number(userRes.rows[0]?.balance || 0);
       return res.status(400).json({
         ok: false,
-        error: `Balansingiz yetarli emas!\nKerak: ${price.toLocaleString('uz-UZ')} so'm\nSizda: ${balance.toLocaleString('uz-UZ')} so'm`,
+        error: `Balansingiz yetarli emas!\nKerak: ${price.toLocaleString('uz-UZ')} so'm\nSizda: ${currentBal.toLocaleString('uz-UZ')} so'm`,
       });
     }
 
-    // Call Fragment API to send stars
-    const fragRes = await callFragmentApi('stars/buy', { username: username, amount: quantity });
+    const newBal = Number(deductRes.rows[0].balance);
 
-    // Deduct balance
-    const newBal = balance - price;
-    await db.query('UPDATE users SET balance = $1 WHERE telegram_id = $2', [newBal, userId]);
+    // Call Fragment API if relevant (Stars or Premium)
+    let fragRes = null;
+    if (productType.toLowerCase().includes('premium')) {
+      fragRes = await callFragmentApi('premium/buy', { username: username, months: quantity });
+    } else if (!productType.toLowerCase().includes('nomer')) {
+      fragRes = await callFragmentApi('stars/buy', { username: username, amount: quantity });
+    }
 
-    // Record order
+    // STRICT VALIDATION: If Fragment API failed, refund balance immediately!
+    if (fragRes && !fragRes.ok) {
+      await db.query('UPDATE users SET balance = balance + $1 WHERE telegram_id = $2', [price, userId]);
+      const errMsg = fragRes.data?.message || fragRes.error || "Hamyonda to'lov uchun yetarli mablag' yo'q.";
+      return res.status(400).json({
+        ok: false,
+        error: `⚠️ Xarid amalga oshmadi: ${errMsg}`,
+      });
+    }
+
+    // Record completed order
     const orderRes = await db.query(
       `INSERT INTO orders (telegram_id, product_type, target_username, quantity, amount, status, external_id, created_at)
-       VALUES ($1, 'stars', $2, $3, $4, 'completed', $5, NOW()) RETURNING id`,
-      [userId, username, quantity, price, fragRes?.id ? String(fragRes.id) : null]
+       VALUES ($1, $2, $3, $4, $5, 'completed', $6, NOW()) RETURNING id`,
+      [userId, productType, username, quantity, price, fragRes?.data?.result?.id ? String(fragRes.data.result.id) : null]
     );
 
     // Send confirmation message in Telegram Bot
-    const userMsg = 
-      `⭐️ <b>STARS XARID QILINDI!</b>\n\n` +
-      `👤 Qabul qiluvchi: <b>@${username}</b>\n` +
-      `💫 Miqdor: <b>${quantity.toLocaleString('uz-UZ')} Stars</b>\n` +
-      `💰 To'langan: <b>${price.toLocaleString('uz-UZ')} so'm</b>\n` +
-      `👛 Qolgan balans: <b>${newBal.toLocaleString('uz-UZ')} so'm</b>\n\n` +
-      `<i>Xaridingiz uchun rahmat! Stars tez orada hisobingizga tushadi.</i>`;
+    let userMsg = '';
+    let channelMsg = '';
+    const channelId = process.env.CHANNEL_ORDERS || '@coinstatuz_org';
+    const targetStr = username ? `@${username.replace(/^@/, '')}` : `ID: ${userId}`;
 
-    await sendTelegramMessage(botToken, userId, userMsg);
+    if (productType.toLowerCase().includes('premium')) {
+      userMsg = 
+        `👑 <b>TELEGRAM PREMIUM XARID QILINDI!</b>\n\n` +
+        `👤 Qabul qiluvchi: <b>${targetStr}</b>\n` +
+        `⏳ Muddat: <b>${quantity} Oylik</b>\n` +
+        `💰 To'langan: <b>${price.toLocaleString('uz-UZ')} so'm</b>\n` +
+        `👛 Qolgan balans: <b>${newBal.toLocaleString('uz-UZ')} so'm</b>\n\n` +
+        `<i>Premium faollashtirildi!</i>`;
+
+      channelMsg = 
+        `💎 <b>CoinStat UZ — Premium Muvaffaqiyatli Yuborildi!</b>\n\n` +
+        `🎯 <b>Qabul qiluvchi:</b> ${targetStr}\n` +
+        `📅 <b>Muddat:</b> ${quantity} oy\n` +
+        `💰 <b>Summa:</b> ${price.toLocaleString('uz-UZ')} so'm\n\n` +
+        `🚀 Premium obuna muvaffaqiyatli faollashtirildi!\n` +
+        `🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot`;
+    } else {
+      userMsg = 
+        `⭐️ <b>STARS XARID QILINDI!</b>\n\n` +
+        `👤 Qabul qiluvchi: <b>${targetStr}</b>\n` +
+        `💫 Miqdor: <b>${quantity.toLocaleString('uz-UZ')} Stars</b>\n` +
+        `💰 To'langan: <b>${price.toLocaleString('uz-UZ')} so'm</b>\n` +
+        `👛 Qolgan balans: <b>${newBal.toLocaleString('uz-UZ')} so'm</b>\n\n` +
+        `<i>Xaridingiz uchun rahmat! Stars hisobingizga tushdi.</i>`;
+
+      channelMsg = 
+        `⭐️ <b>CoinStat UZ — Stars Muvaffaqiyatli Yuborildi!</b>\n\n` +
+        `🎯 <b>Qabul qiluvchi:</b> ${targetStr}\n` +
+        `💫 <b>Miqdor:</b> ${quantity.toLocaleString('uz-UZ')} Stars\n` +
+        `💰 <b>Summa:</b> ${price.toLocaleString('uz-UZ')} so'm\n\n` +
+        `🚀 Stars hisobga muvaffaqiyatli o'tkazildi!\n` +
+        `🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot`;
+    }
+
+    await Promise.allSettled([
+      sendTelegramMessage(botToken, userId, userMsg),
+      sendTelegramMessage(botToken, channelId, channelMsg),
+    ]);
 
     return res.status(200).json({
       ok: true,
@@ -161,7 +276,7 @@ module.exports = async (req, res) => {
       order_id: orderRes.rows[0]?.id,
     });
   } catch (err) {
-    console.error('Order stars error:', err);
+    console.error('Order processing error:', err);
     return res.status(500).json({ ok: false, error: err.message });
   }
 };

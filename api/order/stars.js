@@ -45,6 +45,32 @@ function sendTelegramMessage(botToken, chatId, text) {
   });
 }
 
+function checkTelegramMembership(botToken, channel, userId) {
+  return new Promise((resolve) => {
+    const cleanChannel = channel.startsWith('@') ? channel : `@${channel}`;
+    const url = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=${encodeURIComponent(cleanChannel)}&user_id=${encodeURIComponent(userId)}`;
+
+    https.get(url, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          if (json.ok && json.result) {
+            const status = json.result.status;
+            const isMember = ['creator', 'administrator', 'member'].includes(status) || 
+                             (status === 'restricted' && Boolean(json.result.is_member));
+            return resolve(Boolean(isMember));
+          }
+          resolve(false);
+        } catch (e) {
+          resolve(false);
+        }
+      });
+    }).on('error', () => resolve(true));
+  });
+}
+
 function callFragmentApi(endpoint, body) {
   return new Promise((resolve) => {
     const apiKey = (process.env.FRAGMENT_API_KEY || 'b66c0e21a8b6a2d76c9861550e7c0349c1ece0b2').trim();
@@ -118,47 +144,61 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, error: "Telegram ID aniqlanmadi" });
   }
 
-  // Determine actual Price & Quantity
+  const botToken = (process.env.BOT_TOKEN || '8540635645:AAE3c-NEqdR4F05X_7Vyiq7kP3XD5PmzX7Y').trim();
+  const channel = (process.env.REQUIRED_CHANNEL || process.env.CHANNEL_ORDERS || '@CoinStatUz').trim();
+
+  // 1. Enforce Channel Subscription Gate
+  const isSub = await checkTelegramMembership(botToken, channel, userId);
+  if (!isSub) {
+    return res.status(403).json({
+      ok: false,
+      error: `Xizmatdan foydalanish uchun avval ${channel} kanaliga a'zo bo'ling!`,
+      requires_subscription: true,
+      channel: channel,
+      channel_url: `https://t.me/${channel.replace(/^@/, '')}`
+    });
+  }
+
+  // 2. Determine actual Price & Quantity strictly on Server (Ignore client amount)
   let quantity = 0;
   let price = 0;
 
   if (productType.toLowerCase().includes('premium')) {
-    price = parseInt(body.amount, 10);
-    if (!price || isNaN(price)) {
-      if (months === 12) price = 390000;
-      else if (months === 6) price = 225000;
-      else price = 160000;
-    }
+    if (months === 12) price = 390000;
+    else if (months === 6) price = 225000;
+    else price = 160000;
     quantity = months || 3;
   } else if (productType.toLowerCase().includes('nomer')) {
-    price = parseInt(body.amount, 10) || 18000;
+    price = 18000;
     quantity = 1;
   } else {
     quantity = parseInt(body.quantity, 10) || 50;
-    price = parseInt(body.amount, 10);
-    
-    if (!price || isNaN(price)) {
-      price = quantity * 198;
-    }
+    price = quantity * 198;
   }
 
   if (price <= 0) {
     return res.status(400).json({ ok: false, error: "Noto'g'ri summa" });
   }
 
-  const botToken = process.env.BOT_TOKEN || '8540635645:AAE3c-NEqdR4F05X_7Vyiq7kP3XD5PmzX7Y';
-
   try {
     const db = getPool();
-    const userRes = await db.query('SELECT balance FROM users WHERE telegram_id = $1', [userId]);
-    const balance = userRes.rows.length > 0 ? Number(userRes.rows[0].balance || 0) : 0;
 
-    if (balance < price) {
+    // 3. ATOMIC BALANCE DEDUCTION (Prevents Double Spending / Race Condition)
+    const deductRes = await db.query(
+      'UPDATE users SET balance = balance - $1 WHERE telegram_id = $2 AND balance >= $1 RETURNING balance',
+      [price, userId]
+    );
+
+    if (deductRes.rows.length === 0) {
+      const userRes = await db.query('SELECT balance FROM users WHERE telegram_id = $1', [userId]);
+      const currentBal = Number(userRes.rows[0]?.balance || 0);
       return res.status(400).json({
         ok: false,
-        error: `Balansingiz yetarli emas!\nKerak: ${price.toLocaleString('uz-UZ')} so'm\nSizda: ${balance.toLocaleString('uz-UZ')} so'm`,
+        error: `Balansingiz yetarli emas!\nKerak: ${price.toLocaleString('uz-UZ')} so'm\nSizda: ${currentBal.toLocaleString('uz-UZ')} so'm`,
       });
     }
+
+    const newBal = Number(deductRes.rows[0].balance);
 
     // Call Fragment API if relevant (Stars or Premium)
     let fragRes = null;
@@ -168,18 +208,15 @@ module.exports = async (req, res) => {
       fragRes = await callFragmentApi('stars/buy', { username: username, amount: quantity });
     }
 
-    // STRICT VALIDATION: If Fragment API failed (e.g. insufficient funds in Fragment wallet), reject order and DO NOT deduct balance!
+    // STRICT VALIDATION: If Fragment API failed, refund balance immediately!
     if (fragRes && !fragRes.ok) {
+      await db.query('UPDATE users SET balance = balance + $1 WHERE telegram_id = $2', [price, userId]);
       const errMsg = fragRes.data?.message || fragRes.error || "Hamyonda to'lov uchun yetarli mablag' yo'q.";
       return res.status(400).json({
         ok: false,
         error: `⚠️ Xarid amalga oshmadi: ${errMsg}`,
       });
     }
-
-    // Deduct balance only after successful API call
-    const newBal = balance - price;
-    await db.query('UPDATE users SET balance = $1 WHERE telegram_id = $2', [newBal, userId]);
 
     // Record completed order
     const orderRes = await db.query(

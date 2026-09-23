@@ -181,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
     hideLoader();
     initInstantNavigation();
     initHaptics();
+    initChannelSubscriptionGate();
 
     // Battery-friendly balance auto-sync (every 10 seconds, only when tab is visible)
     setInterval(() => {
@@ -190,7 +191,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 10000);
 
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) loadUserBalance();
+        if (!document.hidden) {
+            loadUserBalance();
+            if (typeof checkSubscriptionGateAuto === 'function') {
+                checkSubscriptionGateAuto();
+            }
+        }
     });
 });
 
@@ -1079,4 +1085,348 @@ function initSplashScreen() {
         loader.remove();
     }
 }
+
+/* =========================================
+   Telegram Channel Subscription Gate Module
+   Blocks users who are not subscribed or leave the channel
+   ========================================= */
+
+let _csSubscribed = null;
+let _csRequiredChannel = '@CoinStatUz';
+let _csRequiredChannelUrl = 'https://t.me/CoinStatUz';
+let _csCheckingSub = false;
+
+function injectChannelGateStyles() {
+    if (document.getElementById('cs-sub-gate-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'cs-sub-gate-styles';
+    style.textContent = `
+        .cs-sub-gate-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 9, 14, 0.96);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            z-index: 9999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
+        }
+        .cs-sub-gate-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .cs-sub-gate-card {
+            background: linear-gradient(180deg, #181926 0%, #0d0e16 100%);
+            border: 1.5px solid rgba(251, 191, 36, 0.5);
+            border-radius: 30px;
+            padding: 32px 22px 24px;
+            max-width: 360px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 50px rgba(251, 191, 36, 0.22);
+            transform: scale(0.88);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+        .cs-sub-gate-overlay.active .cs-sub-gate-card {
+            transform: scale(1);
+        }
+        .cs-sub-gate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 120px;
+            background: radial-gradient(ellipse at top, rgba(251, 191, 36, 0.25) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cs-sub-icon-wrap {
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, rgba(251, 191, 36, 0.05) 70%);
+            border: 1.5px solid rgba(251, 191, 36, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin: 0 auto 16px;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+            animation: csSubPulse 2.2s infinite ease-in-out;
+        }
+        @keyframes csSubPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(251, 191, 36, 0.25); }
+            50% { transform: scale(1.06); box-shadow: 0 0 40px rgba(251, 191, 36, 0.45); }
+        }
+        .cs-sub-title {
+            font-size: 19px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.4px;
+        }
+        .cs-sub-desc {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.55;
+            margin-bottom: 22px;
+        }
+        .cs-sub-channel-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(251, 191, 36, 0.12);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            color: #fbbf24;
+            font-size: 12.5px;
+            font-weight: 800;
+            padding: 5px 14px;
+            border-radius: 999px;
+            margin-bottom: 18px;
+        }
+        .cs-sub-join-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 900;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45);
+            transition: transform 0.15s ease;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .cs-sub-join-btn:active {
+            transform: scale(0.97);
+        }
+        .cs-sub-verify-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 16px;
+            padding: 13px;
+            font-size: 13.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+        .cs-sub-verify-btn:active {
+            background: rgba(255, 255, 255, 0.16);
+            transform: scale(0.98);
+        }
+        .cs-sub-msg {
+            font-size: 12px;
+            font-weight: 700;
+            color: #f87171;
+            margin-top: 12px;
+            display: none;
+            line-height: 1.4;
+            animation: csSubShake 0.4s ease-in-out;
+        }
+        @keyframes csSubShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function injectChannelGateHTML() {
+    if (document.getElementById('csSubGateOverlay')) return;
+    const overlay = document.createElement('div');
+    overlay.id = 'csSubGateOverlay';
+    overlay.className = 'cs-sub-gate-overlay';
+    overlay.innerHTML = `
+        <div class="cs-sub-gate-card">
+            <div class="cs-sub-icon-wrap">📢</div>
+            <div class="cs-sub-title">Kanalimizga obuna bo'ling!</div>
+            <div class="cs-sub-desc">
+                CoinStat UZ xizmatlaridan foydalanish va xarid qilish uchun rasmiy kanalimizga a'zo bo'lishingiz shart.
+            </div>
+            <div class="cs-sub-channel-pill" id="csSubChannelPill">
+                📢 ${_csRequiredChannel}
+            </div>
+            <button type="button" class="cs-sub-join-btn" onclick="openRequiredChannelLink()">
+                🚀 Kanalga a'zo bo'lish
+            </button>
+            <button type="button" class="cs-sub-verify-btn" id="csSubVerifyBtn" onclick="verifySubscriptionManually()">
+                ✅ A'zolikni tekshirish
+            </button>
+            <div class="cs-sub-msg" id="csSubMsg"></div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+function openRequiredChannelLink() {
+    triggerHaptic('medium');
+    const url = _csRequiredChannelUrl || 'https://t.me/CoinStatUz';
+    if (tg && typeof tg.openTelegramLink === 'function') {
+        tg.openTelegramLink(url);
+    } else {
+        window.open(url, '_blank');
+    }
+}
+
+async function verifySubscriptionManually() {
+    const btn = document.getElementById('csSubVerifyBtn');
+    const msg = document.getElementById('csSubMsg');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = '⏳ Tekshirilmoqda...';
+    }
+    if (msg) {
+        msg.style.display = 'none';
+        msg.textContent = '';
+    }
+
+    triggerHaptic('light');
+    const isSub = await fetchSubscriptionStatus(true);
+
+    if (btn) {
+        btn.disabled = false;
+        btn.textContent = "✅ A'zolikni tekshirish";
+    }
+
+    if (isSub) {
+        triggerHaptic('success');
+        closeSubscriptionGate();
+    } else {
+        triggerHaptic('error');
+        if (msg) {
+            msg.textContent = "❌ Siz hali kanalga a'zo bo'lmadingiz! Iltimos, yuqoridagi tugma orqali kanalga kiring va 'Qo'shilish' tugmasini bosing.";
+            msg.style.display = 'block';
+        }
+    }
+}
+
+function closeSubscriptionGate() {
+    const overlay = document.getElementById('csSubGateOverlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+}
+
+function showSubscriptionGate() {
+    injectChannelGateStyles();
+    injectChannelGateHTML();
+    const overlay = document.getElementById('csSubGateOverlay');
+    if (overlay) {
+        overlay.classList.add('active');
+    }
+}
+
+async function fetchSubscriptionStatus(force = false) {
+    const userId = getUserId();
+    if (!userId) {
+        return true;
+    }
+
+    // Use short session cache (30s) unless forced
+    const cacheKey = 'cs_sub_cache_' + userId;
+    const now = Date.now();
+    if (!force) {
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+            try {
+                const parsed = JSON.parse(cached);
+                if (parsed.expires > now) {
+                    _csSubscribed = parsed.subscribed;
+                    return _csSubscribed;
+                }
+            } catch(e) {}
+        }
+    }
+
+    if (_csCheckingSub) return _csSubscribed !== false;
+    _csCheckingSub = true;
+
+    try {
+        const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
+        const endpoint = apiBase.replace(/\/$/, '') + '/api/check-sub?telegram_id=' + userId;
+        const res = await fetch(endpoint, {
+            headers: {
+                'X-Telegram-Init-Data': tg?.initData || '',
+            }
+        });
+        const data = await res.json();
+        _csCheckingSub = false;
+
+        if (data && data.ok) {
+            _csSubscribed = Boolean(data.subscribed);
+            if (data.channel) _csRequiredChannel = data.channel;
+            if (data.channel_url) _csRequiredChannelUrl = data.channel_url;
+
+            const pill = document.getElementById('csSubChannelPill');
+            if (pill) pill.textContent = '📢 ' + _csRequiredChannel;
+
+            sessionStorage.setItem(cacheKey, JSON.stringify({
+                subscribed: _csSubscribed,
+                expires: now + (_csSubscribed ? 30000 : 5000)
+            }));
+
+            return _csSubscribed;
+        }
+    } catch(err) {
+        _csCheckingSub = false;
+    }
+
+    return true; // fail-open for network errors so legitimate users aren't trapped if offline
+}
+
+async function checkSubscriptionGateAuto() {
+    if (_csSubscribed === false) {
+        // If user was blocked, re-verify on return from Telegram
+        const isSub = await fetchSubscriptionStatus(true);
+        if (isSub) {
+            closeSubscriptionGate();
+            triggerHaptic('success');
+        }
+    } else {
+        const isSub = await fetchSubscriptionStatus(false);
+        if (!isSub) {
+            showSubscriptionGate();
+        }
+    }
+}
+
+function initChannelSubscriptionGate() {
+    injectChannelGateStyles();
+    injectChannelGateHTML();
+
+    // Initial check
+    setTimeout(async () => {
+        const isSub = await fetchSubscriptionStatus(false);
+        if (!isSub) {
+            showSubscriptionGate();
+        }
+    }, 400);
+}
+
 

@@ -55,6 +55,10 @@ async def run_bot():
     dp.include_router(admin.router)
 
     await database.init_db()
+    try:
+        await bot.delete_webhook(drop_pending_updates=True)
+    except Exception as e:
+        logger.warning(f"delete_webhook notice: {e}")
     logger.info("Bot starting polling...")
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 

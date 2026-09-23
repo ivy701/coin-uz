@@ -254,13 +254,20 @@ app.all('/api/user/referrals', async (req, res) => {
 const starsOrderHandler = require('./api/order/stars.js');
 const topupOrderHandler = require('./api/order/topup.js');
 const giftOrderHandler = require('./api/order/gift.js');
+const checkSubHandler = require('./api/check-sub.js');
 
+app.all(['/api/check-sub', '/api/user/check-sub'], (req, res) => checkSubHandler(req, res));
 app.all('/api/order/stars', (req, res) => starsOrderHandler(req, res));
 app.all('/api/order/topup', (req, res) => topupOrderHandler(req, res));
 app.all('/api/order/gift', (req, res) => giftOrderHandler(req, res));
 
-// Fresh reset endpoint: reset all users balance to 0 and clear orders/rating
+// Protected admin reset endpoint (requires ADMIN_SECRET)
 app.all('/api/admin/reset-fresh', async (req, res) => {
+  const secret = req.query.secret || req.body?.secret || req.headers['x-admin-secret'];
+  const expectedSecret = process.env.ADMIN_SECRET || process.env.ADMIN_IDS || 'secure_coinstat_admin';
+  if (!secret || secret !== expectedSecret) {
+    return res.status(403).json({ ok: false, error: 'Unauthorized: Admin secret required' });
+  }
   try {
     await pool.query('UPDATE users SET balance = 0');
     try { await pool.query('DELETE FROM orders'); } catch (e) {}

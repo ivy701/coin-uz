@@ -54,11 +54,10 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  const body = req.body || {};
-  let userId = body.telegram_id || body.user_id;
-  const username = (body.username || '').replace(/^@/, '').trim();
-  const giftName = body.gift_name || 'Telegram Gift';
-  const price = parseInt(body.amount, 10);
+  return res.status(503).json({
+    ok: false,
+    error: "🔧 Hozirda Telegram Sovg'alari (Gift) bo'limida texnik ishlar olib borilmoqda. Xizmat tez orada qayta ishga tushadi!"
+  });
 
   if (!userId && body.initData) {
     try {
@@ -101,15 +100,29 @@ module.exports = async (req, res) => {
     );
 
     // Send confirmation message in Telegram Bot
+    const targetStr = `@${username.replace(/^@/, '')}`;
+    const channelId = process.env.CHANNEL_ORDERS || '@coinstatuz_org';
+
     const userMsg = 
       `🎁 <b>SOVG'A XARID QILINDI!</b>\n\n` +
       `🎁 Sovg'a: <b>${giftName}</b>\n` +
-      `👤 Qabul qiluvchi: <b>@${username}</b>\n` +
+      `👤 Qabul qiluvchi: <b>${targetStr}</b>\n` +
       `💰 To'langan: <b>${price.toLocaleString('uz-UZ')} so'm</b>\n` +
       `👛 Qolgan balans: <b>${newBal.toLocaleString('uz-UZ')} so'm</b>\n\n` +
       `<i>Sovg'a tez orada foydalanuvchi profiliga yetkaziladi!</i>`;
 
-    await sendTelegramMessage(botToken, userId, userMsg);
+    const channelMsg = 
+      `🎁 <b>CoinStat UZ — Telegram Gift Yuborildi!</b>\n\n` +
+      `🎯 <b>Qabul qiluvchi:</b> ${targetStr}\n` +
+      `💫 <b>Gift:</b> ${giftName} 🎁\n` +
+      `💰 <b>Summa:</b> ${price.toLocaleString('uz-UZ')} so'm\n\n` +
+      `🚀 Gift sovg'asi muvaffaqiyatli yetkazildi!\n` +
+      `🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot`;
+
+    await Promise.allSettled([
+      sendTelegramMessage(botToken, userId, userMsg),
+      sendTelegramMessage(botToken, channelId, channelMsg),
+    ]);
 
     return res.status(200).json({
       ok: true,

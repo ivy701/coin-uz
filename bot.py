@@ -95,6 +95,29 @@ async def start_api_server():
     return runner
 
 
+async def _webhook_guard_task(bot: Bot):
+    """
+    Periodically verify that webhook is not accidentally enabled while in polling mode.
+    If an external service or stray call sets a webhook, this guard clears it
+    within seconds to prevent long polling from getting stuck in TelegramConflictError.
+    """
+    while True:
+        try:
+            await asyncio.sleep(25)
+            info = await bot.get_webhook_info()
+            if info.url:
+                logger.warning(
+                    "Stray webhook detected pointing to %s! Clearing webhook to resume long polling...",
+                    info.url
+                )
+                await bot.delete_webhook(drop_pending_updates=False)
+                logger.info("Webhook successfully cleared by watchdog guard.")
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            logger.debug("Webhook guard check exception: %s", e)
+
+
 async def main():
     # Start API server first (Railway needs port open to mark deploy as success)
     runner = await start_api_server()
@@ -154,9 +177,15 @@ async def main():
         logger.warning(f"delete_webhook notice: {e}")
 
     logger.info("Bot starting in LONG POLLING mode (fastest & most reliable)...")
+    guard_task = asyncio.create_task(_webhook_guard_task(bot))
     try:
         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
     finally:
+        guard_task.cancel()
+        try:
+            await guard_task
+        except asyncio.CancelledError:
+            pass
         # Cleanup
         from services.telethon_client import stop_gift_sender
         await stop_gift_sender()
