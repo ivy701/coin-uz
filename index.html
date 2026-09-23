@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="css/style.css?v=25.0">
+    <link rel="stylesheet" href="css/style.css?v=28.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
@@ -36,7 +36,7 @@
         }
 
         body {
-            padding: 6px 12px 96px 12px;
+            padding: max(10px, env(safe-area-inset-top, 10px)) 12px 96px 12px;
             min-height: 100vh;
         }
 
@@ -52,7 +52,7 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 14px;
-            padding: 2px 2px;
+            padding: 4px 2px 6px 2px;
             width: 100%;
             box-sizing: border-box;
             transform: translateZ(0);
@@ -541,23 +541,35 @@
         .service-badge-pill {
             font-size: 10.5px;
             font-weight: 800;
-            padding: 2px 7px;
+            padding: 3px 8px;
             border-radius: 999px;
             letter-spacing: 0.2px;
+            white-space: nowrap;
+        }
+
+        .service-card-text-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
         }
 
         .service-card-title {
             font-size: 14.5px;
             font-weight: 800;
             color: #ffffff;
-            line-height: 1.15;
+            line-height: 1.25;
+            letter-spacing: -0.2px;
+            word-break: break-word;
         }
 
         .service-card-desc {
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 500;
             color: #8b92aa;
-            margin-top: -4px;
+            line-height: 1.35;
+            margin-top: 0;
+            word-break: break-word;
         }
 
         /* Specific accents for cards */
@@ -671,7 +683,7 @@
             </div>
             <div class="hero-header-right">
                 <span class="card-glowing-dot"></span>
-                <div class="hero-card-tag-pill">Faol hisob</div>
+                <div class="hero-card-tag-pill" data-i18n="home.active_account">Faol hisob</div>
             </div>
         </div>
 
@@ -717,7 +729,7 @@
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                 Xaridlar
             </div>
-            <div class="stat-value-text"><span id="ordersCount">0</span> ta</div>
+            <div class="stat-value-text"><span id="ordersCount">0</span> <span data-i18n="common.unit_count">ta</span></div>
         </div>
         <div class="stat-card-box">
             <div class="stat-label-text" data-i18n="home.spent">
@@ -729,7 +741,7 @@
         <div class="stat-card-box">
             <div class="stat-label-text">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                Keshbek
+                <span data-i18n="home.cashback">Keshbek</span>
             </div>
             <div class="stat-value-text" style="color: #38bdf8;">3% <span id="userBalanceStat" style="display: none;">0</span></div>
         </div>
@@ -744,7 +756,7 @@
             <div>
                 <div class="spin-banner-title">
                     <span data-i18n="home.lucky_spin">Lucky Spin</span> 
-                    <span class="spin-promo-badge">1 TA BEPUL</span>
+                    <span class="spin-promo-badge" data-i18n="home.spin_free_badge">1 TA BEPUL</span>
                 </div>
                 <div class="spin-banner-sub" data-i18n="home.spin_subtext">
                     Promo-kod orqali bepul aylantiring va yutuqlarni oling!
@@ -766,11 +778,11 @@
                 <div class="service-icon-box">
                     <img src="./images/star.webp?v=3" alt="Stars">
                 </div>
-                <span class="service-badge-pill">-10% Chegirma</span>
+                <span class="service-badge-pill" data-i18n="home.badge_discount">-10% Chegirma</span>
             </div>
-            <div>
+            <div class="service-card-text-wrap">
                 <div class="service-card-title" data-i18n="home.service_stars">Telegram Stars</div>
-                <div class="service-card-desc">Eng tezkor yetkazish</div>
+                <div class="service-card-desc" data-i18n="home.desc_stars">Eng tezkor yetkazish</div>
             </div>
         </div>
 
@@ -780,11 +792,11 @@
                 <div class="service-icon-box">
                     <img src="./images/premium.webp?v=3" alt="Premium">
                 </div>
-                <span class="service-badge-pill">3 / 6 / 12 oy</span>
+                <span class="service-badge-pill" data-i18n="home.badge_premium">3 / 6 / 12 oy</span>
             </div>
-            <div>
+            <div class="service-card-text-wrap">
                 <div class="service-card-title" data-i18n="home.service_premium">Telegram Premium</div>
-                <div class="service-card-desc">Rasmiy obuna</div>
+                <div class="service-card-desc" data-i18n="home.desc_premium">Rasmiy obuna</div>
             </div>
         </div>
 
@@ -794,11 +806,11 @@
                 <div class="service-icon-box">
                     <img src="./images/gift.webp?v=3" alt="Sovg'alar">
                 </div>
-                <span class="service-badge-pill">Jonli Gifts</span>
+                <span class="service-badge-pill" data-i18n="home.badge_gifts">Jonli Gifts</span>
             </div>
-            <div>
+            <div class="service-card-text-wrap">
                 <div class="service-card-title" data-i18n="home.service_gifts">Telegram Gifts</div>
-                <div class="service-card-desc">Teddy, Rose & Box</div>
+                <div class="service-card-desc" data-i18n="home.desc_gifts">Teddy, Rose & Box</div>
             </div>
         </div>
 
@@ -811,11 +823,11 @@
                         <line x1="12" y1="18" x2="12.01" y2="18"></line>
                     </svg>
                 </div>
-                <span class="service-badge-pill">SMS Tasdiq</span>
+                <span class="service-badge-pill" data-i18n="home.badge_phone">SMS Tasdiq</span>
             </div>
-            <div>
+            <div class="service-card-text-wrap">
                 <div class="service-card-title" data-i18n="home.service_phone">Virtual Nomer</div>
-                <div class="service-card-desc">Telegram faollashtirish</div>
+                <div class="service-card-desc" data-i18n="home.desc_phone">Telegram faollashtirish</div>
             </div>
         </div>
     </div>
@@ -863,7 +875,7 @@
         </a>
     </div>
 
-    <script src="js/common.js?v=27.0"></script>
+    <script src="js/common.js?v=28.0"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             loadUserBalance();
