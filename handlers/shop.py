@@ -107,7 +107,7 @@ async def process_buy_stars(callback: CallbackQuery):
             
             from services.channel_notify import notify_stars
             try:
-                await notify_stars(username, amount, price)
+                await notify_stars(username, amount, price, order_id=order_id, user_id=user_id)
             except Exception as e:
                 logger.warning(f"notify_stars error: {e}")
             
@@ -205,7 +205,7 @@ async def process_buy_premium(callback: CallbackQuery):
             
             from services.channel_notify import notify_premium
             try:
-                await notify_premium(username, duration, price)
+                await notify_premium(username, duration, price, order_id=order_id, user_id=user_id)
             except Exception as e:
                 logger.warning(f"notify_premium error: {e}")
             

@@ -369,7 +369,7 @@ async def api_order_stars(request: web.Request) -> web.Response:
 
   # Verify channel subscription
   import config as cfg
-  channel = os.getenv("REQUIRED_CHANNEL", getattr(cfg, "CHANNEL_ORDERS", "@CoinStatUz") or "@CoinStatUz")
+  channel = os.getenv("REQUIRED_CHANNEL", "@CoinStatUz")
   channel_clean = channel if channel.startswith("@") else f"@{channel}"
   bot = request.app.get("bot")
   close_bot = False
@@ -437,7 +437,7 @@ async def api_order_stars(request: web.Request) -> web.Response:
     )
     await deduct_balance(user_id, price)
     from services.channel_notify import notify_stars
-    asyncio.ensure_future(notify_stars(username, quantity, price))
+    asyncio.ensure_future(notify_stars(username, quantity, price, order_id=str(order_id), user_id=user_id))
     return web.json_response({"ok": True, "order_id": order_id, "result": result})
   except Exception as e:
     err_str = str(e).lower()
@@ -501,7 +501,7 @@ async def api_order_premium(request: web.Request) -> web.Response:
     )
     await deduct_balance(user_id, price)
     from services.channel_notify import notify_premium
-    asyncio.ensure_future(notify_premium(username, months, price))
+    asyncio.ensure_future(notify_premium(username, months, price, order_id=str(order_id), user_id=user_id))
     return web.json_response({"ok": True, "order_id": order_id, "result": result})
   except Exception as e:
     err_str = str(e).lower()
@@ -898,7 +898,7 @@ async def api_order_topup(request: web.Request) -> web.Response:
 
   # Verify channel subscription
   import config as cfg
-  channel = os.getenv("REQUIRED_CHANNEL", getattr(cfg, "CHANNEL_ORDERS", "@CoinStatUz") or "@CoinStatUz")
+  channel = os.getenv("REQUIRED_CHANNEL", "@CoinStatUz")
   channel_clean = channel if channel.startswith("@") else f"@{channel}"
   bot = request.app.get("bot")
   close_bot = False
@@ -2004,7 +2004,7 @@ async def api_check_sub(request: web.Request) -> web.Response:
         pass
 
   import config as cfg
-  channel = os.getenv("REQUIRED_CHANNEL", getattr(cfg, "CHANNEL_ORDERS", "@CoinStatUz") or "@CoinStatUz")
+  channel = os.getenv("REQUIRED_CHANNEL", "@CoinStatUz")
   channel_clean = channel if channel.startswith("@") else f"@{channel}"
   channel_url = f"https://t.me/{channel_clean.lstrip('@')}"
 

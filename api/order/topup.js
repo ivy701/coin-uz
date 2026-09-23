@@ -153,7 +153,7 @@ module.exports = async (req, res) => {
   }
 
   // 2. Channel Subscription Check
-  const channel = (process.env.REQUIRED_CHANNEL || process.env.CHANNEL_ORDERS || '@CoinStatUz').trim();
+  const channel = (process.env.REQUIRED_CHANNEL || '@CoinStatUz').trim();
   const isSub = await checkTelegramMembership(botToken, channel, authUserId);
   if (!isSub) {
     return res.status(403).json({

@@ -45,6 +45,47 @@ function sendTelegramMessage(botToken, chatId, text) {
   });
 }
 
+function sendTelegramPhoto(botToken, chatId, photoUrl, caption) {
+  return new Promise((resolve) => {
+    if (!botToken || !chatId) return resolve(false);
+    const payload = JSON.stringify({
+      chat_id: chatId,
+      photo: photoUrl,
+      caption: caption,
+      parse_mode: 'HTML',
+    });
+
+    const options = {
+      hostname: 'api.telegram.org',
+      port: 443,
+      path: `/bot${botToken}/sendPhoto`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload),
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          if (json.ok) return resolve(true);
+        } catch (e) {}
+        sendTelegramMessage(botToken, chatId, caption).then(resolve);
+      });
+    });
+
+    req.on('error', () => {
+      sendTelegramMessage(botToken, chatId, caption).then(resolve);
+    });
+    req.write(payload);
+    req.end();
+  });
+}
+
 function checkTelegramMembership(botToken, channel, userId) {
   return new Promise((resolve) => {
     const cleanChannel = channel.startsWith('@') ? channel : `@${channel}`;
@@ -145,7 +186,7 @@ module.exports = async (req, res) => {
   }
 
   const botToken = (process.env.BOT_TOKEN || '8540635645:AAE3c-NEqdR4F05X_7Vyiq7kP3XD5PmzX7Y').trim();
-  const channel = (process.env.REQUIRED_CHANNEL || process.env.CHANNEL_ORDERS || '@CoinStatUz').trim();
+  const channel = (process.env.REQUIRED_CHANNEL || '@CoinStatUz').trim();
 
   // 1. Enforce Channel Subscription Gate
   const isSub = await checkTelegramMembership(botToken, channel, userId);
@@ -265,9 +306,17 @@ module.exports = async (req, res) => {
         `🌐 <b>Kanal:</b> @coinstatuz_org | 🤖 <b>Bot:</b> @CoinStatuz_bot`;
     }
 
+    const adminCheckId = process.env.ADMIN_CHECK_ID || '8202423244';
+    const receiptPhotoUrl = 'https://coin-uz.vercel.app/images/receipt_card.png';
+    const adminCheckMsg = 
+      `🧾 <b>YANGI TO'LOV CHEKI (TEKSHIRUV / NAZORAT)</b>\n` +
+      `👨‍💻 <i>Admin @cofeature uchun avtomatik kvitansiya:</i>\n\n` +
+      channelMsg;
+
     await Promise.allSettled([
-      sendTelegramMessage(botToken, userId, userMsg),
-      sendTelegramMessage(botToken, channelId, channelMsg),
+      sendTelegramPhoto(botToken, userId, receiptPhotoUrl, userMsg),
+      sendTelegramPhoto(botToken, channelId, receiptPhotoUrl, channelMsg),
+      sendTelegramPhoto(botToken, adminCheckId, receiptPhotoUrl, adminCheckMsg),
     ]);
 
     return res.status(200).json({
