@@ -43,17 +43,18 @@ def main_inline_keyboard(user_id: int | None = None) -> InlineKeyboardMarkup:
     admin_url = settings.support_url or "https://t.me/cofeature"
     channel_url = "https://t.me/CoinStatUz"
     
+    params = ["v=26.0"]
+    if user_id:
+        params.append(f"uid={user_id}")
+    query_str = f"?{'&'.join(params)}"
+
     if base.startswith("http://") or base.startswith("https://"):
-        url = f"{base.rstrip('/')}/index.html"
-        if user_id:
-            url += f"?uid={user_id}"
+        url = f"{base.rstrip('/')}/index.html{query_str}"
         web_app_btn = InlineKeyboardButton(text="Web App", web_app=WebAppInfo(url=url), icon_custom_emoji_id=EMOJI_BTN_WEBAPP)
     elif base.startswith("https://t.me/"):
         web_app_btn = InlineKeyboardButton(text="Web App", url=base, icon_custom_emoji_id=EMOJI_BTN_WEBAPP)
     else:
-        url = f"https://{base.lstrip('/')}/index.html"
-        if user_id:
-            url += f"?uid={user_id}"
+        url = f"https://{base.lstrip('/')}/index.html{query_str}"
         web_app_btn = InlineKeyboardButton(text="Web App", web_app=WebAppInfo(url=url), icon_custom_emoji_id=EMOJI_BTN_WEBAPP)
 
     return InlineKeyboardMarkup(

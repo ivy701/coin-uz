@@ -22,12 +22,12 @@ def get_webapp_main_keyboard(user_id: int | None = None, lang: str = "uz", balan
         channel_url = f"https://t.me/{channel_url.lstrip('@')}"
     webapp_url = "https://coin-uz.vercel.app"
 
-    query_params = []
+    query_params = ["v=26.0"]
     if user_id:
         query_params.append(f"uid={user_id}")
     if balance is not None:
         query_params.append(f"bal={balance}")
-    query_str = f"?{'&'.join(query_params)}" if query_params else ""
+    query_str = f"?{'&'.join(query_params)}"
 
     if webapp_url.startswith("http://") or webapp_url.startswith("https://"):
         if webapp_url.startswith("https://t.me/"):
@@ -184,7 +184,7 @@ def get_webapp_keyboard() -> ReplyKeyboardMarkup:
     builder.row(
         KeyboardButton(
             text="🛒 Magazin ochish",
-            web_app=WebAppInfo(url=f"{config.WEBAPP_URL}/index.html?v=11.0")
+            web_app=WebAppInfo(url=f"{config.WEBAPP_URL}/index.html?v=26.0")
         )
     )
     builder.row(

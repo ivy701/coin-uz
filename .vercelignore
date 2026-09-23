@@ -1,7 +1,7 @@
 *.py
 *.pyc
-__pycache__/
-api/
+api/*.py
+api/__pycache__/
 bot/
 handlers/
 services/
