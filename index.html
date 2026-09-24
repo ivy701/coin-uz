@@ -7417,6 +7417,477 @@ body {
     border-color: rgba(34, 197, 94, 0.5) !important;
 }
 
+
+/* =========================================
+   MODERN TOPUP LUXURY FINTECH STYLES (v41.0)
+   Matching User Screenshots Exactly
+   ========================================= */
+
+#view-topup {
+    padding-bottom: 96px !important;
+}
+
+.topup-step-wrapper {
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 24px;
+}
+
+.topup-screen-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 12px;
+}
+
+/* Toast Pill */
+.topup-toast-pill {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: rgba(18, 19, 26, 0.95);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(168, 85, 247, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 999px;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.topup-toast-pill.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.topup-toast-pill svg {
+    color: #a855f7;
+}
+
+/* Card Styling */
+.topup-luxury-card {
+    background: #14151e !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 24px !important;
+    padding: 20px !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3) !important;
+    box-sizing: border-box !important;
+}
+
+.topup-card-title {
+    font-size: 17px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin-bottom: 4px !important;
+    letter-spacing: -0.2px !important;
+}
+
+.topup-card-subtitle {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #94a3b8 !important;
+    margin-bottom: 16px !important;
+    line-height: 1.4 !important;
+}
+
+/* Amount Input Box */
+.topup-amount-input-box {
+    display: flex !important;
+    align-items: center !important;
+    background: #0d0e15 !important;
+    border: 1.5px solid rgba(168, 85, 247, 0.3) !important;
+    border-radius: 16px !important;
+    padding: 0 16px !important;
+    height: 58px !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.topup-amount-input-box:focus-within {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2) !important;
+}
+
+.topup-input-left-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-right: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.topup-amount-field {
+    flex: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: #ffffff !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+}
+
+.topup-amount-field::placeholder {
+    color: #475569 !important;
+    font-weight: 700 !important;
+}
+
+.topup-input-currency {
+    color: #94a3b8 !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    margin-left: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Preset Chips */
+.topup-chips-row {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+    margin: 16px 0 20px !important;
+}
+
+.topup-pill-chip {
+    height: 42px !important;
+    border-radius: 12px !important;
+    background: #0d0e15 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #cbd5e1 !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    padding: 0 !important;
+}
+
+.topup-pill-chip:active {
+    transform: scale(0.96) !important;
+}
+
+.topup-pill-chip.active {
+    background: rgba(168, 85, 247, 0.16) !important;
+    border: 1.5px solid #a855f7 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px rgba(168, 85, 247, 0.28) !important;
+}
+
+/* Main Create Button */
+.topup-cta-create-btn {
+    width: 100% !important;
+    height: 54px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    box-shadow: 0 10px 28px rgba(124, 58, 237, 0.45) !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.topup-cta-create-btn:active {
+    transform: scale(0.98) !important;
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3) !important;
+}
+
+/* Rules / Notice List */
+.topup-rules-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.topup-rule-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.topup-rule-icon-box {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 15px !important;
+    flex-shrink: 0 !important;
+}
+
+.topup-rule-text {
+    font-size: 13px !important;
+    color: #94a3b8 !important;
+    line-height: 1.4 !important;
+}
+
+.topup-rule-text b {
+    color: #f1f5f9 !important;
+}
+
+/* ================= STEP 2: ACTIVE PAYMENT ================= */
+
+.topup-active-summary-card {
+    background: #14151e !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    padding: 16px 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25) !important;
+}
+
+.topup-active-summary-label {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    margin-bottom: 2px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.topup-active-summary-val {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.3px !important;
+}
+
+.topup-timer-badge {
+    background: rgba(239, 68, 68, 0.12) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    color: #f87171 !important;
+    border-radius: 999px !important;
+    padding: 6px 14px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    letter-spacing: 0.5px !important;
+}
+
+.topup-requisites-card {
+    padding: 18px 18px !important;
+}
+
+.topup-info-block {
+    background: #0d0e15 !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 14px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 10px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.topup-info-block:last-of-type {
+    margin-bottom: 0 !important;
+}
+
+.topup-info-meta {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+
+.topup-meta-label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.topup-meta-val {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: 0.8px !important;
+}
+
+.topup-inner-copy-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+    width: 38px !important;
+    height: 38px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #94a3b8 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+.topup-inner-copy-btn:active {
+    transform: scale(0.9) !important;
+    background: rgba(168, 85, 247, 0.2) !important;
+    color: #a855f7 !important;
+}
+
+/* Notice Banner */
+.topup-notice-card {
+    background: rgba(245, 158, 11, 0.08) !important;
+    border: 1px solid rgba(245, 158, 11, 0.25) !important;
+    border-radius: 16px !important;
+    padding: 14px 16px !important;
+    display: flex !important;
+    gap: 12px !important;
+    align-items: flex-start !important;
+}
+
+.topup-notice-icon {
+    font-size: 18px !important;
+    flex-shrink: 0 !important;
+    margin-top: 1px !important;
+}
+
+.topup-notice-text {
+    font-size: 13px !important;
+    color: #fbbf24 !important;
+    line-height: 1.45 !important;
+}
+
+.topup-notice-text b {
+    color: #fef3c7 !important;
+}
+
+/* Pending Banner */
+.topup-pending-card {
+    background: rgba(16, 185, 129, 0.09) !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    border-radius: 16px !important;
+    padding: 14px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.topup-pending-spinner {
+    width: 20px !important;
+    height: 20px !important;
+    border: 2.5px solid rgba(16, 185, 129, 0.3) !important;
+    border-top-color: #10b981 !important;
+    border-radius: 50% !important;
+    animation: topupSpin 0.8s linear infinite !important;
+    flex-shrink: 0 !important;
+}
+
+.topup-pending-text {
+    font-size: 13px !important;
+    color: #e2e8f0 !important;
+    line-height: 1.4 !important;
+}
+
+.topup-pending-text b {
+    color: #10b981 !important;
+}
+
+.topup-pending-text span {
+    color: #94a3b8 !important;
+    font-size: 12px !important;
+}
+
+/* Action Buttons Stack */
+.topup-action-buttons-stack {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 4px !important;
+}
+
+.topup-paid-action-btn {
+    width: 100% !important;
+    height: 54px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    box-shadow: 0 10px 28px rgba(124, 58, 237, 0.45) !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.topup-paid-action-btn:active {
+    transform: scale(0.98) !important;
+}
+
+.topup-btn-spinner {
+    width: 18px !important;
+    height: 18px !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    border-top-color: #ffffff !important;
+    border-radius: 50% !important;
+    animation: topupSpin 0.8s linear infinite !important;
+    display: inline-block !important;
+}
+
+.topup-cancel-action-btn {
+    width: 100% !important;
+    height: 48px !important;
+    background: rgba(239, 68, 68, 0.08) !important;
+    border: 1px solid rgba(239, 68, 68, 0.25) !important;
+    border-radius: 999px !important;
+    color: #f87171 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    transition: all 0.15s ease !important;
+}
+
+.topup-cancel-action-btn:active {
+    transform: scale(0.98) !important;
+    background: rgba(239, 68, 68, 0.16) !important;
+}
+
+@keyframes topupSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
     </style>
     <script>window.API_BASE = "https://web-production-4014a4.up.railway.app";</script>
 </head>
@@ -8125,187 +8596,207 @@ body {
         <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
     </section>
 
-    <!-- ==================== VIEW: TOPUP ==================== -->
+    <!-- ==================== VIEW: TOPUP (LUXURY FINTECH v41.0) ==================== -->
     <section id="view-topup" class="page-view" data-page="topup">
-<!-- Toast Notification -->
-    <div id="copyToast" class="copy-toast">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        <span>Karta raqami nusxalandi!</span>
-    </div>
-
-    <!-- Top Bar -->
-    <div class="topup-top-bar">
-        <a href="javascript:void(0)" onclick="navigateTo('home')" class="back-pill-btn" onclick="navigateTo('home')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </a>
-        <div class="topup-top-title">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="1" y="4" width="22" height="16" rx="3" ry="3"></rect>
-                <line x1="1" y1="10" x2="23" y2="10"></line>
-            </svg>
-            <span data-i18n="topup.header_title">Balans To'ldirish</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 6px;">
-            <div class="balance-badge-pill">
-                <span id="balance">0</span> UZS
-            </div>
-            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
-        </div>
-    </div>
-
-    <!-- Step Progress Indicator -->
-    <div class="step-indicator-bar">
-        <div class="step-badge">
-            <div class="step-badge-dot"></div>
-            <span id="stepBadgeText">1-QADAM</span>
-        </div>
-        <div class="step-desc-text" id="stepSubtext">Kerakli to'lov summasini tanlang</div>
-    </div>
-
-    <!-- STEP 1: SELECT AMOUNT -->
-    <div class="topup-step-container active" id="step1Container">
-        <!-- Amount Presets Grid -->
-        <div class="amount-chips-grid">
-            <div class="amount-chip-card" onclick="selectAmount(10000, this)">
-                <span class="amount-chip-val">10 000</span>
-                <span class="amount-chip-unit" data-i18n="common.unit_som">so'm</span>
-            </div>
-            <div class="amount-chip-card selected" onclick="selectAmount(25000, this)">
-                <span class="amount-chip-val">25 000</span>
-                <span class="amount-chip-unit" data-i18n="common.unit_som">so'm</span>
-            </div>
-            <div class="amount-chip-card" onclick="selectAmount(50000, this)">
-                <span class="amount-chip-val">50 000</span>
-                <span class="amount-chip-unit" data-i18n="common.unit_som">so'm</span>
-            </div>
-            <div class="amount-chip-card" onclick="selectAmount(100000, this)">
-                <span class="amount-chip-val">100 000</span>
-                <span class="amount-chip-unit" data-i18n="common.unit_som">so'm</span>
-            </div>
-            <div class="amount-chip-card" onclick="selectAmount(250000, this)">
-                <span class="amount-chip-val">250 000</span>
-                <span class="amount-chip-unit" data-i18n="common.unit_som">so'm</span>
-            </div>
-            <div class="amount-chip-card" onclick="selectAmount(500000, this)">
-                <span class="amount-chip-val">500 000</span>
-                <span class="amount-chip-unit" data-i18n="common.unit_som">so'm</span>
-            </div>
-        </div>
-
-        <!-- Custom Amount Input -->
-        <div class="custom-amount-card">
-            <input type="number" id="customAmountInput" class="custom-amount-input" placeholder="Boshqa summa kiriting..." data-i18n-placeholder="topup.custom_placeholder" oninput="onCustomAmountInput()">
-            <span class="custom-amount-currency">UZS</span>
-        </div>
-
-        <!-- Go To Step 2 Button -->
-        <button class="primary-action-btn" onclick="proceedToPaymentStep()">
-            <span><span data-i18n="topup.proceed_btn">To'lovga o'tish</span> — <span id="ctaPriceText">25 000</span> UZS</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-        </button>
-    </div>
-
-    <!-- STEP 2: PAYMENT CARD & 5-MINUTE TIMER -->
-    <div class="topup-step-container" id="step2Container">
-        <!-- 5-Minute Live Countdown Timer Banner -->
-        <div class="timer-banner-card">
-            <div class="timer-left-col">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="13" r="8"></circle>
-                    <path d="M12 9v4l2 2"></path>
-                    <path d="M5 3L2 6"></path>
-                    <path d="M22 6l-3-3"></path>
-                    <path d="M12 2v2"></path>
-                </svg>
-                <div>
-                    <div class="timer-info-text" data-i18n="topup.timer_label">To'lov uchun vaqt:</div>
-                    <div class="timer-sub-hint" data-i18n="topup.timer_hint">5 daqiqa ichida to'lang</div>
-                </div>
-            </div>
-            <div class="timer-digits-box" id="timerDisplay">05:00</div>
-        </div>
-        <div class="timer-progress-track"><div class="timer-progress-fill" id="timerProgressFill"></div></div>
-
-        <!-- Exact Amount to Pay Box -->
-        <div class="pay-amount-highlight-box">
-            <span class="pay-label-title" data-i18n="topup.pay_amount_label">To'lanadigan summa:</span>
-            <span class="pay-value-badge" id="summaryAmountText">25 000 UZS</span>
-        </div>
-
-        <!-- 3D Luxury Bank Card -->
-        <div class="credit-card">
-            <div class="card-top-row">
-                <div class="chip-icon"></div>
-                <div class="card-status-badge">VISA</div>
-            </div>
-
-            <div class="card-number-wrapper" onclick="copyCardNumber()">
-                <div class="card-label-small" data-i18n="topup.card_label">Karta raqami (Nusxalash uchun bosing)</div>
-                <div class="card-number-display" id="cardNumberText">4916 9903 6986 6493</div>
-            </div>
-
-            <div class="card-bottom-row">
-                <div class="holder-info">
-                    <div class="card-label-small" data-i18n="topup.receiver_label">Qabul qiluvchi</div>
-                    <div class="card-holder-name" id="cardHolderName">T M</div>
-                </div>
-                <button type="button" class="copy-pill-button" onclick="copyCardNumber()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                    <span data-i18n="topup.copy_btn">Nusxalash</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Instruction Notice -->
-        <div class="instruction-notice-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            <span data-i18n="topup.warning_notice">Iltimos, ko'rsatilgan kartaga aniq summani o'tkazing va quyidagi tugmani bosing.</span>
-        </div>
-
-        <!-- Submit Payment Button -->
-        <button class="primary-action-btn" id="topupSubmitBtn" onclick="submitTopup()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Toast Notification for Topup View -->
+        <div id="topupCopyToast" class="topup-toast-pill" style="display:none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
-            <span data-i18n="topup.submit_btn">To'lovni amalga oshirdim</span>
-        </button>
+            <span id="topupToastText">Karta raqami nusxalandi!</span>
+        </div>
 
-        <!-- Change Amount / Back Button -->
-        <button class="secondary-back-btn" onclick="backToStep1()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            <span data-i18n="topup.change_amount_btn">Summani o'zgartirish</span>
-        </button>
-    </div>
+        <!-- ================= STEP 1: CREATE TOPUP ================= -->
+        <div id="topupStep1" class="topup-step-wrapper">
+            <!-- Header -->
+            <div class="stars-top-bar">
+                <div class="back-pill-btn" onclick="navigateTo('home')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </div>
+                <div class="stars-top-title" data-i18n="home.service_topup">Balans To'ldirish</div>
+                <div class="balance-badge-pill">
+                    <span id="balance">0</span> UZS
+                </div>
+            </div>
 
-    <!-- Help & Support Box -->
-    <div class="topup-help-box">
-        <div class="topup-help-text" data-i18n="topup.help_text">To'lov bo'yicha savollaringiz bo'lsa, adminga yozing:</div>
-        <a href="https://t.me/cofeature" target="_blank" class="topup-admin-btn">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-            </svg>
-            <span data-i18n="topup.admin_btn">Adminga murojaat qilish</span>
-        </a>
-    </div>
+            <div class="topup-screen-content">
+                <!-- Amount Card -->
+                <div class="topup-luxury-card">
+                    <div class="topup-card-title">To'lov summasi</div>
+                    <div class="topup-card-subtitle">Hisobingizni to'ldirish uchun summani kiriting</div>
 
-    <!-- Floating Capsule Dock Navigation -->
-        <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
+                    <!-- Input with Wallet Icon -->
+                    <div class="topup-amount-input-box">
+                        <div class="topup-input-left-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="4"></rect>
+                                <path d="M16 10h4a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2h-4"></path>
+                                <circle cx="18" cy="12" r="1" fill="#a855f7"></circle>
+                            </svg>
+                        </div>
+                        <input
+                            type="text"
+                            id="topupCustomAmountInput"
+                            class="topup-amount-field"
+                            inputmode="numeric"
+                            placeholder="100 000"
+                            oninput="handleTopupInput(this)"
+                            autocomplete="off"
+                        >
+                        <div class="topup-input-currency">UZS</div>
+                    </div>
+
+                    <!-- Preset Chips Grid -->
+                    <div class="topup-chips-row">
+                        <button type="button" class="topup-pill-chip" onclick="selectTopupPreset(50000, this)">50 000</button>
+                        <button type="button" class="topup-pill-chip active" onclick="selectTopupPreset(100000, this)">100 000</button>
+                        <button type="button" class="topup-pill-chip" onclick="selectTopupPreset(200000, this)">200 000</button>
+                        <button type="button" class="topup-pill-chip" onclick="selectTopupPreset(500000, this)">500 000</button>
+                    </div>
+
+                    <!-- Create Payment Button -->
+                    <button type="button" class="topup-cta-create-btn" onclick="startActivePayment()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>To'lov yaratish</span>
+                    </button>
+                </div>
+
+                <!-- Rules / Info Card -->
+                <div class="topup-luxury-card topup-rules-card">
+                    <div class="topup-card-title">Eslatma va qoidalar</div>
+                    <div class="topup-rules-list">
+                        <div class="topup-rule-item">
+                            <div class="topup-rule-icon-box">⚡</div>
+                            <div class="topup-rule-text">Minimal to'lov summasi: <b>1 000 so'm</b></div>
+                        </div>
+                        <div class="topup-rule-item">
+                            <div class="topup-rule-icon-box">🕒</div>
+                            <div class="topup-rule-text">To'lov amalga oshirilgandan so'ng <b>1-5 daqiqa</b> ichida hisobingizga tushadi</div>
+                        </div>
+                        <div class="topup-rule-item">
+                            <div class="topup-rule-icon-box">🛡</div>
+                            <div class="topup-rule-text">To'lov xavfsizligi kafolatlanadi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= STEP 2: ACTIVE PAYMENT ================= -->
+        <div id="topupStep2" class="topup-step-wrapper" style="display:none;">
+            <!-- Header -->
+            <div class="stars-top-bar">
+                <div class="back-pill-btn" onclick="cancelTopupPayment()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </div>
+                <div class="stars-top-title">Faol to'lov</div>
+                <div class="balance-badge-pill">
+                    <span id="balance">0</span> UZS
+                </div>
+            </div>
+
+            <div class="topup-screen-content">
+                <!-- Top Header Card: Amount & 10min Countdown -->
+                <div class="topup-active-summary-card">
+                    <div class="topup-active-summary-left">
+                        <div class="topup-active-summary-label">To'lov summasi</div>
+                        <div class="topup-active-summary-val" id="topupActiveAmountDisplay">100 000 so'm</div>
+                    </div>
+                    <div class="topup-timer-badge">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span id="activeTopupCountdown">10:00</span>
+                    </div>
+                </div>
+
+                <!-- Requisites Card -->
+                <div class="topup-luxury-card topup-requisites-card">
+                    <div class="topup-card-subtitle" style="margin-bottom:14px;">Quyidagi karta raqamiga to'lovni amalga oshiring</div>
+
+                    <!-- Card Number Block -->
+                    <div class="topup-info-block">
+                        <div class="topup-info-meta">
+                            <span class="topup-meta-label">Karta raqami</span>
+                            <span class="topup-meta-val" id="topupCardNumberDisplay">5614 6844 0305 7969</span>
+                        </div>
+                        <button type="button" class="topup-inner-copy-btn" onclick="copyCardNum()" aria-label="Nusxalash">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Card Owner Block -->
+                    <div class="topup-info-block">
+                        <div class="topup-info-meta">
+                            <span class="topup-meta-label">Karta egasi</span>
+                            <span class="topup-meta-val" id="topupCardOwnerDisplay">B.M.</span>
+                        </div>
+                    </div>
+
+                    <!-- Transfer Amount Block -->
+                    <div class="topup-info-block">
+                        <div class="topup-info-meta">
+                            <span class="topup-meta-label">O'tkazma summasi</span>
+                            <span class="topup-meta-val" id="topupCardAmountDisplay">100 000 so'm</span>
+                        </div>
+                        <button type="button" class="topup-inner-copy-btn" onclick="copyPayAmount()" aria-label="Summani nusxalash">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Diqqat / Instructions Banner -->
+                <div class="topup-notice-card">
+                    <div class="topup-notice-icon">⚠️</div>
+                    <div class="topup-notice-text">
+                        <b>Diqqat:</b> To'lovni amalga oshirgach, pastdagi <b>"To'lov qildim"</b> tugmasini bosing. Admin to'lovni tekshirib balansingizga qo'shib beradi.
+                    </div>
+                </div>
+
+                <!-- Pending Status Banner (Shown after user clicks "To'lov qildim") -->
+                <div id="topupPendingBanner" class="topup-pending-card" style="display:none;">
+                    <div class="topup-pending-spinner"></div>
+                    <div class="topup-pending-text">
+                        <b>To'lovingiz qabul qilindi!</b><br>
+                        <span>So'rov adminga yuborildi. Tekshiruvdan so'ng balansingiz to'ldiriladi.</span>
+                    </div>
+                </div>
+
+                <!-- Prominent Action Buttons -->
+                <div class="topup-action-buttons-stack">
+                    <button type="button" id="topupPaidBtn" class="topup-paid-action-btn" onclick="submitTopupConfirmation()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>To'lov qildim</span>
+                    </button>
+
+                    <button type="button" class="topup-cancel-action-btn" onclick="cancelTopupPayment()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                        <span>To'lovni bekor qilish</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </section>
+
 
     <!-- ==================== VIEW: ORDERS ==================== -->
     <section id="view-orders" class="page-view" data-page="orders">
@@ -10990,233 +11481,256 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
             if (typeof loadUserBalance === 'function') loadUserBalance();
         });
 
-/* === TOPUP SCRIPT === */
-let selectedAmount = 25000;
-        let countdownTimer = null;
-        let timeLeftSeconds = 300; // 5 minutes = 300 seconds
+/* === MODERN TOPUP SCRIPT (v41.0 - Screenshot-Matched & Admin Verification) === */
+let currentTopupAmount = 100000;
+let activeTopupOrderId = null;
+let topupTimerInterval = null;
+let topupTimeLeft = 600; // 10 minutes
 
-        function updateCtaPrice(val) {
-            const el = document.getElementById('ctaPriceText');
-            if (el) el.textContent = val ? val.toLocaleString('uz-UZ') : '0';
+function formatNumber(num) {
+    if (!num) return '0';
+    return String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+function parseFormattedNumber(str) {
+    if (!str) return 0;
+    const clean = String(str).replace(/\D/g, '');
+    return parseInt(clean, 10) || 0;
+}
+
+function showTopupToast(msg) {
+    const toast = document.getElementById('topupCopyToast');
+    const textEl = document.getElementById('topupToastText');
+    if (toast && textEl) {
+        textEl.textContent = msg;
+        toast.style.display = 'flex';
+        toast.classList.add('show');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => { toast.style.display = 'none'; }, 200);
+        }, 2200);
+    } else if (typeof showToast === 'function') {
+        showToast(msg);
+    } else if (window.Telegram?.WebApp?.showAlert) {
+        window.Telegram.WebApp.showAlert(msg);
+    }
+}
+
+function selectTopupPreset(amount, chipEl) {
+    currentTopupAmount = amount;
+    const input = document.getElementById('topupCustomAmountInput');
+    if (input) input.value = formatNumber(amount);
+
+    document.querySelectorAll('.topup-pill-chip').forEach(c => c.classList.remove('active'));
+    if (chipEl) chipEl.classList.add('active');
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+}
+
+function handleTopupInput(inputEl) {
+    const raw = parseFormattedNumber(inputEl.value);
+    currentTopupAmount = raw;
+    inputEl.value = raw > 0 ? formatNumber(raw) : '';
+
+    // Update active chip state
+    document.querySelectorAll('.topup-pill-chip').forEach(chip => {
+        const chipVal = parseFormattedNumber(chip.textContent);
+        chip.classList.toggle('active', chipVal === raw);
+    });
+}
+
+function startActivePayment() {
+    if (!currentTopupAmount || currentTopupAmount < 1000) {
+        if (window.Telegram?.WebApp?.showAlert) {
+            window.Telegram.WebApp.showAlert("Iltimos, kamida 1,000 so'm summa kiriting!");
+        } else {
+            alert("Iltimos, kamida 1,000 so'm summa kiriting!");
         }
+        return;
+    }
 
-        function selectAmount(val, el) {
-            selectedAmount = val;
-            document.querySelectorAll('.amount-chip-card').forEach(c => c.classList.remove('selected'));
-            if (el) el.classList.add('selected');
-            document.getElementById('customAmountInput').value = '';
-            updateCtaPrice(val);
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+    activeTopupOrderId = 'TOP_' + Date.now();
+    const s1 = document.getElementById('topupStep1');
+    const s2 = document.getElementById('topupStep2');
+    if (s1) s1.style.display = 'none';
+    if (s2) s2.style.display = 'block';
+
+    const disp = document.getElementById('topupActiveAmountDisplay');
+    if (disp) disp.textContent = formatNumber(currentTopupAmount) + " so'm";
+    const cardAmtDisp = document.getElementById('topupCardAmountDisplay');
+    if (cardAmtDisp) cardAmtDisp.textContent = formatNumber(currentTopupAmount) + " so'm";
+
+    // Reset button & pending banner
+    const btn = document.getElementById('topupPaidBtn');
+    if (btn) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>To\'lov qildim</span>';
+        btn.style.background = 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)';
+        btn.style.boxShadow = '0 10px 28px rgba(124, 58, 237, 0.45)';
+    }
+    const pending = document.getElementById('topupPendingBanner');
+    if (pending) pending.style.display = 'none';
+
+    // Start 10-minute timer
+    clearInterval(topupTimerInterval);
+    topupTimeLeft = 600;
+    updateTopupTimer();
+    topupTimerInterval = setInterval(() => {
+        topupTimeLeft--;
+        if (topupTimeLeft <= 0) {
+            clearInterval(topupTimerInterval);
+            const tEl = document.getElementById('activeTopupCountdown');
+            if (tEl) tEl.textContent = '00:00';
+        } else {
+            updateTopupTimer();
         }
+    }, 1000);
 
-        function onCustomAmountInput() {
-            const val = parseInt(document.getElementById('customAmountInput').value, 10);
-            if (val && val > 0) {
-                selectedAmount = val;
-                document.querySelectorAll('.amount-chip-card').forEach(c => c.classList.remove('selected'));
-                updateCtaPrice(val);
-            } else {
-                selectedAmount = 0;
-                updateCtaPrice(0);
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function updateTopupTimer() {
+    const mins = Math.floor(topupTimeLeft / 60);
+    const secs = topupTimeLeft % 60;
+    const str = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+    const tEl = document.getElementById('activeTopupCountdown');
+    if (tEl) tEl.textContent = str;
+}
+
+function cancelTopupPayment() {
+    clearInterval(topupTimerInterval);
+    activeTopupOrderId = null;
+    const s1 = document.getElementById('topupStep1');
+    const s2 = document.getElementById('topupStep2');
+    if (s2) s2.style.display = 'none';
+    if (s1) s1.style.display = 'block';
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e) {}
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function copyCardNum() {
+    const cardEl = document.getElementById('topupCardNumberDisplay');
+    const num = (cardEl ? cardEl.textContent : '5614 6844 0305 7969').replace(/\s+/g, '');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(num).then(() => {
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
             }
-        }
-
-        function proceedToPaymentStep() {
-            if (!selectedAmount || selectedAmount < 1000) {
-                if (tg && tg.showAlert) tg.showAlert('Iltimos, kamida 1,000 so\'m summa kiriting.');
-                else alert('Iltimos, kamida 1,000 so\'m summa kiriting.');
-                return;
-            }
-
-            const formatted = selectedAmount.toLocaleString('uz-UZ') + ' UZS';
-            const sumEl = document.getElementById('summaryAmountText');
-            if (sumEl) sumEl.textContent = formatted;
-
-            const stepBadge = document.getElementById('stepBadgeText');
-            const stepSubEl = document.getElementById('stepSubtext');
-            if (stepBadge) stepBadge.textContent = '2-QADAM';
-            if (stepSubEl) {
-                const lang = localStorage.getItem('starpay_lang') || 'uz';
-                if (lang === 'ru') stepSubEl.textContent = 'Оплатите на карту и подтвердите';
-                else if (lang === 'en') stepSubEl.textContent = 'Transfer to card & confirm';
-                else stepSubEl.textContent = 'Kartaga to\'lov qiling va tasdiqlang';
-            }
-
-            const s1 = document.getElementById('step1Container');
-            const s2 = document.getElementById('step2Container');
-            if (s1) s1.classList.remove('active');
-            if (s2) s2.classList.add('active');
-
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-
-            startPaymentTimer();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function backToStep1() {
-            clearInterval(countdownTimer);
-            const s1 = document.getElementById('step1Container');
-            const s2 = document.getElementById('step2Container');
-            if (s2) s2.classList.remove('active');
-            if (s1) s1.classList.add('active');
-
-            const stepBadge = document.getElementById('stepBadgeText');
-            const stepSubEl = document.getElementById('stepSubtext');
-            if (stepBadge) stepBadge.textContent = '1-QADAM';
-            if (stepSubEl) {
-                const lang = localStorage.getItem('starpay_lang') || 'uz';
-                if (lang === 'ru') stepSubEl.textContent = 'Выберите сумму пополнения';
-                else if (lang === 'en') stepSubEl.textContent = 'Select top-up amount';
-                else stepSubEl.textContent = 'Kerakli to\'lov summasini tanlang';
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function startPaymentTimer() {
-            clearInterval(countdownTimer);
-            timeLeftSeconds = 300; // 5 minutes
-            updateTimerDisplay();
-
-            countdownTimer = setInterval(() => {
-                timeLeftSeconds--;
-                if (timeLeftSeconds <= 0) {
-                    clearInterval(countdownTimer);
-                    document.getElementById('timerDisplay').textContent = '00:00';
-                    if (tg && tg.showAlert) {
-                        tg.showAlert('⚠️ To\'lov uchun berilgan 5 daqiqa vaqt tugadi. Agar to\'lagan bo\'lsangiz, baribir tugmani bosing yoki qaytadan urinib ko\'ring.');
-                    }
-                } else {
-                    updateTimerDisplay();
-                }
-            }, 1000);
-        }
-
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeLeftSeconds / 60);
-            const seconds = timeLeftSeconds % 60;
-            const text = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
-            const el = document.getElementById('timerDisplay');
-            if (el) el.textContent = text;
-        }
-
-        function showCopyToast() {
-            const toast = document.getElementById('copyToast');
-            if (toast) {
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2000);
-            }
-        }
-
-        function copyCardNumber() {
-            const num = document.getElementById('cardNumberText').textContent.replace(/\s+/g, '');
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(num);
-                showCopyToast();
-                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            } else {
-                const el = document.createElement('textarea');
-                el.value = num;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                showCopyToast();
-            }
-        }
-
-        let isTopupSubmitting = false;
-
-        async function submitTopup() {
-            if (isTopupSubmitting) return; // Prevent duplicate requests on multiple clicks!
-
-            const userId = getUserId();
-            const apiBase = getApiBase();
-            const orderId = 'TOP_' + Date.now();
-
-            if (!selectedAmount || selectedAmount < 1000) {
-                if (tg && tg.showAlert) tg.showAlert('Iltimos, to\'g\'ri summa kiriting (kamida 1,000 so\'m)');
-                else alert('Iltimos, to\'g\'ri summa kiriting (kamida 1,000 so\'m)');
-                return;
-            }
-
-            isTopupSubmitting = true;
-            const btn = document.getElementById('submitBtn');
-            const oldHtml = btn.innerHTML;
-            btn.disabled = true;
-            btn.style.pointerEvents = 'none';
-            btn.style.opacity = '0.7';
-            btn.innerHTML = '<span>⏳</span> Yuborildi, tekshirilmoqda...';
-
-            try {
-                const tgUser = tg?.initDataUnsafe?.user;
-                const uname = tgUser?.username ? ('@' + tgUser.username.replace('@', '')) : '';
-                const uFullName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ');
-                const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
-                const endpoint = apiBase.replace(/\/$/, '') + '/api/order/topup';
-
-                const res = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': (tg && tg.initData) ? tg.initData : '' },
-                    body: JSON.stringify({
-                        order_id: orderId,
-                        telegram_id: userId,
-                        user_id: userId,
-                        username: uname,
-                        first_name: tgUser?.first_name || '',
-                        name: uFullName,
-                        amount: selectedAmount,
-                        payment_method: 'card',
-                        initData: (tg && tg.initData) ? tg.initData : ''
-                    })
-                });
-
-                let data = null;
-                try {
-                    data = await res.json();
-                } catch (jsonErr) {}
-
-                if (data && data.ok) {
-                    clearInterval(countdownTimer);
-                    if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                    if (tg && tg.showAlert) {
-                        tg.showAlert(`✅ ${selectedAmount.toLocaleString('uz-UZ')} so'mlik to'lov so'rovingiz qabul qilindi! Admin tekshirib, hisobingizga balans qo'shadi.`);
-                    } else {
-                        alert(`✅ ${selectedAmount.toLocaleString('uz-UZ')} so'mlik to'lov so'rovingiz qabul qilindi!`);
-                    }
-                    setTimeout(() => navigateTo('orders'), 1000);
-                } else if (res.ok || (data && data.order_id)) {
-                    clearInterval(countdownTimer);
-                    if (tg && tg.showAlert) {
-                        tg.showAlert(`✅ To'lov so'rovingiz qabul qilindi! Admin tekshirib, hisobingizga balans qo'shadi.`);
-                    } else {
-                        alert(`✅ To'lov so'rovingiz qabul qilindi!`);
-                    }
-                    setTimeout(() => navigateTo('orders'), 1000);
-                } else {
-                    const err = data?.error || 'To\'lov so\'rovini yuborishda xatolik yuz berdi. Iltimos adminga murojaat qiling.';
-                    if (tg && tg.showAlert) tg.showAlert(err);
-                    else alert(err);
-                    isTopupSubmitting = false;
-                    btn.disabled = false;
-                    btn.style.pointerEvents = 'auto';
-                    btn.style.opacity = '1';
-                    btn.innerHTML = oldHtml;
-                }
-            } catch (err) {
-                if (tg && tg.showAlert) tg.showAlert('Xatolik: ' + err.message);
-                else alert('Xatolik: ' + err.message);
-                isTopupSubmitting = false;
-                btn.disabled = false;
-                btn.style.pointerEvents = 'auto';
-                btn.style.opacity = '1';
-                btn.innerHTML = oldHtml;
-            }
-        }
-
-        /* DOMContentLoaded wrapper removed */ (function() {
-            loadUserBalance();
-            updateCtaPrice(selectedAmount);
+            showTopupToast("Karta raqami nusxalandi!");
+        }).catch(() => {
+            showTopupToast("Karta raqami: " + num);
         });
+    } else {
+        showTopupToast("Karta raqami: " + num);
+    }
+}
+
+function copyPayAmount() {
+    const raw = String(currentTopupAmount);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(raw).then(() => {
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+            }
+            showTopupToast("Summa nusxalandi!");
+        }).catch(() => {
+            showTopupToast("Summa: " + raw);
+        });
+    } else {
+        showTopupToast("Summa: " + raw);
+    }
+}
+
+async function submitTopupConfirmation() {
+    const btn = document.getElementById('topupPaidBtn');
+    if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.75';
+        btn.style.pointerEvents = 'none';
+        btn.innerHTML = '<span class="topup-btn-spinner"></span><span>Yuborilmoqda...</span>';
+    }
+
+    const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+    const uname = tgUser?.username ? ('@' + tgUser.username.replace('@', '')) : '';
+    const uFullName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ') || (tgUser?.username ? ('@' + tgUser.username) : 'Foydalanuvchi');
+    const uid = (typeof getUserId === 'function' ? getUserId() : null) || tgUser?.id;
+    const orderId = activeTopupOrderId || ('TOP_' + Date.now());
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
+
+    try {
+        const res = await fetch(apiBase.replace(/\/$/, '') + '/api/order/topup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Telegram-Init-Data': window.Telegram?.WebApp?.initData || ''
+            },
+            body: JSON.stringify({
+                order_id: orderId,
+                telegram_id: uid,
+                user_id: uid,
+                username: uname,
+                first_name: tgUser?.first_name || '',
+                name: uFullName,
+                amount: currentTopupAmount,
+                payment_method: 'card',
+                initData: window.Telegram?.WebApp?.initData || ''
+            })
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (btn) {
+            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span>Admin tasdiqlashi kutilmoqda</span>';
+            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            btn.style.boxShadow = '0 8px 24px rgba(16, 185, 129, 0.4)';
+        }
+
+        const pending = document.getElementById('topupPendingBanner');
+        if (pending) pending.style.display = 'flex';
+
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+            try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+        }
+
+        if (window.Telegram?.WebApp?.showAlert) {
+            window.Telegram.WebApp.showAlert("To'lov so'rovingiz qabul qilindi!\nAdmin to'lovni tasdiqlashi bilan hisobingiz to'ldiriladi.");
+        } else {
+            showTopupToast("To'lov so'rovi adminga yuborildi!");
+        }
+
+    } catch (err) {
+        console.error("Topup submission error:", err);
+        if (btn) {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Qayta urinish</span>';
+        }
+        if (window.Telegram?.WebApp?.showAlert) {
+            window.Telegram.WebApp.showAlert("Xatolik yuz berdi. Iltimos, internetingizni tekshirib qayta urining.");
+        }
+    }
+}
+
+// Auto init topup default amount
+setTimeout(() => {
+    const input = document.getElementById('topupCustomAmountInput');
+    if (input && !input.value) {
+        input.value = formatNumber(100000);
+    }
+}, 100);
+
 
 /* === ORDERS SCRIPT === */
 let allOrders = [];

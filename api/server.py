@@ -1,5 +1,5 @@
 import asyncio
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import json
 import logging
 import os
@@ -964,27 +964,59 @@ async def api_order_topup(request: web.Request) -> web.Response:
     from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
     
     bot_inst = Bot(token=cfg.BOT_TOKEN)
+
+    # Resolve user display name and username
+    uname = body.get("username", "") or ""
+    fname = body.get("first_name", "") or body.get("name", "") or ""
+    
+    if not uname or not fname:
+      try:
+        from services.database import get_user
+        db_user = await get_user(user_id)
+        if db_user:
+          if not uname and db_user.get("username"):
+            uname = db_user.get("username")
+          if not fname:
+            fname = db_user.get("full_name") or db_user.get("first_name") or ""
+      except Exception:
+        pass
+
+    username_formatted = f"@{uname.lstrip('@')}" if uname else "usernamesiz"
+    name_formatted = fname if fname else "Foydalanuvchi"
+    user_display_line = f"<b>{name_formatted}</b> ({username_formatted})"
+    now_tashkent = (datetime.utcnow() + timedelta(hours=5)).strftime("%H:%M:%S (%d.%m.%Y)")
     
     admin_kb = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="✅ Qabul qilish (+Balans)", callback_data=f"approve_topup_{order_id}_{user_id}_{amount_int}"),
+            InlineKeyboardButton(text=f"✅ Tasdiqlash (+{amount_int:,})", callback_data=f"approve_topup_{order_id}_{user_id}_{amount_int}"),
             InlineKeyboardButton(text="❌ Rad etish", callback_data=f"reject_topup_{order_id}_{user_id}"),
         ]
     ])
     
-    card_number = os.getenv("CARD_NUMBER", "4916 9903 6986 6493")
-    card_owner = os.getenv("CARD_OWNER", "T M")
+    card_number = os.getenv("CARD_NUMBER", "5614 6844 0305 7969")
+    card_owner = os.getenv("CARD_OWNER", "B.M.")
     
-    admin_ids = [int(a) for a in cfg.ADMINS]
+    admin_ids = set()
+    if hasattr(cfg, "ADMINS") and cfg.ADMINS:
+      admin_ids.update([int(a) for a in cfg.ADMINS if str(a).isdigit()])
+    for env_a in os.getenv("ADMIN_IDS", "8202423244").split(","):
+      if env_a.strip().isdigit():
+        admin_ids.add(int(env_a.strip()))
+    if os.getenv("ADMIN_CHECK_ID", "").strip().isdigit():
+      admin_ids.add(int(os.getenv("ADMIN_CHECK_ID").strip()))
+    admin_ids.add(8202423244)
+
     for admin_id in admin_ids:
         try:
             await bot_inst.send_message(
                 admin_id,
                 f"📥 <b>YANGI TO'LOV SO'ROVI (WebApp)!</b>\n\n"
-                f"👤 Foydalanuvchi ID: <code>{user_id}</code>\n"
-                f"💰 Summa: <b>{amount_int:,} so'm</b>\n"
-                f"🆔 Buyurtma: <code>{order_id}</code>\n\n"
-                f"<i>To'lov kelganini tekshirib, tugmani bosing:</i>",
+                f"👤 <b>Foydalanuvchi:</b> {user_display_line}\n"
+                f"🆔 <b>Telegram ID:</b> <code>{user_id}</code>\n"
+                f"💰 <b>To'lov summasi:</b> <b>{amount_int:,} so'm</b>\n"
+                f"🆔 <b>Buyurtma ID:</b> <code>{order_id}</code>\n"
+                f"⏰ <b>Vaqti:</b> {now_tashkent}\n\n"
+                f"💳 <i>Foydalanuvchi ilovada <b>'To'lov qildim'</b> tugmasini bosdi. To'lov kelganini tekshirib, tasdiqlang:</i>",
                 parse_mode="HTML",
                 reply_markup=admin_kb
             )
@@ -1000,11 +1032,11 @@ async def api_order_topup(request: web.Request) -> web.Response:
         try:
             await bot_inst.send_message(
                 int(user_id),
-                f"💳 <b>Balans to'ldirish so'rovi yaratildi!</b>\n\n"
-                f"💰 Summa: <b>{amount_int:,} so'm</b>\n\n"
-                f"💳 <b>Karta raqami:</b> <code>{card_number}</code>\n"
-                f"👤 <b>Egasining ismi:</b> {card_owner}\n\n"
-                f"<i>To'lovni amalga oshirgach, Admin tasdiqlashini kuting!</i>",
+                f"💳 <b>Balans to'ldirish so'rovi qabul qilindi!</b>\n\n"
+                f"💰 Summa: <b>{amount_int:,} so'm</b>\n"
+                f"🆔 Buyurtma: <code>{order_id}</code>\n"
+                f"💳 <b>Karta:</b> <code>{card_number}</code> ({card_owner})\n\n"
+                f"<i>To'lovni amalga oshirgan bo'lsangiz, Admin tasdiqlashini kuting. Tasdiqlanishi bilan hisobingizga tushadi!</i>",
                 parse_mode="HTML",
                 reply_markup=user_kb
             )
@@ -1015,7 +1047,7 @@ async def api_order_topup(request: web.Request) -> web.Response:
   except Exception as err:
     logger.error("Failed to process telegram notification for topup %s: %s", order_id, err)
 
-  return web.json_response({"ok": True, "order_id": order_id})
+  return web.json_response({"ok": True, "order_id": order_id, "card_number": card_number, "card_owner": card_owner})
 
 
 
