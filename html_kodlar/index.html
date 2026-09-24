@@ -6551,7 +6551,7 @@ body {
 
 
 /* ==========================================================================
-   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v38.0)
+   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v39.0)
    ========================================================================== */
 
 :root {
@@ -7065,7 +7065,7 @@ body {
 }
 
 /* ==========================================================================
-   Luxury Action Cards & Menu Stack (v38.0)
+   Luxury Action Cards & Menu Stack (v39.0)
    ========================================================================== */
 .luxury-menu-stack {
     display: flex !important;
@@ -7263,6 +7263,138 @@ body {
 #view-services {
     padding-bottom: 96px !important;
 }
+
+/* ==========================================================================
+   PERFECT SLIDING WHITE PILL BOTTOM DOCK (Matching media_1790238379398.png)
+   ========================================================================== */
+.bottom-dock-nav {
+    position: fixed !important;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+    left: 14px !important;
+    right: 14px !important;
+    max-width: 420px !important;
+    margin: 0 auto !important;
+    height: 64px !important;
+    background: #0f111a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 999px !important;
+    padding: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    z-index: 9999 !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 1px rgba(255, 255, 255, 0.15) !important;
+    box-sizing: border-box !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+/* The Smooth Sliding White Capsule Pill */
+.dock-sliding-pill {
+    position: absolute !important;
+    top: 6px !important;
+    bottom: 6px !important;
+    left: 0 !important;
+    width: 0 !important;
+    background: #ffffff !important;
+    border-radius: 999px !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(255, 255, 255, 0.2) !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+    will-change: transform, width !important;
+    transition: transform 0.34s cubic-bezier(0.25, 1, 0.5, 1), width 0.25s ease !important;
+}
+
+.dock-tab-btn {
+    position: relative !important;
+    z-index: 2 !important;
+    flex: 1 1 0 !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    border-radius: 999px !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: transform 0.15s ease !important;
+    color: #94a3b8 !important;
+}
+
+.dock-tab-btn:active {
+    transform: scale(0.92) !important;
+}
+
+.dock-tab-btn svg {
+    width: 21px !important;
+    height: 21px !important;
+    fill: #94a3b8 !important;
+    stroke: none !important;
+    filter: none !important;
+    transition: fill 0.22s ease, transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1) !important;
+}
+
+.dock-tab-btn span {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.1px !important;
+    color: #94a3b8 !important;
+    transition: color 0.22s ease, font-weight 0.22s ease !important;
+}
+
+/* Active Tab: Pure Deep Black (#000000) on White Capsule Pill */
+.dock-tab-btn.active {
+    color: #000000 !important;
+}
+.dock-tab-btn.active svg {
+    fill: #000000 !important;
+    stroke: none !important;
+    transform: scale(1.06) !important;
+    filter: none !important;
+}
+.dock-tab-btn.active span {
+    color: #000000 !important;
+    font-weight: 800 !important;
+}
+
+/* Profile Big Avatar Styling */
+.user-big-avatar {
+    width: 86px !important;
+    height: 86px !important;
+    border-radius: 50% !important;
+    border: 2px solid rgba(56, 189, 248, 0.5) !important;
+    box-shadow: 0 0 24px rgba(56, 189, 248, 0.25) !important;
+    padding: 3px !important;
+    background: rgba(18, 22, 36, 0.9) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    margin: 0 auto 12px !important;
+}
+
+.user-big-avatar img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+}
+
+.luxury-menu-pill.green-pill {
+    background: rgba(34, 197, 94, 0.2) !important;
+    color: #4ade80 !important;
+    border: 1px solid rgba(34, 197, 94, 0.35) !important;
+}
+
+#view-profile {
+    padding-bottom: 96px !important;
+}
+
 
 .card-topup:active {
     border-color: rgba(34, 197, 94, 0.5) !important;
@@ -7543,7 +7675,7 @@ body {
             </div>
         </div>
 
-        <!-- Extra Luxury Action Cards (v38.0) -->
+        <!-- Extra Luxury Action Cards (v39.0) -->
         <div class="luxury-menu-stack">
             <!-- 1. Orders -->
             <div class="luxury-menu-card" onclick="navigateTo('orders')">
@@ -8210,133 +8342,164 @@ body {
         <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
     </section>
 
+
     <!-- ==================== VIEW: PROFILE ==================== -->
     <section id="view-profile" class="page-view" data-page="profile">
-<!-- Top Bar -->
-    <div class="profile-top-bar">
-        <a href="javascript:void(0)" onclick="navigateTo('home')" class="back-pill-btn" onclick="navigateTo('home')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </a>
-        <div class="profile-page-title" data-i18n="nav.profile">Profil</div>
-        <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
-    </div>
-
-    <!-- User Hero Card -->
-    <div class="user-hero-card">
-        <div class="user-big-avatar">
-            <img src="./images/logo.webp?v=3" id="profileAvatar" alt="User">
-        </div>
-        <div class="user-card-name" id="profileName">username</div>
-        <div class="user-card-id-tag" onclick="copyUserId()">
-            <span id="profileUserId">ID: —</span>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-        </div>
-    </div>
-
-    <!-- 3-Column Stats Grid -->
-    <div class="stats-tri-grid">
-        <div class="stat-card-box" onclick="navigateTo('orders')" style="cursor: pointer;">
-            <div class="stat-label-text" data-i18n="home.orders">Buyurtmalar</div>
-            <div class="stat-value-text" id="ordersCount">0</div>
-        </div>
-        <div class="stat-card-box">
-            <div class="stat-label-text" data-i18n="home.spent">Sarflangan</div>
-            <div class="stat-value-text" id="totalSpent">0</div>
-            <div class="stat-unit-text">UZS</div>
-        </div>
-        <div class="stat-card-box">
-            <div class="stat-label-text" data-i18n="home.balance_stat">Balans</div>
-            <div class="stat-value-text" id="userBalanceStat">0</div>
-            <div class="stat-unit-text">UZS</div>
-        </div>
-    </div>
-
-    <!-- Profile Action Menu -->
-    <div class="profile-menu-container">
-        <!-- Balans To'ldirish -->
-        <div class="menu-action-item" onclick="navigateTo('topup')">
-            <div class="menu-action-left">
-                <div class="menu-icon-box" style="color: #38bdf8;">
-                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-                </div>
-                <div>
-                    <div class="menu-action-title" data-i18n="profile.topup_title">Balans To'ldirish</div>
-                    <div class="menu-action-desc" data-i18n="profile.topup_sub">Hisobni to'ldirish va xarid qilish</div>
-                </div>
+        <!-- Top Bar -->
+        <div class="stars-top-bar">
+            <div class="back-pill-btn" onclick="navigateTo('home')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
             </div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <div class="stars-top-title" data-i18n="nav.profile">Profil</div>
+            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
         </div>
 
-        <!-- Buyurtmalar Tarixi -->
-        <div class="menu-action-item" onclick="navigateTo('orders')">
-            <div class="menu-action-left">
-                <div class="menu-icon-box" style="color: #fbbf24;">
-                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                </div>
-                <div>
-                    <div class="menu-action-title" data-i18n="profile.orders_title">Buyurtmalarim</div>
-                    <div class="menu-action-desc" data-i18n="profile.orders_sub">Xaridlar va to'lovlar tarixi</div>
-                </div>
+        <!-- User Hero Card with Glowing 3D Avatar -->
+        <div class="user-hero-card">
+            <div class="user-big-avatar">
+                <img src="./images/profile.webp?v=3" id="profileAvatar" alt="User" onerror="this.onerror=null; this.src='./images/logo.png'">
             </div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </div>
-
-        <!-- Reyting -->
-        <div class="menu-action-item" onclick="navigateTo('rating')">
-            <div class="menu-action-left">
-                <div class="menu-icon-box" style="color: #f59e0b;">
-                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 4H6v7a6 6 0 0 0 12 0V4z"></path></svg>
-                </div>
-                <div>
-                    <div class="menu-action-title" data-i18n="profile.rating_title">Savdo Reytingi</div>
-                    <div class="menu-action-desc" data-i18n="profile.rating_sub">Eng faol foydalanuvchilar ro'yxati</div>
-                </div>
+            <div class="user-card-name" id="profileName">Foydalanuvchi</div>
+            <div class="user-card-id-tag" onclick="copyUserId()">
+                <span id="profileUserId">ID: —</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
             </div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
 
-        <!-- Support -->
-        <div class="menu-action-item" onclick="window.open('https://t.me/cofeature', '_blank')">
-            <div class="menu-action-left">
-                <div class="menu-icon-box" style="color: #a855f7;">
-                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                </div>
-                <div>
-                    <div class="menu-action-title" data-i18n="profile.support">Qo'llab-quvvatlash</div>
-                    <div class="menu-action-desc" data-i18n="profile.support_sub">Admin va yordam markazi</div>
-                </div>
+        <!-- 3-Column Stats Grid -->
+        <div class="stats-tri-grid">
+            <div class="stat-card-box" onclick="navigateTo('orders')" style="cursor: pointer;">
+                <div class="stat-label-text" data-i18n="home.orders">Buyurtmalar</div>
+                <div class="stat-value-text"><span id="ordersCount">0</span> <span data-i18n="common.unit_count">ta</span></div>
             </div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <div class="stat-card-box">
+                <div class="stat-label-text" data-i18n="home.spent">Sarflangan</div>
+                <div class="stat-value-text"><span id="totalSpent">0</span> <span class="stat-unit-text">UZS</span></div>
+            </div>
+            <div class="stat-card-box">
+                <div class="stat-label-text" data-i18n="home.balance_stat">Balans</div>
+                <div class="stat-value-text" id="userBalanceStat">0</div>
+                <div class="stat-unit-text">UZS</div>
+            </div>
         </div>
 
-        <!-- Sozlamalar: Animatsiyalarni o'chirish (Tezkor rejim / Lite Mode) -->
-        <div class="menu-action-item" style="cursor: default;">
-            <div class="menu-action-left">
-                <div class="menu-icon-box" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
-                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        <!-- Section Title -->
+        <div class="luxury-section-title" style="margin-top: 18px; margin-bottom: 8px;">Xizmatlar & Boshqaruv</div>
+
+        <!-- Luxury Profile Action Menu Stack -->
+        <div class="luxury-menu-stack">
+            <!-- 1. Balans To'ldirish -->
+            <div class="luxury-menu-card" onclick="navigateTo('topup')">
+                <div class="luxury-menu-left">
+                    <div class="luxury-menu-icon-wrap" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.22) 0%, rgba(21, 128, 61, 0.08) 100%); border: 1px solid rgba(34, 197, 94, 0.35); box-shadow: 0 4px 14px rgba(34, 197, 94, 0.2);">
+                        <img src="./images/money.webp?v=3" alt="Topup" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
+                    </div>
+                    <div class="luxury-menu-content">
+                        <div class="luxury-menu-title-row">
+                            <span class="luxury-menu-title" data-i18n="profile.topup_title">Balans To'ldirish</span>
+                            <span class="luxury-menu-pill green-pill" data-i18n="home.badge_auto">Avtomat</span>
+                        </div>
+                        <div class="luxury-menu-desc" data-i18n="profile.topup_sub">Hisobni to'ldirish va xarid qilish</div>
+                    </div>
+                </div>
+                <div class="luxury-menu-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
                 </div>
-                <div>
-                    <div class="menu-action-title" data-i18n="profile.lite_mode">Tezkor Rejim (Lite Mode)</div>
-                    <div class="menu-action-desc" data-i18n="profile.lite_sub">Animatsiyalarni o'chirish (qotmasligi uchun)</div>
+            </div>
+
+            <!-- 2. Buyurtmalarim -->
+            <div class="luxury-menu-card" onclick="navigateTo('orders')">
+                <div class="luxury-menu-left">
+                    <div class="luxury-menu-icon-wrap purple-glow">
+                        <img src="./images/stats__settings.webp?v=3" alt="Orders" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
+                    </div>
+                    <div class="luxury-menu-content">
+                        <div class="luxury-menu-title-row">
+                            <span class="luxury-menu-title" data-i18n="profile.orders_title">Buyurtmalarim</span>
+                            <span class="luxury-menu-pill purple-pill" data-i18n="profile.badge_orders">Tarix</span>
+                        </div>
+                        <div class="luxury-menu-desc" data-i18n="profile.orders_sub">Xaridlar va to'lovlar tarixi</div>
+                    </div>
+                </div>
+                <div class="luxury-menu-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </div>
             </div>
-            <label class="toggle-switch">
-                <input type="checkbox" id="animationToggle" onchange="onAnimationToggleChange(this)">
-                <span class="toggle-slider"></span>
-            </label>
-        </div>
-    </div>
 
-    <!-- Floating Capsule Dock Navigation -->
-        <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
+            <!-- 3. Savdo Reytingi -->
+            <div class="luxury-menu-card" onclick="navigateTo('rating')">
+                <div class="luxury-menu-left">
+                    <div class="luxury-menu-icon-wrap gold-glow">
+                        <img src="./images/trophy.webp?v=3" alt="Rating" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
+                    </div>
+                    <div class="luxury-menu-content">
+                        <div class="luxury-menu-title-row">
+                            <span class="luxury-menu-title" data-i18n="profile.rating_title">Savdo Reytingi</span>
+                            <span class="luxury-menu-pill gold-pill">TOP 10</span>
+                        </div>
+                        <div class="luxury-menu-desc" data-i18n="profile.rating_sub">Eng faol foydalanuvchilar ro'yxati</div>
+                    </div>
+                </div>
+                <div class="luxury-menu-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 4. Qo'llab-quvvatlash -->
+            <div class="luxury-menu-card" onclick="window.open('https://t.me/cofeature', '_blank')">
+                <div class="luxury-menu-left">
+                    <div class="luxury-menu-icon-wrap" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.22) 0%, rgba(14, 116, 144, 0.08) 100%); border: 1px solid rgba(56, 189, 248, 0.35); box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2);">
+                        <img src="./images/chanel__settings.webp" alt="Support" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/send__setings.webp'">
+                    </div>
+                    <div class="luxury-menu-content">
+                        <div class="luxury-menu-title-row">
+                            <span class="luxury-menu-title" data-i18n="profile.support">Qo'llab-quvvatlash</span>
+                        </div>
+                        <div class="luxury-menu-desc" data-i18n="profile.support_sub">Admin va yordam markazi</div>
+                    </div>
+                </div>
+                <div class="luxury-menu-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 5. Tezkor Rejim (Lite Mode) -->
+            <div class="luxury-menu-card" style="cursor: default;">
+                <div class="luxury-menu-left">
+                    <div class="luxury-menu-icon-wrap" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.22) 0%, rgba(88, 28, 135, 0.08) 100%); border: 1px solid rgba(168, 85, 247, 0.35); box-shadow: 0 4px 14px rgba(168, 85, 247, 0.2);">
+                        <img src="./images/settings__settings.webp" alt="Lite" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
+                    </div>
+                    <div class="luxury-menu-content">
+                        <div class="luxury-menu-title-row">
+                            <span class="luxury-menu-title" data-i18n="profile.lite_mode">Tezkor Rejim (Lite Mode)</span>
+                        </div>
+                        <div class="luxury-menu-desc" data-i18n="profile.lite_sub">Animatsiyalarni o'chirish (qotmasligi uchun)</div>
+                    </div>
+                </div>
+                <label class="toggle-switch" style="margin-left: 8px; flex-shrink: 0;">
+                    <input type="checkbox" id="animationToggle" onchange="onAnimationToggleChange(this)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Safe Bottom Dock Spacing -->
+        <div style="height: 85px; width: 100%; pointer-events: none;"></div>
     </section>
+
 
     <!-- ==================== VIEW: RATING ==================== -->
     <section id="view-rating" class="page-view" data-page="rating">
@@ -8635,10 +8798,10 @@ body {
     </main>
 
 
-    <!-- Persistent Floating Capsule Dock Navigation (v38.0) -->
+    <!-- Persistent Floating Capsule Dock Navigation (v39.0) -->
     <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
         <!-- Hardware-accelerated sliding white pill -->
-        <div class="dock-sliding-pill"></div>
+        <div class="dock-sliding-pill" id="dockSlidingPill"></div>
 
         <!-- 1. Asosiy (Home) -->
         <a href="javascript:void(0)" class="dock-tab-btn active" data-target="home" onclick="navigateTo('home')">
@@ -8790,6 +8953,27 @@ function hydrateInstantUserData() {
             const myAv = document.getElementById('myAvatarImg');
             if (myAv) myAv.src = photoUrl;
             if (placeholderEl) placeholderEl.style.display = 'none';
+
+            const profAv = document.getElementById('profileAvatar');
+            if (profAv) {
+                profAv.onerror = function() {
+                    this.onerror = null;
+                    if (tgUser && tgUser.first_name) {
+                        this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(tgUser.first_name) + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+                    } else {
+                        this.src = './images/profile.webp?v=3';
+                    }
+                };
+                if (photoUrl) {
+                    profAv.src = photoUrl;
+                } else if (tgUser && tgUser.username) {
+                    profAv.src = 'https://t.me/i/userpic/320/' + tgUser.username.replace(/^@/, '') + '.jpg';
+                } else if (tgUser && tgUser.first_name) {
+                    profAv.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(tgUser.first_name) + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+                } else {
+                    profAv.src = './images/profile.webp?v=3';
+                }
+            }
         } else if (placeholderEl && tgUser?.first_name) {
             placeholderEl.textContent = tgUser.first_name.charAt(0).toUpperCase();
         }
@@ -10135,9 +10319,45 @@ function initChannelSubscriptionGate() {
 
 
 if (typeof TRANSLATIONS !== 'undefined') {
-    if (TRANSLATIONS.uz) TRANSLATIONS.uz['profile.badge_orders'] = 'Tarix';
-    if (TRANSLATIONS.ru) TRANSLATIONS.ru['profile.badge_orders'] = 'История';
-    if (TRANSLATIONS.en) TRANSLATIONS.en['profile.badge_orders'] = 'History';
+    if (TRANSLATIONS.uz) {
+        TRANSLATIONS.uz["profile.badge_orders"] = "Tarix";
+        TRANSLATIONS.uz["profile.topup_title"] = "Balans To'ldirish";
+        TRANSLATIONS.uz["profile.topup_sub"] = "Hisobni to'ldirish va xarid qilish";
+        TRANSLATIONS.uz["profile.orders_title"] = "Buyurtmalarim";
+        TRANSLATIONS.uz["profile.orders_sub"] = "Xaridlar va to'lovlar tarixi";
+        TRANSLATIONS.uz["profile.rating_title"] = "Savdo Reytingi";
+        TRANSLATIONS.uz["profile.rating_sub"] = "Eng faol foydalanuvchilar ro'yxati";
+        TRANSLATIONS.uz["profile.support"] = "Qo'llab-quvvatlash";
+        TRANSLATIONS.uz["profile.support_sub"] = "Admin va yordam markazi";
+        TRANSLATIONS.uz["profile.lite_mode"] = "Tezkor Rejim (Lite Mode)";
+        TRANSLATIONS.uz["profile.lite_sub"] = "Animatsiyalarni o'chirish (qotmasligi uchun)";
+    }
+    if (TRANSLATIONS.ru) {
+        TRANSLATIONS.ru["profile.badge_orders"] = "История";
+        TRANSLATIONS.ru["profile.topup_title"] = "Пополнение Баланса";
+        TRANSLATIONS.ru["profile.topup_sub"] = "Пополнить счет для покупок";
+        TRANSLATIONS.ru["profile.orders_title"] = "Мои Заказы";
+        TRANSLATIONS.ru["profile.orders_sub"] = "История покупок и платежей";
+        TRANSLATIONS.ru["profile.rating_title"] = "Рейтинг Продаж";
+        TRANSLATIONS.ru["profile.rating_sub"] = "Список лучших пользователей";
+        TRANSLATIONS.ru["profile.support"] = "Поддержка";
+        TRANSLATIONS.ru["profile.support_sub"] = "Центр поддержки и админ";
+        TRANSLATIONS.ru["profile.lite_mode"] = "Быстрый Режим (Lite Mode)";
+        TRANSLATIONS.ru["profile.lite_sub"] = "Отключить анимации (для ускорения)";
+    }
+    if (TRANSLATIONS.en) {
+        TRANSLATIONS.en["profile.badge_orders"] = "History";
+        TRANSLATIONS.en["profile.topup_title"] = "Top Up Balance";
+        TRANSLATIONS.en["profile.topup_sub"] = "Top up account and make purchases";
+        TRANSLATIONS.en["profile.orders_title"] = "My Orders";
+        TRANSLATIONS.en["profile.orders_sub"] = "Purchases and payments history";
+        TRANSLATIONS.en["profile.rating_title"] = "Sales Rating";
+        TRANSLATIONS.en["profile.rating_sub"] = "List of top users";
+        TRANSLATIONS.en["profile.support"] = "Support";
+        TRANSLATIONS.en["profile.support_sub"] = "Help center & admin";
+        TRANSLATIONS.en["profile.lite_mode"] = "Fast Mode (Lite Mode)";
+        TRANSLATIONS.en["profile.lite_sub"] = "Disable animations (for speed)";
+    }
 }
 
 function selectStarCard(el) {
@@ -10205,7 +10425,7 @@ function animateBalance(val) {
 
 
 
-/* === STARS SCRIPT (v38.0) === */
+/* === STARS SCRIPT (v39.0) === */
 function calcCustomStarPrice() {
     const input = document.getElementById('customStarInput');
     const preview = document.getElementById('customPricePreview');
@@ -10321,7 +10541,7 @@ async function buyStarTier(quantity, amount, btn) {
 
 
 
-/* === PREMIUM SCRIPT (v38.0) === */
+/* === PREMIUM SCRIPT (v39.0) === */
 let selectedPlanMonths = 3;
 let selectedPlanAmount = 160000;
 
@@ -10402,7 +10622,7 @@ async function buyPremium() {
 
 
 
-/* === USERNAME VERIFICATION (v38.0) === */
+/* === USERNAME VERIFICATION (v39.0) === */
 function verifyUsername(type) {
     const input = document.getElementById(type + 'Username');
     const msg = document.getElementById(type + 'VerifyMsg');
@@ -11267,7 +11487,7 @@ function renderOrders(orders) {
 
 /* === RATING SCRIPT === */
 
-/* === RATING SCRIPT (v38.0 - REAL TELEGRAM AVATARS) === */
+/* === RATING SCRIPT (v39.0 - REAL TELEGRAM AVATARS) === */
 let cachedRatingList = [];
 
 function switchPeriod(period, btn) {
@@ -13010,6 +13230,39 @@ async function verifyChannelSubscription() {
 
 
 
+function updateSlidingPill(targetNav, immediate = false) {
+    const nav = document.getElementById('bottomDockNav');
+    const pill = document.getElementById('dockSlidingPill');
+    if (!nav || !pill) return;
+
+    const activeTab = nav.querySelector('.dock-tab-btn[data-target="' + targetNav + '"]');
+    if (!activeTab) return;
+
+    const navRect = nav.getBoundingClientRect();
+    const tabRect = activeTab.getBoundingClientRect();
+    const offsetLeft = tabRect.left - navRect.left;
+    const tabWidth = tabRect.width;
+
+    if (tabWidth === 0) {
+        requestAnimationFrame(() => updateSlidingPill(targetNav, immediate));
+        return;
+    }
+
+    if (immediate) {
+        pill.style.transition = 'none';
+        pill.style.transform = 'translateX(' + offsetLeft + 'px)';
+        pill.style.width = tabWidth + 'px';
+        pill.style.opacity = '1';
+        pill.offsetHeight; // reflow
+        pill.style.transition = '';
+    } else {
+        pill.style.opacity = '1';
+        pill.style.transform = 'translateX(' + offsetLeft + 'px)';
+        pill.style.width = tabWidth + 'px';
+    }
+}
+
+
 let currentPage = 'home';
 const pageHistory = ['home'];
 
@@ -13058,6 +13311,9 @@ function navigateTo(pageId, isBack = false) {
         const targetAttr = btn.getAttribute('data-target');
         btn.classList.toggle('active', targetAttr === activeNavTarget);
     });
+    if (typeof updateSlidingPill === 'function') {
+        updateSlidingPill(activeNavTarget, false);
+    }
 
     if (window.Telegram?.WebApp?.BackButton) {
         if (pageId === 'home') {
@@ -13153,6 +13409,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialPage = hashPage || queryPage || (validPages.includes(pathPage) ? pathPage : '') || 'home';
     const startPage = validPages.includes(initialPage) ? initialPage : 'home';
     navigateTo(startPage, false);
+    setTimeout(() => {
+        if (typeof updateSlidingPill === 'function') {
+            const curNav = ['services', 'stars', 'premium', 'gift', 'phone', 'topup', 'spin'].includes(currentPage)
+                ? 'services'
+                : (['profile', 'orders'].includes(currentPage) ? 'profile' : (currentPage === 'rating' ? 'rating' : 'home'));
+            updateSlidingPill(curNav, true);
+        }
+    }, 60);
+
+    window.addEventListener('resize', () => {
+        if (typeof updateSlidingPill === 'function') {
+            const curNav = ['services', 'stars', 'premium', 'gift', 'phone', 'topup', 'spin'].includes(currentPage)
+                ? 'services'
+                : (['profile', 'orders'].includes(currentPage) ? 'profile' : (currentPage === 'rating' ? 'rating' : 'home'));
+            updateSlidingPill(curNav, true);
+        }
+    });
 });
 
 window.addEventListener('hashchange', () => {
