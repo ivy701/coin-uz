@@ -6551,7 +6551,7 @@ body {
 
 
 /* ==========================================================================
-   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v36.0)
+   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v37.0)
    ========================================================================== */
 
 :root {
@@ -6651,15 +6651,11 @@ body {
     color: #34d399 !important;
 }
 
-/* Backwards-compatibility stubs for verify_luxury */
+/* Backwards-compatibility stubs */
 .star-card-popular { border-color: rgba(245, 158, 11, 0.5) !important; }
 .premium-plan-card.selected { border-color: #a855f7 !important; }
 
-/* ==========================================================================
-   NEW STARS & PREMIUM LUXURY FINTECH STYLES (MATCHING USER SCREENSHOTS)
-   ========================================================================== */
-
-/* Hero Header Card */
+/* Stars & Premium Luxury Styles */
 .luxury-hero-card {
     background: rgba(18, 22, 36, 0.85) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -6726,7 +6722,6 @@ body {
     letter-spacing: 0.8px !important;
 }
 
-/* @USERNAME Card */
 .luxury-user-card {
     background: rgba(18, 22, 36, 0.85) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -6808,7 +6803,6 @@ body {
     color: #ef4444 !important;
 }
 
-/* Section Title */
 .luxury-section-title {
     font-size: 11px !important;
     font-weight: 800 !important;
@@ -6819,7 +6813,6 @@ body {
     padding-left: 2px !important;
 }
 
-/* Stars Calculator Card */
 .luxury-calc-card {
     background: rgba(18, 22, 36, 0.85) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -6856,8 +6849,7 @@ body {
     font-weight: 800 !important;
     color: #ffffff !important;
     outline: none !important;
-    box-shadow: 0 0 18px rgba(37, 99, 235, 0.25) !important;
-    box-sizing: border-box !important;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 16px rgba(37, 99, 235, 0.2) !important;
 }
 
 .luxury-star-giant-badge {
@@ -6870,11 +6862,10 @@ body {
 }
 
 .luxury-price-summary-pill {
-    height: 46px !important;
-    background: rgba(13, 16, 27, 0.72) !important;
+    background: rgba(15, 23, 42, 0.75) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 14px !important;
-    padding: 0 16px !important;
+    border-radius: 12px !important;
+    padding: 10px 14px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
@@ -6884,78 +6875,78 @@ body {
     font-size: 12px !important;
     font-weight: 800 !important;
     color: #64748b !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.6px !important;
 }
 
 .luxury-price-summary-pill .pill-value {
-    font-size: 16px !important;
+    font-size: 15px !important;
     font-weight: 800 !important;
-    color: #ffffff !important;
+    color: #38bdf8 !important;
 }
 
 .luxury-quick-chips-row {
     display: flex !important;
-    gap: 6px !important;
+    align-items: center !important;
+    gap: 8px !important;
     overflow-x: auto !important;
+    padding-bottom: 2px !important;
     scrollbar-width: none !important;
-    padding: 2px 0 !important;
 }
+.luxury-quick-chips-row::-webkit-scrollbar { display: none !important; }
 
 .luxury-chip-btn {
-    padding: 7px 12px !important;
-    border-radius: 10px !important;
-    background: rgba(255, 255, 255, 0.06) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    flex-shrink: 0 !important;
+    padding: 8px 14px !important;
+    background: rgba(15, 23, 42, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
     color: #cbd5e1 !important;
-    font-size: 12px !important;
+    font-size: 13px !important;
     font-weight: 700 !important;
     cursor: pointer !important;
-    white-space: nowrap !important;
     transition: all 0.15s ease !important;
 }
 
-.luxury-chip-btn:hover, .luxury-chip-btn.active {
-    background: rgba(245, 158, 11, 0.18) !important;
-    border-color: #fbbf24 !important;
-    color: #fbbf24 !important;
+.luxury-chip-btn.active {
+    background: #2563eb !important;
+    border-color: #3b82f6 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4) !important;
+}
+
+.luxury-chip-btn:active {
+    transform: scale(0.94) !important;
 }
 
 .luxury-calc-info-list {
     display: flex !important;
     flex-direction: column !important;
-    gap: 4px !important;
+    gap: 6px !important;
+    padding-top: 4px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.luxury-calc-info-list .info-row {
     font-size: 12px !important;
     font-weight: 600 !important;
-    margin-top: 2px !important;
+    color: #64748b !important;
 }
+.luxury-calc-info-list .rate-row { color: #94a3b8 !important; font-weight: 700 !important; }
+.luxury-calc-info-list .max-row span { color: #38bdf8 !important; font-weight: 700 !important; }
+.luxury-calc-info-list .min-row { color: #64748b !important; }
 
-.luxury-calc-info-list .rate-row {
-    color: #94a3b8 !important;
-}
-
-.luxury-calc-info-list .max-row {
-    color: #818cf8 !important;
-}
-
-.luxury-calc-info-list .min-row {
-    color: #94a3b8 !important;
-}
-
-/* Premium Plans Section */
 .luxury-region-tag-pill {
-    align-self: flex-start !important;
     display: inline-flex !important;
     align-items: center !important;
     gap: 6px !important;
+    padding: 7px 16px !important;
     background: #1e3a8a !important;
     border: 1px solid rgba(59, 130, 246, 0.4) !important;
-    border-radius: 99px !important;
-    padding: 6px 14px !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
+    border-radius: 12px !important;
     color: #ffffff !important;
-    margin-bottom: 12px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    margin-bottom: 14px !important;
 }
 
 .luxury-plans-grid {
@@ -6967,34 +6958,32 @@ body {
 
 .luxury-plan-card {
     background: rgba(18, 22, 36, 0.85) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 18px !important;
-    padding: 14px !important;
+    padding: 16px 14px !important;
     display: flex !important;
     align-items: center !important;
     gap: 12px !important;
     cursor: pointer !important;
     transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
-    box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.4) !important;
-}
-
-.luxury-plan-card:active {
-    transform: scale(0.97) !important;
-}
-
-.luxury-plan-card.selected {
-    border-color: #2563eb !important;
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(18, 22, 36, 0.95) 100%) !important;
-    box-shadow: 0 0 20px rgba(37, 99, 235, 0.3) !important;
 }
 
 .luxury-plan-card.full-span {
     grid-column: span 2 !important;
 }
 
+.luxury-plan-card.selected {
+    border-color: #2563eb !important;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(18, 22, 36, 0.95) 100%) !important;
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.35) !important;
+}
+
+.luxury-plan-card:active {
+    transform: scale(0.97) !important;
+}
+
 .plan-card-icon-wrap {
+    position: relative !important;
     width: 44px !important;
     height: 44px !important;
     border-radius: 14px !important;
@@ -7003,37 +6992,36 @@ body {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    position: relative !important;
     flex-shrink: 0 !important;
 }
 
 .plan-card-icon-wrap img {
-    width: 26px !important;
-    height: 26px !important;
+    width: 28px !important;
+    height: 28px !important;
     object-fit: contain !important;
 }
 
 .plan-multiplier-tag {
     position: absolute !important;
-    bottom: -2px !important;
-    right: -2px !important;
-    background: #a855f7 !important;
+    bottom: -4px !important;
+    right: -4px !important;
+    background: #2563eb !important;
     color: #ffffff !important;
-    font-size: 9px !important;
+    font-size: 10px !important;
     font-weight: 800 !important;
-    padding: 1px 4px !important;
+    padding: 1px 5px !important;
     border-radius: 6px !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+    line-height: 1.2 !important;
 }
 
 .plan-card-info {
     display: flex !important;
     flex-direction: column !important;
-    gap: 2px !important;
+    gap: 3px !important;
 }
 
 .plan-card-title {
-    font-size: 15px !important;
+    font-size: 14px !important;
     font-weight: 800 !important;
     color: #ffffff !important;
 }
@@ -7041,504 +7029,42 @@ body {
 .plan-card-price {
     font-size: 13px !important;
     font-weight: 700 !important;
-    color: #60a5fa !important;
+    color: #94a3b8 !important;
 }
 
-/* Primary Buy Button (Bottom) */
+.luxury-plan-card.selected .plan-card-price {
+    color: #38bdf8 !important;
+}
+
 .luxury-primary-buy-btn {
     width: 100% !important;
     height: 52px !important;
-    border-radius: 18px !important;
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-    color: #ffffff !important;
     border: none !important;
+    border-radius: 16px !important;
+    color: #ffffff !important;
     font-size: 16px !important;
     font-weight: 800 !important;
     cursor: pointer !important;
-    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4) !important;
-    transition: transform 0.15s ease, opacity 0.15s ease !important;
-    margin-top: 8px !important;
-    margin-bottom: 24px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    gap: 8px !important;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 .luxury-primary-buy-btn:active {
     transform: scale(0.97) !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
 }
 
-/* Bottom Navigation Dock: Floating Capsule matching reference media_1790238379398.png */
-.bottom-dock-nav {
-    position: fixed !important;
-    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
-    left: 14px !important;
-    right: 14px !important;
-    max-width: 440px !important;
-    margin: 0 auto !important;
-    height: 60px !important;
-    background: rgba(17, 18, 23, 0.96) !important;
-    backdrop-filter: blur(28px) saturate(190%) !important;
-    -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 40px !important;
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    padding: 4px !important;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
-    z-index: 9999 !important;
-    box-sizing: border-box !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
+.card-topup {
+    border-color: rgba(34, 197, 94, 0.18) !important;
 }
-
-.dock-sliding-pill {
-    position: absolute !important;
-    top: 4px !important;
-    bottom: 4px !important;
-    left: 4px !important;
-    width: calc((100% - 8px) / 4) !important;
-    background: #ffffff !important;
-    border-radius: 32px !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24) !important;
-    transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
+.card-topup:active {
+    border-color: rgba(34, 197, 94, 0.5) !important;
 }
-
-.bottom-dock-nav[data-active="home"] .dock-sliding-pill { transform: translateX(0) !important; }
-.bottom-dock-nav[data-active="services"] .dock-sliding-pill { transform: translateX(100%) !important; }
-.bottom-dock-nav[data-active="rating"] .dock-sliding-pill { transform: translateX(200%) !important; }
-.bottom-dock-nav[data-active="profile"] .dock-sliding-pill { transform: translateX(300%) !important; }
-
-.dock-tab-btn {
-    position: relative !important;
-    z-index: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 3px !important;
-    height: 100% !important;
-    text-decoration: none !important;
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    cursor: pointer !important;
-    border-radius: 32px !important;
-    color: #8e95aa !important;
-    transition: transform 0.15s ease, color 0.15s ease !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
-    touch-action: manipulation !important;
-}
-
-.dock-tab-btn * {
-    pointer-events: none !important;
-}
-
-.dock-tab-btn:active {
-    transform: scale(0.92) !important;
-}
-
-.dock-tab-btn svg {
-    width: 20px !important;
-    height: 20px !important;
-    color: #8e95aa !important;
-    transition: color 0.2s ease, transform 0.2s ease !important;
-}
-
-.dock-tab-btn span {
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.1px !important;
-    color: #8e95aa !important;
-    transition: color 0.2s ease !important;
-    line-height: 1 !important;
-}
-
-/* Active Tab: Pure Black on White Pill (Exact match to reference) */
-.dock-tab-btn.active svg {
-    color: #000000 !important;
-    transform: scale(1.04) !important;
-}
-
-.dock-tab-btn.active span {
-    color: #000000 !important;
-    font-weight: 800 !important;
-}
-
-.dock-tab-btn::after,
-.dock-tab-btn.active::after,
-.dock-tab-btn::before,
-.dock-tab-btn.active::before {
-    display: none !important;
-    content: none !important;
-    opacity: 0 !important;
-}
-
-.dock-fab-btn {
-    display: none !important;
-}
-
-/* ==================== ORDERS LUXURY FINTECH DESIGN ==================== */
-.orders-top-bar {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    margin-bottom: 18px !important;
-    padding: 4px 0 !important;
-}
-
-.orders-page-title {
-    font-size: 19px !important;
-    font-weight: 800 !important;
-    color: #ffffff !important;
-    letter-spacing: -0.3px !important;
-}
-
-.refresh-pill-btn {
-    width: 42px !important;
-    height: 42px !important;
-    border-radius: 14px !important;
-    background: rgba(22, 26, 44, 0.72) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: #ffffff !important;
-    cursor: pointer !important;
-    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-}
-
-.refresh-pill-btn:active {
-    transform: scale(0.92) rotate(90deg) !important;
-    border-color: rgba(139, 92, 246, 0.4) !important;
-}
-
-.refresh-pill-btn.spinning svg {
-    animation: refreshSpin 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-@keyframes refreshSpin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* 3-Column Stats Grid */
-.stats-tri-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 10px !important;
-    margin-bottom: 18px !important;
-    width: 100% !important;
-}
-
-.stat-card-box {
-    background: linear-gradient(135deg, rgba(22, 26, 44, 0.72) 0%, rgba(14, 17, 30, 0.85) 100%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    border-radius: 18px !important;
-    padding: 13px 8px !important;
-    text-align: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 4px !important;
-    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
-    transition: transform 0.15s ease, border-color 0.15s ease !important;
-}
-
-.stat-card-box:active {
-    transform: scale(0.96) !important;
-    border-color: rgba(139, 92, 246, 0.4) !important;
-}
-
-.stat-label-text {
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    color: var(--text-secondary) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-}
-
-.stat-value-text {
-    font-size: 20px !important;
-    font-weight: 800 !important;
-    color: #ffffff !important;
-    line-height: 1.1 !important;
-}
-
-/* Filter Tabs */
-.filter-tabs-bar {
-    display: flex !important;
-    gap: 8px !important;
-    overflow-x: auto !important;
-    margin-bottom: 16px !important;
-    scrollbar-width: none !important;
-    padding: 2px 2px 6px 2px !important;
-    -webkit-overflow-scrolling: touch !important;
-}
-
-.filter-tabs-bar::-webkit-scrollbar {
-    display: none !important;
-}
-
-.filter-chip-btn {
-    background: rgba(22, 26, 44, 0.6) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    color: #94a3b8 !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    padding: 8px 18px !important;
-    border-radius: 999px !important;
-    white-space: nowrap !important;
-    cursor: pointer !important;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
-}
-
-.filter-chip-btn.active {
-    background: #ffffff !important;
-    color: #08090e !important;
-    font-weight: 800 !important;
-    border-color: #ffffff !important;
-    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25) !important;
-    transform: scale(1.02) !important;
-}
-
-.filter-chip-btn:active {
-    transform: scale(0.96) !important;
-}
-
-/* Order Item Card */
-.orders-list-wrap {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    margin-bottom: 24px !important;
-}
-
-.order-item-card {
-    background: linear-gradient(135deg, rgba(22, 26, 44, 0.72) 0%, rgba(13, 16, 28, 0.85) 100%) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 18px !important;
-    padding: 15px 16px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
-    transition: transform 0.15s ease, border-color 0.15s ease !important;
-}
-
-.order-item-card:active {
-    transform: scale(0.985) !important;
-    border-color: rgba(139, 92, 246, 0.4) !important;
-}
-
-.order-card-top {
-    display: flex !important;
-    align-items: flex-start !important;
-    justify-content: space-between !important;
-    gap: 10px !important;
-}
-
-.order-info-left {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-}
-
-.order-icon-badge {
-    width: 42px !important;
-    height: 42px !important;
-    border-radius: 14px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 20px !important;
-    flex-shrink: 0 !important;
-    border: 1px solid !important;
-}
-
-.order-title-wrap {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 3px !important;
-}
-
-.order-type-title {
-    font-size: 15px !important;
-    font-weight: 800 !important;
-    color: #ffffff !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-}
-
-.order-qty-sub {
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    color: #a855f7 !important;
-}
-
-.order-meta-sub {
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    font-size: 11px !important;
-    color: var(--text-secondary) !important;
-}
-
-.order-date-text {
-    color: #82879a !important;
-}
-
-.order-target-pill {
-    color: #38bdf8 !important;
-    font-weight: 600 !important;
-}
-
-.order-status-badge {
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    padding: 5px 12px !important;
-    border-radius: 999px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 5px !important;
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-}
-
-.order-status-badge.status-completed {
-    background: rgba(16, 185, 129, 0.14) !important;
-    color: #34d399 !important;
-    border: 1px solid rgba(16, 185, 129, 0.35) !important;
-    box-shadow: 0 0 12px rgba(16, 185, 129, 0.2) !important;
-}
-
-.order-status-badge.status-pending {
-    background: rgba(245, 158, 11, 0.14) !important;
-    color: #fbbf24 !important;
-    border: 1px solid rgba(245, 158, 11, 0.35) !important;
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.2) !important;
-}
-
-.order-status-badge.status-rejected {
-    background: rgba(239, 68, 68, 0.14) !important;
-    color: #f87171 !important;
-    border: 1px solid rgba(239, 68, 68, 0.35) !important;
-}
-
-.status-dot {
-    font-size: 9px !important;
-}
-
-.order-card-bottom {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding-top: 10px !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
-}
-
-.order-id-label {
-    font-size: 11px !important;
-    color: #64748b !important;
-}
-
-.order-id-label code {
-    color: #94a3b8 !important;
-    font-family: monospace !important;
-    background: rgba(255, 255, 255, 0.04) !important;
-    padding: 2px 6px !important;
-    border-radius: 6px !important;
-}
-
-.order-amount-text {
-    font-size: 16px !important;
-    font-weight: 800 !important;
-    color: #ffffff !important;
-    letter-spacing: -0.2px !important;
-}
-
-.order-amount-text.amount-topup {
-    color: #38bdf8 !important;
-}
-
-/* Empty State Luxury */
-.luxury-orders-empty {
-    text-align: center !important;
-    padding: 50px 24px !important;
-    background: linear-gradient(135deg, rgba(22, 26, 44, 0.45) 0%, rgba(13, 16, 28, 0.55) 100%) !important;
-    border: 1px dashed rgba(255, 255, 255, 0.1) !important;
-    border-radius: 24px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 12px !important;
-    margin: 12px 0 24px 0 !important;
-}
-
-.empty-icon-ring {
-    width: 68px !important;
-    height: 68px !important;
-    border-radius: 22px !important;
-    background: rgba(139, 92, 246, 0.12) !important;
-    border: 1px solid rgba(139, 92, 246, 0.25) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-bottom: 6px !important;
-    box-shadow: 0 0 24px rgba(139, 92, 246, 0.15) !important;
-}
-
-.empty-title-text {
-    font-size: 17px !important;
-    font-weight: 800 !important;
-    color: #ffffff !important;
-}
-
-.empty-sub-text {
-    font-size: 13px !important;
-    color: var(--text-secondary) !important;
-    max-width: 240px !important;
-    line-height: 1.4 !important;
-}
-
-.empty-cta-pill {
-    margin-top: 6px !important;
-    background: var(--grad-primary) !important;
-    border: none !important;
-    border-radius: 999px !important;
-    padding: 10px 22px !important;
-    color: #ffffff !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    box-shadow: 0 4px 18px rgba(99, 102, 241, 0.35) !important;
-    transition: transform 0.15s ease !important;
-}
-
-.empty-cta-pill:active {
-    transform: scale(0.96) !important;
-}
-
 
     </style>
     <script>window.API_BASE = "https://web-production-4014a4.up.railway.app";</script>
@@ -7790,23 +7316,23 @@ body {
             <div class="service-quad-card card-gift" onclick="navigateTo('gift')">
                 <div class="service-top-row">
                     <div class="service-icon-box">
-                        <img src="./images/gift.webp?v=3" alt="Sovg'alar">
+                        <img src="./images/duck_anim.webp?v=3" alt="Sovg'alar" onerror="this.onerror=null; this.src='./images/gift.webp?v=3'">
                     </div>
                     <span class="service-badge-pill" data-i18n="home.badge_gifts">Jonli Gifts</span>
                 </div>
                 <div class="service-card-text-wrap">
                     <div class="service-card-title" data-i18n="home.service_gifts">Telegram Sovg'alar</div>
-                    <div class="service-card-desc" data-i18n="home.desc_gifts">Animatsiyali sovg'alar</div>
+                    <div class="service-card-desc" data-i18n="home.desc_gifts">Teddy, Rose & Box</div>
                 </div>
             </div>
 
             <!-- Balans To'ldirish -->
             <div class="service-quad-card card-topup" onclick="navigateTo('topup')">
                 <div class="service-top-row">
-                    <div class="service-icon-box">
-                        <img src="./images/uzcard.png?v=3" alt="Balans">
+                    <div class="service-icon-box" style="background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.25);">
+                        <img src="./images/money.webp?v=3" alt="Balans" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
                     </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_auto">Avtomat</span>
+                    <span class="service-badge-pill" data-i18n="home.badge_auto" style="background: rgba(34, 197, 94, 0.15); color: #4ade80;">Avtomat</span>
                 </div>
                 <div class="service-card-text-wrap">
                     <div class="service-card-title" data-i18n="home.service_topup">Balans To'ldirish</div>
@@ -7822,7 +7348,7 @@ body {
                 </div>
                 <div class="menu-label-box">
                     <div class="menu-primary-text" data-i18n="profile.orders">Buyurtmalar tarixi</div>
-                    <div class="menu-secondary-text">Barcha amalga oshirilgan to'lovlar</div>
+                    <div class="menu-secondary-text" data-i18n="profile.orders_sub">Barcha amalga oshirilgan to'lovlar</div>
                 </div>
             </div>
             <div class="menu-arrow-icon">›</div>
@@ -7834,8 +7360,8 @@ body {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10"></path></svg>
                 </div>
                 <div class="menu-label-box">
-                    <div class="menu-primary-text">Omadli G'ildirak (Spin)</div>
-                    <div class="menu-secondary-text">Har kuni bepul yutuqlar yutib oling</div>
+                    <div class="menu-primary-text" data-i18n="profile.spin_title">Omadli G'ildirak (Spin)</div>
+                    <div class="menu-secondary-text" data-i18n="profile.spin_sub">Har kuni bepul yutuqlar yutib oling</div>
                 </div>
             </div>
             <div class="menu-arrow-icon">›</div>
@@ -7847,8 +7373,8 @@ body {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 9h12v3a6 6 0 0 1-12 0V9z"></path></svg>
                 </div>
                 <div class="menu-label-box">
-                    <div class="menu-primary-text" data-i18n="nav.rating">Top Reyting</div>
-                    <div class="menu-secondary-text">Eng faol foydalanuvchilar</div>
+                    <div class="menu-primary-text" data-i18n="profile.rating_title">Top Reyting</div>
+                    <div class="menu-secondary-text" data-i18n="profile.rating_sub">Eng faol foydalanuvchilar</div>
                 </div>
             </div>
             <div class="menu-arrow-icon">›</div>
@@ -8878,7 +8404,7 @@ body {
     </main>
 
 
-    <!-- Persistent Floating Capsule Dock Navigation (v36.0) -->
+    <!-- Persistent Floating Capsule Dock Navigation (v37.0) -->
     <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
         <!-- Hardware-accelerated sliding white pill -->
         <div class="dock-sliding-pill"></div>
@@ -9024,11 +8550,15 @@ function hydrateInstantUserData() {
         const avatarImg = document.getElementById('avatarImg');
         const placeholderEl = document.getElementById('avatarPlaceholder');
         const photoUrl = tgUser?.photo_url || localStorage.getItem('cs_cached_photo');
-        if (photoUrl && avatarImg) {
-            avatarImg.src = photoUrl;
-            avatarImg.style.display = 'block';
-            if (placeholderEl) placeholderEl.style.display = 'none';
+        if (photoUrl) {
             if (tgUser?.photo_url) localStorage.setItem('cs_cached_photo', tgUser.photo_url);
+            if (avatarImg) {
+                avatarImg.src = photoUrl;
+                avatarImg.style.display = 'block';
+            }
+            const myAv = document.getElementById('myAvatarImg');
+            if (myAv) myAv.src = photoUrl;
+            if (placeholderEl) placeholderEl.style.display = 'none';
         } else if (placeholderEl && tgUser?.first_name) {
             placeholderEl.textContent = tgUser.first_name.charAt(0).toUpperCase();
         }
@@ -9486,6 +9016,15 @@ const TRANSLATIONS = {
     uz: {
         'nav.home': 'Asosiy',
         'nav.services': 'Servislar',
+        'home.badge_auto': 'Avtomat',
+        'home.service_topup': 'Balans To\'ldirish',
+        'home.desc_topup': 'Uzcard / Humo',
+        'profile.orders': 'Buyurtmalar tarixi',
+        'profile.orders_sub': 'Barcha amalga oshirilgan to\'lovlar',
+        'profile.spin_title': 'Omadli G\'ildirak (Spin)',
+        'profile.spin_sub': 'Har kuni bepul yutuqlar yutib oling',
+        'profile.rating_title': 'Top Reyting',
+        'profile.rating_sub': 'Eng faol foydalanuvchilar',
         'nav.gifts': 'Gift',
         'nav.rating': 'Top',
         'nav.profile': 'Profil',
@@ -9604,6 +9143,15 @@ const TRANSLATIONS = {
     ru: {
         'nav.home': 'Главная',
         'nav.services': 'Сервисы',
+        'home.badge_auto': 'Авто',
+        'home.service_topup': 'Пополнение Баланса',
+        'home.desc_topup': 'Uzcard / Humo',
+        'profile.orders': 'История заказов',
+        'profile.orders_sub': 'История всех платежей',
+        'profile.spin_title': 'Колесо Удачи',
+        'profile.spin_sub': 'Выигрывайте призы каждый день',
+        'profile.rating_title': 'Топ Рейтинг',
+        'profile.rating_sub': 'Самые активные пользователи',
         'nav.gifts': 'Gift',
         'nav.rating': 'Топ',
         'nav.profile': 'Профиль',
@@ -9722,6 +9270,15 @@ const TRANSLATIONS = {
     en: {
         'nav.home': 'Home',
         'nav.services': 'Services',
+        'home.badge_auto': 'Auto',
+        'home.service_topup': 'Top Up Balance',
+        'home.desc_topup': 'Uzcard / Humo',
+        'profile.orders': 'Order History',
+        'profile.orders_sub': 'All payments history',
+        'profile.spin_title': 'Lucky Spin',
+        'profile.spin_sub': 'Win prizes every day',
+        'profile.rating_title': 'Top Rating',
+        'profile.rating_sub': 'Most active users',
         'nav.gifts': 'Gifts',
         'nav.rating': 'Top',
         'nav.profile': 'Profile',
@@ -9871,6 +9428,10 @@ function applyTranslations() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         let text = t(key);
+        // Defensive: if t() returned raw dot key and element already has content, preserve content!
+        if (text === key && el.textContent.trim()) {
+            return;
+        }
         const args = el.getAttribute('data-i18n-args');
         if (args) {
             try {
@@ -10407,7 +9968,7 @@ function animateBalance(val) {
 
 
 
-/* === STARS SCRIPT (v36.0) === */
+/* === STARS SCRIPT (v37.0) === */
 function calcCustomStarPrice() {
     const input = document.getElementById('customStarInput');
     const preview = document.getElementById('customPricePreview');
@@ -10501,34 +10062,38 @@ async function buyCustomStars(btn) {
             else alert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
             setTimeout(() => navigateTo('orders'), 1000);
         } else {
-            const err = data?.error || (res.status !== 200 ? `Server xatosi (${res.status})` : 'Xaridda xatolik yuz berdi.');
-            if (tg?.showAlert) tg.showAlert(err);
-            else alert(err);
+            const err = data?.error || data?.message || 'Xatolik yuz berdi. Balans yetarli emas yoki qayta urining.';
+            if (tg?.showAlert) tg.showAlert('❌ ' + err);
+            else alert('❌ ' + err);
         }
-    } catch (err) {
-        console.error("Order stars error:", err);
-        const msg = err?.message || String(err);
-        if (tg?.showAlert) tg.showAlert("Aloqa xatosi: " + msg);
-        else alert("Aloqa xatosi: " + msg);
+    } catch (e) {
+        if (tg?.showAlert) tg.showAlert('❌ Xatolik yuz berdi: ' + (e.message || 'Tarmoq xatosi'));
+        else alert('❌ Tarmoq xatosi');
     } finally {
         if (btn) {
             btn.disabled = false;
             btn.innerHTML = oldText;
         }
+        loadUserBalance();
     }
+}
+
+async function buyStarTier(quantity, amount, btn) {
+    return buyCustomStars(btn);
 }
 
 
 
-/* === PREMIUM SCRIPT (v36.0) === */
-let selectedMonths = 3;
-let selectedPrice = 160000;
+/* === PREMIUM SCRIPT (v37.0) === */
+let selectedPlanMonths = 3;
+let selectedPlanAmount = 160000;
 
-function selectPlan(months, price, el) {
-    selectedMonths = months;
-    selectedPrice = price;
+function selectPlan(months, amount, cardEl) {
+    selectedPlanMonths = months;
+    selectedPlanAmount = amount;
+
     document.querySelectorAll('.luxury-plan-card').forEach(c => c.classList.remove('selected'));
-    if (el) el.classList.add('selected');
+    if (cardEl) cardEl.classList.add('selected');
 
     if (window.Telegram?.WebApp?.HapticFeedback) {
         try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
@@ -10549,11 +10114,11 @@ async function buyPremium() {
         return;
     }
 
-    const btn = document.getElementById('premiumSubmitBtn') || document.getElementById('submitBtn');
-    const oldHtml = btn ? btn.innerHTML : '';
+    const btn = document.getElementById('premiumSubmitBtn');
+    const oldText = btn ? btn.innerHTML : '';
     if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<span>⏳ Yuklanmoqda...</span>';
+        btn.innerHTML = '<span>⏳ Yuborilmoqda...</span>';
     }
 
     const userId = getUserId();
@@ -10567,9 +10132,9 @@ async function buyPremium() {
             body: JSON.stringify({
                 telegram_id: userId,
                 username: uVal,
-                months: selectedMonths,
-                product_type: `Premium ${selectedMonths} oy`,
-                amount: selectedPrice,
+                months: selectedPlanMonths,
+                amount: selectedPlanAmount,
+                product_type: 'premium',
                 initData: tg?.initData || ''
             })
         });
@@ -10578,59 +10143,69 @@ async function buyPremium() {
         try { data = await res.json(); } catch(e) {}
 
         if (data && data.ok) {
-            if (tg?.showAlert) tg.showAlert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
-            else alert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
+            if (tg?.showAlert) tg.showAlert(`✅ ${selectedPlanMonths} oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
+            else alert(`✅ ${selectedPlanMonths} oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
             setTimeout(() => navigateTo('orders'), 1000);
         } else {
-            const err = data?.error || (res.status !== 200 ? `Server xatosi (${res.status})` : 'Xaridda xatolik yuz berdi.');
-            if (tg?.showAlert) tg.showAlert(err);
-            else alert(err);
+            const err = data?.error || data?.message || 'Xatolik yuz berdi. Balans yetarli emas yoki qayta urining.';
+            if (tg?.showAlert) tg.showAlert('❌ ' + err);
+            else alert('❌ ' + err);
         }
-    } catch (err) {
-        if (tg?.showAlert) tg.showAlert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
-        else alert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
+    } catch (e) {
+        if (tg?.showAlert) tg.showAlert('❌ Xatolik yuz berdi: ' + (e.message || 'Tarmoq xatosi'));
+        else alert('❌ Tarmoq xatosi');
     } finally {
         if (btn) {
             btn.disabled = false;
-            btn.innerHTML = oldHtml;
+            btn.innerHTML = oldText;
         }
+        loadUserBalance();
     }
 }
 
 
 
+/* === USERNAME VERIFICATION (v37.0) === */
 function verifyUsername(type) {
-    const inputId = type === 'stars' ? 'starsUsername' : 'premiumUsername';
-    const msgId = type === 'stars' ? 'starsVerifyMsg' : 'premiumVerifyMsg';
+    const input = document.getElementById(type + 'Username');
+    const msg = document.getElementById(type + 'VerifyMsg');
+    const btn = document.getElementById(type + 'VerifyBtn');
+    if (!input) return;
 
-    const input = document.getElementById(inputId);
-    const msg = document.getElementById(msgId);
-    let val = (input?.value || '').trim();
-
+    let val = input.value.trim().replace(/^@/, '');
     if (!val) {
+        input.focus();
         if (msg) {
             msg.className = 'luxury-verify-feedback error';
-            msg.textContent = '❌ Iltimos, Telegram username kiriting';
+            msg.textContent = '❌ Iltimos, Telegram username kiriting!';
         }
-        if (tg?.showAlert) tg.showAlert('Iltimos, Telegram username kiriting!');
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+            try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('error'); } catch(e) {}
+        }
         return;
     }
 
-    if (!val.startsWith('@')) val = '@' + val;
-    if (input) input.value = val;
+    input.value = '@' + val;
 
-    const clean = val.replace(/^@/, '');
-    if (clean.length < 3) {
+    if (val.length < 3) {
         if (msg) {
             msg.className = 'luxury-verify-feedback error';
-            msg.textContent = '❌ Username kamida 3 ta belgidan iborat bo\'lishi kerak';
+            msg.textContent = "❌ Username juda qisqa (kamida 3 belgi)";
+        }
+        return;
+    }
+
+    if (!/^[a-zA-Z0-9_]{3,32}$/.test(val)) {
+        if (msg) {
+            msg.className = 'luxury-verify-feedback error';
+            msg.textContent = "❌ Noto'g'ri username formati (faqat a-z, 0-9, _)";
         }
         return;
     }
 
     if (msg) {
         msg.className = 'luxury-verify-feedback success';
-        msg.innerHTML = '<span>✅ Username tasdiqlandi: <b>' + val + '</b></span>';
+        msg.textContent = `✅ @${val} to'g'ri qabul qilindi`;
     }
 
     if (window.Telegram?.WebApp?.HapticFeedback) {
@@ -10639,8 +10214,8 @@ function verifyUsername(type) {
 }
 
 function setMyUsername() {
-    const user = tg?.initDataUnsafe?.user;
-    const uname = user?.username ? ('@' + user.username) : '';
+    const tgUser = tg?.initDataUnsafe?.user;
+    let uname = tgUser?.username ? '@' + tgUser.username : '';
 
     const starsInput = document.getElementById('starsUsername');
     if (starsInput && uname && !starsInput.value.trim()) starsInput.value = uname;
@@ -10906,7 +10481,10 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
         // Render immediately
         renderGifts();
         if (typeof loadUserBalance === 'function') loadUserBalance();
-        
+        /* DOMContentLoaded wrapper removed */ (function() {
+            renderGifts();
+            if (typeof loadUserBalance === 'function') loadUserBalance();
+        });
 
 /* === TOPUP SCRIPT === */
 let selectedAmount = 25000;
@@ -10972,27 +10550,23 @@ let selectedAmount = 25000;
         }
 
         function backToStep1() {
-        clearInterval(countdownTimer);
-        const s1 = document.getElementById('step1Container');
-        const s2 = document.getElementById('step2Container');
-        if (s2) s2.classList.remove('active');
-        if (s1) {
-            s1.classList.add('step-back');
-            s1.classList.add('active');
-            setTimeout(() => s1.classList.remove('step-back'), 300);
-        }
+            clearInterval(countdownTimer);
+            const s1 = document.getElementById('step1Container');
+            const s2 = document.getElementById('step2Container');
+            if (s2) s2.classList.remove('active');
+            if (s1) s1.classList.add('active');
 
-        const stepBadge = document.getElementById('stepBadgeText');
-        const stepSubEl = document.getElementById('stepSubtext');
-        if (stepBadge) stepBadge.textContent = '1-QADAM';
-        if (stepSubEl) {
-            const lang = localStorage.getItem('starpay_lang') || 'uz';
-            if (lang === 'ru') stepSubEl.textContent = 'Выберите сумму пополнения';
-            else if (lang === 'en') stepSubEl.textContent = 'Select top-up amount';
-            else stepSubEl.textContent = 'Kerakli to\'lov summasini tanlang';
+            const stepBadge = document.getElementById('stepBadgeText');
+            const stepSubEl = document.getElementById('stepSubtext');
+            if (stepBadge) stepBadge.textContent = '1-QADAM';
+            if (stepSubEl) {
+                const lang = localStorage.getItem('starpay_lang') || 'uz';
+                if (lang === 'ru') stepSubEl.textContent = 'Выберите сумму пополнения';
+                else if (lang === 'en') stepSubEl.textContent = 'Select top-up amount';
+                else stepSubEl.textContent = 'Kerakli to\'lov summasini tanlang';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
         function startPaymentTimer() {
             clearInterval(countdownTimer);
@@ -11014,18 +10588,12 @@ let selectedAmount = 25000;
         }
 
         function updateTimerDisplay() {
-        const minutes = Math.floor(timeLeftSeconds / 60);
-        const seconds = timeLeftSeconds % 60;
-        const text = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
-        const el = document.getElementById('timerDisplay');
-        if (el) el.textContent = text;
-
-        const progressFill = document.getElementById('timerProgressFill');
-        if (progressFill) {
-            const percent = Math.max(0, Math.min(100, (timeLeftSeconds / 300) * 100));
-            progressFill.style.width = percent + '%';
+            const minutes = Math.floor(timeLeftSeconds / 60);
+            const seconds = timeLeftSeconds % 60;
+            const text = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+            const el = document.getElementById('timerDisplay');
+            if (el) el.textContent = text;
         }
-    }
 
         function showCopyToast() {
             const toast = document.getElementById('copyToast');
@@ -11036,32 +10604,21 @@ let selectedAmount = 25000;
         }
 
         function copyCardNumber() {
-        const num = document.getElementById('cardNumberText').textContent.replace(/\s+/g, '');
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(num);
-        } else {
-            const el = document.createElement('textarea');
-            el.value = num;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
+            const num = document.getElementById('cardNumberText').textContent.replace(/\s+/g, '');
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(num);
+                showCopyToast();
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            } else {
+                const el = document.createElement('textarea');
+                el.value = num;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                showCopyToast();
+            }
         }
-        showCopyToast();
-        const copyBtn = document.querySelector('.copy-pill-button');
-        if (copyBtn) {
-            copyBtn.classList.add('copied');
-            const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = '<span>✓ Nusxalandi!</span>';
-            setTimeout(() => {
-                copyBtn.classList.remove('copied');
-                copyBtn.innerHTML = originalText;
-            }, 2000);
-        }
-        if (window.Telegram?.WebApp?.HapticFeedback) {
-            try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
-        }
-    }
 
         let isTopupSubmitting = false;
 
@@ -11079,14 +10636,12 @@ let selectedAmount = 25000;
             }
 
             isTopupSubmitting = true;
-            const btn = document.getElementById('topupSubmitBtn') || document.getElementById('submitBtn');
-        const oldHtml = btn ? btn.innerHTML : '';
-        if (btn) {
+            const btn = document.getElementById('submitBtn');
+            const oldHtml = btn.innerHTML;
             btn.disabled = true;
             btn.style.pointerEvents = 'none';
             btn.style.opacity = '0.7';
             btn.innerHTML = '<span>⏳</span> Yuborildi, tekshirilmoqda...';
-        }
 
             try {
                 const tgUser = tg?.initDataUnsafe?.user;
@@ -11138,27 +10693,26 @@ let selectedAmount = 25000;
                     if (tg && tg.showAlert) tg.showAlert(err);
                     else alert(err);
                     isTopupSubmitting = false;
-                    if (btn) {
-        btn.disabled = false;
-        btn.style.pointerEvents = 'auto';
-        btn.style.opacity = '1';
-        btn.innerHTML = oldHtml;
-    }
+                    btn.disabled = false;
+                    btn.style.pointerEvents = 'auto';
+                    btn.style.opacity = '1';
+                    btn.innerHTML = oldHtml;
                 }
             } catch (err) {
                 if (tg && tg.showAlert) tg.showAlert('Xatolik: ' + err.message);
                 else alert('Xatolik: ' + err.message);
                 isTopupSubmitting = false;
-                if (btn) {
-        btn.disabled = false;
-        btn.style.pointerEvents = 'auto';
-        btn.style.opacity = '1';
-        btn.innerHTML = oldHtml;
-    }
+                btn.disabled = false;
+                btn.style.pointerEvents = 'auto';
+                btn.style.opacity = '1';
+                btn.innerHTML = oldHtml;
             }
         }
 
-        
+        /* DOMContentLoaded wrapper removed */ (function() {
+            loadUserBalance();
+            updateCtaPrice(selectedAmount);
+        });
 
 /* === ORDERS SCRIPT === */
 let allOrders = [];
@@ -11392,7 +10946,16 @@ function renderOrders(orders) {
 
 
 /* === PROFILE SCRIPT === */
+/* DOMContentLoaded wrapper removed */ (function() {
+            loadUserBalance();
+            fetchTransactions();
+            initToggleState();
 
+            if (tg?.initDataUnsafe?.user?.photo_url) {
+                const av = document.getElementById('profileAvatar');
+                if (av) av.src = tg.initDataUnsafe.user.photo_url;
+            }
+        });
 
         function initToggleState() {
             const toggle = document.getElementById('animationToggle');
@@ -11466,259 +11029,310 @@ function renderOrders(orders) {
         }
 
 /* === RATING SCRIPT === */
+
+/* === RATING SCRIPT (v37.0 - REAL TELEGRAM AVATARS) === */
 let cachedRatingList = [];
 
-        function switchPeriod(period, btn) {
-            document.querySelectorAll('.period-tab-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
-            loadRatingData(period);
+function switchPeriod(period, btn) {
+    document.querySelectorAll('.period-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+    loadRatingData(period);
+}
+
+async function loadRatingData(period = 'week') {
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
+    const currentUserId = String(getUserId() || '');
+
+    try {
+        const res = await fetch((apiBase ? apiBase.replace(/\/$/, '') : '') + '/api/rating', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+            body: JSON.stringify({ period: period, initData: tg?.initData || '' })
+        });
+        const data = await res.json();
+        const list = (data && data.ok && Array.isArray(data.rating)) ? data.rating : [];
+        cachedRatingList = list;
+        renderPodiumAndList(list, currentUserId);
+    } catch (err) {
+        cachedRatingList = [];
+        renderPodiumAndList([], currentUserId);
+    }
+}
+
+function getAvatarUrl(item, currentUserId) {
+    if (!item) return './images/logo.webp?v=3';
+    const tgUser = tg?.initDataUnsafe?.user;
+    const rawUsername = String(item.username || '').replace(/^@/, '').toLowerCase().trim();
+    const tgUsername = String(tgUser?.username || '').replace(/^@/, '').toLowerCase().trim();
+    const isMe = (String(item.telegram_id) === String(currentUserId)) || (tgUsername && rawUsername === tgUsername);
+
+    // 1. Current user's real avatar from Telegram WebApp
+    if (isMe) {
+        const myPhoto = tgUser?.photo_url || localStorage.getItem('cs_cached_photo');
+        if (myPhoto) return myPhoto;
+    }
+
+    // 2. Direct photo_url from backend item
+    if (item.photo_url) return item.photo_url;
+    if (item.avatar_url) return item.avatar_url;
+
+    // 3. Real Telegram Avatar via Telegram CDN
+    if (rawUsername && !rawUsername.startsWith('user#')) {
+        return 'https://t.me/i/userpic/320/' + rawUsername + '.jpg';
+    }
+
+    // 4. Fallback letter avatar
+    const letter = (item.full_name || item.username || 'U').replace(/^@/, '')[0]?.toUpperCase() || 'U';
+    const colors = ['2563eb', '7c3aed', 'db2777', 'ea580c', '059669', '0284c7'];
+    const color = colors[Math.abs(Number(item.telegram_id || 0)) % colors.length] || '2563eb';
+    return 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter) + '&background=' + color + '&color=fff&bold=true&rounded=true&size=128';
+}
+
+function openUserProfile(rank, username, amountFormatted, avatarUrl, fullName) {
+    if (!username && !amountFormatted) return;
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e) {}
+    }
+
+    const overlay = document.getElementById('userModalOverlay');
+    const avatarEl = document.getElementById('modalAvatarImg');
+    const rankBadgeEl = document.getElementById('modalRankBadge');
+    const nameEl = document.getElementById('modalUserName');
+    const handleEl = document.getElementById('modalUserHandle');
+    const statRankEl = document.getElementById('modalStatRank');
+    const statTurnoverEl = document.getElementById('modalStatTurnover');
+    const tgLinkBtn = document.getElementById('modalTgLink');
+
+    const rawUser = String(username || '').replace(/^@/, '');
+    const fallbackModal = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(rawUser[0] || 'U') + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+    if (avatarEl) {
+        avatarEl.onerror = function() {
+            this.onerror = null;
+            this.src = fallbackModal;
+        };
+        avatarEl.src = avatarUrl || fallbackModal;
+    }
+    if (rankBadgeEl) rankBadgeEl.textContent = rank ? ('#' + rank) : '—';
+    if (statRankEl) statRankEl.textContent = rank ? ('#' + rank + " O'rin") : '—';
+    if (statTurnoverEl) statTurnoverEl.textContent = amountFormatted || '0 UZS';
+
+    if (nameEl) nameEl.textContent = fullName || (rawUser ? '@' + rawUser : 'Foydalanuvchi');
+    if (handleEl) handleEl.textContent = rawUser ? '@' + rawUser : 'Telegram foydalanuvchisi';
+
+    if (tgLinkBtn) {
+        if (rawUser && !rawUser.toLowerCase().startsWith('user#')) {
+            tgLinkBtn.style.display = 'flex';
+            tgLinkBtn.href = 'https://t.me/' + rawUser;
+        } else {
+            tgLinkBtn.style.display = 'none';
         }
+    }
 
-        async function loadRatingData(period = 'week') {
-            const apiBase = getApiBase();
-            const currentUserId = String(getUserId() || '');
+    if (overlay) overlay.classList.add('active');
+}
 
-            try {
-                const res = await fetch((apiBase ? apiBase : '') + '/api/rating', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
-                    body: JSON.stringify({ period: period, initData: tg?.initData || '' })
-                });
-                const data = await res.json();
-                const list = (data && data.ok && Array.isArray(data.rating)) ? data.rating : [];
-                cachedRatingList = list;
-                renderPodiumAndList(list, currentUserId);
-            } catch (err) {
-                cachedRatingList = [];
-                renderPodiumAndList([], currentUserId);
-            }
-        }
+function closeUserProfile(e) {
+    const overlay = document.getElementById('userModalOverlay');
+    if (overlay) overlay.classList.remove('active');
+}
 
-        function getAvatarUrl(item, currentUserId) {
-            if (!item) return './images/logo.webp?v=3';
-            const tgUser = tg?.initDataUnsafe?.user;
-            const rawUsername = String(item.username || '').replace(/^@/, '').toLowerCase();
-            const tgUsername = String(tgUser?.username || '').replace(/^@/, '').toLowerCase();
-            const isMe = (String(item.telegram_id) === String(currentUserId)) || (tgUsername && rawUsername === tgUsername);
+function renderPodiumAndList(list, currentUserId) {
+    const container = document.getElementById('leaderboardList');
+    const av1 = document.getElementById('podiumAvatar1');
+    const av2 = document.getElementById('podiumAvatar2');
+    const av3 = document.getElementById('podiumAvatar3');
+    const myAv = document.getElementById('myAvatarImg');
 
-            if (isMe && tgUser?.photo_url) {
-                return tgUser.photo_url;
-            }
-            if (item.photo_url) return item.photo_url;
-            if (item.avatar_url) return item.avatar_url;
+    const myPhoto = tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo') || './images/logo.webp?v=3';
+    if (myAv) {
+        myAv.onerror = function() {
+            this.onerror = null;
+            this.src = './images/logo.webp?v=3';
+        };
+        myAv.src = myPhoto;
+    }
 
-            const letter = (item.username || item.full_name || 'U').replace(/^@/, '')[0]?.toUpperCase() || 'U';
-            const colors = ['2563eb', '7c3aed', 'db2777', 'ea580c', '059669', '0284c7'];
-            const color = colors[Math.abs(Number(item.telegram_id || 0)) % colors.length] || '2563eb';
-            return `https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=${color}&color=fff&bold=true&rounded=true&size=128`;
-        }
-
-        function openUserProfile(rank, username, amountFormatted, avatarUrl, fullName) {
-            if (!username && !amountFormatted) return;
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-
-            const overlay = document.getElementById('userModalOverlay');
-            const avatarEl = document.getElementById('modalAvatarImg');
-            const rankBadgeEl = document.getElementById('modalRankBadge');
-            const nameEl = document.getElementById('modalUserName');
-            const handleEl = document.getElementById('modalUserHandle');
-            const statRankEl = document.getElementById('modalStatRank');
-            const statTurnoverEl = document.getElementById('modalStatTurnover');
-            const tgLinkBtn = document.getElementById('modalTgLink');
-
-            avatarEl.src = avatarUrl || './images/logo.webp?v=3';
-            rankBadgeEl.textContent = rank ? `#${rank}` : '—';
-            statRankEl.textContent = rank ? `#${rank} O'rin` : '—';
-            statTurnoverEl.textContent = amountFormatted || '0 UZS';
-
-            const rawUser = String(username || '').replace(/^@/, '');
-            nameEl.textContent = fullName || (rawUser ? '@' + rawUser : 'Foydalanuvchi');
-            handleEl.textContent = rawUser ? '@' + rawUser : 'Telegram foydalanuvchisi';
-
-            if (rawUser) {
-                tgLinkBtn.style.display = 'flex';
-                tgLinkBtn.href = `https://t.me/${rawUser}`;
-            } else {
-                tgLinkBtn.style.display = 'none';
-            }
-
-            if (overlay) overlay.classList.add('active');
-        }
-
-        function closeUserProfile(e) {
-            const overlay = document.getElementById('userModalOverlay');
-            if (overlay) overlay.classList.remove('active');
-        }
-
-        function renderPodiumAndList(list, currentUserId) {
-            const container = document.getElementById('leaderboardList');
-            const av1 = document.getElementById('podiumAvatar1');
-            const av2 = document.getElementById('podiumAvatar2');
-            const av3 = document.getElementById('podiumAvatar3');
-            const myAv = document.getElementById('myAvatarImg');
-
-            if (myAv && tg?.initDataUnsafe?.user?.photo_url) {
-                myAv.src = tg.initDataUnsafe.user.photo_url;
-            }
-
-            // 1st Place (Center)
-            const p1 = document.getElementById('podium1');
-            if (list[0] && Number(list[0].total) > 0) {
-                const u1 = (list[0].username || 'User#' + list[0].telegram_id);
-                const amt1 = Number(list[0].total).toLocaleString('uz-UZ') + ' UZS';
-                const avatar1 = getAvatarUrl(list[0], currentUserId);
-                document.getElementById('podiumUser1').textContent = '@' + u1.replace(/^@/, '');
-                document.getElementById('podiumAmount1').textContent = amt1;
-                p1.style.opacity = '1';
-                if (av1) av1.src = avatar1;
-                p1.onclick = () => openUserProfile(1, u1, amt1, avatar1, list[0].full_name);
-            } else {
-                document.getElementById('podiumUser1').textContent = '—';
-                document.getElementById('podiumAmount1').textContent = '0 UZS';
-                p1.style.opacity = '0.7';
-                if (av1) av1.src = './images/logo.webp?v=3';
-                p1.onclick = null;
-            }
-
-            // 2nd Place (Left)
-            const p2 = document.getElementById('podium2');
-            if (list[1] && Number(list[1].total) > 0) {
-                const u2 = (list[1].username || 'User#' + list[1].telegram_id);
-                const amt2 = Number(list[1].total).toLocaleString('uz-UZ') + ' UZS';
-                const avatar2 = getAvatarUrl(list[1], currentUserId);
-                document.getElementById('podiumUser2').textContent = '@' + u2.replace(/^@/, '');
-                document.getElementById('podiumAmount2').textContent = amt2;
-                p2.style.opacity = '1';
-                if (av2) av2.src = avatar2;
-                p2.onclick = () => openUserProfile(2, u2, amt2, avatar2, list[1].full_name);
-            } else {
-                document.getElementById('podiumUser2').textContent = '—';
-                document.getElementById('podiumAmount2').textContent = '0 UZS';
-                p2.style.opacity = '0.7';
-                if (av2) av2.src = './images/logo.webp?v=3';
-                p2.onclick = null;
-            }
-
-            // 3rd Place (Right)
-            const p3 = document.getElementById('podium3');
-            if (list[2] && Number(list[2].total) > 0) {
-                const u3 = (list[2].username || 'User#' + list[2].telegram_id);
-                const amt3 = Number(list[2].total).toLocaleString('uz-UZ') + ' UZS';
-                const avatar3 = getAvatarUrl(list[2], currentUserId);
-                document.getElementById('podiumUser3').textContent = '@' + u3.replace(/^@/, '');
-                document.getElementById('podiumAmount3').textContent = amt3;
-                p3.style.opacity = '1';
-                if (av3) av3.src = avatar3;
-                p3.onclick = () => openUserProfile(3, u3, amt3, avatar3, list[2].full_name);
-            } else {
-                document.getElementById('podiumUser3').textContent = '—';
-                document.getElementById('podiumAmount3').textContent = '0 UZS';
-                p3.style.opacity = '0.7';
-                if (av3) av3.src = './images/logo.webp?v=3';
-                p3.onclick = null;
-            }
-
-            // Remaining list rows (from #4 onwards)
-            let html = '';
-            let myRank = null;
-            let myTurnover = 0;
-
-            list.forEach((item, i) => {
-                const rank = i + 1;
-                const rawUsername = (item.username || '').replace(/^@/, '');
-                const uname = rawUsername ? '@' + rawUsername : 'User#' + (item.telegram_id || (i + 1));
-                const totalVal = Number(item.total || 0);
-                const totalFormatted = totalVal.toLocaleString('uz-UZ') + ' UZS';
-                const rowAvatar = getAvatarUrl(item, currentUserId);
-                const fullNameSafe = (item.full_name || '').replace(/'/g, "\\'");
-
-                const tgUsername = (tg?.initDataUnsafe?.user?.username || '').replace(/^@/, '');
-                if (String(item.telegram_id) === currentUserId || (tgUsername && rawUsername.toLowerCase() === tgUsername.toLowerCase())) {
-                    myRank = rank;
-                    myTurnover = totalVal;
-                }
-
-                if (rank > 3 && totalVal > 0) {
-                    html += `
-                        <div class="leader-row-card" onclick="openUserProfile(${rank}, '${rawUsername}', '${totalFormatted}', '${rowAvatar}', '${fullNameSafe}')">
-                            <div class="leader-row-left">
-                                <div class="leader-row-rank">#${rank}</div>
-                                <div class="leader-row-avatar">
-                                    <img src="${rowAvatar}" alt="${uname}" onerror="this.src='./images/logo.webp?v=3'">
-                                </div>
-                                <div class="leader-row-info">
-                                    <div class="leader-row-username">${uname}</div>
-                                    <div class="leader-row-tag">🔥 Faol Xaridor</div>
-                                </div>
-                            </div>
-                            <div class="leader-row-right">
-                                <div class="leader-row-turnover-val">${totalFormatted}</div>
-                                <div class="leader-row-turnover-label">Aylanma</div>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-
-            if (list.length === 0) {
-                html = `
-                    <div style="text-align: center; padding: 28px 16px; color: #82879a; font-size: 13px; font-weight: 700; background: #1c1c24; border-radius: 18px; border: 1px dashed rgba(255,255,255,0.08); box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
-                        🛍 Hozircha bu davrda xaridlar yo'q.<br><span style="color: #38bdf8; font-weight: 800; display: inline-block; margin-top: 4px;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
-                    </div>
-                `;
-            }
-
-            container.innerHTML = html;
-
-            const myRankEl = document.getElementById('myRankNum');
-            const myTurnoverEl = document.getElementById('myTurnoverVal');
-            const myRankDock = document.getElementById('myRankDock');
-
-            const setRankUI = (rank, turnover) => {
-                if (myRankEl) {
-                    if (rank) myRankEl.textContent = `#${rank}`;
-                    else if (turnover > 0) myRankEl.textContent = '#1';
-                    else myRankEl.textContent = '—';
-                }
-                if (myTurnoverEl) {
-                    myTurnoverEl.textContent = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
-                }
-                if (myRankDock) {
-                    const myUname = tg?.initDataUnsafe?.user?.username || 'Men';
-                    const myFullName = (tg?.initDataUnsafe?.user?.first_name || '') + ' ' + (tg?.initDataUnsafe?.user?.last_name || '');
-                    const myPhoto = tg?.initDataUnsafe?.user?.photo_url || './images/logo.webp?v=3';
-                    const formattedTurnover = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
-                    myRankDock.onclick = () => openUserProfile(rank, myUname, formattedTurnover, myPhoto, myFullName.trim());
-                }
+    // 1st Place (Center - Gold)
+    const p1 = document.getElementById('podium1');
+    if (list[0] && Number(list[0].total) > 0) {
+        const u1 = (list[0].username || 'User#' + list[0].telegram_id);
+        const amt1 = Number(list[0].total).toLocaleString('uz-UZ') + ' UZS';
+        const avatar1 = getAvatarUrl(list[0], currentUserId);
+        const letter1 = (u1 || '1').replace(/^@/, '')[0]?.toUpperCase() || '1';
+        document.getElementById('podiumUser1').textContent = '@' + u1.replace(/^@/, '');
+        document.getElementById('podiumAmount1').textContent = amt1;
+        p1.style.opacity = '1';
+        if (av1) {
+            av1.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter1) + '&background=f59e0b&color=000&bold=true&rounded=true&size=128';
             };
+            av1.src = avatar1;
+        }
+        p1.onclick = () => openUserProfile(1, u1, amt1, (av1 ? av1.src : avatar1), list[0].full_name);
+    } else {
+        document.getElementById('podiumUser1').textContent = '—';
+        document.getElementById('podiumAmount1').textContent = '0 UZS';
+        p1.style.opacity = '0.7';
+        if (av1) av1.src = './images/logo.webp?v=3';
+        p1.onclick = null;
+    }
 
-            setRankUI(myRank, myTurnover);
+    // 2nd Place (Left - Silver)
+    const p2 = document.getElementById('podium2');
+    if (list[1] && Number(list[1].total) > 0) {
+        const u2 = (list[1].username || 'User#' + list[1].telegram_id);
+        const amt2 = Number(list[1].total).toLocaleString('uz-UZ') + ' UZS';
+        const avatar2 = getAvatarUrl(list[1], currentUserId);
+        const letter2 = (u2 || '2').replace(/^@/, '')[0]?.toUpperCase() || '2';
+        document.getElementById('podiumUser2').textContent = '@' + u2.replace(/^@/, '');
+        document.getElementById('podiumAmount2').textContent = amt2;
+        p2.style.opacity = '1';
+        if (av2) {
+            av2.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter2) + '&background=cbd5e1&color=0f172a&bold=true&rounded=true&size=128';
+            };
+            av2.src = avatar2;
+        }
+        p2.onclick = () => openUserProfile(2, u2, amt2, (av2 ? av2.src : avatar2), list[1].full_name);
+    } else {
+        document.getElementById('podiumUser2').textContent = '—';
+        document.getElementById('podiumAmount2').textContent = '0 UZS';
+        p2.style.opacity = '0.7';
+        if (av2) av2.src = './images/logo.webp?v=3';
+        p2.onclick = null;
+    }
 
-            // Fetch personal spent turnover from transactions if not determined
-            const apiBase = getApiBase();
-            if (currentUserId && !myRank) {
-                fetch((apiBase ? apiBase : '') + '/api/user/transactions', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
-                    body: JSON.stringify({ telegram_id: currentUserId, initData: tg?.initData || '' })
-                }).then(r => r.json()).then(tData => {
-                    if (tData && tData.ok && typeof tData.total_spent === 'number') {
-                        if (tData.total_spent > 0) {
-                            myTurnover = tData.total_spent;
-                            setRankUI(myRank || (list.length === 0 ? 1 : null), myTurnover);
-                        }
-                    }
-                }).catch(() => {});
-            }
+    // 3rd Place (Right - Bronze)
+    const p3 = document.getElementById('podium3');
+    if (list[2] && Number(list[2].total) > 0) {
+        const u3 = (list[2].username || 'User#' + list[2].telegram_id);
+        const amt3 = Number(list[2].total).toLocaleString('uz-UZ') + ' UZS';
+        const avatar3 = getAvatarUrl(list[2], currentUserId);
+        const letter3 = (u3 || '3').replace(/^@/, '')[0]?.toUpperCase() || '3';
+        document.getElementById('podiumUser3').textContent = '@' + u3.replace(/^@/, '');
+        document.getElementById('podiumAmount3').textContent = amt3;
+        p3.style.opacity = '1';
+        if (av3) {
+            av3.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter3) + '&background=fb923c&color=000&bold=true&rounded=true&size=128';
+            };
+            av3.src = avatar3;
+        }
+        p3.onclick = () => openUserProfile(3, u3, amt3, (av3 ? av3.src : avatar3), list[2].full_name);
+    } else {
+        document.getElementById('podiumUser3').textContent = '—';
+        document.getElementById('podiumAmount3').textContent = '0 UZS';
+        p3.style.opacity = '0.7';
+        if (av3) av3.src = './images/logo.webp?v=3';
+        p3.onclick = null;
+    }
 
-            if (tg?.initDataUnsafe?.user?.photo_url) {
-                const myAv = document.getElementById('myAvatarImg');
-                if (myAv) myAv.src = tg.initDataUnsafe.user.photo_url;
-            }
+    // Remaining list rows (from #4 onwards)
+    let html = '';
+    let myRank = null;
+    let myTurnover = 0;
+
+    list.forEach((item, i) => {
+        const rank = i + 1;
+        const rawUsername = (item.username || '').replace(/^@/, '');
+        const uname = rawUsername ? '@' + rawUsername : 'User#' + (item.telegram_id || (i + 1));
+        const totalVal = Number(item.total || 0);
+        const totalFormatted = totalVal.toLocaleString('uz-UZ') + ' UZS';
+        const rowAvatar = getAvatarUrl(item, currentUserId);
+        const fullNameSafe = (item.full_name || '').replace(/'/g, "\\'");
+        const letter = (rawUsername || item.full_name || 'U')[0]?.toUpperCase() || 'U';
+        const fallbackRow = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter) + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+
+        const tgUsername = (tg?.initDataUnsafe?.user?.username || '').replace(/^@/, '');
+        if (String(item.telegram_id) === currentUserId || (tgUsername && rawUsername.toLowerCase() === tgUsername.toLowerCase())) {
+            myRank = rank;
+            myTurnover = totalVal;
         }
 
-        
+        if (rank > 3 && totalVal > 0) {
+            html += `
+                <div class="leader-row-card" onclick="openUserProfile(${rank}, '${rawUsername}', '${totalFormatted}', '${rowAvatar}', '${fullNameSafe}')">
+                    <div class="leader-row-left">
+                        <div class="leader-row-rank">#${rank}</div>
+                        <div class="leader-row-avatar">
+                            <img src="${rowAvatar}" alt="${uname}" onerror="this.onerror=null; this.src='${fallbackRow}'">
+                        </div>
+                        <div class="leader-row-info">
+                            <div class="leader-row-username">${uname}</div>
+                            <div class="leader-row-tag">🔥 Faol Xaridor</div>
+                        </div>
+                    </div>
+                    <div class="leader-row-right">
+                        <div class="leader-row-turnover-val">${totalFormatted}</div>
+                        <div class="leader-row-turnover-label">Aylanma</div>
+                    </div>
+                </div>
+            `;
+        }
+    });
+
+    if (list.length === 0) {
+        html = `
+            <div style="text-align: center; padding: 28px 16px; color: #82879a; font-size: 13px; font-weight: 700; background: #1c1c24; border-radius: 18px; border: 1px dashed rgba(255,255,255,0.08); box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
+                🛍 Hozircha bu davrda xaridlar yo'q.<br><span style="color: #38bdf8; font-weight: 800; display: inline-block; margin-top: 4px;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
+            </div>
+        `;
+    }
+
+    if (container) container.innerHTML = html;
+
+    const myRankEl = document.getElementById('myRankNum');
+    const myTurnoverEl = document.getElementById('myTurnoverVal');
+    const myRankDock = document.getElementById('myRankDock');
+
+    const setRankUI = (rank, turnover) => {
+        if (myRankEl) {
+            if (rank) myRankEl.textContent = '#' + rank;
+            else if (turnover > 0) myRankEl.textContent = '#1';
+            else myRankEl.textContent = '—';
+        }
+        if (myTurnoverEl) {
+            myTurnoverEl.textContent = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
+        }
+        if (myRankDock) {
+            const myUname = tg?.initDataUnsafe?.user?.username || 'Men';
+            const myFullName = (tg?.initDataUnsafe?.user?.first_name || '') + ' ' + (tg?.initDataUnsafe?.user?.last_name || '');
+            const myPhoto = tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo') || './images/logo.webp?v=3';
+            const formattedTurnover = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
+            myRankDock.onclick = () => openUserProfile(rank, myUname, formattedTurnover, myPhoto, myFullName.trim());
+        }
+    };
+
+    setRankUI(myRank, myTurnover);
+
+    // Fetch personal spent turnover from transactions if not determined
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
+    if (currentUserId && !myRank) {
+        fetch((apiBase ? apiBase.replace(/\/$/, '') : '') + '/api/user/transactions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+            body: JSON.stringify({ telegram_id: currentUserId, initData: tg?.initData || '' })
+        }).then(r => r.json()).then(tData => {
+            if (tData && tData.ok && typeof tData.total_spent === 'number') {
+                if (tData.total_spent > 0) {
+                    myTurnover = tData.total_spent;
+                    setRankUI(myRank || (list.length === 0 ? 1 : null), myTurnover);
+                }
+            }
+        }).catch(() => {});
+    }
+
+    if (myAv && (tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo'))) {
+        myAv.src = tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo');
+    }
+}
+
 
 /* === SPIN SCRIPT === */
 const IMAGE_ASSETS = {
@@ -12945,7 +12559,13 @@ const IMAGE_ASSETS = {
             document.getElementById('winModal').classList.remove('active');
         }
 
-        
+        /* DOMContentLoaded wrapper removed */ (function() {
+            loadUserBalance();
+            renderPrizesGrid();
+            preloadAssets(() => drawWheel());
+            drawWheel();
+            checkSpinStatus();
+        });
 
 
 function ensureSubscriptionModal() {
@@ -12978,64 +12598,59 @@ function ensureSubscriptionModal() {
         `;
         document.body.appendChild(modal);
 
-        if (!document.getElementById('cs-sub-gate-styles')) {
+        if (!document.getElementById('csSubGateStyles')) {
             const st = document.createElement('style');
-            st.id = 'cs-sub-gate-styles';
+            st.id = 'csSubGateStyles';
             st.textContent = `
                 .cs-sub-gate-overlay {
-                    position: fixed !important;
-                    top: 0 !important;
-                    left: 0 !important;
-                    width: 100vw !important;
-                    height: 100vh !important;
-                    background: rgba(0, 0, 0, 0.85) !important;
-                    backdrop-filter: blur(20px) !important;
-                    -webkit-backdrop-filter: blur(20px) !important;
-                    z-index: 999999 !important;
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(4, 5, 10, 0.85);
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
+                    z-index: 99999;
                     display: none;
                     align-items: center;
                     justify-content: center;
                     padding: 20px;
-                    box-sizing: border-box;
-                    animation: csGateFadeIn 0.25s ease-out;
+                    opacity: 0;
+                    transition: opacity 0.25s ease;
                 }
                 .cs-sub-gate-overlay.active {
                     display: flex !important;
-                }
-                @keyframes csGateFadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
+                    opacity: 1 !important;
                 }
                 .cs-sub-gate-card {
                     position: relative;
                     width: 100%;
                     max-width: 360px;
-                    background: linear-gradient(135deg, rgba(26, 30, 48, 0.95) 0%, rgba(16, 18, 30, 0.98) 100%);
-                    border: 1px solid rgba(139, 92, 246, 0.3);
+                    background: linear-gradient(165deg, rgba(22, 26, 44, 0.95) 0%, rgba(13, 16, 28, 0.98) 100%);
+                    border: 1px solid rgba(139, 92, 246, 0.35);
                     border-radius: 28px;
-                    padding: 26px 20px 22px 20px;
+                    padding: 28px 22px 24px 22px;
                     text-align: center;
-                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.2);
-                    box-sizing: border-box;
-                    animation: csGateCardPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(139, 92, 246, 0.25);
+                    overflow: hidden;
+                    animation: csGatePop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
                 }
-                @keyframes csGateCardPop {
-                    from { opacity: 0; transform: scale(0.9) translateY(12px); }
-                    to { opacity: 1; transform: scale(1) translateY(0); }
+                @keyframes csGatePop {
+                    0% { transform: scale(0.9) translateY(20px); opacity: 0; }
+                    100% { transform: scale(1) translateY(0); opacity: 1; }
                 }
                 .cs-sub-gate-icon {
                     font-size: 44px;
                     margin-bottom: 12px;
-                    filter: drop-shadow(0 4px 12px rgba(245, 158, 11, 0.4));
+                    filter: drop-shadow(0 4px 12px rgba(139, 92, 246, 0.5));
                 }
                 .cs-sub-gate-title {
-                    font-size: 19px;
+                    font-size: 20px;
                     font-weight: 800;
                     color: #ffffff;
                     margin-bottom: 8px;
                 }
                 .cs-sub-gate-desc {
-                    font-size: 13px;
+                    font-size: 13.5px;
+                    font-weight: 500;
                     color: #94a3b8;
                     line-height: 1.45;
                     margin-bottom: 16px;
@@ -13046,11 +12661,11 @@ function ensureSubscriptionModal() {
                     gap: 6px;
                     background: rgba(139, 92, 246, 0.15);
                     border: 1px solid rgba(139, 92, 246, 0.3);
-                    padding: 6px 14px;
-                    border-radius: 99px;
-                    color: #c084fc;
-                    font-weight: 700;
+                    border-radius: 999px;
+                    padding: 6px 16px;
                     font-size: 13px;
+                    font-weight: 700;
+                    color: #c084fc;
                     margin-bottom: 20px;
                 }
                 .cs-sub-gate-actions {
@@ -13130,11 +12745,11 @@ function openChannelSubscription() {
 async function verifyChannelSubscription() {
     const btn = document.querySelector('.cs-sub-gate-verify-btn');
     const orig = btn ? btn.innerHTML : '';
-    if (btn) btn.innerHTML = '<span>Tekshirilmoqda...</span>';
+    if (btn) btn.innerHTML = '<span>⏳ Tekshirilmoqda...</span>';
+    const userId = getUserId();
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
     try {
-        const userId = getUserId();
-        const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
-        const res = await fetch(apiBase + '/api/user/balance', {
+        const res = await fetch(apiBase.replace(/\/$/, '') + '/api/user/balance', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
             body: JSON.stringify({ telegram_id: userId, initData: tg?.initData || '' })
@@ -13266,6 +12881,7 @@ function onPageActivated(pageId) {
             loadUserBalance();
             break;
         case 'rating':
+            if (typeof loadRatingData === 'function') loadRatingData('week');
             if (typeof loadLeaderboard === 'function') loadLeaderboard('all');
             break;
         case 'spin':
@@ -13277,7 +12893,6 @@ function onPageActivated(pageId) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    initTelegramWebApp();
     initTheme();
     initLanguage();
     initInstantNavigation();
@@ -13289,6 +12904,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof calcCustomStarPrice === 'function') calcCustomStarPrice();
     if (typeof renderGifts === 'function') renderGifts();
     if (typeof initToggleState === 'function') initToggleState();
+    if (typeof loadRatingData === 'function') loadRatingData('week');
 
     initTelegramBackButton();
 

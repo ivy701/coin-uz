@@ -1553,10 +1553,15 @@ async def api_rating(request: web.Request) -> web.Response:
     uname = r["username"] or (r["full_name"] if r["full_name"] else f"User#{r['telegram_id']}")
     if uname.startswith("@"):
       uname = uname[1:]
+    photo_url = None
+    if uname and not uname.startswith("User#"):
+      photo_url = f"https://t.me/i/userpic/320/{uname}.jpg"
     rating.append({
       "telegram_id": r["telegram_id"],
       "username": uname,
+      "full_name": r["full_name"],
       "total": int(r["total"] or 0),
+      "photo_url": photo_url,
     })
 
   return web.json_response({"ok": True, "period": period, "rating": rating})
