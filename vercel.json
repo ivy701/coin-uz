@@ -14,5 +14,23 @@
         { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Telegram-Init-Data" }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/orders", "destination": "/index.html" },
+    { "source": "/orders.html", "destination": "/index.html" },
+    { "source": "/stars", "destination": "/index.html" },
+    { "source": "/stars.html", "destination": "/index.html" },
+    { "source": "/premium", "destination": "/index.html" },
+    { "source": "/premium.html", "destination": "/index.html" },
+    { "source": "/topup", "destination": "/index.html" },
+    { "source": "/topup.html", "destination": "/index.html" },
+    { "source": "/gift", "destination": "/index.html" },
+    { "source": "/gift.html", "destination": "/index.html" },
+    { "source": "/profile", "destination": "/index.html" },
+    { "source": "/profile.html", "destination": "/index.html" },
+    { "source": "/rating", "destination": "/index.html" },
+    { "source": "/rating.html", "destination": "/index.html" },
+    { "source": "/spin", "destination": "/index.html" },
+    { "source": "/spin.html", "destination": "/index.html" }
   ]
 }

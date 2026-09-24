@@ -12809,11 +12809,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initTelegramBackButton();
 
+    const validPages = ['home', 'services', 'stars', 'premium', 'gift', 'phone', 'topup', 'orders', 'profile', 'rating', 'spin'];
+    const pathPage = window.location.pathname.split('/').pop().replace('.html', '').trim();
     const hashPage = (window.location.hash || '').replace('#', '').trim();
     const urlParams = new URLSearchParams(window.location.search);
     const queryPage = urlParams.get('page');
-    const initialPage = hashPage || queryPage || 'home';
-    const validPages = ['home', 'services', 'stars', 'premium', 'gift', 'phone', 'topup', 'orders', 'profile', 'rating', 'spin'];
+    const initialPage = hashPage || queryPage || (validPages.includes(pathPage) ? pathPage : '') || 'home';
     const startPage = validPages.includes(initialPage) ? initialPage : 'home';
     navigateTo(startPage, false);
 });
