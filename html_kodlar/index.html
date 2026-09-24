@@ -7959,6 +7959,25 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+    
+#modalTgLink, .modal-action-btn {
+    display: none !important;
+}
+.modal-cancel-btn {
+    width: 100% !important;
+    height: 48px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 16px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
     </style>
     <script>window.API_BASE = "https://web-production-4014a4.up.railway.app";</script>
 </head>
@@ -9226,14 +9245,6 @@ body {
                     <div class="modal-stat-value" id="modalStatTurnover" style="color: #38bdf8;">0 UZS</div>
                 </div>
             </div>
-
-            <a href="#" target="_blank" class="modal-action-btn" id="modalTgLink">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 6.75a2.25 2.25 0 0 0 .126 4.148l4.47 1.54 1.72 5.25a2.25 2.25 0 0 0 3.738.647l2.84-2.84 4.54 3.32a2.25 2.25 0 0 0 3.52-1.34l3.5-15.5a2.25 2.25 0 0 0-2.932-2.19z"></path>
-                </svg>
-                <span>Telegram profilini ochish</span>
-            </a>
-
             <button class="modal-cancel-btn" onclick="closeUserProfile()">Yopish</button>
         </div>
     </div>
