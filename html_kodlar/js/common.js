@@ -62,39 +62,36 @@ function hydrateInstantUserData() {
     try {
         const tgUser = tg?.initDataUnsafe?.user;
         const uid = getUserId();
+        const userKey = uid || 'guest';
 
         // 1. User Display Name
-        const nameEl = document.getElementById('profileName');
-        if (nameEl) {
-            const cachedName = localStorage.getItem('cs_cached_name');
-            if (tgUser?.first_name) {
-                const fullName = (tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '')).trim();
-                nameEl.textContent = fullName;
-                localStorage.setItem('cs_cached_name', fullName);
-            } else if (cachedName) {
-                nameEl.textContent = cachedName;
-            } else if (!nameEl.textContent.trim() || nameEl.textContent === 'username') {
-                nameEl.textContent = 'Foydalanuvchi';
-            }
+        const cachedName = localStorage.getItem('cs_cached_name');
+        let resolvedName = 'Foydalanuvchi';
+        if (tgUser?.first_name) {
+            resolvedName = (tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '')).trim();
+            localStorage.setItem('cs_cached_name', resolvedName);
+        } else if (cachedName) {
+            resolvedName = cachedName;
         }
+        document.querySelectorAll('#profileName, #profileHubName').forEach(nameEl => {
+            nameEl.textContent = resolvedName;
+        });
 
         // 2. User Handle or ID
-        const idEl = document.getElementById('profileUserId');
-        if (idEl) {
-            const cachedHandle = localStorage.getItem('cs_cached_handle');
-            if (tgUser?.username) {
-                idEl.textContent = '@' + tgUser.username;
-                localStorage.setItem('cs_cached_handle', '@' + tgUser.username);
-            } else if (tgUser?.id || uid) {
-                const idStr = 'ID: ' + (tgUser?.id || uid);
-                idEl.textContent = idStr;
-                localStorage.setItem('cs_cached_handle', idStr);
-            } else if (cachedHandle) {
-                idEl.textContent = cachedHandle;
-            } else if (!idEl.textContent.trim() || idEl.textContent === '@coinuser') {
-                idEl.textContent = 'ID: —';
-            }
+        const cachedHandle = localStorage.getItem('cs_cached_handle');
+        let resolvedHandle = 'ID: —';
+        if (tgUser?.username) {
+            resolvedHandle = '@' + tgUser.username;
+            localStorage.setItem('cs_cached_handle', resolvedHandle);
+        } else if (tgUser?.id || uid) {
+            resolvedHandle = 'ID: ' + (tgUser?.id || uid);
+            localStorage.setItem('cs_cached_handle', resolvedHandle);
+        } else if (cachedHandle) {
+            resolvedHandle = cachedHandle;
         }
+        document.querySelectorAll('#profileUserId, #profileHubUserId').forEach(idEl => {
+            idEl.textContent = resolvedHandle;
+        });
 
         // 3. User Avatar
         const avatarImg = document.getElementById('avatarImg');
@@ -109,23 +106,48 @@ function hydrateInstantUserData() {
             placeholderEl.textContent = tgUser.first_name.charAt(0).toUpperCase();
         }
 
+        const myAv = document.getElementById('myAvatarImg');
+        if (myAv && photoUrl) myAv.src = photoUrl;
+
+        const profAv = document.getElementById('profileAvatar');
+        if (profAv) {
+            profAv.onerror = function() {
+                this.onerror = null;
+                if (tgUser && tgUser.first_name) {
+                    this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(tgUser.first_name) + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+                } else {
+                    this.src = './images/profile.webp?v=3';
+                }
+            };
+            if (photoUrl) {
+                profAv.src = photoUrl;
+            } else if (tgUser && tgUser.username) {
+                profAv.src = 'https://t.me/i/userpic/320/' + tgUser.username.replace(/^@/, '') + '.jpg';
+            } else if (tgUser && tgUser.first_name) {
+                profAv.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(tgUser.first_name) + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+            } else {
+                profAv.src = './images/profile.webp?v=3';
+            }
+        }
+
         // 4. Cached Balance
-        const userKey = uid || 'guest';
         const cachedBal = localStorage.getItem('starpay_balance_' + userKey) || localStorage.getItem('cs_cached_balance');
         if (cachedBal !== null && !isNaN(parseInt(cachedBal, 10))) {
             setBalUI(parseInt(cachedBal, 10));
         }
 
         // 5. Cached Stats (Orders count & Total spent)
-        const ordersEl = document.getElementById('ordersCount');
-        const spentEl = document.getElementById('totalSpent');
-        if (ordersEl) {
-            const cachedOrders = localStorage.getItem('cs_stat_orders_' + userKey);
-            if (cachedOrders !== null) ordersEl.textContent = cachedOrders;
+        const cachedOrders = localStorage.getItem('cs_stat_orders_' + userKey);
+        if (cachedOrders !== null) {
+            document.querySelectorAll('#ordersCount, #profileOrdersCount, .live-orders-count').forEach(el => {
+                el.textContent = cachedOrders;
+            });
         }
-        if (spentEl) {
-            const cachedSpent = localStorage.getItem('cs_stat_spent_' + userKey);
-            if (cachedSpent !== null) spentEl.textContent = cachedSpent;
+        const cachedSpent = localStorage.getItem('cs_stat_spent_' + userKey);
+        if (cachedSpent !== null) {
+            document.querySelectorAll('#totalSpent, #profileTotalSpent, .live-total-spent').forEach(el => {
+                el.textContent = cachedSpent;
+            });
         }
 
         // 6. Card mask and holder on Index page
@@ -373,22 +395,13 @@ function setBalUI(val) {
         }
     }
 
-    const balanceElement = document.getElementById('balance');
-    if (balanceElement) {
-        if (_previousBalance !== null && _previousBalance !== userBalance) {
-            balanceElement.classList.remove('balance-num-updated');
-            void balanceElement.offsetWidth;
-            balanceElement.classList.add('balance-num-updated');
+    // Update all balance elements across views (Home card, Profile card, live badges)
+    document.querySelectorAll('#balance, [id="balance"], .user-balance-val, .live-user-balance, #profileBalance, #userBalanceStat, #servicesBalance').forEach(el => {
+        if (el.id === 'balance' && _previousBalance !== null && _previousBalance !== userBalance) {
+            el.classList.remove('balance-num-updated');
+            void el.offsetWidth;
+            el.classList.add('balance-num-updated');
         }
-        balanceElement.textContent = formatted;
-    }
-
-    const userBalanceStat = document.getElementById('userBalanceStat');
-    if (userBalanceStat) {
-        userBalanceStat.textContent = formatted;
-    }
-
-    document.querySelectorAll('.live-user-balance').forEach(el => {
         el.textContent = formatted;
     });
 
@@ -1466,3 +1479,20 @@ function initChannelSubscriptionGate() {
 }
 
 
+
+function copyUserId() {
+    const el = document.getElementById('profileHubUserId') || document.getElementById('profileUserId');
+    if (!el) return;
+    let txt = el.textContent.trim();
+    if (txt.startsWith('ID:')) txt = txt.replace(/^ID:\s*/, '');
+    if (txt.startsWith('@')) txt = txt.substring(1);
+    if (!txt || txt === '—') return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(() => {
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+            }
+            if (typeof showToast === 'function') showToast(t('common.copied') || 'Nusxa olindi!');
+        }).catch(() => {});
+    }
+}

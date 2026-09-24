@@ -6551,7 +6551,7 @@ body {
 
 
 /* ==========================================================================
-   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v39.0)
+   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v40.0)
    ========================================================================== */
 
 :root {
@@ -7065,7 +7065,7 @@ body {
 }
 
 /* ==========================================================================
-   Luxury Action Cards & Menu Stack (v39.0)
+   Luxury Action Cards & Menu Stack (v40.0)
    ========================================================================== */
 .luxury-menu-stack {
     display: flex !important;
@@ -7289,20 +7289,37 @@ body {
     -webkit-user-select: none !important;
 }
 
-/* The Smooth Sliding White Capsule Pill */
+/* Hardware-Accelerated Pure CSS Sliding White Capsule Pill */
 .dock-sliding-pill {
     position: absolute !important;
     top: 6px !important;
     bottom: 6px !important;
-    left: 0 !important;
-    width: 0 !important;
+    left: 6px !important;
+    width: calc((100% - 12px) / 4) !important;
     background: #ffffff !important;
     border-radius: 999px !important;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(255, 255, 255, 0.2) !important;
     pointer-events: none !important;
     z-index: 1 !important;
-    will-change: transform, width !important;
-    transition: transform 0.34s cubic-bezier(0.25, 1, 0.5, 1), width 0.25s ease !important;
+    will-change: transform !important;
+    transition: transform 0.32s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    transform: translateX(0%) !important;
+}
+
+.bottom-dock-nav[data-active="home"] .dock-sliding-pill {
+    transform: translateX(0%) !important;
+}
+
+.bottom-dock-nav[data-active="services"] .dock-sliding-pill {
+    transform: translateX(100%) !important;
+}
+
+.bottom-dock-nav[data-active="rating"] .dock-sliding-pill {
+    transform: translateX(200%) !important;
+}
+
+.bottom-dock-nav[data-active="profile"] .dock-sliding-pill {
+    transform: translateX(300%) !important;
 }
 
 .dock-tab-btn {
@@ -7675,7 +7692,7 @@ body {
             </div>
         </div>
 
-        <!-- Extra Luxury Action Cards (v39.0) -->
+        <!-- Extra Luxury Action Cards (v40.0) -->
         <div class="luxury-menu-stack">
             <!-- 1. Orders -->
             <div class="luxury-menu-card" onclick="navigateTo('orders')">
@@ -8361,9 +8378,9 @@ body {
             <div class="user-big-avatar">
                 <img src="./images/profile.webp?v=3" id="profileAvatar" alt="User" onerror="this.onerror=null; this.src='./images/logo.png'">
             </div>
-            <div class="user-card-name" id="profileName">Foydalanuvchi</div>
+            <div class="user-card-name" id="profileHubName">Foydalanuvchi</div>
             <div class="user-card-id-tag" onclick="copyUserId()">
-                <span id="profileUserId">ID: —</span>
+                <span id="profileHubUserId">ID: —</span>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -8375,15 +8392,15 @@ body {
         <div class="stats-tri-grid">
             <div class="stat-card-box" onclick="navigateTo('orders')" style="cursor: pointer;">
                 <div class="stat-label-text" data-i18n="home.orders">Buyurtmalar</div>
-                <div class="stat-value-text"><span id="ordersCount">0</span> <span data-i18n="common.unit_count">ta</span></div>
+                <div class="stat-value-text"><span id="profileOrdersCount" class="live-orders-count">0</span> <span data-i18n="common.unit_count">ta</span></div>
             </div>
             <div class="stat-card-box">
                 <div class="stat-label-text" data-i18n="home.spent">Sarflangan</div>
-                <div class="stat-value-text"><span id="totalSpent">0</span> <span class="stat-unit-text">UZS</span></div>
+                <div class="stat-value-text"><span id="profileTotalSpent" class="live-total-spent">0</span> <span class="stat-unit-text">UZS</span></div>
             </div>
             <div class="stat-card-box">
                 <div class="stat-label-text" data-i18n="home.balance_stat">Balans</div>
-                <div class="stat-value-text" id="userBalanceStat">0</div>
+                <div class="stat-value-text user-balance-val live-user-balance" id="profileBalance">0</div>
                 <div class="stat-unit-text">UZS</div>
             </div>
         </div>
@@ -8798,7 +8815,7 @@ body {
     </main>
 
 
-    <!-- Persistent Floating Capsule Dock Navigation (v39.0) -->
+    <!-- Persistent Floating Capsule Dock Navigation (v40.0) -->
     <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
         <!-- Hardware-accelerated sliding white pill -->
         <div class="dock-sliding-pill" id="dockSlidingPill"></div>
@@ -8906,39 +8923,36 @@ function hydrateInstantUserData() {
     try {
         const tgUser = tg?.initDataUnsafe?.user;
         const uid = getUserId();
+        const userKey = uid || 'guest';
 
         // 1. User Display Name
-        const nameEl = document.getElementById('profileName');
-        if (nameEl) {
-            const cachedName = localStorage.getItem('cs_cached_name');
-            if (tgUser?.first_name) {
-                const fullName = (tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '')).trim();
-                nameEl.textContent = fullName;
-                localStorage.setItem('cs_cached_name', fullName);
-            } else if (cachedName) {
-                nameEl.textContent = cachedName;
-            } else if (!nameEl.textContent.trim() || nameEl.textContent === 'username') {
-                nameEl.textContent = 'Foydalanuvchi';
-            }
+        const cachedName = localStorage.getItem('cs_cached_name');
+        let resolvedName = 'Foydalanuvchi';
+        if (tgUser?.first_name) {
+            resolvedName = (tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '')).trim();
+            localStorage.setItem('cs_cached_name', resolvedName);
+        } else if (cachedName) {
+            resolvedName = cachedName;
         }
+        document.querySelectorAll('#profileName, #profileHubName').forEach(nameEl => {
+            nameEl.textContent = resolvedName;
+        });
 
         // 2. User Handle or ID
-        const idEl = document.getElementById('profileUserId');
-        if (idEl) {
-            const cachedHandle = localStorage.getItem('cs_cached_handle');
-            if (tgUser?.username) {
-                idEl.textContent = '@' + tgUser.username;
-                localStorage.setItem('cs_cached_handle', '@' + tgUser.username);
-            } else if (tgUser?.id || uid) {
-                const idStr = 'ID: ' + (tgUser?.id || uid);
-                idEl.textContent = idStr;
-                localStorage.setItem('cs_cached_handle', idStr);
-            } else if (cachedHandle) {
-                idEl.textContent = cachedHandle;
-            } else if (!idEl.textContent.trim() || idEl.textContent === '@coinuser') {
-                idEl.textContent = 'ID: —';
-            }
+        const cachedHandle = localStorage.getItem('cs_cached_handle');
+        let resolvedHandle = 'ID: —';
+        if (tgUser?.username) {
+            resolvedHandle = '@' + tgUser.username;
+            localStorage.setItem('cs_cached_handle', resolvedHandle);
+        } else if (tgUser?.id || uid) {
+            resolvedHandle = 'ID: ' + (tgUser?.id || uid);
+            localStorage.setItem('cs_cached_handle', resolvedHandle);
+        } else if (cachedHandle) {
+            resolvedHandle = cachedHandle;
         }
+        document.querySelectorAll('#profileUserId, #profileHubUserId').forEach(idEl => {
+            idEl.textContent = resolvedHandle;
+        });
 
         // 3. User Avatar
         const avatarImg = document.getElementById('avatarImg');
@@ -8978,23 +8992,48 @@ function hydrateInstantUserData() {
             placeholderEl.textContent = tgUser.first_name.charAt(0).toUpperCase();
         }
 
+        const myAv = document.getElementById('myAvatarImg');
+        if (myAv && photoUrl) myAv.src = photoUrl;
+
+        const profAv = document.getElementById('profileAvatar');
+        if (profAv) {
+            profAv.onerror = function() {
+                this.onerror = null;
+                if (tgUser && tgUser.first_name) {
+                    this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(tgUser.first_name) + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+                } else {
+                    this.src = './images/profile.webp?v=3';
+                }
+            };
+            if (photoUrl) {
+                profAv.src = photoUrl;
+            } else if (tgUser && tgUser.username) {
+                profAv.src = 'https://t.me/i/userpic/320/' + tgUser.username.replace(/^@/, '') + '.jpg';
+            } else if (tgUser && tgUser.first_name) {
+                profAv.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(tgUser.first_name) + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+            } else {
+                profAv.src = './images/profile.webp?v=3';
+            }
+        }
+
         // 4. Cached Balance
-        const userKey = uid || 'guest';
         const cachedBal = localStorage.getItem('starpay_balance_' + userKey) || localStorage.getItem('cs_cached_balance');
         if (cachedBal !== null && !isNaN(parseInt(cachedBal, 10))) {
             setBalUI(parseInt(cachedBal, 10));
         }
 
         // 5. Cached Stats (Orders count & Total spent)
-        const ordersEl = document.getElementById('ordersCount');
-        const spentEl = document.getElementById('totalSpent');
-        if (ordersEl) {
-            const cachedOrders = localStorage.getItem('cs_stat_orders_' + userKey);
-            if (cachedOrders !== null) ordersEl.textContent = cachedOrders;
+        const cachedOrders = localStorage.getItem('cs_stat_orders_' + userKey);
+        if (cachedOrders !== null) {
+            document.querySelectorAll('#ordersCount, #profileOrdersCount, .live-orders-count').forEach(el => {
+                el.textContent = cachedOrders;
+            });
         }
-        if (spentEl) {
-            const cachedSpent = localStorage.getItem('cs_stat_spent_' + userKey);
-            if (cachedSpent !== null) spentEl.textContent = cachedSpent;
+        const cachedSpent = localStorage.getItem('cs_stat_spent_' + userKey);
+        if (cachedSpent !== null) {
+            document.querySelectorAll('#totalSpent, #profileTotalSpent, .live-total-spent').forEach(el => {
+                el.textContent = cachedSpent;
+            });
         }
 
         // 6. Card mask and holder on Index page
@@ -9190,22 +9229,13 @@ function setBalUI(val) {
         }
     }
 
-    const balanceElement = document.getElementById('balance');
-    if (balanceElement) {
-        if (_previousBalance !== null && _previousBalance !== userBalance) {
-            balanceElement.classList.remove('balance-num-updated');
-            void balanceElement.offsetWidth;
-            balanceElement.classList.add('balance-num-updated');
+    // Update all balance elements across views (Home card, Profile card, live badges)
+    document.querySelectorAll('#balance, [id="balance"], .user-balance-val, .live-user-balance, #profileBalance, #userBalanceStat, #servicesBalance').forEach(el => {
+        if (el.id === 'balance' && _previousBalance !== null && _previousBalance !== userBalance) {
+            el.classList.remove('balance-num-updated');
+            void el.offsetWidth;
+            el.classList.add('balance-num-updated');
         }
-        balanceElement.textContent = formatted;
-    }
-
-    const userBalanceStat = document.getElementById('userBalanceStat');
-    if (userBalanceStat) {
-        userBalanceStat.textContent = formatted;
-    }
-
-    document.querySelectorAll('.live-user-balance').forEach(el => {
         el.textContent = formatted;
     });
 
@@ -10318,6 +10348,23 @@ function initChannelSubscriptionGate() {
 
 
 
+function copyUserId() {
+    const el = document.getElementById('profileHubUserId') || document.getElementById('profileUserId');
+    if (!el) return;
+    let txt = el.textContent.trim();
+    if (txt.startsWith('ID:')) txt = txt.replace(/^ID:\s*/, '');
+    if (txt.startsWith('@')) txt = txt.substring(1);
+    if (!txt || txt === '—') return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(() => {
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+            }
+            if (typeof showToast === 'function') showToast(t('common.copied') || 'Nusxa olindi!');
+        }).catch(() => {});
+    }
+}
+
 if (typeof TRANSLATIONS !== 'undefined') {
     if (TRANSLATIONS.uz) {
         TRANSLATIONS.uz["profile.badge_orders"] = "Tarix";
@@ -10425,7 +10472,7 @@ function animateBalance(val) {
 
 
 
-/* === STARS SCRIPT (v39.0) === */
+/* === STARS SCRIPT (v40.0) === */
 function calcCustomStarPrice() {
     const input = document.getElementById('customStarInput');
     const preview = document.getElementById('customPricePreview');
@@ -10541,7 +10588,7 @@ async function buyStarTier(quantity, amount, btn) {
 
 
 
-/* === PREMIUM SCRIPT (v39.0) === */
+/* === PREMIUM SCRIPT (v40.0) === */
 let selectedPlanMonths = 3;
 let selectedPlanAmount = 160000;
 
@@ -10622,7 +10669,7 @@ async function buyPremium() {
 
 
 
-/* === USERNAME VERIFICATION (v39.0) === */
+/* === USERNAME VERIFICATION (v40.0) === */
 function verifyUsername(type) {
     const input = document.getElementById(type + 'Username');
     const msg = document.getElementById(type + 'VerifyMsg');
@@ -11224,6 +11271,50 @@ function updateStats(orders) {
     if (statAll) statAll.textContent = all.length;
     if (statDone) statDone.textContent = all.filter(o => o.status === 'completed' || o.status === 'paid').length;
     if (statPending) statPending.textContent = all.filter(o => o.status === 'pending').length;
+
+    // Filter only real purchase orders (exclude topups and deposits)
+    const purchaseOrders = all.filter(o => {
+        const pt = String(o.product_type || o.type || '').toLowerCase();
+        return !pt.startsWith('topup') && 
+               pt !== 'deposit' && 
+               pt !== 'balance' &&
+               o.status !== 'cancelled' &&
+               o.status !== 'failed' &&
+               o.status !== 'rejected';
+    });
+
+    const ordersCount = purchaseOrders.length;
+    document.querySelectorAll('#ordersCount, #profileOrdersCount, .live-orders-count').forEach(el => {
+        el.textContent = String(ordersCount);
+    });
+
+    let totalSpent = 0;
+    purchaseOrders.forEach(o => {
+        if (o.status === 'completed' || o.status === 'paid') {
+            totalSpent += Number(o.amount || 0);
+        }
+    });
+
+    let formattedSpent = '0';
+    if (totalSpent >= 1000000) {
+        const m = (totalSpent / 1000000);
+        formattedSpent = (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M';
+    } else if (totalSpent >= 1000) {
+        const k = (totalSpent / 1000);
+        formattedSpent = (k % 1 === 0 ? k.toFixed(0) : k.toFixed(1)) + 'k';
+    } else {
+        formattedSpent = totalSpent.toLocaleString('uz-UZ');
+    }
+
+    document.querySelectorAll('#totalSpent, #profileTotalSpent, .live-total-spent').forEach(el => {
+        el.textContent = formattedSpent;
+    });
+
+    const uidKey = (typeof getUserId === 'function' ? getUserId() : null) || 'guest';
+    try {
+        localStorage.setItem('cs_stat_orders_' + uidKey, String(ordersCount));
+        localStorage.setItem('cs_stat_spent_' + uidKey, formattedSpent);
+    } catch(e) {}
 }
 
 function filterOrders(type, btn) {
@@ -11442,10 +11533,6 @@ function renderOrders(orders) {
                 });
                 const data = await res.json();
                 if (data && data.ok) {
-                    const cnt = document.getElementById('ordersCount');
-                    const spent = document.getElementById('totalSpent');
-
-                    // Filter only real purchase orders (exclude any topup and deposits)
                     const purchaseOrders = (data.orders || []).filter(o => {
                         const pt = String(o.product_type || o.type || '').toLowerCase();
                         return !pt.startsWith('topup') && 
@@ -11457,7 +11544,9 @@ function renderOrders(orders) {
                     });
 
                     const ordersCount = (typeof data.orders_count === 'number') ? data.orders_count : purchaseOrders.length;
-                    if (cnt) cnt.textContent = String(ordersCount);
+                    document.querySelectorAll('#ordersCount, #profileOrdersCount, .live-orders-count').forEach(el => {
+                        el.textContent = String(ordersCount);
+                    });
 
                     let totalSpent = 0;
                     if (typeof data.total_spent === 'number') {
@@ -11470,24 +11559,33 @@ function renderOrders(orders) {
                         });
                     }
 
-                    if (spent) {
-                        if (totalSpent >= 1000000) {
-                            const m = (totalSpent / 1000000);
-                            spent.textContent = (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M';
-                        } else if (totalSpent >= 1000) {
-                            const k = (totalSpent / 1000);
-                            spent.textContent = (k % 1 === 0 ? k.toFixed(0) : k.toFixed(1)) + 'k';
-                        } else {
-                            spent.textContent = totalSpent.toLocaleString('uz-UZ');
-                        }
+                    let formattedSpent = '0';
+                    if (totalSpent >= 1000000) {
+                        const m = (totalSpent / 1000000);
+                        formattedSpent = (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M';
+                    } else if (totalSpent >= 1000) {
+                        const k = (totalSpent / 1000);
+                        formattedSpent = (k % 1 === 0 ? k.toFixed(0) : k.toFixed(1)) + 'k';
+                    } else {
+                        formattedSpent = totalSpent.toLocaleString('uz-UZ');
                     }
+
+                    document.querySelectorAll('#totalSpent, #profileTotalSpent, .live-total-spent').forEach(el => {
+                        el.textContent = formattedSpent;
+                    });
+
+                    const uidKey = (typeof getUserId === 'function' ? getUserId() : null) || 'guest';
+                    try {
+                        localStorage.setItem('cs_stat_orders_' + uidKey, String(ordersCount));
+                        localStorage.setItem('cs_stat_spent_' + uidKey, formattedSpent);
+                    } catch(e) {}
                 }
             } catch (e) {}
         }
 
 /* === RATING SCRIPT === */
 
-/* === RATING SCRIPT (v39.0 - REAL TELEGRAM AVATARS) === */
+/* === RATING SCRIPT (v40.0 - REAL TELEGRAM AVATARS) === */
 let cachedRatingList = [];
 
 function switchPeriod(period, btn) {
@@ -13230,35 +13328,10 @@ async function verifyChannelSubscription() {
 
 
 
-function updateSlidingPill(targetNav, immediate = false) {
-    const nav = document.getElementById('bottomDockNav');
-    const pill = document.getElementById('dockSlidingPill');
-    if (!nav || !pill) return;
-
-    const activeTab = nav.querySelector('.dock-tab-btn[data-target="' + targetNav + '"]');
-    if (!activeTab) return;
-
-    const navRect = nav.getBoundingClientRect();
-    const tabRect = activeTab.getBoundingClientRect();
-    const offsetLeft = tabRect.left - navRect.left;
-    const tabWidth = tabRect.width;
-
-    if (tabWidth === 0) {
-        requestAnimationFrame(() => updateSlidingPill(targetNav, immediate));
-        return;
-    }
-
-    if (immediate) {
-        pill.style.transition = 'none';
-        pill.style.transform = 'translateX(' + offsetLeft + 'px)';
-        pill.style.width = tabWidth + 'px';
-        pill.style.opacity = '1';
-        pill.offsetHeight; // reflow
-        pill.style.transition = '';
-    } else {
-        pill.style.opacity = '1';
-        pill.style.transform = 'translateX(' + offsetLeft + 'px)';
-        pill.style.width = tabWidth + 'px';
+function updateSlidingPill(targetNav) {
+    const nav = document.getElementById('bottomDockNav') || document.querySelector('.bottom-dock-nav');
+    if (nav) {
+        nav.setAttribute('data-active', targetNav);
     }
 }
 
@@ -13372,6 +13445,8 @@ function onPageActivated(pageId) {
             break;
         case 'profile':
             loadUserBalance();
+            if (typeof hydrateInstantUserData === 'function') hydrateInstantUserData();
+            if (typeof fetchTransactions === 'function') fetchTransactions();
             break;
         case 'rating':
             if (typeof loadRatingData === 'function') loadRatingData('week');
@@ -13392,6 +13467,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadUserBalance();
     if (typeof fetchTransactions === 'function') fetchTransactions();
+    if (typeof hydrateInstantUserData === 'function') hydrateInstantUserData();
 
     setMyUsername();
     if (typeof calcCustomStarPrice === 'function') calcCustomStarPrice();
