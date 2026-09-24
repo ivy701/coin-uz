@@ -6551,7 +6551,7 @@ body {
 
 
 /* ==========================================================================
-   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v37.0)
+   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v38.0)
    ========================================================================== */
 
 :root {
@@ -6578,7 +6578,8 @@ body {
 .page-view.active .luxury-hero-card,
 .page-view.active .luxury-user-card,
 .page-view.active .luxury-calc-card,
-.page-view.active .luxury-plan-card {
+.page-view.active .luxury-plan-card,
+.page-view.active .luxury-menu-card {
     animation: cardStaggerIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -7062,6 +7063,207 @@ body {
 .card-topup {
     border-color: rgba(34, 197, 94, 0.18) !important;
 }
+
+/* ==========================================================================
+   Luxury Action Cards & Menu Stack (v38.0)
+   ========================================================================== */
+.luxury-menu-stack {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 6px !important;
+    margin-bottom: 14px !important;
+}
+
+.luxury-menu-card {
+    background: rgba(18, 22, 36, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 18px !important;
+    padding: 12px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
+    transition: transform 0.15s cubic-bezier(0.34, 1.4, 0.64, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+    user-select: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.luxury-menu-card::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, transparent 60%) !important;
+    pointer-events: none !important;
+}
+
+.luxury-menu-card:active {
+    transform: scale(0.975) !important;
+    background: rgba(26, 31, 52, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.luxury-menu-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 13px !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.luxury-menu-icon-wrap {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 13px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.luxury-menu-icon-wrap.amber-glow {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.08) 100%) !important;
+    border: 1px solid rgba(245, 158, 11, 0.35) !important;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2) !important;
+}
+
+.luxury-menu-icon-wrap.gold-glow {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.22) 0%, rgba(202, 138, 4, 0.08) 100%) !important;
+    border: 1px solid rgba(234, 179, 8, 0.35) !important;
+    box-shadow: 0 4px 14px rgba(234, 179, 8, 0.2) !important;
+}
+
+.luxury-menu-icon-wrap.purple-glow {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.22) 0%, rgba(126, 34, 206, 0.08) 100%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.35) !important;
+    box-shadow: 0 4px 14px rgba(168, 85, 247, 0.2) !important;
+}
+
+.luxury-menu-3d-img {
+    width: 30px !important;
+    height: 30px !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.45)) !important;
+}
+
+.luxury-menu-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.luxury-menu-title-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.luxury-menu-title {
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.luxury-menu-pill {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    padding: 2px 7px !important;
+    border-radius: 999px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.4px !important;
+    text-transform: uppercase !important;
+    flex-shrink: 0 !important;
+}
+
+.luxury-menu-pill.amber-pill {
+    background: rgba(245, 158, 11, 0.2) !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(245, 158, 11, 0.35) !important;
+}
+
+.luxury-menu-pill.gold-pill {
+    background: rgba(234, 179, 8, 0.2) !important;
+    color: #facc15 !important;
+    border: 1px solid rgba(234, 179, 8, 0.35) !important;
+}
+
+.luxury-menu-pill.purple-pill {
+    background: rgba(168, 85, 247, 0.2) !important;
+    color: #c084fc !important;
+    border: 1px solid rgba(168, 85, 247, 0.35) !important;
+}
+
+.luxury-menu-desc {
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    color: #94a3b8 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.luxury-menu-chevron {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 9px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #94a3b8 !important;
+    flex-shrink: 0 !important;
+    margin-left: 8px !important;
+    transition: transform 0.15s ease, color 0.15s ease, background 0.15s ease !important;
+}
+
+.luxury-menu-card:active .luxury-menu-chevron {
+    transform: translateX(2px) !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Glassmorphism upgrade for profile menu-action-items */
+.menu-action-item {
+    background: rgba(18, 22, 36, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 18px !important;
+    padding: 13px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
+    transition: transform 120ms ease, background-color 150ms ease, border-color 150ms ease !important;
+    user-select: none !important;
+}
+
+.menu-action-item:active {
+    transform: scale(0.975) !important;
+    background: rgba(26, 31, 52, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+#view-services {
+    padding-bottom: 96px !important;
+}
+
 .card-topup:active {
     border-color: rgba(34, 197, 94, 0.5) !important;
 }
@@ -7341,44 +7543,73 @@ body {
             </div>
         </div>
 
-        <div class="menu-action-item" onclick="navigateTo('orders')">
-            <div class="menu-action-left">
-                <div class="menu-icon-wrap" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <!-- Extra Luxury Action Cards (v38.0) -->
+        <div class="luxury-menu-stack">
+            <!-- 1. Orders -->
+            <div class="luxury-menu-card" onclick="navigateTo('orders')">
+                <div class="luxury-menu-left">
+                    <div class="luxury-menu-icon-wrap purple-glow">
+                        <img src="./images/stats__settings.webp?v=3" alt="Orders" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
+                    </div>
+                    <div class="luxury-menu-content">
+                        <div class="luxury-menu-title-row">
+                            <span class="luxury-menu-title" data-i18n="profile.orders">Buyurtmalar tarixi</span>
+                            <span class="luxury-menu-pill purple-pill" data-i18n="profile.badge_orders">Tarix</span>
+                        </div>
+                        <div class="luxury-menu-desc" data-i18n="profile.orders_sub">Barcha amalga oshirilgan to'lovlar</div>
+                    </div>
                 </div>
-                <div class="menu-label-box">
-                    <div class="menu-primary-text" data-i18n="profile.orders">Buyurtmalar tarixi</div>
-                    <div class="menu-secondary-text" data-i18n="profile.orders_sub">Barcha amalga oshirilgan to'lovlar</div>
+                <div class="luxury-menu-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </div>
             </div>
-            <div class="menu-arrow-icon">›</div>
+
+            <!-- 2. Lucky Spin -->
+            <div class="luxury-menu-card" onclick="navigateTo('spin')">
+                <div class="luxury-menu-left">
+                    <div class="luxury-menu-icon-wrap amber-glow">
+                        <img src="./images/spin_banner.webp?v=3" alt="Spin" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
+                    </div>
+                    <div class="luxury-menu-content">
+                        <div class="luxury-menu-title-row">
+                            <span class="luxury-menu-title" data-i18n="profile.spin_title">Omadli G'ildirak (Spin)</span>
+                            <span class="luxury-menu-pill amber-pill">1 TA BEPUL</span>
+                        </div>
+                        <div class="luxury-menu-desc" data-i18n="profile.spin_sub">Har kuni bepul yutuqlar yutib oling</div>
+                    </div>
+                </div>
+                <div class="luxury-menu-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 3. Savdo Reytingi -->
+            <div class="luxury-menu-card" onclick="navigateTo('rating')">
+                <div class="luxury-menu-left">
+                    <div class="luxury-menu-icon-wrap gold-glow">
+                        <img src="./images/trophy.webp?v=3" alt="Rating" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
+                    </div>
+                    <div class="luxury-menu-content">
+                        <div class="luxury-menu-title-row">
+                            <span class="luxury-menu-title" data-i18n="profile.rating_title">Savdo Reytingi</span>
+                            <span class="luxury-menu-pill gold-pill">TOP 10</span>
+                        </div>
+                        <div class="luxury-menu-desc" data-i18n="profile.rating_sub">Eng faol foydalanuvchilar</div>
+                    </div>
+                </div>
+                <div class="luxury-menu-chevron">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+            </div>
         </div>
 
-        <div class="menu-action-item" onclick="navigateTo('spin')">
-            <div class="menu-action-left">
-                <div class="menu-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10"></path></svg>
-                </div>
-                <div class="menu-label-box">
-                    <div class="menu-primary-text" data-i18n="profile.spin_title">Omadli G'ildirak (Spin)</div>
-                    <div class="menu-secondary-text" data-i18n="profile.spin_sub">Har kuni bepul yutuqlar yutib oling</div>
-                </div>
-            </div>
-            <div class="menu-arrow-icon">›</div>
-        </div>
-
-        <div class="menu-action-item" onclick="navigateTo('rating')">
-            <div class="menu-action-left">
-                <div class="menu-icon-wrap" style="background: rgba(236, 72, 153, 0.15); color: #f472b6;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 9h12v3a6 6 0 0 1-12 0V9z"></path></svg>
-                </div>
-                <div class="menu-label-box">
-                    <div class="menu-primary-text" data-i18n="profile.rating_title">Top Reyting</div>
-                    <div class="menu-secondary-text" data-i18n="profile.rating_sub">Eng faol foydalanuvchilar</div>
-                </div>
-            </div>
-            <div class="menu-arrow-icon">›</div>
-        </div>
+        <div style="height: 80px; width: 100%; pointer-events: none;"></div>
     </section>
 
 
@@ -8404,7 +8635,7 @@ body {
     </main>
 
 
-    <!-- Persistent Floating Capsule Dock Navigation (v37.0) -->
+    <!-- Persistent Floating Capsule Dock Navigation (v38.0) -->
     <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
         <!-- Hardware-accelerated sliding white pill -->
         <div class="dock-sliding-pill"></div>
@@ -9903,6 +10134,12 @@ function initChannelSubscriptionGate() {
 
 
 
+if (typeof TRANSLATIONS !== 'undefined') {
+    if (TRANSLATIONS.uz) TRANSLATIONS.uz['profile.badge_orders'] = 'Tarix';
+    if (TRANSLATIONS.ru) TRANSLATIONS.ru['profile.badge_orders'] = 'История';
+    if (TRANSLATIONS.en) TRANSLATIONS.en['profile.badge_orders'] = 'History';
+}
+
 function selectStarCard(el) {
     if (window.Telegram?.WebApp?.HapticFeedback) {
         try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
@@ -9910,7 +10147,7 @@ function selectStarCard(el) {
 }
 
 document.addEventListener('click', function(e) {
-    const interactive = e.target.closest('button, .primary-action-btn, .star-buy-button, .custom-buy-btn, .premium-submit-btn, .service-quad-card, .menu-action-item, .amount-chip-card, .quick-chip-btn, .filter-chip-btn, .premium-plan-card, .luxury-chip-btn, .luxury-plan-card, .luxury-primary-buy-btn');
+    const interactive = e.target.closest('button, .primary-action-btn, .star-buy-button, .custom-buy-btn, .premium-submit-btn, .service-quad-card, .menu-action-item, .luxury-menu-card, .amount-chip-card, .quick-chip-btn, .filter-chip-btn, .premium-plan-card, .luxury-chip-btn, .luxury-plan-card, .luxury-primary-buy-btn');
     if (interactive && window.Telegram?.WebApp?.HapticFeedback) {
         try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(err) {}
     }
@@ -9968,7 +10205,7 @@ function animateBalance(val) {
 
 
 
-/* === STARS SCRIPT (v37.0) === */
+/* === STARS SCRIPT (v38.0) === */
 function calcCustomStarPrice() {
     const input = document.getElementById('customStarInput');
     const preview = document.getElementById('customPricePreview');
@@ -10084,7 +10321,7 @@ async function buyStarTier(quantity, amount, btn) {
 
 
 
-/* === PREMIUM SCRIPT (v37.0) === */
+/* === PREMIUM SCRIPT (v38.0) === */
 let selectedPlanMonths = 3;
 let selectedPlanAmount = 160000;
 
@@ -10165,7 +10402,7 @@ async function buyPremium() {
 
 
 
-/* === USERNAME VERIFICATION (v37.0) === */
+/* === USERNAME VERIFICATION (v38.0) === */
 function verifyUsername(type) {
     const input = document.getElementById(type + 'Username');
     const msg = document.getElementById(type + 'VerifyMsg');
@@ -11030,7 +11267,7 @@ function renderOrders(orders) {
 
 /* === RATING SCRIPT === */
 
-/* === RATING SCRIPT (v37.0 - REAL TELEGRAM AVATARS) === */
+/* === RATING SCRIPT (v38.0 - REAL TELEGRAM AVATARS) === */
 let cachedRatingList = [];
 
 function switchPeriod(period, btn) {
