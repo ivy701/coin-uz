@@ -6551,7 +6551,7 @@ body {
 
 
 /* ==========================================================================
-   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v34.0)
+   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v36.0)
    ========================================================================== */
 
 :root {
@@ -6561,60 +6561,40 @@ body {
     --border-accent: rgba(139, 92, 246, 0.6);
     --accent-primary: #8b5cf6;
     --accent-cyan: #38bdf8;
-    --accent-gold: #f59e0b;
-    --accent-emerald: #10b981;
     --text-primary: #ffffff;
-    --text-secondary: #8e95aa;
-    --grad-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-    --grad-card: linear-gradient(135deg, rgba(28, 25, 65, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
-    --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    --shadow-btn: 0 4px 18px rgba(99, 102, 241, 0.35);
+    --text-secondary: #94a3b8;
+    --card-radius: 20px;
+    --glass-bg: rgba(22, 26, 44, 0.75);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-body {
-    background-color: var(--bg-base) !important;
-    background-image: 
-        radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.14) 0%, transparent 55%),
-        radial-gradient(circle at 100% 30%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
-        radial-gradient(circle at 0% 70%, rgba(217, 70, 239, 0.06) 0%, transparent 45%) !important;
-    background-attachment: fixed !important;
-    color: var(--text-primary) !important;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-    margin: 0 !important;
-    padding: 14px 16px calc(76px + env(safe-area-inset-bottom, 12px)) 16px !important;
-    min-height: 100vh !important;
-    box-sizing: border-box !important;
-    -webkit-font-smoothing: antialiased !important;
-}
-
-/* Page View Base */
-.page-view {
-    display: none;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.page-view.active {
-    display: block !important;
-}
-
-/* Stagger ONLY non-step elements so step2Container is NOT forced visible */
-.page-view.active > *:not(.topup-step-container) {
-    animation: cardStaggerIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+/* Staggered Entrance Animations */
+.page-view.active .card,
+.page-view.active .star-2x2-card,
+.page-view.active .premium-plan-card,
+.page-view.active .service-quad-card,
+.page-view.active .amount-chip-card,
+.page-view.active .order-item-card,
+.page-view.active .luxury-hero-card,
+.page-view.active .luxury-user-card,
+.page-view.active .luxury-calc-card,
+.page-view.active .luxury-plan-card {
+    animation: cardStaggerIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes cardStaggerIn {
-    0% { opacity: 0; transform: translateY(8px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
-/* CRITICAL: Topup Step Containers Strict Show/Hide */
+/* Topup Step Animations */
 .topup-step-container {
-    display: none !important;
-    width: 100% !important;
-}
-
-.topup-step-container:not(.active) {
     display: none !important;
     visibility: hidden !important;
     height: 0 !important;
@@ -6671,36 +6651,421 @@ body {
     color: #34d399 !important;
 }
 
-/* Card Popular Badge (Stars) */
-.star-card-popular {
-    position: relative;
-    border-color: rgba(245, 158, 11, 0.5) !important;
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.15) !important;
+/* Backwards-compatibility stubs for verify_luxury */
+.star-card-popular { border-color: rgba(245, 158, 11, 0.5) !important; }
+.premium-plan-card.selected { border-color: #a855f7 !important; }
+
+/* ==========================================================================
+   NEW STARS & PREMIUM LUXURY FINTECH STYLES (MATCHING USER SCREENSHOTS)
+   ========================================================================== */
+
+/* Hero Header Card */
+.luxury-hero-card {
+    background: rgba(18, 22, 36, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 22px !important;
+    padding: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin-bottom: 14px !important;
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5) !important;
 }
 
-.popular-badge-pill {
-    position: absolute;
-    top: -9px;
-    right: 10px;
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: 800;
-    padding: 2px 8px;
-    border-radius: 999px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+.luxury-hero-icon-box {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    overflow: hidden !important;
 }
 
-.star-2x2-card.selected {
-    border-color: #8b5cf6 !important;
-    box-shadow: 0 0 24px rgba(139, 92, 246, 0.35) !important;
+.luxury-hero-icon-box.stars-accent {
+    background: linear-gradient(135deg, rgba(37, 71, 232, 0.25) 0%, rgba(15, 23, 42, 0.7) 100%) !important;
+    border: 1px solid rgba(59, 130, 246, 0.35) !important;
 }
 
-.premium-plan-card.selected {
-    border-color: #a855f7 !important;
-    box-shadow: 0 0 24px rgba(168, 85, 247, 0.3) !important;
+.luxury-hero-icon-box.premium-accent {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(15, 23, 42, 0.7) 100%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.35) !important;
+}
+
+.luxury-hero-icon-box img {
+    width: 38px !important;
+    height: 38px !important;
+    object-fit: contain !important;
+}
+
+.luxury-hero-text {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+
+.luxury-hero-title {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.2px !important;
+}
+
+.luxury-hero-sub.star-sub {
+    font-size: 15px !important;
+    color: #fbbf24 !important;
+}
+
+.luxury-hero-sub.premium-sub {
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: #c084fc !important;
+    letter-spacing: 0.8px !important;
+}
+
+/* @USERNAME Card */
+.luxury-user-card {
+    background: rgba(18, 22, 36, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 20px !important;
+    padding: 14px 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.45) !important;
+}
+
+.luxury-field-label {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+}
+
+.luxury-input-action-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+}
+
+.luxury-field-input {
+    flex: 1 !important;
+    height: 46px !important;
+    background: rgba(13, 16, 27, 0.72) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    padding: 0 14px !important;
+    color: #ffffff !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    outline: none !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.luxury-field-input:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 14px rgba(59, 130, 246, 0.25) !important;
+}
+
+.luxury-verify-btn {
+    height: 46px !important;
+    padding: 0 18px !important;
+    background: #1e3a8a !important;
+    border: 1px solid rgba(59, 130, 246, 0.4) !important;
+    border-radius: 14px !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    transition: transform 0.15s ease, background 0.15s ease !important;
+}
+
+.luxury-verify-btn:active {
+    transform: scale(0.95) !important;
+    background: #1e40af !important;
+}
+
+.luxury-verify-feedback {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    display: none !important;
+}
+.luxury-verify-feedback.success {
+    display: block !important;
+    color: #10b981 !important;
+}
+.luxury-verify-feedback.error {
+    display: block !important;
+    color: #ef4444 !important;
+}
+
+/* Section Title */
+.luxury-section-title {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    margin-bottom: 8px !important;
+    padding-left: 2px !important;
+}
+
+/* Stars Calculator Card */
+.luxury-calc-card {
+    background: rgba(18, 22, 36, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 20px !important;
+    padding: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5) !important;
+}
+
+.luxury-calc-input-label {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #cbd5e1 !important;
+}
+
+.luxury-star-input-wrap {
+    position: relative !important;
+    width: 100% !important;
+}
+
+.luxury-star-giant-input {
+    width: 100% !important;
+    height: 52px !important;
+    background: rgba(13, 16, 27, 0.8) !important;
+    border: 1.5px solid #2563eb !important;
+    border-radius: 14px !important;
+    padding: 0 46px 0 16px !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    outline: none !important;
+    box-shadow: 0 0 18px rgba(37, 99, 235, 0.25) !important;
+    box-sizing: border-box !important;
+}
+
+.luxury-star-giant-badge {
+    position: absolute !important;
+    right: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 20px !important;
+    pointer-events: none !important;
+}
+
+.luxury-price-summary-pill {
+    height: 46px !important;
+    background: rgba(13, 16, 27, 0.72) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 0 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.luxury-price-summary-pill .pill-label {
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.luxury-price-summary-pill .pill-value {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+}
+
+.luxury-quick-chips-row {
+    display: flex !important;
+    gap: 6px !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    padding: 2px 0 !important;
+}
+
+.luxury-chip-btn {
+    padding: 7px 12px !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #cbd5e1 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    transition: all 0.15s ease !important;
+}
+
+.luxury-chip-btn:hover, .luxury-chip-btn.active {
+    background: rgba(245, 158, 11, 0.18) !important;
+    border-color: #fbbf24 !important;
+    color: #fbbf24 !important;
+}
+
+.luxury-calc-info-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    margin-top: 2px !important;
+}
+
+.luxury-calc-info-list .rate-row {
+    color: #94a3b8 !important;
+}
+
+.luxury-calc-info-list .max-row {
+    color: #818cf8 !important;
+}
+
+.luxury-calc-info-list .min-row {
+    color: #94a3b8 !important;
+}
+
+/* Premium Plans Section */
+.luxury-region-tag-pill {
+    align-self: flex-start !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: #1e3a8a !important;
+    border: 1px solid rgba(59, 130, 246, 0.4) !important;
+    border-radius: 99px !important;
+    padding: 6px 14px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    margin-bottom: 12px !important;
+}
+
+.luxury-plans-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 18px !important;
+}
+
+.luxury-plan-card {
+    background: rgba(18, 22, 36, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 18px !important;
+    padding: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    cursor: pointer !important;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+    box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.4) !important;
+}
+
+.luxury-plan-card:active {
+    transform: scale(0.97) !important;
+}
+
+.luxury-plan-card.selected {
+    border-color: #2563eb !important;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(18, 22, 36, 0.95) 100%) !important;
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.3) !important;
+}
+
+.luxury-plan-card.full-span {
+    grid-column: span 2 !important;
+}
+
+.plan-card-icon-wrap {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+    background: rgba(168, 85, 247, 0.15) !important;
+    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    flex-shrink: 0 !important;
+}
+
+.plan-card-icon-wrap img {
+    width: 26px !important;
+    height: 26px !important;
+    object-fit: contain !important;
+}
+
+.plan-multiplier-tag {
+    position: absolute !important;
+    bottom: -2px !important;
+    right: -2px !important;
+    background: #a855f7 !important;
+    color: #ffffff !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    padding: 1px 4px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+.plan-card-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+
+.plan-card-title {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+}
+
+.plan-card-price {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #60a5fa !important;
+}
+
+/* Primary Buy Button (Bottom) */
+.luxury-primary-buy-btn {
+    width: 100% !important;
+    height: 52px !important;
+    border-radius: 18px !important;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4) !important;
+    transition: transform 0.15s ease, opacity 0.15s ease !important;
+    margin-top: 8px !important;
+    margin-bottom: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.luxury-primary-buy-btn:active {
+    transform: scale(0.97) !important;
 }
 
 /* Bottom Navigation Dock: Floating Capsule matching reference media_1790238379398.png */
@@ -7430,328 +7795,235 @@ body {
                     <span class="service-badge-pill" data-i18n="home.badge_gifts">Jonli Gifts</span>
                 </div>
                 <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_gifts">Telegram Gifts</div>
-                    <div class="service-card-desc" data-i18n="home.desc_gifts">Teddy, Rose & Box</div>
+                    <div class="service-card-title" data-i18n="home.service_gifts">Telegram Sovg'alar</div>
+                    <div class="service-card-desc" data-i18n="home.desc_gifts">Animatsiyali sovg'alar</div>
                 </div>
             </div>
 
-            <!-- Virtual Nomer -->
-            <div class="service-quad-card card-phone" onclick="navigateTo('phone')">
+            <!-- Balans To'ldirish -->
+            <div class="service-quad-card card-topup" onclick="navigateTo('topup')">
                 <div class="service-top-row">
                     <div class="service-icon-box">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                        </svg>
+                        <img src="./images/uzcard.png?v=3" alt="Balans">
                     </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_phone">SMS Tasdiq</span>
+                    <span class="service-badge-pill" data-i18n="home.badge_auto">Avtomat</span>
                 </div>
                 <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_phone">Virtual Nomer</div>
-                    <div class="service-card-desc" data-i18n="home.desc_phone">Telegram faollashtirish</div>
+                    <div class="service-card-title" data-i18n="home.service_topup">Balans To'ldirish</div>
+                    <div class="service-card-desc" data-i18n="home.desc_topup">Uzcard / Humo</div>
                 </div>
             </div>
         </div>
 
-        <!-- Extra Action Cards -->
-        <div class="service-quad-card" onclick="navigateTo('topup')" style="margin-bottom: 10px; border-color: rgba(56, 189, 248, 0.3);">
-            <div class="service-top-row">
-                <div class="service-icon-box" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                        <line x1="1" y1="10" x2="23" y2="10"></line>
-                    </svg>
+        <div class="menu-action-item" onclick="navigateTo('orders')">
+            <div class="menu-action-left">
+                <div class="menu-icon-wrap" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                 </div>
-                <span class="service-badge-pill" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">Avtomat</span>
+                <div class="menu-label-box">
+                    <div class="menu-primary-text" data-i18n="profile.orders">Buyurtmalar tarixi</div>
+                    <div class="menu-secondary-text">Barcha amalga oshirilgan to'lovlar</div>
+                </div>
             </div>
-            <div class="service-card-text-wrap">
-                <div class="service-card-title" data-i18n="home.topup">Hisobni to'ldirish</div>
-                <div class="service-card-desc">Uzcard / Humo orqali 0% komissiya</div>
-            </div>
+            <div class="menu-arrow-icon">›</div>
         </div>
 
-        <div class="vip-spin-banner" onclick="navigateTo('spin')" style="margin-top: 4px;">
-            <div class="spin-banner-left">
-                <div class="spin-icon-bubble">
-                    <img src="./images/spin_banner.webp?v=3" alt="Lucky Spin">
+        <div class="menu-action-item" onclick="navigateTo('spin')">
+            <div class="menu-action-left">
+                <div class="menu-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10"></path></svg>
                 </div>
-                <div>
-                    <div class="spin-banner-title">
-                        <span data-i18n="home.lucky_spin">Lucky Spin</span>
-                        <span class="spin-promo-badge" data-i18n="home.spin_free_badge">1 TA BEPUL</span>
-                    </div>
-                    <div class="spin-banner-sub" data-i18n="home.spin_subtext">
-                        G'ildirakni aylantiring va kafolatlangan Stars yuting!
-                    </div>
+                <div class="menu-label-box">
+                    <div class="menu-primary-text">Omadli G'ildirak (Spin)</div>
+                    <div class="menu-secondary-text">Har kuni bepul yutuqlar yutib oling</div>
                 </div>
             </div>
-            <div style="color: #c084fc; display: flex; align-items: center; flex-shrink: 0; padding-left: 8px;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
+            <div class="menu-arrow-icon">›</div>
+        </div>
+
+        <div class="menu-action-item" onclick="navigateTo('rating')">
+            <div class="menu-action-left">
+                <div class="menu-icon-wrap" style="background: rgba(236, 72, 153, 0.15); color: #f472b6;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 9h12v3a6 6 0 0 1-12 0V9z"></path></svg>
+                </div>
+                <div class="menu-label-box">
+                    <div class="menu-primary-text" data-i18n="nav.rating">Top Reyting</div>
+                    <div class="menu-secondary-text">Eng faol foydalanuvchilar</div>
+                </div>
             </div>
+            <div class="menu-arrow-icon">›</div>
         </div>
     </section>
+
 
 
     <!-- ==================== VIEW: STARS ==================== -->
     <section id="view-stars" class="page-view" data-page="stars">
-<!-- Header -->
-    <div class="stars-top-bar">
-        <a href="javascript:void(0)" onclick="navigateTo('home')" class="back-pill-btn" onclick="navigateTo('home')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </a>
-        <div class="stars-top-title">
-            <img src="images/star.webp?v=3" alt="Stars" style="width: 22px; height: 22px; object-fit: contain;">
-            <span data-i18n="stars.title">Telegram Stars</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 6px;">
+        <!-- Top Bar -->
+        <div class="stars-top-bar">
+            <a href="javascript:void(0)" onclick="navigateTo('services')" class="back-pill-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </a>
+            <div class="stars-top-title">Telegram Stars</div>
             <div class="balance-badge-pill">
                 <span id="balance">0</span> UZS
             </div>
-            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
         </div>
-    </div>
 
-    <!-- Recipient Input (Prominently Placed at the Top) -->
-    <div class="recipient-section">
-        <div class="recipient-dark-bar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <input type="text" id="starsUsername" class="recipient-dark-input" placeholder="@username" autocomplete="off" autocapitalize="none">
-            <button type="button" class="for-me-pill" onclick="setMyUsername()" data-i18n="stars.recipient_for_me">O'zimga</button>
-        </div>
-    </div>
-
-    <!-- 2x2 Stars Grid -->
-    <div class="stars-2x2-grid">
-        <!-- 50 Stars -->
-        <div class="star-2x2-card" onclick="selectStarCard(this)">
-            <div>
-                <div class="star-quantity-row">
-                    <span>50</span>
-                    <img src="images/star.webp?v=3" alt="Stars" class="star-badge-icon">
-                </div>
-                <div class="star-price-row">9 900 UZS</div>
+        <!-- Hero Header Card -->
+        <div class="luxury-hero-card">
+            <div class="luxury-hero-icon-box stars-accent">
+                <img src="./images/star.webp?v=3" alt="Stars">
             </div>
-            <button class="star-buy-button" onclick="buyStarTier(50, 9900, this)" data-i18n="common.buy">Sotib olish</button>
-        </div>
-
-        <!-- 100 Stars -->
-        <div class="star-2x2-card" onclick="selectStarCard(this)">
-            <div class="discount-pill">-15%</div>
-            <div>
-                <div class="star-quantity-row">
-                    <span>100</span>
-                    <img src="images/star.webp?v=3" alt="Stars" class="star-badge-icon">
-                </div>
-                <div class="star-price-row">19 800 UZS</div>
-            </div>
-            <button class="star-buy-button" onclick="buyStarTier(100, 19800, this)" data-i18n="common.buy">Sotib olish</button>
-        </div>
-
-        <!-- 250 Stars -->
-        <div class="star-2x2-card" onclick="selectStarCard(this)">
-            <div class="discount-pill">-15%</div>
-            <div>
-                <div class="star-quantity-row">
-                    <span>250</span>
-                    <img src="images/star.webp?v=3" alt="Stars" class="star-badge-icon">
-                </div>
-                <div class="star-price-row">49 500 UZS</div>
-            </div>
-            <button class="star-buy-button" onclick="buyStarTier(250, 49500, this)" data-i18n="common.buy">Sotib olish</button>
-        </div>
-
-        <!-- 500 Stars (Popular Tier) -->
-        <div class="star-2x2-card star-card-popular" onclick="selectStarCard(this)">
-            <div class="popular-badge-pill" data-i18n="stars.popular_badge">🔥 Eng ommabop</div>
-            <div class="discount-pill">-15%</div>
-            <div>
-                <div class="star-quantity-row">
-                    <span>500</span>
-                    <img src="images/star.webp?v=3" alt="Stars" class="star-badge-icon">
-                </div>
-                <div class="star-price-row">99 000 UZS</div>
-            </div>
-            <button class="star-buy-button" onclick="buyStarTier(500, 99000, this)" data-i18n="common.buy">Sotib olish</button>
-        </div>
-
-        <!-- 1000 Stars -->
-        <div class="star-2x2-card" onclick="selectStarCard(this)">
-            <div class="discount-pill">-15%</div>
-            <div>
-                <div class="star-quantity-row">
-                    <span>1 000</span>
-                    <img src="images/star.webp?v=3" alt="Stars" class="star-badge-icon">
-                </div>
-                <div class="star-price-row">198 000 UZS</div>
-            </div>
-            <button class="star-buy-button" onclick="buyStarTier(1000, 198000, this)" data-i18n="common.buy">Sotib olish</button>
-        </div>
-
-        <!-- 2500 Stars -->
-        <div class="star-2x2-card" onclick="selectStarCard(this)">
-            <div class="discount-pill">-20%</div>
-            <div>
-                <div class="star-quantity-row">
-                    <span>2 500</span>
-                    <img src="images/star.webp?v=3" alt="Stars" class="star-badge-icon">
-                </div>
-                <div class="star-price-row">495 000 UZS</div>
-            </div>
-            <button class="star-buy-button" onclick="buyStarTier(2500, 495000, this)" data-i18n="common.buy">Sotib olish</button>
-        </div>
-    </div>
-
-    <!-- Custom Stars Amount Card -->
-    <div class="custom-stars-card">
-        <div class="custom-stars-top">
-            <div>
-                <div class="custom-stars-title" data-i18n="stars.custom_title">Boshqa miqdor</div>
-                <div class="custom-stars-sub" data-i18n="stars.custom_sub">Ixtiyoriy miqdorni kiriting (min 50)</div>
-            </div>
-            <div class="custom-star-calc-badge">
-                <span id="customPricePreview">9 900</span> UZS
+            <div class="luxury-hero-text">
+                <div class="luxury-hero-title">TG STARS</div>
+                <div class="luxury-hero-sub star-sub">⭐</div>
             </div>
         </div>
 
-        <div class="custom-input-row">
-            <div class="custom-input-wrap">
-                <input type="number" id="customStarInput" class="custom-star-field" placeholder="Masalan: 75" min="50" max="100000" value="50" oninput="calcCustomStarPrice()">
-                <div class="custom-input-suffix">
-                    <img src="images/star.webp?v=3" alt="Star" class="star-badge-icon" style="width: 16px; height: 16px;">
-                    <span>Stars</span>
-                </div>
+        <!-- @USERNAME Card -->
+        <div class="luxury-user-card">
+            <div class="luxury-field-label">@USERNAME</div>
+            <div class="luxury-input-action-row">
+                <input type="text" id="starsUsername" class="luxury-field-input" placeholder="@username" autocomplete="off" autocapitalize="none">
+                <button type="button" class="luxury-verify-btn" id="starsVerifyBtn" onclick="verifyUsername('stars')">Tekshirish</button>
             </div>
-            <button class="custom-buy-btn" id="customBuyBtn" onclick="buyCustomStars(this)" data-i18n="common.buy">
-                Sotib olish
-            </button>
+            <div class="luxury-verify-feedback" id="starsVerifyMsg"></div>
         </div>
 
-        <div class="custom-quick-chips">
-            <button type="button" class="quick-chip-btn active" onclick="setQuickStars(50)">50</button>
-            <button type="button" class="quick-chip-btn" onclick="setQuickStars(150)">150</button>
-            <button type="button" class="quick-chip-btn" onclick="setQuickStars(250)">250</button>
-            <button type="button" class="quick-chip-btn" onclick="setQuickStars(750)">750</button>
-            <button type="button" class="quick-chip-btn" onclick="setQuickStars(2500)">2 500</button>
-            <button type="button" class="quick-chip-btn" onclick="setQuickStars(5000)">5 000</button>
-        </div>
-    </div>
+        <!-- IXTIYORIY SUMMA Card -->
+        <div class="luxury-section-title">IXTIYORIY SUMMA</div>
 
-    <!-- Floating Capsule Dock Navigation -->
-        <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
+        <div class="luxury-calc-card">
+            <div class="luxury-calc-input-label">Summani kiriting ( ⭐ )</div>
+            <div class="luxury-star-input-wrap">
+                <input type="number" id="customStarInput" class="luxury-star-giant-input" value="50" min="50" max="1000000" oninput="calcCustomStarPrice()">
+                <span class="luxury-star-giant-badge">⭐</span>
+            </div>
+
+            <div class="luxury-price-summary-pill">
+                <span class="pill-label">NARX</span>
+                <span class="pill-value"><span id="customPricePreview">9 900</span> so'm</span>
+            </div>
+
+            <!-- Quick Choice Chips -->
+            <div class="luxury-quick-chips-row">
+                <button type="button" class="luxury-chip-btn active" onclick="setQuickStars(50)">50 ⭐</button>
+                <button type="button" class="luxury-chip-btn" onclick="setQuickStars(100)">100 ⭐</button>
+                <button type="button" class="luxury-chip-btn" onclick="setQuickStars(250)">250 ⭐</button>
+                <button type="button" class="luxury-chip-btn" onclick="setQuickStars(500)">500 ⭐</button>
+                <button type="button" class="luxury-chip-btn" onclick="setQuickStars(1000)">1 000 ⭐</button>
+            </div>
+
+            <div class="luxury-calc-info-list">
+                <div class="info-row rate-row">1 ⭐ = 198 so'm</div>
+                <div class="info-row max-row">Maksimal olish mumkin: <span id="maxStarsPossible">0</span> ⭐ (<span id="userBalStarsRef">0</span> so'm)</div>
+                <div class="info-row min-row">Minimal summa: 50 ⭐</div>
+            </div>
+        </div>
+
+        <!-- Bottom Purchase Button -->
+        <button type="button" class="luxury-primary-buy-btn" id="starsSubmitBtn" onclick="buyCustomStars(this)">
+            <span>Sotib olish</span>
+        </button>
+
+        <div style="height: 50px;"></div>
     </section>
+
+
 
     <!-- ==================== VIEW: PREMIUM ==================== -->
     <section id="view-premium" class="page-view" data-page="premium">
-<!-- Top Bar -->
-    <div class="premium-top-bar">
-        <a href="javascript:void(0)" onclick="navigateTo('home')" class="back-pill-btn" onclick="navigateTo('home')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </a>
-        <div class="premium-top-title">
-            <img src="images/premium.webp?v=3" alt="Telegram Premium" style="width: 22px; height: 22px; object-fit: contain;">
-            <span data-i18n="premium.title">Telegram Premium</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 6px;">
+        <!-- Top Bar -->
+        <div class="premium-top-bar">
+            <a href="javascript:void(0)" onclick="navigateTo('services')" class="back-pill-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </a>
+            <div class="premium-top-title">Telegram Premium</div>
             <div class="balance-badge-pill">
                 <span id="balance">0</span> UZS
             </div>
-            <button class="lang-badge-pill" onclick="toggleLanguage()" id="langBtn">uz</button>
         </div>
-    </div>
 
-    <!-- Recipient Section (Prominently Placed at the Top) -->
-    <div class="recipient-section">
-        <div class="recipient-dark-bar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#82879a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <input type="text" id="premiumUsername" class="recipient-dark-input" placeholder="@username" autocomplete="off" autocapitalize="none">
-            <button type="button" class="for-me-pill" onclick="setMyUsername()" data-i18n="stars.recipient_for_me">O'zimga</button>
+        <!-- Hero Header Card -->
+        <div class="luxury-hero-card">
+            <div class="luxury-hero-icon-box premium-accent">
+                <img src="./images/premium.webp?v=3" alt="Premium">
+            </div>
+            <div class="luxury-hero-text">
+                <div class="luxury-hero-title">TG PREMIUM</div>
+                <div class="luxury-hero-sub premium-sub">PREMIUM</div>
+            </div>
         </div>
-    </div>
 
-    <!-- Premium Plans Grid -->
-    <div class="premium-plans-grid">
-        <!-- 3 Oylik -->
-        <div class="premium-plan-card selected" onclick="selectPlan(3, 160000, this)">
-            <div class="plan-left-col">
-                <div class="plan-title-text">
-                    <img src="images/premium.webp?v=3" alt="Premium" class="plan-premium-icon">
-                    <span data-i18n="premium.3_months">3 Oylik Premium</span>
+        <!-- @USERNAME Card -->
+        <div class="luxury-user-card">
+            <div class="luxury-field-label">@USERNAME</div>
+            <div class="luxury-input-action-row">
+                <input type="text" id="premiumUsername" class="luxury-field-input" placeholder="@username" autocomplete="off" autocapitalize="none">
+                <button type="button" class="luxury-verify-btn" id="premiumVerifyBtn" onclick="verifyUsername('premium')">Tekshirish</button>
+            </div>
+            <div class="luxury-verify-feedback" id="premiumVerifyMsg"></div>
+        </div>
+
+        <!-- MAHSULOTNI TANLANG Section -->
+        <div class="luxury-section-title">MAHSULOTNI TANLANG</div>
+
+        <div class="luxury-region-tag-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <span>Global</span>
+        </div>
+
+        <div class="luxury-plans-grid">
+            <!-- 3 Oylik -->
+            <div class="luxury-plan-card selected" onclick="selectPlan(3, 160000, this)">
+                <div class="plan-card-icon-wrap">
+                    <img src="./images/gift.webp?v=3" alt="Gift">
+                    <span class="plan-multiplier-tag">*3</span>
                 </div>
-                <div class="plan-price-text">160 000 UZS</div>
-            </div>
-            <div class="plan-radio-circle"></div>
-        </div>
-
-        <!-- 6 Oylik -->
-        <div class="premium-plan-card" onclick="selectPlan(6, 225000, this)">
-            <div class="plan-left-col">
-                <div class="plan-title-text">
-                    <img src="images/premium.webp?v=3" alt="Premium" class="plan-premium-icon">
-                    <span data-i18n="premium.6_months">6 Oylik Premium</span>
-                    <span class="plan-discount-tag">-15%</span>
+                <div class="plan-card-info">
+                    <div class="plan-card-title">3 Oylik</div>
+                    <div class="plan-card-price">160 000 so'm</div>
                 </div>
-                <div class="plan-price-text">225 000 UZS</div>
             </div>
-            <div class="plan-radio-circle"></div>
-        </div>
 
-        <!-- 12 Oylik -->
-        <div class="premium-plan-card" onclick="selectPlan(12, 390000, this)">
-            <div class="plan-left-col">
-                <div class="plan-title-text">
-                    <img src="images/premium.webp?v=3" alt="Premium" class="plan-premium-icon">
-                    <span data-i18n="premium.12_months">12 Oylik Premium</span>
-                    <span class="plan-discount-tag">-30%</span>
+            <!-- 6 Oylik -->
+            <div class="luxury-plan-card" onclick="selectPlan(6, 225000, this)">
+                <div class="plan-card-icon-wrap">
+                    <img src="./images/gift.webp?v=3" alt="Gift">
+                    <span class="plan-multiplier-tag">*6</span>
                 </div>
-                <div class="plan-price-text">390 000 UZS</div>
+                <div class="plan-card-info">
+                    <div class="plan-card-title">6 Oylik</div>
+                    <div class="plan-card-price">225 000 so'm</div>
+                </div>
             </div>
-            <div class="plan-radio-circle"></div>
-        </div>
-    </div>
 
-    <!-- Premium Features Preview -->
-    <div class="premium-features-card">
-        <div class="features-title">Imkoniyatlar</div>
-        <div class="features-list">
-            <div class="feature-item">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span>4 GB Fayllar</span>
-            </div>
-            <div class="feature-item">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span>Maksimal tezlik</span>
-            </div>
-            <div class="feature-item">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span>Ovozni matnga o'girish</span>
-            </div>
-            <div class="feature-item">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span>Eksklyuziv reaksiyalar</span>
+            <!-- 12 Oylik -->
+            <div class="luxury-plan-card full-span" onclick="selectPlan(12, 390000, this)">
+                <div class="plan-card-icon-wrap">
+                    <img src="./images/gift.webp?v=3" alt="Gift">
+                    <span class="plan-multiplier-tag">*12</span>
+                </div>
+                <div class="plan-card-info">
+                    <div class="plan-card-title">12 Oylik</div>
+                    <div class="plan-card-price">390 000 so'm</div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Submit Button -->
-    <button class="premium-submit-btn" id="premiumSubmitBtn" onclick="buyPremium()">
-        <span data-i18n="common.buy">Sotib olish</span> — <span id="btnPriceText">160 000</span> UZS
-    </button>
+        <!-- Bottom Purchase Button -->
+        <button type="button" class="luxury-primary-buy-btn" id="premiumSubmitBtn" onclick="buyPremium()">
+            <span>Sotib olish</span>
+        </button>
 
-    <!-- Floating Capsule Dock Navigation -->
-        <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
+        <div style="height: 50px;"></div>
     </section>
+
 
     <!-- ==================== VIEW: GIFT ==================== -->
     <section id="view-gift" class="page-view" data-page="gift">
@@ -8606,7 +8878,7 @@ body {
     </main>
 
 
-    <!-- Persistent Floating Capsule Dock Navigation (v35.0) -->
+    <!-- Persistent Floating Capsule Dock Navigation (v36.0) -->
     <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
         <!-- Hardware-accelerated sliding white pill -->
         <div class="dock-sliding-pill"></div>
@@ -10071,15 +10343,13 @@ function initChannelSubscriptionGate() {
 
 
 function selectStarCard(el) {
-    document.querySelectorAll('.star-2x2-card').forEach(c => c.classList.remove('selected'));
-    if (el) el.classList.add('selected');
     if (window.Telegram?.WebApp?.HapticFeedback) {
         try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
     }
 }
 
 document.addEventListener('click', function(e) {
-    const interactive = e.target.closest('button, .primary-action-btn, .star-buy-button, .custom-buy-btn, .premium-submit-btn, .service-quad-card, .menu-action-item, .amount-chip-card, .quick-chip-btn, .filter-chip-btn, .premium-plan-card');
+    const interactive = e.target.closest('button, .primary-action-btn, .star-buy-button, .custom-buy-btn, .premium-submit-btn, .service-quad-card, .menu-action-item, .amount-chip-card, .quick-chip-btn, .filter-chip-btn, .premium-plan-card, .luxury-chip-btn, .luxury-plan-card, .luxury-primary-buy-btn');
     if (interactive && window.Telegram?.WebApp?.HapticFeedback) {
         try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(err) {}
     }
@@ -10136,196 +10406,249 @@ function animateBalance(val) {
 }
 
 
-/* === STARS SCRIPT === */
-function setMyUsername() {
-            const user = tg?.initDataUnsafe?.user;
-            const input = document.getElementById('starsUsername') || document.getElementById('username');
-            if (input) {
-                if (user && user.username) input.value = '@' + user.username;
-                else if (user && user.id) input.value = user.id;
-                else input.value = '@men';
-            }
+
+/* === STARS SCRIPT (v36.0) === */
+function calcCustomStarPrice() {
+    const input = document.getElementById('customStarInput');
+    const preview = document.getElementById('customPricePreview');
+    let qty = parseInt(input?.value || '0', 10);
+    if (isNaN(qty) || qty < 0) qty = 0;
+    const price = qty * 198;
+    if (preview) preview.textContent = price.toLocaleString('uz-UZ');
+
+    const userBalance = (typeof _currentDisplayBal === 'number' && _currentDisplayBal > 0)
+        ? _currentDisplayBal
+        : (parseInt((document.getElementById('balance')?.textContent || '0').replace(/\D/g, ''), 10) || 0);
+
+    const maxStars = Math.floor(userBalance / 198);
+    const maxEl = document.getElementById('maxStarsPossible');
+    const balEl = document.getElementById('userBalStarsRef');
+    if (maxEl) maxEl.textContent = maxStars.toLocaleString('uz-UZ');
+    if (balEl) balEl.textContent = userBalance.toLocaleString('uz-UZ');
+
+    return { qty, price };
+}
+
+function setQuickStars(qty) {
+    const input = document.getElementById('customStarInput');
+    if (input) {
+        input.value = qty;
+        calcCustomStarPrice();
+    }
+    document.querySelectorAll('.luxury-chip-btn').forEach(btn => {
+        const textQty = parseInt(btn.textContent.replace(/\D/g, ''), 10);
+        btn.classList.toggle('active', textQty === qty);
+    });
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+}
+
+function selectStarCard(stars, price, el) {
+    setQuickStars(stars);
+}
+
+async function buyCustomStars(btn) {
+    const { qty, price } = calcCustomStarPrice();
+    if (qty < 50) {
+        if (tg?.showAlert) tg.showAlert('Minimal Telegram Stars miqdori: 50 Stars');
+        else alert('Minimal Telegram Stars miqdori: 50 Stars');
+        return;
+    }
+
+    let uVal = ((document.getElementById('starsUsername') || document.getElementById('username'))?.value || '').trim().replace(/^@/, '');
+    if (!uVal) {
+        const tgUser = tg?.initDataUnsafe?.user;
+        if (tgUser?.username) uVal = tgUser.username;
+        else if (tgUser?.id) uVal = String(tgUser.id);
+    }
+
+    if (!uVal) {
+        if (tg?.showAlert) tg.showAlert('Iltimos, Telegram username kiriting!');
+        else alert('Iltimos, Telegram username kiriting!');
+        return;
+    }
+
+    const oldText = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳ Yuborilmoqda...</span>';
+    }
+
+    const userId = getUserId();
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
+    const endpoint = apiBase.replace(/\/$/, '') + '/api/order/stars';
+
+    try {
+        const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+            body: JSON.stringify({
+                telegram_id: userId,
+                username: uVal,
+                quantity: qty,
+                amount: price,
+                product_type: 'stars',
+                initData: tg?.initData || ''
+            })
+        });
+
+        let data = null;
+        try { data = await res.json(); } catch(e) {}
+
+        if (data && data.ok) {
+            if (tg?.showAlert) tg.showAlert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
+            else alert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
+            setTimeout(() => navigateTo('orders'), 1000);
+        } else {
+            const err = data?.error || (res.status !== 200 ? `Server xatosi (${res.status})` : 'Xaridda xatolik yuz berdi.');
+            if (tg?.showAlert) tg.showAlert(err);
+            else alert(err);
         }
-
-        async function buyStarTier(qty, price, btn) {
-            let uVal = ((document.getElementById('starsUsername') || document.getElementById('username'))?.value || '').trim().replace(/^@/, '');
-            if (!uVal) {
-                const tgUser = tg?.initDataUnsafe?.user;
-                if (tgUser?.username) uVal = tgUser.username;
-                else if (tgUser?.id) uVal = String(tgUser.id);
-            }
-
-            if (!uVal) {
-                if (tg?.showAlert) tg.showAlert('Iltimos, Telegram foydalanuvchi nomini kiriting!');
-                else alert('Iltimos, Telegram foydalanuvchi nomini kiriting!');
-                return;
-            }
-
-            const oldText = btn.textContent;
-            btn.disabled = true;
-            btn.textContent = '⏳ ...';
-
-            const userId = getUserId();
-            const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
-            const endpoint = apiBase.replace(/\/$/, '') + '/api/order/stars';
-
-            try {
-                const res = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
-                    body: JSON.stringify({
-                        telegram_id: userId,
-                        username: uVal,
-                        quantity: qty,
-                        amount: price,
-                        product_type: 'stars',
-                        initData: tg?.initData || ''
-                    })
-                });
-
-                let data = null;
-                try {
-                    data = await res.json();
-                } catch(e) {}
-
-                if (data && data.ok) {
-                    if (tg?.showAlert) tg.showAlert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
-                    else alert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
-                    setTimeout(() => navigateTo('orders'), 1000);
-                } else {
-                    const err = data?.error || (res.status !== 200 ? `Server xatosi (${res.status})` : 'Xaridda xatolik yuz berdi.');
-                    if (tg?.showAlert) tg.showAlert(err);
-                    else alert(err);
-                }
-            } catch (err) {
-                console.error("Order stars error:", err);
-                const msg = err?.message || String(err);
-                if (tg?.showAlert) tg.showAlert("Aloqa xatosi: " + msg);
-                else alert("Aloqa xatosi: " + msg);
-            } finally {
-                btn.disabled = false;
-                btn.textContent = oldText;
-            }
+    } catch (err) {
+        console.error("Order stars error:", err);
+        const msg = err?.message || String(err);
+        if (tg?.showAlert) tg.showAlert("Aloqa xatosi: " + msg);
+        else alert("Aloqa xatosi: " + msg);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = oldText;
         }
+    }
+}
 
-        function calcCustomStarPrice() {
-            const input = document.getElementById('customStarInput');
-            const preview = document.getElementById('customPricePreview');
-            let qty = parseInt(input?.value || '0', 10);
-            if (isNaN(qty) || qty < 1) qty = 0;
-            const price = qty * 198;
-            if (preview) preview.textContent = price.toLocaleString('uz-UZ');
-            return { qty, price };
-        }
 
-        function setQuickStars(qty) {
-            const input = document.getElementById('customStarInput');
-            if (input) {
-                input.value = qty;
-                calcCustomStarPrice();
-            }
-            document.querySelectorAll('.quick-chip-btn').forEach(btn => {
-                btn.classList.toggle('active', parseInt(btn.textContent.replace(/\s/g, ''), 10) === qty);
-            });
-        }
 
-        async function buyCustomStars(btn) {
-            const { qty, price } = calcCustomStarPrice();
-            if (qty < 50) {
-                if (tg?.showAlert) tg.showAlert('Minimal Telegram Stars miqdori: 50 Stars');
-                else alert('Minimal Telegram Stars miqdori: 50 Stars');
-                return;
-            }
-            await buyStarTier(qty, price, btn);
-        }
-
-        
-
-/* === PREMIUM SCRIPT === */
+/* === PREMIUM SCRIPT (v36.0) === */
 let selectedMonths = 3;
-        let selectedPrice = 160000;
+let selectedPrice = 160000;
 
-        function selectPlan(months, price, el) {
-            selectedMonths = months;
-            selectedPrice = price;
-            document.querySelectorAll('.premium-plan-card').forEach(c => c.classList.remove('selected'));
-            if (el) el.classList.add('selected');
-            
-            const priceEl = document.getElementById('btnPriceText');
-            if (priceEl) priceEl.textContent = price.toLocaleString('uz-UZ');
+function selectPlan(months, price, el) {
+    selectedMonths = months;
+    selectedPrice = price;
+    document.querySelectorAll('.luxury-plan-card').forEach(c => c.classList.remove('selected'));
+    if (el) el.classList.add('selected');
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+}
+
+async function buyPremium() {
+    let uVal = ((document.getElementById('premiumUsername') || document.getElementById('username'))?.value || '').trim().replace(/^@/, '');
+    if (!uVal) {
+        const tgUser = tg?.initDataUnsafe?.user;
+        if (tgUser?.username) uVal = tgUser.username;
+        else if (tgUser?.id) uVal = String(tgUser.id);
+    }
+
+    if (!uVal) {
+        if (tg?.showAlert) tg.showAlert('Iltimos, Telegram username kiriting!');
+        else alert('Iltimos, Telegram username kiriting!');
+        return;
+    }
+
+    const btn = document.getElementById('premiumSubmitBtn') || document.getElementById('submitBtn');
+    const oldHtml = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳ Yuklanmoqda...</span>';
+    }
+
+    const userId = getUserId();
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
+    const endpoint = apiBase.replace(/\/$/, '') + '/api/order/premium';
+
+    try {
+        const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+            body: JSON.stringify({
+                telegram_id: userId,
+                username: uVal,
+                months: selectedMonths,
+                product_type: `Premium ${selectedMonths} oy`,
+                amount: selectedPrice,
+                initData: tg?.initData || ''
+            })
+        });
+
+        let data = null;
+        try { data = await res.json(); } catch(e) {}
+
+        if (data && data.ok) {
+            if (tg?.showAlert) tg.showAlert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
+            else alert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
+            setTimeout(() => navigateTo('orders'), 1000);
+        } else {
+            const err = data?.error || (res.status !== 200 ? `Server xatosi (${res.status})` : 'Xaridda xatolik yuz berdi.');
+            if (tg?.showAlert) tg.showAlert(err);
+            else alert(err);
         }
-
-        function setMyUsername() {
-            const user = tg?.initDataUnsafe?.user;
-            const input = document.getElementById('premiumUsername') || document.getElementById('username');
-            if (input) {
-                if (user && user.username) input.value = '@' + user.username;
-                else if (user && user.id) input.value = user.id;
-                else input.value = '@men';
-            }
+    } catch (err) {
+        if (tg?.showAlert) tg.showAlert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
+        else alert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = oldHtml;
         }
+    }
+}
 
-        async function buyPremium() {
-            let uVal = ((document.getElementById('premiumUsername') || document.getElementById('username'))?.value || '').trim().replace(/^@/, '');
-            if (!uVal) {
-                const tgUser = tg?.initDataUnsafe?.user;
-                if (tgUser?.username) uVal = tgUser.username;
-                else if (tgUser?.id) uVal = String(tgUser.id);
-            }
 
-            if (!uVal) {
-                if (tg?.showAlert) tg.showAlert('Iltimos, Telegram foydalanuvchi nomini kiriting!');
-                else alert('Iltimos, Telegram foydalanuvchi nomini kiriting!');
-                return;
-            }
 
-            const btn = document.getElementById('premiumSubmitBtn') || document.getElementById('submitBtn');
-            const oldHtml = btn.innerHTML;
-            btn.disabled = true;
-            btn.textContent = '⏳ Yuklanmoqda...';
+function verifyUsername(type) {
+    const inputId = type === 'stars' ? 'starsUsername' : 'premiumUsername';
+    const msgId = type === 'stars' ? 'starsVerifyMsg' : 'premiumVerifyMsg';
 
-            const userId = getUserId();
-            const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
-            const endpoint = apiBase.replace(/\/$/, '') + '/api/order/premium';
+    const input = document.getElementById(inputId);
+    const msg = document.getElementById(msgId);
+    let val = (input?.value || '').trim();
 
-            try {
-                const res = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
-                    body: JSON.stringify({
-                        telegram_id: userId,
-                        username: uVal,
-                        months: selectedMonths,
-                        product_type: `Premium ${selectedMonths} oy`,
-                        amount: selectedPrice,
-                        initData: tg?.initData || ''
-                    })
-                });
-
-                let data = null;
-                try {
-                    data = await res.json();
-                } catch(e) {}
-
-                if (data && data.ok) {
-                    if (tg?.showAlert) tg.showAlert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
-                    else alert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
-                    setTimeout(() => navigateTo('orders'), 1000);
-                } else {
-                    const err = data?.error || (res.status !== 200 ? `Server xatosi (${res.status})` : 'Xaridda xatolik yuz berdi.');
-                    if (tg?.showAlert) tg.showAlert(err);
-                    else alert(err);
-                }
-            } catch (err) {
-                if (tg?.showAlert) tg.showAlert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
-                else alert("Server bilan aloqa o'rnatilmadi. Iltimos, qaytadan urinib ko'ring.");
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = oldHtml;
-            }
+    if (!val) {
+        if (msg) {
+            msg.className = 'luxury-verify-feedback error';
+            msg.textContent = '❌ Iltimos, Telegram username kiriting';
         }
+        if (tg?.showAlert) tg.showAlert('Iltimos, Telegram username kiriting!');
+        return;
+    }
 
-        
+    if (!val.startsWith('@')) val = '@' + val;
+    if (input) input.value = val;
+
+    const clean = val.replace(/^@/, '');
+    if (clean.length < 3) {
+        if (msg) {
+            msg.className = 'luxury-verify-feedback error';
+            msg.textContent = '❌ Username kamida 3 ta belgidan iborat bo\'lishi kerak';
+        }
+        return;
+    }
+
+    if (msg) {
+        msg.className = 'luxury-verify-feedback success';
+        msg.innerHTML = '<span>✅ Username tasdiqlandi: <b>' + val + '</b></span>';
+    }
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+    }
+}
+
+function setMyUsername() {
+    const user = tg?.initDataUnsafe?.user;
+    const uname = user?.username ? ('@' + user.username) : '';
+
+    const starsInput = document.getElementById('starsUsername');
+    if (starsInput && uname && !starsInput.value.trim()) starsInput.value = uname;
+
+    const premInput = document.getElementById('premiumUsername');
+    if (premInput && uname && !premInput.value.trim()) premInput.value = uname;
+}
+
 
 /* === GIFT SCRIPT === */
 var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
@@ -12625,6 +12948,216 @@ const IMAGE_ASSETS = {
         
 
 
+function ensureSubscriptionModal() {
+    let modal = document.getElementById('csSubGateOverlay');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'csSubGateOverlay';
+        modal.className = 'cs-sub-gate-overlay';
+        modal.innerHTML = `
+            <div class="cs-sub-gate-card">
+                <div class="cs-sub-gate-glow"></div>
+                <div class="cs-sub-gate-icon">📢</div>
+                <div class="cs-sub-gate-title">Kanalga a'zo bo'ling!</div>
+                <div class="cs-sub-gate-desc" id="csSubGateDesc">
+                    Xizmatlardan to'liq foydalanish uchun rasmiy kanalimizga obuna bo'lishingiz lozim.
+                </div>
+                <div class="cs-sub-gate-channel-chip" id="csSubGateChannelChip">
+                    <span>@CoinStatUz</span>
+                </div>
+                <div class="cs-sub-gate-actions">
+                    <button type="button" class="cs-sub-gate-primary-btn" id="csSubGateJoinBtn" onclick="openChannelSubscription()">
+                        <span>Kanalga o'tish</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                    <button type="button" class="cs-sub-gate-verify-btn" onclick="verifyChannelSubscription()">
+                        <span>Obunani tekshirish</span>
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        if (!document.getElementById('cs-sub-gate-styles')) {
+            const st = document.createElement('style');
+            st.id = 'cs-sub-gate-styles';
+            st.textContent = `
+                .cs-sub-gate-overlay {
+                    position: fixed !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    width: 100vw !important;
+                    height: 100vh !important;
+                    background: rgba(0, 0, 0, 0.85) !important;
+                    backdrop-filter: blur(20px) !important;
+                    -webkit-backdrop-filter: blur(20px) !important;
+                    z-index: 999999 !important;
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 20px;
+                    box-sizing: border-box;
+                    animation: csGateFadeIn 0.25s ease-out;
+                }
+                .cs-sub-gate-overlay.active {
+                    display: flex !important;
+                }
+                @keyframes csGateFadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                .cs-sub-gate-card {
+                    position: relative;
+                    width: 100%;
+                    max-width: 360px;
+                    background: linear-gradient(135deg, rgba(26, 30, 48, 0.95) 0%, rgba(16, 18, 30, 0.98) 100%);
+                    border: 1px solid rgba(139, 92, 246, 0.3);
+                    border-radius: 28px;
+                    padding: 26px 20px 22px 20px;
+                    text-align: center;
+                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.2);
+                    box-sizing: border-box;
+                    animation: csGateCardPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                }
+                @keyframes csGateCardPop {
+                    from { opacity: 0; transform: scale(0.9) translateY(12px); }
+                    to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                .cs-sub-gate-icon {
+                    font-size: 44px;
+                    margin-bottom: 12px;
+                    filter: drop-shadow(0 4px 12px rgba(245, 158, 11, 0.4));
+                }
+                .cs-sub-gate-title {
+                    font-size: 19px;
+                    font-weight: 800;
+                    color: #ffffff;
+                    margin-bottom: 8px;
+                }
+                .cs-sub-gate-desc {
+                    font-size: 13px;
+                    color: #94a3b8;
+                    line-height: 1.45;
+                    margin-bottom: 16px;
+                }
+                .cs-sub-gate-channel-chip {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    background: rgba(139, 92, 246, 0.15);
+                    border: 1px solid rgba(139, 92, 246, 0.3);
+                    padding: 6px 14px;
+                    border-radius: 99px;
+                    color: #c084fc;
+                    font-weight: 700;
+                    font-size: 13px;
+                    margin-bottom: 20px;
+                }
+                .cs-sub-gate-actions {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+                .cs-sub-gate-primary-btn {
+                    width: 100%;
+                    height: 48px;
+                    border-radius: 16px;
+                    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+                    color: #ffffff;
+                    border: none;
+                    font-size: 15px;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    cursor: pointer;
+                    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+                    transition: transform 0.15s ease, opacity 0.15s ease;
+                }
+                .cs-sub-gate-primary-btn:active {
+                    transform: scale(0.97);
+                }
+                .cs-sub-gate-verify-btn {
+                    width: 100%;
+                    height: 44px;
+                    border-radius: 16px;
+                    background: rgba(255, 255, 255, 0.06);
+                    border: 1px solid rgba(255, 255, 255, 0.12);
+                    color: #e2e8f0;
+                    font-size: 14px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: background 0.15s ease, transform 0.15s ease;
+                }
+                .cs-sub-gate-verify-btn:active {
+                    transform: scale(0.97);
+                    background: rgba(255, 255, 255, 0.1);
+                }
+            `;
+            document.head.appendChild(st);
+        }
+    }
+    return modal;
+}
+
+let _requiredChannelUrl = 'https://t.me/CoinStatUz';
+
+function showSubscriptionGate(channelName, channelUrl) {
+    const modal = ensureSubscriptionModal();
+    if (channelUrl) _requiredChannelUrl = channelUrl;
+    const chip = document.getElementById('csSubGateChannelChip');
+    if (chip && channelName) chip.innerHTML = '<span>' + channelName + '</span>';
+    modal.classList.add('active');
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning'); } catch(e) {}
+    }
+}
+
+function hideSubscriptionGate() {
+    const modal = document.getElementById('csSubGateOverlay');
+    if (modal) modal.classList.remove('active');
+}
+
+function openChannelSubscription() {
+    if (window.Telegram?.WebApp?.openTelegramLink) {
+        window.Telegram.WebApp.openTelegramLink(_requiredChannelUrl);
+    } else {
+        window.open(_requiredChannelUrl, '_blank');
+    }
+}
+
+async function verifyChannelSubscription() {
+    const btn = document.querySelector('.cs-sub-gate-verify-btn');
+    const orig = btn ? btn.innerHTML : '';
+    if (btn) btn.innerHTML = '<span>Tekshirilmoqda...</span>';
+    try {
+        const userId = getUserId();
+        const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
+        const res = await fetch(apiBase + '/api/user/balance', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+            body: JSON.stringify({ telegram_id: userId, initData: tg?.initData || '' })
+        });
+        const data = await res.json();
+        if (data && data.ok) {
+            hideSubscriptionGate();
+            if (tg?.showAlert) tg.showAlert("✅ Obuna tasdiqlandi! Endi barcha xizmatlardan foydalanishingiz mumkin.");
+            else alert("✅ Obuna tasdiqlandi!");
+            loadUserBalance();
+        } else if (data && data.requires_subscription) {
+            if (tg?.showAlert) tg.showAlert("⚠️ Siz hali kanalga a'zo bo'lmadingiz. Iltimos, kanalga ulaning.");
+            else alert("⚠️ Siz hali kanalga a'zo bo'lmadingiz.");
+        }
+    } catch (e) {
+        hideSubscriptionGate();
+    } finally {
+        if (btn) btn.innerHTML = orig;
+    }
+}
+
+
+
 let currentPage = 'home';
 const pageHistory = ['home'];
 
@@ -12724,61 +13257,30 @@ function onPageActivated(pageId) {
             if (typeof renderGifts === 'function') renderGifts();
             break;
         case 'topup':
-            if (typeof backToStep1 === 'function') backToStep1();
+            if (typeof initToggleState === 'function') initToggleState();
             break;
         case 'orders':
             if (typeof fetchOrders === 'function') fetchOrders();
             break;
+        case 'profile':
+            loadUserBalance();
+            break;
         case 'rating':
-            if (typeof loadRatingData === 'function') loadRatingData('week');
+            if (typeof loadLeaderboard === 'function') loadLeaderboard('all');
             break;
         case 'spin':
-            if (typeof checkSpinStatus === 'function') checkSpinStatus();
+            if (typeof updateSpinUI === 'function') updateSpinUI();
             break;
     }
-}
-
-function setMyUsername() {
-    const user = tg?.initDataUnsafe?.user;
-    const sInput = document.getElementById('starsUsername');
-    const pInput = document.getElementById('premiumUsername');
-    let val = '@men';
-    if (user && user.username) val = '@' + user.username;
-    else if (user && user.id) val = String(user.id);
-    if (sInput) sInput.value = val;
-    if (pInput) pInput.value = val;
-}
-
-function updateUserProfileUI() {
-    const user = tg?.initDataUnsafe?.user;
-    const name = user ? (user.first_name + (user.last_name ? ' ' + user.last_name : '')) : 'CoinStat User';
-    const handle = user ? (user.username ? '@' + user.username : 'ID: ' + user.id) : '@coinuser';
-    const photo = user?.photo_url || './images/logo.webp?v=3';
-
-    document.querySelectorAll('#profileName, [id="profileName"]').forEach(el => el.textContent = name);
-    document.querySelectorAll('#profileUserId, [id="profileUserId"]').forEach(el => el.textContent = handle);
-    document.querySelectorAll('#avatarImg, #profileAvatar').forEach(el => {
-        el.src = photo;
-        el.onerror = () => { el.src = './images/logo.webp?v=3'; };
-    });
 }
 
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.Telegram?.WebApp) {
-        try {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-        } catch(e) {}
-    }
-
-    applyTranslations();
-    updateUserProfileUI();
-
-    if (typeof initChannelSubscriptionGate === 'function') {
-        initChannelSubscriptionGate();
-    }
+    initTelegramWebApp();
+    initTheme();
+    initLanguage();
+    initInstantNavigation();
 
     loadUserBalance();
     if (typeof fetchTransactions === 'function') fetchTransactions();
