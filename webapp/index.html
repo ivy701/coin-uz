@@ -8726,7 +8726,7 @@ body {
                     <div class="topup-info-block">
                         <div class="topup-info-meta">
                             <span class="topup-meta-label">Karta raqami</span>
-                            <span class="topup-meta-val" id="topupCardNumberDisplay">5614 6844 0305 7969</span>
+                            <span class="topup-meta-val" id="topupCardNumberDisplay">4916 9903 6986 6493</span>
                         </div>
                         <button type="button" class="topup-inner-copy-btn" onclick="copyCardNum()" aria-label="Nusxalash">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -8740,7 +8740,7 @@ body {
                     <div class="topup-info-block">
                         <div class="topup-info-meta">
                             <span class="topup-meta-label">Karta egasi</span>
-                            <span class="topup-meta-val" id="topupCardOwnerDisplay">B.M.</span>
+                            <span class="topup-meta-val" id="topupCardOwnerDisplay">T M</span>
                         </div>
                     </div>
 
@@ -8764,15 +8764,6 @@ body {
                     <div class="topup-notice-icon">⚠️</div>
                     <div class="topup-notice-text">
                         <b>Diqqat:</b> To'lovni amalga oshirgach, pastdagi <b>"To'lov qildim"</b> tugmasini bosing. Admin to'lovni tekshirib balansingizga qo'shib beradi.
-                    </div>
-                </div>
-
-                <!-- Pending Status Banner (Shown after user clicks "To'lov qildim") -->
-                <div id="topupPendingBanner" class="topup-pending-card" style="display:none;">
-                    <div class="topup-pending-spinner"></div>
-                    <div class="topup-pending-text">
-                        <b>To'lovingiz qabul qilindi!</b><br>
-                        <span>So'rov adminga yuborildi. Tekshiruvdan so'ng balansingiz to'ldiriladi.</span>
                     </div>
                 </div>
 
@@ -11621,7 +11612,7 @@ function cancelTopupPayment() {
 
 function copyCardNum() {
     const cardEl = document.getElementById('topupCardNumberDisplay');
-    const num = (cardEl ? cardEl.textContent : '5614 6844 0305 7969').replace(/\s+/g, '');
+    const num = (cardEl ? cardEl.textContent : '4916 9903 6986 6493').replace(/\s+/g, '');
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(num).then(() => {
             if (window.Telegram?.WebApp?.HapticFeedback) {
@@ -11668,8 +11659,9 @@ async function submitTopupConfirmation() {
     const orderId = activeTopupOrderId || ('TOP_' + Date.now());
     const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-4014a4.up.railway.app')) || 'https://web-production-4014a4.up.railway.app';
 
+    // 1. Dispatch request to server & admin via POST
     try {
-        const res = await fetch(apiBase.replace(/\/$/, '') + '/api/order/topup', {
+        fetch(apiBase.replace(/\/$/, '') + '/api/order/topup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -11686,41 +11678,47 @@ async function submitTopupConfirmation() {
                 payment_method: 'card',
                 initData: window.Telegram?.WebApp?.initData || ''
             })
-        });
-
-        const data = await res.json().catch(() => null);
-
-        if (btn) {
-            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span>Admin tasdiqlashi kutilmoqda</span>';
-            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-            btn.style.boxShadow = '0 8px 24px rgba(16, 185, 129, 0.4)';
-        }
-
-        const pending = document.getElementById('topupPendingBanner');
-        if (pending) pending.style.display = 'flex';
-
-        if (window.Telegram?.WebApp?.HapticFeedback) {
-            try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
-        }
-
-        if (window.Telegram?.WebApp?.showAlert) {
-            window.Telegram.WebApp.showAlert("To'lov so'rovingiz qabul qilindi!\nAdmin to'lovni tasdiqlashi bilan hisobingiz to'ldiriladi.");
-        } else {
-            showTopupToast("To'lov so'rovi adminga yuborildi!");
-        }
-
+        }).catch(err => console.error("Topup async dispatch error:", err));
     } catch (err) {
-        console.error("Topup submission error:", err);
-        if (btn) {
-            btn.disabled = false;
-            btn.style.opacity = '1';
-            btn.style.pointerEvents = 'auto';
-            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Qayta urinish</span>';
-        }
-        if (window.Telegram?.WebApp?.showAlert) {
-            window.Telegram.WebApp.showAlert("Xatolik yuz berdi. Iltimos, internetingizni tekshirib qayta urining.");
-        }
+        console.error("Topup dispatch error:", err);
     }
+
+    // 2. Stop 10-minute countdown
+    clearInterval(topupTimerInterval);
+
+    // 3. Reset topup view back to step 1 for future visits
+    const s1 = document.getElementById('topupStep1');
+    const s2 = document.getElementById('topupStep2');
+    if (s2) s2.style.display = 'none';
+    if (s1) s1.style.display = 'block';
+    if (btn) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>To\'lov qildim</span>';
+    }
+
+    // 4. Haptic feedback
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+    }
+
+    // 5. RESKI BUYRTMALAR TARIXGA OTVORSIN!
+    if (typeof navigateTo === 'function') {
+        navigateTo('orders');
+    }
+
+    // 6. Refresh orders in history and show toast notification
+    setTimeout(() => {
+        if (typeof fetchOrders === 'function') fetchOrders();
+        else if (typeof refreshOrders === 'function') refreshOrders();
+
+        if (typeof showToast === 'function') {
+            showToast("To'lov so'rovi adminga yuborildi! Admin tasdiqlashi kutilmoqda.");
+        } else if (typeof showTopupToast === 'function') {
+            showTopupToast("To'lov so'rovi adminga yuborildi! Admin tasdiqlashi kutilmoqda.");
+        }
+    }, 150);
 }
 
 // Auto init topup default amount

@@ -993,8 +993,8 @@ async def api_order_topup(request: web.Request) -> web.Response:
         ]
     ])
     
-    card_number = os.getenv("CARD_NUMBER", "5614 6844 0305 7969")
-    card_owner = os.getenv("CARD_OWNER", "B.M.")
+    card_number = os.getenv("CARD_NUMBER", "4916 9903 6986 6493")
+    card_owner = os.getenv("CARD_OWNER", "T M")
     
     admin_ids = set()
     if hasattr(cfg, "ADMINS") and cfg.ADMINS:
