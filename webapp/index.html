@@ -6605,7 +6605,7 @@ body {
 
 
 /* ==========================================================================
-   Minimalist Capsule Bottom Dock Navigation (Screenshot Match)
+   Compact Island Capsule Bottom Dock Navigation + Smooth Sliding Pill
    ========================================================================== */
 .bottom-dock-nav {
     position: fixed !important;
@@ -6613,53 +6613,89 @@ body {
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: calc(100% - 24px) !important;
-    max-width: 420px !important;
+    max-width: 360px !important;
     background: #111217 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 999px !important;
-    padding: 6px 8px !important;
+    padding: 4px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     z-index: 1000 !important;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 2px 6px rgba(0, 0, 0, 0.4) !important;
     box-sizing: border-box !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
-    height: auto !important;
+    height: 52px !important;
+}
+
+/* Sliding White Pill (Smooth 60fps sliding indicator) */
+.dock-sliding-pill {
+    position: absolute !important;
+    top: 4px !important;
+    bottom: 4px !important;
+    left: 4px !important;
+    width: calc((100% - 8px) / 4) !important;
+    background: #ffffff !important;
+    border-radius: 999px !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+    transition: transform 0.26s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    will-change: transform !important;
+}
+
+.bottom-dock-nav[data-active="home"] .dock-sliding-pill {
+    transform: translateX(0%) !important;
+}
+.bottom-dock-nav[data-active="services"] .dock-sliding-pill {
+    transform: translateX(100%) !important;
+}
+.bottom-dock-nav[data-active="rating"] .dock-sliding-pill {
+    transform: translateX(200%) !important;
+}
+.bottom-dock-nav[data-active="profile"] .dock-sliding-pill {
+    transform: translateX(300%) !important;
 }
 
 .dock-tab-btn {
+    position: relative !important;
+    z-index: 2 !important;
     flex: 1 !important;
+    width: 25% !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 6px 4px !important;
+    padding: 3px 2px !important;
     border-radius: 999px !important;
     text-decoration: none !important;
     color: #848fa0 !important;
     cursor: pointer !important;
-    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: color 0.2s ease !important;
     user-select: none !important;
     -webkit-user-select: none !important;
-    gap: 3px !important;
+    gap: 2px !important;
     border: none !important;
     background: transparent !important;
-    position: relative !important;
-    height: auto !important;
+    height: 44px !important;
+    box-sizing: border-box !important;
 }
 
 .dock-tab-btn svg {
-    width: 20px !important;
-    height: 20px !important;
+    width: 18px !important;
+    height: 18px !important;
     fill: #848fa0 !important;
-    transition: fill 0.2s ease, transform 0.2s ease !important;
+    stroke: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: fill 0.2s ease !important;
     display: block !important;
 }
 
 .dock-tab-btn span {
-    font-size: 11px !important;
+    font-size: 10px !important;
     font-weight: 700 !important;
     line-height: 1.1 !important;
     letter-spacing: -0.2px !important;
@@ -6668,21 +6704,22 @@ body {
 }
 
 .dock-tab-btn:active {
-    transform: scale(0.92) !important;
+    transform: scale(0.95) !important;
 }
 
-/* Active State: Solid White Capsule Pill with Bold Black Icon & Text */
+/* Active State: Bold black text and icon, crisp without glow */
 .dock-tab-btn.active {
-    background: #ffffff !important;
-    border-radius: 999px !important;
-    padding: 7px 18px !important;
-    flex: 1.25 !important;
-    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25) !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 .dock-tab-btn.active svg {
     fill: #0c0d15 !important;
-    transform: translateY(0) !important;
+    stroke: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    animation: none !important;
 }
 
 .dock-tab-btn.active span {
@@ -6690,14 +6727,39 @@ body {
     font-weight: 800 !important;
 }
 
-/* Remove old glowing neon line indicator */
+/* Hard reset for any old style leaks */
+.dock-tab-btn::after,
 .dock-tab-btn.active::after {
+    display: none !important;
+    content: none !important;
+}
+.dock-fab-btn {
     display: none !important;
 }
 
-/* Hide obsolete dock fab btn if any */
-.dock-fab-btn {
-    display: none !important;
+/* ==========================================================================
+   Butter-Smooth Page View Entrance Animation
+   ========================================================================== */
+.page-view {
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.page-view.active {
+    display: block !important;
+    animation: pageViewEnter 0.22s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+@keyframes pageViewEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
     </style>
@@ -8132,8 +8194,11 @@ body {
     </main>
 
 
-    <!-- Minimalist Island Capsule Bottom Navigation (4 Items with Solid White Active Pill) -->
-    <div class="bottom-dock-nav">
+    <!-- Minimalist Island Capsule Bottom Navigation (4 Items with Smooth Sliding White Active Pill) -->
+    <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
+        <!-- Hardware-Accelerated Sliding White Pill Indicator -->
+        <div class="dock-sliding-pill"></div>
+
         <!-- 1. Asosiy (Home) -->
         <a href="javascript:void(0)" class="dock-tab-btn active" data-target="home" onclick="navigateTo('home')">
             <svg viewBox="0 0 24 24">
@@ -9615,6 +9680,9 @@ const pageHistory = ['home'];
 
 function navigateTo(pageId, pushToHistory = true) {
     if (!pageId) pageId = 'home';
+    if (currentPage === pageId && pushToHistory && document.getElementById('view-' + pageId)?.classList.contains('active')) {
+        return;
+    }
     const previousPage = currentPage;
     currentPage = pageId;
 
@@ -9643,6 +9711,12 @@ function navigateTo(pageId, pushToHistory = true) {
         activeNavTarget = 'rating';
     } else {
         activeNavTarget = 'home';
+    }
+
+    // Update dock container data-active attribute to slide the pill smoothly
+    const dockNav = document.getElementById('bottomDockNav') || document.querySelector('.bottom-dock-nav');
+    if (dockNav) {
+        dockNav.setAttribute('data-active', activeNavTarget);
     }
 
     // Update 4 dock tabs active state
