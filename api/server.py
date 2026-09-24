@@ -433,13 +433,6 @@ async def api_order_stars(request: web.Request) -> web.Response:
 
   try:
     result = await fragment.buy_stars(username, quantity)
-    order_id = await create_order(
-      user_id, "stars", username, quantity, price, str(result.get("id", "")), "completed"
-    )
-    await deduct_balance(user_id, price)
-    from services.channel_notify import notify_stars
-    asyncio.ensure_future(notify_stars(username, quantity, price, order_id=str(order_id), user_id=user_id))
-    return web.json_response({"ok": True, "order_id": order_id, "result": result})
   except Exception as e:
     err_str = str(e).lower()
     logger.error(f"Fragment buy_stars failed: {e}")
@@ -452,6 +445,42 @@ async def api_order_stars(request: web.Request) -> web.Response:
       "ok": False,
       "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(e)}"
     }, status=400)
+
+  # Fragment buy_stars succeeded! Now safely create order, deduct balance, and dispatch receipt
+  order_id = 0
+  try:
+    ext_id = ""
+    if isinstance(result, dict):
+      sub = result.get("result") if isinstance(result.get("result"), dict) else result
+      if isinstance(sub, dict):
+        ext_id = str(sub.get("id", ""))
+    order_id = await create_order(
+      user_id, "stars", username, quantity, price, ext_id, "completed"
+    )
+    await deduct_balance(user_id, price)
+  except Exception as db_err:
+    logger.error(f"Error saving stars order/balance to database: {db_err}")
+
+  try:
+    from services.channel_notify import notify_stars
+    await notify_stars(username, quantity, price, order_id=str(order_id or "SUCCESS"), user_id=user_id)
+  except Exception as notify_err:
+    logger.warning("notify_stars receipt send error: %s", notify_err)
+
+  safe_result = {
+    "id": str(order_id),
+    "status": "completed",
+    "quantity": quantity,
+    "username": username
+  }
+  if isinstance(result, dict):
+    sub = result.get("result") if isinstance(result.get("result"), dict) else result
+    if isinstance(sub, dict):
+      for k in ["id", "amount", "status", "hash"]:
+        if k in sub:
+          safe_result[k] = str(sub[k])
+
+  return web.json_response({"ok": True, "order_id": order_id, "result": safe_result})
 
 
 async def api_order_premium(request: web.Request) -> web.Response:
@@ -497,13 +526,6 @@ async def api_order_premium(request: web.Request) -> web.Response:
 
   try:
     result = await fragment.buy_premium(username, months)
-    order_id = await create_order(
-      user_id, "premium", username, months, price, str(result.get("id", "")), "completed"
-    )
-    await deduct_balance(user_id, price)
-    from services.channel_notify import notify_premium
-    asyncio.ensure_future(notify_premium(username, months, price, order_id=str(order_id), user_id=user_id))
-    return web.json_response({"ok": True, "order_id": order_id, "result": result})
   except Exception as e:
     err_str = str(e).lower()
     logger.error(f"Fragment buy_premium failed: {e}")
@@ -516,6 +538,42 @@ async def api_order_premium(request: web.Request) -> web.Response:
       "ok": False,
       "error": f"❌ Premium faollashtirishda xatolik: {str(e)}"
     }, status=400)
+
+  # Fragment buy_premium succeeded! Now safely create order, deduct balance, and dispatch receipt
+  order_id = 0
+  try:
+    ext_id = ""
+    if isinstance(result, dict):
+      sub = result.get("result") if isinstance(result.get("result"), dict) else result
+      if isinstance(sub, dict):
+        ext_id = str(sub.get("id", ""))
+    order_id = await create_order(
+      user_id, "premium", username, months, price, ext_id, "completed"
+    )
+    await deduct_balance(user_id, price)
+  except Exception as db_err:
+    logger.error(f"Error saving premium order/balance to database: {db_err}")
+
+  try:
+    from services.channel_notify import notify_premium
+    await notify_premium(username, months, price, order_id=str(order_id or "SUCCESS"), user_id=user_id)
+  except Exception as notify_err:
+    logger.warning("notify_premium receipt send error: %s", notify_err)
+
+  safe_result = {
+    "id": str(order_id),
+    "status": "completed",
+    "months": months,
+    "username": username
+  }
+  if isinstance(result, dict):
+    sub = result.get("result") if isinstance(result.get("result"), dict) else result
+    if isinstance(sub, dict):
+      for k in ["id", "amount", "status", "hash"]:
+        if k in sub:
+          safe_result[k] = str(sub[k])
+
+  return web.json_response({"ok": True, "order_id": order_id, "result": safe_result})
 
 
 async def api_order_gift(request: web.Request) -> web.Response:
@@ -642,8 +700,11 @@ async def api_order_gift(request: web.Request) -> web.Response:
         order_id = await create_order(
           int(user_id), "gift", username, 1, price, gift_id, "completed"
         )
-        from services.channel_notify import notify_gift
-        asyncio.ensure_future(notify_gift(username, gift, gift, price))
+        try:
+          from services.channel_notify import notify_gift
+          await notify_gift(username, gift, gift, price, order_id=str(order_id), user_id=int(user_id))
+        except Exception as notify_err:
+          logger.warning("notify_gift receipt send error: %s", notify_err)
         return web.json_response({
           "ok": True,
           "order_id": order_id,
@@ -659,8 +720,11 @@ async def api_order_gift(request: web.Request) -> web.Response:
   order_id = await create_order(
     int(user_id), "gift", username, 1, price, gift_id, "pending"
   )
-  from services.channel_notify import notify_gift
-  asyncio.ensure_future(notify_gift(username, gift, gift, price))
+  try:
+    from services.channel_notify import notify_gift
+    await notify_gift(username, gift, gift, price, order_id=str(order_id), user_id=int(user_id))
+  except Exception as notify_err:
+    logger.warning("notify_gift receipt send error: %s", notify_err)
   
   return web.json_response({
     "ok": True,
@@ -686,8 +750,11 @@ async def api_order_phone(request: web.Request) -> web.Response:
     order_id = await create_order(
       int(user_id), "phone", username, None, None, str(result.get("id", "")), "completed"
     )
-    from services.channel_notify import notify_phone
-    asyncio.ensure_future(notify_phone(username, country, 0))
+    try:
+      from services.channel_notify import notify_phone
+      await notify_phone(username, country, 0, order_id=str(order_id or "SUCCESS"), user_id=int(user_id))
+    except Exception as notify_err:
+      logger.warning("notify_phone receipt send error: %s", notify_err)
     return web.json_response({"ok": True, "order_id": order_id, "result": result})
   except FragmentAPIError as e:
     await create_order(int(user_id), "phone", username, None, None, status="failed")
