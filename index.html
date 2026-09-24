@@ -6607,7 +6607,7 @@ body {
 
 
 /* ==========================================================================
-   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v33.0)
+   COINSTAT UZ - MASTER LUXURY DESIGN SYSTEM (v34.0)
    ========================================================================== */
 
 :root {
@@ -6702,966 +6702,501 @@ body {
     100% { opacity: 1; transform: translateX(0); }
 }
 
-/* Top Bars */
-.stars-top-bar, .premium-top-bar, .topup-top-bar, .orders-top-bar, .profile-top-bar, .top-user-header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 4px 0 16px 0 !important;
+/* Topup Progress Bar */
+.timer-progress-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 10px;
 }
 
-.back-pill-btn {
-    width: 38px !important;
-    height: 38px !important;
-    border-radius: 999px !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid var(--border-subtle) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: var(--text-primary) !important;
-    cursor: pointer !important;
-    text-decoration: none !important;
-}
-.back-pill-btn:active { transform: scale(0.92) !important; }
-
-.stars-top-title, .premium-top-title, .topup-top-title, .orders-page-title, .profile-page-title {
-    font-size: 17px !important;
-    font-weight: 800 !important;
-    color: var(--text-primary) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
+.timer-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #f59e0b, #ef4444);
+    border-radius: 999px;
+    transition: width 1s linear;
 }
 
-.balance-badge-pill {
-    background: rgba(56, 189, 248, 0.08) !important;
-    border: 1px solid rgba(56, 189, 248, 0.25) !important;
-    border-radius: 999px !important;
-    padding: 6px 12px !important;
-    font-size: 12px !important;
-    font-weight: 800 !important;
-    color: var(--accent-cyan) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 4px !important;
+/* Copy Pill Button Copied Animation */
+.copy-pill-button.copied {
+    background: rgba(16, 185, 129, 0.25) !important;
+    border-color: rgba(16, 185, 129, 0.5) !important;
+    color: #34d399 !important;
 }
 
-.lang-badge-pill {
-    background: rgba(255, 255, 255, 0.06) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 999px !important;
-    padding: 6px 11px !important;
-    font-size: 11px !important;
-    font-weight: 800 !important;
-    color: var(--text-secondary) !important;
-    cursor: pointer !important;
-    text-transform: uppercase !important;
-}
-
-/* Hero Balance Card */
-.hero-balance-card {
-    background: var(--grad-card) !important;
-    border: 1px solid rgba(139, 92, 246, 0.25) !important;
-    border-radius: 24px !important;
-    padding: 22px !important;
-    box-shadow: 0 16px 36px -10px rgba(99, 102, 241, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
-    position: relative !important;
-    margin-bottom: 16px !important;
-}
-
-.hero-card-header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    margin-bottom: 12px !important;
-}
-
-.hero-card-top-label {
-    font-size: 11px !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.8px !important;
-    text-transform: uppercase !important;
-    color: #a5b4fc !important;
-}
-
-.balance-eye-btn {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border: none !important;
-    color: #cbd5e1 !important;
-    border-radius: 8px !important;
-    padding: 4px 6px !important;
-    cursor: pointer !important;
-    margin-left: 6px !important;
-}
-
-.hero-card-tag-pill {
-    background: rgba(16, 185, 129, 0.12) !important;
-    border: 1px solid rgba(16, 185, 129, 0.3) !important;
-    border-radius: 999px !important;
-    padding: 3px 9px !important;
-    font-size: 10.5px !important;
-    font-weight: 700 !important;
-    color: var(--accent-emerald) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 5px !important;
-}
-
-.card-glowing-dot {
-    width: 6px !important;
-    height: 6px !important;
-    border-radius: 50% !important;
-    background: var(--accent-emerald) !important;
-    box-shadow: 0 0 8px var(--accent-emerald) !important;
-    display: inline-block !important;
-}
-
-.hero-card-balance-num {
-    font-size: 34px !important;
-    font-weight: 900 !important;
-    letter-spacing: -0.6px !important;
-    color: #ffffff !important;
-    font-variant-numeric: tabular-nums !important;
-    line-height: 1.1 !important;
-}
-
-.hero-card-unit {
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    color: #94a3b8 !important;
-    margin-left: 4px !important;
-}
-
-.stars-conversion-row {
-    margin-top: 14px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-}
-
-.stars-preview-chip {
-    background: rgba(245, 158, 11, 0.12) !important;
-    border: 1px solid rgba(245, 158, 11, 0.3) !important;
-    border-radius: 999px !important;
-    padding: 6px 14px !important;
-    font-size: 12.5px !important;
-    font-weight: 800 !important;
-    color: var(--accent-gold) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    cursor: pointer !important;
-}
-
-/* Services Quad Grid */
-.services-quad-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 12px !important;
-    margin-bottom: 16px !important;
-}
-
-.service-quad-card {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 20px !important;
-    padding: 16px !important;
-    box-shadow: var(--shadow-card) !important;
-    cursor: pointer !important;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    min-height: 120px !important;
-}
-.service-quad-card:active { transform: scale(0.96) !important; }
-
-.service-top-row {
-    display: flex !important;
-    align-items: flex-start !important;
-    justify-content: space-between !important;
-    margin-bottom: 12px !important;
-}
-
-.service-icon-box {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 14px !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.service-icon-box img {
-    width: 28px !important;
-    height: 28px !important;
-    object-fit: contain !important;
-}
-
-.service-badge-pill {
-    background: rgba(139, 92, 246, 0.14) !important;
-    border: 1px solid rgba(139, 92, 246, 0.3) !important;
-    border-radius: 999px !important;
-    padding: 3px 8px !important;
-    font-size: 10px !important;
-    font-weight: 800 !important;
-    color: #c084fc !important;
-}
-
-.service-card-title {
-    font-size: 14.5px !important;
-    font-weight: 800 !important;
-    color: var(--text-primary) !important;
-    margin-bottom: 2px !important;
-}
-
-.service-card-desc {
-    font-size: 11.5px !important;
-    color: var(--text-secondary) !important;
-    font-weight: 500 !important;
-}
-
-/* VIP Spin Banner */
-.vip-spin-banner {
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(124, 58, 237, 0.18) 100%) !important;
-    border: 1px solid rgba(245, 158, 11, 0.3) !important;
-    border-radius: 20px !important;
-    padding: 16px !important;
-    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.1) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    cursor: pointer !important;
-    margin-bottom: 16px !important;
-}
-.vip-spin-banner:active { transform: scale(0.97) !important; }
-
-.spin-icon-bubble {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 14px !important;
-    background: rgba(245, 158, 11, 0.15) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-right: 12px !important;
-    flex-shrink: 0 !important;
-}
-
-.spin-icon-bubble img {
-    width: 28px !important;
-    height: 28px !important;
-    object-fit: contain !important;
-}
-
-.spin-banner-title {
-    font-size: 14.5px !important;
-    font-weight: 800 !important;
-    color: #ffffff !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-}
-
-.spin-promo-badge {
-    background: linear-gradient(135deg, #f59e0b, #ef4444) !important;
-    color: #ffffff !important;
-    font-size: 9.5px !important;
-    font-weight: 800 !important;
-    padding: 2px 7px !important;
-    border-radius: 999px !important;
-}
-
-.spin-banner-sub {
-    font-size: 11.5px !important;
-    color: var(--text-secondary) !important;
-    margin-top: 2px !important;
-}
-
-/* Recipient Dark Bar */
-.recipient-section { margin-bottom: 16px !important; }
-.recipient-dark-bar {
-    background: rgba(18, 21, 34, 0.8) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 18px !important;
-    padding: 6px 8px 6px 14px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-}
-.recipient-dark-bar:focus-within {
-    border-color: var(--border-accent) !important;
-    box-shadow: 0 0 16px rgba(139, 92, 246, 0.3) !important;
-}
-.recipient-dark-input {
-    flex: 1 !important;
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    color: #ffffff !important;
-    font-size: 14.5px !important;
-    font-weight: 600 !important;
-}
-.for-me-pill {
-    background: rgba(139, 92, 246, 0.16) !important;
-    border: 1px solid rgba(139, 92, 246, 0.35) !important;
-    color: #c084fc !important;
-    font-size: 11.5px !important;
-    font-weight: 700 !important;
-    padding: 6px 12px !important;
-    border-radius: 12px !important;
-    cursor: pointer !important;
-}
-
-/* Stars Cards */
-.stars-2x2-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 12px !important;
-    margin-bottom: 16px !important;
-}
-
-.star-2x2-card {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 20px !important;
-    padding: 16px 14px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    min-height: 136px !important;
-    position: relative !important;
-    box-shadow: var(--shadow-card) !important;
-    cursor: pointer !important;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.star-2x2-card:active { transform: scale(0.96) !important; }
-
-.star-2x2-card.selected {
-    border-color: var(--accent-primary) !important;
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.35) !important;
-    background: linear-gradient(145deg, rgba(139, 92, 246, 0.12), rgba(18, 21, 34, 0.85)) !important;
-}
-
+/* Card Popular Badge (Stars) */
 .star-card-popular {
-    border: 1.5px solid rgba(245, 158, 11, 0.5) !important;
-    background: linear-gradient(145deg, rgba(245, 158, 11, 0.09) 0%, rgba(18, 21, 34, 0.85) 100%) !important;
+    position: relative;
+    border-color: rgba(245, 158, 11, 0.5) !important;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.15) !important;
 }
 
 .popular-badge-pill {
-    position: absolute !important;
-    top: -9px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%) !important;
-    color: #ffffff !important;
-    font-size: 9px !important;
-    font-weight: 800 !important;
-    padding: 2px 9px !important;
-    border-radius: 999px !important;
-    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5) !important;
-    white-space: nowrap !important;
-    z-index: 3 !important;
+    position: absolute;
+    top: -9px;
+    right: 10px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
 }
 
-.discount-pill {
-    position: absolute !important;
-    top: 12px !important;
-    right: 12px !important;
-    background: rgba(245, 158, 11, 0.15) !important;
-    border: 1px solid rgba(245, 158, 11, 0.4) !important;
-    color: var(--accent-gold) !important;
-    font-size: 10px !important;
-    font-weight: 800 !important;
-    padding: 2px 7px !important;
-    border-radius: 999px !important;
+.star-2x2-card.selected {
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 0 24px rgba(139, 92, 246, 0.35) !important;
 }
 
-.star-quantity-row {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    margin-bottom: 4px !important;
-}
-.star-quantity-row span {
-    font-size: 22px !important;
-    font-weight: 900 !important;
-    color: #ffffff !important;
-}
-.star-badge-icon {
-    width: 26px !important;
-    height: 26px !important;
-    object-fit: contain !important;
-}
-.star-price-row {
-    font-size: 13.5px !important;
-    font-weight: 800 !important;
-    color: var(--accent-cyan) !important;
-    margin-bottom: 12px !important;
-}
-
-.star-buy-button {
-    width: 100% !important;
-    background: var(--grad-primary) !important;
-    border: none !important;
-    border-radius: 12px !important;
-    color: #ffffff !important;
-    font-size: 12px !important;
-    font-weight: 800 !important;
-    padding: 9px 0 !important;
-    cursor: pointer !important;
-    box-shadow: var(--shadow-btn) !important;
-    text-align: center !important;
-}
-.star-buy-button:active { transform: scale(0.95) !important; }
-
-/* Custom Stars Card */
-.custom-stars-card {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 20px !important;
-    padding: 18px !important;
-    box-shadow: var(--shadow-card) !important;
-    margin-bottom: 16px !important;
-}
-.custom-stars-top {
-    display: flex !important;
-    align-items: flex-start !important;
-    justify-content: space-between !important;
-    margin-bottom: 12px !important;
-}
-.custom-stars-title { font-size: 15px !important; font-weight: 800 !important; color: #ffffff !important; }
-.custom-stars-sub { font-size: 11.5px !important; color: var(--text-secondary) !important; font-weight: 500 !important; }
-.custom-star-calc-badge {
-    background: rgba(56, 189, 248, 0.12) !important;
-    border: 1px solid rgba(56, 189, 248, 0.35) !important;
-    color: var(--accent-cyan) !important;
-    font-size: 13px !important;
-    font-weight: 800 !important;
-    padding: 4px 10px !important;
-    border-radius: 999px !important;
-}
-.custom-input-row { display: flex !important; gap: 8px !important; margin-bottom: 12px !important; }
-.custom-input-wrap {
-    flex: 1 !important;
-    background: rgba(12, 14, 24, 0.85) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 14px !important;
-    padding: 8px 12px !important;
-    display: flex !important;
-    align-items: center !important;
-}
-.custom-star-field {
-    flex: 1 !important;
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    color: #ffffff !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-}
-.custom-input-suffix {
-    display: flex !important;
-    align-items: center !important;
-    gap: 4px !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    color: var(--text-secondary) !important;
-}
-.custom-buy-btn {
-    background: var(--grad-primary) !important;
-    border: none !important;
-    border-radius: 14px !important;
-    color: #ffffff !important;
-    font-weight: 800 !important;
-    font-size: 13px !important;
-    padding: 0 16px !important;
-    cursor: pointer !important;
-    box-shadow: var(--shadow-btn) !important;
-}
-.custom-quick-chips { display: flex !important; gap: 6px !important; overflow-x: auto !important; padding-bottom: 4px !important; }
-.quick-chip-btn {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 10px !important;
-    padding: 6px 12px !important;
-    font-size: 11.5px !important;
-    font-weight: 700 !important;
-    color: var(--text-secondary) !important;
-    cursor: pointer !important;
-    flex-shrink: 0 !important;
-}
-.quick-chip-btn.active {
-    background: rgba(139, 92, 246, 0.25) !important;
-    border-color: var(--accent-primary) !important;
-    color: #ffffff !important;
-}
-
-/* Premium Plans */
-.premium-plans-grid { display: flex !important; flex-direction: column !important; gap: 10px !important; margin-bottom: 16px !important; }
-.premium-plan-card {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 18px !important;
-    padding: 16px 18px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    cursor: pointer !important;
-    box-shadow: var(--shadow-card) !important;
-}
 .premium-plan-card.selected {
-    background: linear-gradient(145deg, rgba(168, 85, 247, 0.14) 0%, rgba(18, 21, 34, 0.85) 100%) !important;
-    border: 1.5px solid var(--accent-primary) !important;
-    box-shadow: 0 0 24px rgba(139, 92, 246, 0.3) !important;
-}
-.plan-title-text { display: flex !important; align-items: center !important; gap: 8px !important; font-size: 15px !important; font-weight: 800 !important; color: #ffffff !important; margin-bottom: 4px !important; }
-.plan-premium-icon { width: 22px !important; height: 22px !important; object-fit: contain !important; }
-.plan-discount-tag {
-    background: rgba(236, 72, 153, 0.16) !important;
-    border: 1px solid rgba(236, 72, 153, 0.35) !important;
-    color: #f472b6 !important;
-    font-size: 10px !important;
-    font-weight: 800 !important;
-    padding: 2px 7px !important;
-    border-radius: 999px !important;
-}
-.plan-price-text { font-size: 14px !important; font-weight: 800 !important; color: var(--accent-cyan) !important; }
-.plan-radio-circle { width: 20px !important; height: 20px !important; border-radius: 50% !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; box-sizing: border-box !important; position: relative !important; }
-.premium-plan-card.selected .plan-radio-circle { border-color: var(--accent-primary) !important; background: var(--accent-primary) !important; }
-.premium-plan-card.selected .plan-radio-circle::after { content: '' !important; position: absolute !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; width: 6px !important; height: 6px !important; border-radius: 50% !important; background: #ffffff !important; }
-
-.premium-features-card {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 20px !important;
-    padding: 16px !important;
-    box-shadow: var(--shadow-card) !important;
-    margin-bottom: 16px !important;
-}
-.features-title { font-size: 13.5px !important; font-weight: 800 !important; color: var(--text-secondary) !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; margin-bottom: 12px !important; }
-.features-list { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
-.feature-item {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    border-radius: 12px !important;
-    padding: 8px 10px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    color: #e2e8f0 !important;
-}
-.feature-item svg { color: var(--accent-primary) !important; flex-shrink: 0 !important; }
-
-.premium-submit-btn, .primary-action-btn {
-    width: 100% !important;
-    height: 52px !important;
-    background: var(--grad-primary) !important;
-    border: none !important;
-    border-radius: 16px !important;
-    color: #ffffff !important;
-    font-size: 15px !important;
-    font-weight: 800 !important;
-    cursor: pointer !important;
-    box-shadow: var(--shadow-btn) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-}
-.premium-submit-btn:active, .primary-action-btn:active { transform: scale(0.97) !important; }
-
-/* Topup Step 1 & 2 Specifics */
-.step-indicator-bar { display: flex !important; align-items: center !important; gap: 10px !important; margin-bottom: 16px !important; }
-.step-badge {
-    background: rgba(56, 189, 248, 0.12) !important;
-    border: 1px solid rgba(56, 189, 248, 0.3) !important;
-    border-radius: 999px !important;
-    padding: 4px 10px !important;
-    font-size: 11px !important;
-    font-weight: 800 !important;
-    color: var(--accent-cyan) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-}
-.step-badge-dot { width: 6px !important; height: 6px !important; border-radius: 50% !important; background: var(--accent-cyan) !important; }
-.step-desc-text { font-size: 12.5px !important; font-weight: 600 !important; color: var(--text-secondary) !important; }
-
-.amount-chips-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; margin-bottom: 14px !important; }
-.amount-chip-card {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 16px !important;
-    padding: 14px 8px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    box-shadow: var(--shadow-card) !important;
-}
-.amount-chip-card.selected {
-    background: linear-gradient(145deg, rgba(56, 189, 248, 0.16), rgba(18, 21, 34, 0.85)) !important;
-    border: 1.5px solid var(--accent-cyan) !important;
-    box-shadow: 0 0 18px rgba(56, 189, 248, 0.28) !important;
-}
-.amount-chip-val { font-size: 15px !important; font-weight: 900 !important; color: #ffffff !important; }
-.amount-chip-unit { font-size: 11px !important; font-weight: 600 !important; color: var(--text-secondary) !important; margin-top: 2px !important; }
-
-.custom-amount-card {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 16px !important;
-    padding: 12px 16px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    margin-bottom: 16px !important;
-}
-.custom-amount-input { flex: 1 !important; background: transparent !important; border: none !important; outline: none !important; color: #ffffff !important; font-size: 15px !important; font-weight: 700 !important; }
-.custom-amount-currency { font-size: 13px !important; font-weight: 800 !important; color: var(--accent-cyan) !important; }
-
-.timer-banner-card {
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(18, 21, 34, 0.85) 100%) !important;
-    border: 1px solid rgba(245, 158, 11, 0.3) !important;
-    border-radius: 18px !important;
-    padding: 14px 16px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 10px !important;
-    margin-bottom: 14px !important;
-}
-.timer-left-col { display: flex !important; align-items: center !important; gap: 10px !important; }
-.timer-info-text { font-size: 13px !important; font-weight: 800 !important; color: #ffffff !important; }
-.timer-sub-hint { font-size: 11px !important; color: var(--accent-gold) !important; font-weight: 600 !important; }
-.timer-digits-box { font-size: 20px !important; font-weight: 900 !important; color: var(--accent-gold) !important; font-variant-numeric: tabular-nums !important; }
-.timer-progress-track { width: 100% !important; height: 4px !important; background: rgba(255, 255, 255, 0.08) !important; border-radius: 999px !important; overflow: hidden !important; }
-.timer-progress-fill { height: 100% !important; width: 100% !important; background: linear-gradient(90deg, #f59e0b, #ef4444) !important; border-radius: 999px !important; transition: width 1s linear !important; }
-
-.pay-amount-highlight-box {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 16px !important;
-    padding: 12px 16px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    margin-bottom: 14px !important;
-}
-.pay-label-title { font-size: 13px !important; font-weight: 600 !important; color: var(--text-secondary) !important; }
-.pay-value-badge { font-size: 16px !important; font-weight: 900 !important; color: var(--accent-cyan) !important; }
-
-.credit-card {
-    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 60%, #1e1b4b 100%) !important;
-    border: 1px solid rgba(139, 92, 246, 0.35) !important;
-    border-radius: 20px !important;
-    padding: 20px !important;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(99, 102, 241, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-    margin-bottom: 14px !important;
-    position: relative !important;
-}
-.card-top-row { display: flex !important; align-items: center !important; justify-content: space-between !important; margin-bottom: 16px !important; }
-.chip-icon {
-    width: 36px !important;
-    height: 28px !important;
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-    border-radius: 6px !important;
-}
-.card-status-badge { font-size: 13px !important; font-weight: 900 !important; letter-spacing: 1.5px !important; color: #ffffff !important; background: rgba(255, 255, 255, 0.1) !important; padding: 3px 8px !important; border-radius: 6px !important; }
-.card-number-wrapper { cursor: pointer !important; margin-bottom: 16px !important; }
-.card-label-small { font-size: 10px !important; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 0.8px !important; color: #94a3b8 !important; margin-bottom: 4px !important; }
-.card-number-display { font-family: 'SF Mono', 'Courier New', monospace !important; font-size: 20px !important; font-weight: 900 !important; letter-spacing: 2px !important; color: #ffffff !important; }
-.card-bottom-row { display: flex !important; align-items: center !important; justify-content: space-between !important; }
-.card-holder-name { font-size: 13.5px !important; font-weight: 800 !important; color: #ffffff !important; }
-
-.copy-pill-button {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 999px !important;
-    padding: 6px 14px !important;
-    font-size: 12px !important;
-    font-weight: 800 !important;
-    color: #ffffff !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    cursor: pointer !important;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.copy-pill-button.copied {
-    background: var(--accent-emerald) !important;
-    border-color: var(--accent-emerald) !important;
-    color: #ffffff !important;
-    box-shadow: 0 0 14px rgba(16, 185, 129, 0.5) !important;
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 24px rgba(168, 85, 247, 0.3) !important;
 }
 
-.instruction-notice-box {
-    background: rgba(56, 189, 248, 0.08) !important;
-    border: 1px solid rgba(56, 189, 248, 0.2) !important;
-    border-radius: 14px !important;
-    padding: 12px 14px !important;
-    display: flex !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
-    font-size: 12px !important;
-    color: #cbd5e1 !important;
-    line-height: 1.4 !important;
-    margin-bottom: 14px !important;
-}
-.secondary-back-btn {
-    width: 100% !important;
-    background: transparent !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 16px !important;
-    color: var(--text-secondary) !important;
-    font-size: 13.5px !important;
-    font-weight: 700 !important;
-    padding: 13px !important;
-    margin-top: 10px !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 6px !important;
-}
-
-/* Orders */
-.stats-tri-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; margin-bottom: 16px !important; }
-.stat-card-box {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 16px !important;
-    padding: 14px 10px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-shadow: var(--shadow-card) !important;
-}
-.stat-label-text { font-size: 11px !important; font-weight: 700 !important; color: var(--text-secondary) !important; margin-bottom: 4px !important; }
-.stat-value-text { font-size: 18px !important; font-weight: 900 !important; color: #ffffff !important; }
-.filter-tabs-bar { display: flex !important; gap: 8px !important; overflow-x: auto !important; padding-bottom: 6px !important; margin-bottom: 14px !important; }
-.filter-chip-btn {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 999px !important;
-    padding: 7px 15px !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    color: var(--text-secondary) !important;
-    cursor: pointer !important;
-    white-space: nowrap !important;
-}
-.filter-chip-btn.active {
-    background: #ffffff !important;
-    color: #0c0d15 !important;
-    font-weight: 800 !important;
-}
-
-/* Profile */
-.user-hero-card {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 22px !important;
-    padding: 22px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    margin-bottom: 16px !important;
-    box-shadow: var(--shadow-card) !important;
-}
-.user-big-avatar {
-    width: 72px !important;
-    height: 72px !important;
-    border-radius: 50% !important;
-    padding: 3px !important;
-    background: var(--grad-primary) !important;
-    margin-bottom: 12px !important;
-}
-.user-big-avatar img { width: 100% !important; height: 100% !important; border-radius: 50% !important; object-fit: cover !important; }
-.user-card-name { font-size: 19px !important; font-weight: 900 !important; color: #ffffff !important; margin-bottom: 4px !important; }
-.user-card-id-tag {
-    background: rgba(255, 255, 255, 0.06) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 999px !important;
-    padding: 4px 12px !important;
-    font-size: 11.5px !important;
-    font-weight: 700 !important;
-    color: var(--text-secondary) !important;
-    cursor: pointer !important;
-}
-.profile-menu-container {
-    background: var(--bg-surface) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 20px !important;
-    padding: 6px !important;
-    box-shadow: var(--shadow-card) !important;
-    margin-bottom: 16px !important;
-}
-.menu-action-item {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 12px 14px !important;
-    border-radius: 14px !important;
-    cursor: pointer !important;
-}
-.menu-action-left { display: flex !important; align-items: center !important; gap: 12px !important; }
-.menu-icon-box {
-    width: 38px !important;
-    height: 38px !important;
-    border-radius: 12px !important;
-    background: rgba(255, 255, 255, 0.06) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-.menu-action-title { font-size: 14px !important; font-weight: 800 !important; color: #ffffff !important; }
-.menu-action-desc { font-size: 11px !important; color: var(--text-secondary) !important; }
-
-/* Toast */
-.copy-toast {
-    position: fixed !important;
-    top: 20px !important;
-    left: 50% !important;
-    transform: translateX(-50%) translateY(-20px) !important;
-    background: rgba(16, 185, 129, 0.95) !important;
-    color: #ffffff !important;
-    padding: 10px 18px !important;
-    border-radius: 999px !important;
-    font-size: 13px !important;
-    font-weight: 800 !important;
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    z-index: 9999 !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.copy-toast.show {
-    opacity: 1 !important;
-    transform: translateX(-50%) translateY(0) !important;
-}
-
-/* ==========================================================================
-   Compact Island Capsule Bottom Dock Navigation + Smooth Sliding Pill
-   ========================================================================== */
+/* Bottom Navigation Dock */
 .bottom-dock-nav {
     position: fixed !important;
-    bottom: max(14px, env(safe-area-inset-bottom, 14px)) !important;
+    bottom: 0 !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    width: calc(100% - 24px) !important;
-    max-width: 360px !important;
-    background: #111217 !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 999px !important;
-    padding: 4px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    padding: 6px 12px calc(8px + env(safe-area-inset-bottom, 8px)) 12px !important;
+    background: rgba(14, 16, 26, 0.88) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
     z-index: 1000 !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 2px 6px rgba(0, 0, 0, 0.4) !important;
     box-sizing: border-box !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    height: 52px !important;
 }
 
 .dock-sliding-pill {
-    position: absolute !important;
-    top: 4px !important;
-    bottom: 4px !important;
-    left: 4px !important;
-    width: calc((100% - 8px) / 4) !important;
-    background: #ffffff !important;
-    border-radius: 999px !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
-    transition: transform 0.26s cubic-bezier(0.25, 1, 0.5, 1) !important;
-    will-change: transform !important;
+    position: absolute;
+    top: 6px;
+    bottom: calc(8px + env(safe-area-inset-bottom, 8px));
+    width: calc((100% - 24px) / 4);
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25);
+    transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 0;
+    pointer-events: none;
 }
 
-.bottom-dock-nav[data-active="home"] .dock-sliding-pill { transform: translateX(0%) !important; }
-.bottom-dock-nav[data-active="services"] .dock-sliding-pill { transform: translateX(100%) !important; }
-.bottom-dock-nav[data-active="rating"] .dock-sliding-pill { transform: translateX(200%) !important; }
-.bottom-dock-nav[data-active="profile"] .dock-sliding-pill { transform: translateX(300%) !important; }
+.bottom-dock-nav[data-active="home"] .dock-sliding-pill { transform: translateX(0); }
+.bottom-dock-nav[data-active="services"] .dock-sliding-pill { transform: translateX(100%); }
+.bottom-dock-nav[data-active="rating"] .dock-sliding-pill { transform: translateX(200%); }
+.bottom-dock-nav[data-active="profile"] .dock-sliding-pill { transform: translateX(300%); }
 
 .dock-tab-btn {
-    position: relative !important;
-    z-index: 2 !important;
-    flex: 1 !important;
-    width: 25% !important;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 7px 4px;
+    text-decoration: none;
+    color: #8e95aa;
+    transition: color 0.2s ease, transform 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.dock-tab-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.2s ease, transform 0.2s ease;
+}
+
+.dock-tab-btn span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+.dock-tab-btn.active {
+    color: #08090e !important;
+}
+
+.dock-tab-btn.active svg {
+    stroke: #08090e !important;
+    transform: scale(1.06);
+}
+
+/* ==================== ORDERS LUXURY FINTECH DESIGN ==================== */
+.orders-top-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 18px !important;
+    padding: 4px 0 !important;
+}
+
+.orders-page-title {
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.3px !important;
+}
+
+.refresh-pill-btn {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 14px !important;
+    background: rgba(22, 26, 44, 0.72) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.refresh-pill-btn:active {
+    transform: scale(0.92) rotate(90deg) !important;
+    border-color: rgba(139, 92, 246, 0.4) !important;
+}
+
+.refresh-pill-btn.spinning svg {
+    animation: refreshSpin 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+@keyframes refreshSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 3-Column Stats Grid */
+.stats-tri-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 18px !important;
+    width: 100% !important;
+}
+
+.stat-card-box {
+    background: linear-gradient(135deg, rgba(22, 26, 44, 0.72) 0%, rgba(14, 17, 30, 0.85) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-radius: 18px !important;
+    padding: 13px 8px !important;
+    text-align: center !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 3px 2px !important;
-    border-radius: 999px !important;
-    text-decoration: none !important;
-    color: #848fa0 !important;
-    cursor: pointer !important;
-    transition: color 0.2s ease !important;
-    user-select: none !important;
-    gap: 2px !important;
-    border: none !important;
-    background: transparent !important;
-    height: 44px !important;
-    box-sizing: border-box !important;
+    gap: 4px !important;
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    transition: transform 0.15s ease, border-color 0.15s ease !important;
 }
 
-.dock-tab-btn svg {
-    width: 18px !important;
-    height: 18px !important;
-    fill: #848fa0 !important;
-    stroke: none !important;
-    filter: none !important;
-    box-shadow: none !important;
-    animation: none !important;
-    transition: fill 0.2s ease !important;
-    display: block !important;
+.stat-card-box:active {
+    transform: scale(0.96) !important;
+    border-color: rgba(139, 92, 246, 0.4) !important;
 }
 
-.dock-tab-btn span {
-    font-size: 10px !important;
-    font-weight: 700 !important;
-    line-height: 1.1 !important;
-    letter-spacing: -0.2px !important;
-    color: #848fa0 !important;
-    transition: color 0.2s ease !important;
+.stat-label-text {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: var(--text-secondary) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
 }
 
-.dock-tab-btn:active { transform: scale(0.95) !important; }
-
-.dock-tab-btn.active {
-    background: transparent !important;
-    box-shadow: none !important;
-}
-.dock-tab-btn.active svg {
-    fill: #0c0d15 !important;
-    stroke: none !important;
-    filter: none !important;
-    box-shadow: none !important;
-    transform: none !important;
-    animation: none !important;
-}
-.dock-tab-btn.active span {
-    color: #0c0d15 !important;
+.stat-value-text {
+    font-size: 20px !important;
     font-weight: 800 !important;
+    color: #ffffff !important;
+    line-height: 1.1 !important;
 }
 
-.dock-tab-btn::after, .dock-tab-btn.active::after, .dock-fab-btn {
-    display: none !important;
-    content: none !important;
+/* Filter Tabs */
+.filter-tabs-bar {
+    display: flex !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    margin-bottom: 16px !important;
+    scrollbar-width: none !important;
+    padding: 2px 2px 6px 2px !important;
+    -webkit-overflow-scrolling: touch !important;
 }
+
+.filter-tabs-bar::-webkit-scrollbar {
+    display: none !important;
+}
+
+.filter-chip-btn {
+    background: rgba(22, 26, 44, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    color: #94a3b8 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 8px 18px !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+.filter-chip-btn.active {
+    background: #ffffff !important;
+    color: #08090e !important;
+    font-weight: 800 !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25) !important;
+    transform: scale(1.02) !important;
+}
+
+.filter-chip-btn:active {
+    transform: scale(0.96) !important;
+}
+
+/* Order Item Card */
+.orders-list-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-bottom: 24px !important;
+}
+
+.order-item-card {
+    background: linear-gradient(135deg, rgba(22, 26, 44, 0.72) 0%, rgba(13, 16, 28, 0.85) 100%) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 18px !important;
+    padding: 15px 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    transition: transform 0.15s ease, border-color 0.15s ease !important;
+}
+
+.order-item-card:active {
+    transform: scale(0.985) !important;
+    border-color: rgba(139, 92, 246, 0.4) !important;
+}
+
+.order-card-top {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+}
+
+.order-info-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.order-icon-badge {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
+    flex-shrink: 0 !important;
+    border: 1px solid !important;
+}
+
+.order-title-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+}
+
+.order-type-title {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.order-qty-sub {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #a855f7 !important;
+}
+
+.order-meta-sub {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    color: var(--text-secondary) !important;
+}
+
+.order-date-text {
+    color: #82879a !important;
+}
+
+.order-target-pill {
+    color: #38bdf8 !important;
+    font-weight: 600 !important;
+}
+
+.order-status-badge {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 5px 12px !important;
+    border-radius: 999px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+}
+
+.order-status-badge.status-completed {
+    background: rgba(16, 185, 129, 0.14) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(16, 185, 129, 0.35) !important;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.2) !important;
+}
+
+.order-status-badge.status-pending {
+    background: rgba(245, 158, 11, 0.14) !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(245, 158, 11, 0.35) !important;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.2) !important;
+}
+
+.order-status-badge.status-rejected {
+    background: rgba(239, 68, 68, 0.14) !important;
+    color: #f87171 !important;
+    border: 1px solid rgba(239, 68, 68, 0.35) !important;
+}
+
+.status-dot {
+    font-size: 9px !important;
+}
+
+.order-card-bottom {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-top: 10px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.order-id-label {
+    font-size: 11px !important;
+    color: #64748b !important;
+}
+
+.order-id-label code {
+    color: #94a3b8 !important;
+    font-family: monospace !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    padding: 2px 6px !important;
+    border-radius: 6px !important;
+}
+
+.order-amount-text {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.2px !important;
+}
+
+.order-amount-text.amount-topup {
+    color: #38bdf8 !important;
+}
+
+/* Empty State Luxury */
+.luxury-orders-empty {
+    text-align: center !important;
+    padding: 50px 24px !important;
+    background: linear-gradient(135deg, rgba(22, 26, 44, 0.45) 0%, rgba(13, 16, 28, 0.55) 100%) !important;
+    border: 1px dashed rgba(255, 255, 255, 0.1) !important;
+    border-radius: 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    margin: 12px 0 24px 0 !important;
+}
+
+.empty-icon-ring {
+    width: 68px !important;
+    height: 68px !important;
+    border-radius: 22px !important;
+    background: rgba(139, 92, 246, 0.12) !important;
+    border: 1px solid rgba(139, 92, 246, 0.25) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 6px !important;
+    box-shadow: 0 0 24px rgba(139, 92, 246, 0.15) !important;
+}
+
+.empty-title-text {
+    font-size: 17px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+}
+
+.empty-sub-text {
+    font-size: 13px !important;
+    color: var(--text-secondary) !important;
+    max-width: 240px !important;
+    line-height: 1.4 !important;
+}
+
+.empty-cta-pill {
+    margin-top: 6px !important;
+    background: var(--grad-primary) !important;
+    border: none !important;
+    border-radius: 999px !important;
+    padding: 10px 22px !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    box-shadow: 0 4px 18px rgba(99, 102, 241, 0.35) !important;
+    transition: transform 0.15s ease !important;
+}
+
+.empty-cta-pill:active {
+    transform: scale(0.96) !important;
+}
+
 
     </style>
     <script>window.API_BASE = "https://web-production-4014a4.up.railway.app";</script>
@@ -7670,10 +7205,9 @@ body {
 <body>
     <!-- Main Application Container -->
     <main class="app-viewport">
-
     <!-- ==================== VIEW: HOME ==================== -->
     <section id="view-home" class="page-view active" data-page="home">
-        <!-- User Header -->
+<!-- User Header -->
     <div class="top-user-header">
         <div class="user-left-info">
             <div class="user-avatar-circle">
@@ -7860,9 +7394,132 @@ body {
     <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
     </section>
 
+
+    <!-- ==================== VIEW: SERVICES (SERVISLAR HUB) ==================== -->
+    <section id="view-services" class="page-view" data-page="services">
+        <!-- Top Bar -->
+        <div class="stars-top-bar">
+            <div class="back-pill-btn" onclick="navigateTo('home')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </div>
+            <div class="stars-top-title" data-i18n="nav.services">Servislar</div>
+            <div class="balance-badge-pill">
+                <span id="balance">0</span> UZS
+            </div>
+        </div>
+
+        <div style="font-size: 13px; color: var(--text-secondary); font-weight: 600; margin-bottom: 14px;">
+            Barcha Telegram xizmatlari va imkoniyatlari
+        </div>
+
+        <!-- 4 Services Grid -->
+        <div class="services-quad-grid" style="margin-bottom: 14px;">
+            <!-- Stars -->
+            <div class="service-quad-card card-stars" onclick="navigateTo('stars')">
+                <div class="service-top-row">
+                    <div class="service-icon-box">
+                        <img src="./images/star.webp?v=3" alt="Stars">
+                    </div>
+                    <span class="service-badge-pill" data-i18n="home.badge_discount">-10% Chegirma</span>
+                </div>
+                <div class="service-card-text-wrap">
+                    <div class="service-card-title" data-i18n="home.service_stars">Telegram Stars</div>
+                    <div class="service-card-desc" data-i18n="home.desc_stars">Eng tezkor yetkazish</div>
+                </div>
+            </div>
+
+            <!-- Premium -->
+            <div class="service-quad-card card-premium" onclick="navigateTo('premium')">
+                <div class="service-top-row">
+                    <div class="service-icon-box">
+                        <img src="./images/premium.webp?v=3" alt="Premium">
+                    </div>
+                    <span class="service-badge-pill" data-i18n="home.badge_premium">3 / 6 / 12 oy</span>
+                </div>
+                <div class="service-card-text-wrap">
+                    <div class="service-card-title" data-i18n="home.service_premium">Telegram Premium</div>
+                    <div class="service-card-desc" data-i18n="home.desc_premium">Rasmiy obuna</div>
+                </div>
+            </div>
+
+            <!-- Sovg'alar -->
+            <div class="service-quad-card card-gift" onclick="navigateTo('gift')">
+                <div class="service-top-row">
+                    <div class="service-icon-box">
+                        <img src="./images/gift.webp?v=3" alt="Sovg'alar">
+                    </div>
+                    <span class="service-badge-pill" data-i18n="home.badge_gifts">Jonli Gifts</span>
+                </div>
+                <div class="service-card-text-wrap">
+                    <div class="service-card-title" data-i18n="home.service_gifts">Telegram Gifts</div>
+                    <div class="service-card-desc" data-i18n="home.desc_gifts">Teddy, Rose & Box</div>
+                </div>
+            </div>
+
+            <!-- Virtual Nomer -->
+            <div class="service-quad-card card-phone" onclick="navigateTo('phone')">
+                <div class="service-top-row">
+                    <div class="service-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                        </svg>
+                    </div>
+                    <span class="service-badge-pill" data-i18n="home.badge_phone">SMS Tasdiq</span>
+                </div>
+                <div class="service-card-text-wrap">
+                    <div class="service-card-title" data-i18n="home.service_phone">Virtual Nomer</div>
+                    <div class="service-card-desc" data-i18n="home.desc_phone">Telegram faollashtirish</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extra Action Cards -->
+        <div class="service-quad-card" onclick="navigateTo('topup')" style="margin-bottom: 10px; border-color: rgba(56, 189, 248, 0.3);">
+            <div class="service-top-row">
+                <div class="service-icon-box" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                    </svg>
+                </div>
+                <span class="service-badge-pill" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">Avtomat</span>
+            </div>
+            <div class="service-card-text-wrap">
+                <div class="service-card-title" data-i18n="home.topup">Hisobni to'ldirish</div>
+                <div class="service-card-desc">Uzcard / Humo orqali 0% komissiya</div>
+            </div>
+        </div>
+
+        <div class="vip-spin-banner" onclick="navigateTo('spin')" style="margin-top: 4px;">
+            <div class="spin-banner-left">
+                <div class="spin-icon-bubble">
+                    <img src="./images/spin_banner.webp?v=3" alt="Lucky Spin">
+                </div>
+                <div>
+                    <div class="spin-banner-title">
+                        <span data-i18n="home.lucky_spin">Lucky Spin</span>
+                        <span class="spin-promo-badge" data-i18n="home.spin_free_badge">1 TA BEPUL</span>
+                    </div>
+                    <div class="spin-banner-sub" data-i18n="home.spin_subtext">
+                        G'ildirakni aylantiring va kafolatlangan Stars yuting!
+                    </div>
+                </div>
+            </div>
+            <div style="color: #c084fc; display: flex; align-items: center; flex-shrink: 0; padding-left: 8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+
     <!-- ==================== VIEW: STARS ==================== -->
     <section id="view-stars" class="page-view" data-page="stars">
-        <!-- Header -->
+<!-- Header -->
     <div class="stars-top-bar">
         <a href="javascript:void(0)" onclick="navigateTo('home')" class="back-pill-btn" onclick="navigateTo('home')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -8015,7 +7672,7 @@ body {
 
     <!-- ==================== VIEW: PREMIUM ==================== -->
     <section id="view-premium" class="page-view" data-page="premium">
-        <!-- Top Bar -->
+<!-- Top Bar -->
     <div class="premium-top-bar">
         <a href="javascript:void(0)" onclick="navigateTo('home')" class="back-pill-btn" onclick="navigateTo('home')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -8121,7 +7778,7 @@ body {
 
     <!-- ==================== VIEW: GIFT ==================== -->
     <section id="view-gift" class="page-view" data-page="gift">
-        <div class="gift-top-bar">
+<div class="gift-top-bar">
         <a href="javascript:void(0)" onclick="navigateTo('home')" class="back-pill-btn" onclick="navigateTo('home')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
@@ -8237,7 +7894,7 @@ body {
 
     <!-- ==================== VIEW: PHONE ==================== -->
     <section id="view-phone" class="page-view" data-page="phone">
-        <!-- Top Bar -->
+<!-- Top Bar -->
     <div class="phone-top-bar">
         <div class="back-pill-btn" onclick="navigateTo('home')">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -8315,7 +7972,7 @@ body {
 
     <!-- ==================== VIEW: TOPUP ==================== -->
     <section id="view-topup" class="page-view" data-page="topup">
-        <!-- Toast Notification -->
+<!-- Toast Notification -->
     <div id="copyToast" class="copy-toast">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"></polyline>
@@ -8497,7 +8154,7 @@ body {
 
     <!-- ==================== VIEW: ORDERS ==================== -->
     <section id="view-orders" class="page-view" data-page="orders">
-        <!-- Top Bar -->
+<!-- Top Bar -->
     <div class="orders-top-bar">
         <div class="back-pill-btn" onclick="navigateTo('home')">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -8505,7 +8162,7 @@ body {
             </svg>
         </div>
         <div class="orders-page-title">Buyurtmalarim</div>
-        <div class="refresh-pill-btn" onclick="fetchOrders()">
+        <div class="refresh-pill-btn" onclick="refreshOrders()">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="23 4 23 10 17 10"></polyline>
                 <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
@@ -8549,7 +8206,7 @@ body {
 
     <!-- ==================== VIEW: PROFILE ==================== -->
     <section id="view-profile" class="page-view" data-page="profile">
-        <!-- Top Bar -->
+<!-- Top Bar -->
     <div class="profile-top-bar">
         <a href="javascript:void(0)" onclick="navigateTo('home')" class="back-pill-btn" onclick="navigateTo('home')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -8677,7 +8334,7 @@ body {
 
     <!-- ==================== VIEW: RATING ==================== -->
     <section id="view-rating" class="page-view" data-page="rating">
-        <!-- Top Bar -->
+<!-- Top Bar -->
     <div class="rating-top-bar">
         <a href="javascript:void(0)" onclick="navigateTo('home')" class="back-pill-btn" onclick="navigateTo('home')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -8828,7 +8485,7 @@ body {
 
     <!-- ==================== VIEW: SPIN ==================== -->
     <section id="view-spin" class="page-view" data-page="spin">
-        <!-- Top Bar -->
+<!-- Top Bar -->
     <div class="spin-top-bar">
         <div class="back-pill-btn" onclick="navigateTo('home')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -8969,147 +8626,24 @@ body {
     <!-- Floating Capsule Dock Navigation -->
         <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
     </section>
-
-    <!-- ==================== VIEW: SERVICES (SERVISLAR HUB) ==================== -->
-    <section id="view-services" class="page-view" data-page="services">
-        <!-- Top Bar -->
-        <div class="stars-top-bar">
-            <div class="back-pill-btn" onclick="navigateTo('home')">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </div>
-            <div class="stars-top-title" data-i18n="nav.services">Servislar</div>
-            <div class="balance-badge-pill">
-                <span id="balance">0</span> UZS
-            </div>
-        </div>
-
-        <div style="font-size: 13px; color: var(--text-secondary); font-weight: 600; margin-bottom: 14px;">
-            Barcha Telegram xizmatlari va imkoniyatlari
-        </div>
-
-        <!-- 4 Services Grid -->
-        <div class="services-quad-grid" style="margin-bottom: 14px;">
-            <!-- Stars -->
-            <div class="service-quad-card card-stars" onclick="navigateTo('stars')">
-                <div class="service-top-row">
-                    <div class="service-icon-box">
-                        <img src="./images/star.webp?v=3" alt="Stars">
-                    </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_discount">-10% Chegirma</span>
-                </div>
-                <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_stars">Telegram Stars</div>
-                    <div class="service-card-desc" data-i18n="home.desc_stars">Eng tezkor yetkazish</div>
-                </div>
-            </div>
-
-            <!-- Premium -->
-            <div class="service-quad-card card-premium" onclick="navigateTo('premium')">
-                <div class="service-top-row">
-                    <div class="service-icon-box">
-                        <img src="./images/premium.webp?v=3" alt="Premium">
-                    </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_premium">3 / 6 / 12 oy</span>
-                </div>
-                <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_premium">Telegram Premium</div>
-                    <div class="service-card-desc" data-i18n="home.desc_premium">Rasmiy obuna</div>
-                </div>
-            </div>
-
-            <!-- Sovg'alar -->
-            <div class="service-quad-card card-gift" onclick="navigateTo('gift')">
-                <div class="service-top-row">
-                    <div class="service-icon-box">
-                        <img src="./images/gift.webp?v=3" alt="Sovg'alar">
-                    </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_gifts">Jonli Gifts</span>
-                </div>
-                <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_gifts">Telegram Gifts</div>
-                    <div class="service-card-desc" data-i18n="home.desc_gifts">Teddy, Rose & Box</div>
-                </div>
-            </div>
-
-            <!-- Virtual Nomer -->
-            <div class="service-quad-card card-phone" onclick="navigateTo('phone')">
-                <div class="service-top-row">
-                    <div class="service-icon-box">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                        </svg>
-                    </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_phone">SMS Tasdiq</span>
-                </div>
-                <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_phone">Virtual Nomer</div>
-                    <div class="service-card-desc" data-i18n="home.desc_phone">Telegram faollashtirish</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIP Lucky Spin Feature Banner -->
-        <div class="vip-spin-banner" onclick="navigateTo('spin')" style="margin-bottom: 14px;">
-            <div style="display: flex; align-items: center;">
-                <div class="spin-icon-bubble">
-                    <img src="./images/spin_banner.webp?v=3" alt="Lucky Spin">
-                </div>
-                <div>
-                    <div class="spin-banner-title">
-                        <span data-i18n="home.lucky_spin">Lucky Spin</span> 
-                        <span class="spin-promo-badge" data-i18n="home.spin_free_badge">1 TA BEPUL</span>
-                    </div>
-                    <div class="spin-banner-sub" data-i18n="home.spin_subtext">
-                        Promo-kod orqali bepul aylantiring va yutuqlarni oling!
-                    </div>
-                </div>
-            </div>
-            <div style="color: #c084fc; display: flex; align-items: center; flex-shrink: 0; padding-left: 8px;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Extra Quick Shortcuts: Topup & Orders -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px;">
-            <div class="stat-card-box" onclick="navigateTo('topup')" style="cursor: pointer; padding: 14px 12px; display: flex; flex-direction: column; gap: 6px;">
-                <div style="display: flex; align-items: center; gap: 6px; color: var(--accent-cyan); font-size: 13.5px; font-weight: 800;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>To'ldirish</span>
-                </div>
-                <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600;">Balansni to'ldirish</div>
-            </div>
-            <div class="stat-card-box" onclick="navigateTo('orders')" style="cursor: pointer; padding: 14px 12px; display: flex; flex-direction: column; gap: 6px;">
-                <div style="display: flex; align-items: center; gap: 6px; color: var(--accent-primary); font-size: 13.5px; font-weight: 800;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span data-i18n="home.orders">Buyurtmalar</span>
-                </div>
-                <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600;">Xaridlar tarixi</div>
-            </div>
-        </div>
-    </section>
-
     </main>
 
 
-    <!-- Minimalist Island Capsule Bottom Navigation (4 Items with Smooth Sliding White Active Pill) -->
+    <!-- Persistent Floating Dock Navigation -->
     <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
-        <!-- Hardware-Accelerated Sliding White Pill Indicator -->
+        <!-- Hardware-accelerated sliding white pill -->
         <div class="dock-sliding-pill"></div>
 
         <!-- 1. Asosiy (Home) -->
         <a href="javascript:void(0)" class="dock-tab-btn active" data-target="home" onclick="navigateTo('home')">
             <svg viewBox="0 0 24 24">
-                <path d="M12 3L2 12h3v8h5v-6h4v6h5v-8h3L12 3z"/>
+                <path d="M3 10.5L12 3l9 7.5v10a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 20.5v-10z"/>
+                <path d="M9 22v-7h6v7"/>
             </svg>
             <span data-i18n="nav.home">Asosiy</span>
         </a>
 
-        <!-- 2. Servislar (Services 2x2 Grid) -->
+        <!-- 2. Servislar (Hub) -->
         <a href="javascript:void(0)" class="dock-tab-btn" data-target="services" onclick="navigateTo('services')">
             <svg viewBox="0 0 24 24">
                 <rect x="3.5" y="3.5" width="7" height="7" rx="2"/>
@@ -9120,7 +8654,7 @@ body {
             <span data-i18n="nav.services">Servislar</span>
         </a>
 
-        <!-- 3. Top (Rating / Crown) -->
+        <!-- 3. Top (Rating) -->
         <a href="javascript:void(0)" class="dock-tab-btn" data-target="rating" onclick="navigateTo('rating')">
             <svg viewBox="0 0 24 24">
                 <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1s.4-1 1-1h12c.6 0 1 .4 1 1z"/>
@@ -9128,7 +8662,7 @@ body {
             <span data-i18n="nav.rating">Top</span>
         </a>
 
-        <!-- 4. Profil (User Avatar) -->
+        <!-- 4. Profil (User) -->
         <a href="javascript:void(0)" class="dock-tab-btn" data-target="profile" onclick="navigateTo('profile')">
             <svg viewBox="0 0 24 24">
                 <circle cx="12" cy="7" r="4"/>
@@ -10596,9 +10130,8 @@ setBalUI = function(val) {
     _currentDisplayBal = targetVal;
 
     if (startVal === 0 || Math.abs(targetVal - startVal) < 10) {
-        const formatted = targetVal.toLocaleString('uz-UZ');
         document.querySelectorAll('#balance, [id="balance"], .user-balance-val').forEach(el => {
-            el.textContent = formatted;
+            el.textContent = targetVal.toLocaleString('uz-UZ');
         });
         return;
     }
@@ -10606,35 +10139,32 @@ setBalUI = function(val) {
     const duration = 400;
     const startTime = performance.now();
 
-    function animateBalance(currentTime) {
+    function step(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const ease = 1 - Math.pow(1 - progress, 3);
-        const currentNum = Math.round(startVal + (targetVal - startVal) * ease);
-        const formatted = currentNum.toLocaleString('uz-UZ');
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(startVal + (targetVal - startVal) * easeOut);
 
         document.querySelectorAll('#balance, [id="balance"], .user-balance-val').forEach(el => {
-            el.textContent = formatted;
+            el.textContent = current.toLocaleString('uz-UZ');
         });
 
         if (progress < 1) {
-            requestAnimationFrame(animateBalance);
-        } else {
-            const finalFormatted = targetVal.toLocaleString('uz-UZ');
-            document.querySelectorAll('#balance, [id="balance"], .user-balance-val').forEach(el => {
-                el.textContent = finalFormatted;
-            });
+            requestAnimationFrame(step);
         }
     }
-
-    requestAnimationFrame(animateBalance);
+    requestAnimationFrame(step);
 };
+
+function animateBalance(val) {
+    setBalUI(val);
+}
 
 
 /* === STARS SCRIPT === */
 function setMyUsername() {
             const user = tg?.initDataUnsafe?.user;
-            const input = document.getElementById('starsUsername');
+            const input = document.getElementById('username');
             if (input) {
                 if (user && user.username) input.value = '@' + user.username;
                 else if (user && user.id) input.value = user.id;
@@ -10643,7 +10173,7 @@ function setMyUsername() {
         }
 
         async function buyStarTier(qty, price, btn) {
-            let uVal = (document.getElementById('starsUsername')?.value || '').trim().replace(/^@/, '');
+            let uVal = (document.getElementById('username')?.value || '').trim().replace(/^@/, '');
             if (!uVal) {
                 const tgUser = tg?.initDataUnsafe?.user;
                 if (tgUser?.username) uVal = tgUser.username;
@@ -10686,7 +10216,7 @@ function setMyUsername() {
                 if (data && data.ok) {
                     if (tg?.showAlert) tg.showAlert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
                     else alert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
-                    setTimeout(() => window.location.href = 'orders.html', 1000);
+                    setTimeout(() => navigateTo('orders'), 1000);
                 } else {
                     const err = data?.error || (res.status !== 200 ? `Server xatosi (${res.status})` : 'Xaridda xatolik yuz berdi.');
                     if (tg?.showAlert) tg.showAlert(err);
@@ -10752,7 +10282,7 @@ let selectedMonths = 3;
 
         function setMyUsername() {
             const user = tg?.initDataUnsafe?.user;
-            const input = document.getElementById('premiumUsername');
+            const input = document.getElementById('username');
             if (input) {
                 if (user && user.username) input.value = '@' + user.username;
                 else if (user && user.id) input.value = user.id;
@@ -10761,7 +10291,7 @@ let selectedMonths = 3;
         }
 
         async function buyPremium() {
-            let uVal = (document.getElementById('premiumUsername')?.value || '').trim().replace(/^@/, '');
+            let uVal = (document.getElementById('username')?.value || '').trim().replace(/^@/, '');
             if (!uVal) {
                 const tgUser = tg?.initDataUnsafe?.user;
                 if (tgUser?.username) uVal = tgUser.username;
@@ -10774,7 +10304,7 @@ let selectedMonths = 3;
                 return;
             }
 
-            const btn = document.getElementById('premiumSubmitBtn');
+            const btn = document.getElementById('submitBtn');
             const oldHtml = btn.innerHTML;
             btn.disabled = true;
             btn.textContent = '⏳ Yuklanmoqda...';
@@ -10805,7 +10335,7 @@ let selectedMonths = 3;
                 if (data && data.ok) {
                     if (tg?.showAlert) tg.showAlert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
                     else alert(`✅ ${selectedMonths} Oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
-                    setTimeout(() => window.location.href = 'orders.html', 1000);
+                    setTimeout(() => navigateTo('orders'), 1000);
                 } else {
                     const err = data?.error || (res.status !== 200 ? `Server xatosi (${res.status})` : 'Xaridda xatolik yuz berdi.');
                     if (tg?.showAlert) tg.showAlert(err);
@@ -11207,29 +10737,10 @@ let selectedAmount = 25000;
             }
         }
 
-        function copyCardNumber(btnEl) {
+        function copyCardNumber() {
         const num = document.getElementById('cardNumberText').textContent.replace(/\s+/g, '');
-        const targetBtn = btnEl || document.querySelector('.copy-pill-button');
-
-        function triggerCopiedState() {
-            showCopyToast();
-            if (targetBtn) {
-                targetBtn.classList.add('copied');
-                const span = targetBtn.querySelector('span');
-                const originalText = span ? span.textContent : 'Nusxalash';
-                if (span) span.textContent = '✓ Nusxalandi!';
-                setTimeout(() => {
-                    targetBtn.classList.remove('copied');
-                    if (span) span.textContent = originalText;
-                }, 2000);
-            }
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
-            }
-        }
-
         if (navigator.clipboard) {
-            navigator.clipboard.writeText(num).then(triggerCopiedState).catch(() => triggerCopiedState());
+            navigator.clipboard.writeText(num);
         } else {
             const el = document.createElement('textarea');
             el.value = num;
@@ -11237,7 +10748,20 @@ let selectedAmount = 25000;
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            triggerCopiedState();
+        }
+        showCopyToast();
+        const copyBtn = document.querySelector('.copy-pill-button');
+        if (copyBtn) {
+            copyBtn.classList.add('copied');
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<span>✓ Nusxalandi!</span>';
+            setTimeout(() => {
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = originalText;
+            }, 2000);
+        }
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+            try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
         }
     }
 
@@ -11257,7 +10781,7 @@ let selectedAmount = 25000;
             }
 
             isTopupSubmitting = true;
-            const btn = document.getElementById('topupSubmitBtn');
+            const btn = document.getElementById('submitBtn');
             const oldHtml = btn.innerHTML;
             btn.disabled = true;
             btn.style.pointerEvents = 'none';
@@ -11300,7 +10824,7 @@ let selectedAmount = 25000;
                     } else {
                         alert(`✅ ${selectedAmount.toLocaleString('uz-UZ')} so'mlik to'lov so'rovingiz qabul qilindi!`);
                     }
-                    setTimeout(() => window.location.href = 'orders.html', 1000);
+                    setTimeout(() => navigateTo('orders'), 1000);
                 } else if (res.ok || (data && data.order_id)) {
                     clearInterval(countdownTimer);
                     if (tg && tg.showAlert) {
@@ -11308,7 +10832,7 @@ let selectedAmount = 25000;
                     } else {
                         alert(`✅ To'lov so'rovingiz qabul qilindi!`);
                     }
-                    setTimeout(() => window.location.href = 'orders.html', 1000);
+                    setTimeout(() => navigateTo('orders'), 1000);
                 } else {
                     const err = data?.error || 'To\'lov so\'rovini yuborishda xatolik yuz berdi. Iltimos adminga murojaat qiling.';
                     if (tg && tg.showAlert) tg.showAlert(err);
@@ -11335,109 +10859,233 @@ let selectedAmount = 25000;
 /* === ORDERS SCRIPT === */
 let allOrders = [];
 
-        async function fetchOrders() {
-            const userId = getUserId();
-            const apiBase = getApiBase();
-            const container = document.getElementById('ordersList');
+function refreshOrders() {
+    const btn = document.querySelector('.refresh-pill-btn');
+    if (btn) {
+        btn.classList.add('spinning');
+        setTimeout(() => btn.classList.remove('spinning'), 650);
+    }
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('medium'); } catch(e) {}
+    }
+    fetchOrders();
+}
 
-            if (!userId) {
-                container.innerHTML = '<div class="empty-state">Foydalanuvchi aniqlanmadi</div>';
-                return;
-            }
+async function fetchOrders() {
+    const userId = getUserId();
+    const apiBase = getApiBase();
+    const container = document.getElementById('ordersList');
 
+    if (!userId) {
+        if (container) container.innerHTML = '<div class="empty-state">Foydalanuvchi aniqlanmadi</div>';
+        return;
+    }
+
+    try {
+        const res = await fetch((apiBase ? apiBase : '') + '/api/user/transactions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
+            body: JSON.stringify({ telegram_id: userId, initData: tg?.initData || '' })
+        });
+        const data = await res.json();
+        if (data && data.ok) {
+            allOrders = data.orders || [];
+            updateStats(allOrders);
+            renderOrders(allOrders);
+        } else {
+            renderOrders([]);
+        }
+    } catch (err) {
+        renderOrders([]);
+    }
+}
+
+function updateStats(orders) {
+    const all = orders || [];
+    const statAll = document.getElementById('statAll');
+    const statDone = document.getElementById('statDone');
+    const statPending = document.getElementById('statPending');
+
+    if (statAll) statAll.textContent = all.length;
+    if (statDone) statDone.textContent = all.filter(o => o.status === 'completed' || o.status === 'paid').length;
+    if (statPending) statPending.textContent = all.filter(o => o.status === 'pending').length;
+}
+
+function filterOrders(type, btn) {
+    document.querySelectorAll('.filter-chip-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+
+    if (type === 'all') {
+        renderOrders(allOrders);
+    } else {
+        const filtered = allOrders.filter(o => {
+            const ptype = String(o.product_type || o.type || '').toLowerCase();
+            if (type === 'topup') return ptype.includes('topup') || ptype.includes('deposit') || ptype.includes('balance');
+            return ptype.includes(type);
+        });
+        renderOrders(filtered);
+    }
+}
+
+const typeMeta = {
+    stars: {
+        title: 'Telegram Stars',
+        icon: '⭐',
+        iconBg: 'rgba(245, 158, 11, 0.16)',
+        iconBorder: 'rgba(245, 158, 11, 0.35)',
+        badgeColor: '#fbbf24'
+    },
+    premium: {
+        title: 'Telegram Premium',
+        icon: '👑',
+        iconBg: 'rgba(168, 85, 247, 0.16)',
+        iconBorder: 'rgba(168, 85, 247, 0.35)',
+        badgeColor: '#c084fc'
+    },
+    gift: {
+        title: 'Telegram Gift',
+        icon: '🎁',
+        iconBg: 'rgba(244, 63, 94, 0.16)',
+        iconBorder: 'rgba(244, 63, 94, 0.35)',
+        badgeColor: '#fb7185'
+    },
+    phone: {
+        title: 'Virtual Raqam',
+        icon: '📱',
+        iconBg: 'rgba(56, 189, 248, 0.16)',
+        iconBorder: 'rgba(56, 189, 248, 0.35)',
+        badgeColor: '#38bdf8'
+    },
+    topup: {
+        title: "Hisob To'ldirish",
+        icon: '💳',
+        iconBg: 'rgba(56, 189, 248, 0.16)',
+        iconBorder: 'rgba(56, 189, 248, 0.35)',
+        badgeColor: '#38bdf8'
+    },
+    deposit: {
+        title: "Hisob To'ldirish",
+        icon: '💳',
+        iconBg: 'rgba(56, 189, 248, 0.16)',
+        iconBorder: 'rgba(56, 189, 248, 0.35)',
+        badgeColor: '#38bdf8'
+    }
+};
+
+function renderOrders(orders) {
+    const container = document.getElementById('ordersList');
+    if (!container) return;
+
+    if (!orders || orders.length === 0) {
+        container.innerHTML = `
+            <div class="luxury-orders-empty">
+                <div class="empty-icon-ring">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <div class="empty-title-text" data-i18n="orders.empty_title">Buyurtmalar topilmadi</div>
+                <div class="empty-sub-text" data-i18n="orders.empty_desc">Bu bo'limda hali hech qanday faol buyurtma yo'q</div>
+                <button type="button" class="empty-cta-pill" onclick="navigateTo('services')">
+                    <span>Xizmatlarni ko'rish</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    let html = '';
+    orders.forEach(o => {
+        const st = (o.status || 'completed').toLowerCase();
+        let stLabel = 'Bajarildi';
+        let stClass = 'status-completed';
+        let stIcon = '●';
+        if (st === 'pending') {
+            stLabel = 'Kutilmoqda';
+            stClass = 'status-pending';
+            stIcon = '⏳';
+        } else if (st === 'rejected' || st === 'cancelled' || st === 'failed') {
+            stLabel = 'Bekor qilindi';
+            stClass = 'status-rejected';
+            stIcon = '✕';
+        }
+
+        const rawType = (o.product_type || o.type || 'xarid').toLowerCase();
+        const meta = typeMeta[rawType] || {
+            title: rawType.charAt(0).toUpperCase() + rawType.slice(1),
+            icon: '🛍️',
+            iconBg: 'rgba(139, 92, 246, 0.16)',
+            iconBorder: 'rgba(139, 92, 246, 0.35)',
+            badgeColor: '#a855f7'
+        };
+
+        const targetUser = o.target_username ? ('@' + o.target_username.replace(/^@/, '')) : '';
+        const qtyText = (rawType === 'stars' && o.quantity) ? ` · ${Number(o.quantity).toLocaleString('uz-UZ')} Stars` :
+                        (rawType === 'premium' && o.quantity) ? ` · ${o.quantity} oy` : '';
+        const amountNum = Number(o.amount || o.price || 0);
+        const isTopup = rawType === 'topup' || rawType === 'deposit';
+        const amountPrefix = isTopup ? '+' : '';
+        const amountClass = isTopup ? 'amount-topup' : 'amount-purchase';
+        const amountFormatted = amountPrefix + amountNum.toLocaleString('uz-UZ') + ' UZS';
+        
+        let dateFormatted = 'Yaqinda';
+        if (o.created_at) {
             try {
-                const res = await fetch((apiBase ? apiBase : '') + '/api/user/transactions', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg.initData || '' },
-                    body: JSON.stringify({ telegram_id: userId, initData: tg.initData || '' })
+                const d = new Date(o.created_at);
+                dateFormatted = d.toLocaleString('uz-UZ', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
                 });
-                const data = await res.json();
-                if (data && data.ok) {
-                    allOrders = data.orders || [];
-                    updateStats(allOrders);
-                    renderOrders(allOrders);
-                } else {
-                    container.innerHTML = '<div class="empty-state">Buyurtmalar topilmadi</div>';
-                }
-            } catch (err) {
-                container.innerHTML = '<div class="empty-state">Yuklashda xatolik yuz berdi</div>';
+            } catch(e) {
+                dateFormatted = String(o.created_at);
             }
         }
 
-        function updateStats(orders) {
-            const purchaseOrders = (orders || []).filter(o => {
-                const pt = String(o.product_type || o.type || '').toLowerCase();
-                return !pt.startsWith('topup') && pt !== 'deposit' && pt !== 'balance';
-            });
-            document.getElementById('statAll').textContent = purchaseOrders.length;
-            document.getElementById('statDone').textContent = purchaseOrders.filter(o => o.status === 'completed' || o.status === 'paid').length;
-            document.getElementById('statPending').textContent = purchaseOrders.filter(o => o.status === 'pending').length;
-        }
-
-        function filterOrders(type, btn) {
-            document.querySelectorAll('.filter-chip-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-
-            if (type === 'all') {
-                renderOrders(allOrders);
-            } else {
-                const filtered = allOrders.filter(o => {
-                    const ptype = (o.product_type || o.type || '').toLowerCase();
-                    return ptype.includes(type);
-                });
-                renderOrders(filtered);
-            }
-        }
-
-        function renderOrders(orders) {
-            const container = document.getElementById('ordersList');
-            if (!orders || orders.length === 0) {
-                container.innerHTML = '<div class="empty-state">Hozircha hech qanday buyurtma yo\'q</div>';
-                return;
-            }
-
-            const typeNames = {
-                stars: '⭐ Telegram Stars',
-                premium: '💎 Telegram Premium',
-                gift: '🎁 Telegram Gift',
-                phone: '📱 Virtual Raqam',
-                topup: '💳 Hisob To\'ldirish',
-                deposit: '💳 Hisob To\'ldirish',
-            };
-
-            let html = '';
-            orders.forEach(o => {
-                const st = (o.status || 'completed').toLowerCase();
-                let stLabel = 'Bajarildi';
-                let stClass = 'completed';
-                if (st === 'pending') { stLabel = 'Kutilmoqda'; stClass = 'pending'; }
-                else if (st === 'rejected' || st === 'cancelled') { stLabel = 'Bekor qilindi'; stClass = 'rejected'; }
-
-                const rawType = (o.product_type || o.type || 'xarid').toLowerCase();
-                const typeTitle = typeNames[rawType] || (rawType.charAt(0).toUpperCase() + rawType.slice(1));
-                const targetUser = o.target_username ? ` · @${o.target_username.replace(/^@/, '')}` : '';
-                const qtyText = (rawType === 'stars' && o.quantity) ? ` (${o.quantity} ⭐)` : (rawType === 'premium' && o.quantity) ? ` (${o.quantity} oy)` : '';
-                const amount = Number(o.amount || o.price || 0).toLocaleString('uz-UZ') + " UZS";
-                const dateStr = o.created_at ? new Date(o.created_at).toLocaleString('uz-UZ') : 'Yaqinda';
-
-                html += `
-                    <div class="order-item-card">
-                        <div class="order-card-header">
-                            <div class="order-type-title">${typeTitle}${qtyText}</div>
-                            <div class="order-status-badge ${stClass}">${stLabel}</div>
+        html += `
+            <div class="order-item-card">
+                <div class="order-card-top">
+                    <div class="order-info-left">
+                        <div class="order-icon-badge" style="background: ${meta.iconBg}; border-color: ${meta.iconBorder};">
+                            <span>${meta.icon}</span>
                         </div>
-                        <div class="order-card-body">
-                            <div class="order-date-text">${dateStr}${targetUser}</div>
-                            <div class="order-amount-text">${amount}</div>
+                        <div class="order-title-wrap">
+                            <div class="order-type-title">
+                                <span>${meta.title}</span>
+                                ${qtyText ? `<span class="order-qty-sub">${qtyText}</span>` : ''}
+                            </div>
+                            <div class="order-meta-sub">
+                                <span class="order-date-text">${dateFormatted}</span>
+                                ${targetUser ? `<span class="order-target-pill">${targetUser}</span>` : ''}
+                            </div>
                         </div>
                     </div>
-                `;
-            });
+                    <div class="order-status-badge ${stClass}">
+                        <span class="status-dot">${stIcon}</span>
+                        <span>${stLabel}</span>
+                    </div>
+                </div>
+                <div class="order-card-bottom">
+                    <div class="order-id-label">ID: <code>${o.external_id || o.id || '—'}</code></div>
+                    <div class="order-amount-text ${amountClass}">${amountFormatted}</div>
+                </div>
+            </div>
+        `;
+    });
 
-            container.innerHTML = html;
-        }
+    container.innerHTML = html;
+}
 
-        
 
 /* === PROFILE SCRIPT === */
 
@@ -12999,34 +12647,35 @@ const IMAGE_ASSETS = {
 let currentPage = 'home';
 const pageHistory = ['home'];
 
-function navigateTo(pageId, pushToHistory = true) {
-    if (!pageId) pageId = 'home';
-    if (currentPage === pageId && pushToHistory && document.getElementById('view-' + pageId)?.classList.contains('active')) {
+function navigateTo(pageId, isBack = false) {
+    const targetSection = document.getElementById('view-' + pageId);
+    if (!targetSection) {
+        console.warn('Unknown section: view-' + pageId);
         return;
     }
-    const previousPage = currentPage;
-    currentPage = pageId;
 
-    if (pushToHistory && (pageHistory.length === 0 || pageHistory[pageHistory.length - 1] !== pageId)) {
-        pageHistory.push(pageId);
-    }
-
-    // 1. Hide all views and show target
-    document.querySelectorAll('.page-view').forEach(view => {
-        view.classList.remove('active');
+    document.querySelectorAll('.page-view').forEach(sec => {
+        sec.classList.remove('active');
     });
 
-    const targetView = document.getElementById('view-' + pageId) || document.getElementById('view-home');
-    if (targetView) {
-        targetView.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'instant' });
-    }
+    targetSection.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
 
-    // 2. Map active tab
-    let activeNavTarget = pageId;
-    if (['stars', 'premium', 'gift', 'phone', 'spin', 'topup', 'services'].includes(pageId)) {
+    if (!isBack && pageId !== currentPage) {
+        pageHistory.push(pageId);
+    }
+    currentPage = pageId;
+
+    try {
+        history.replaceState(null, '', '#' + pageId);
+    } catch(e) {}
+
+    let activeNavTarget = 'home';
+    if (pageId === 'home') {
+        activeNavTarget = 'home';
+    } else if (pageId === 'services') {
         activeNavTarget = 'services';
-    } else if (['orders', 'profile'].includes(pageId)) {
+    } else if (pageId === 'profile') {
         activeNavTarget = 'profile';
     } else if (pageId === 'rating') {
         activeNavTarget = 'rating';
@@ -13158,7 +12807,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof renderGifts === 'function') renderGifts();
     if (typeof initToggleState === 'function') initToggleState();
 
-    navigateTo('home', false);
+    initTelegramBackButton();
+
+    const hashPage = (window.location.hash || '').replace('#', '').trim();
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryPage = urlParams.get('page');
+    const initialPage = hashPage || queryPage || 'home';
+    const validPages = ['home', 'services', 'stars', 'premium', 'gift', 'phone', 'topup', 'orders', 'profile', 'rating', 'spin'];
+    const startPage = validPages.includes(initialPage) ? initialPage : 'home';
+    navigateTo(startPage, false);
+});
+
+window.addEventListener('hashchange', () => {
+    const hash = (window.location.hash || '').replace('#', '').trim();
+    if (hash && hash !== currentPage) {
+        const validPages = ['home', 'services', 'stars', 'premium', 'gift', 'phone', 'topup', 'orders', 'profile', 'rating', 'spin'];
+        if (validPages.includes(hash)) {
+            navigateTo(hash, true);
+        }
+    }
 });
 
     </script>
