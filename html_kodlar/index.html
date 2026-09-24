@@ -326,17 +326,7 @@ img, picture, video {
 }
 
 /* Neon Active Indicator Glow Pill */
-.dock-tab-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: 2px;
-    width: 16px;
-    height: 3px;
-    border-radius: 99px;
-    background: #38bdf8;
-    box-shadow: 0 0 10px #38bdf8, 0 0 16px rgba(56, 189, 248, 0.9);
-    animation: dockIndicatorSlide 280ms cubic-bezier(0.34, 1.5, 0.64, 1) forwards;
-}
+
 
 @keyframes dockIndicatorSlide {
     0% { opacity: 0; transform: scaleX(0.2) translateY(2px); }
@@ -354,70 +344,24 @@ img, picture, video {
 /* =========================================
    Center Floating Action Button (FAB - Stars)
    ========================================= */
-.dock-fab-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin-top: -26px;
-    text-decoration: none !important;
-    cursor: pointer;
-    z-index: 10;
-    padding: 0 4px;
-    transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
-}
 
-.dock-fab-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 45%, #f97316 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.55), 0 0 16px rgba(251, 191, 36, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.5);
-    border: 3px solid #0e101a;
-    transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 220ms ease;
-    animation: fabBreath 3s ease-in-out infinite alternate;
-}
+
+
 
 @keyframes fabBreath {
     0% { box-shadow: 0 8px 24px rgba(245, 158, 11, 0.45), 0 0 14px rgba(251, 191, 36, 0.3); transform: scale(1); }
     100% { box-shadow: 0 12px 28px rgba(245, 158, 11, 0.7), 0 0 22px rgba(251, 191, 36, 0.55); transform: scale(1.04); }
 }
 
-.dock-fab-circle img, .dock-fab-circle svg {
-    width: 26px;
-    height: 26px;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
-    transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
-}
 
-.dock-fab-label {
-    font-size: 10px;
-    font-weight: 800;
-    color: #fbbf24;
-    margin-top: 3px;
-    letter-spacing: 0.2px;
-    text-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
-    transition: color 200ms ease;
-}
 
-.dock-fab-btn:active .dock-fab-circle {
-    transform: scale(0.90);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-}
 
-.dock-fab-btn:active .dock-fab-circle img {
-    transform: rotate(45deg) scale(0.9);
-}
 
-.dock-fab-btn.active .dock-fab-circle {
-    border-color: #38bdf8;
-    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.75), 0 0 24px rgba(56, 189, 248, 0.7);
-    animation: fabActiveGlow 1.8s ease-in-out infinite alternate;
-}
+
+
+
+
+
 
 @keyframes fabActiveGlow {
     0% { box-shadow: 0 8px 24px rgba(245, 158, 11, 0.6), 0 0 16px rgba(56, 189, 248, 0.5); }
@@ -6759,84 +6703,117 @@ body {
     box-shadow: 0 0 24px rgba(168, 85, 247, 0.3) !important;
 }
 
-/* Bottom Navigation Dock */
+/* Bottom Navigation Dock: Floating Capsule matching reference media_1790238379398.png */
 .bottom-dock-nav {
     position: fixed !important;
-    bottom: 0 !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 100% !important;
-    max-width: 480px !important;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+    left: 14px !important;
+    right: 14px !important;
+    max-width: 440px !important;
+    margin: 0 auto !important;
+    height: 60px !important;
+    background: rgba(17, 18, 23, 0.96) !important;
+    backdrop-filter: blur(28px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 40px !important;
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
-    padding: 6px 12px calc(8px + env(safe-area-inset-bottom, 8px)) 12px !important;
-    background: rgba(14, 16, 26, 0.88) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-    z-index: 1000 !important;
+    padding: 4px !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+    z-index: 9999 !important;
     box-sizing: border-box !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
 }
 
 .dock-sliding-pill {
-    position: absolute;
-    top: 6px;
-    bottom: calc(8px + env(safe-area-inset-bottom, 8px));
-    width: calc((100% - 24px) / 4);
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25);
-    transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 0;
-    pointer-events: none;
+    position: absolute !important;
+    top: 4px !important;
+    bottom: 4px !important;
+    left: 4px !important;
+    width: calc((100% - 8px) / 4) !important;
+    background: #ffffff !important;
+    border-radius: 32px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24) !important;
+    transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
 }
 
-.bottom-dock-nav[data-active="home"] .dock-sliding-pill { transform: translateX(0); }
-.bottom-dock-nav[data-active="services"] .dock-sliding-pill { transform: translateX(100%); }
-.bottom-dock-nav[data-active="rating"] .dock-sliding-pill { transform: translateX(200%); }
-.bottom-dock-nav[data-active="profile"] .dock-sliding-pill { transform: translateX(300%); }
+.bottom-dock-nav[data-active="home"] .dock-sliding-pill { transform: translateX(0) !important; }
+.bottom-dock-nav[data-active="services"] .dock-sliding-pill { transform: translateX(100%) !important; }
+.bottom-dock-nav[data-active="rating"] .dock-sliding-pill { transform: translateX(200%) !important; }
+.bottom-dock-nav[data-active="profile"] .dock-sliding-pill { transform: translateX(300%) !important; }
 
 .dock-tab-btn {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    padding: 7px 4px;
-    text-decoration: none;
-    color: #8e95aa;
-    transition: color 0.2s ease, transform 0.15s ease;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+    position: relative !important;
+    z-index: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    height: 100% !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    cursor: pointer !important;
+    border-radius: 32px !important;
+    color: #8e95aa !important;
+    transition: transform 0.15s ease, color 0.15s ease !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    touch-action: manipulation !important;
+}
+
+.dock-tab-btn * {
+    pointer-events: none !important;
+}
+
+.dock-tab-btn:active {
+    transform: scale(0.92) !important;
 }
 
 .dock-tab-btn svg {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: stroke 0.2s ease, transform 0.2s ease;
+    width: 20px !important;
+    height: 20px !important;
+    color: #8e95aa !important;
+    transition: color 0.2s ease, transform 0.2s ease !important;
 }
 
 .dock-tab-btn span {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.1px !important;
+    color: #8e95aa !important;
+    transition: color 0.2s ease !important;
+    line-height: 1 !important;
 }
 
-.dock-tab-btn.active {
-    color: #08090e !important;
-}
-
+/* Active Tab: Pure Black on White Pill (Exact match to reference) */
 .dock-tab-btn.active svg {
-    stroke: #08090e !important;
-    transform: scale(1.06);
+    color: #000000 !important;
+    transform: scale(1.04) !important;
+}
+
+.dock-tab-btn.active span {
+    color: #000000 !important;
+    font-weight: 800 !important;
+}
+
+.dock-tab-btn::after,
+.dock-tab-btn.active::after,
+.dock-tab-btn::before,
+.dock-tab-btn.active::before {
+    display: none !important;
+    content: none !important;
+    opacity: 0 !important;
+}
+
+.dock-fab-btn {
+    display: none !important;
 }
 
 /* ==================== ORDERS LUXURY FINTECH DESIGN ==================== */
@@ -8629,34 +8606,33 @@ body {
     </main>
 
 
-    <!-- Persistent Floating Dock Navigation -->
+    <!-- Persistent Floating Capsule Dock Navigation (v35.0) -->
     <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
         <!-- Hardware-accelerated sliding white pill -->
         <div class="dock-sliding-pill"></div>
 
         <!-- 1. Asosiy (Home) -->
         <a href="javascript:void(0)" class="dock-tab-btn active" data-target="home" onclick="navigateTo('home')">
-            <svg viewBox="0 0 24 24">
-                <path d="M3 10.5L12 3l9 7.5v10a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 20.5v-10z"/>
-                <path d="M9 22v-7h6v7"/>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
             <span data-i18n="nav.home">Asosiy</span>
         </a>
 
         <!-- 2. Servislar (Hub) -->
         <a href="javascript:void(0)" class="dock-tab-btn" data-target="services" onclick="navigateTo('services')">
-            <svg viewBox="0 0 24 24">
-                <rect x="3.5" y="3.5" width="7" height="7" rx="2"/>
-                <rect x="13.5" y="3.5" width="7" height="7" rx="2"/>
-                <rect x="3.5" y="13.5" width="7" height="7" rx="2"/>
-                <rect x="13.5" y="13.5" width="7" height="7" rx="2"/>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect x="3" y="3" width="7.5" height="7.5" rx="2"/>
+                <rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/>
+                <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/>
+                <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>
             </svg>
             <span data-i18n="nav.services">Servislar</span>
         </a>
 
         <!-- 3. Top (Rating) -->
         <a href="javascript:void(0)" class="dock-tab-btn" data-target="rating" onclick="navigateTo('rating')">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1s.4-1 1-1h12c.6 0 1 .4 1 1z"/>
             </svg>
             <span data-i18n="nav.rating">Top</span>
@@ -8664,9 +8640,8 @@ body {
 
         <!-- 4. Profil (User) -->
         <a href="javascript:void(0)" class="dock-tab-btn" data-target="profile" onclick="navigateTo('profile')">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="7" r="4"/>
-                <path d="M12 13.5c-4.4 0-8 2.3-8 5.2 0 .7.6 1.3 1.3 1.3h13.4c.7 0 1.3-.6 1.3-1.3 0-2.9-3.6-5.2-8-5.2z"/>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
             </svg>
             <span data-i18n="nav.profile">Profil</span>
         </a>
@@ -10164,7 +10139,7 @@ function animateBalance(val) {
 /* === STARS SCRIPT === */
 function setMyUsername() {
             const user = tg?.initDataUnsafe?.user;
-            const input = document.getElementById('username');
+            const input = document.getElementById('starsUsername') || document.getElementById('username');
             if (input) {
                 if (user && user.username) input.value = '@' + user.username;
                 else if (user && user.id) input.value = user.id;
@@ -10173,7 +10148,7 @@ function setMyUsername() {
         }
 
         async function buyStarTier(qty, price, btn) {
-            let uVal = (document.getElementById('username')?.value || '').trim().replace(/^@/, '');
+            let uVal = ((document.getElementById('starsUsername') || document.getElementById('username'))?.value || '').trim().replace(/^@/, '');
             if (!uVal) {
                 const tgUser = tg?.initDataUnsafe?.user;
                 if (tgUser?.username) uVal = tgUser.username;
@@ -10282,7 +10257,7 @@ let selectedMonths = 3;
 
         function setMyUsername() {
             const user = tg?.initDataUnsafe?.user;
-            const input = document.getElementById('username');
+            const input = document.getElementById('premiumUsername') || document.getElementById('username');
             if (input) {
                 if (user && user.username) input.value = '@' + user.username;
                 else if (user && user.id) input.value = user.id;
@@ -10291,7 +10266,7 @@ let selectedMonths = 3;
         }
 
         async function buyPremium() {
-            let uVal = (document.getElementById('username')?.value || '').trim().replace(/^@/, '');
+            let uVal = ((document.getElementById('premiumUsername') || document.getElementById('username'))?.value || '').trim().replace(/^@/, '');
             if (!uVal) {
                 const tgUser = tg?.initDataUnsafe?.user;
                 if (tgUser?.username) uVal = tgUser.username;
@@ -10304,7 +10279,7 @@ let selectedMonths = 3;
                 return;
             }
 
-            const btn = document.getElementById('submitBtn');
+            const btn = document.getElementById('premiumSubmitBtn') || document.getElementById('submitBtn');
             const oldHtml = btn.innerHTML;
             btn.disabled = true;
             btn.textContent = '⏳ Yuklanmoqda...';
@@ -10781,12 +10756,14 @@ let selectedAmount = 25000;
             }
 
             isTopupSubmitting = true;
-            const btn = document.getElementById('submitBtn');
-            const oldHtml = btn.innerHTML;
+            const btn = document.getElementById('topupSubmitBtn') || document.getElementById('submitBtn');
+        const oldHtml = btn ? btn.innerHTML : '';
+        if (btn) {
             btn.disabled = true;
             btn.style.pointerEvents = 'none';
             btn.style.opacity = '0.7';
             btn.innerHTML = '<span>⏳</span> Yuborildi, tekshirilmoqda...';
+        }
 
             try {
                 const tgUser = tg?.initDataUnsafe?.user;
@@ -10838,19 +10815,23 @@ let selectedAmount = 25000;
                     if (tg && tg.showAlert) tg.showAlert(err);
                     else alert(err);
                     isTopupSubmitting = false;
-                    btn.disabled = false;
-                    btn.style.pointerEvents = 'auto';
-                    btn.style.opacity = '1';
-                    btn.innerHTML = oldHtml;
+                    if (btn) {
+        btn.disabled = false;
+        btn.style.pointerEvents = 'auto';
+        btn.style.opacity = '1';
+        btn.innerHTML = oldHtml;
+    }
                 }
             } catch (err) {
                 if (tg && tg.showAlert) tg.showAlert('Xatolik: ' + err.message);
                 else alert('Xatolik: ' + err.message);
                 isTopupSubmitting = false;
-                btn.disabled = false;
-                btn.style.pointerEvents = 'auto';
-                btn.style.opacity = '1';
-                btn.innerHTML = oldHtml;
+                if (btn) {
+        btn.disabled = false;
+        btn.style.pointerEvents = 'auto';
+        btn.style.opacity = '1';
+        btn.innerHTML = oldHtml;
+    }
             }
         }
 
@@ -12673,9 +12654,9 @@ function navigateTo(pageId, isBack = false) {
     let activeNavTarget = 'home';
     if (pageId === 'home') {
         activeNavTarget = 'home';
-    } else if (pageId === 'services') {
+    } else if (['services', 'stars', 'premium', 'gift', 'phone', 'topup', 'spin'].includes(pageId)) {
         activeNavTarget = 'services';
-    } else if (pageId === 'profile') {
+    } else if (['profile', 'orders'].includes(pageId)) {
         activeNavTarget = 'profile';
     } else if (pageId === 'rating') {
         activeNavTarget = 'rating';
