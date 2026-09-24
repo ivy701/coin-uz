@@ -2,6 +2,7 @@ import asyncio
 from datetime import date, datetime
 import json
 import logging
+import os
 from pathlib import Path
 
 from aiohttp import web
@@ -959,12 +960,10 @@ async def api_order_topup(request: web.Request) -> web.Response:
   
   # Forward topup request to Admin & notify User via Telegram
   try:
-    import os
-    import config
     from aiogram import Bot
     from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
     
-    bot_inst = Bot(token=config.BOT_TOKEN)
+    bot_inst = Bot(token=cfg.BOT_TOKEN)
     
     admin_kb = InlineKeyboardMarkup(inline_keyboard=[
         [
@@ -976,7 +975,7 @@ async def api_order_topup(request: web.Request) -> web.Response:
     card_number = os.getenv("CARD_NUMBER", "4916 9903 6986 6493")
     card_owner = os.getenv("CARD_OWNER", "T M")
     
-    admin_ids = [int(a) for a in config.ADMINS]
+    admin_ids = [int(a) for a in cfg.ADMINS]
     for admin_id in admin_ids:
         try:
             await bot_inst.send_message(
