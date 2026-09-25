@@ -1,9 +1,13 @@
 const { Pool } = require('pg');
+const crypto = require('crypto');
 
 let pool;
 function getPool() {
   if (!pool) {
-    const connectionString = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_gbusDUvG1z8M@ep-dawn-pond-axw9wntv-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require';
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      throw new Error("DATABASE_URL muhit o'zgaruvchisi sozlanmagan!");
+    }
     pool = new Pool({
       connectionString,
       ssl: { rejectUnauthorized: false },
@@ -11,6 +15,37 @@ function getPool() {
     });
   }
   return pool;
+}
+
+function validateTelegramInitData(initData, botToken) {
+  if (!initData || !botToken) return null;
+  try {
+    const urlParams = new URLSearchParams(initData);
+    const hash = urlParams.get('hash');
+    if (!hash) return null;
+    urlParams.delete('hash');
+
+    const dataCheckArr = [];
+    for (const [key, val] of Array.from(urlParams.entries()).sort(([a], [b]) => a.localeCompare(b))) {
+      dataCheckArr.push(`${key}=${val}`);
+    }
+    const dataCheckString = dataCheckArr.join('\n');
+
+    const secretKey = crypto.createHmac('sha256', 'WebAppData').update(botToken).digest();
+    const calculatedHash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+
+    if (calculatedHash !== hash) return null;
+
+    const userRaw = urlParams.get('user');
+    if (userRaw) {
+      try {
+        return { user: JSON.parse(userRaw) };
+      } catch (e) {}
+    }
+    return {};
+  } catch (e) {
+    return null;
+  }
 }
 
 const CLASSIC_PRIZES = [
@@ -89,13 +124,30 @@ module.exports = async (req, res) => {
   const db = getPool();
 
   try {
+    const botToken = (process.env.BOT_TOKEN || '').trim();
     const body = req.body || {};
-    const userId = body.user_id || body.telegram_id;
-    const forcedKey = body.forced_prize;
+    const initData = req.headers['x-telegram-init-data'] || body.initData || '';
 
-    if (!userId) {
-      return res.status(400).json({ ok: false, error: 'Missing user_id' });
+    let authUserId = null;
+    if (botToken && initData) {
+      const validated = validateTelegramInitData(initData, botToken);
+      authUserId = validated?.user?.id;
     }
+
+    if (!authUserId && process.env.ALLOW_UNSAFE_DEV_AUTH === 'true') {
+      authUserId = body.telegram_id || body.user_id;
+    }
+
+    if (!authUserId) {
+      return res.status(401).json({ ok: false, error: 'Telegram initData yaroqsiz yoki muddati o\'tgan (Unauthorized)' });
+    }
+
+    const claimedId = body.telegram_id || body.user_id;
+    if (claimedId && parseInt(claimedId, 10) !== parseInt(authUserId, 10)) {
+      return res.status(403).json({ ok: false, error: 'Foydalanuvchi identifikatori mos kelmadi (Forbidden)' });
+    }
+
+    const userId = parseInt(authUserId, 10);
 
     // Consume bonus spin if available
     const bonusRes = await db.query(`
@@ -103,7 +155,7 @@ module.exports = async (req, res) => {
       SET spins_left = spins_left - 1, updated_at = NOW()
       WHERE telegram_id = $1 AND spins_left > 0
       RETURNING spins_left, forced_prize
-    `, [parseInt(userId, 10)]);
+    `, [userId]);
 
     const usedBonus = bonusRes.rows.length > 0;
 
@@ -115,7 +167,8 @@ module.exports = async (req, res) => {
     }
 
     const isVipMode = body.mode === 'vip';
-    const effectiveForcedKey = forcedKey || bonusRes.rows[0]?.forced_prize || 'bear';
+    // SECURITY: The user cannot supply forced_prize. It is strictly determined by the DB record!
+    const effectiveForcedKey = bonusRes.rows[0]?.forced_prize || 'bear';
     const searchClean = String(effectiveForcedKey).toLowerCase().trim();
     const rareKeys = ['aprel_bear', 'easter_bear', 'newyear_bear', 'builder_bear', 'football_bear', 'soldier_bear', 'newyear_tree', 'patrick_bear', 'valentine_bear', 'valentine_heart', 'rare', 'vipgift'];
 

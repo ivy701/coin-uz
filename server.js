@@ -2,13 +2,17 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { Pool } = require('pg');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Database connection
-const connectionString = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_gbusDUvG1z8M@ep-dawn-pond-axw9wntv-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require';
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  console.error("CRITICAL: DATABASE_URL muhit o'zgaruvchisi sozlanmagan!");
+}
 const pool = new Pool({
   connectionString,
   ssl: { rejectUnauthorized: false },
@@ -26,41 +30,64 @@ app.use((req, res, next) => {
   next();
 });
 
-// Helper: Parse telegram_id from query, body, or headers
-function parseUserId(req) {
-  let uid = null;
-  if (req.query) {
-    uid = req.query.telegram_id || req.query.user_id || req.query.id || req.query.uid;
+function validateTelegramInitData(initData, botToken) {
+  if (!initData || !botToken) return null;
+  try {
+    const urlParams = new URLSearchParams(initData);
+    const hash = urlParams.get('hash');
+    if (!hash) return null;
+    urlParams.delete('hash');
+
+    const dataCheckArr = [];
+    for (const [key, val] of Array.from(urlParams.entries()).sort(([a], [b]) => a.localeCompare(b))) {
+      dataCheckArr.push(`${key}=${val}`);
+    }
+    const dataCheckString = dataCheckArr.join('\n');
+
+    const secretKey = crypto.createHmac('sha256', 'WebAppData').update(botToken).digest();
+    const calculatedHash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+
+    if (calculatedHash !== hash) return null;
+
+    const userRaw = urlParams.get('user');
+    if (userRaw) {
+      try {
+        return { user: JSON.parse(userRaw) };
+      } catch (e) {}
+    }
+    return {};
+  } catch (e) {
+    return null;
   }
+}
+
+// Helper: Parse authenticated telegram_id from Telegram initData
+function parseUserId(req) {
+  const botToken = (process.env.BOT_TOKEN || '').trim();
   let body = req.body;
   if (typeof body === 'string') {
     try { body = JSON.parse(body); } catch(e) {}
   }
-  if (!uid && body) {
-    uid = body.telegram_id || body.user_id || body.id || body.uid;
-    if (!uid && body.initData) {
-      try {
-        const params = new URLSearchParams(body.initData);
-        const userStr = params.get('user');
-        if (userStr) {
-          const u = JSON.parse(userStr);
-          uid = u.id;
-        }
-      } catch (e) {}
+
+  const initData = (req.headers ? (req.headers['x-telegram-init-data'] || req.headers['X-Telegram-Init-Data']) : null)
+    || (body && body.initData)
+    || (req.query && req.query.initData);
+
+  if (botToken && initData) {
+    const validated = validateTelegramInitData(initData, botToken);
+    if (validated && validated.user && validated.user.id) {
+      return parseInt(validated.user.id, 10);
     }
   }
-  const initHeader = req.headers ? (req.headers['x-telegram-init-data'] || req.headers['X-Telegram-Init-Data']) : null;
-  if (!uid && initHeader) {
-    try {
-      const params = new URLSearchParams(initHeader);
-      const userStr = params.get('user');
-      if (userStr) {
-        const u = JSON.parse(userStr);
-        uid = u.id;
-      }
-    } catch (e) {}
+
+  if (process.env.ALLOW_UNSAFE_DEV_AUTH === 'true') {
+    let uid = null;
+    if (req.query) uid = req.query.telegram_id || req.query.user_id || req.query.id || req.query.uid;
+    if (!uid && body) uid = body.telegram_id || body.user_id || body.id || body.uid;
+    if (uid) return parseInt(uid, 10);
   }
-  return uid ? parseInt(uid, 10) : null;
+
+  return null;
 }
 
 // Health check
@@ -264,8 +291,8 @@ app.all('/api/order/gift', (req, res) => giftOrderHandler(req, res));
 // Protected admin reset endpoint (requires ADMIN_SECRET)
 app.all('/api/admin/reset-fresh', async (req, res) => {
   const secret = req.query.secret || req.body?.secret || req.headers['x-admin-secret'];
-  const expectedSecret = process.env.ADMIN_SECRET || process.env.ADMIN_IDS || 'secure_coinstat_admin';
-  if (!secret || secret !== expectedSecret) {
+  const expectedSecret = process.env.ADMIN_SECRET || process.env.ADMIN_IDS;
+  if (!expectedSecret || !secret || secret !== expectedSecret) {
     return res.status(403).json({ ok: false, error: 'Unauthorized: Admin secret required' });
   }
   try {

@@ -75,7 +75,10 @@ module.exports = async (req, res) => {
   }
 
   const userId = parseUserId(req);
-  const botToken = (process.env.BOT_TOKEN || '8540635645:AAE3c-NEqdR4F05X_7Vyiq7kP3XD5PmzX7Y').trim();
+  const botToken = (process.env.BOT_TOKEN || '').trim();
+  if (!botToken) {
+    return res.status(500).json({ ok: false, error: 'Server sozlamalari to\'liq emas (BOT_TOKEN yo\'q)' });
+  }
   const channel = (process.env.REQUIRED_CHANNEL || '@CoinStatUz').trim();
   const channelUrl = `https://t.me/${channel.replace(/^@/, '')}`;
 

@@ -150,29 +150,42 @@ async def _authenticate_request(request: web.Request, check_rate_limit: bool = T
   auth = await _auth_user(request)
   auth_user_id = _user_id_from_auth(auth)
 
-  # Check initData authenticity
+  # Check initData authenticity strictly
   if not auth or not auth_user_id:
-    # Resilient fallback: extract telegram_id / user_id from body, query, or headers
-    raw_id = (
-      body.get("telegram_id")
-      or body.get("user_id")
-      or request.query.get("telegram_id")
-      or request.query.get("user_id")
-      or request.headers.get("X-User-Id")
-    )
-    if raw_id:
-      try:
-        auth_user_id = int(raw_id)
-      except (ValueError, TypeError):
-        auth_user_id = None
+    # Allow unauthenticated ID ONLY if explicit DEV mode is enabled
+    if os.environ.get("ALLOW_UNSAFE_DEV_AUTH") == "true":
+      raw_id = (
+        body.get("telegram_id")
+        or body.get("user_id")
+        or request.query.get("telegram_id")
+        or request.query.get("user_id")
+        or request.headers.get("X-User-Id")
+      )
+      if raw_id:
+        try:
+          auth_user_id = int(raw_id)
+        except (ValueError, TypeError):
+          auth_user_id = None
 
     if not auth_user_id:
       raise web.HTTPUnauthorized(
-        text=json.dumps({"ok": False, "error": "Telegram avtorizatsiyasi talab qilinadi (Foydalanuvchi topilmadi)."}),
+        text=json.dumps({"ok": False, "error": "Telegram initData yaroqsiz yoki muddati o'tgan (Unauthorized)."}),
         content_type="application/json"
       )
 
   auth_user_id = int(auth_user_id)
+
+  # Check mismatch if claimed ID is provided
+  claimed_id = body.get("telegram_id") or body.get("user_id") or request.query.get("telegram_id")
+  if claimed_id:
+    try:
+      if int(claimed_id) != auth_user_id:
+        raise web.HTTPForbidden(
+          text=json.dumps({"ok": False, "error": "Foydalanuvchi identifikatori mos kelmadi (Forbidden)."}),
+          content_type="application/json"
+        )
+    except (ValueError, TypeError):
+      pass
 
   # Rate limiting
   if check_rate_limit:
@@ -1334,6 +1347,11 @@ async def api_get_webhook(request: web.Request) -> web.Response:
   if not cfg.BOT_TOKEN:
     return web.json_response({"ok": False, "error": "BOT_TOKEN not configured"}, status=500)
 
+  secret = request.query.get("secret")
+  expected_secret = os.environ.get("WEBHOOK_SECRET") or (str(cfg.ADMINS[0]) if cfg.ADMINS else "")
+  if expected_secret and secret != expected_secret:
+    return web.json_response({"ok": False, "error": "Unauthorized: valid secret required"}, status=403)
+
   bot = request.app.get("bot")
   if not bot:
     from aiogram import Bot
@@ -1357,6 +1375,11 @@ async def api_delete_webhook(request: web.Request) -> web.Response:
   import config as cfg
   if not cfg.BOT_TOKEN:
     return web.json_response({"ok": False, "error": "BOT_TOKEN not configured"}, status=500)
+
+  secret = request.query.get("secret")
+  expected_secret = os.environ.get("WEBHOOK_SECRET") or (str(cfg.ADMINS[0]) if cfg.ADMINS else "")
+  if expected_secret and secret != expected_secret:
+    return web.json_response({"ok": False, "error": "Unauthorized: valid secret required to delete webhook"}, status=403)
 
   bot = request.app.get("bot")
   if not bot:

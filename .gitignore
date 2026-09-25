@@ -1,8 +1,33 @@
+# Secrets & Environment variables
+.env
+.env.*
+*.env
+
+# Certificates & Private Keys
+*.pem
+*.key
+*.crt
+
+# Databases & local data
+*.db
+*.sqlite
+*.sqlite3
+database.db
+
+# Scratch & temporary scripts
+scratch/
+
+# Vercel & Node
 .vercel
 node_modules/
+
+# Python Cache
 **/__pycache__/
 __pycache__/
 *.pyc
 */*.pyc
 **/*.pyc
+
+# Logs & temp
+*.log
 html_kodlar/images/

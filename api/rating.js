@@ -3,7 +3,10 @@ const { Pool } = require('pg');
 let pool;
 function getPool() {
   if (!pool) {
-    const connectionString = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_gbusDUvG1z8M@ep-dawn-pond-axw9wntv-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require';
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      throw new Error("DATABASE_URL muhit o'zgaruvchisi sozlanmagan!");
+    }
     pool = new Pool({
       connectionString,
       ssl: { rejectUnauthorized: false },

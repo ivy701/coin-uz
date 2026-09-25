@@ -4,7 +4,10 @@ const https = require('https');
 let pool;
 function getPool() {
   if (!pool) {
-    const connectionString = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_gbusDUvG1z8M@ep-dawn-pond-axw9wntv-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require';
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      throw new Error("DATABASE_URL muhit o'zgaruvchisi sozlanmagan!");
+    }
     pool = new Pool({
       connectionString,
       ssl: { rejectUnauthorized: false },
@@ -74,7 +77,7 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, error: 'Ma\'lumotlar to\'liq emas' });
   }
 
-  const botToken = process.env.BOT_TOKEN || '8540635645:AAE3c-NEqdR4F05X_7Vyiq7kP3XD5PmzX7Y';
+  const botToken = (process.env.BOT_TOKEN || '').trim();
 
   try {
     const db = getPool();

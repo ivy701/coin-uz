@@ -1,9 +1,13 @@
 const { Pool } = require('pg');
+const crypto = require('crypto');
 
 let pool;
 function getPool() {
   if (!pool) {
-    const connectionString = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_gbusDUvG1z8M@ep-dawn-pond-axw9wntv-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require';
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      throw new Error("DATABASE_URL muhit o'zgaruvchisi sozlanmagan!");
+    }
     pool = new Pool({
       connectionString,
       ssl: { rejectUnauthorized: false },
@@ -11,6 +15,52 @@ function getPool() {
     });
   }
   return pool;
+}
+
+// In-memory rate limiter: max 5 promo code attempts per 60 seconds per user
+const rateLimitMap = new Map();
+function checkRateLimit(userId, maxRequests = 5, windowMs = 60000) {
+  const now = Date.now();
+  const windowStart = now - windowMs;
+  const userTimestamps = (rateLimitMap.get(userId) || []).filter(t => t > windowStart);
+  if (userTimestamps.length >= maxRequests) {
+    rateLimitMap.set(userId, userTimestamps);
+    return false;
+  }
+  userTimestamps.push(now);
+  rateLimitMap.set(userId, userTimestamps);
+  return true;
+}
+
+function validateTelegramInitData(initData, botToken) {
+  if (!initData || !botToken) return null;
+  try {
+    const urlParams = new URLSearchParams(initData);
+    const hash = urlParams.get('hash');
+    if (!hash) return null;
+    urlParams.delete('hash');
+
+    const dataCheckArr = [];
+    for (const [key, val] of Array.from(urlParams.entries()).sort(([a], [b]) => a.localeCompare(b))) {
+      dataCheckArr.push(`${key}=${val}`);
+    }
+    const dataCheckString = dataCheckArr.join('\n');
+
+    const secretKey = crypto.createHmac('sha256', 'WebAppData').update(botToken).digest();
+    const calculatedHash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+
+    if (calculatedHash !== hash) return null;
+
+    const userRaw = urlParams.get('user');
+    if (userRaw) {
+      try {
+        return { user: JSON.parse(userRaw) };
+      } catch (e) {}
+    }
+    return {};
+  } catch (e) {
+    return null;
+  }
 }
 
 module.exports = async (req, res) => {
@@ -27,6 +77,7 @@ module.exports = async (req, res) => {
   }
 
   try {
+    const botToken = (process.env.BOT_TOKEN || '').trim();
     let body = req.body || {};
     if (typeof body === 'string') {
       try {
@@ -34,17 +85,33 @@ module.exports = async (req, res) => {
       } catch (e) {}
     }
 
-    let userId = body.telegram_id || body.user_id;
-    if (!userId && body.initData) {
-      try {
-        const parsed = new URLSearchParams(body.initData);
-        const userStr = parsed.get('user');
-        if (userStr) {
-          const u = JSON.parse(userStr);
-          if (u && u.id) userId = u.id;
-        }
-      } catch(e) {}
+    const initData = req.headers['x-telegram-init-data'] || body.initData || '';
+    let authUserId = null;
+    if (botToken && initData) {
+      const validated = validateTelegramInitData(initData, botToken);
+      authUserId = validated?.user?.id;
     }
+
+    if (!authUserId && process.env.ALLOW_UNSAFE_DEV_AUTH === 'true') {
+      authUserId = body.telegram_id || body.user_id;
+    }
+
+    if (!authUserId) {
+      return res.status(401).json({ ok: false, error: 'Telegram initData yaroqsiz yoki muddati o\'tgan (Unauthorized)' });
+    }
+
+    const claimedId = body.telegram_id || body.user_id;
+    if (claimedId && parseInt(claimedId, 10) !== parseInt(authUserId, 10)) {
+      return res.status(403).json({ ok: false, error: 'Foydalanuvchi identifikatori mos kelmadi (Forbidden)' });
+    }
+
+    const userId = parseInt(authUserId, 10);
+
+    // Rate limiting to block brute force attacks
+    if (!checkRateLimit(userId, 5, 60000)) {
+      return res.status(429).json({ ok: false, error: 'Juda ko\'p urinish. Iltimos, 1 daqiqadan so\'ng qayta urinib ko\'ring.' });
+    }
+
     const code = (body.code || '').trim().toUpperCase();
 
     if (!userId) {
@@ -165,13 +232,18 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Add +1 bonus spin
+    // Add +1 bonus spin with server-enforced forced_prize
+    const prizeToGrant = promo.prize_type || 'bear';
+    try {
+      await db.query(`ALTER TABLE user_bonus_spins ADD COLUMN IF NOT EXISTS forced_prize TEXT;`);
+    } catch (e) {}
+
     await db.query(`
-      INSERT INTO user_bonus_spins (telegram_id, spins_left, updated_at)
-      VALUES ($1, 1, NOW())
+      INSERT INTO user_bonus_spins (telegram_id, spins_left, forced_prize, updated_at)
+      VALUES ($1, 1, $2, NOW())
       ON CONFLICT (telegram_id)
-      DO UPDATE SET spins_left = user_bonus_spins.spins_left + 1, updated_at = NOW();
-    `, [parseInt(userId, 10)]);
+      DO UPDATE SET spins_left = user_bonus_spins.spins_left + 1, forced_prize = $2, updated_at = NOW();
+    `, [parseInt(userId, 10), prizeToGrant]);
 
     return res.status(200).json({
       ok: true,
