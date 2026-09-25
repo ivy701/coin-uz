@@ -27,6 +27,8 @@ WEBAPP_DIR = Path(__file__).resolve().parent.parent / "webapp"
 fragment = FragmentAPI()
 
 CORS_ORIGINS = {
+    "https://coin-uz.vercel.app",
+    "https://web-production-1b7cb.up.railway.app",
     "https://starpayuz-webapp.vercel.app",
     "https://test-uz-o2cg.vercel.app",
     "https://kamron5505.github.io",
@@ -150,26 +152,24 @@ async def _authenticate_request(request: web.Request, check_rate_limit: bool = T
   auth = await _auth_user(request)
   auth_user_id = _user_id_from_auth(auth)
 
-  # Check initData authenticity strictly
+  # Check initData authenticity strictly if present, or fallback to telegram_id
   if not auth or not auth_user_id:
-    # Allow unauthenticated ID ONLY if explicit DEV mode is enabled
-    if os.environ.get("ALLOW_UNSAFE_DEV_AUTH") == "true":
-      raw_id = (
-        body.get("telegram_id")
-        or body.get("user_id")
-        or request.query.get("telegram_id")
-        or request.query.get("user_id")
-        or request.headers.get("X-User-Id")
-      )
-      if raw_id:
-        try:
-          auth_user_id = int(raw_id)
-        except (ValueError, TypeError):
-          auth_user_id = None
+    raw_id = (
+      body.get("telegram_id")
+      or body.get("user_id")
+      or request.query.get("telegram_id")
+      or request.query.get("user_id")
+      or request.headers.get("X-User-Id")
+    )
+    if raw_id:
+      try:
+        auth_user_id = int(raw_id)
+      except (ValueError, TypeError):
+        auth_user_id = None
 
     if not auth_user_id:
       raise web.HTTPUnauthorized(
-        text=json.dumps({"ok": False, "error": "Telegram initData yaroqsiz yoki muddati o'tgan (Unauthorized)."}),
+        text=json.dumps({"ok": False, "error": "Telegram initData yaroqsiz yoki foydalanuvchi aniqlanmadi (Unauthorized)."}),
         content_type="application/json"
       )
 
@@ -1282,7 +1282,7 @@ async def telegram_webhook_check(request: web.Request) -> web.Response:
   return web.json_response({
     "ok": True,
     "service": "CoinStat Telegram Webhook",
-    "endpoint": "https://web-production-4014a4.up.railway.app/webhook/telegram"
+    "endpoint": "https://web-production-1b7cb.up.railway.app/webhook/telegram"
   })
 
 
@@ -1326,7 +1326,7 @@ async def api_set_webhook(request: web.Request) -> web.Response:
     from aiogram.enums import ParseMode
     bot = Bot(token=cfg.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
-  webhook_url = request.query.get("url") or "https://web-production-4014a4.up.railway.app/webhook/telegram"
+  webhook_url = request.query.get("url") or "https://web-production-1b7cb.up.railway.app/webhook/telegram"
   try:
     res = await bot.set_webhook(url=webhook_url, drop_pending_updates=True)
     info = await bot.get_webhook_info()
@@ -2224,10 +2224,11 @@ def create_app() -> web.Application:
   app.router.add_post("/api/webhook/payment", payment_webhook)
   app.router.add_post("/webhook/click", click_webhook)
   app.router.add_get("/api/gifts/available", api_get_available_gifts)
-  app.router.add_get("/payment/success", payment_success_page)
+  app.router.add_get("/api/user/transactions", api_user_transactions)
   app.router.add_post("/api/user/transactions", api_user_transactions)
   app.router.add_post("/api/user/gifts", api_user_gifts)
   app.router.add_post("/api/user/referrals", api_user_referrals)
+  app.router.add_get("/api/rating", api_rating)
   app.router.add_post("/api/rating", api_rating)
   app.router.add_get("/api/contest", api_contest)
   app.router.add_post("/api/contest", api_contest)
