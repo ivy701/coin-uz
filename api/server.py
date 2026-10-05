@@ -926,14 +926,12 @@ async def api_order_rent(request: web.Request) -> web.Response:
   if total_price <= 0 or days <= 0:
     return web.json_response({"ok": False, "error": "Noto'g'ri ijara muddati yoki narx"}, status=400)
 
-  # Check Abu Store balance first (Abu Store API)
-  abu_balance = await get_abu_store_balance()
-  if abu_balance < total_price:
-    logger.warning("Abu Store hisobida yetarli mablag' yo'q: Kerak=%s, Abu Store=%s", total_price, abu_balance)
-    return web.json_response({
-      "ok": False,
-      "error": "Balansda pul yo'q"
-    }, status=400)
+  # Log Abu Store balance for analytics (Abu Store API does not deduct balance for rent)
+  try:
+    abu_balance = await get_abu_store_balance()
+    logger.info("Abu Store provider balance: %s UZS (Rent order: %s UZS)", abu_balance, total_price)
+  except Exception as _e:
+    logger.warning("Abu Store balance fetch error: %s", _e)
 
   user = await get_user(user_id)
   if not user:
@@ -944,7 +942,7 @@ async def api_order_rent(request: web.Request) -> web.Response:
   if balance < total_price:
     return web.json_response({
       "ok": False,
-      "error": "Balansda pul yo'q"
+      "error": f"Hisobingizda mablag' yetarli emas! (Kerak: {total_price:,} so'm, Balansingiz: {balance:,} so'm)"
     }, status=400)
 
   # Deduct balance
