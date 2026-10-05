@@ -917,7 +917,8 @@ async def api_order_rent(request: web.Request) -> web.Response:
   nft_address = (body.get("nft_address") or "").strip()
   days = int(body.get("days") or body.get("duration") or 1)
   price_per_day = int(body.get("price_per_day") or body.get("price_per_day_uzs") or 0)
-  total_price = int(body.get("amount") or (days * price_per_day))
+  network_fee = 2000
+  total_price = int(body.get("amount") or ((days * price_per_day) + network_fee))
   image_url = (body.get("image_url") or "").strip()
 
   if not username:

@@ -698,6 +698,33 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
+        /* Network Fee Badge (Abu Store replica) */
+        .network-fee-badge {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+            border: 1px dashed rgba(168, 85, 247, 0.45);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 650;
+            color: #f1f5f9;
+            margin-bottom: 14px;
+        }
+
+        .network-fee-badge .fee-badge-left {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .network-fee-badge .fee-badge-val {
+            color: #c084fc;
+            font-weight: 800;
+            font-size: 13.5px;
+        }
+
         /* Total calculation card */
         .total-calc-card {
             background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
@@ -1355,6 +1382,15 @@
             </div>
             <input type="text" class="modal-input-box" id="modalTargetUsername" placeholder="Masalan: durov yoki @shaxsiy_profil">
 
+            <!-- Network Fee Notice (Abu Store replica) -->
+            <div class="network-fee-badge">
+                <div class="fee-badge-left">
+                    <span style="font-size: 15px;">ℹ️</span>
+                    <span>Tarmoq komissiyasi:</span>
+                </div>
+                <div class="fee-badge-val">+2 000 so'm</div>
+            </div>
+
             <!-- Cost Calculation -->
             <div class="total-calc-card">
                 <div class="calc-row">
@@ -1364,6 +1400,10 @@
                 <div class="calc-row">
                     <span>Muddat:</span>
                     <span id="calcDaysCount">1 kun</span>
+                </div>
+                <div class="calc-row">
+                    <span>Tarmoq komissiyasi:</span>
+                    <span id="calcNetworkFee" style="color: #c084fc; font-weight: 750;">+2 000 so'm</span>
                 </div>
                 <div class="calc-row total">
                     <span>Jami to'lov:</span>
@@ -2154,10 +2194,13 @@
             if (daysLabel) daysLabel.textContent = `${rentalDays} kun`;
 
             const price = Number(selectedItem.price_per_day_uzs || 0);
-            const total = rentalDays * price;
+            const fee = 2000;
+            const total = (rentalDays * price) + fee;
 
             document.getElementById('calcDailyPrice').textContent = `${price.toLocaleString('uz-UZ')} so'm`;
             document.getElementById('calcDaysCount').textContent = `${rentalDays} kun`;
+            const feeEl = document.getElementById('calcNetworkFee');
+            if (feeEl) feeEl.textContent = `+${fee.toLocaleString('uz-UZ')} so'm`;
             document.getElementById('calcTotalPrice').textContent = `${total.toLocaleString('uz-UZ')} so'm`;
 
             const statusBox = document.getElementById('balanceStatusBox');
@@ -2200,7 +2243,8 @@
             }
 
             const price = Number(selectedItem.price_per_day_uzs || 0);
-            const total = rentalDays * price;
+            const fee = 2000;
+            const total = (rentalDays * price) + fee;
 
             if (userBalance < total) {
                 showToast("Balansingiz yetarli emas! Iltimos, hisobni to'ldiring.", "❌");
@@ -2231,6 +2275,7 @@
                         image_url: imgUrl,
                         days: rentalDays,
                         price_per_day: price,
+                        amount: total,
                         target_username: targetUsername,
                     }),
                 });

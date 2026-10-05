@@ -8612,6 +8612,30 @@ body.modal-open .bottom-dock-nav {
     border-color: rgba(56, 189, 248, 0.5);
     background: rgba(255, 255, 255, 0.08);
 }
+/* Network Fee Badge Rent (Abu Store replica) */
+.network-fee-badge-rent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+    border: 1px dashed rgba(168, 85, 247, 0.45);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 650;
+    color: #f1f5f9;
+    margin-bottom: 14px;
+}
+.network-fee-badge-rent .fee-badge-left-rent {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.network-fee-badge-rent .fee-badge-val-rent {
+    color: #c084fc;
+    font-weight: 800;
+    font-size: 13.5px;
+}
 .total-calc-card-rent {
     background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
     border: 1px solid rgba(56, 189, 248, 0.2);
@@ -10675,6 +10699,15 @@ body.modal-open .bottom-dock-nav {
             </div>
             <input type="text" class="modal-input-box-rent" id="modalRentTargetUsername" placeholder="Masalan: durov yoki @shaxsiy_profil">
 
+            <!-- Network Fee Notice (Abu Store replica) -->
+            <div class="network-fee-badge-rent">
+                <div class="fee-badge-left-rent">
+                    <span style="font-size: 15px;">ℹ️</span>
+                    <span>Tarmoq komissiyasi:</span>
+                </div>
+                <div class="fee-badge-val-rent">+2 000 so'm</div>
+            </div>
+
             <!-- Cost Calculation -->
             <div class="total-calc-card-rent">
                 <div class="calc-row-rent">
@@ -10684,6 +10717,10 @@ body.modal-open .bottom-dock-nav {
                 <div class="calc-row-rent">
                     <span>Muddat:</span>
                     <span id="calcRentDaysCount">1 kun</span>
+                </div>
+                <div class="calc-row-rent">
+                    <span>Tarmoq komissiyasi:</span>
+                    <span id="calcRentNetworkFee" style="color: #c084fc; font-weight: 750;">+2 000 so'm</span>
                 </div>
                 <div class="calc-row-rent total">
                     <span>Jami to'lov:</span>
@@ -16144,10 +16181,13 @@ function updateRentModalCalculations() {
     if (daysLabel) daysLabel.textContent = `${rentRentalDays} kun`;
 
     const price = Number(rentSelectedItem.price_per_day_uzs || 0);
-    const total = rentRentalDays * price;
+    const fee = 2000;
+    const total = (rentRentalDays * price) + fee;
 
     document.getElementById('calcRentDailyPrice').textContent = `${price.toLocaleString('uz-UZ')} so'm`;
     document.getElementById('calcRentDaysCount').textContent = `${rentRentalDays} kun`;
+    const feeEl = document.getElementById('calcRentNetworkFee');
+    if (feeEl) feeEl.textContent = `+${fee.toLocaleString('uz-UZ')} so'm`;
     document.getElementById('calcRentTotalPrice').textContent = `${total.toLocaleString('uz-UZ')} so'm`;
 
     const curBal = typeof getUserBalanceVal === 'function' ? getUserBalanceVal() : (Number(document.getElementById('balance')?.textContent?.replace(/[^0-9]/g, '')) || 0);
@@ -16198,7 +16238,8 @@ async function submitRentOrderFromApp() {
     }
 
     const price = Number(rentSelectedItem.price_per_day_uzs || 0);
-    const total = rentRentalDays * price;
+    const fee = 2000;
+    const total = (rentRentalDays * price) + fee;
     const curBal = typeof getUserBalanceVal === 'function' ? getUserBalanceVal() : (Number(document.getElementById('balance')?.textContent?.replace(/[^0-9]/g, '')) || 0);
 
     if (curBal < total) {
@@ -16234,6 +16275,7 @@ async function submitRentOrderFromApp() {
                 image_url: imgUrl,
                 days: rentRentalDays,
                 price_per_day: price,
+                amount: total,
                 target_username: targetUsername,
             }),
         });

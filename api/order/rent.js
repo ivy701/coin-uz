@@ -199,7 +199,8 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, error: 'NFT ulanadigan Telegram username yoki manzilni kiriting' });
   }
 
-  const totalPrice = days * pricePerDay;
+  const networkFee = 2000;
+  const totalPrice = body.amount ? parseInt(body.amount, 10) : ((days * pricePerDay) + networkFee);
 
   try {
     const db = getPool();
