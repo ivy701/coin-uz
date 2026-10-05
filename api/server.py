@@ -807,6 +807,12 @@ async def api_rent_collections(request: web.Request) -> web.Response:
           data = await resp.json()
           col_data = data.get("data") if (isinstance(data, dict) and "data" in data and isinstance(data["data"], dict) and "collections" in data["data"]) else (data if (isinstance(data, dict) and "collections" in data) else None)
           if col_data:
+            ton_rate = int(os.getenv("TON_RATE_UZS", 28000))
+            for c in col_data.get("collections", []):
+              if not c.get("rent_floor_uzs"):
+                nano = int(c.get("rent_floor_nano") or c.get("raw_rent_floor_nano") or 0)
+                if nano > 0:
+                  c["rent_floor_uzs"] = max(100, round((nano / 1e9) * ton_rate))
             _rent_collections_cache = col_data
             _rent_collections_cache_time = now
             return web.json_response({"ok": True, "cached": False, **col_data})
@@ -852,6 +858,18 @@ async def api_rent_items(request: web.Request) -> web.Response:
           data = await resp.json()
           if data and data.get("ok") and data.get("data"):
             items_data = data["data"]
+            ton_rate = int(os.getenv("TON_RATE_UZS", 28000))
+            for item in items_data.get("items", []):
+              if not item.get("price_per_day_uzs"):
+                nano = int(item.get("price_per_day_nano") or item.get("raw_price_per_day_nano") or item.get("base_min_nano") or 0)
+                if nano > 0:
+                  item["price_per_day_uzs"] = max(100, round((nano / 1e9) * ton_rate))
+                else:
+                  item["price_per_day_uzs"] = 500
+              if not item.get("min_price_uzs"):
+                m_days = int(item.get("min_days") or 1)
+                item["min_price_uzs"] = m_days * int(item.get("price_per_day_uzs") or 500)
+
             _rent_items_cache[cache_key] = {"time": now, "data": items_data}
             if len(_rent_items_cache) > 200:
               oldest = next(iter(_rent_items_cache))
@@ -923,7 +941,8 @@ async def api_order_rent(request: web.Request) -> web.Response:
       image_url=image_url,
       days=days,
       price_total=total_price,
-      order_id=order_id
+      order_id=order_id,
+      target_username=username
     )
   except Exception as rent_db_err:
     logger.warning("add_user_nft_rent save error: %s", rent_db_err)
@@ -1003,8 +1022,11 @@ async def api_rent_my(request: web.Request) -> web.Response:
   if not user_id:
     return web.json_response({"ok": True, "rents": [], "count": 0})
 
-  from services.database import get_user_nft_rents, db_conn
+  from services.database import get_user_nft_rents, db_conn, get_user
   rents = await get_user_nft_rents(int(user_id))
+
+  u_obj = await get_user(int(user_id))
+  default_uname = (u_obj.get("username") if u_obj else "") or ""
 
   # If user_nft_rents is empty, check orders table for legacy/existing orders
   if not rents:
@@ -1022,11 +1044,16 @@ async def api_rent_my(request: web.Request) -> web.Response:
           "days": o.get("quantity") or 30,
           "remaining_days": o.get("quantity") or 30,
           "price_total": o.get("amount") or 0,
+          "target_username": default_uname,
           "status": "active",
           "is_connected": False
         })
     except Exception as e:
       logger.warning("legacy rents fetch error: %s", e)
+
+  for r in rents:
+    if not r.get("target_username"):
+      r["target_username"] = default_uname
 
   return web.json_response({
     "ok": True,

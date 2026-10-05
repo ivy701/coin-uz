@@ -427,6 +427,7 @@ async def init_db() -> None:
             image_url TEXT,
             days INTEGER NOT NULL,
             price_total INTEGER NOT NULL,
+            target_username TEXT,
             status TEXT NOT NULL DEFAULT 'active',
             ton_connect_link TEXT,
             connected_at DATETIME,
@@ -445,6 +446,7 @@ async def init_db() -> None:
             image_url TEXT,
             days INTEGER NOT NULL,
             price_total INTEGER NOT NULL,
+            target_username TEXT,
             status TEXT NOT NULL DEFAULT 'active',
             ton_connect_link TEXT,
             connected_at TIMESTAMPTZ,
@@ -453,6 +455,14 @@ async def init_db() -> None:
         )
         """
     )
+
+    try:
+        if IS_SQLITE:
+            await db_conn.execute("ALTER TABLE user_nft_rents ADD COLUMN target_username TEXT")
+        else:
+            await db_conn.execute("ALTER TABLE user_nft_rents ADD COLUMN IF NOT EXISTS target_username TEXT")
+    except Exception:
+        pass
 
 
 async def ensure_user(
@@ -1237,6 +1247,7 @@ async def add_user_nft_rent(
     days: int = 1,
     price_total: int = 0,
     order_id: int | None = None,
+    target_username: str = "",
 ) -> int:
     import datetime
     now = datetime.datetime.now(datetime.timezone.utc)
@@ -1245,18 +1256,18 @@ async def add_user_nft_rent(
         if IS_SQLITE:
             await db_conn.execute(
                 """
-                INSERT INTO user_nft_rents (telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, status, expires_at)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'active', $9)
+                INSERT INTO user_nft_rents (telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, target_username, status, expires_at)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'active', $10)
                 """,
-                telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, expires.strftime("%Y-%m-%d %H:%M:%S")
+                telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, target_username, expires.strftime("%Y-%m-%d %H:%M:%S")
             )
         else:
             await db_conn.execute(
                 """
-                INSERT INTO user_nft_rents (telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, status, expires_at)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'active', $9)
+                INSERT INTO user_nft_rents (telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, target_username, status, expires_at)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'active', $10)
                 """,
-                telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, expires
+                telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, target_username, expires
             )
         row = await db_conn.fetchrow(
             "SELECT id FROM user_nft_rents WHERE telegram_id = $1 ORDER BY id DESC LIMIT 1",

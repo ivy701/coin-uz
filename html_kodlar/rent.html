@@ -158,8 +158,8 @@
         /* Category Tabs */
         .rent-tabs-wrap {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
             margin-bottom: 14px;
         }
 
@@ -167,16 +167,17 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border-card);
             border-radius: 12px;
-            padding: 10px 6px;
-            font-size: 12.5px;
+            padding: 9px 2px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--text-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 3px;
             cursor: pointer;
             transition: all 0.15s ease;
+            white-space: nowrap;
         }
 
         .rent-tab-btn.active {
@@ -184,6 +185,16 @@
             border-color: rgba(56, 189, 248, 0.5);
             color: #ffffff;
             box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2);
+        }
+
+        .rent-tab-badge {
+            background: #8b5cf6;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 999px;
+            line-height: 1.2;
         }
 
         /* Collections Filter Scroll */
@@ -934,6 +945,20 @@
             font-weight: 600;
         }
 
+        .my-rent-target-user-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.28);
+            padding: 3px 8px;
+            border-radius: 8px;
+            margin-top: 4px;
+            font-weight: 700;
+        }
+
         .my-rent-bind-btn {
             width: 100%;
             height: 42px;
@@ -1136,13 +1161,16 @@
     <!-- Category Tabs -->
     <div class="rent-tabs-wrap">
         <div class="rent-tab-btn active" data-cat="gifts" onclick="switchCategory('gifts')">
-            <span>🎁</span> Sovg'alar
+            <span>🎁</span> Sovg'a
         </div>
         <div class="rent-tab-btn" data-cat="usernames" onclick="switchCategory('usernames')">
-            <span>🏷️</span> Username
+            <span>🏷️</span> User
         </div>
         <div class="rent-tab-btn" data-cat="numbers" onclick="switchCategory('numbers')">
-            <span>📱</span> +888 Nomer
+            <span>📱</span> Nomer
+        </div>
+        <div class="rent-tab-btn" data-cat="my_rents" onclick="openMyRentsView()">
+            <span>👑</span> NFTlarim <span class="rent-tab-badge" id="myRentsTabBadge" style="display:none;">0</span>
         </div>
     </div>
 
@@ -1306,6 +1334,14 @@
                 </div>
             </div>
 
+            <!-- Target Account Banner -->
+            <div class="connect-target-banner" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="font-size: 12px; color: #e2e8f0;">
+                    <span>🎯 Profilga o'rnatish:</span> <b id="connectModalTargetUser" style="color: #38bdf8;">@username</b>
+                </div>
+                <span style="font-size: 11px; background: rgba(56, 189, 248, 0.2); padding: 2px 8px; border-radius: 6px; color: #7dd3fc; font-weight: 750;">Telegram</span>
+            </div>
+
             <!-- Video Guide Banner -->
             <div class="video-guide-banner" onclick="showVideoGuide()">
                 <div style="display:flex; align-items:center; gap:8px;">
@@ -1431,6 +1467,9 @@
 
         function openMyRentsView() {
             isMyRentsActive = true;
+            document.querySelectorAll('.rent-tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-cat') === 'my_rents');
+            });
             document.getElementById('catalogSection').style.display = 'none';
             document.getElementById('myRentsBanner').style.display = 'none';
             document.getElementById('myRentsView').style.display = 'block';
@@ -1442,6 +1481,9 @@
             document.getElementById('myRentsView').style.display = 'none';
             document.getElementById('catalogSection').style.display = 'block';
             document.getElementById('myRentsBanner').style.display = 'flex';
+            document.querySelectorAll('.rent-tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-cat') === activeCategory);
+            });
         }
 
         async function loadMyRents(force = false) {
@@ -1461,6 +1503,11 @@
                     myRents = data.rents || [];
                     const badge = document.getElementById('myRentsCountBadge');
                     if (badge) badge.textContent = myRents.length;
+                    const tabBadge = document.getElementById('myRentsTabBadge');
+                    if (tabBadge) {
+                        tabBadge.textContent = myRents.length;
+                        tabBadge.style.display = myRents.length > 0 ? 'inline-block' : 'none';
+                    }
                     renderMyRents(myRents);
                 }
             } catch (err) {
@@ -1501,8 +1548,11 @@
                 const days = r.remaining_days || r.days || 1;
                 const price = Number(r.price_total || 0).toLocaleString('uz-UZ');
                 const isConn = r.is_connected;
+                const targetUname = r.target_username || getUserUsername() || '';
+                const targetDisplay = targetUname ? (targetUname.startsWith('@') ? targetUname : '@' + targetUname) : '@profilingiz';
+
                 const statusHtml = isConn ? 
-                    `<span class="status-pill-active" style="color: #60a5fa; background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.35);">• Ulandi</span>` :
+                    `<span class="status-pill-active" style="color: #4ade80; background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.35);">• Ulangan</span>` :
                     `<span class="status-pill-active">• Faol</span>`;
 
                 html += `
@@ -1515,10 +1565,13 @@
                                     ${statusHtml}
                                 </div>
                                 <div class="my-rent-card-meta">${price} so'm • ${days} kun</div>
+                                <div class="my-rent-target-user-pill">
+                                    <span>🎯 Akkaunt:</span> <b>${escapeHtml(targetDisplay)}</b>
+                                </div>
                             </div>
                         </div>
-                        <button class="my-rent-bind-btn" onclick="openConnectModal(${idx})">
-                            <span>🔗 Akkauntga ulash</span>
+                        <button class="my-rent-bind-btn" ${isConn ? 'style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.4); color: #4ade80;"' : ''} onclick="openConnectModal(${idx})">
+                            <span>${isConn ? `✅ Akkauntga ulangan (${escapeHtml(targetDisplay)})` : '🔗 Telegram akkauntga ulash'}</span>
                         </button>
                     </div>
                 `;
@@ -1534,10 +1587,15 @@
             const img = document.getElementById('connectModalItemImg');
             const name = document.getElementById('connectModalItemName');
             const input = document.getElementById('tcLinkInput');
+            const targetEl = document.getElementById('connectModalTargetUser');
 
             if (img) img.src = rentItem.image_url || './images/gift.webp';
             if (name) name.textContent = rentItem.nft_name || 'Telegram NFT';
             if (input) input.value = '';
+
+            const targetUname = rentItem.target_username || getUserUsername() || '';
+            const targetDisplay = targetUname ? (targetUname.startsWith('@') ? targetUname : '@' + targetUname) : '@profilingiz';
+            if (targetEl) targetEl.textContent = targetDisplay;
 
             document.getElementById('connectTelegramModal').classList.add('active');
 
@@ -1654,7 +1712,11 @@
                 if (data && data.ok && data.collections) {
                     let html = `<div class="collection-chip ${activeCollectionAddress === '' ? 'active' : ''}" onclick="selectCollection('', this)">Barchasi</div>`;
                     data.collections.slice(0, 25).forEach(c => {
-                        const floorText = c.rent_floor_uzs ? ` (${Number(c.rent_floor_uzs).toLocaleString('uz-UZ')} so'm)` : '';
+                        let floor = Number(c.rent_floor_uzs || 0);
+                        if (!floor && c.rent_floor_nano) {
+                            floor = Math.round((Number(c.rent_floor_nano) / 1e9) * 28000);
+                        }
+                        const floorText = floor > 0 ? ` (${floor.toLocaleString('uz-UZ')} so'm)` : '';
                         html += `<div class="collection-chip ${activeCollectionAddress === c.address ? 'active' : ''}" onclick="selectCollection('${c.address}', this)">${escapeHtml(c.name)}${floorText}</div>`;
                     });
                     container.innerHTML = html;
@@ -1672,6 +1734,9 @@
         }
 
         function switchCategory(cat) {
+            if (isMyRentsActive) {
+                closeMyRentsView();
+            }
             if (activeCategory === cat) return;
             activeCategory = cat;
             activeCollectionAddress = '';
@@ -1747,7 +1812,19 @@
             let html = '';
             items.forEach((item, index) => {
                 const imgUrl = item.webp_url || (item.media_key ? `https://nft.fragment.com/gift/${item.media_key}.webp` : './images/gift.webp');
-                const price = Number(item.price_per_day_uzs || 0);
+                let price = Number(item.price_per_day_uzs || 0);
+                if (!price && item.price_per_day_nano) {
+                    price = Math.round((Number(item.price_per_day_nano) / 1e9) * 28000);
+                }
+                if (!price && item.raw_price_per_day_nano) {
+                    price = Math.round((Number(item.raw_price_per_day_nano) / 1e9) * 28000);
+                }
+                if (!price && item.base_min_nano) {
+                    price = Math.round((Number(item.base_min_nano) / 1e9) * 28000);
+                }
+                if (!price) price = 500;
+                item.price_per_day_uzs = price;
+
                 const minDays = Number(item.min_days || 1);
                 const maxDays = Number(item.max_days || 30);
                 const attrPills = (item.attributes || []).slice(0, 2).map(a => 
@@ -1813,7 +1890,13 @@
             const imgUrl = selectedItem.webp_url || (selectedItem.media_key ? `https://nft.fragment.com/gift/${selectedItem.media_key}.webp` : './images/gift.webp');
             if (img) img.src = imgUrl;
             if (name) name.textContent = selectedItem.name;
-            const price = Number(selectedItem.price_per_day_uzs || 0);
+            let price = Number(selectedItem.price_per_day_uzs || 0);
+            if (!price && selectedItem.price_per_day_nano) {
+                price = Math.round((Number(selectedItem.price_per_day_nano) / 1e9) * 28000);
+            }
+            if (!price) price = 500;
+            selectedItem.price_per_day_uzs = price;
+
             if (daily) daily.textContent = `${price.toLocaleString('uz-UZ')} so'm / kun`;
 
             if (slider) {
@@ -1973,8 +2056,8 @@
                     showToast("🎉 NFT ijara buyurtmangiz qabul qilindi!", "✅");
 
                     setTimeout(() => {
-                        window.location.href = 'index.html#orders';
-                    }, 1200);
+                        openMyRentsView();
+                    }, 800);
                 } else {
                     showToast(data.error || "Xatolik yuz berdi. Qayta urinib ko'ring.", "❌");
                     confirmBtn.disabled = false;
