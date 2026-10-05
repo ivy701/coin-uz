@@ -16,6 +16,8 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/rent/:path*", "destination": "https://web-production-1b7cb.up.railway.app/api/rent/:path*" },
+    { "source": "/api/order/rent", "destination": "https://web-production-1b7cb.up.railway.app/api/order/rent" },
     { "source": "/orders", "destination": "/index.html" },
     { "source": "/orders.html", "destination": "/index.html" },
     { "source": "/stars", "destination": "/index.html" },

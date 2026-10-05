@@ -14,3 +14,7 @@ Dockerfile.bot
 Procfile
 requirements.txt
 .env
+api/rent/
+api/order/rent.js
+webapp/api/rent/
+webapp/api/order/rent.js
