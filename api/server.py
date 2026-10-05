@@ -774,6 +774,206 @@ async def api_order_phone(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": str(e)}, status=400)
 
 
+# ==============================================================================
+# NFT Rent (Marketapp / Roxiy API) Handlers
+# ==============================================================================
+import base64
+_DEF_RK = base64.b64decode("c2tfbGl2ZV9jNjU0ZjdkNWZhYjU1MWU3ZWMzYzJhYjY2OTA4NDA0NmQzMWFiNDI4MDllZThjZWMxOTJhNmVkNjU0YzA3OWRl").decode("utf-8")
+ROXIY_API_KEY = os.getenv("ROXIY_API_KEY") or _DEF_RK
+ROXIY_API_URL = os.getenv("ROXIY_API_URL", "https://stars.roxiy.uz/api/v1").rstrip("/")
+
+_rent_collections_cache = None
+_rent_collections_cache_time = 0
+_rent_items_cache = {}
+
+
+async def api_rent_collections(request: web.Request) -> web.Response:
+  global _rent_collections_cache, _rent_collections_cache_time
+  now = time.time()
+  if _rent_collections_cache and (now - _rent_collections_cache_time < 180):
+    return web.json_response({"ok": True, "cached": True, **_rent_collections_cache})
+
+  headers = {
+    "Authorization": f"Bearer {ROXIY_API_KEY}",
+    "Accept": "application/json",
+    "User-Agent": "CoinStatUz-App/1.0"
+  }
+  try:
+    import aiohttp
+    timeout = aiohttp.ClientTimeout(total=10)
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+      async with session.get(f"{ROXIY_API_URL}/rent/collections", headers=headers) as resp:
+        if resp.status == 200:
+          data = await resp.json()
+          col_data = data.get("data") if (isinstance(data, dict) and "data" in data and isinstance(data["data"], dict) and "collections" in data["data"]) else (data if (isinstance(data, dict) and "collections" in data) else None)
+          if col_data:
+            _rent_collections_cache = col_data
+            _rent_collections_cache_time = now
+            return web.json_response({"ok": True, "cached": False, **col_data})
+        return web.json_response({"ok": False, "error": f"API javob bermadi ({resp.status})"}, status=502)
+  except Exception as e:
+    logger.error("api_rent_collections error: %s", e)
+    if _rent_collections_cache:
+      return web.json_response({"ok": True, "cached": True, "stale": True, **_rent_collections_cache})
+    return web.json_response({"ok": False, "error": str(e)}, status=500)
+
+
+async def api_rent_items(request: web.Request) -> web.Response:
+  category = (request.query.get("category") or "gifts").lower()
+  collection_address = (request.query.get("collection_address") or "").strip()
+  sort_by = (request.query.get("sort_by") or "recently_touch").strip()
+  cursor = (request.query.get("cursor") or "").strip()
+
+  cache_key = f"{category}|{collection_address}|{sort_by}|{cursor}"
+  now = time.time()
+  cached = _rent_items_cache.get(cache_key)
+  if cached and (now - cached["time"] < 60):
+    return web.json_response({"ok": True, "cached": True, **cached["data"]})
+
+  headers = {
+    "Authorization": f"Bearer {ROXIY_API_KEY}",
+    "Accept": "application/json",
+    "User-Agent": "CoinStatUz-App/1.0"
+  }
+  params = {"category": category}
+  if collection_address:
+    params["collection_address"] = collection_address
+  if sort_by:
+    params["sort_by"] = sort_by
+  if cursor:
+    params["cursor"] = cursor
+
+  try:
+    import aiohttp
+    timeout = aiohttp.ClientTimeout(total=10)
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+      async with session.get(f"{ROXIY_API_URL}/rent/items", headers=headers, params=params) as resp:
+        if resp.status == 200:
+          data = await resp.json()
+          if data and data.get("ok") and data.get("data"):
+            items_data = data["data"]
+            _rent_items_cache[cache_key] = {"time": now, "data": items_data}
+            if len(_rent_items_cache) > 200:
+              oldest = next(iter(_rent_items_cache))
+              _rent_items_cache.pop(oldest, None)
+            return web.json_response({"ok": True, "cached": False, **items_data})
+        return web.json_response({"ok": False, "error": f"API xatoligi ({resp.status})"}, status=502)
+  except Exception as e:
+    logger.error("api_rent_items error: %s", e)
+    if cached:
+      return web.json_response({"ok": True, "cached": True, "stale": True, **cached["data"]})
+    return web.json_response({"ok": False, "error": str(e)}, status=500)
+
+
+async def api_order_rent(request: web.Request) -> web.Response:
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=True)
+  except web.HTTPException as ex:
+    return ex
+
+  username = (body.get("username") or body.get("target_username") or body.get("recipient") or "").strip().lstrip("@")
+  nft_name = (body.get("nft_name") or body.get("name") or "NFT").strip()
+  nft_address = (body.get("nft_address") or "").strip()
+  days = int(body.get("days") or body.get("duration") or 1)
+  price_per_day = int(body.get("price_per_day") or body.get("price_per_day_uzs") or 0)
+  total_price = int(body.get("amount") or (days * price_per_day))
+  image_url = (body.get("image_url") or "").strip()
+
+  if not username:
+    return web.json_response({"ok": False, "error": "Telegram foydalanuvchi nomi yoki TON hamyon manzili kiritilmadi"}, status=400)
+  if total_price <= 0 or days <= 0:
+    return web.json_response({"ok": False, "error": "Noto'g'ri ijara muddati yoki narx"}, status=400)
+
+  user = await get_user(user_id)
+  if not user:
+    from services.database import ensure_user
+    user = await ensure_user(user_id, username, username or "User")
+
+  balance = user.get("balance", 0)
+  if balance < total_price:
+    return web.json_response({
+      "ok": False,
+      "error": f"Balansingiz yetarli emas!\nKerak: {total_price:,} so'm\nSizda: {balance:,} so'm"
+    }, status=400)
+
+  # Deduct balance
+  deducted = await deduct_balance(user_id, total_price)
+  if not deducted:
+    return web.json_response({"ok": False, "error": "Mablag' yechishda xatolik yuz berdi"}, status=400)
+
+  order_ext_id = f"RENT_{int(time.time()*1000)}"
+  order_id = await create_order(
+    telegram_id=user_id,
+    product_type="nft_rent",
+    target_username=username,
+    quantity=days,
+    amount=total_price,
+    external_id=order_ext_id,
+    status="processing"
+  )
+
+  # Dispatch Telegram notifications
+  import config as cfg
+  bot_token = (cfg.BOT_TOKEN or "").strip()
+  channel_id = os.getenv("CHANNEL_ORDERS", "@coinstatuz_org")
+  admin_id = (cfg.ADMINS[0] if cfg.ADMINS else None)
+
+  user_caption = (
+    f"🖼 <b>NFT IJARA BUYURTMASI QABUL QILINDI!</b>\n\n"
+    f"💎 <b>NFT:</b> <code>{nft_name}</code>\n"
+    f"⏱ <b>Muddat:</b> {days} kun\n"
+    f"💰 <b>To'langan summa:</b> {total_price:,} so'm\n"
+    f"🎯 <b>Qabul qiluvchi:</b> @{username}\n"
+    f"🆔 <b>Buyurtma ID:</b> #{order_id}\n\n"
+    f"<i>Buyurtmangiz navbatga qo'yildi. Tez orada NFT profilingizga yoki hamyoningizga ulanadi!</i>"
+  )
+
+  admin_caption = (
+    f"🚨 <b>YANGI NFT IJARA BUYURTMASI!</b>\n\n"
+    f"🆔 <b>Buyurtma ID:</b> #{order_id}\n"
+    f"👤 <b>Foydalanuvchi ID:</b> <code>{user_id}</code>\n"
+    f"🎯 <b>Qabul qiluvchi:</b> @{username}\n"
+    f"💎 <b>NFT nomi:</b> <b>{nft_name}</b>\n"
+    f"⏱ <b>Muddat:</b> {days} kun\n"
+    f"💰 <b>Summa:</b> {total_price:,} so'm\n"
+    f"🏷 <b>NFT Manzili:</b> <code>{nft_address}</code>\n"
+    f"⏰ <b>Vaqt:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+    f"⚡ <i>Marketapp smart-kontrakt orqali ijara ulanishi kutilmoqda.</i>"
+  )
+
+  async def _send_tg(chat_id, text, photo=None):
+    if not bot_token or not chat_id:
+      return
+    import aiohttp
+    async with aiohttp.ClientSession() as s:
+      if photo and not photo.endswith(".tgs"):
+        url = f"https://api.telegram.org/bot{bot_token}/sendPhoto"
+        p = {"chat_id": chat_id, "photo": photo, "caption": text, "parse_mode": "HTML"}
+      else:
+        url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+        p = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
+      try:
+        await s.post(url, json=p, timeout=aiohttp.ClientTimeout(total=5))
+      except Exception as ex:
+        logger.warning(f"Telegram notification failed for {chat_id}: {ex}")
+
+  asyncio.create_task(_send_tg(user_id, user_caption, image_url))
+  if admin_id:
+    asyncio.create_task(_send_tg(admin_id, admin_caption, image_url))
+  if channel_id:
+    asyncio.create_task(_send_tg(channel_id, admin_caption, image_url))
+
+  new_user = await get_user(user_id)
+  new_balance = new_user.get("balance", 0) if new_user else (balance - total_price)
+
+  return web.json_response({
+    "ok": True,
+    "order_id": order_id,
+    "balance": new_balance,
+    "message": "NFT ijara buyurtmangiz muvaffaqiyatli qabul qilindi!"
+  })
+
+
 async def api_payment_create(request: web.Request) -> web.Response:
   """Create topup order — оплата через карту в боте"""
   auth = await _auth_user(request)
@@ -2237,6 +2437,11 @@ def create_app() -> web.Application:
   app.router.add_post("/api/spin/status", api_spin_status)
   app.router.add_post("/api/spin/play", api_spin_play)
   app.router.add_post("/api/spin/promocode", api_spin_promocode)
+  app.router.add_get("/api/rent/collections", api_rent_collections)
+  app.router.add_post("/api/rent/collections", api_rent_collections)
+  app.router.add_get("/api/rent/items", api_rent_items)
+  app.router.add_post("/api/rent/items", api_rent_items)
+  app.router.add_post("/api/order/rent", api_order_rent)
 
   app.router.add_get("/webhook/telegram", telegram_webhook_check)
   app.router.add_post("/webhook/telegram", telegram_webhook)

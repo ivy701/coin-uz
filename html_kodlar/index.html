@@ -14952,7 +14952,8 @@ function initRentPage() {
 
 async function loadRentCollections() {
     try {
-        const res = await fetch('/api/rent/collections');
+        const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
+        const res = await fetch(`${apiBase}/api/rent/collections`);
         const data = await res.json();
         const container = document.getElementById('rentCollectionsContainer');
         if (!container) return;
@@ -15010,7 +15011,8 @@ async function loadRentItems() {
         query.set('category', rentActiveCategory);
         if (rentActiveCollectionAddress) query.set('collection_address', rentActiveCollectionAddress);
 
-        const res = await fetch(`/api/rent/items?${query.toString()}`);
+        const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
+        const res = await fetch(`${apiBase}/api/rent/items?${query.toString()}`);
         const data = await res.json();
 
         if (data && data.ok && Array.isArray(data.items)) {
@@ -15255,7 +15257,8 @@ async function submitRentOrderFromApp() {
     const tgInit = window.Telegram?.WebApp?.initData || '';
 
     try {
-        const res = await fetch('/api/order/rent', {
+        const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
+        const res = await fetch(`${apiBase}/api/order/rent`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

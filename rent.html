@@ -978,7 +978,8 @@
 
         async function loadCollections() {
             try {
-                const res = await fetch('/api/rent/collections');
+                const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
+                const res = await fetch(`${apiBase}/api/rent/collections`);
                 const data = await res.json();
                 const container = document.getElementById('collectionsContainer');
                 if (!container) return;
@@ -1036,7 +1037,8 @@
                 query.set('category', activeCategory);
                 if (activeCollectionAddress) query.set('collection_address', activeCollectionAddress);
 
-                const res = await fetch(`/api/rent/items?${query.toString()}`);
+                const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
+                const res = await fetch(`${apiBase}/api/rent/items?${query.toString()}`);
                 const data = await res.json();
 
                 if (data && data.ok && Array.isArray(data.items)) {
@@ -1268,7 +1270,8 @@
             const imgUrl = selectedItem.webp_url || (selectedItem.media_key ? `https://nft.fragment.com/gift/${selectedItem.media_key}.webp` : '');
 
             try {
-                const res = await fetch('/api/order/rent', {
+                const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
+                const res = await fetch(`${apiBase}/api/order/rent`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
