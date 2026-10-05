@@ -883,6 +883,29 @@ async def api_rent_items(request: web.Request) -> web.Response:
     return web.json_response({"ok": False, "error": str(e)}, status=500)
 
 
+async def get_abu_store_balance() -> float:
+  """Fetch live balance from Abu Store API (https://stars.roxiy.uz/api/v1/balance)."""
+  headers = {
+    "Authorization": f"Bearer {ROXIY_API_KEY}",
+    "Accept": "application/json",
+    "User-Agent": "CoinStatUz-App/1.0"
+  }
+  try:
+    import aiohttp
+    timeout = aiohttp.ClientTimeout(total=5)
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+      async with session.get(f"{ROXIY_API_URL}/balance", headers=headers) as resp:
+        if resp.status == 200:
+          data = await resp.json()
+          if data and data.get("ok"):
+            bal_obj = data.get("data") or data.get("result") or {}
+            raw_bal = bal_obj.get("balance", 0)
+            return float(raw_bal)
+  except Exception as e:
+    logger.warning("get_abu_store_balance error: %s", e)
+  return 0.0
+
+
 async def api_order_rent(request: web.Request) -> web.Response:
   try:
     user_id, auth, body = await _authenticate_request(request, check_rate_limit=True)
@@ -902,6 +925,15 @@ async def api_order_rent(request: web.Request) -> web.Response:
   if total_price <= 0 or days <= 0:
     return web.json_response({"ok": False, "error": "Noto'g'ri ijara muddati yoki narx"}, status=400)
 
+  # Check Abu Store balance first (Abu Store API)
+  abu_balance = await get_abu_store_balance()
+  if abu_balance < total_price:
+    logger.warning("Abu Store hisobida yetarli mablag' yo'q: Kerak=%s, Abu Store=%s", total_price, abu_balance)
+    return web.json_response({
+      "ok": False,
+      "error": "Balansda pul yo'q"
+    }, status=400)
+
   user = await get_user(user_id)
   if not user:
     from services.database import ensure_user
@@ -911,7 +943,7 @@ async def api_order_rent(request: web.Request) -> web.Response:
   if balance < total_price:
     return web.json_response({
       "ok": False,
-      "error": f"Balansingiz yetarli emas!\nKerak: {total_price:,} so'm\nSizda: {balance:,} so'm"
+      "error": "Balansda pul yo'q"
     }, status=400)
 
   # Deduct balance
@@ -1908,8 +1940,22 @@ async def api_user_transactions(request: web.Request) -> web.Response:
   orders = [serialize(r) for r in orders_rows]
   balance_history = [serialize(r) for r in balance_rows]
 
-  actual_orders = [o for o in orders if not str(o.get("product_type") or "").lower().startswith("topup") and o.get("product_type") not in ("balance", "deposit") and o.get("status") not in ("cancelled", "failed", "rejected")]
-  total_spent = sum(int(o.get("amount") or 0) for o in actual_orders if o.get("status") in ("completed", "paid"))
+  actual_orders = [o for o in orders if not str(o.get("product_type") or "").lower().startswith("topup") and o.get("product_type") not in ("balance", "deposit", "topup") and o.get("status") not in ("cancelled", "canceled", "failed", "rejected", "refunded")]
+  
+  def _calc_order_total(o):
+    pt = str(o.get("product_type") or "").lower()
+    amt = int(o.get("amount") or 0)
+    qty = int(o.get("quantity") or 0) if o.get("quantity") is not None else 0
+    if pt in ("stars", "star", "tg_stars", "telegram_stars"):
+      if amt >= 1500 and (qty == 0 or amt > qty * 50):
+        return amt
+      return (qty or amt) * 198
+    return amt
+
+  total_spent = sum(
+    _calc_order_total(o) for o in actual_orders
+    if (o.get("status") in ("completed", "paid", "processing", "pending", "active", "success") or not o.get("status"))
+  )
 
   return web.json_response({
     "ok": True,
@@ -1997,19 +2043,34 @@ async def api_rating(request: web.Request) -> web.Response:
       time_cond = ""
 
     query = f"""
-      SELECT 
-        o.telegram_id,
-        COALESCE(NULLIF(MAX(u.username), ''), NULLIF(MAX(o.target_username), ''), 'User#' || o.telegram_id) as username,
-        COALESCE(MAX(u.full_name), '') as full_name,
-        SUM(o.amount) as total
-      FROM orders o
-      LEFT JOIN users u ON u.telegram_id = o.telegram_id
-      WHERE o.status IN ('completed', 'paid')
-        AND o.product_type NOT LIKE 'topup%'
-        AND o.product_type NOT IN ('deposit', 'balance')
-        {time_cond}
-      GROUP BY o.telegram_id
-      HAVING SUM(o.amount) > 0
+      SELECT * FROM (
+        SELECT 
+          o.telegram_id,
+          COALESCE(NULLIF(MAX(u.username), ''), NULLIF(MAX(o.target_username), ''), 'User#' || o.telegram_id) as username,
+          COALESCE(MAX(u.full_name), '') as full_name,
+          SUM(
+            CASE 
+              WHEN LOWER(COALESCE(o.product_type, '')) IN ('stars', 'star', 'tg_stars', 'telegram_stars') THEN
+                CASE 
+                  WHEN COALESCE(o.amount, 0) >= 1500 AND (o.quantity IS NULL OR o.amount > o.quantity * 50)
+                    THEN o.amount
+                  ELSE
+                    COALESCE(NULLIF(o.quantity, 0), NULLIF(o.amount, 0), 0) * 198
+                END
+              ELSE
+                COALESCE(o.amount, 0)
+            END
+          ) as total
+        FROM orders o
+        LEFT JOIN users u ON u.telegram_id = o.telegram_id
+        WHERE (o.status NOT IN ('cancelled', 'canceled', 'refunded', 'failed', 'rejected') OR o.status IS NULL)
+          AND (o.status IN ('completed', 'paid', 'processing', 'pending', 'active', 'success') OR o.status IS NULL OR o.status = '')
+          AND LOWER(COALESCE(o.product_type, '')) NOT LIKE 'topup%'
+          AND LOWER(COALESCE(o.product_type, '')) NOT IN ('deposit', 'balance', 'topup', 'balance_topup')
+          {time_cond}
+        GROUP BY o.telegram_id
+      ) sub
+      WHERE total > 0
       ORDER BY total DESC
       LIMIT 50
     """
@@ -2024,19 +2085,34 @@ async def api_rating(request: web.Request) -> web.Response:
       time_cond = ""
 
     query = f"""
-      SELECT 
-        o.telegram_id,
-        COALESCE(NULLIF(MAX(u.username), ''), NULLIF(MAX(o.target_username), ''), 'User#' || o.telegram_id) as username,
-        COALESCE(MAX(u.full_name), '') as full_name,
-        SUM(o.amount) as total
-      FROM orders o
-      LEFT JOIN users u ON u.telegram_id = o.telegram_id
-      WHERE o.status IN ('completed', 'paid')
-        AND o.product_type NOT LIKE 'topup%'
-        AND o.product_type NOT IN ('deposit', 'balance')
-        {time_cond}
-      GROUP BY o.telegram_id
-      HAVING SUM(o.amount) > 0
+      SELECT * FROM (
+        SELECT 
+          o.telegram_id,
+          COALESCE(NULLIF(MAX(u.username), ''), NULLIF(MAX(o.target_username), ''), 'User#' || o.telegram_id) as username,
+          COALESCE(MAX(u.full_name), '') as full_name,
+          SUM(
+            CASE 
+              WHEN LOWER(COALESCE(o.product_type, '')) IN ('stars', 'star', 'tg_stars', 'telegram_stars') THEN
+                CASE 
+                  WHEN COALESCE(o.amount, 0) >= 1500 AND (o.quantity IS NULL OR o.amount > o.quantity * 50)
+                    THEN o.amount
+                  ELSE
+                    COALESCE(NULLIF(o.quantity, 0), NULLIF(o.amount, 0), 0) * 198
+                END
+              ELSE
+                COALESCE(o.amount, 0)
+            END
+          )::BIGINT as total
+        FROM orders o
+        LEFT JOIN users u ON u.telegram_id = o.telegram_id
+        WHERE (o.status NOT IN ('cancelled', 'canceled', 'refunded', 'failed', 'rejected') OR o.status IS NULL)
+          AND (o.status IN ('completed', 'paid', 'processing', 'pending', 'active', 'success') OR o.status IS NULL OR o.status = '')
+          AND LOWER(COALESCE(o.product_type, '')) NOT LIKE 'topup%'
+          AND LOWER(COALESCE(o.product_type, '')) NOT IN ('deposit', 'balance', 'topup', 'balance_topup')
+          {time_cond}
+        GROUP BY o.telegram_id
+      ) sub
+      WHERE total > 0
       ORDER BY total DESC
       LIMIT 50
     """

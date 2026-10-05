@@ -75,19 +75,34 @@ module.exports = async (req, res) => {
     
     // Rank users ONLY by actual purchases / spending (excluding topup/deposit)
     const query = `
-      SELECT 
-        o.telegram_id,
-        COALESCE(NULLIF(MAX(u.username), ''), NULLIF(MAX(o.target_username), ''), 'User#' || o.telegram_id) as username,
-        COALESCE(MAX(u.full_name), '') as full_name,
-        SUM(o.amount)::BIGINT as total
-      FROM orders o
-      LEFT JOIN users u ON u.telegram_id = o.telegram_id
-      WHERE o.status IN ('completed', 'paid')
-        AND o.product_type NOT LIKE 'topup%'
-        AND o.product_type NOT IN ('deposit', 'balance')
-        ${timeFilter}
-      GROUP BY o.telegram_id
-      HAVING SUM(o.amount) > 0
+      SELECT * FROM (
+        SELECT 
+          o.telegram_id,
+          COALESCE(NULLIF(MAX(u.username), ''), NULLIF(MAX(o.target_username), ''), 'User#' || o.telegram_id) as username,
+          COALESCE(MAX(u.full_name), '') as full_name,
+          SUM(
+            CASE 
+              WHEN LOWER(COALESCE(o.product_type, '')) IN ('stars', 'star', 'tg_stars', 'telegram_stars') THEN
+                CASE 
+                  WHEN COALESCE(o.amount, 0) >= 1500 AND (o.quantity IS NULL OR o.amount > o.quantity * 50)
+                    THEN o.amount
+                  ELSE
+                    COALESCE(NULLIF(o.quantity, 0), NULLIF(o.amount, 0), 0) * 198
+                END
+              ELSE
+                COALESCE(o.amount, 0)
+            END
+          )::BIGINT as total
+        FROM orders o
+        LEFT JOIN users u ON u.telegram_id = o.telegram_id
+        WHERE (o.status NOT IN ('cancelled', 'canceled', 'refunded', 'failed', 'rejected') OR o.status IS NULL)
+          AND (o.status IN ('completed', 'paid', 'processing', 'pending', 'active', 'success') OR o.status IS NULL OR o.status = '')
+          AND LOWER(COALESCE(o.product_type, '')) NOT LIKE 'topup%'
+          AND LOWER(COALESCE(o.product_type, '')) NOT IN ('deposit', 'balance', 'topup', 'balance_topup')
+          ${timeFilter}
+        GROUP BY o.telegram_id
+      ) sub
+      WHERE total > 0
       ORDER BY total DESC
       LIMIT 50
     `;

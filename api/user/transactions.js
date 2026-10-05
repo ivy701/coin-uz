@@ -176,8 +176,19 @@ module.exports = async (req, res) => {
     
     let totalSpent = 0;
     validOrders.forEach(o => {
-      if (o.status === 'completed' || o.status === 'paid') {
-        totalSpent += Number(o.amount || 0);
+      const st = String(o.status || '').toLowerCase();
+      if (['completed', 'paid', 'processing', 'pending', 'active', 'success'].includes(st) || !st) {
+        const pt = String(o.product_type || '').toLowerCase();
+        let amt = Number(o.amount || 0);
+        const qty = Number(o.quantity || 0);
+        if (['stars', 'star', 'tg_stars', 'telegram_stars'].includes(pt)) {
+          if (amt >= 1500 && (!qty || amt > qty * 50)) {
+            // amt is already UZS price
+          } else {
+            amt = (qty || amt) * 198;
+          }
+        }
+        totalSpent += amt;
       }
     });
 

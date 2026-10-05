@@ -289,6 +289,8 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.15s ease, border-color 0.15s ease;
+            height: 100%;
+            box-sizing: border-box;
         }
 
         .nft-card:active {
@@ -403,6 +405,7 @@
             gap: 6px;
             transition: all 0.15s ease;
             box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            margin-top: auto;
         }
 
         .nft-rent-btn:active {
@@ -423,6 +426,8 @@
         @keyframes pulse {
             0%, 100% { opacity: 0.6; }
             50% { opacity: 0.25; }
+        }
+
         .rent-load-more-wrap {
             display: flex;
             flex-direction: column;
@@ -469,8 +474,9 @@
         }
 
         .rent-bottom-spacer {
-            height: 100px;
+            height: 220px !important;
             width: 100%;
+            clear: both;
         }
 
         .rent-end-message {

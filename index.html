@@ -8225,14 +8225,17 @@ body {
     pointer-events: none;
 }
 #view-rent {
-    padding-bottom: 140px !important;
+    padding-bottom: calc(160px + env(safe-area-inset-bottom, 20px)) !important;
     box-sizing: border-box;
 }
 .nft-grid-rent {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+    align-items: stretch;
 }
 .rent-load-more-wrap {
     display: flex;
@@ -8275,9 +8278,11 @@ body {
     to { transform: rotate(360deg); }
 }
 .rent-bottom-spacer {
-    height: 110px;
+    height: calc(160px + env(safe-area-inset-bottom, 20px)) !important;
     width: 100%;
     clear: both;
+    display: block;
+    pointer-events: none;
 }
 .rent-end-message {
     font-size: 12.5px;
@@ -8297,6 +8302,8 @@ body {
     position: relative;
     overflow: hidden;
     transition: transform 0.15s ease, border-color 0.15s ease;
+    height: 100%;
+    box-sizing: border-box;
 }
 .nft-card-rent:active {
     transform: scale(0.97);
@@ -8399,6 +8406,7 @@ body {
     gap: 6px;
     transition: all 0.15s ease;
     box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    margin-top: auto;
 }
 .nft-rent-btn-rent:active {
     transform: scale(0.95);
@@ -8413,15 +8421,25 @@ body {
     animation: pulse 1.5s infinite ease-in-out;
 }
 /* Modal rent */
+body.rent-modal-active .bottom-dock-nav,
+body.has-modal-open .bottom-dock-nav,
+body.modal-open .bottom-dock-nav {
+    transform: translateY(140px) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    transition: transform 0.25s ease, opacity 0.2s ease, visibility 0.25s !important;
+}
 .modal-overlay-rent {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(8px);
-    z-index: 10000;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.78) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    z-index: 100000 !important;
     display: none;
     align-items: flex-end;
     justify-content: center;
@@ -8429,20 +8447,23 @@ body {
     transition: opacity 0.2s ease;
 }
 .modal-overlay-rent.active {
-    display: flex;
-    opacity: 1;
+    display: flex !important;
+    opacity: 1 !important;
 }
 .modal-sheet-rent {
     width: 100%;
     max-width: 480px;
     background: #111422;
-    border-top: 1px solid rgba(56, 189, 248, 0.3);
-    border-radius: 24px 24px 0 0;
-    padding: 20px 18px calc(24px + env(safe-area-inset-bottom, 0px)) 18px;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-bottom: none;
+    border-radius: 28px 28px 0 0;
+    padding: 20px 18px calc(34px + env(safe-area-inset-bottom, 16px)) 18px;
     transform: translateY(100%);
     transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
-    max-height: 85vh;
+    max-height: 88vh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
 }
 .modal-overlay-rent.active .modal-sheet-rent {
     transform: translateY(0);
@@ -8651,7 +8672,8 @@ body {
 }
 .modal-confirm-btn-rent {
     width: 100%;
-    height: 48px;
+    min-height: 52px;
+    height: auto;
     background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
     border: none;
     border-radius: 14px;
@@ -8665,6 +8687,10 @@ body {
     cursor: pointer;
     box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
     transition: all 0.15s ease;
+    padding: 14px 16px;
+    box-sizing: border-box;
+    margin-top: 14px;
+    margin-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
 }
 .modal-confirm-btn-rent:active {
     transform: scale(0.97);
@@ -9847,158 +9873,6 @@ body {
             </div>
             <div class="rent-bottom-spacer"></div>
         </div>
-
-        <!-- Rent Modal -->
-        <div class="modal-overlay-rent" id="rentActionModal">
-            <div class="modal-sheet-rent">
-                <div class="modal-drag-bar-rent"></div>
-                <div class="modal-header-row-rent">
-                    <div class="modal-title-rent">NFT Ijarasini rasmiylashtirish</div>
-                    <button class="modal-close-btn-rent" onclick="closeRentModal()">&times;</button>
-                </div>
-
-                <!-- Preview Card -->
-                <div class="modal-item-preview-rent">
-                    <img class="modal-item-img-rent" id="modalRentItemImg" src="./images/gift.webp" alt="NFT">
-                    <div>
-                        <div class="modal-item-name-rent" id="modalRentItemName">NFT Name</div>
-                        <div class="modal-item-daily-rent" id="modalRentItemDaily">0 so'm / kun</div>
-                    </div>
-                </div>
-
-                <!-- Rental Days Selector -->
-                <div class="modal-field-title-rent">
-                    <span>Ijara muddati:</span>
-                    <span id="modalRentDaysLabel" style="color: #38bdf8; font-weight: 800;">1 kun</span>
-                </div>
-                <div class="day-stepper-row-rent">
-                    <button class="step-btn-rent" onclick="adjustRentDays(-1)">-</button>
-                    <div class="step-display-rent" id="modalRentDaysDisplay">1 kun</div>
-                    <button class="step-btn-rent" onclick="adjustRentDays(1)">+</button>
-                </div>
-                <input type="range" class="range-slider-rent" id="modalRentDaysSlider" min="1" max="30" value="1" oninput="onRentSliderChange(this.value)">
-
-                <div class="quick-days-pills-rent">
-                    <div class="quick-pill-rent" onclick="setQuickRentDays(1)">1 kun</div>
-                    <div class="quick-pill-rent" onclick="setQuickRentDays(3)">3 kun</div>
-                    <div class="quick-pill-rent" onclick="setQuickRentDays(7)">7 kun</div>
-                    <div class="quick-pill-rent" onclick="setQuickRentDays(14)">14 kun</div>
-                    <div class="quick-pill-rent" onclick="setQuickRentDays(30)">30 kun</div>
-                </div>
-
-                <!-- Username target input -->
-                <div class="modal-field-title-rent">
-                    <span>Ulanadigan Telegram profil (@username):</span>
-                </div>
-                <input type="text" class="modal-input-box-rent" id="modalRentTargetUsername" placeholder="Masalan: durov yoki @shaxsiy_profil">
-
-                <!-- Cost Calculation -->
-                <div class="total-calc-card-rent">
-                    <div class="calc-row-rent">
-                        <span>Kunlik ijara:</span>
-                        <span id="calcRentDailyPrice">0 so'm</span>
-                    </div>
-                    <div class="calc-row-rent">
-                        <span>Muddat:</span>
-                        <span id="calcRentDaysCount">1 kun</span>
-                    </div>
-                    <div class="calc-row-rent total">
-                        <span>Jami to'lov:</span>
-                        <span class="total-amount" id="calcRentTotalPrice">0 so'm</span>
-                    </div>
-                </div>
-
-                <!-- Balance Status -->
-                <div class="balance-check-status-rent" id="rentBalanceStatusBox">
-                    <div>
-                        <span>Hisobingiz: </span>
-                        <strong id="modalRentBalanceDisplay">0</strong> UZS
-                    </div>
-                    <button class="topup-link-btn-rent" onclick="navigateTo('topup')">+ To'ldirish</button>
-                </div>
-
-                <!-- Confirm Button -->
-                <button class="modal-confirm-btn-rent" id="confirmRentBtnApp" onclick="submitRentOrderFromApp()">
-                    <span>🚀 Ijaraga olish</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Connect to Telegram Modal -->
-        <div class="modal-overlay-rent" id="connectTelegramModalApp">
-            <div class="modal-sheet-rent">
-                <div class="modal-drag-bar-rent"></div>
-                <div class="modal-header-row-rent">
-                    <div class="modal-title-rent">Telegram akkauntga ulash</div>
-                    <button class="modal-close-btn-rent" onclick="closeConnectModalApp()">&times;</button>
-                </div>
-
-                <!-- Preview Card -->
-                <div class="modal-item-preview-rent">
-                    <img class="modal-item-img-rent" id="connectModalAppItemImg" src="./images/gift.webp" alt="NFT">
-                    <div>
-                        <div class="modal-item-name-rent" id="connectModalAppItemName">Telegram NFT</div>
-                        <span style="display:inline-block; font-size:11px; font-weight:750; padding:2px 8px; border-radius:999px; background:rgba(168,85,247,0.2); color:#c084fc; border:1px solid rgba(168,85,247,0.4); margin-top:3px;">Sovg'alar</span>
-                    </div>
-                </div>
-
-                <!-- Target Account Banner -->
-                <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
-                    <div style="font-size: 12px; color: #e2e8f0;">
-                        <span>🎯 Profilga o'rnatish:</span> <b id="connectModalAppTargetUser" style="color: #38bdf8;">@username</b>
-                    </div>
-                    <span style="font-size: 11px; background: rgba(56, 189, 248, 0.2); padding: 2px 8px; border-radius: 6px; color: #7dd3fc; font-weight: 750;">Telegram</span>
-                </div>
-
-                <!-- Video Guide Banner -->
-                <div class="video-guide-banner" onclick="showRentVideoGuideApp()">
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span style="font-size:15px;">▶️</span>
-                        <span style="font-weight:750; font-size:13px; color:#ffffff;">Video-qo'llanma</span>
-                    </div>
-                    <span style="color:#94a3b8; font-size:14px; font-weight:700;">&gt;</span>
-                </div>
-
-                <!-- Step 1 -->
-                <div class="connect-step-card">
-                    <div class="connect-step-head">
-                        <div class="step-num-bubble">1</div>
-                        <div class="step-title-text">Fragment'da TON Connect havolasini oling:</div>
-                    </div>
-                    <div class="step-desc-text">
-                        Brauzeringizda <b>fragment.com</b> saytini oching, <b>"Connect TON"</b> tugmasini bosing va Tonkeeper/boshqa hamyon havolasini nusxalang.
-                    </div>
-                    <div class="step-action-btn-row">
-                        <a href="https://fragment.com" target="_blank" class="step-link-btn">
-                            🌐 fragment.com ni ochish ↗
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="connect-step-card">
-                    <div class="connect-step-head">
-                        <div class="step-num-bubble">2</div>
-                        <div class="step-title-text">TON Connect havolasini kiriting:</div>
-                    </div>
-                    <div class="tc-input-group">
-                        <input type="text" id="tcLinkInputApp" class="tc-input" placeholder="tc://... yoki https://app.t...">
-                        <button class="tc-submit-btn" id="tcSubmitBtnApp" onclick="submitTonConnectLinkApp()">Ulash</button>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="connect-step-card">
-                    <div class="connect-step-head">
-                        <div class="step-num-bubble">3</div>
-                        <div class="step-title-text">Fragment'da Telegram orqali kiring:</div>
-                    </div>
-                    <div class="step-desc-text">
-                        <b>My Assets</b> bo'limiga o'tishdan oldin Fragment saytida albatta <b>"Connect Telegram"</b> orqali kiring (aks holda sahifa qotib qoladi), so'ngra sovg'ani tanlab <b>"Show on profile"</b> tugmasini bosing.
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 
 
@@ -10755,6 +10629,158 @@ body {
             </svg>
             <span data-i18n="nav.profile">Profil</span>
         </a>
+    </div>
+
+    <!-- Rent Action Modal (Root Body Level) -->
+    <div class="modal-overlay-rent" id="rentActionModal">
+        <div class="modal-sheet-rent">
+            <div class="modal-drag-bar-rent"></div>
+            <div class="modal-header-row-rent">
+                <div class="modal-title-rent">NFT Ijarasini rasmiylashtirish</div>
+                <button class="modal-close-btn-rent" onclick="closeRentModal()">&times;</button>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="modal-item-preview-rent">
+                <img class="modal-item-img-rent" id="modalRentItemImg" src="./images/gift.webp" alt="NFT">
+                <div>
+                    <div class="modal-item-name-rent" id="modalRentItemName">NFT Name</div>
+                    <div class="modal-item-daily-rent" id="modalRentItemDaily">0 so'm / kun</div>
+                </div>
+            </div>
+
+            <!-- Rental Days Selector -->
+            <div class="modal-field-title-rent">
+                <span>Ijara muddati:</span>
+                <span id="modalRentDaysLabel" style="color: #38bdf8; font-weight: 800;">1 kun</span>
+            </div>
+            <div class="day-stepper-row-rent">
+                <button class="step-btn-rent" onclick="adjustRentDays(-1)">-</button>
+                <div class="step-display-rent" id="modalRentDaysDisplay">1 kun</div>
+                <button class="step-btn-rent" onclick="adjustRentDays(1)">+</button>
+            </div>
+            <input type="range" class="range-slider-rent" id="modalRentDaysSlider" min="1" max="30" value="1" oninput="onRentSliderChange(this.value)">
+
+            <div class="quick-days-pills-rent">
+                <div class="quick-pill-rent" onclick="setQuickRentDays(1)">1 kun</div>
+                <div class="quick-pill-rent" onclick="setQuickRentDays(3)">3 kun</div>
+                <div class="quick-pill-rent" onclick="setQuickRentDays(7)">7 kun</div>
+                <div class="quick-pill-rent" onclick="setQuickRentDays(14)">14 kun</div>
+                <div class="quick-pill-rent" onclick="setQuickRentDays(30)">30 kun</div>
+            </div>
+
+            <!-- Username target input -->
+            <div class="modal-field-title-rent">
+                <span>Ulanadigan Telegram profil (@username):</span>
+            </div>
+            <input type="text" class="modal-input-box-rent" id="modalRentTargetUsername" placeholder="Masalan: durov yoki @shaxsiy_profil">
+
+            <!-- Cost Calculation -->
+            <div class="total-calc-card-rent">
+                <div class="calc-row-rent">
+                    <span>Kunlik ijara:</span>
+                    <span id="calcRentDailyPrice">0 so'm</span>
+                </div>
+                <div class="calc-row-rent">
+                    <span>Muddat:</span>
+                    <span id="calcRentDaysCount">1 kun</span>
+                </div>
+                <div class="calc-row-rent total">
+                    <span>Jami to'lov:</span>
+                    <span class="total-amount" id="calcRentTotalPrice">0 so'm</span>
+                </div>
+            </div>
+
+            <!-- Balance Status -->
+            <div class="balance-check-status-rent" id="rentBalanceStatusBox">
+                <div>
+                    <span>Hisobingiz: </span>
+                    <strong id="modalRentBalanceDisplay">0</strong> UZS
+                </div>
+                <button class="topup-link-btn-rent" onclick="navigateTo('topup')">+ To'ldirish</button>
+            </div>
+
+            <!-- Confirm Button -->
+            <button class="modal-confirm-btn-rent" id="confirmRentBtnApp" onclick="submitRentOrderFromApp()">
+                <span>🚀 Ijaraga olish</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Connect to Telegram Modal (Root Body Level) -->
+    <div class="modal-overlay-rent" id="connectTelegramModalApp">
+        <div class="modal-sheet-rent">
+            <div class="modal-drag-bar-rent"></div>
+            <div class="modal-header-row-rent">
+                <div class="modal-title-rent">Telegram akkauntga ulash</div>
+                <button class="modal-close-btn-rent" onclick="closeConnectModalApp()">&times;</button>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="modal-item-preview-rent">
+                <img class="modal-item-img-rent" id="connectModalAppItemImg" src="./images/gift.webp" alt="NFT">
+                <div>
+                    <div class="modal-item-name-rent" id="connectModalAppItemName">Telegram NFT</div>
+                    <span style="display:inline-block; font-size:11px; font-weight:750; padding:2px 8px; border-radius:999px; background:rgba(168,85,247,0.2); color:#c084fc; border:1px solid rgba(168,85,247,0.4); margin-top:3px;">Sovg'alar</span>
+                </div>
+            </div>
+
+            <!-- Target Account Banner -->
+            <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="font-size: 12px; color: #e2e8f0;">
+                    <span>🎯 Profilga o'rnatish:</span> <b id="connectModalAppTargetUser" style="color: #38bdf8;">@username</b>
+                </div>
+                <span style="font-size: 11px; background: rgba(56, 189, 248, 0.2); padding: 2px 8px; border-radius: 6px; color: #7dd3fc; font-weight: 750;">Telegram</span>
+            </div>
+
+            <!-- Video Guide Banner -->
+            <div class="video-guide-banner" onclick="showRentVideoGuideApp()">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:15px;">▶️</span>
+                    <span style="font-weight:750; font-size:13px; color:#ffffff;">Video-qo'llanma</span>
+                </div>
+                <span style="color:#94a3b8; font-size:14px; font-weight:700;">&gt;</span>
+            </div>
+
+            <!-- Step 1 -->
+            <div class="connect-step-card">
+                <div class="connect-step-head">
+                    <div class="step-num-bubble">1</div>
+                    <div class="step-title-text">Fragment'da TON Connect havolasini oling:</div>
+                </div>
+                <div class="step-desc-text">
+                    Brauzeringizda <b>fragment.com</b> saytini oching, <b>"Connect TON"</b> tugmasini bosing va Tonkeeper/boshqa hamyon havolasini nusxalang.
+                </div>
+                <div class="step-action-btn-row">
+                    <a href="https://fragment.com" target="_blank" class="step-link-btn">
+                        🌐 fragment.com ni ochish ↗
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="connect-step-card">
+                <div class="connect-step-head">
+                    <div class="step-num-bubble">2</div>
+                    <div class="step-title-text">TON Connect havolasini kiriting:</div>
+                </div>
+                <div class="tc-input-group">
+                    <input type="text" id="tcLinkInputApp" class="tc-input" placeholder="tc://... yoki https://app.t...">
+                    <button class="tc-submit-btn" id="tcSubmitBtnApp" onclick="submitTonConnectLinkApp()">Ulash</button>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="connect-step-card">
+                <div class="connect-step-head">
+                    <div class="step-num-bubble">3</div>
+                    <div class="step-title-text">Fragment'da Telegram orqali kiring:</div>
+                </div>
+                <div class="step-desc-text">
+                    <b>My Assets</b> bo'limiga o'tishdan oldin Fragment saytida albatta <b>"Connect Telegram"</b> orqali kiring (aks holda sahifa qotib qoladi), so'ngra sovg'ani tanlab <b>"Show on profile"</b> tugmasini bosing.
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -13221,8 +13247,19 @@ function updateStats(orders) {
 
     let totalSpent = 0;
     purchaseOrders.forEach(o => {
-        if (o.status === 'completed' || o.status === 'paid') {
-            totalSpent += Number(o.amount || 0);
+        const st = String(o.status || '').toLowerCase();
+        if (['completed', 'paid', 'processing', 'pending', 'active', 'success'].includes(st) || !st) {
+            const pt = String(o.product_type || o.type || '').toLowerCase();
+            let amt = Number(o.amount || 0);
+            const qty = Number(o.quantity || 0);
+            if (['stars', 'star', 'tg_stars', 'telegram_stars'].includes(pt)) {
+                if (amt >= 1500 && (!qty || amt > qty * 50)) {
+                    // amt is already in UZS
+                } else {
+                    amt = (qty || amt) * 198;
+                }
+            }
+            totalSpent += amt;
         }
     });
 
@@ -15286,6 +15323,10 @@ let currentPage = 'home';
 const pageHistory = ['home'];
 
 function navigateTo(pageId, isBack = false) {
+    if (typeof closeRentModal === 'function') closeRentModal();
+    if (typeof closeConnectModalApp === 'function') closeConnectModalApp();
+    document.body.classList.remove('rent-modal-active');
+
     const targetSection = document.getElementById('view-' + pageId);
     if (!targetSection) {
         console.warn('Unknown section: view-' + pageId);
@@ -15400,7 +15441,6 @@ function onPageActivated(pageId) {
             break;
         case 'rating':
             if (typeof loadRatingData === 'function') loadRatingData('week');
-            if (typeof loadLeaderboard === 'function') loadLeaderboard('all');
             break;
         case 'spin':
             if (typeof updateSpinUI === 'function') updateSpinUI();
@@ -15639,6 +15679,7 @@ function openConnectModalApp(index) {
 
     const modal = document.getElementById('connectTelegramModalApp');
     if (modal) modal.classList.add('active');
+    document.body.classList.add('rent-modal-active');
 
     if (window.Telegram?.WebApp?.HapticFeedback) {
         try { window.Telegram.WebApp.HapticFeedback.impactOccurred('medium'); } catch(e) {}
@@ -15648,6 +15689,7 @@ function openConnectModalApp(index) {
 function closeConnectModalApp() {
     const modal = document.getElementById('connectTelegramModalApp');
     if (modal) modal.classList.remove('active');
+    document.body.classList.remove('rent-modal-active');
     currentConnectingRentApp = null;
 }
 
@@ -16051,7 +16093,8 @@ function openRentModal(index) {
     }
 
     updateRentModalCalculations();
-    modal.classList.add('active');
+    if (modal) modal.classList.add('active');
+    document.body.classList.add('rent-modal-active');
 
     if (window.Telegram?.WebApp?.HapticFeedback) {
         try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e) {}
@@ -16061,6 +16104,7 @@ function openRentModal(index) {
 function closeRentModal() {
     const modal = document.getElementById('rentActionModal');
     if (modal) modal.classList.remove('active');
+    document.body.classList.remove('rent-modal-active');
     rentSelectedItem = null;
 }
 
@@ -16238,6 +16282,13 @@ function escapeRentHtml(str) {
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     })[m]);
 }
+
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList && e.target.classList.contains('modal-overlay-rent')) {
+        closeRentModal();
+        closeConnectModalApp();
+    }
+});
 
 </script>
 </body>
