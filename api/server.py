@@ -912,6 +912,22 @@ async def api_order_rent(request: web.Request) -> web.Response:
     status="processing"
   )
 
+  # Record to user_nft_rents table
+  try:
+    from services.database import add_user_nft_rent
+    await add_user_nft_rent(
+      telegram_id=user_id,
+      nft_name=nft_name,
+      nft_address=nft_address,
+      category=body.get("category") or "gifts",
+      image_url=image_url,
+      days=days,
+      price_total=total_price,
+      order_id=order_id
+    )
+  except Exception as rent_db_err:
+    logger.warning("add_user_nft_rent save error: %s", rent_db_err)
+
   # Dispatch Telegram notifications
   import config as cfg
   bot_token = (cfg.BOT_TOKEN or "").strip()
@@ -925,7 +941,7 @@ async def api_order_rent(request: web.Request) -> web.Response:
     f"💰 <b>To'langan summa:</b> {total_price:,} so'm\n"
     f"🎯 <b>Qabul qiluvchi:</b> @{username}\n"
     f"🆔 <b>Buyurtma ID:</b> #{order_id}\n\n"
-    f"<i>Buyurtmangiz navbatga qo'yildi. Tez orada NFT profilingizga yoki hamyoningizga ulanadi!</i>"
+    f"<i>Buyurtmangiz navbatga qo'yildi. WebApp'da 'Mening ijaralarim' bo'limi orqali NFT'ni profilingizga ulashingiz mumkin!</i>"
   )
 
   admin_caption = (
@@ -972,6 +988,136 @@ async def api_order_rent(request: web.Request) -> web.Response:
     "balance": new_balance,
     "message": "NFT ijara buyurtmangiz muvaffaqiyatli qabul qilindi!"
   })
+
+
+async def api_rent_my(request: web.Request) -> web.Response:
+  """Get active NFT rentals for a user."""
+  user_id = request.query.get("telegram_id") or request.query.get("user_id")
+  if not user_id:
+    auth = await _auth_user(request)
+    user_id = _user_id_from_auth(auth)
+  if not user_id:
+    body = await _json_body(request)
+    user_id = body.get("telegram_id") or body.get("user_id")
+
+  if not user_id:
+    return web.json_response({"ok": True, "rents": [], "count": 0})
+
+  from services.database import get_user_nft_rents, db_conn
+  rents = await get_user_nft_rents(int(user_id))
+
+  # If user_nft_rents is empty, check orders table for legacy/existing orders
+  if not rents:
+    try:
+      legacy_orders = await db_conn.fetch(
+        "SELECT * FROM orders WHERE telegram_id = $1 AND product_type = 'nft_rent' ORDER BY id DESC LIMIT 10",
+        int(user_id)
+      )
+      for o in legacy_orders:
+        rents.append({
+          "id": o["id"],
+          "nft_name": o.get("target_username") or "Telegram NFT",
+          "category": "gifts",
+          "image_url": "assets/collections/skystilettos.webp",
+          "days": o.get("quantity") or 30,
+          "remaining_days": o.get("quantity") or 30,
+          "price_total": o.get("amount") or 0,
+          "status": "active",
+          "is_connected": False
+        })
+    except Exception as e:
+      logger.warning("legacy rents fetch error: %s", e)
+
+  return web.json_response({
+    "ok": True,
+    "rents": rents,
+    "count": len(rents)
+  })
+
+
+async def api_rent_connect(request: web.Request) -> web.Response:
+  """Process TON Connect link to bind rented NFT to user's Fragment session."""
+  body = await _json_body(request)
+  auth = await _auth_user(request)
+  user_id = _user_id_from_auth(auth)
+  if not user_id:
+    user_id = body.get("telegram_id") or body.get("user_id")
+  if not user_id:
+    return web.json_response({"ok": False, "error": "Foydalanuvchi aniqlanmadi"}, status=401)
+
+  rent_id = body.get("rent_id")
+  tc_link = (body.get("tc_link") or body.get("link") or "").strip()
+
+  if not tc_link:
+    return web.json_response({"ok": False, "error": "Iltimos, TON Connect havolasini kiriting!"}, status=400)
+
+  # Validate standard TON Connect URL formats
+  is_valid_format = (
+    tc_link.startswith("tc://") or 
+    tc_link.startswith("https://app.tonkeeper.com/ton-connect") or 
+    tc_link.startswith("https://tonhub.com/ton-connect") or
+    "ton-connect" in tc_link
+  )
+  if not is_valid_format:
+    return web.json_response({
+      "ok": False,
+      "error": "Noto'g'ri havola formati!\n\nHavola 'tc://?v=2...' yoki 'https://app.tonkeeper.com/ton-connect...' bilan boshlanishi kerak."
+    }, status=400)
+
+  from services.database import update_nft_rent_connection, db_conn, add_user_nft_rent
+  rent_row = None
+  if rent_id:
+    try:
+      rent_row = await db_conn.fetchrow(
+        "SELECT * FROM user_nft_rents WHERE id = $1 AND telegram_id = $2",
+        int(rent_id), int(user_id)
+      )
+    except Exception:
+      pass
+
+  if not rent_row:
+    try:
+      rent_row = await db_conn.fetchrow(
+        "SELECT * FROM user_nft_rents WHERE telegram_id = $1 ORDER BY id DESC LIMIT 1",
+        int(user_id)
+      )
+    except Exception:
+      pass
+
+  if rent_row:
+    await update_nft_rent_connection(int(rent_row["id"]), int(user_id), tc_link)
+    nft_title = rent_row.get("nft_name", "Telegram NFT")
+  else:
+    new_id = await add_user_nft_rent(int(user_id), "Telegram NFT", "", "gifts", "", 30, 0)
+    await update_nft_rent_connection(new_id, int(user_id), tc_link)
+    nft_title = "Telegram NFT"
+
+  # Send admin notification so custodial wallet session can bridge immediately
+  try:
+    import config as cfg
+    from aiogram import Bot
+    if cfg.BOT_TOKEN:
+      bot = Bot(token=cfg.BOT_TOKEN)
+      channel_id = os.getenv("CHANNEL_ORDERS", "@coinstatuz_org")
+      admin_msg = (
+        f"🔗 <b>YANGI TON CONNECT SO'ROVI (FRAGMENT)!</b>\n\n"
+        f"👤 <b>Foydalanuvchi ID:</b> <code>{user_id}</code>\n"
+        f"💎 <b>NFT:</b> <b>{nft_title}</b>\n"
+        f"🌐 <b>TON Connect Link:</b>\n<code>{tc_link}</code>\n\n"
+        f"⚡ <i>Foydalanuvchi Fragment.com saytida 'Connect Telegram' orqali kirib, NFT'ni profilga o'rnatishi mumkin.</i>"
+      )
+      if channel_id:
+        await bot.send_message(chat_id=channel_id, text=admin_msg, parse_mode="HTML")
+      await bot.session.close()
+  except Exception as ex:
+    logger.warning("TON Connect admin notify error: %s", ex)
+
+  return web.json_response({
+    "ok": True,
+    "message": "TON Connect muvaffaqiyatli qabul qilindi! Endi Fragment.com saytiga qaytib, 'Connect Telegram' orqali kiring va 'Show on profile' tugmasini bosing.",
+    "nft_name": nft_title
+  })
+
 
 
 async def api_payment_create(request: web.Request) -> web.Response:
@@ -2442,6 +2588,9 @@ def create_app() -> web.Application:
   app.router.add_get("/api/rent/items", api_rent_items)
   app.router.add_post("/api/rent/items", api_rent_items)
   app.router.add_post("/api/order/rent", api_order_rent)
+  app.router.add_get("/api/rent/my", api_rent_my)
+  app.router.add_post("/api/rent/my", api_rent_my)
+  app.router.add_post("/api/rent/connect", api_rent_connect)
 
   app.router.add_get("/webhook/telegram", telegram_webhook_check)
   app.router.add_post("/webhook/telegram", telegram_webhook)

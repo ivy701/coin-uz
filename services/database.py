@@ -415,6 +415,45 @@ async def init_db() -> None:
         """
     )
 
+    await db_conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS user_nft_rents (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            telegram_id BIGINT NOT NULL,
+            order_id INTEGER,
+            nft_name TEXT NOT NULL,
+            nft_address TEXT,
+            category TEXT DEFAULT 'gifts',
+            image_url TEXT,
+            days INTEGER NOT NULL,
+            price_total INTEGER NOT NULL,
+            status TEXT NOT NULL DEFAULT 'active',
+            ton_connect_link TEXT,
+            connected_at DATETIME,
+            expires_at DATETIME,
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """ if IS_SQLITE else
+        """
+        CREATE TABLE IF NOT EXISTS user_nft_rents (
+            id SERIAL PRIMARY KEY,
+            telegram_id BIGINT NOT NULL,
+            order_id INTEGER,
+            nft_name TEXT NOT NULL,
+            nft_address TEXT,
+            category TEXT DEFAULT 'gifts',
+            image_url TEXT,
+            days INTEGER NOT NULL,
+            price_total INTEGER NOT NULL,
+            status TEXT NOT NULL DEFAULT 'active',
+            ton_connect_link TEXT,
+            connected_at TIMESTAMPTZ,
+            expires_at TIMESTAMPTZ,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+        """
+    )
+
 
 async def ensure_user(
     telegram_id: int,
@@ -1189,4 +1228,106 @@ async def delete_promocode(code: str) -> bool:
         return False
 
 
+async def add_user_nft_rent(
+    telegram_id: int,
+    nft_name: str,
+    nft_address: str = "",
+    category: str = "gifts",
+    image_url: str = "",
+    days: int = 1,
+    price_total: int = 0,
+    order_id: int | None = None,
+) -> int:
+    import datetime
+    now = datetime.datetime.now(datetime.timezone.utc)
+    expires = now + datetime.timedelta(days=max(1, days))
+    try:
+        if IS_SQLITE:
+            await db_conn.execute(
+                """
+                INSERT INTO user_nft_rents (telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, status, expires_at)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'active', $9)
+                """,
+                telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, expires.strftime("%Y-%m-%d %H:%M:%S")
+            )
+        else:
+            await db_conn.execute(
+                """
+                INSERT INTO user_nft_rents (telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, status, expires_at)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'active', $9)
+                """,
+                telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, expires
+            )
+        row = await db_conn.fetchrow(
+            "SELECT id FROM user_nft_rents WHERE telegram_id = $1 ORDER BY id DESC LIMIT 1",
+            telegram_id
+        )
+        return row["id"] if row else 0
+    except Exception as e:
+        logger.error(f"add_user_nft_rent error: {e}")
+        return 0
+
+
+async def get_user_nft_rents(telegram_id: int) -> list[dict[str, Any]]:
+    try:
+        rows = await db_conn.fetch(
+            "SELECT * FROM user_nft_rents WHERE telegram_id = $1 ORDER BY id DESC LIMIT 50",
+            telegram_id
+        )
+        import datetime
+        now = datetime.datetime.now(datetime.timezone.utc)
+        items = []
+        for r in rows:
+            d = dict(r)
+            exp = d.get("expires_at")
+            rem_days = d.get("days", 1)
+            if exp:
+                if isinstance(exp, str):
+                    try:
+                        exp_dt = datetime.datetime.fromisoformat(exp.replace("Z", "+00:00"))
+                    except Exception:
+                        exp_dt = None
+                else:
+                    exp_dt = exp
+                if exp_dt:
+                    if exp_dt.tzinfo is None:
+                        exp_dt = exp_dt.replace(tzinfo=datetime.timezone.utc)
+                    diff = (exp_dt - now).total_seconds()
+                    rem_days = max(1, int(diff // 86400) + 1)
+                    if diff <= 0:
+                        d["status"] = "expired"
+            d["remaining_days"] = rem_days
+            d["is_connected"] = bool(d.get("ton_connect_link"))
+            if isinstance(d.get("created_at"), (datetime.datetime, datetime.date)):
+                d["created_at"] = d["created_at"].isoformat()
+            if isinstance(d.get("connected_at"), (datetime.datetime, datetime.date)):
+                d["connected_at"] = d["connected_at"].isoformat()
+            if isinstance(d.get("expires_at"), (datetime.datetime, datetime.date)):
+                d["expires_at"] = d["expires_at"].isoformat()
+            items.append(d)
+        return items
+    except Exception as e:
+        logger.error(f"get_user_nft_rents error: {e}")
+        return []
+
+
+async def update_nft_rent_connection(rent_id: int, telegram_id: int, tc_link: str) -> bool:
+    import datetime
+    now = datetime.datetime.now(datetime.timezone.utc)
+    try:
+        await db_conn.execute(
+            """
+            UPDATE user_nft_rents 
+            SET ton_connect_link = $1, connected_at = $2 
+            WHERE id = $3 AND telegram_id = $4
+            """,
+            tc_link, now if not IS_SQLITE else now.strftime("%Y-%m-%d %H:%M:%S"), rent_id, telegram_id
+        )
+        return True
+    except Exception as e:
+        logger.error(f"update_nft_rent_connection error: {e}")
+        return False
+
+
 db = _LegacyDB()
+

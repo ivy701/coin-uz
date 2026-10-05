@@ -747,7 +747,364 @@
         .toast-box.show {
             transform: translateX(-50%) translateY(0);
         }
+
+        /* My Rents Banner */
+        .my-rents-banner {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.85) 0%, rgba(49, 46, 129, 0.6) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 18px rgba(126, 34, 206, 0.18);
+        }
+
+        .my-rents-banner:active {
+            transform: scale(0.98);
+            border-color: rgba(168, 85, 247, 0.65);
+        }
+
+        .my-rents-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .my-rents-icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(168, 85, 247, 0.22);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .my-rents-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+        }
+
+        .my-rents-banner-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+        }
+
+        .my-rents-count-badge {
+            background: #8b5cf6;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 999px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* My Rents View */
+        .my-rents-view {
+            animation: fadeInView 0.2s ease-out;
+        }
+
+        @keyframes fadeInView {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .my-rents-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .my-rents-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .my-rents-header-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .refresh-pill-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: all 0.15s ease;
+        }
+
+        .refresh-pill-btn:active {
+            transform: scale(0.92) rotate(180deg);
+            color: #38bdf8;
+        }
+
+        .my-rent-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 18px;
+            padding: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border-left: 3px solid #8b5cf6;
+        }
+
+        .my-rent-card-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .my-rent-card-img {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            object-fit: contain;
+            padding: 4px;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .my-rent-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .my-rent-card-name-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .my-rent-card-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .status-pill-active {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 750;
+            color: #4ade80;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+
+        .my-rent-card-meta {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .my-rent-bind-btn {
+            width: 100%;
+            height: 42px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(56, 189, 248, 0.15) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.45);
+            border-radius: 12px;
+            color: #e0e7ff;
+            font-size: 14px;
+            font-weight: 750;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .my-rent-bind-btn:active {
+            transform: scale(0.98);
+            background: rgba(139, 92, 246, 0.3);
+        }
+
+        /* Connect Modal Styles */
+        .video-guide-banner {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            cursor: pointer;
+        }
+
+        .connect-step-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .connect-step-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .step-num-bubble {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #8b5cf6;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+        }
+
+        .step-title-text {
+            font-size: 13.5px;
+            font-weight: 750;
+            color: #ffffff;
+            line-height: 1.35;
+        }
+
+        .step-desc-text {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.45;
+            padding-left: 34px;
+        }
+
+        .step-action-btn-row {
+            padding-left: 34px;
+            margin-top: 4px;
+        }
+
+        .step-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: #38bdf8;
+            font-size: 12px;
+            font-weight: 750;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .tc-input-group {
+            display: flex;
+            gap: 8px;
+            padding-left: 34px;
+            margin-top: 4px;
+        }
+
+        .tc-input {
+            flex: 1;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            padding: 0 12px;
+            color: #ffffff;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .tc-input:focus {
+            border-color: #8b5cf6;
+        }
+
+        .tc-submit-btn {
+            height: 40px;
+            padding: 0 16px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+            transition: all 0.15s ease;
+        }
+
+        .tc-submit-btn:active {
+            transform: scale(0.96);
+        }
+
+        .my-rents-empty {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--bg-card);
+            border: 1px dashed rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+        }
+
+        .my-rents-empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .my-rents-empty-title {
+            font-size: 16px;
+            font-weight: 750;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .my-rents-empty-desc {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            line-height: 1.45;
+        }
     </style>
+
 </head>
 <body>
 
@@ -789,29 +1146,70 @@
         </div>
     </div>
 
-    <!-- Collections Filter Scroll -->
-    <div class="collections-scroll-wrap" id="collectionsContainer">
-        <div class="collection-chip active" onclick="selectCollection('', this)">Barchasi</div>
-    </div>
-
-    <!-- Search Row -->
-    <div class="search-row">
-        <div class="search-input-wrap">
-            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    <!-- My Rents Banner (Exact matching design) -->
+    <div class="my-rents-banner" id="myRentsBanner" onclick="openMyRentsView()">
+        <div class="my-rents-banner-left">
+            <div class="my-rents-icon-box">🎁</div>
+            <div class="my-rents-title">Mening ijaralarim</div>
+        </div>
+        <div class="my-rents-banner-right">
+            <span class="my-rents-count-badge" id="myRentsCountBadge">0</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-            <input type="text" id="searchInput" placeholder="NFT nomi yoki raqami bo'yicha qidirish..." oninput="handleSearch()">
         </div>
     </div>
 
-    <!-- NFT Items Grid -->
-    <div class="nft-grid" id="itemsGrid">
-        <!-- Skeletons will show initially -->
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
+    <!-- Catalog Section -->
+    <div id="catalogSection">
+        <!-- Collections Filter Scroll -->
+        <div class="collections-scroll-wrap" id="collectionsContainer">
+            <div class="collection-chip active" onclick="selectCollection('', this)">Barchasi</div>
+        </div>
+
+        <!-- Search Row -->
+        <div class="search-row">
+            <div class="search-input-wrap">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="searchInput" placeholder="NFT nomi yoki raqami bo'yicha qidirish..." oninput="handleSearch()">
+            </div>
+        </div>
+
+        <!-- NFT Items Grid -->
+        <div class="nft-grid" id="itemsGrid">
+            <!-- Skeletons will show initially -->
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
+    </div>
+
+    <!-- My Rents View (Screen) -->
+    <div class="my-rents-view" id="myRentsView" style="display: none;">
+        <div class="my-rents-header-row">
+            <div class="my-rents-header-left" onclick="closeMyRentsView()">
+                <div class="back-pill-btn" style="width: 36px; height: 36px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </div>
+                <div class="my-rents-header-title">
+                    <span>🎁</span> Mening ijaralarim
+                </div>
+            </div>
+            <div class="refresh-pill-btn" onclick="loadMyRents(true)" title="Yangilash">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                </svg>
+            </div>
+        </div>
+        <div id="myRentsList">
+            <!-- Active rents rendered here -->
+        </div>
     </div>
 
     <!-- Rent Action Modal -->
@@ -890,6 +1288,75 @@
         </div>
     </div>
 
+    <!-- Connect to Telegram Modal (Exact replica of Screenshot 1) -->
+    <div class="modal-overlay" id="connectTelegramModal">
+        <div class="modal-sheet">
+            <div class="modal-drag-bar"></div>
+            <div class="modal-header-row">
+                <div class="modal-title">Telegram akkauntga ulash</div>
+                <button class="modal-close-btn" onclick="closeConnectModal()">&times;</button>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="modal-item-preview">
+                <img class="modal-item-img" id="connectModalItemImg" src="./images/gift.webp" alt="NFT">
+                <div class="modal-item-info">
+                    <div class="modal-item-name" id="connectModalItemName">Sky Stilettos #1835</div>
+                    <span style="display:inline-block; font-size:11px; font-weight:750; padding:2px 8px; border-radius:999px; background:rgba(168,85,247,0.2); color:#c084fc; border:1px solid rgba(168,85,247,0.4); margin-top:3px;">Sovg'alar</span>
+                </div>
+            </div>
+
+            <!-- Video Guide Banner -->
+            <div class="video-guide-banner" onclick="showVideoGuide()">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:15px;">▶️</span>
+                    <span style="font-weight:750; font-size:13px; color:#ffffff;">Video-qo'llanma</span>
+                </div>
+                <span style="color:#94a3b8; font-size:14px; font-weight:700;">&gt;</span>
+            </div>
+
+            <!-- Step 1 -->
+            <div class="connect-step-card">
+                <div class="connect-step-head">
+                    <div class="step-num-bubble">1</div>
+                    <div class="step-title-text">Fragment'da TON Connect havolasini oling:</div>
+                </div>
+                <div class="step-desc-text">
+                    Brauzeringizda <b>fragment.com</b> saytini oching, <b>"Connect TON"</b> tugmasini bosing va Tonkeeper/boshqa hamyon havolasini nusxalang.
+                </div>
+                <div class="step-action-btn-row">
+                    <a href="https://fragment.com" target="_blank" class="step-link-btn">
+                        🌐 fragment.com ni ochish ↗
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="connect-step-card">
+                <div class="connect-step-head">
+                    <div class="step-num-bubble">2</div>
+                    <div class="step-title-text">TON Connect havolasini kiriting:</div>
+                </div>
+                <div class="tc-input-group">
+                    <input type="text" id="tcLinkInput" class="tc-input" placeholder="tc://... yoki https://app.t...">
+                    <button class="tc-submit-btn" id="tcSubmitBtn" onclick="submitTonConnectLink()">Ulash</button>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="connect-step-card">
+                <div class="connect-step-head">
+                    <div class="step-num-bubble">3</div>
+                    <div class="step-title-text">Fragment'da Telegram orqali kiring:</div>
+                </div>
+                <div class="step-desc-text">
+                    <b>My Assets</b> bo'limiga o'tishdan oldin Fragment saytida albatta <b>"Connect Telegram"</b> orqali kiring (aks holda sahifa qotib qoladi), so'ngra sovg'ani tanlab <b>"Show on profile"</b> tugmasini bosing.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Toast Notification -->
     <div class="toast-box" id="toastBox">
         <span id="toastIcon">✅</span>
@@ -905,6 +1372,11 @@
             } catch(e) {}
         }
 
+        function getApiBase() {
+            return 'https://web-production-1b7cb.up.railway.app';
+        }
+        window.API_BASE = 'https://web-production-1b7cb.up.railway.app';
+
         let userBalance = 0;
         let activeCategory = 'gifts';
         let activeCollectionAddress = '';
@@ -913,6 +1385,9 @@
         let rentalDays = 1;
         let minDaysLimit = 1;
         let maxDaysLimit = 30;
+        let myRents = [];
+        let currentConnectingRent = null;
+        let isMyRentsActive = false;
 
         function getUserId() {
             if (tg?.initDataUnsafe?.user?.id) return tg.initDataUnsafe.user.id;
@@ -930,6 +1405,10 @@
         }
 
         function goBack() {
+            if (isMyRentsActive) {
+                closeMyRentsView();
+                return;
+            }
             if (window.history.length > 1) {
                 window.history.back();
             } else {
@@ -950,10 +1429,198 @@
             }, 3500);
         }
 
+        function openMyRentsView() {
+            isMyRentsActive = true;
+            document.getElementById('catalogSection').style.display = 'none';
+            document.getElementById('myRentsBanner').style.display = 'none';
+            document.getElementById('myRentsView').style.display = 'block';
+            loadMyRents(true);
+        }
+
+        function closeMyRentsView() {
+            isMyRentsActive = false;
+            document.getElementById('myRentsView').style.display = 'none';
+            document.getElementById('catalogSection').style.display = 'block';
+            document.getElementById('myRentsBanner').style.display = 'flex';
+        }
+
+        async function loadMyRents(force = false) {
+            const listEl = document.getElementById('myRentsList');
+            if (force && listEl) {
+                listEl.innerHTML = `
+                    <div class="skeleton-card" style="height: 110px; margin-bottom: 10px;"></div>
+                    <div class="skeleton-card" style="height: 110px;"></div>
+                `;
+            }
+
+            try {
+                const apiBase = getApiBase();
+                const res = await fetch(`${apiBase}/api/rent/my?telegram_id=${getUserId()}`);
+                const data = await res.json();
+                if (data && data.ok) {
+                    myRents = data.rents || [];
+                    const badge = document.getElementById('myRentsCountBadge');
+                    if (badge) badge.textContent = myRents.length;
+                    renderMyRents(myRents);
+                }
+            } catch (err) {
+                console.warn('loadMyRents error:', err);
+                if (listEl) {
+                    listEl.innerHTML = `
+                        <div class="my-rents-empty">
+                            <div class="my-rents-empty-icon">⚠️</div>
+                            <div class="my-rents-empty-title">Ijaralarni yuklab bo'lmadi</div>
+                            <button class="step-link-btn" onclick="loadMyRents(true)" style="margin-top: 8px;">Qayta urinish</button>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function renderMyRents(rents) {
+            const listEl = document.getElementById('myRentsList');
+            if (!listEl) return;
+
+            if (!rents || rents.length === 0) {
+                listEl.innerHTML = `
+                    <div class="my-rents-empty">
+                        <div class="my-rents-empty-icon">🎁</div>
+                        <div class="my-rents-empty-title">Sizda hali faol ijaralar yo'q</div>
+                        <div class="my-rents-empty-desc">Katalogdan o'zingiz yoqtirgan Telegram NFT yoki nomerni tanlab, birinchi ijarani boshlang!</div>
+                        <button class="modal-confirm-btn" style="height: 42px; font-size: 13.5px;" onclick="closeMyRentsView()">
+                            <span>Katalogni ko'rish</span>
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            rents.forEach((r, idx) => {
+                const img = r.image_url || './images/gift.webp';
+                const days = r.remaining_days || r.days || 1;
+                const price = Number(r.price_total || 0).toLocaleString('uz-UZ');
+                const isConn = r.is_connected;
+                const statusHtml = isConn ? 
+                    `<span class="status-pill-active" style="color: #60a5fa; background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.35);">• Ulandi</span>` :
+                    `<span class="status-pill-active">• Faol</span>`;
+
+                html += `
+                    <div class="my-rent-card">
+                        <div class="my-rent-card-top">
+                            <img class="my-rent-card-img" src="${img}" alt="${escapeHtml(r.nft_name)}" onerror="this.src='./images/gift.webp'">
+                            <div class="my-rent-card-info">
+                                <div class="my-rent-card-name-row">
+                                    <div class="my-rent-card-name" title="${escapeHtml(r.nft_name)}">${escapeHtml(r.nft_name)}</div>
+                                    ${statusHtml}
+                                </div>
+                                <div class="my-rent-card-meta">${price} so'm • ${days} kun</div>
+                            </div>
+                        </div>
+                        <button class="my-rent-bind-btn" onclick="openConnectModal(${idx})">
+                            <span>🔗 Akkauntga ulash</span>
+                        </button>
+                    </div>
+                `;
+            });
+            listEl.innerHTML = html;
+        }
+
+        function openConnectModal(index) {
+            const rentItem = myRents[index];
+            if (!rentItem) return;
+
+            currentConnectingRent = rentItem;
+            const img = document.getElementById('connectModalItemImg');
+            const name = document.getElementById('connectModalItemName');
+            const input = document.getElementById('tcLinkInput');
+
+            if (img) img.src = rentItem.image_url || './images/gift.webp';
+            if (name) name.textContent = rentItem.nft_name || 'Telegram NFT';
+            if (input) input.value = '';
+
+            document.getElementById('connectTelegramModal').classList.add('active');
+
+            if (tg?.HapticFeedback) {
+                try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
+            }
+        }
+
+        function closeConnectModal() {
+            const modal = document.getElementById('connectTelegramModal');
+            if (modal) modal.classList.remove('active');
+            currentConnectingRent = null;
+        }
+
+        async function submitTonConnectLink() {
+            const input = document.getElementById('tcLinkInput');
+            const btn = document.getElementById('tcSubmitBtn');
+            const link = (input?.value || '').trim();
+
+            if (!link) {
+                showToast("Iltimos, TON Connect havolasini kiriting!", "⚠️");
+                input?.focus();
+                return;
+            }
+
+            if (!link.startsWith('tc://') && !link.startsWith('https://') && !link.includes('ton-connect')) {
+                showToast("Noto'g'ri havola formati! 'tc://' bilan boshlanishi kerak.", "❌");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = "Ulanmoqda...";
+
+            try {
+                const apiBase = getApiBase();
+                const res = await fetch(`${apiBase}/api/rent/connect`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Telegram-Init-Data': tg?.initData || '',
+                    },
+                    body: JSON.stringify({
+                        rent_id: currentConnectingRent ? currentConnectingRent.id : null,
+                        tc_link: link,
+                        telegram_id: getUserId(),
+                    }),
+                });
+                const data = await res.json();
+
+                if (data && data.ok) {
+                    if (window.confetti) {
+                        window.confetti({ particleCount: 70, spread: 50 });
+                    }
+                    if (tg?.HapticFeedback) {
+                        try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+                    }
+                    showToast("✅ Havola qabul qilindi! Endi Fragment'da 'Connect Telegram' orqali kiring.", "🎉");
+                    closeConnectModal();
+                    loadMyRents(true);
+                } else {
+                    showToast(data.error || "Ulashda xatolik yuz berdi", "❌");
+                }
+            } catch (err) {
+                showToast("Tarmoq xatosi yuz berdi. Qayta urinib ko'ring.", "❌");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Ulash";
+            }
+        }
+
+        function showVideoGuide() {
+            if (tg?.showAlert) {
+                tg.showAlert("Qadamlar:\n\n1. fragment.com saytini oching va 'Connect TON' bosing.\n2. Tonkeeper (yoki boshqa hamyon) havolasini nusxalang.\n3. Shu oynaga qaytib, 'Ulash' tugmasini bosing.\n4. So'ng Fragment'da 'Connect Telegram' orqali kirib, profilingizga o'rnating!");
+            } else {
+                alert("Qadamlar:\n\n1. fragment.com saytini oching va 'Connect TON' bosing.\n2. Tonkeeper (yoki boshqa hamyon) havolasini nusxalang.\n3. Shu oynaga qaytib, 'Ulash' tugmasini bosing.\n4. So'ng Fragment'da 'Connect Telegram' orqali kirib, profilingizga o'rnating!");
+            }
+        }
+
         async function loadUserBalance() {
             const userId = getUserId();
             try {
-                const res = await fetch('/api/user/balance', {
+                const apiBase = getApiBase();
+                const res = await fetch(`${apiBase}/api/user/balance`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1330,6 +1997,7 @@
             loadUserBalance();
             loadCollections();
             loadItems();
+            loadMyRents();
         });
     </script>
 </body>
