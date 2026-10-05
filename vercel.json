@@ -31,6 +31,8 @@
     { "source": "/rating", "destination": "/index.html" },
     { "source": "/rating.html", "destination": "/index.html" },
     { "source": "/spin", "destination": "/index.html" },
-    { "source": "/spin.html", "destination": "/index.html" }
+    { "source": "/spin.html", "destination": "/index.html" },
+    { "source": "/rent", "destination": "/index.html" },
+    { "source": "/rent.html", "destination": "/index.html" }
   ]
 }

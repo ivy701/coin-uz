@@ -625,3 +625,27 @@ async def callback_join_giveaway(callback: CallbackQuery):
     else:
         await callback.answer("❌ Xatolik yuz berdi. Qayta urinib ko'ring.", show_alert=True)
 
+
+@router.message(Command("rent"))
+@router.message(F.text == "🖼 NFT Ijara")
+async def show_rent_info(message: Message):
+    """Handle NFT rent command and button in Telegram bot"""
+    from aiogram.types import WebAppInfo
+    webapp_url = getattr(config, 'WEBAPP_URL', 'https://coin-stat-uz-wepapp.vercel.app') or "https://coin-stat-uz-wepapp.vercel.app"
+    rent_url = f"{webapp_url.rstrip('/')}/index.html#rent"
+
+    text = (
+        "🖼 <b>CoinStat UZ — Telegram NFT Ijarasi</b>\n\n"
+        "⚡ Marketapp orqali eng sara Telegram Sovg'alari, chiroyli Username va +888 raqamlarni qulay muddatga ijaraga oling!\n\n"
+        "💎 <b>118+ kolleksiyalar</b> (Candy Canes, Khabib Papakha, Lunar Snakes va boshqalar)\n"
+        "💰 <b>Arzon kunlik narxlar:</b> 75 so'mdan boshlab\n"
+        "👛 <b>To'lov:</b> CoinStatUZ bot balansingizdan so'mda avtomatik to'lanadi!\n\n"
+        "Katalogni ko'rish va ijaraga olish uchun pastdagi tugmani bosing 👇"
+    )
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🚀 NFT Ijara Katalogini ochish", web_app=WebAppInfo(url=rent_url))],
+        [InlineKeyboardButton(text="👛 Balansni to'ldirish", callback_data="btn_topup")]
+    ])
+    await message.answer(text, reply_markup=kb, parse_mode="HTML")
+
+

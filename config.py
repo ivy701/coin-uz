@@ -22,6 +22,12 @@ TELETHON_SESSION_STRING = os.getenv("TELETHON_SESSION_STRING", "")  # String ses
 FRAGMENT_API_KEY = os.getenv("FRAGMENT_API_KEY")
 FRAGMENT_API_URL = os.getenv("FRAGMENT_API_URL", "https://fragment-api.uz/api/v1")
 
+# Roxiy Abu Store API (NFT Rent, Stars, etc.)
+ROXIY_API_KEY = os.getenv("ROXIY_API_KEY")
+ROXIY_API_URL = os.getenv("ROXIY_API_URL", "https://stars.roxiy.uz/api/v1")
+
+
+
 # Shop settings
 SHOP_ID = os.getenv("SHOP_ID")
 SHOP_KEY = os.getenv("SHOP_KEY")

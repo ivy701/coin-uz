@@ -282,11 +282,18 @@ const starsOrderHandler = require('./api/order/stars.js');
 const topupOrderHandler = require('./api/order/topup.js');
 const giftOrderHandler = require('./api/order/gift.js');
 const checkSubHandler = require('./api/check-sub.js');
+const rentCollectionsHandler = require('./api/rent/collections.js');
+const rentItemsHandler = require('./api/rent/items.js');
+const rentOrderHandler = require('./api/order/rent.js');
 
 app.all(['/api/check-sub', '/api/user/check-sub'], (req, res) => checkSubHandler(req, res));
 app.all('/api/order/stars', (req, res) => starsOrderHandler(req, res));
 app.all('/api/order/topup', (req, res) => topupOrderHandler(req, res));
 app.all('/api/order/gift', (req, res) => giftOrderHandler(req, res));
+app.all(['/api/rent/collections', '/rent/collections'], (req, res) => rentCollectionsHandler(req, res));
+app.all(['/api/rent/items', '/rent/items'], (req, res) => rentItemsHandler(req, res));
+app.all(['/api/order/rent', '/order/rent'], (req, res) => rentOrderHandler(req, res));
+
 
 // Protected admin reset endpoint (requires ADMIN_SECRET)
 app.all('/api/admin/reset-fresh', async (req, res) => {

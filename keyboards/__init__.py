@@ -112,7 +112,10 @@ def get_main_keyboard() -> ReplyKeyboardMarkup:
         KeyboardButton(text="🎁 Sovg'alar"),
     )
     builder.row(
+        KeyboardButton(text="🖼 NFT Ijara"),
         KeyboardButton(text="📦 Buyurtmalarim"),
+    )
+    builder.row(
         KeyboardButton(text="🏠 Bosh menyu"),
     )
 
