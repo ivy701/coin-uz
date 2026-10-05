@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
 
   const now = Date.now();
   if (cache && now - cacheTime < CACHE_TTL_MS) {
-    return res.json({ ok: true, cached: true, ...cache });
+    return res.status(200).json({ ok: true, cached: true, ...cache });
   }
 
   const apiKey = (process.env.ROXIY_API_KEY || '').trim();
@@ -61,14 +61,14 @@ module.exports = async (req, res) => {
     if (collectionsData && collectionsData.collections) {
       cache = collectionsData;
       cacheTime = now;
-      return res.json({ ok: true, cached: false, ...collectionsData });
+      return res.status(200).json({ ok: true, cached: false, ...collectionsData });
     } else {
       return res.status(502).json({ ok: false, error: 'API dan ma\'lumot olib bo\'lmadi', raw: data });
     }
   } catch (err) {
     console.error('Rent collections fetch error:', err.message);
     if (cache) {
-      return res.json({ ok: true, cached: true, stale: true, ...cache });
+      return res.status(200).json({ ok: true, cached: true, stale: true, ...cache });
     }
     return res.status(500).json({ ok: false, error: err.message });
   }

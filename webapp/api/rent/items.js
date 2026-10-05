@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
   const cachedEntry = itemsCache.get(cacheKey);
 
   if (cachedEntry && (now - cachedEntry.time < CACHE_TTL_MS)) {
-    return res.json({ ok: true, cached: true, ...cachedEntry.data });
+    return res.status(200).json({ ok: true, cached: true, ...cachedEntry.data });
   }
 
   const apiKey = (process.env.ROXIY_API_KEY || '').trim();
@@ -77,14 +77,14 @@ module.exports = async (req, res) => {
         const oldestKey = itemsCache.keys().next().value;
         itemsCache.delete(oldestKey);
       }
-      return res.json({ ok: true, cached: false, ...data.data });
+      return res.status(200).json({ ok: true, cached: false, ...data.data });
     } else {
       return res.status(502).json({ ok: false, error: 'API xatosi', raw: data });
     }
   } catch (err) {
     console.error('Rent items fetch error:', err.message);
     if (cachedEntry) {
-      return res.json({ ok: true, cached: true, stale: true, ...cachedEntry.data });
+      return res.status(200).json({ ok: true, cached: true, stale: true, ...cachedEntry.data });
     }
     return res.status(500).json({ ok: false, error: err.message });
   }
