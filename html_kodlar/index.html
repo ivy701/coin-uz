@@ -8083,7 +8083,532 @@ body {
     justify-content: center !important;
 }
 
-    </style>
+    
+/* ==================== VIEW: RENT STYLES ==================== */
+.rent-hero-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    border-radius: 18px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+.rent-hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    padding: 3px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+}
+.rent-hero-title {
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 6px;
+    background: linear-gradient(90deg, #ffffff 30%, #7dd3fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.rent-hero-desc {
+    font-size: 12.5px;
+    color: var(--text-muted, #94a3b8);
+    line-height: 1.45;
+}
+.rent-tabs-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.rent-tab-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 10px 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-muted, #94a3b8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.rent-tab-btn.active {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2);
+}
+.collections-scroll-wrap {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+    scrollbar-width: none;
+}
+.collections-scroll-wrap::-webkit-scrollbar {
+    display: none;
+}
+.collection-chip {
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 650;
+    color: var(--text-muted, #94a3b8);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+.collection-chip.active {
+    background: rgba(56, 189, 248, 0.18);
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #38bdf8;
+    font-weight: 800;
+}
+.search-row-rent {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.search-input-wrap-rent {
+    flex: 1;
+    position: relative;
+}
+.search-input-wrap-rent input {
+    width: 100%;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0 14px 0 38px;
+    font-size: 13px;
+    color: #ffffff;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+.search-input-wrap-rent input:focus {
+    border-color: rgba(56, 189, 248, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+}
+.search-icon-rent {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted, #94a3b8);
+    pointer-events: none;
+}
+.nft-grid-rent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+.nft-card-rent {
+    background: linear-gradient(160deg, #151829 0%, #0f111e 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.nft-card-rent:active {
+    transform: scale(0.97);
+}
+.nft-img-wrap-rent {
+    width: 100%;
+    aspect-ratio: 1;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.nft-img-wrap-rent img {
+    width: 82%;
+    height: 82%;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+.nft-badge-pill-rent {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #7dd3fc;
+}
+.nft-title-rent {
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+.nft-attributes-rent {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 20px;
+}
+.nft-attr-pill-rent {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted, #94a3b8);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2px 6px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+.nft-price-row-rent {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+.nft-price-val-rent {
+    font-size: 14.5px;
+    font-weight: 850;
+    color: #38bdf8;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+.nft-price-unit-rent {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted, #94a3b8);
+}
+.nft-days-range-rent {
+    font-size: 10.5px;
+    color: #64748b;
+    font-weight: 600;
+}
+.nft-rent-btn-rent {
+    width: 100%;
+    height: 38px;
+    border: none;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 750;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+.nft-rent-btn-rent:active {
+    transform: scale(0.95);
+    filter: brightness(1.1);
+}
+.skeleton-card-rent {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 18px;
+    padding: 12px;
+    height: 270px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+/* Modal rent */
+.modal-overlay-rent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.modal-overlay-rent.active {
+    display: flex;
+    opacity: 1;
+}
+.modal-sheet-rent {
+    width: 100%;
+    max-width: 480px;
+    background: #111422;
+    border-top: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 24px 24px 0 0;
+    padding: 20px 18px calc(24px + env(safe-area-inset-bottom, 0px)) 18px;
+    transform: translateY(100%);
+    transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.modal-overlay-rent.active .modal-sheet-rent {
+    transform: translateY(0);
+}
+.modal-drag-bar-rent {
+    width: 44px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    margin: 0 auto 16px auto;
+}
+.modal-header-row-rent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+.modal-title-rent {
+    font-size: 17px;
+    font-weight: 800;
+}
+.modal-close-btn-rent {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    color: #ffffff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.modal-item-preview-rent {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+}
+.modal-item-img-rent {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    object-fit: contain;
+}
+.modal-item-name-rent {
+    font-size: 15px;
+    font-weight: 800;
+}
+.modal-item-daily-rent {
+    font-size: 12.5px;
+    color: #38bdf8;
+    font-weight: 700;
+}
+.modal-field-title-rent {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted, #94a3b8);
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+.day-stepper-row-rent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 6px 10px;
+    margin-bottom: 10px;
+}
+.step-btn-rent {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+.step-btn-rent:active {
+    transform: scale(0.9);
+    background: rgba(56, 189, 248, 0.3);
+}
+.step-display-rent {
+    flex: 1;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 850;
+    color: #ffffff;
+}
+.range-slider-rent {
+    width: 100%;
+    accent-color: #38bdf8;
+    height: 6px;
+    margin-bottom: 14px;
+}
+.quick-days-pills-rent {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.quick-pill-rent {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 6px 0;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-muted, #94a3b8);
+    text-align: center;
+    cursor: pointer;
+}
+.quick-pill-rent:active {
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+}
+.modal-input-box-rent {
+    width: 100%;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    outline: none;
+    margin-bottom: 14px;
+}
+.modal-input-box-rent:focus {
+    border-color: rgba(56, 189, 248, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+}
+.total-calc-card-rent {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+}
+.calc-row-rent {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--text-muted, #94a3b8);
+    margin-bottom: 6px;
+}
+.calc-row-rent.total {
+    font-size: 16px;
+    font-weight: 850;
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 8px;
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+.calc-row-rent.total .total-amount {
+    color: #38bdf8;
+    font-size: 17px;
+}
+.balance-check-status-rent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.balance-check-status-rent.insufficient {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+}
+.balance-check-status-rent.sufficient {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #86efac;
+}
+.topup-link-btn-rent {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 750;
+    cursor: pointer;
+}
+.modal-confirm-btn-rent {
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    border: none;
+    border-radius: 14px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+    transition: all 0.15s ease;
+}
+.modal-confirm-btn-rent:active {
+    transform: scale(0.97);
+}
+.modal-confirm-btn-rent:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+</style>
     <script>window.API_BASE = "https://web-production-1b7cb.up.railway.app";</script>
 </head>
 
@@ -8293,6 +8818,24 @@ body {
             <div class="balance-badge-pill">
                 <span id="balance">0</span> UZS
             </div>
+        <!-- NFT Rent -->
+        <div class="service-quad-card card-rent" onclick="navigateTo('rent')">
+            <div class="service-top-row">
+                <div class="service-icon-box" style="background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.28);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </div>
+                <span class="service-badge-pill" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">Marketapp</span>
+            </div>
+            <div class="service-card-text-wrap">
+                <div class="service-card-title">NFT Ijara</div>
+                <div class="service-card-desc">Gifts, Nick & +888</div>
+            </div>
+        </div>
+
         </div>
 
         <div style="font-size: 13px; color: var(--text-secondary); font-weight: 600; margin-bottom: 14px;">
@@ -8790,6 +9333,146 @@ body {
     <!-- Floating Capsule Dock Navigation -->
         <!-- Floating Glassmorphism Bottom Navigation with Center FAB -->
     </section>
+
+    <!-- ==================== VIEW: NFT RENT (MARKETAPP LIVE RENT) ==================== -->
+    <section id="view-rent" class="page-view" data-page="rent">
+        <!-- Top Bar -->
+        <div class="stars-top-bar">
+            <div class="back-pill-btn" onclick="navigateTo('services')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </div>
+            <div class="stars-top-title">🖼️ NFT Ijara</div>
+            <div class="balance-badge-pill" onclick="navigateTo('topup')">
+                <span id="balance">0</span> UZS
+            </div>
+        </div>
+
+        <!-- Hero Card -->
+        <div class="rent-hero-card">
+            <div class="rent-hero-tag">⚡ Marketapp Live Katalog</div>
+            <div class="rent-hero-title">Telegram NFT Ijarasi</div>
+            <div class="rent-hero-desc">
+                Telegram sovg'alari, chiroyli username va +888 raqamlarni CoinStatUZ balansingiz orqali istalgan muddatga ijaraga oling!
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="rent-tabs-wrap">
+            <div class="rent-tab-btn active" data-cat="gifts" onclick="switchRentCategory('gifts')">
+                <span>🎁</span> Sovg'alar
+            </div>
+            <div class="rent-tab-btn" data-cat="usernames" onclick="switchRentCategory('usernames')">
+                <span>🏷️</span> Username
+            </div>
+            <div class="rent-tab-btn" data-cat="numbers" onclick="switchRentCategory('numbers')">
+                <span>📱</span> +888 Nomer
+            </div>
+        </div>
+
+        <!-- Collections Filter Scroll -->
+        <div class="collections-scroll-wrap" id="rentCollectionsContainer">
+            <div class="collection-chip active" onclick="selectRentCollection('', this)">Barchasi</div>
+        </div>
+
+        <!-- Search Row -->
+        <div class="search-row-rent">
+            <div class="search-input-wrap-rent">
+                <svg class="search-icon-rent" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="rentSearchInput" placeholder="NFT nomi yoki raqami bo'yicha qidirish..." oninput="handleRentSearch()">
+            </div>
+        </div>
+
+        <!-- NFT Items Grid -->
+        <div class="nft-grid-rent" id="rentItemsGrid">
+            <div class="skeleton-card-rent"></div>
+            <div class="skeleton-card-rent"></div>
+            <div class="skeleton-card-rent"></div>
+            <div class="skeleton-card-rent"></div>
+        </div>
+
+        <!-- Rent Modal -->
+        <div class="modal-overlay-rent" id="rentActionModal">
+            <div class="modal-sheet-rent">
+                <div class="modal-drag-bar-rent"></div>
+                <div class="modal-header-row-rent">
+                    <div class="modal-title-rent">NFT Ijarasini rasmiylashtirish</div>
+                    <button class="modal-close-btn-rent" onclick="closeRentModal()">&times;</button>
+                </div>
+
+                <!-- Preview Card -->
+                <div class="modal-item-preview-rent">
+                    <img class="modal-item-img-rent" id="modalRentItemImg" src="./images/gift.webp" alt="NFT">
+                    <div>
+                        <div class="modal-item-name-rent" id="modalRentItemName">NFT Name</div>
+                        <div class="modal-item-daily-rent" id="modalRentItemDaily">0 so'm / kun</div>
+                    </div>
+                </div>
+
+                <!-- Rental Days Selector -->
+                <div class="modal-field-title-rent">
+                    <span>Ijara muddati:</span>
+                    <span id="modalRentDaysLabel" style="color: #38bdf8; font-weight: 800;">1 kun</span>
+                </div>
+                <div class="day-stepper-row-rent">
+                    <button class="step-btn-rent" onclick="adjustRentDays(-1)">-</button>
+                    <div class="step-display-rent" id="modalRentDaysDisplay">1 kun</div>
+                    <button class="step-btn-rent" onclick="adjustRentDays(1)">+</button>
+                </div>
+                <input type="range" class="range-slider-rent" id="modalRentDaysSlider" min="1" max="30" value="1" oninput="onRentSliderChange(this.value)">
+
+                <div class="quick-days-pills-rent">
+                    <div class="quick-pill-rent" onclick="setQuickRentDays(1)">1 kun</div>
+                    <div class="quick-pill-rent" onclick="setQuickRentDays(3)">3 kun</div>
+                    <div class="quick-pill-rent" onclick="setQuickRentDays(7)">7 kun</div>
+                    <div class="quick-pill-rent" onclick="setQuickRentDays(14)">14 kun</div>
+                    <div class="quick-pill-rent" onclick="setQuickRentDays(30)">30 kun</div>
+                </div>
+
+                <!-- Username target input -->
+                <div class="modal-field-title-rent">
+                    <span>Ulanadigan Telegram profil (@username):</span>
+                </div>
+                <input type="text" class="modal-input-box-rent" id="modalRentTargetUsername" placeholder="Masalan: durov yoki @shaxsiy_profil">
+
+                <!-- Cost Calculation -->
+                <div class="total-calc-card-rent">
+                    <div class="calc-row-rent">
+                        <span>Kunlik ijara:</span>
+                        <span id="calcRentDailyPrice">0 so'm</span>
+                    </div>
+                    <div class="calc-row-rent">
+                        <span>Muddat:</span>
+                        <span id="calcRentDaysCount">1 kun</span>
+                    </div>
+                    <div class="calc-row-rent total">
+                        <span>Jami to'lov:</span>
+                        <span class="total-amount" id="calcRentTotalPrice">0 so'm</span>
+                    </div>
+                </div>
+
+                <!-- Balance Status -->
+                <div class="balance-check-status-rent" id="rentBalanceStatusBox">
+                    <div>
+                        <span>Hisobingiz: </span>
+                        <strong id="modalRentBalanceDisplay">0</strong> UZS
+                    </div>
+                    <button class="topup-link-btn-rent" onclick="navigateTo('topup')">+ To'ldirish</button>
+                </div>
+
+                <!-- Confirm Button -->
+                <button class="modal-confirm-btn-rent" id="confirmRentBtnApp" onclick="submitRentOrderFromApp()">
+                    <span>🚀 Ijaraga olish</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+
 
     <!-- ==================== VIEW: TOPUP (COINSTAT UZ ORIGINAL LUXURY FINTECH v42.0) ==================== -->
     <section id="view-topup" class="page-view" data-page="topup">
@@ -12057,6 +12740,20 @@ function filterOrders(type, btn) {
 }
 
 const typeMeta = {
+    nft_rent: {
+        title: 'NFT Ijara',
+        icon: '🖼️',
+        iconBg: 'rgba(56, 189, 248, 0.16)',
+        iconBorder: 'rgba(56, 189, 248, 0.35)',
+        badgeColor: '#38bdf8'
+    },
+    rent: {
+        title: 'NFT Ijara',
+        icon: '🖼️',
+        iconBg: 'rgba(56, 189, 248, 0.16)',
+        iconBorder: 'rgba(56, 189, 248, 0.35)',
+        badgeColor: '#38bdf8'
+    },
     stars: {
         title: 'Telegram Stars',
         icon: '⭐',
@@ -12154,6 +12851,7 @@ function renderOrders(orders) {
 
         const targetUser = o.target_username ? ('@' + o.target_username.replace(/^@/, '')) : '';
         const qtyText = (rawType === 'stars' && o.quantity) ? ` · ${Number(o.quantity).toLocaleString('uz-UZ')} Stars` :
+              ((rawType === 'nft_rent' || rawType === 'rent') && o.quantity) ? ` · ${o.quantity} kun` :
                         (rawType === 'premium' && o.quantity) ? ` · ${o.quantity} oy` : '';
         const amountNum = Number(o.amount || o.price || 0);
         const isTopup = rawType === 'topup' || rawType === 'deposit';
@@ -14084,7 +14782,7 @@ function navigateTo(pageId, isBack = false) {
     let activeNavTarget = 'home';
     if (pageId === 'home') {
         activeNavTarget = 'home';
-    } else if (['services', 'stars', 'premium', 'gift', 'phone', 'topup', 'spin'].includes(pageId)) {
+    } else if (['services', 'stars', 'premium', 'gift', 'phone', 'topup', 'spin', 'rent'].includes(pageId)) {
         activeNavTarget = 'services';
     } else if (['profile', 'orders'].includes(pageId)) {
         activeNavTarget = 'profile';
@@ -14146,6 +14844,10 @@ function onPageActivated(pageId) {
         case 'services':
             loadUserBalance();
             break;
+        case 'rent':
+            loadUserBalance();
+            if (typeof initRentPage === 'function') initRentPage();
+            break;
         case 'stars':
             if (typeof setMyUsername === 'function') setMyUsername();
             if (typeof calcCustomStarPrice === 'function') calcCustomStarPrice();
@@ -14196,7 +14898,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initTelegramBackButton();
 
-    const validPages = ['home', 'services', 'stars', 'premium', 'gift', 'phone', 'topup', 'orders', 'profile', 'rating', 'spin'];
+    const validPages = ['home', 'services', 'stars', 'premium', 'gift', 'phone', 'topup', 'orders', 'profile', 'rating', 'spin', 'rent'];
     const pathPage = window.location.pathname.split('/').pop().replace('.html', '').trim();
     const hashPage = (window.location.hash || '').replace('#', '').trim();
     const urlParams = new URLSearchParams(window.location.search);
@@ -14206,7 +14908,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navigateTo(startPage, false);
     setTimeout(() => {
         if (typeof updateSlidingPill === 'function') {
-            const curNav = ['services', 'stars', 'premium', 'gift', 'phone', 'topup', 'spin'].includes(currentPage)
+            const curNav = ['services', 'stars', 'premium', 'gift', 'phone', 'topup', 'spin', 'rent'].includes(currentPage)
                 ? 'services'
                 : (['profile', 'orders'].includes(currentPage) ? 'profile' : (currentPage === 'rating' ? 'rating' : 'home'));
             updateSlidingPill(curNav, true);
@@ -14215,7 +14917,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('resize', () => {
         if (typeof updateSlidingPill === 'function') {
-            const curNav = ['services', 'stars', 'premium', 'gift', 'phone', 'topup', 'spin'].includes(currentPage)
+            const curNav = ['services', 'stars', 'premium', 'gift', 'phone', 'topup', 'spin', 'rent'].includes(currentPage)
                 ? 'services'
                 : (['profile', 'orders'].includes(currentPage) ? 'profile' : (currentPage === 'rating' ? 'rating' : 'home'));
             updateSlidingPill(curNav, true);
@@ -14226,13 +14928,390 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('hashchange', () => {
     const hash = (window.location.hash || '').replace('#', '').trim();
     if (hash && hash !== currentPage) {
-        const validPages = ['home', 'services', 'stars', 'premium', 'gift', 'phone', 'topup', 'orders', 'profile', 'rating', 'spin'];
+        const validPages = ['home', 'services', 'stars', 'premium', 'gift', 'phone', 'topup', 'orders', 'profile', 'rating', 'spin', 'rent'];
         if (validPages.includes(hash)) {
             navigateTo(hash, true);
         }
     }
 });
 
-    </script>
+    
+/* ==================== NFT RENT LOGIC ==================== */
+let rentActiveCategory = 'gifts';
+let rentActiveCollectionAddress = '';
+let rentAllItems = [];
+let rentSelectedItem = null;
+let rentRentalDays = 1;
+let rentMinDaysLimit = 1;
+let rentMaxDaysLimit = 30;
+
+function initRentPage() {
+    loadRentCollections();
+    loadRentItems();
+}
+
+async function loadRentCollections() {
+    try {
+        const res = await fetch('/api/rent/collections');
+        const data = await res.json();
+        const container = document.getElementById('rentCollectionsContainer');
+        if (!container) return;
+
+        if (data && data.ok && data.collections) {
+            let html = `<div class="collection-chip ${rentActiveCollectionAddress === '' ? 'active' : ''}" onclick="selectRentCollection('', this)">Barchasi</div>`;
+            data.collections.slice(0, 25).forEach(c => {
+                const floorText = c.rent_floor_uzs ? ` (${Number(c.rent_floor_uzs).toLocaleString('uz-UZ')} so'm)` : '';
+                html += `<div class="collection-chip ${rentActiveCollectionAddress === c.address ? 'active' : ''}" onclick="selectRentCollection('${c.address}', this)">${escapeRentHtml(c.name)}${floorText}</div>`;
+            });
+            container.innerHTML = html;
+        }
+    } catch (e) {
+        console.warn('Rent collections load error:', e);
+    }
+}
+
+function selectRentCollection(address, el) {
+    rentActiveCollectionAddress = address;
+    document.querySelectorAll('#rentCollectionsContainer .collection-chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    loadRentItems();
+}
+
+function switchRentCategory(cat) {
+    if (rentActiveCategory === cat) return;
+    rentActiveCategory = cat;
+    rentActiveCollectionAddress = '';
+    document.querySelectorAll('.rent-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-cat') === cat);
+    });
+    const colScroll = document.getElementById('rentCollectionsContainer');
+    if (cat === 'gifts') {
+        colScroll.style.display = 'flex';
+        loadRentCollections();
+    } else {
+        colScroll.style.display = 'none';
+    }
+    loadRentItems();
+}
+
+async function loadRentItems() {
+    const grid = document.getElementById('rentItemsGrid');
+    if (!grid) return;
+
+    grid.innerHTML = `
+        <div class="skeleton-card-rent"></div>
+        <div class="skeleton-card-rent"></div>
+        <div class="skeleton-card-rent"></div>
+        <div class="skeleton-card-rent"></div>
+    `;
+
+    try {
+        const query = new URLSearchParams();
+        query.set('category', rentActiveCategory);
+        if (rentActiveCollectionAddress) query.set('collection_address', rentActiveCollectionAddress);
+
+        const res = await fetch(`/api/rent/items?${query.toString()}`);
+        const data = await res.json();
+
+        if (data && data.ok && Array.isArray(data.items)) {
+            rentAllItems = data.items;
+            renderRentItems(rentAllItems);
+        } else {
+            grid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: var(--text-muted, #94a3b8);">
+                    <div style="font-size: 32px; margin-bottom: 8px;">🔍</div>
+                    <div style="font-size: 15px; font-weight: 700; color: #fff;">Hozircha ijara uchun NFT topilmadi</div>
+                    <div style="font-size: 12px; margin-top: 4px;">Kolleksiyani o'zgartirib ko'ring yoki birozdan so'ng qayta tekshiring</div>
+                </div>
+            `;
+        }
+    } catch (err) {
+        grid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: #f87171;">
+                <div style="font-size: 32px; margin-bottom: 8px;">⚠️</div>
+                <div style="font-size: 15px; font-weight: 700;">Ma'lumotlarni yuklab bo'lmadi</div>
+                <button onclick="loadRentItems()" style="margin-top: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 14px; border-radius: 8px; cursor: pointer;">Qayta urinish</button>
+            </div>
+        `;
+    }
+}
+
+function renderRentItems(items) {
+    const grid = document.getElementById('rentItemsGrid');
+    if (!grid) return;
+
+    if (!items || items.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: var(--text-muted, #94a3b8);">
+                <div style="font-size: 15px; font-weight: 700; color: #fff;">Qidiruv bo'yicha hech narsa topilmadi</div>
+            </div>
+        `;
+        return;
+    }
+
+    let html = '';
+    items.forEach((item, index) => {
+        const imgUrl = item.webp_url || (item.media_key ? `https://nft.fragment.com/gift/${item.media_key}.webp` : './images/gift.webp');
+        const price = Number(item.price_per_day_uzs || 0);
+        const minDays = Number(item.min_days || 1);
+        const maxDays = Number(item.max_days || 30);
+        const attrPills = (item.attributes || []).slice(0, 2).map(a => 
+            `<span class="nft-attr-pill-rent">${escapeRentHtml(a.value || a.trait_type)}</span>`
+        ).join('');
+
+        html += `
+            <div class="nft-card-rent">
+                <div class="nft-img-wrap-rent">
+                    <span class="nft-badge-pill-rent">${minDays}-${maxDays} kun</span>
+                    <img src="${imgUrl}" alt="${escapeRentHtml(item.name)}" loading="lazy" onerror="this.src='./images/gift.webp'">
+                </div>
+                <div class="nft-title-rent" title="${escapeRentHtml(item.name)}">${escapeRentHtml(item.name)}</div>
+                <div class="nft-attributes-rent">
+                    ${attrPills}
+                </div>
+                <div class="nft-price-row-rent">
+                    <div class="nft-price-val-rent">
+                        ${price.toLocaleString('uz-UZ')} <span class="nft-price-unit-rent">so'm / kun</span>
+                    </div>
+                    <div class="nft-days-range-rent">Min: ${minDays} kun | Max: ${maxDays} kun</div>
+                </div>
+                <button class="nft-rent-btn-rent" onclick="openRentModal(${index})">
+                    <span>Ijaraga olish</span>
+                </button>
+            </div>
+        `;
+    });
+
+    grid.innerHTML = html;
+}
+
+function handleRentSearch() {
+    const query = (document.getElementById('rentSearchInput')?.value || '').toLowerCase().trim();
+    if (!query) {
+        renderRentItems(rentAllItems);
+        return;
+    }
+    const filtered = rentAllItems.filter(item => {
+        const name = (item.name || '').toLowerCase();
+        const number = String(item.number || '');
+        const slug = (item.slug || '').toLowerCase();
+        return name.includes(query) || number.includes(query) || slug.includes(query);
+    });
+    renderRentItems(filtered);
+}
+
+function openRentModal(index) {
+    rentSelectedItem = rentAllItems[index];
+    if (!rentSelectedItem) return;
+
+    rentMinDaysLimit = Number(rentSelectedItem.min_days || 1);
+    rentMaxDaysLimit = Number(rentSelectedItem.max_days || 30);
+    rentRentalDays = rentMinDaysLimit;
+
+    const modal = document.getElementById('rentActionModal');
+    const img = document.getElementById('modalRentItemImg');
+    const name = document.getElementById('modalRentItemName');
+    const daily = document.getElementById('modalRentItemDaily');
+    const slider = document.getElementById('modalRentDaysSlider');
+    const targetInput = document.getElementById('modalRentTargetUsername');
+
+    const imgUrl = rentSelectedItem.webp_url || (rentSelectedItem.media_key ? `https://nft.fragment.com/gift/${rentSelectedItem.media_key}.webp` : './images/gift.webp');
+    if (img) img.src = imgUrl;
+    if (name) name.textContent = rentSelectedItem.name;
+    const price = Number(rentSelectedItem.price_per_day_uzs || 0);
+    if (daily) daily.textContent = `${price.toLocaleString('uz-UZ')} so'm / kun`;
+
+    if (slider) {
+        slider.min = rentMinDaysLimit;
+        slider.max = rentMaxDaysLimit;
+        slider.value = rentRentalDays;
+    }
+
+    if (targetInput && !targetInput.value) {
+        const myUser = (window.Telegram?.WebApp?.initDataUnsafe?.user?.username || '').trim();
+        if (myUser) targetInput.value = '@' + myUser;
+    }
+
+    updateRentModalCalculations();
+    modal.classList.add('active');
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e) {}
+    }
+}
+
+function closeRentModal() {
+    const modal = document.getElementById('rentActionModal');
+    if (modal) modal.classList.remove('active');
+    rentSelectedItem = null;
+}
+
+function adjustRentDays(delta) {
+    rentRentalDays = Math.max(rentMinDaysLimit, Math.min(rentMaxDaysLimit, rentRentalDays + delta));
+    const slider = document.getElementById('modalRentDaysSlider');
+    if (slider) slider.value = rentRentalDays;
+    updateRentModalCalculations();
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+}
+
+function onRentSliderChange(val) {
+    rentRentalDays = parseInt(val, 10);
+    updateRentModalCalculations();
+}
+
+function setQuickRentDays(days) {
+    rentRentalDays = Math.max(rentMinDaysLimit, Math.min(rentMaxDaysLimit, days));
+    const slider = document.getElementById('modalRentDaysSlider');
+    if (slider) slider.value = rentRentalDays;
+    updateRentModalCalculations();
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+}
+
+function updateRentModalCalculations() {
+    if (!rentSelectedItem) return;
+
+    const daysDisplay = document.getElementById('modalRentDaysDisplay');
+    const daysLabel = document.getElementById('modalRentDaysLabel');
+    if (daysDisplay) daysDisplay.textContent = `${rentRentalDays} kun`;
+    if (daysLabel) daysLabel.textContent = `${rentRentalDays} kun`;
+
+    const price = Number(rentSelectedItem.price_per_day_uzs || 0);
+    const total = rentRentalDays * price;
+
+    document.getElementById('calcRentDailyPrice').textContent = `${price.toLocaleString('uz-UZ')} so'm`;
+    document.getElementById('calcRentDaysCount').textContent = `${rentRentalDays} kun`;
+    document.getElementById('calcRentTotalPrice').textContent = `${total.toLocaleString('uz-UZ')} so'm`;
+
+    const curBal = typeof getUserBalanceVal === 'function' ? getUserBalanceVal() : (Number(document.getElementById('balance')?.textContent?.replace(/[^0-9]/g, '')) || 0);
+    const balDisplay = document.getElementById('modalRentBalanceDisplay');
+    if (balDisplay) balDisplay.textContent = curBal.toLocaleString('uz-UZ');
+
+    const statusBox = document.getElementById('rentBalanceStatusBox');
+    const confirmBtn = document.getElementById('confirmRentBtnApp');
+
+    if (curBal < total) {
+        statusBox.className = 'balance-check-status-rent insufficient';
+        statusBox.innerHTML = `
+            <div>
+                <span>Yetishmayapti: </span>
+                <strong>${(total - curBal).toLocaleString('uz-UZ')}</strong> UZS
+            </div>
+            <button class="topup-link-btn-rent" onclick="navigateTo('topup')">+ To'ldirish</button>
+        `;
+        confirmBtn.disabled = true;
+        confirmBtn.innerHTML = `<span>Balans yetarli emas</span>`;
+    } else {
+        statusBox.className = 'balance-check-status-rent sufficient';
+        statusBox.innerHTML = `
+            <div>
+                <span>Hisobingiz: </span>
+                <strong>${curBal.toLocaleString('uz-UZ')}</strong> UZS (Yetarli ✅)
+            </div>
+        `;
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = `<span>🚀 Ijarani rasmiylashtirish (${total.toLocaleString('uz-UZ')} UZS)</span>`;
+    }
+}
+
+async function submitRentOrderFromApp() {
+    if (!rentSelectedItem) return;
+
+    const targetInput = document.getElementById('modalRentTargetUsername');
+    const targetUsername = (targetInput?.value || '').replace(/^@/, '').trim();
+
+    if (!targetUsername) {
+        if (typeof showTopupToast === 'function') {
+            showTopupToast("NFT ulanadigan Telegram usernameni kiriting!");
+        } else {
+            alert("NFT ulanadigan Telegram usernameni kiriting!");
+        }
+        targetInput.focus();
+        return;
+    }
+
+    const price = Number(rentSelectedItem.price_per_day_uzs || 0);
+    const total = rentRentalDays * price;
+    const curBal = typeof getUserBalanceVal === 'function' ? getUserBalanceVal() : (Number(document.getElementById('balance')?.textContent?.replace(/[^0-9]/g, '')) || 0);
+
+    if (curBal < total) {
+        if (typeof showTopupToast === 'function') {
+            showTopupToast("Balansingiz yetarli emas! Hisobni to'ldiring.");
+        }
+        return;
+    }
+
+    const confirmBtn = document.getElementById('confirmRentBtnApp');
+    confirmBtn.disabled = true;
+    confirmBtn.innerHTML = `<span>⏳ Rasmiylashtirilmoqda...</span>`;
+
+    const imgUrl = rentSelectedItem.webp_url || (rentSelectedItem.media_key ? `https://nft.fragment.com/gift/${rentSelectedItem.media_key}.webp` : '');
+    const uid = typeof getUserId === 'function' ? getUserId() : (window.Telegram?.WebApp?.initDataUnsafe?.user?.id || 8202423244);
+    const tgInit = window.Telegram?.WebApp?.initData || '';
+
+    try {
+        const res = await fetch('/api/order/rent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Telegram-Init-Data': tgInit,
+            },
+            body: JSON.stringify({
+                telegram_id: uid,
+                initData: tgInit,
+                item_name: rentSelectedItem.name,
+                nft_address: rentSelectedItem.nft_address || '',
+                quote_id: rentSelectedItem.quote_id || '',
+                category: rentSelectedItem.category || rentActiveCategory,
+                image_url: imgUrl,
+                days: rentRentalDays,
+                price_per_day: price,
+                target_username: targetUsername,
+            }),
+        });
+
+        const data = await res.json();
+
+        if (data && data.ok) {
+            if (window.confetti) {
+                window.confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 } });
+            }
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+            }
+
+            closeRentModal();
+            loadUserBalance();
+            if (typeof showTopupToast === 'function') {
+                showTopupToast("🎉 NFT ijara buyurtmangiz muvaffaqiyatli qabul qilindi!");
+            }
+
+            setTimeout(() => {
+                navigateTo('orders');
+            }, 1000);
+        } else {
+            alert(data.error || "Xatolik yuz berdi. Qayta urinib ko'ring.");
+            confirmBtn.disabled = false;
+            updateRentModalCalculations();
+        }
+    } catch (err) {
+        alert("Tarmoq xatosi. Iltimos qayta urinib ko'ring.");
+        confirmBtn.disabled = false;
+        updateRentModalCalculations();
+    }
+}
+
+function escapeRentHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[m]);
+}
+
+</script>
 </body>
 </html>
