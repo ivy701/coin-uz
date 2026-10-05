@@ -423,6 +423,62 @@
         @keyframes pulse {
             0%, 100% { opacity: 0.6; }
             50% { opacity: 0.25; }
+        .rent-load-more-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 0 24px 0;
+            width: 100%;
+        }
+
+        .rent-load-more-btn {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: #e0f2fe;
+            font-size: 13.5px;
+            font-weight: 750;
+            padding: 12px 28px;
+            border-radius: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .rent-load-more-btn:active {
+            transform: scale(0.96);
+            background: rgba(56, 189, 248, 0.2);
+        }
+
+        .rent-load-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            border-top-color: #38bdf8;
+            border-radius: 50%;
+            animation: rentSpin 0.7s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes rentSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        .rent-bottom-spacer {
+            height: 100px;
+            width: 100%;
+        }
+
+        .rent-end-message {
+            font-size: 12.5px;
+            color: #64748b;
+            font-weight: 600;
+            padding: 12px 0;
+            text-align: center;
         }
 
         /* Modal Sheet */
@@ -1214,6 +1270,15 @@
             <div class="skeleton-card"></div>
             <div class="skeleton-card"></div>
         </div>
+
+        <!-- Infinite Scroll / Load More Trigger -->
+        <div class="rent-load-more-wrap" id="rentLoadMoreWrap" style="display: none;">
+            <button class="rent-load-more-btn" id="rentLoadMoreBtn" onclick="loadMoreItems()">
+                <span id="rentLoadMoreBtnText">⚡ Ko'proq NFT yuklash</span>
+            </button>
+        </div>
+
+        <div class="rent-bottom-spacer"></div>
     </div>
 
     <!-- My Rents View (Screen) -->
@@ -1424,6 +1489,10 @@
         let myRents = [];
         let currentConnectingRent = null;
         let isMyRentsActive = false;
+
+        let nextCursor = '';
+        let isLoadingMore = false;
+        let hasMoreItems = true;
 
         function getUserId() {
             if (tg?.initDataUnsafe?.user?.id) return tg.initDataUnsafe.user.id;
@@ -1753,9 +1822,61 @@
             loadItems();
         }
 
+        function createItemCardHtml(item, index) {
+            const imgUrl = item.webp_url || (item.media_key ? `https://nft.fragment.com/gift/${item.media_key}.webp` : './images/gift.webp');
+            let price = Number(item.price_per_day_uzs || 0);
+            if (!price && item.price_per_day_nano) {
+                price = Math.round((Number(item.price_per_day_nano) / 1e9) * 28000);
+            }
+            if (!price && item.raw_price_per_day_nano) {
+                price = Math.round((Number(item.raw_price_per_day_nano) / 1e9) * 28000);
+            }
+            if (!price && item.base_min_nano) {
+                price = Math.round((Number(item.base_min_nano) / 1e9) * 28000);
+            }
+            if (!price) price = 500;
+            item.price_per_day_uzs = price;
+
+            const minDays = Number(item.min_days || 1);
+            const maxDays = Number(item.max_days || 30);
+            const attrPills = (item.attributes || []).slice(0, 2).map(a => 
+                `<span class="nft-attr-pill">${escapeHtml(a.value || a.trait_type)}</span>`
+            ).join('');
+
+            return `
+                <div class="nft-card">
+                    <div class="nft-img-wrap">
+                        <span class="nft-badge-pill">${minDays}-${maxDays} kun</span>
+                        <img src="${imgUrl}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='./images/gift.webp'">
+                    </div>
+                    <div class="nft-title" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+                    <div class="nft-attributes">
+                        ${attrPills}
+                    </div>
+                    <div class="nft-price-row">
+                        <div class="nft-price-val">
+                            ${price.toLocaleString('uz-UZ')} <span class="nft-price-unit">so'm / kun</span>
+                        </div>
+                        <div class="nft-days-range">Min: ${minDays} kun | Max: ${maxDays} kun</div>
+                    </div>
+                    <button class="nft-rent-btn" onclick="openRentModal(${index})">
+                        <span>Ijaraga olish</span>
+                    </button>
+                </div>
+            `;
+        }
+
         async function loadItems() {
             const grid = document.getElementById('itemsGrid');
             if (!grid) return;
+
+            nextCursor = '';
+            hasMoreItems = true;
+            isLoadingMore = false;
+            allItems = [];
+
+            const loadMoreWrap = document.getElementById('rentLoadMoreWrap');
+            if (loadMoreWrap) loadMoreWrap.style.display = 'none';
 
             grid.innerHTML = `
                 <div class="skeleton-card"></div>
@@ -1775,6 +1896,25 @@
 
                 if (data && data.ok && Array.isArray(data.items)) {
                     allItems = data.items;
+                    nextCursor = data.cursor || '';
+
+                    // Foydalanuvchiga kam ko'rinmasligi uchun darhol 2-sahifani ham olib qo'shamiz (kamida 20 ta NFT)
+                    if (nextCursor && allItems.length < 20) {
+                        try {
+                            const q2 = new URLSearchParams();
+                            q2.set('category', activeCategory);
+                            if (activeCollectionAddress) q2.set('collection_address', activeCollectionAddress);
+                            q2.set('cursor', nextCursor);
+                            const res2 = await fetch(`${apiBase}/api/rent/items?${q2.toString()}`);
+                            const data2 = await res2.json();
+                            if (data2 && data2.ok && Array.isArray(data2.items) && data2.items.length > 0) {
+                                allItems = allItems.concat(data2.items);
+                                nextCursor = data2.cursor || '';
+                            }
+                        } catch(e) {}
+                    }
+
+                    hasMoreItems = Boolean(nextCursor);
                     renderItems(allItems);
                 } else {
                     grid.innerHTML = `
@@ -1784,6 +1924,7 @@
                             <div style="font-size: 12px; margin-top: 4px;">Kolleksiyani o'zgartirib ko'ring yoki birozdan so'ng qayta tekshiring</div>
                         </div>
                     `;
+                    if (loadMoreWrap) loadMoreWrap.style.display = 'none';
                 }
             } catch (err) {
                 grid.innerHTML = `
@@ -1793,6 +1934,72 @@
                         <button onclick="loadItems()" style="margin-top: 10px; background: rgba(255,255,255,0.1); border: 1px solid var(--border-card); color: #fff; padding: 6px 14px; border-radius: 8px; cursor: pointer;">Qayta urinish</button>
                     </div>
                 `;
+                if (loadMoreWrap) loadMoreWrap.style.display = 'none';
+            }
+        }
+
+        async function loadMoreItems() {
+            if (isLoadingMore || !hasMoreItems || !nextCursor) return;
+
+            isLoadingMore = true;
+            const loadMoreBtn = document.getElementById('rentLoadMoreBtn');
+            const loadMoreText = document.getElementById('rentLoadMoreBtnText');
+            if (loadMoreBtn && loadMoreText) {
+                loadMoreText.innerHTML = `<div class="rent-load-spinner"></div> Yuklanmoqda...`;
+                loadMoreBtn.disabled = true;
+            }
+
+            try {
+                const query = new URLSearchParams();
+                query.set('category', activeCategory);
+                if (activeCollectionAddress) query.set('collection_address', activeCollectionAddress);
+                query.set('cursor', nextCursor);
+
+                const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
+                const res = await fetch(`${apiBase}/api/rent/items?${query.toString()}`);
+                const data = await res.json();
+
+                if (data && data.ok && Array.isArray(data.items) && data.items.length > 0) {
+                    const startIndex = allItems.length;
+                    const newItems = data.items;
+                    allItems = allItems.concat(newItems);
+                    nextCursor = data.cursor || '';
+                    hasMoreItems = Boolean(nextCursor);
+
+                    const grid = document.getElementById('itemsGrid');
+                    if (grid) {
+                        const newHtml = newItems.map((item, idx) => createItemCardHtml(item, startIndex + idx)).join('');
+                        grid.insertAdjacentHTML('beforeend', newHtml);
+                    }
+                } else {
+                    hasMoreItems = false;
+                }
+            } catch (e) {
+                console.warn('loadMoreItems error:', e);
+            } finally {
+                isLoadingMore = false;
+                updateLoadMoreUi();
+            }
+        }
+
+        function updateLoadMoreUi() {
+            const loadMoreWrap = document.getElementById('rentLoadMoreWrap');
+            if (!loadMoreWrap) return;
+
+            if (hasMoreItems && nextCursor) {
+                loadMoreWrap.style.display = 'flex';
+                loadMoreWrap.innerHTML = `
+                    <button class="rent-load-more-btn" id="rentLoadMoreBtn" onclick="loadMoreItems()">
+                        <span id="rentLoadMoreBtnText">⚡ Ko'proq NFT yuklash</span>
+                    </button>
+                `;
+            } else {
+                if (allItems.length > 0) {
+                    loadMoreWrap.style.display = 'flex';
+                    loadMoreWrap.innerHTML = `<div class="rent-end-message">✅ Barcha mavjud NFTlar yuklandi (${allItems.length} ta)</div>`;
+                } else {
+                    loadMoreWrap.style.display = 'none';
+                }
             }
         }
 
@@ -1803,58 +2010,39 @@
             if (!items || items.length === 0) {
                 grid.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: var(--text-secondary);">
+                        <div style="font-size: 32px; margin-bottom: 8px;">🔍</div>
                         <div style="font-size: 15px; font-weight: 700; color: #fff;">Qidiruv bo'yicha hech narsa topilmadi</div>
                     </div>
                 `;
+                const loadMore = document.getElementById('rentLoadMoreWrap');
+                if (loadMore) loadMore.style.display = 'none';
                 return;
             }
 
-            let html = '';
-            items.forEach((item, index) => {
-                const imgUrl = item.webp_url || (item.media_key ? `https://nft.fragment.com/gift/${item.media_key}.webp` : './images/gift.webp');
-                let price = Number(item.price_per_day_uzs || 0);
-                if (!price && item.price_per_day_nano) {
-                    price = Math.round((Number(item.price_per_day_nano) / 1e9) * 28000);
-                }
-                if (!price && item.raw_price_per_day_nano) {
-                    price = Math.round((Number(item.raw_price_per_day_nano) / 1e9) * 28000);
-                }
-                if (!price && item.base_min_nano) {
-                    price = Math.round((Number(item.base_min_nano) / 1e9) * 28000);
-                }
-                if (!price) price = 500;
-                item.price_per_day_uzs = price;
+            grid.innerHTML = items.map((item, index) => createItemCardHtml(item, index)).join('');
+            updateLoadMoreUi();
+        }
 
-                const minDays = Number(item.min_days || 1);
-                const maxDays = Number(item.max_days || 30);
-                const attrPills = (item.attributes || []).slice(0, 2).map(a => 
-                    `<span class="nft-attr-pill">${escapeHtml(a.value || a.trait_type)}</span>`
-                ).join('');
+        function handleInfiniteScroll() {
+            const catalogSec = document.getElementById('catalogSection');
+            if (!catalogSec || catalogSec.style.display === 'none') {
+                return;
+            }
 
-                html += `
-                    <div class="nft-card">
-                        <div class="nft-img-wrap">
-                            <span class="nft-badge-pill">${minDays}-${maxDays} kun</span>
-                            <img src="${imgUrl}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='./images/gift.webp'">
-                        </div>
-                        <div class="nft-title" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
-                        <div class="nft-attributes">
-                            ${attrPills}
-                        </div>
-                        <div class="nft-price-row">
-                            <div class="nft-price-val">
-                                ${price.toLocaleString('uz-UZ')} <span class="nft-price-unit">so'm / kun</span>
-                            </div>
-                            <div class="nft-days-range">Min: ${minDays} kun | Max: ${maxDays} kun</div>
-                        </div>
-                        <button class="nft-rent-btn" onclick="openRentModal(${index})">
-                            <span>Ijaraga olish</span>
-                        </button>
-                    </div>
-                `;
-            });
+            if (isLoadingMore || !hasMoreItems || !nextCursor) {
+                return;
+            }
 
-            grid.innerHTML = html;
+            const scrollPos = window.innerHeight + window.scrollY;
+            const threshold = document.documentElement.scrollHeight - 450;
+            if (scrollPos >= threshold) {
+                loadMoreItems();
+            }
+        }
+
+        if (!window._rentHtmlScrollAttached) {
+            window.addEventListener('scroll', handleInfiniteScroll, { passive: true });
+            window._rentHtmlScrollAttached = true;
         }
 
         function handleSearch() {
