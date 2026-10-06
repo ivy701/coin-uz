@@ -1238,6 +1238,15 @@
         </div>
     </div>
 
+    <!-- Tech Maintenance Notice Banner -->
+    <div style="background: rgba(249, 115, 22, 0.12); border: 1.5px solid rgba(249, 115, 22, 0.45); border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+        <div style="font-size: 22px; line-height: 1;">🛠</div>
+        <div style="font-size: 13px; color: #fdba74; font-weight: 600; line-height: 1.4;">
+            <span style="color: #fb923c; font-weight: 700;">Texnik ishlar olib borilmoqda:</span><br>
+            NFT Ijara tizimida texnik ishlar ketmoqda. Xarid qilish vaqtincha to'xtatildi.
+        </div>
+    </div>
+
     <!-- Hero Card -->
     <div class="rent-hero-card">
         <div class="rent-hero-tag">⚡ Marketapp Live Katalog</div>
@@ -2106,7 +2115,19 @@
             renderItems(filtered);
         }
 
+        function handleRentTechNotice() {
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+            const msg = "🛠 Hozirda NFT Ijara bo'limida texnik sozlash ishlari olib borilmoqda. Xizmat tez orada qayta ishga tushadi!";
+            if (tg?.showAlert) {
+                tg.showAlert(msg);
+            } else {
+                alert(msg);
+            }
+        }
+
         function openRentModal(index) {
+            handleRentTechNotice();
+            return;
             selectedItem = allItems[index];
             if (!selectedItem) return;
 
