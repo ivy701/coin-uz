@@ -1667,7 +1667,7 @@
                 const targetDisplay = targetUname ? (targetUname.startsWith('@') ? targetUname : '@' + targetUname) : '@profilingiz';
 
                 const statusHtml = isConn ? 
-                    `<span class="status-pill-active" style="color: #4ade80; background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.35);">• Ulangan</span>` :
+                    `<span class="status-pill-active" style="color: #38bdf8; background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35);">• Ulash jarayonda</span>` :
                     `<span class="status-pill-active">• Faol</span>`;
 
                 html += `
@@ -1685,8 +1685,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="my-rent-bind-btn" ${isConn ? 'style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.4); color: #4ade80;"' : ''} onclick="openConnectModal(${idx})">
-                            <span>${isConn ? `✅ Akkauntga ulangan (${escapeHtml(targetDisplay)})` : '🔗 Telegram akkauntga ulash'}</span>
+                        <button class="my-rent-bind-btn" ${isConn ? 'style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;"' : ''} onclick="openConnectModal(${idx})">
+                            <span>${isConn ? `⏳ Havola yuborilgan (${escapeHtml(targetDisplay)})` : '🔗 Telegram akkauntga ulash'}</span>
                         </button>
                     </div>
                 `;
