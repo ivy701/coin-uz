@@ -19,6 +19,7 @@ from services.database import (
   record_payment,
 )
 from services.fragment_api import FragmentAPI, FragmentAPIError
+from services.abu_store_api import abu_store_client, AbuStoreAPIError
 from services.payment_verify import extract_payment_fields, verify_shop_signature
 from services.telegram_auth import validate_init_data
 logger = logging.getLogger(__name__)
@@ -436,37 +437,70 @@ async def api_order_stars(request: web.Request) -> web.Response:
       status=400
     )
 
-  # Check if Fragment API is available and try to fulfill automatically
+  # Check if Abu Store or Fragment API is available
+  abu_ready = bool(abu_store_client.api_key and abu_store_client.api_key.strip())
   is_fragment_ready = bool(fragment.api_key and fragment.api_key.strip())
-  if not is_fragment_ready:
+  if not abu_ready and not is_fragment_ready:
     return web.json_response({
       "ok": False,
       "error": "Kechirasiz, Stars xarid qilish xizmati vaqtincha faol emas. Iltimos, adminga murojaat qiling."
     }, status=503)
 
-  try:
-    result = await fragment.buy_stars(username, quantity)
-  except Exception as e:
-    err_str = str(e).lower()
-    logger.error(f"Fragment buy_stars failed: {e}")
-    if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
+  result = None
+  ext_id = ""
+  if abu_ready:
+    try:
+      logger.info(f"Fulfilling {quantity} stars for @{username} via Abu Store API")
+      result = await abu_store_client.buy_stars(username, quantity)
+      if isinstance(result, dict):
+        sub = result.get("data") or result.get("order") or result
+        if isinstance(sub, dict) and "order" in sub:
+          sub = sub["order"]
+        ext_id = str(sub.get("id", "")) if isinstance(sub, dict) else ""
+    except AbuStoreAPIError as a_err:
+      logger.warning("Abu Store buy_stars error: %s (code=%s, status=%s)", a_err, a_err.code, a_err.status)
+      if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
+        return web.json_response({
+          "ok": False,
+          "error": "❌ Kechirasiz, bot hisobida (Abu Store) yetarli mablag' mavjud emas. Balansingizdan pul yechilmadi."
+        }, status=400)
+      if not is_fragment_ready:
+        return web.json_response({
+          "ok": False,
+          "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(a_err)}"
+        }, status=400)
+    except Exception as e:
+      logger.warning("Abu Store unexpected error: %s", e)
+      if not is_fragment_ready:
+        return web.json_response({
+          "ok": False,
+          "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(e)}"
+        }, status=400)
+
+  if not result and is_fragment_ready:
+    try:
+      logger.info(f"Fulfilling {quantity} stars for @{username} via Fragment API fallback")
+      result = await fragment.buy_stars(username, quantity)
+      if isinstance(result, dict):
+        sub = result.get("result") if isinstance(result.get("result"), dict) else result
+        if isinstance(sub, dict):
+          ext_id = str(sub.get("id", ""))
+    except Exception as e:
+      err_str = str(e).lower()
+      logger.error(f"Fragment buy_stars failed: {e}")
+      if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
+        return web.json_response({
+          "ok": False,
+          "error": "❌ Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
+        }, status=400)
       return web.json_response({
         "ok": False,
-        "error": "❌ Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
+        "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(e)}"
       }, status=400)
-    return web.json_response({
-      "ok": False,
-      "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(e)}"
-    }, status=400)
 
-  # Fragment buy_stars succeeded! Now safely create order, deduct balance, and dispatch receipt
+  # Stars purchase succeeded! Now safely create order, deduct user balance, and dispatch receipt
   order_id = 0
   try:
-    ext_id = ""
-    if isinstance(result, dict):
-      sub = result.get("result") if isinstance(result.get("result"), dict) else result
-      if isinstance(sub, dict):
-        ext_id = str(sub.get("id", ""))
     order_id = await create_order(
       user_id, "stars", username, quantity, price, ext_id, "completed"
     )
@@ -529,37 +563,70 @@ async def api_order_premium(request: web.Request) -> web.Response:
       status=400
     )
 
-  # Check if Fragment API is available and try to fulfill automatically
+  # Check if Abu Store or Fragment API is available
+  abu_ready = bool(abu_store_client.api_key and abu_store_client.api_key.strip())
   is_fragment_ready = bool(fragment.api_key and fragment.api_key.strip())
-  if not is_fragment_ready:
+  if not abu_ready and not is_fragment_ready:
     return web.json_response({
       "ok": False,
       "error": "Kechirasiz, Telegram Premium xizmati vaqtincha ishlamayapti. Iltimos, adminga murojaat qiling."
     }, status=503)
 
-  try:
-    result = await fragment.buy_premium(username, months)
-  except Exception as e:
-    err_str = str(e).lower()
-    logger.error(f"Fragment buy_premium failed: {e}")
-    if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
+  result = None
+  ext_id = ""
+  if abu_ready:
+    try:
+      logger.info(f"Fulfilling {months} months premium for @{username} via Abu Store API")
+      result = await abu_store_client.buy_premium(username, months)
+      if isinstance(result, dict):
+        sub = result.get("data") or result.get("order") or result
+        if isinstance(sub, dict) and "order" in sub:
+          sub = sub["order"]
+        ext_id = str(sub.get("id", "")) if isinstance(sub, dict) else ""
+    except AbuStoreAPIError as a_err:
+      logger.warning("Abu Store buy_premium error: %s (code=%s, status=%s)", a_err, a_err.code, a_err.status)
+      if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
+        return web.json_response({
+          "ok": False,
+          "error": "❌ Kechirasiz, bot hisobida (Abu Store) yetarli mablag' mavjud emas. Balansingizdan pul yechilmadi."
+        }, status=400)
+      if not is_fragment_ready:
+        return web.json_response({
+          "ok": False,
+          "error": f"❌ Premium faollashtirishda xatolik: {str(a_err)}"
+        }, status=400)
+    except Exception as e:
+      logger.warning("Abu Store premium unexpected error: %s", e)
+      if not is_fragment_ready:
+        return web.json_response({
+          "ok": False,
+          "error": f"❌ Premium faollashtirishda xatolik: {str(e)}"
+        }, status=400)
+
+  if not result and is_fragment_ready:
+    try:
+      logger.info(f"Fulfilling {months} months premium for @{username} via Fragment API fallback")
+      result = await fragment.buy_premium(username, months)
+      if isinstance(result, dict):
+        sub = result.get("result") if isinstance(result.get("result"), dict) else result
+        if isinstance(sub, dict):
+          ext_id = str(sub.get("id", ""))
+    except Exception as e:
+      err_str = str(e).lower()
+      logger.error(f"Fragment buy_premium failed: {e}")
+      if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
+        return web.json_response({
+          "ok": False,
+          "error": "❌ Kechirasiz, xizmat hisobida yetarli mablag' mavjud emasligi sababli Premium faollashtirilmadi. Balansingizdan pul yechilmadi."
+        }, status=400)
       return web.json_response({
         "ok": False,
-        "error": "❌ Kechirasiz, xizmat hisobida yetarli mablag' mavjud emasligi sababli Premium faollashtirilmadi. Balansingizdan pul yechilmadi."
+        "error": f"❌ Premium faollashtirishda xatolik: {str(e)}"
       }, status=400)
-    return web.json_response({
-      "ok": False,
-      "error": f"❌ Premium faollashtirishda xatolik: {str(e)}"
-    }, status=400)
 
-  # Fragment buy_premium succeeded! Now safely create order, deduct balance, and dispatch receipt
+  # Premium buy succeeded! Now safely create order, deduct user balance, and dispatch receipt
   order_id = 0
   try:
-    ext_id = ""
-    if isinstance(result, dict):
-      sub = result.get("result") if isinstance(result.get("result"), dict) else result
-      if isinstance(sub, dict):
-        ext_id = str(sub.get("id", ""))
     order_id = await create_order(
       user_id, "premium", username, months, price, ext_id, "completed"
     )
@@ -590,10 +657,18 @@ async def api_order_premium(request: web.Request) -> web.Response:
 
 
 async def api_order_gift(request: web.Request) -> web.Response:
-  return web.json_response({
-    "ok": False,
-    "error": "🔧 Hozirda Telegram Sovg'alari (Gift) bo'limida texnik ishlar olib borilmoqda. Xizmat tez orada qayta ishga tushadi!"
-  }, status=503)
+  try:
+    user_id, auth, body = await _authenticate_request(request, check_rate_limit=True)
+  except web.HTTPException as ex:
+    return ex
+
+  username = (body.get("username") or "").strip().lstrip("@")
+  raw_gift = (body.get("gift") or body.get("gift_name") or body.get("name") or "").strip().lower()
+
+  if not username:
+    return web.json_response({"ok": False, "error": "Username ko'rsatilmagan"}, status=400)
+  if not raw_gift:
+    return web.json_response({"ok": False, "error": "Sovg'a tanlanmagan"}, status=400)
 
   # Normalize gift name / id
   name_mapping = {
@@ -696,6 +771,44 @@ async def api_order_gift(request: web.Request) -> web.Response:
   
   gift_id = gift_mapping.get(gift.lower()) or (gift if gift.isdigit() else f"gift_{gift.lower()}")
   
+  # 1. Primary: Send gift via Abu Store API (deducts from Abu Store bot balance)
+  abu_ready = bool(abu_store_client.api_key and abu_store_client.api_key.strip())
+  if abu_ready:
+    try:
+      logger.info(f"Fulfilling gift {gift} (ID: {gift_id}) to @{username} via Abu Store API")
+      note_text = (body.get("note") or f"🎁 {gift.capitalize()}").strip()
+      res = await abu_store_client.buy_gift(username=username, gift_id=str(gift_id), note=note_text)
+      ext_id = ""
+      if isinstance(res, dict):
+        sub = res.get("data") or res.get("order") or res
+        if isinstance(sub, dict) and "order" in sub:
+          sub = sub["order"]
+        ext_id = str(sub.get("id", "")) if isinstance(sub, dict) else ""
+
+      await deduct_balance(int(user_id), price)
+      order_id = await create_order(
+        int(user_id), "gift", username, 1, price, ext_id or str(gift_id), "completed"
+      )
+      try:
+        from services.channel_notify import notify_gift
+        await notify_gift(username, gift, gift, price, order_id=str(order_id), user_id=int(user_id))
+      except Exception as notify_err:
+        logger.warning("notify_gift receipt send error: %s", notify_err)
+      return web.json_response({
+        "ok": True,
+        "order_id": order_id,
+        "message": f"🎁 {gift.capitalize()} sovg'asi @{username} ga muvaffaqiyatli yuborildi!"
+      })
+    except AbuStoreAPIError as a_err:
+      logger.warning("Abu Store buy_gift error: %s (code=%s, status=%s)", a_err, a_err.code, a_err.status)
+      if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
+        return web.json_response({
+          "ok": False,
+          "error": "❌ Kechirasiz, bot hisobida (Abu Store) yetarli mablag' mavjud emas. Balansingizdan pul yechilmadi."
+        }, status=400)
+    except Exception as ex:
+      logger.warning("Abu Store buy_gift unexpected error: %s", ex)
+
   # Send gift via Telethon (MTProto)
   from services.telethon_client import gift_sender
   
@@ -884,26 +997,9 @@ async def api_rent_items(request: web.Request) -> web.Response:
 
 
 async def get_abu_store_balance() -> float:
-  """Fetch live balance from Abu Store API (https://stars.roxiy.uz/api/v1/balance)."""
-  headers = {
-    "Authorization": f"Bearer {ROXIY_API_KEY}",
-    "Accept": "application/json",
-    "User-Agent": "CoinStatUz-App/1.0"
-  }
-  try:
-    import aiohttp
-    timeout = aiohttp.ClientTimeout(total=5)
-    async with aiohttp.ClientSession(timeout=timeout) as session:
-      async with session.get(f"{ROXIY_API_URL}/balance", headers=headers) as resp:
-        if resp.status == 200:
-          data = await resp.json()
-          if data and data.get("ok"):
-            bal_obj = data.get("data") or data.get("result") or {}
-            raw_bal = bal_obj.get("balance", 0)
-            return float(raw_bal)
-  except Exception as e:
-    logger.warning("get_abu_store_balance error: %s", e)
-  return 0.0
+  """Fetch live balance from Abu Store API."""
+  return await abu_store_client.get_balance()
+
 
 
 async def api_order_rent(request: web.Request) -> web.Response:
