@@ -86,9 +86,8 @@ async def process_buy_stars(callback: CallbackQuery):
         user = await ensure_user(user_id, username, full_name)
     
     if user['balance'] >= price:
-        abu_ready = bool(abu_store_client.api_key and abu_store_client.api_key.strip())
         is_fragment_ready = bool(fragment_client.api_key and fragment_client.api_key.strip())
-        if not abu_ready and not is_fragment_ready:
+        if not is_fragment_ready:
             await callback.message.answer(
                 "❌ Kechirasiz, Stars xarid qilish xizmati vaqtincha ishlamayapti. Iltimos, adminga murojaat qiling.",
                 reply_markup=keyboards.get_main_keyboard()
@@ -98,27 +97,9 @@ async def process_buy_stars(callback: CallbackQuery):
         username = callback.from_user.username or str(user_id)
         
         try:
-            result = None
-            if abu_ready:
-                try:
-                    result = await abu_store_client.buy_stars(username, amount)
-                except AbuStoreAPIError as a_err:
-                    if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
-                        await callback.message.answer(
-                            "❌ <b>Xatolik!</b>\n\n"
-                            "Kechirasiz, bot hisobida (Abu Store) mablag' yetarli emasligi sababli buyurtma bajarilmadi.\n"
-                            "Balansingizdan pul yechilmadi.",
-                            parse_mode="HTML",
-                            reply_markup=keyboards.get_main_keyboard()
-                        )
-                        return
-                    if not is_fragment_ready:
-                        raise Exception(str(a_err))
-
-            if not result and is_fragment_ready:
-                result = await fragment_client.buy_stars(username, amount)
-                if not result or (isinstance(result, dict) and result.get("ok") is False):
-                    raise Exception(result.get("message") if isinstance(result, dict) else "Xatolik")
+            result = await fragment_client.buy_stars(username, amount)
+            if not result or (isinstance(result, dict) and result.get("ok") is False):
+                raise Exception(result.get("message") if isinstance(result, dict) else "Xatolik")
             
             # Subtract balance only after successful API call
             await db.update_balance(user_id, price, 'subtract')

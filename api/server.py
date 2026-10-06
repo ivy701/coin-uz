@@ -437,70 +437,37 @@ async def api_order_stars(request: web.Request) -> web.Response:
       status=400
     )
 
-  # Check if Abu Store or Fragment API is available
-  abu_ready = bool(abu_store_client.api_key and abu_store_client.api_key.strip())
+  # Check if Fragment API is available and try to fulfill automatically
   is_fragment_ready = bool(fragment.api_key and fragment.api_key.strip())
-  if not abu_ready and not is_fragment_ready:
+  if not is_fragment_ready:
     return web.json_response({
       "ok": False,
       "error": "Kechirasiz, Stars xarid qilish xizmati vaqtincha faol emas. Iltimos, adminga murojaat qiling."
     }, status=503)
 
-  result = None
-  ext_id = ""
-  if abu_ready:
-    try:
-      logger.info(f"Fulfilling {quantity} stars for @{username} via Abu Store API")
-      result = await abu_store_client.buy_stars(username, quantity)
-      if isinstance(result, dict):
-        sub = result.get("data") or result.get("order") or result
-        if isinstance(sub, dict) and "order" in sub:
-          sub = sub["order"]
-        ext_id = str(sub.get("id", "")) if isinstance(sub, dict) else ""
-    except AbuStoreAPIError as a_err:
-      logger.warning("Abu Store buy_stars error: %s (code=%s, status=%s)", a_err, a_err.code, a_err.status)
-      if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
-        return web.json_response({
-          "ok": False,
-          "error": "❌ Kechirasiz, bot hisobida (Abu Store) yetarli mablag' mavjud emas. Balansingizdan pul yechilmadi."
-        }, status=400)
-      if not is_fragment_ready:
-        return web.json_response({
-          "ok": False,
-          "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(a_err)}"
-        }, status=400)
-    except Exception as e:
-      logger.warning("Abu Store unexpected error: %s", e)
-      if not is_fragment_ready:
-        return web.json_response({
-          "ok": False,
-          "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(e)}"
-        }, status=400)
-
-  if not result and is_fragment_ready:
-    try:
-      logger.info(f"Fulfilling {quantity} stars for @{username} via Fragment API fallback")
-      result = await fragment.buy_stars(username, quantity)
-      if isinstance(result, dict):
-        sub = result.get("result") if isinstance(result.get("result"), dict) else result
-        if isinstance(sub, dict):
-          ext_id = str(sub.get("id", ""))
-    except Exception as e:
-      err_str = str(e).lower()
-      logger.error(f"Fragment buy_stars failed: {e}")
-      if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
-        return web.json_response({
-          "ok": False,
-          "error": "❌ Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
-        }, status=400)
+  try:
+    result = await fragment.buy_stars(username, quantity)
+  except Exception as e:
+    err_str = str(e).lower()
+    logger.error(f"Fragment buy_stars failed: {e}")
+    if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
       return web.json_response({
         "ok": False,
-        "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(e)}"
+        "error": "❌ Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
       }, status=400)
+    return web.json_response({
+      "ok": False,
+      "error": f"❌ Stars yuborishda xatolik yuz berdi: {str(e)}"
+    }, status=400)
 
-  # Stars purchase succeeded! Now safely create order, deduct user balance, and dispatch receipt
+  # Fragment buy_stars succeeded! Now safely create order, deduct balance, and dispatch receipt
   order_id = 0
   try:
+    ext_id = ""
+    if isinstance(result, dict):
+      sub = result.get("result") if isinstance(result.get("result"), dict) else result
+      if isinstance(sub, dict):
+        ext_id = str(sub.get("id", ""))
     order_id = await create_order(
       user_id, "stars", username, quantity, price, ext_id, "completed"
     )
