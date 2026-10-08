@@ -6274,6 +6274,10 @@ body.no-animations * {
             box-sizing: border-box;
         }
 
+        #view-spin {
+            padding-bottom: 140px;
+        }
+
         /* Canvas Wheel */
         #wheelCanvas {
             width: 292px;
@@ -15198,14 +15202,24 @@ function renderOrders(orders) {
                         formattedSpent = totalSpent.toLocaleString('uz-UZ');
                     }
 
+                    window.currentUserRealSpent = totalSpent;
+
                     document.querySelectorAll('#totalSpent, #profileTotalSpent, .live-total-spent').forEach(el => {
                         el.textContent = formattedSpent;
                     });
+
+                    // Update top rank dock if user is unranked or has 0 spent
+                    const myRankEl = document.getElementById('myRankNum');
+                    const myTurnoverEl = document.getElementById('myTurnoverVal');
+                    if (myRankEl && myRankEl.textContent.trim() === '—' && myTurnoverEl) {
+                        myTurnoverEl.textContent = (totalSpent > 0 ? totalSpent.toLocaleString('uz-UZ') : '0') + ' UZS';
+                    }
 
                     const uidKey = (typeof getUserId === 'function' ? getUserId() : null) || 'guest';
                     try {
                         localStorage.setItem('cs_stat_orders_' + uidKey, String(ordersCount));
                         localStorage.setItem('cs_stat_spent_' + uidKey, formattedSpent);
+                        localStorage.setItem('cs_stat_spent_num_' + uidKey, String(totalSpent));
                     } catch(e) {}
                 }
             } catch (e) {}
@@ -15320,18 +15334,24 @@ function scrollToMyRankRow() {
     }
 
     // Check if user is on podium (#1, #2, #3)
+    const myPodium = document.querySelector('.podium-me-card');
+    if (myPodium) {
+        myPodium.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        myPodium.classList.remove('my-rank-highlight');
+        void myPodium.offsetWidth;
+        myPodium.classList.add('my-rank-highlight');
+        setTimeout(() => myPodium.classList.remove('my-rank-highlight'), 1200);
+        return;
+    }
+
+    // If user is unranked (has spent 0 or not in top 50)
     const myRankEl = document.getElementById('myRankNum');
     const rankTxt = myRankEl ? myRankEl.textContent.trim() : '';
-    if (rankTxt === '#1' || rankTxt === '#2' || rankTxt === '#3') {
-        const podId = 'podium' + rankTxt.replace('#', '');
-        const podiumEl = document.getElementById(podId);
-        if (podiumEl) {
-            podiumEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            podiumEl.classList.remove('my-rank-highlight');
-            void podiumEl.offsetWidth;
-            podiumEl.classList.add('my-rank-highlight');
-            setTimeout(() => podiumEl.classList.remove('my-rank-highlight'), 1200);
-            return;
+    if (rankTxt === '—' || !rankTxt) {
+        if (typeof showToast === 'function') {
+            showToast("🛍 Sizda hali xaridlar mavjud emas");
+        } else if (window.Telegram?.WebApp?.HapticFeedback) {
+            try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning'); } catch(e) {}
         }
     }
 
@@ -15341,7 +15361,7 @@ function scrollToMyRankRow() {
     const myPhoto = tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo') || './images/logo.webp?v=3';
     const myTurnoverEl = document.getElementById('myTurnoverVal');
     const tOver = myTurnoverEl ? myTurnoverEl.textContent : '0 UZS';
-    openUserProfile(rankTxt ? rankTxt.replace('#', '') : null, myUname, tOver, myPhoto, myFullName);
+    openUserProfile(rankTxt && rankTxt !== '—' ? rankTxt.replace('#', '') : null, myUname, tOver, myPhoto, myFullName);
 }
 
 function handleLeaderRowClick(rank, username, amountFormatted, avatarUrl, fullName, userId, event) {
@@ -15411,9 +15431,6 @@ function closeUserProfile(e) {
 
 function renderPodiumAndList(list, currentUserId) {
     const container = document.getElementById('leaderboardList');
-    const av1 = document.getElementById('podiumAvatar1');
-    const av2 = document.getElementById('podiumAvatar2');
-    const av3 = document.getElementById('podiumAvatar3');
     const myAv = document.getElementById('myAvatarImg');
 
     const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user || tg?.initDataUnsafe?.user;
@@ -15433,177 +15450,92 @@ function renderPodiumAndList(list, currentUserId) {
         if (!item) return false;
         const rU = String(item.username || '').replace(/^@/, '').toLowerCase().trim();
         const rId = String(item.telegram_id || item.user_id || '').trim();
-        if (rU === 'cofeature') return true;
-        if (currentTgUsername && rU === currentTgUsername) return true;
         if (currentUserIdStr && rId && rId === currentUserIdStr) return true;
+        if (currentTgUsername && rU && rU === currentTgUsername) return true;
         return false;
     };
 
-    // Ensure list is a clone array
+    // Ensure list is a clone array of genuine API rating data
     list = Array.isArray(list) ? [...list] : [];
 
-    // The user explicitly instructed: "man ozimga teg qip qoy 1 chiga" -> Make user #1 with SIZ tag!
-    let myIndex = list.findIndex(isUserItem);
-    let myUserObj = null;
+    // Find current user's genuine position in the leaderboard
+    const myIndex = list.findIndex(isUserItem);
 
-    if (myIndex >= 0) {
-        myUserObj = list.splice(myIndex, 1)[0];
-    } else {
-        const myUname = tgUser?.username || 'cofeature';
-        const myFullName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ') || myUname;
-        myUserObj = {
-            telegram_id: currentUserIdStr || 'cofeature_id',
-            username: myUname,
-            full_name: myFullName,
-            total: 145000,
-            photo_url: myPhoto
-        };
-    }
+    // Setup Podium Slots (#1, #2, #3) strictly with genuine data
+    function setupPodiumSlot(index, podiumElId, userElId, amtElId, avElId, fallbackBg, fallbackColor) {
+        const pEl = document.getElementById(podiumElId);
+        const item = list[index];
+        const isMe = isUserItem(item);
+        const rank = index + 1;
 
-    // Ensure total is highest so that ranking order is strictly descending
-    const secondPlaceTotal = (list[0] && Number(list[0].total) > 0) ? Number(list[0].total) : 100000;
-    if (Number(myUserObj.total || 0) <= secondPlaceTotal) {
-        myUserObj.total = secondPlaceTotal + 15000;
-    }
+        if (pEl && item && Number(item.total) > 0) {
+            const rawU = (item.username || '').replace(/^@/, '');
+            const uText = rawU ? '@' + rawU : (item.full_name || 'User#' + item.telegram_id);
+            const amtText = Number(item.total).toLocaleString('uz-UZ') + ' UZS';
+            const avatarUrl = getAvatarUrl(item, currentUserId);
+            const letter = (rawU || item.full_name || String(rank))[0]?.toUpperCase() || String(rank);
 
-    // Place user at 1st place!
-    list.unshift(myUserObj);
-
-    // 1st Place (Center - Gold - ME)
-    const p1 = document.getElementById('podium1');
-    if (p1 && list[0] && Number(list[0].total) > 0) {
-        const rawU1 = (list[0].username || '').replace(/^@/, '');
-        const u1 = rawU1 ? '@' + rawU1 : (list[0].full_name || 'User#' + list[0].telegram_id);
-        const amt1 = Number(list[0].total).toLocaleString('uz-UZ') + ' UZS';
-        const avatar1 = getAvatarUrl(list[0], currentUserId);
-        const letter1 = (rawU1 || list[0].full_name || '1')[0]?.toUpperCase() || '1';
-        const uEl1 = document.getElementById('podiumUser1');
-        if (uEl1) {
-            uEl1.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU1}', '${list[0].telegram_id}', event)">${u1} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
-        }
-        const amtEl1 = document.getElementById('podiumAmount1');
-        if (amtEl1) amtEl1.textContent = amt1;
-        p1.style.opacity = '1';
-
-        // Tag: SIZ badge + glowing border on 1st place podium!
-        p1.classList.add('podium-me-card');
-        let badge1 = p1.querySelector('.podium-me-badge');
-        if (!badge1) {
-            badge1 = document.createElement('div');
-            badge1.className = 'podium-me-badge';
-            badge1.textContent = 'SIZ';
-            p1.appendChild(badge1);
-        }
-
-        if (av1) {
-            av1.onerror = function() {
-                this.onerror = null;
-                this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter1) + '&background=f59e0b&color=000&bold=true&rounded=true&size=128';
-            };
-            av1.src = avatar1;
-        }
-        p1.onclick = () => {
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+            const uEl = document.getElementById(userElId);
+            if (uEl) {
+                uEl.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU}', '${item.telegram_id}', event)">${uText} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
             }
-            openUserProfile(1, rawU1, amt1, (av1 ? av1.src : avatar1), list[0].full_name, list[0].telegram_id);
-        };
-    } else if (p1) {
-        document.getElementById('podiumUser1').textContent = '—';
-        document.getElementById('podiumAmount1').textContent = '0 UZS';
-        p1.style.opacity = '0.7';
-        p1.classList.remove('podium-me-card');
-        const badge1 = p1.querySelector('.podium-me-badge');
-        if (badge1) badge1.remove();
-        if (av1) av1.src = './images/logo.webp?v=3';
-        p1.onclick = null;
+
+            const amtEl = document.getElementById(amtElId);
+            if (amtEl) amtEl.textContent = amtText;
+
+            pEl.style.opacity = '1';
+
+            if (isMe) {
+                pEl.classList.add('podium-me-card');
+                let badge = pEl.querySelector('.podium-me-badge');
+                if (!badge) {
+                    badge = document.createElement('div');
+                    badge.className = 'podium-me-badge';
+                    badge.textContent = 'SIZ';
+                    pEl.appendChild(badge);
+                }
+            } else {
+                pEl.classList.remove('podium-me-card');
+                const badge = pEl.querySelector('.podium-me-badge');
+                if (badge) badge.remove();
+            }
+
+            const avEl = document.getElementById(avElId);
+            if (avEl) {
+                avEl.onerror = function() {
+                    this.onerror = null;
+                    this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=${fallbackBg}&color=${fallbackColor}&bold=true&rounded=true&size=128`;
+                };
+                avEl.src = avatarUrl;
+            }
+
+            pEl.onclick = () => {
+                if (window.Telegram?.WebApp?.HapticFeedback) {
+                    try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+                }
+                openUserProfile(rank, rawU, amtText, (avEl ? avEl.src : avatarUrl), item.full_name, item.telegram_id);
+            };
+        } else if (pEl) {
+            const uEl = document.getElementById(userElId);
+            if (uEl) uEl.textContent = '—';
+            const amtEl = document.getElementById(amtElId);
+            if (amtEl) amtEl.textContent = '0 UZS';
+            pEl.style.opacity = '0.7';
+            pEl.classList.remove('podium-me-card');
+            const badge = pEl.querySelector('.podium-me-badge');
+            if (badge) badge.remove();
+            const avEl = document.getElementById(avElId);
+            if (avEl) avEl.src = './images/logo.webp?v=3';
+            pEl.onclick = null;
+        }
     }
 
+    // 1st Place (Center - Gold)
+    setupPodiumSlot(0, 'podium1', 'podiumUser1', 'podiumAmount1', 'podiumAvatar1', 'f59e0b', '000');
     // 2nd Place (Left - Silver)
-    const p2 = document.getElementById('podium2');
-    if (p2 && list[1] && Number(list[1].total) > 0) {
-        const rawU2 = (list[1].username || '').replace(/^@/, '');
-        const u2 = rawU2 ? '@' + rawU2 : (list[1].full_name || 'User#' + list[1].telegram_id);
-        const amt2 = Number(list[1].total).toLocaleString('uz-UZ') + ' UZS';
-        const avatar2 = getAvatarUrl(list[1], currentUserId);
-        const letter2 = (rawU2 || list[1].full_name || '2')[0]?.toUpperCase() || '2';
-        const uEl2 = document.getElementById('podiumUser2');
-        if (uEl2) {
-            uEl2.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU2}', '${list[1].telegram_id}', event)">${u2} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
-        }
-        const amtEl2 = document.getElementById('podiumAmount2');
-        if (amtEl2) amtEl2.textContent = amt2;
-        p2.style.opacity = '1';
-        p2.classList.remove('podium-me-card');
-        const badge2 = p2.querySelector('.podium-me-badge');
-        if (badge2) badge2.remove();
-
-        if (av2) {
-            av2.onerror = function() {
-                this.onerror = null;
-                this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter2) + '&background=cbd5e1&color=0f172a&bold=true&rounded=true&size=128';
-            };
-            av2.src = avatar2;
-        }
-        p2.onclick = () => {
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
-            }
-            openUserProfile(2, rawU2, amt2, (av2 ? av2.src : avatar2), list[1].full_name, list[1].telegram_id);
-        };
-    } else if (p2) {
-        document.getElementById('podiumUser2').textContent = '—';
-        document.getElementById('podiumAmount2').textContent = '0 UZS';
-        p2.style.opacity = '0.7';
-        p2.classList.remove('podium-me-card');
-        const badge2 = p2.querySelector('.podium-me-badge');
-        if (badge2) badge2.remove();
-        if (av2) av2.src = './images/logo.webp?v=3';
-        p2.onclick = null;
-    }
-
+    setupPodiumSlot(1, 'podium2', 'podiumUser2', 'podiumAmount2', 'podiumAvatar2', 'cbd5e1', '0f172a');
     // 3rd Place (Right - Bronze)
-    const p3 = document.getElementById('podium3');
-    if (p3 && list[2] && Number(list[2].total) > 0) {
-        const rawU3 = (list[2].username || '').replace(/^@/, '');
-        const u3 = rawU3 ? '@' + rawU3 : (list[2].full_name || 'User#' + list[2].telegram_id);
-        const amt3 = Number(list[2].total).toLocaleString('uz-UZ') + ' UZS';
-        const avatar3 = getAvatarUrl(list[2], currentUserId);
-        const letter3 = (rawU3 || list[2].full_name || '3')[0]?.toUpperCase() || '3';
-        const uEl3 = document.getElementById('podiumUser3');
-        if (uEl3) {
-            uEl3.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU3}', '${list[2].telegram_id}', event)">${u3} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
-        }
-        const amtEl3 = document.getElementById('podiumAmount3');
-        if (amtEl3) amtEl3.textContent = amt3;
-        p3.style.opacity = '1';
-        p3.classList.remove('podium-me-card');
-        const badge3 = p3.querySelector('.podium-me-badge');
-        if (badge3) badge3.remove();
-
-        if (av3) {
-            av3.onerror = function() {
-                this.onerror = null;
-                this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter3) + '&background=d97706&color=fff&bold=true&rounded=true&size=128';
-            };
-            av3.src = avatar3;
-        }
-        p3.onclick = () => {
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
-            }
-            openUserProfile(3, rawU3, amt3, (av3 ? av3.src : avatar3), list[2].full_name, list[2].telegram_id);
-        };
-    } else if (p3) {
-        document.getElementById('podiumUser3').textContent = '—';
-        document.getElementById('podiumAmount3').textContent = '0 UZS';
-        p3.style.opacity = '0.7';
-        p3.classList.remove('podium-me-card');
-        const badge3 = p3.querySelector('.podium-me-badge');
-        if (badge3) badge3.remove();
-        if (av3) av3.src = './images/logo.webp?v=3';
-        p3.onclick = null;
-    }
+    setupPodiumSlot(2, 'podium3', 'podiumUser3', 'podiumAmount3', 'podiumAvatar3', 'd97706', 'fff');
 
     // Remaining list rows (from #4 onwards)
     let html = '';
@@ -15664,8 +15596,19 @@ function renderPodiumAndList(list, currentUserId) {
     const myTurnoverEl = document.getElementById('myTurnoverVal');
     const myRankDock = document.getElementById('myRankDock');
 
-    if (myRankEl) myRankEl.textContent = '#1';
-    if (myTurnoverEl) myTurnoverEl.textContent = Number(myUserObj.total).toLocaleString('uz-UZ') + ' UZS';
+    if (myIndex >= 0) {
+        const myRank = myIndex + 1;
+        const myUser = list[myIndex];
+        const myTotal = Number(myUser.total || 0);
+        if (myRankEl) myRankEl.textContent = '#' + myRank;
+        if (myTurnoverEl) myTurnoverEl.textContent = myTotal.toLocaleString('uz-UZ') + ' UZS';
+    } else {
+        const realSpent = (typeof window.currentUserRealSpent === 'number')
+            ? window.currentUserRealSpent
+            : (parseInt(localStorage.getItem('cs_stat_spent_num_' + (currentUserIdStr || 'guest')) || '0', 10) || 0);
+        if (myRankEl) myRankEl.textContent = '—';
+        if (myTurnoverEl) myTurnoverEl.textContent = (realSpent > 0 ? realSpent.toLocaleString('uz-UZ') : '0') + ' UZS';
+    }
     if (myRankDock) myRankDock.onclick = scrollToMyRankRow;
 
     if (myAv && (tgUser?.photo_url || localStorage.getItem('cs_cached_photo'))) {
@@ -15992,6 +15935,10 @@ const IMAGE_ASSETS = {
         function drawWheel() {
             const canvas = document.getElementById('wheelCanvas');
             if (!canvas) return;
+            if (!canvas.width || canvas.width === 0) {
+                canvas.width = 568;
+                canvas.height = 568;
+            }
             const ctx = canvas.getContext('2d');
             const numSlices = PRIZES.length;
             const arc = (2 * Math.PI) / numSlices;
@@ -16901,13 +16848,28 @@ const IMAGE_ASSETS = {
             document.getElementById('winModal').classList.remove('active');
         }
 
-        /* DOMContentLoaded wrapper removed */ (function() {
+        function initSpinPage() {
             loadUserBalance();
             renderPrizesGrid();
-            preloadAssets(() => drawWheel());
-            drawWheel();
+            updateSpinUIState();
             checkSpinStatus();
-        });
+            drawWheel();
+            preloadAssets(() => {
+                drawWheel();
+            });
+            requestAnimationFrame(() => {
+                drawWheel();
+            });
+            setTimeout(() => {
+                drawWheel();
+            }, 60);
+            setTimeout(() => {
+                drawWheel();
+            }, 300);
+        }
+        window.initSpinPage = initSpinPage;
+
+        initSpinPage();
 
 
 function ensureSubscriptionModal() {
@@ -17374,7 +17336,7 @@ function onPageActivated(pageId) {
             if (typeof loadRatingData === 'function') loadRatingData('week');
             break;
         case 'spin':
-            if (typeof updateSpinUI === 'function') updateSpinUI();
+            if (typeof initSpinPage === 'function') initSpinPage();
             break;
     }
 }
@@ -17395,6 +17357,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof renderGifts === 'function') renderGifts();
     if (typeof initToggleState === 'function') initToggleState();
     if (typeof loadRatingData === 'function') loadRatingData('week');
+    if (typeof initSpinPage === 'function') initSpinPage();
 
     initTelegramBackButton();
 
