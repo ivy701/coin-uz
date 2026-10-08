@@ -7402,13 +7402,13 @@ body {
     --btn-primary-text: #000000;
     --accent-gold: #FFC93C;
     --badge-red: #FF3B30;
-    --nav-bg: rgba(21, 25, 33, 0.80);
-    --me: #4aa8ff;
-    --me-soft: rgba(74, 168, 255, 0.15);
+    --nav-bg: rgba(28, 28, 30, 0.55);
     --nav-border: rgba(255, 255, 255, 0.12);
     --nav-pill: rgba(255, 255, 255, 0.12);
     --nav-active: #ffffff;
     --nav-inactive: rgba(255, 255, 255, 0.55);
+    --me: #4aa8ff;
+    --me-soft: rgba(74, 168, 255, 0.15);
 }
 
 :root[data-theme="light"] {
@@ -7426,17 +7426,62 @@ body {
     --btn-primary-text: #FFFFFF;
     --accent-gold: #FFC93C;
     --badge-red: #FF3B30;
-    --nav-bg: rgba(255, 255, 255, 0.78);
-    --me: #1f8fff;
-    --me-soft: rgba(31, 143, 255, 0.15);
+    --nav-bg: rgba(255, 255, 255, 0.65);
     --nav-border: rgba(0, 0, 0, 0.08);
     --nav-pill: rgba(0, 0, 0, 0.08);
     --nav-active: #111111;
     --nav-inactive: rgba(17, 17, 17, 0.55);
+    --me: #1f8fff;
+    --me-soft: rgba(31, 143, 255, 0.12);
 }
 
 html, body {
     transition: background 250ms ease, background-color 250ms ease, color 250ms ease, border-color 250ms ease !important;
+}
+
+.podium-box-container,
+.podium-cylinders-row {
+    overflow: visible !important;
+}
+
+.podium-column.podium-me-card {
+    border: 2px solid var(--me, #4aa8ff) !important;
+    box-shadow: 0 0 0 3px var(--me-soft, rgba(74, 168, 255, 0.15)), 0 6px 20px rgba(74, 168, 255, 0.2) !important;
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.podium-me-badge {
+    position: absolute !important;
+    top: -11px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: var(--me, #4aa8ff) !important;
+    color: #ffffff !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    padding: 3px 8px !important;
+    border-radius: 999px !important;
+    z-index: 30 !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+    white-space: nowrap !important;
+    pointer-events: none !important;
+}
+
+.user-me-pill {
+    background: var(--me, #4aa8ff) !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    padding: 2px 6px !important;
+    border-radius: 999px !important;
+    margin-left: 6px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+    letter-spacing: 0.3px !important;
 }
 
 .liquid-dock-container {
@@ -7606,7 +7651,7 @@ html, body {
 
 /* 1. ASOSIY (Home) Living Icon:
    - Tom (roof) lifts slightly up, settles with spring
-   - Eshik (door) opens 20┬░ and closes shut
+   - Eshik (door) opens 20° and closes shut
    - Mo'ri (chimney) puffs a small smoke ring drifting up and fading away
 */
 .home-smoke {
@@ -7777,7 +7822,7 @@ html, body {
 }
 
 /* 4. PROFIL (User - Odam):
-   - Bosh yengil bosh irg'ab (rotate ┬▒8┬░) qo'yadi
+   - Bosh yengil bosh irg'ab (rotate ±8°) qo'yadi
    - Yelka pastdan sakrab chiqadi
    - Qizil badge bo'lsa pop qilib (scale 0 -> 1.3 -> 1) paydo bo'ladi
 */
@@ -7845,7 +7890,7 @@ html, body {
 }
 
 /* 6. TELEFON / QO'NG'IROQ (Phone Handset Ringing & Sound Waves):
-   - Go'shak ┬▒15┬░ tez-tez tebranadi (jiringlash)
+   - Go'shak ±15° tez-tez tebranadi (jiringlash)
    - 2 ta signal yoyi ketma-ket paydo bo'lib so'nadi
 */
 @keyframes phoneHandsetRing {
@@ -7864,82 +7909,6 @@ html, body {
     30% { opacity: 0.9; }
     80% { transform: scale(1.5); opacity: 0; }
     100% { transform: scale(1.6); opacity: 0; }
-}
-
-/* Leaderboard Self-Identification Styles */
-.podium-box-container,
-.podium-cylinders-row {
-    overflow: visible !important;
-}
-
-.podium-column.podium-me-card {
-    border: 2px solid var(--me, #4aa8ff) !important;
-    box-shadow: 0 0 0 3px rgba(74, 168, 255, 0.15) !important;
-    position: relative !important;
-    overflow: visible !important;
-}
-
-.podium-me-badge {
-    position: absolute !important;
-    top: -11px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    background: var(--me, #4aa8ff) !important;
-    color: #ffffff !important;
-    font-size: 11px !important;
-    font-weight: 800 !important;
-    line-height: 1 !important;
-    padding: 3px 8px !important;
-    border-radius: 999px !important;
-    z-index: 30 !important;
-    letter-spacing: 0.5px !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
-    white-space: nowrap !important;
-    pointer-events: none !important;
-}
-
-.leader-row-card.my-rank-active-row {
-    border: 1.5px solid var(--me, #4aa8ff) !important;
-    box-shadow: 0 0 0 3px rgba(74, 168, 255, 0.15) !important;
-}
-
-.leader-me-badge {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: var(--me, #4aa8ff) !important;
-    color: #ffffff !important;
-    font-size: 11px !important;
-    font-weight: 800 !important;
-    line-height: 1 !important;
-    padding: 2px 7px !important;
-    border-radius: 999px !important;
-    margin-left: 6px !important;
-    letter-spacing: 0.3px !important;
-    flex-shrink: 0 !important;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
-}
-
-@keyframes meHighlightAnim {
-    0% { background: rgba(74, 168, 255, 0.18) !important; }
-    100% { background: var(--glass-card-bg, rgba(20, 20, 22, 0.88)) !important; }
-}
-.my-rank-highlight {
-    animation: meHighlightAnim 1.2s ease-out 1 forwards !important;
-}
-
-.user-my-rank-dock {
-    cursor: pointer !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
-    transition: transform 0.15s ease, background 0.25s ease, border-color 0.25s ease !important;
-}
-.user-my-rank-dock:active {
-    transform: scale(0.98) !important;
-}
-
-.rating-list-wrapper {
-    padding-bottom: 90px !important;
 }
 
 /* Red Notification Badge Support */
@@ -10426,12 +10395,13 @@ body {
   transform: scale(0.98) !important;
 }
 .leader-row-card.my-rank-active-row {
-  border: 1.5px solid var(--text-main) !important;
+  border: 1.5px solid var(--me, #4aa8ff) !important;
+  box-shadow: 0 0 0 3px var(--me-soft, rgba(74, 168, 255, 0.15)) !important;
   background: var(--glass-card-hover) !important;
 }
 @keyframes rankHighlightAnim {
-  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8); border-color: #ffffff; }
-  50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); border-color: #ffffff; background: var(--glass-card-hover); }
+  0% { box-shadow: 0 0 0 0 rgba(74, 168, 255, 0.9); border-color: var(--me, #4aa8ff); }
+  50% { box-shadow: 0 0 24px rgba(74, 168, 255, 0.8); border-color: var(--me, #4aa8ff); background: var(--glass-card-hover); }
   100% { box-shadow: none; }
 }
 .my-rank-highlight {
@@ -10582,7 +10552,7 @@ body {
             <div class="stars-conversion-row">
                 <div class="stars-preview-chip" onclick="navigateTo('stars')">
                     <img src="images/star.webp?v=3" alt="Star" width="15" height="15" style="object-fit: contain;">
-                    <span>тЙИ <span id="approxStars">0</span> Stars</span>
+                    <span>≈ <span id="approxStars">0</span> Stars</span>
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
@@ -10950,7 +10920,7 @@ body {
             </div>
             <div class="luxury-hero-text">
                 <div class="luxury-hero-title">TG STARS</div>
-                <div class="luxury-hero-sub star-sub">тнР</div>
+                <div class="luxury-hero-sub star-sub">⭐</div>
             </div>
         </div>
 
@@ -10968,23 +10938,23 @@ body {
         <div class="luxury-section-title">TAYYOR PAKETLAR</div>
         <div class="stars-packages-grid">
             <div class="star-package-card active" data-qty="50" onclick="setQuickStars(50, this)">
-                <div class="pkg-star-qty">50 тнР</div>
+                <div class="pkg-star-qty">50 ⭐</div>
                 <div class="pkg-star-price">9 900 so'm</div>
             </div>
             <div class="star-package-card" data-qty="100" onclick="setQuickStars(100, this)">
-                <div class="pkg-star-qty">100 тнР</div>
+                <div class="pkg-star-qty">100 ⭐</div>
                 <div class="pkg-star-price">19 800 so'm</div>
             </div>
             <div class="star-package-card" data-qty="250" onclick="setQuickStars(250, this)">
-                <div class="pkg-star-qty">250 тнР</div>
+                <div class="pkg-star-qty">250 ⭐</div>
                 <div class="pkg-star-price">49 500 so'm</div>
             </div>
             <div class="star-package-card" data-qty="500" onclick="setQuickStars(500, this)">
-                <div class="pkg-star-qty">500 тнР</div>
+                <div class="pkg-star-qty">500 ⭐</div>
                 <div class="pkg-star-price">99 000 so'm</div>
             </div>
             <div class="star-package-card" data-qty="1000" onclick="setQuickStars(1000, this)">
-                <div class="pkg-star-qty">1 000 тнР</div>
+                <div class="pkg-star-qty">1 000 ⭐</div>
                 <div class="pkg-star-price">198 000 so'm</div>
             </div>
         </div>
@@ -10992,10 +10962,10 @@ body {
         <!-- Boshqa Miqdor (Custom Amount) -->
         <div class="luxury-section-title" style="margin-top: 14px;">BOSHQA MIQDOR</div>
         <div class="luxury-calc-card">
-            <div class="luxury-calc-input-label">Summani kiriting ( тнР )</div>
+            <div class="luxury-calc-input-label">Summani kiriting ( ⭐ )</div>
             <div class="luxury-star-input-wrap">
                 <input type="number" id="customStarInput" class="luxury-star-giant-input" value="50" min="50" max="1000000" oninput="calcCustomStarPrice()">
-                <span class="luxury-star-giant-badge">тнР</span>
+                <span class="luxury-star-giant-badge">⭐</span>
             </div>
 
             <div class="luxury-price-summary-pill">
@@ -11004,9 +10974,9 @@ body {
             </div>
 
             <div class="luxury-calc-info-list">
-                <div class="info-row rate-row">1 тнР = 198 so'm</div>
-                <div class="info-row max-row">Maksimal olish mumkin: <span id="maxStarsPossible">0</span> тнР (<span id="userBalStarsRef">0</span> so'm)</div>
-                <div class="info-row min-row">Minimal summa: 50 тнР</div>
+                <div class="info-row rate-row">1 ⭐ = 198 so'm</div>
+                <div class="info-row max-row">Maksimal olish mumkin: <span id="maxStarsPossible">0</span> ⭐ (<span id="userBalStarsRef">0</span> so'm)</div>
+                <div class="info-row min-row">Minimal summa: 50 ⭐</div>
             </div>
         </div>
 
@@ -11120,7 +11090,7 @@ body {
             </svg>
         </a>
         <div class="gift-top-title">
-            <span data-i18n="gift.header_title">ЁЯОБ Telegram Sovg'alari</span>
+            <span data-i18n="gift.header_title">🎁 Telegram Sovg'alari</span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div class="balance-badge-pill">
@@ -11144,9 +11114,9 @@ body {
     <!-- Filter Categories -->
     <div class="gift-category-scroll">
         <button class="category-chip active" onclick="filterGifts('all', this)" data-i18n="gift.cat_all">Barchasi (19)</button>
-        <button class="category-chip" onclick="filterGifts('15-25', this)">тнР 15-25 Stars (3)</button>
-        <button class="category-chip" onclick="filterGifts('50', this)">тнР 50 Stars (13)</button>
-        <button class="category-chip" onclick="filterGifts('100', this)">тнР 100 Stars (3)</button>
+        <button class="category-chip" onclick="filterGifts('15-25', this)">⭐ 15-25 Stars (3)</button>
+        <button class="category-chip" onclick="filterGifts('50', this)">⭐ 50 Stars (13)</button>
+        <button class="category-chip" onclick="filterGifts('100', this)">⭐ 100 Stars (3)</button>
     </div>
 
     <div class="gifts-grid" id="giftsGrid">
@@ -11233,13 +11203,13 @@ body {
 
     <!-- Coming Soon Card -->
     <div class="coming-soon-card">
-        <div class="coming-soon-icon">ЁЯУ▒</div>
+        <div class="coming-soon-icon">📱</div>
         <div class="coming-soon-badge">Tez kunda</div>
         <div class="coming-soon-title">Yaqinda ishga tushadi</div>
         <div class="coming-soon-desc">
             Virtual nomer xizmati tez orada ishga tushiriladi. Hozirda Stars va Telegram Premium xizmatlaridan foydalanishingiz mumkin!
         </div>
-        <button class="go-stars-btn" onclick="navigateTo('stars')">тнР Stars xarid qilish</button>
+        <button class="go-stars-btn" onclick="navigateTo('stars')">⭐ Stars xarid qilish</button>
     </div>
 
     <!-- Preview Countries -->
@@ -11247,7 +11217,7 @@ body {
 
     <div class="country-card-box">
         <div class="country-left-col">
-            <span class="country-flag">ЁЯЗ║ЁЯЗ╕</span>
+            <span class="country-flag">🇺🇸</span>
             <div>
                 <div class="country-name-text">AQSH (+1)</div>
                 <div class="country-subtext">Telegram SMS uchun</div>
@@ -11258,7 +11228,7 @@ body {
 
     <div class="country-card-box">
         <div class="country-left-col">
-            <span class="country-flag">ЁЯЗмЁЯЗз</span>
+            <span class="country-flag">🇬🇧</span>
             <div>
                 <div class="country-name-text">Angliya (+44)</div>
                 <div class="country-subtext">Telegram SMS uchun</div>
@@ -11269,7 +11239,7 @@ body {
 
     <div class="country-card-box">
         <div class="country-left-col">
-            <span class="country-flag">ЁЯЗ╖ЁЯЗ║</span>
+            <span class="country-flag">🇷🇺</span>
             <div>
                 <div class="country-name-text">Rossiya (+7)</div>
                 <div class="country-subtext">Telegram SMS uchun</div>
@@ -11280,7 +11250,7 @@ body {
 
     <div class="country-card-box">
         <div class="country-left-col">
-            <span class="country-flag">ЁЯЗоЁЯЗй</span>
+            <span class="country-flag">🇮🇩</span>
             <div>
                 <div class="country-name-text">Indoneziya (+62)</div>
                 <div class="country-subtext">Telegram SMS uchun</div>
@@ -11302,7 +11272,7 @@ body {
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
             </div>
-            <div class="stars-top-title">ЁЯЦ╝я╕П NFT Ijara</div>
+            <div class="stars-top-title">🖼️ NFT Ijara</div>
             <div class="balance-badge-pill" onclick="navigateTo('topup')">
                 <span id="balance">0</span> UZS
             </div>
@@ -11310,7 +11280,7 @@ body {
 
         <!-- Tech Maintenance Notice Banner -->
         <div style="background: rgba(249, 115, 22, 0.12); border: 1.5px solid rgba(249, 115, 22, 0.45); border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
-            <div style="font-size: 22px; line-height: 1;">ЁЯЫа</div>
+            <div style="font-size: 22px; line-height: 1;">🛠</div>
             <div style="font-size: 13px; color: #fdba74; font-weight: 600; line-height: 1.4;">
                 <span style="color: #fb923c; font-weight: 700;">Texnik ishlar olib borilmoqda:</span><br>
                 NFT Ijara tizimida texnik ishlar ketmoqda. Xarid vaqtincha to'xtatildi.
@@ -11319,7 +11289,7 @@ body {
 
         <!-- Hero Card -->
         <div class="rent-hero-card">
-            <div class="rent-hero-tag">тЪб Marketapp Live Katalog</div>
+            <div class="rent-hero-tag">⚡ Marketapp Live Katalog</div>
             <div class="rent-hero-title">Telegram NFT Ijarasi</div>
             <div class="rent-hero-desc">
                 Telegram sovg'alari, chiroyli username va +888 raqamlarni CoinStatUZ balansingiz orqali istalgan muddatga ijaraga oling!
@@ -11329,23 +11299,23 @@ body {
         <!-- Category Tabs -->
         <div class="rent-tabs-wrap">
             <div class="rent-tab-btn active" data-cat="gifts" onclick="switchRentCategory('gifts')">
-                <span>ЁЯОБ</span> Sovg'a
+                <span>🎁</span> Sovg'a
             </div>
             <div class="rent-tab-btn" data-cat="usernames" onclick="switchRentCategory('usernames')">
-                <span>ЁЯП╖я╕П</span> User
+                <span>🏷️</span> User
             </div>
             <div class="rent-tab-btn" data-cat="numbers" onclick="switchRentCategory('numbers')">
-                <span>ЁЯУ▒</span> Nomer
+                <span>📱</span> Nomer
             </div>
             <div class="rent-tab-btn" data-cat="my_rents" onclick="openMyRentsViewApp()">
-                <span>ЁЯСС</span> Rentlarim <span class="rent-tab-badge" id="appMyRentsTabBadge" style="display:none;">0</span>
+                <span>👑</span> Rentlarim <span class="rent-tab-badge" id="appMyRentsTabBadge" style="display:none;">0</span>
             </div>
         </div>
 
         <!-- My Rents Banner -->
         <div class="my-rents-banner" id="appMyRentsBanner" onclick="openMyRentsViewApp()">
             <div class="my-rents-banner-left">
-                <div class="my-rents-icon-box">ЁЯОБ</div>
+                <div class="my-rents-icon-box">🎁</div>
                 <div class="my-rents-title">Mening rentlarim</div>
             </div>
             <div class="my-rents-banner-right">
@@ -11385,7 +11355,7 @@ body {
             <!-- Infinite Scroll / Load More Trigger -->
             <div class="rent-load-more-wrap" id="rentLoadMoreWrap" style="display: none;">
                 <button class="rent-load-more-btn" id="rentLoadMoreBtn" onclick="loadMoreRentItems()">
-                    <span id="rentLoadMoreBtnText">тЪб Ko'proq NFT yuklash</span>
+                    <span id="rentLoadMoreBtnText">⚡ Ko'proq NFT yuklash</span>
                 </button>
             </div>
 
@@ -11403,7 +11373,7 @@ body {
                         </svg>
                     </div>
                     <div class="my-rents-header-title">
-                        <span>ЁЯОБ</span> Mening rentlarim
+                        <span>🎁</span> Mening rentlarim
                     </div>
                 </div>
                 <div class="refresh-pill-btn" onclick="loadMyRentsApp(true)" title="Yangilash">
@@ -11505,17 +11475,17 @@ body {
                 <!-- 3-Column Mini Security & Speed Badges -->
                 <div class="topup-features-grid">
                     <div class="topup-feat-card">
-                        <div class="topup-feat-icon">тЪб</div>
+                        <div class="topup-feat-icon">⚡</div>
                         <div class="topup-feat-title">Tezkor</div>
                         <div class="topup-feat-desc">1-5 daqiqa</div>
                     </div>
                     <div class="topup-feat-card">
-                        <div class="topup-feat-icon">ЁЯЫб</div>
+                        <div class="topup-feat-icon">🛡</div>
                         <div class="topup-feat-title">Xavfsiz</div>
                         <div class="topup-feat-desc">Kafolatlangan</div>
                     </div>
                     <div class="topup-feat-card">
-                        <div class="topup-feat-icon">ЁЯТ│</div>
+                        <div class="topup-feat-icon">💳</div>
                         <div class="topup-feat-title">0% Komissiya</div>
                         <div class="topup-feat-desc">To'g'ridan-to'g'ri</div>
                     </div>
@@ -11523,7 +11493,7 @@ body {
 
                 <!-- Subtle Help Note -->
                 <div class="topup-help-bar">
-                    <div class="topup-help-icon">тД╣я╕П</div>
+                    <div class="topup-help-icon">ℹ️</div>
                     <div class="topup-help-text">Minimal to'lov miqdori <b>1 000 so'm</b>. Savollar bo'lsa adminga murojaat qiling.</div>
                 </div>
             </div>
@@ -11606,7 +11576,7 @@ body {
 
                 <!-- Diqqat / Instructions Banner -->
                 <div class="topup-notice-card">
-                    <div class="topup-notice-icon">ЁЯТб</div>
+                    <div class="topup-notice-icon">💡</div>
                     <div class="topup-notice-text">
                         To'lov ilovangizdan (Click/Payme) pul o'tkazgach, quyidagi <b>"To'lov qildim"</b> tugmasini bosing. So'rov adminga boradi va balansingiz to'ldiriladi.
                     </div>
@@ -11706,7 +11676,7 @@ body {
             </div>
             <div class="user-card-name" id="profileHubName">Foydalanuvchi</div>
             <div class="user-card-id-tag" onclick="copyUserId()">
-                <span id="profileHubUserId">ID: тАФ</span>
+                <span id="profileHubUserId">ID: —</span>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -11763,7 +11733,7 @@ body {
                         <div class="luxury-menu-title-row">
                             <span class="luxury-menu-title">Ilova Tili</span>
                         </div>
-                        <div class="luxury-menu-desc">O'zbekcha / ╨а╤Г╤Б╤Б╨║╨╕╨╣</div>
+                        <div class="luxury-menu-desc">O'zbekcha / Русский</div>
                     </div>
                 </div>
                 <div class="theme-status-pill" id="profileLangPill">UZ</div>
@@ -11874,14 +11844,14 @@ body {
     <!-- Top 3 Leaderboard Podium -->
     <div class="podium-box-container">
         <div class="podium-box-header">
-            <span>ЁЯСС Top 3 Yetakchilar</span>
+            <span>👑 Top 3 Yetakchilar</span>
         </div>
         <div class="podium-cylinders-row">
             <!-- #2 Second (Left) -->
             <div class="podium-column second" id="podium2">
                 <div class="podium-avatar-wrap">
                     <img src="./images/logo.webp?v=3" id="podiumAvatar2" class="podium-avatar-img" alt="2nd">
-                    <div class="podium-badge-pill badge-silver">ЁЯеИ #2</div>
+                    <div class="podium-badge-pill badge-silver">🥈 #2</div>
                 </div>
                 <div class="podium-username" id="podiumUser2">Bo'sh</div>
                 <div class="podium-amount" id="podiumAmount2">0 UZS</div>
@@ -11890,10 +11860,10 @@ body {
 
             <!-- #1 First (Center) -->
             <div class="podium-column first" id="podium1">
-                <div class="podium-crown">ЁЯСС</div>
+                <div class="podium-crown">👑</div>
                 <div class="podium-avatar-wrap">
                     <img src="./images/logo.webp?v=3" id="podiumAvatar1" class="podium-avatar-img" alt="1st">
-                    <div class="podium-badge-pill badge-gold">ЁЯеЗ #1</div>
+                    <div class="podium-badge-pill badge-gold">🥇 #1</div>
                 </div>
                 <div class="podium-username" id="podiumUser1">Bo'sh</div>
                 <div class="podium-amount" id="podiumAmount1">0 UZS</div>
@@ -11904,7 +11874,7 @@ body {
             <div class="podium-column third" id="podium3">
                 <div class="podium-avatar-wrap">
                     <img src="./images/logo.webp?v=3" id="podiumAvatar3" class="podium-avatar-img" alt="3rd">
-                    <div class="podium-badge-pill badge-bronze">ЁЯеЙ #3</div>
+                    <div class="podium-badge-pill badge-bronze">🥉 #3</div>
                 </div>
                 <div class="podium-username" id="podiumUser3">Bo'sh</div>
                 <div class="podium-amount" id="podiumAmount3">0 UZS</div>
@@ -11931,7 +11901,7 @@ body {
             </div>
             <div class="leader-row-info">
                 <div style="font-size: 13.5px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
-                    Sizning o'rningiz: <span id="myRankNum" style="color: #FFC93C;">тАФ</span>
+                    Sizning o'rningiz: <span id="myRankNum" style="color: #FFC93C;">—</span>
                 </div>
                 <div style="font-size: 11px; font-weight: 600; color: var(--text-muted);">Umumiy faollik reytingida</div>
             </div>
@@ -11961,7 +11931,7 @@ body {
             <div class="modal-user-name" id="modalUserName">Foydalanuvchi</div>
             <div class="modal-user-username" id="modalUserHandle">@username</div>
             <a id="modalTgLink" class="modal-tg-link-btn" href="#" target="_blank" rel="noopener" style="display: none; align-items: center; justify-content: center; gap: 6px; margin: 8px auto 14px; padding: 6px 14px; border-radius: 999px; background: var(--glass-card-hover); border: 1px solid var(--border-card); color: var(--text-main); font-size: 12px; font-weight: 700; text-decoration: none;">
-                <span>Telegram Profil тЖЧ</span>
+                <span>Telegram Profil ↗</span>
             </a>
 
             <div class="modal-stats-grid">
@@ -12010,12 +11980,12 @@ body {
         <button class="spin-mode-tab active" id="tabClassic" onclick="switchSpinMode('classic')">
             <span class="tab-icon"><img src="images/gift.webp?v=3" alt="Klassik" style="width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(168, 85, 247, 0.4));"></span>
             <span class="tab-title">Klassik Spin</span>
-            <span class="tab-tag">15тнР / 25тнР Gift</span>
+            <span class="tab-tag">15⭐ / 25⭐ Gift</span>
         </button>
         <button class="spin-mode-tab" id="tabVip" onclick="switchSpinMode('vip')">
             <span class="tab-icon"><img src="images/diamond.webp?v=3" alt="VIP" style="width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.4));"></span>
             <span class="tab-title">VIP Spin</span>
-            <span class="tab-tag vip-gold">50тнР Sovg'alar</span>
+            <span class="tab-tag vip-gold">50⭐ Sovg'alar</span>
         </button>
     </div>
 
@@ -12031,7 +12001,7 @@ body {
                     <div class="top-status-desc" id="statusDesc">G'ildirakni aylantirish uchun quyida Promo Kod kiriting!</div>
                 </div>
             </div>
-            <div class="top-status-badge badge-locked" id="statusBadge">Promo Kerak ЁЯФТ</div>
+            <div class="top-status-badge badge-locked" id="statusBadge">Promo Kerak 🔒</div>
         </div>
 
         <div class="promo-input-row" style="margin-top: 10px;">
@@ -12045,10 +12015,10 @@ body {
         <!-- Telegram Channel Promocodes Notice Link -->
         <div class="promo-channel-hint" onclick="openChannelLink('https://t.me/coinstatuz')">
             <div class="promo-channel-left">
-                <div class="promo-channel-icon">ЁЯУв</div>
+                <div class="promo-channel-icon">📢</div>
                 <div class="promo-channel-text">
                     <span class="promo-channel-title">Promo-kodlar ushbu kanalda tarqatiladi:</span>
-                    <span class="promo-channel-link">@coinstatuz тЖЧ</span>
+                    <span class="promo-channel-link">@coinstatuz ↗</span>
                 </div>
             </div>
             <div class="promo-channel-btn">Kanalga o'tish</div>
@@ -12058,7 +12028,7 @@ body {
     <!-- Live Countdown Card -->
     <div class="countdown-timer-card" id="countdownCard" style="display: none;">
         <div class="countdown-header-tag">
-            <span>тП│ KEYINGI OCHILISH VAQTI</span>
+            <span>⏳ KEYINGI OCHILISH VAQTI</span>
         </div>
         <div class="countdown-clock-row">
             <div class="clock-digit-box">
@@ -12109,16 +12079,16 @@ body {
     <!-- Win Modal Popup -->
     <div class="win-modal-overlay" id="winModal">
         <div class="win-modal-card">
-            <div class="win-badge-tag" id="winBadgeTag">ЁЯОЙ TABRIKLAYMIZ!</div>
-            <div class="win-icon-burst" id="winIcon">ЁЯОЙ</div>
+            <div class="win-badge-tag" id="winBadgeTag">🎉 TABRIKLAYMIZ!</div>
+            <div class="win-icon-burst" id="winIcon">🎉</div>
             <div class="win-title" id="winModalTitle">YUTUQ MUBORAK!</div>
             <div class="win-prize-name" id="winPrizeTitle">Teddy Bear Gift</div>
             <div class="win-desc" id="winDesc">Siz muvaffaqiyatli sovg'ani yutib oldingiz! Sovg'a tez orada taqdim etiladi.</div>
             <div class="win-actions-col">
                 <button class="win-claim-btn" id="winClaimBtn" onclick="claimPrizeToAdmin()">
-                    <span>ЁЯОБ Sovg'ani Olish (Adminga yozish)</span>
+                    <span>🎁 Sovg'ani Olish (Adminga yozish)</span>
                 </button>
-                <button class="win-dismiss-btn" onclick="closeWinModal()">тЬи Davom etish</button>
+                <button class="win-dismiss-btn" onclick="closeWinModal()">✨ Davom etish</button>
             </div>
         </div>
     </div>
@@ -12147,7 +12117,7 @@ body {
                     <path class="home-roof" d="M3 10L12 3.5l9 6.5"></path>
                     <!-- Walls -->
                     <path class="home-walls" d="M5 9.5V20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9.5"></path>
-                    <!-- Door (opens 20┬░ and closes) -->
+                    <!-- Door (opens 20° and closes) -->
                     <path class="home-door" d="M9.5 22v-6.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v6.5"></path>
                 </svg>
                 <span>Asosiy</span>
@@ -12266,7 +12236,7 @@ body {
             <!-- Network Fee Notice (Abu Store replica) -->
             <div class="network-fee-badge-rent">
                 <div class="fee-badge-left-rent">
-                    <span style="font-size: 15px;">тД╣я╕П</span>
+                    <span style="font-size: 15px;">ℹ️</span>
                     <span>Tarmoq komissiyasi:</span>
                 </div>
                 <div class="fee-badge-val-rent">+2 000 so'm</div>
@@ -12303,7 +12273,7 @@ body {
 
             <!-- Confirm Button -->
             <button class="modal-confirm-btn-rent" id="confirmRentBtnApp" onclick="submitRentOrderFromApp()">
-                <span>ЁЯЪА Ijaraga olish</span>
+                <span>🚀 Ijaraga olish</span>
             </button>
         </div>
     </div>
@@ -12329,7 +12299,7 @@ body {
             <!-- Target Account Banner -->
             <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
                 <div style="font-size: 12px; color: #e2e8f0;">
-                    <span>ЁЯОп Profilga o'rnatish:</span> <b id="connectModalAppTargetUser" style="color: #38bdf8;">@username</b>
+                    <span>🎯 Profilga o'rnatish:</span> <b id="connectModalAppTargetUser" style="color: #38bdf8;">@username</b>
                 </div>
                 <span style="font-size: 11px; background: rgba(56, 189, 248, 0.2); padding: 2px 8px; border-radius: 6px; color: #7dd3fc; font-weight: 750;">Telegram</span>
             </div>
@@ -12337,7 +12307,7 @@ body {
             <!-- Video Guide Banner -->
             <div class="video-guide-banner" onclick="showRentVideoGuideApp()">
                 <div style="display:flex; align-items:center; gap:8px;">
-                    <span style="font-size:15px;">тЦ╢я╕П</span>
+                    <span style="font-size:15px;">▶️</span>
                     <span style="font-weight:750; font-size:13px; color:#ffffff;">Video-qo'llanma</span>
                 </div>
                 <span style="color:#94a3b8; font-size:14px; font-weight:700;">&gt;</span>
@@ -12354,7 +12324,7 @@ body {
                 </div>
                 <div class="step-action-btn-row">
                     <a href="https://fragment.com" target="_blank" class="step-link-btn">
-                        ЁЯМР fragment.com ni ochish тЖЧ
+                        🌐 fragment.com ni ochish ↗
                     </a>
                 </div>
             </div>
@@ -12404,7 +12374,7 @@ if (tg) {
 
 let userBalance = 0;
 
-// API base тАФ can be overridden per-page via window.API_BASE
+// API base — can be overridden per-page via window.API_BASE
 function getApiBase() {
     if (typeof window !== 'undefined' && window.location) {
         const host = (window.location.hostname || '').toLowerCase();
@@ -12468,7 +12438,7 @@ function hydrateInstantUserData() {
 
         // 2. User Handle or ID
         const cachedHandle = localStorage.getItem('cs_cached_handle');
-        let resolvedHandle = 'ID: тАФ';
+        let resolvedHandle = 'ID: —';
         if (tgUser?.username) {
             resolvedHandle = '@' + tgUser.username;
             localStorage.setItem('cs_cached_handle', resolvedHandle);
@@ -12746,7 +12716,7 @@ function setBalUI(val) {
     const prev = userBalance;
     userBalance = Number(val) || 0;
     const isHidden = localStorage.getItem('coinstat_hide_balance') === 'true';
-    const formatted = isHidden ? 'тАвтАвтАвтАвтАвтАв' : userBalance.toLocaleString('uz-UZ');
+    const formatted = isHidden ? '••••••' : userBalance.toLocaleString('uz-UZ');
 
     const eyeSvg = document.getElementById('eyeIconSvg');
     if (eyeSvg) {
@@ -12860,7 +12830,7 @@ function setBuyButtonLoading(btnId, loading) {
 async function submitOrder(payload, btnId) {
     setBuyButtonLoading(btnId, true);
 
-    // Map action тЖТ API endpoint
+    // Map action → API endpoint
     const endpoints = {
         buy_stars:   '/api/order/stars',
         buy_premium: '/api/order/premium',
@@ -12875,7 +12845,7 @@ async function submitOrder(payload, btnId) {
         return;
     }
 
-    // Build request body тАФ rename fields to what the API expects
+    // Build request body — rename fields to what the API expects
     const body = { ...payload };
     if (payload.action === 'buy_stars') {
         body.quantity = payload.amount;
@@ -12981,7 +12951,7 @@ function validateStarsAmount(amount) {
 // ===== i18n Translations =====
 const LANGUAGES = {
     uz: { name: "O'zbek", nativeName: "O'zbekcha", code: "uz" },
-    ru: { name: "╨а╤Г╤Б╤Б╨║╨╕╨╣", nativeName: "╨а╤Г╤Б╤Б╨║╨╕╨╣", code: "ru" },
+    ru: { name: "Русский", nativeName: "Русский", code: "ru" },
     en: { name: "English", nativeName: "English", code: "en" },
 };
 
@@ -13104,145 +13074,145 @@ const TRANSLATIONS = {
         'premium.3_months': '3 Oylik Premium',
         'premium.6_months': '6 Oylik Premium',
         'premium.12_months': '12 Oylik Premium',
-        'spin.title': 'Lucky Spin тАФ Omadli G\'ildirak',
+        'spin.title': 'Lucky Spin — Omadli G\'ildirak',
 
         'common.loading': 'Yuklanmoqda...',
         'common.sending': 'Yuborilmoqda...',
         'common.buy': 'Sotib olish',
         'common.unit_som': 'so\'m',
-        'success.title': 'тЬЕ Muvaffaqiyatli',
-        'error.title': 'тЭМ Xatolik',
+        'success.title': '✅ Muvaffaqiyatli',
+        'error.title': '❌ Xatolik',
     },
     ru: {
-        'nav.home': '╨У╨╗╨░╨▓╨╜╨░╤П',
-        'nav.services': '╨б╨╡╤А╨▓╨╕╤Б╤Л',
-        'home.badge_auto': '╨Р╨▓╤В╨╛',
-        'home.service_topup': '╨Я╨╛╨┐╨╛╨╗╨╜╨╡╨╜╨╕╨╡ ╨С╨░╨╗╨░╨╜╤Б╨░',
+        'nav.home': 'Главная',
+        'nav.services': 'Сервисы',
+        'home.badge_auto': 'Авто',
+        'home.service_topup': 'Пополнение Баланса',
         'home.desc_topup': 'Uzcard / Humo',
-        'profile.orders': '╨Ш╤Б╤В╨╛╤А╨╕╤П ╨╖╨░╨║╨░╨╖╨╛╨▓',
-        'profile.orders_sub': '╨Ш╤Б╤В╨╛╤А╨╕╤П ╨▓╤Б╨╡╤Е ╨┐╨╗╨░╤В╨╡╨╢╨╡╨╣',
-        'profile.spin_title': '╨Ъ╨╛╨╗╨╡╤Б╨╛ ╨г╨┤╨░╤З╨╕',
-        'profile.spin_sub': '╨Т╤Л╨╕╨│╤А╤Л╨▓╨░╨╣╤В╨╡ ╨┐╤А╨╕╨╖╤Л ╨║╨░╨╢╨┤╤Л╨╣ ╨┤╨╡╨╜╤М',
-        'profile.rating_title': '╨в╨╛╨┐ ╨а╨╡╨╣╤В╨╕╨╜╨│',
-        'profile.rating_sub': '╨б╨░╨╝╤Л╨╡ ╨░╨║╤В╨╕╨▓╨╜╤Л╨╡ ╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╨╡╨╗╨╕',
+        'profile.orders': 'История заказов',
+        'profile.orders_sub': 'История всех платежей',
+        'profile.spin_title': 'Колесо Удачи',
+        'profile.spin_sub': 'Выигрывайте призы каждый день',
+        'profile.rating_title': 'Топ Рейтинг',
+        'profile.rating_sub': 'Самые активные пользователи',
         'nav.gifts': 'Gift',
-        'nav.rating': '╨в╨╛╨┐',
-        'nav.profile': '╨Я╤А╨╛╤Д╨╕╨╗╤М',
-        'nav.menu': '╨Ь╨╡╨╜╤О',
+        'nav.rating': 'Топ',
+        'nav.profile': 'Профиль',
+        'nav.menu': 'Меню',
 
-        'home.balance_title': '╨С╨Р╨Ы╨Р╨Э╨б',
-        'home.topup': '╨Я╨╛╨┐╨╛╨╗╨╜╨╕╤В╤М',
-        'home.orders': '╨Ч╨░╨║╨░╨╖╤Л',
-        'home.spent': '╨Я╨╛╤В╤А╨░╤З╨╡╨╜╨╛',
-        'home.balance_stat': '╨С╨░╨╗╨░╨╜╤Б',
+        'home.balance_title': 'БАЛАНС',
+        'home.topup': 'Пополнить',
+        'home.orders': 'Заказы',
+        'home.spent': 'Потрачено',
+        'home.balance_stat': 'Баланс',
         'home.lucky_spin': 'Lucky Spin',
-        'home.promo_code': '╨Я╨а╨Ю╨Ь╨Ю╨Ъ╨Ю╨Ф',
-        'home.spin_subtext': '╨Т╤Л╨╕╨│╤А╤Л╨▓╨░╨╣╤В╨╡ ╨┐╨╛╨┤╨░╤А╨║╨╕ Telegram ╨┐╨╛ ╨┐╤А╨╛╨╝╨╛╨║╨╛╨┤╤Г!',
+        'home.promo_code': 'ПРОМОКОД',
+        'home.spin_subtext': 'Выигрывайте подарки Telegram по промокоду!',
         'home.service_stars': 'Stars',
         'home.service_premium': 'Premium',
-        'home.service_gifts': '╨Я╨╛╨┤╨░╤А╨║╨╕',
-        'home.service_phone': '╨Т╨╕╤А╤В╤Г╨░╨╗╤М╨╜╤Л╨╣ ╨╜╨╛╨╝╨╡╤А',
-        'home.badge_discount': '-10% ╨б╨║╨╕╨┤╨║╨░',
-        'home.desc_stars': '╨С╤Л╤Б╤В╤А╨░╤П ╨┤╨╛╤Б╤В╨░╨▓╨║╨░',
-        'home.badge_premium': '3 / 6 / 12 ╨╝╨╡╤Б',
-        'home.desc_premium': '╨Ю╤Д╨╕╤Ж╨╕╨░╨╗╤М╨╜╨░╤П ╨┐╨╛╨┤╨┐╨╕╤Б╨║╨░',
+        'home.service_gifts': 'Подарки',
+        'home.service_phone': 'Виртуальный номер',
+        'home.badge_discount': '-10% Скидка',
+        'home.desc_stars': 'Быстрая доставка',
+        'home.badge_premium': '3 / 6 / 12 мес',
+        'home.desc_premium': 'Официальная подписка',
         'home.badge_gifts': 'Telegram Gifts',
         'home.desc_gifts': 'Teddy, Rose & Box',
-        'home.badge_phone': 'SMS ╨Р╨║╤В╨╕╨▓╨░╤Ж╨╕╤П',
-        'home.desc_phone': '╨Р╨║╤В╨╕╨▓╨░╤Ж╨╕╤П Telegram',
-        'home.active_account': '╨Р╨║╤В╨╕╨▓╨╜╤Л╨╣ ╨░╨║╨║╨░╤Г╨╜╤В',
-        'home.cashback': '╨Ъ╤Н╤И╨▒╤Н╨║',
-        'home.spin_free_badge': '1 ╨С╨Х╨б╨Я╨Ы╨Р╨в╨Э╨Ю',
-        'common.unit_count': '╤И╤В',
+        'home.badge_phone': 'SMS Активация',
+        'home.desc_phone': 'Активация Telegram',
+        'home.active_account': 'Активный аккаунт',
+        'home.cashback': 'Кэшбэк',
+        'home.spin_free_badge': '1 БЕСПЛАТНО',
+        'common.unit_count': 'шт',
 
-        'gift.header_title': 'Telegram ╨Я╨╛╨┤╨░╤А╨║╨╕',
-        'gift.header_subtitle': '╨Ъ╤Г╨┐╨╕╤В╨╡ ╨╛╤А╨╕╨│╨╕╨╜╨░╨╗╤М╨╜╤Л╨╡ ╨┐╨╛╨┤╨░╤А╨║╨╕ Telegram ╨┤╨╗╤П ╤Б╨╡╨▒╤П ╨╕╨╗╨╕ ╨┤╤А╤Г╨╖╨╡╨╣!',
-        'gift.cat_all': '╨Т╤Б╨╡ (19)',
+        'gift.header_title': 'Telegram Подарки',
+        'gift.header_subtitle': 'Купите оригинальные подарки Telegram для себя или друзей!',
+        'gift.cat_all': 'Все (19)',
         'gift.cat_vip': 'VIP (10)',
-        'gift.cat_classic': '╨Ъ╨╗╨░╤Б╤Б╨╕╨║╨░ (3)',
-        'gift.cat_deluxe': '╨Я╤А╨╡╨╝╨╕╤Г╨╝ (7)',
-        'gift.modal_for_self': '╨б╨╡╨▒╨╡',
-        'gift.modal_for_friend': '╨Ф╤А╤Г╨│╤Г',
-        'gift.modal_buy_btn': '╨Ъ╤Г╨┐╨╕╤В╤М ╨┐╨╛╨┤╨░╤А╨╛╨║',
-        'gift.modal_cancel': '╨Ю╤В╨╝╨╡╨╜╨░',
-        'gift.win_title': '╨Я╨Ю╨Ч╨Ф╨а╨Р╨Т╨Ы╨п╨Х╨Ь!',
-        'gift.win_claim': '╨Я╨╛╨╗╤Г╤З╨╕╤В╤М ╨┐╨╛╨┤╨░╤А╨╛╨║',
-        'gift.win_close': '╨Ч╨░╨║╤А╤Л╤В╤М',
-        'gift.balance_label': '╨С╨░╨╗╨░╨╜╤Б:',
+        'gift.cat_classic': 'Классика (3)',
+        'gift.cat_deluxe': 'Премиум (7)',
+        'gift.modal_for_self': 'Себе',
+        'gift.modal_for_friend': 'Другу',
+        'gift.modal_buy_btn': 'Купить подарок',
+        'gift.modal_cancel': 'Отмена',
+        'gift.win_title': 'ПОЗДРАВЛЯЕМ!',
+        'gift.win_claim': 'Получить подарок',
+        'gift.win_close': 'Закрыть',
+        'gift.balance_label': 'Баланс:',
 
-        'topup.header_title': '╨Я╨╛╨┐╨╛╨╗╨╜╨╡╨╜╨╕╨╡ ╨С╨░╨╗╨░╨╜╤Б╨░',
-        'topup.step1_sub': '╨и╨░╨│ 1: ╨Т╤Л╨▒╨╡╤А╨╕╤В╨╡ ╤Б╤Г╨╝╨╝╤Г ╨┐╨╛╨┐╨╛╨╗╨╜╨╡╨╜╨╕╤П',
-        'topup.step2_sub': '╨и╨░╨│ 2: ╨Ю╨┐╨╗╨░╤В╨╕╤В╨╡ ╨╜╨░ ╨║╨░╤А╤В╤Г',
-        'topup.select_amount_title': '╨Т╤Л╨▒╨╡╤А╨╕╤В╨╡ ╤Б╤Г╨╝╨╝╤Г',
-        'topup.custom_placeholder': '╨Т╨▓╨╡╨┤╨╕╤В╨╡ ╨┤╤А╤Г╨│╤Г╤О ╤Б╤Г╨╝╨╝╤Г...',
-        'topup.proceed_btn': '╨Я╨╡╤А╨╡╨╣╤В╨╕ ╨║ ╨╛╨┐╨╗╨░╤В╨╡',
-        'topup.timer_label': '╨Т╤А╨╡╨╝╤П ╨╜╨░ ╨╛╨┐╨╗╨░╤В╤Г:',
-        'topup.timer_hint': '╨Ю╨┐╨╗╨░╤В╨╕╤В╨╡ ╨▓ ╤В╨╡╤З╨╡╨╜╨╕╨╡ 5 ╨╝╨╕╨╜╤Г╤В',
-        'topup.pay_amount_label': '╨б╤Г╨╝╨╝╨░ ╨║ ╨╛╨┐╨╗╨░╤В╨╡:',
-        'topup.card_label': '╨Э╨╛╨╝╨╡╤А ╨║╨░╤А╤В╤Л (╨Э╨░╨╢╨╝╨╕╤В╨╡ ╨┤╨╗╤П ╨║╨╛╨┐╨╕╤А╨╛╨▓╨░╨╜╨╕╤П)',
-        'topup.receiver_label': '╨Я╨╛╨╗╤Г╤З╨░╤В╨╡╨╗╤М',
-        'topup.copy_btn': '╨б╨║╨╛╨┐╨╕╤А╨╛╨▓╨░╤В╤М',
-        'topup.copied_toast': '╨Э╨╛╨╝╨╡╤А ╨║╨░╤А╤В╤Л ╤Б╨║╨╛╨┐╨╕╤А╨╛╨▓╨░╨╜!',
-        'topup.warning_notice': '╨Я╨╛╨╢╨░╨╗╤Г╨╣╤Б╤В╨░, ╨▓ ╤В╨╡╤З╨╡╨╜╨╕╨╡ 5 ╨╝╨╕╨╜╤Г╤В ╨┐╨╡╤А╨╡╨▓╨╡╨┤╨╕╤В╨╡ ╤В╨╛╤З╨╜╤Г╤О ╤Б╤Г╨╝╨╝╤Г ╨╜╨░ ╨║╨░╤А╤В╤Г ╨╕ ╨╜╨░╨╢╨╝╨╕╤В╨╡ ╨║╨╜╨╛╨┐╨║╤Г ╨╜╨╕╨╢╨╡.',
-        'topup.submit_btn': '╨п ╨╛╨┐╨╗╨░╤В╨╕╨╗',
-        'topup.change_amount_btn': '╨Ш╨╖╨╝╨╡╨╜╨╕╤В╤М ╤Б╤Г╨╝╨╝╤Г',
-        'topup.help_title': '╨Э╤Г╨╢╨╜╨░ ╨┐╨╛╨╝╨╛╤Й╤М?',
-        'topup.help_text': '╨Х╤Б╨╗╨╕ ╤Г ╨▓╨░╤Б ╨▓╨╛╨╖╨╜╨╕╨║╨╗╨╕ ╤Б╨╗╨╛╨╢╨╜╨╛╤Б╤В╨╕ ╤Б ╨╛╨┐╨╗╨░╤В╨╛╨╣, ╨╜╨░╨┐╨╕╤И╨╕╤В╨╡ ╨░╨┤╨╝╨╕╨╜╨╕╤Б╤В╤А╨░╤В╨╛╤А╤Г:',
-        'topup.admin_btn': '╨б╨▓╤П╨╖╨░╤В╤М╤Б╤П ╤Б ╨░╨┤╨╝╨╕╨╜╨╛╨╝',
+        'topup.header_title': 'Пополнение Баланса',
+        'topup.step1_sub': 'Шаг 1: Выберите сумму пополнения',
+        'topup.step2_sub': 'Шаг 2: Оплатите на карту',
+        'topup.select_amount_title': 'Выберите сумму',
+        'topup.custom_placeholder': 'Введите другую сумму...',
+        'topup.proceed_btn': 'Перейти к оплате',
+        'topup.timer_label': 'Время на оплату:',
+        'topup.timer_hint': 'Оплатите в течение 5 минут',
+        'topup.pay_amount_label': 'Сумма к оплате:',
+        'topup.card_label': 'Номер карты (Нажмите для копирования)',
+        'topup.receiver_label': 'Получатель',
+        'topup.copy_btn': 'Скопировать',
+        'topup.copied_toast': 'Номер карты скопирован!',
+        'topup.warning_notice': 'Пожалуйста, в течение 5 минут переведите точную сумму на карту и нажмите кнопку ниже.',
+        'topup.submit_btn': 'Я оплатил',
+        'topup.change_amount_btn': 'Изменить сумму',
+        'topup.help_title': 'Нужна помощь?',
+        'topup.help_text': 'Если у вас возникли сложности с оплатой, напишите администратору:',
+        'topup.admin_btn': 'Связаться с админом',
 
-        'rating.title': '╨б╤В╨░╤В╨╕╤Б╤В╨╕╨║╨░ ╨Я╤А╨╛╨┤╨░╨╢',
-        'rating.subtitle': '╨а╨╡╨╣╤В╨╕╨╜╨│ ╨╗╤Г╤З╤И╨╕╤Е ╨┐╤А╨╛╨┤╨░╨▓╤Ж╨╛╨▓',
-        'rating.tab.today': '╨б╨╡╨│╨╛╨┤╨╜╤П',
-        'rating.tab.week': '╨Э╨░ ╤Н╤В╨╛╨╣ ╨╜╨╡╨┤╨╡╨╗╨╡',
-        'rating.tab.month': '╨Т ╤Н╤В╨╛╨╝ ╨╝╨╡╤Б╤П╤Ж╨╡',
-        'rating.tab.all': '╨Ч╨░ ╨▓╤Б╤С ╨▓╤А╨╡╨╝╤П',
-        'rating.loading': '╨Ч╨░╨│╤А╤Г╨╖╨║╨░...',
-        'rating.empty': '╨Э╨╡╤В ╨┤╨░╨╜╨╜╤Л╤Е',
-        'rating.error': '╨Ю╤И╨╕╨▒╨║╨░ ╨╖╨░╨│╤А╤Г╨╖╨║╨╕',
+        'rating.title': 'Статистика Продаж',
+        'rating.subtitle': 'Рейтинг лучших продавцов',
+        'rating.tab.today': 'Сегодня',
+        'rating.tab.week': 'На этой неделе',
+        'rating.tab.month': 'В этом месяце',
+        'rating.tab.all': 'За всё время',
+        'rating.loading': 'Загрузка...',
+        'rating.empty': 'Нет данных',
+        'rating.error': 'Ошибка загрузки',
 
-        'profile.section.main': '╨Ю╨б╨Э╨Ю╨Т╨Э╨Ю╨Х',
-        'profile.topup_title': '╨Я╨╛╨┐╨╛╨╗╨╜╨╡╨╜╨╕╨╡ ╨С╨░╨╗╨░╨╜╤Б╨░',
-        'profile.topup_sub': '╨Я╨╛╨┐╨╛╨╗╨╜╨╕╤В╤М ╤Б╤З╨╡╤В ╨┤╨╗╤П ╨┐╨╛╨║╤Г╨┐╨╛╨║',
-        'profile.orders_title': '╨Ь╨╛╨╕ ╨Ч╨░╨║╨░╨╖╤Л',
-        'profile.orders_sub': '╨Ш╤Б╤В╨╛╤А╨╕╤П ╨┐╨╛╨║╤Г╨┐╨╛╨║ ╨╕ ╨┐╨╗╨░╤В╨╡╨╢╨╡╨╣',
-        'profile.rating_title': '╨а╨╡╨╣╤В╨╕╨╜╨│ ╨Я╤А╨╛╨┤╨░╨╢',
-        'profile.rating_sub': '╨б╨┐╨╕╤Б╨╛╨║ ╨╗╤Г╤З╤И╨╕╤Е ╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╨╡╨╗╨╡╨╣',
-        'profile.gifts': '╨Ь╨╛╨╕ ╨┐╨╛╨┤╨░╤А╨║╨╕',
-        'profile.referrals': '╨Ь╨╛╨╕ ╨┐╤А╨╕╨│╨╗╨░╤И╨╡╨╜╨╕╤П',
-        'profile.section.transactions': '╨в╨а╨Р╨Э╨Ч╨Р╨Ъ╨ж╨Ш╨Ш',
-        'profile.section.settings': '╨Э╨Р╨б╨в╨а╨Ю╨Щ╨Ъ╨Ш',
-        'profile.lite_mode': '╨С╤Л╤Б╤В╤А╤Л╨╣ ╤А╨╡╨╢╨╕╨╝ (Lite Mode)',
-        'profile.lite_sub': '╨Ю╤В╨║╨╗╤О╤З╨╕╤В╤М ╨░╨╜╨╕╨╝╨░╤Ж╨╕╨╕ ╨┤╨╗╤П ╤Г╤Б╨║╨╛╤А╨╡╨╜╨╕╤П',
-        'profile.support': '╨Я╨╛╨┤╨┤╨╡╤А╨╢╨║╨░',
-        'profile.support_sub': '╨Р╨┤╨╝╨╕╨╜╨╕╤Б╤В╤А╨░╤В╨╛╤А ╨╕ ╨┐╨╛╨╝╨╛╤Й╤М',
-        'profile.news_channel': '╨Э╨╛╨▓╨╛╤Б╤В╨╜╨╛╨╣ ╨║╨░╨╜╨░╨╗',
-        'profile.news': '╨Э╨╛╨▓╨╛╤Б╤В╨╕ ╨╕ ╨Ю╨▒╤К╤П╨▓╨╗╨╡╨╜╨╕╤П',
-        'profile.news_sub': '╨Ю╤Д╨╕╤Ж╨╕╨░╨╗╤М╨╜╤Л╨╣ telegram-╨║╨░╨╜╨░╨╗: @CoinStatUz',
-        'profile.konkurs': '╨а╨░╨╖╨┤╨╡╨╗ ╨║╨╛╨╜╨║╤Г╤А╤Б╨╛╨▓',
-        'profile.konkurs_badge': '╨Р╨Ъ╨в╨Ш╨Т╨Х╨Э',
-        'profile.konkurs_sub': '╨г╤З╨░╤Б╤В╨╕╨╡ ╨▓ ╨░╨║╤Ж╨╕╤П╤Е ╨╕ ╨║╨╛╨╜╨║╤Г╤А╤Б╨░╤Е',
+        'profile.section.main': 'ОСНОВНОЕ',
+        'profile.topup_title': 'Пополнение Баланса',
+        'profile.topup_sub': 'Пополнить счет для покупок',
+        'profile.orders_title': 'Мои Заказы',
+        'profile.orders_sub': 'История покупок и платежей',
+        'profile.rating_title': 'Рейтинг Продаж',
+        'profile.rating_sub': 'Список лучших пользователей',
+        'profile.gifts': 'Мои подарки',
+        'profile.referrals': 'Мои приглашения',
+        'profile.section.transactions': 'ТРАНЗАКЦИИ',
+        'profile.section.settings': 'НАСТРОЙКИ',
+        'profile.lite_mode': 'Быстрый режим (Lite Mode)',
+        'profile.lite_sub': 'Отключить анимации для ускорения',
+        'profile.support': 'Поддержка',
+        'profile.support_sub': 'Администратор и помощь',
+        'profile.news_channel': 'Новостной канал',
+        'profile.news': 'Новости и Объявления',
+        'profile.news_sub': 'Официальный telegram-канал: @CoinStatUz',
+        'profile.konkurs': 'Раздел конкурсов',
+        'profile.konkurs_badge': 'АКТИВЕН',
+        'profile.konkurs_sub': 'Участие в акциях и конкурсах',
 
-        'stars.title': '╨Ъ╤Г╨┐╨╕╤В╤М Telegram Stars',
-        'stars.amount': '╨Ъ╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨╛ Stars',
-        'stars.custom_title': '╨Ф╤А╤Г╨│╨╛╨╡ ╨║╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨╛',
-        'stars.custom_sub': '╨Т╨▓╨╡╨┤╨╕╤В╨╡ ╨╗╤О╨▒╨╛╨╡ ╨║╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨╛ (╨╝╨╕╨╜. 50)',
-        'stars.recipient_for_me': '╨б╨╡╨▒╨╡',
-        'premium.title': '╨Ъ╤Г╨┐╨╕╤В╤М Telegram Premium',
-        'premium.3_months': 'Premium ╨╜╨░ 3 ╨Ь╨╡╤Б╤П╤Ж╨░',
-        'premium.6_months': 'Premium ╨╜╨░ 6 ╨Ь╨╡╤Б╤П╤Ж╨╡╨▓',
-        'premium.12_months': 'Premium ╨╜╨░ 12 ╨Ь╨╡╤Б╤П╤Ж╨╡╨▓',
-        'spin.title': 'Lucky Spin тАФ ╨Ъ╨╛╨╗╨╡╤Б╨╛ ╨г╨┤╨░╤З╨╕',
+        'stars.title': 'Купить Telegram Stars',
+        'stars.amount': 'Количество Stars',
+        'stars.custom_title': 'Другое количество',
+        'stars.custom_sub': 'Введите любое количество (мин. 50)',
+        'stars.recipient_for_me': 'Себе',
+        'premium.title': 'Купить Telegram Premium',
+        'premium.3_months': 'Premium на 3 Месяца',
+        'premium.6_months': 'Premium на 6 Месяцев',
+        'premium.12_months': 'Premium на 12 Месяцев',
+        'spin.title': 'Lucky Spin — Колесо Удачи',
 
-        'common.loading': '╨Ч╨░╨│╤А╤Г╨╖╨║╨░...',
-        'common.sending': '╨Ю╤В╨┐╤А╨░╨▓╨║╨░...',
-        'common.buy': '╨Ъ╤Г╨┐╨╕╤В╤М',
-        'common.unit_som': '╤Б╤Г╨╝',
-        'success.title': 'тЬЕ ╨г╤Б╨┐╨╡╤И╨╜╨╛',
-        'error.title': 'тЭМ ╨Ю╤И╨╕╨▒╨║╨░',
+        'common.loading': 'Загрузка...',
+        'common.sending': 'Отправка...',
+        'common.buy': 'Купить',
+        'common.unit_som': 'сум',
+        'success.title': '✅ Успешно',
+        'error.title': '❌ Ошибка',
     },
     en: {
-        'nav.home': 'Asosiy',
-        'nav.services': 'Servislar',
+        'nav.home': 'Home',
+        'nav.services': 'Services',
         'home.badge_auto': 'Auto',
         'home.service_topup': 'Top Up Balance',
         'home.desc_topup': 'Uzcard / Humo',
@@ -13254,7 +13224,7 @@ const TRANSLATIONS = {
         'profile.rating_sub': 'Most active users',
         'nav.gifts': 'Gifts',
         'nav.rating': 'Top',
-        'nav.profile': 'Profil',
+        'nav.profile': 'Profile',
         'nav.menu': 'Menu',
 
         'home.balance_title': 'BALANCE',
@@ -13358,14 +13328,14 @@ const TRANSLATIONS = {
         'premium.3_months': '3 Months Premium',
         'premium.6_months': '6 Months Premium',
         'premium.12_months': '12 Months Premium',
-        'spin.title': 'Lucky Spin тАФ Lucky Wheel',
+        'spin.title': 'Lucky Spin — Lucky Wheel',
 
         'common.loading': 'Loading...',
         'common.sending': 'Sending...',
         'common.buy': 'Buy',
         'common.unit_som': 'UZS',
-        'success.title': 'тЬЕ Success',
-        'error.title': 'тЭМ Error',
+        'success.title': '✅ Success',
+        'error.title': '❌ Error',
     }
 };
 
@@ -13374,9 +13344,6 @@ let currentLang = 'uz';
 function detectLanguage() {
     const saved = localStorage.getItem('starpay_lang');
     if (saved && TRANSLATIONS[saved]) return saved;
-    return 'uz';
-    // default uz
-    // uz
     return 'uz';
 }
 
@@ -13709,19 +13676,19 @@ function injectChannelGateHTML() {
     overlay.className = 'cs-sub-gate-overlay';
     overlay.innerHTML = `
         <div class="cs-sub-gate-card">
-            <div class="cs-sub-icon-wrap">ЁЯУв</div>
+            <div class="cs-sub-icon-wrap">📢</div>
             <div class="cs-sub-title">Kanalimizga obuna bo'ling!</div>
             <div class="cs-sub-desc">
                 CoinStat UZ xizmatlaridan foydalanish va xarid qilish uchun rasmiy kanalimizga a'zo bo'lishingiz shart.
             </div>
             <div class="cs-sub-channel-pill" id="csSubChannelPill">
-                ЁЯУв @CoinStatUz
+                📢 @CoinStatUz
             </div>
             <button type="button" class="cs-sub-join-btn" onclick="openRequiredChannelLink()">
-                ЁЯЪА Kanalga a'zo bo'lish
+                🚀 Kanalga a'zo bo'lish
             </button>
             <button type="button" class="cs-sub-verify-btn" id="csSubVerifyBtn" onclick="verifySubscriptionManually()">
-                тЬЕ A'zolikni tekshirish
+                ✅ A'zolikni tekshirish
             </button>
             <div class="cs-sub-msg" id="csSubMsg"></div>
         </div>
@@ -13744,7 +13711,7 @@ async function verifySubscriptionManually() {
     const msg = document.getElementById('csSubMsg');
     if (btn) {
         btn.disabled = true;
-        btn.textContent = 'тП│ Tekshirilmoqda...';
+        btn.textContent = '⏳ Tekshirilmoqda...';
     }
     if (msg) {
         msg.style.display = 'none';
@@ -13756,7 +13723,7 @@ async function verifySubscriptionManually() {
 
     if (btn) {
         btn.disabled = false;
-        btn.textContent = "тЬЕ A'zolikni tekshirish";
+        btn.textContent = "✅ A'zolikni tekshirish";
     }
 
     if (isSub) {
@@ -13765,7 +13732,7 @@ async function verifySubscriptionManually() {
     } else {
         triggerHaptic('error');
         if (msg) {
-            msg.textContent = "тЭМ Siz hali kanalga a'zo bo'lmadingiz! Iltimos, yuqoridagi tugma orqali kanalga kiring va 'Qo'shilish' tugmasini bosing.";
+            msg.textContent = "❌ Siz hali kanalga a'zo bo'lmadingiz! Iltimos, yuqoridagi tugma orqali kanalga kiring va 'Qo'shilish' tugmasini bosing.";
             msg.style.display = 'block';
         }
     }
@@ -13829,7 +13796,7 @@ async function fetchSubscriptionStatus(force = false) {
             _csRequiredChannelUrl = 'https://t.me/CoinStatUz';
 
             const pill = document.getElementById('csSubChannelPill');
-            if (pill) pill.textContent = 'ЁЯУв @CoinStatUz';
+            if (pill) pill.textContent = '📢 @CoinStatUz';
 
             sessionStorage.setItem(cacheKey, JSON.stringify({
                 subscribed: _csSubscribed,
@@ -13882,7 +13849,7 @@ function copyUserId() {
     let txt = el.textContent.trim();
     if (txt.startsWith('ID:')) txt = txt.replace(/^ID:\s*/, '');
     if (txt.startsWith('@')) txt = txt.substring(1);
-    if (!txt || txt === 'тАФ') return;
+    if (!txt || txt === '—') return;
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(txt).then(() => {
             if (window.Telegram?.WebApp?.HapticFeedback) {
@@ -13908,17 +13875,17 @@ if (typeof TRANSLATIONS !== 'undefined') {
         TRANSLATIONS.uz["profile.lite_sub"] = "Animatsiyalarni o'chirish (qotmasligi uchun)";
     }
     if (TRANSLATIONS.ru) {
-        TRANSLATIONS.ru["profile.badge_orders"] = "╨Ш╤Б╤В╨╛╤А╨╕╤П";
-        TRANSLATIONS.ru["profile.topup_title"] = "╨Я╨╛╨┐╨╛╨╗╨╜╨╡╨╜╨╕╨╡ ╨С╨░╨╗╨░╨╜╤Б╨░";
-        TRANSLATIONS.ru["profile.topup_sub"] = "╨Я╨╛╨┐╨╛╨╗╨╜╨╕╤В╤М ╤Б╤З╨╡╤В ╨┤╨╗╤П ╨┐╨╛╨║╤Г╨┐╨╛╨║";
-        TRANSLATIONS.ru["profile.orders_title"] = "╨Ь╨╛╨╕ ╨Ч╨░╨║╨░╨╖╤Л";
-        TRANSLATIONS.ru["profile.orders_sub"] = "╨Ш╤Б╤В╨╛╤А╨╕╤П ╨┐╨╛╨║╤Г╨┐╨╛╨║ ╨╕ ╨┐╨╗╨░╤В╨╡╨╢╨╡╨╣";
-        TRANSLATIONS.ru["profile.rating_title"] = "╨а╨╡╨╣╤В╨╕╨╜╨│ ╨Я╤А╨╛╨┤╨░╨╢";
-        TRANSLATIONS.ru["profile.rating_sub"] = "╨б╨┐╨╕╤Б╨╛╨║ ╨╗╤Г╤З╤И╨╕╤Е ╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╨╡╨╗╨╡╨╣";
-        TRANSLATIONS.ru["profile.support"] = "╨Я╨╛╨┤╨┤╨╡╤А╨╢╨║╨░";
-        TRANSLATIONS.ru["profile.support_sub"] = "╨ж╨╡╨╜╤В╤А ╨┐╨╛╨┤╨┤╨╡╤А╨╢╨║╨╕ ╨╕ ╨░╨┤╨╝╨╕╨╜";
-        TRANSLATIONS.ru["profile.lite_mode"] = "╨С╤Л╤Б╤В╤А╤Л╨╣ ╨а╨╡╨╢╨╕╨╝ (Lite Mode)";
-        TRANSLATIONS.ru["profile.lite_sub"] = "╨Ю╤В╨║╨╗╤О╤З╨╕╤В╤М ╨░╨╜╨╕╨╝╨░╤Ж╨╕╨╕ (╨┤╨╗╤П ╤Г╤Б╨║╨╛╤А╨╡╨╜╨╕╤П)";
+        TRANSLATIONS.ru["profile.badge_orders"] = "История";
+        TRANSLATIONS.ru["profile.topup_title"] = "Пополнение Баланса";
+        TRANSLATIONS.ru["profile.topup_sub"] = "Пополнить счет для покупок";
+        TRANSLATIONS.ru["profile.orders_title"] = "Мои Заказы";
+        TRANSLATIONS.ru["profile.orders_sub"] = "История покупок и платежей";
+        TRANSLATIONS.ru["profile.rating_title"] = "Рейтинг Продаж";
+        TRANSLATIONS.ru["profile.rating_sub"] = "Список лучших пользователей";
+        TRANSLATIONS.ru["profile.support"] = "Поддержка";
+        TRANSLATIONS.ru["profile.support_sub"] = "Центр поддержки и админ";
+        TRANSLATIONS.ru["profile.lite_mode"] = "Быстрый Режим (Lite Mode)";
+        TRANSLATIONS.ru["profile.lite_sub"] = "Отключить анимации (для ускорения)";
     }
     if (TRANSLATIONS.en) {
         TRANSLATIONS.en["profile.badge_orders"] = "History";
@@ -13958,7 +13925,7 @@ setBalUI = function(val) {
 
     if (isHidden) {
         document.querySelectorAll('#balance, [id="balance"], .user-balance-val').forEach(el => {
-            el.textContent = 'тАвтАвтАвтАвтАвтАв';
+            el.textContent = '••••••';
         });
         _currentDisplayBal = targetVal;
         return;
@@ -14069,7 +14036,7 @@ async function buyCustomStars(btn) {
     const oldText = btn ? btn.innerHTML : '';
     if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<span>тП│ Yuborilmoqda...</span>';
+        btn.innerHTML = '<span>⏳ Yuborilmoqda...</span>';
     }
 
     const userId = getUserId();
@@ -14094,17 +14061,17 @@ async function buyCustomStars(btn) {
         try { data = await res.json(); } catch(e) {}
 
         if (data && data.ok) {
-            if (tg?.showAlert) tg.showAlert(`тЬЕ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
-            else alert(`тЬЕ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
+            if (tg?.showAlert) tg.showAlert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
+            else alert(`✅ ${qty} Stars muvaffaqiyatli xarid qilindi!`);
             setTimeout(() => navigateTo('orders'), 1000);
         } else {
             const err = data?.error || data?.message || 'Xatolik yuz berdi. Balans yetarli emas yoki qayta urining.';
-            if (tg?.showAlert) tg.showAlert('тЭМ ' + err);
-            else alert('тЭМ ' + err);
+            if (tg?.showAlert) tg.showAlert('❌ ' + err);
+            else alert('❌ ' + err);
         }
     } catch (e) {
-        if (tg?.showAlert) tg.showAlert('тЭМ Xatolik yuz berdi: ' + (e.message || 'Tarmoq xatosi'));
-        else alert('тЭМ Tarmoq xatosi');
+        if (tg?.showAlert) tg.showAlert('❌ Xatolik yuz berdi: ' + (e.message || 'Tarmoq xatosi'));
+        else alert('❌ Tarmoq xatosi');
     } finally {
         if (btn) {
             btn.disabled = false;
@@ -14154,7 +14121,7 @@ async function buyPremium() {
     const oldText = btn ? btn.innerHTML : '';
     if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<span>тП│ Yuborilmoqda...</span>';
+        btn.innerHTML = '<span>⏳ Yuborilmoqda...</span>';
     }
 
     const userId = getUserId();
@@ -14179,17 +14146,17 @@ async function buyPremium() {
         try { data = await res.json(); } catch(e) {}
 
         if (data && data.ok) {
-            if (tg?.showAlert) tg.showAlert(`тЬЕ ${selectedPlanMonths} oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
-            else alert(`тЬЕ ${selectedPlanMonths} oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
+            if (tg?.showAlert) tg.showAlert(`✅ ${selectedPlanMonths} oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
+            else alert(`✅ ${selectedPlanMonths} oylik Telegram Premium muvaffaqiyatli xarid qilindi!`);
             setTimeout(() => navigateTo('orders'), 1000);
         } else {
             const err = data?.error || data?.message || 'Xatolik yuz berdi. Balans yetarli emas yoki qayta urining.';
-            if (tg?.showAlert) tg.showAlert('тЭМ ' + err);
-            else alert('тЭМ ' + err);
+            if (tg?.showAlert) tg.showAlert('❌ ' + err);
+            else alert('❌ ' + err);
         }
     } catch (e) {
-        if (tg?.showAlert) tg.showAlert('тЭМ Xatolik yuz berdi: ' + (e.message || 'Tarmoq xatosi'));
-        else alert('тЭМ Tarmoq xatosi');
+        if (tg?.showAlert) tg.showAlert('❌ Xatolik yuz berdi: ' + (e.message || 'Tarmoq xatosi'));
+        else alert('❌ Tarmoq xatosi');
     } finally {
         if (btn) {
             btn.disabled = false;
@@ -14213,7 +14180,7 @@ function verifyUsername(type) {
         input.focus();
         if (msg) {
             msg.className = 'luxury-verify-feedback error';
-            msg.textContent = 'тЭМ Iltimos, Telegram username kiriting!';
+            msg.textContent = '❌ Iltimos, Telegram username kiriting!';
         }
         if (window.Telegram?.WebApp?.HapticFeedback) {
             try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('error'); } catch(e) {}
@@ -14226,7 +14193,7 @@ function verifyUsername(type) {
     if (val.length < 3) {
         if (msg) {
             msg.className = 'luxury-verify-feedback error';
-            msg.textContent = "тЭМ Username juda qisqa (kamida 3 belgi)";
+            msg.textContent = "❌ Username juda qisqa (kamida 3 belgi)";
         }
         return;
     }
@@ -14234,14 +14201,14 @@ function verifyUsername(type) {
     if (!/^[a-zA-Z0-9_]{3,32}$/.test(val)) {
         if (msg) {
             msg.className = 'luxury-verify-feedback error';
-            msg.textContent = "тЭМ Noto'g'ri username formati (faqat a-z, 0-9, _)";
+            msg.textContent = "❌ Noto'g'ri username formati (faqat a-z, 0-9, _)";
         }
         return;
     }
 
     if (msg) {
         msg.className = 'luxury-verify-feedback success';
-        msg.textContent = `тЬЕ @${val} to'g'ri qabul qilindi`;
+        msg.textContent = `✅ @${val} to'g'ri qabul qilindi`;
     }
 
     if (window.Telegram?.WebApp?.HapticFeedback) {
@@ -14269,29 +14236,29 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
 
         const ALL_GIFTS = [
             // 15-25 Stars
-            { id: 'bear', name_uz: 'Teddy Bear', name_ru: '╨Ь╨╕╤И╨║╨░ ╨в╨╡╨┤╨┤╨╕', name_en: 'Teddy Bear', category: '15-25', stars: 15, price: 2800, img: 'images/bear.webp?v=3', badge: '15тнР' },
-            { id: 'rose', name_uz: 'Qizil Atirgul', name_ru: '╨Ъ╤А╨░╤Б╨╜╨░╤П ╨а╨╛╨╖╨░', name_en: 'Red Rose', category: '15-25', stars: 25, price: 5000, img: 'images/rose.webp?v=3', badge: '25тнР' },
-            { id: 'box', name_uz: 'Oltin Quticha', name_ru: '╨Ч╨╛╨╗╨╛╤В╨░╤П ╨Ъ╨╛╤А╨╛╨▒╨║╨░', name_en: 'Golden Giftbox', category: '15-25', stars: 25, price: 5000, img: 'images/box.webp?v=3', badge: '25тнР' },
+            { id: 'bear', name_uz: 'Teddy Bear', name_ru: 'Мишка Тедди', name_en: 'Teddy Bear', category: '15-25', stars: 15, price: 2800, img: 'images/bear.webp?v=3', badge: '15⭐' },
+            { id: 'rose', name_uz: 'Qizil Atirgul', name_ru: 'Красная Роза', name_en: 'Red Rose', category: '15-25', stars: 25, price: 5000, img: 'images/rose.webp?v=3', badge: '25⭐' },
+            { id: 'box', name_uz: 'Oltin Quticha', name_ru: 'Золотая Коробка', name_en: 'Golden Giftbox', category: '15-25', stars: 25, price: 5000, img: 'images/box.webp?v=3', badge: '25⭐' },
 
             // 50 Stars
-            { id: 'bouqet', name_uz: 'Guldasta', name_ru: '╨С╤Г╨║╨╡╤В ╨ж╨▓╨╡╤В╨╛╨▓', name_en: 'Bouquet', category: '50', stars: 50, price: 10000, img: 'images/bouqet.webp?v=3', badge: '50тнР' },
-            { id: 'cake', name_uz: 'Bayram Torti', name_ru: '╨Я╤А╨░╨╖╨┤╨╜╨╕╤З╨╜╤Л╨╣ ╨в╨╛╤А╤В', name_en: 'Birthday Cake', category: '50', stars: 50, price: 10000, img: 'images/cake.webp?v=3', badge: '50тнР' },
-            { id: 'rocket', name_uz: 'Kosmik Raketa', name_ru: '╨Ъ╨╛╤Б╨╝╨╕╤З╨╡╤Б╨║╨░╤П ╨а╨░╨║╨╡╤В╨░', name_en: 'Space Rocket', category: '50', stars: 50, price: 10000, img: 'images/rocket.webp?v=3', badge: '50тнР' },
-            { id: 'heart', name_uz: 'Oltin Yurak', name_ru: '╨Ч╨╛╨╗╨╛╤В╨╛╨╡ ╨б╨╡╤А╨┤╤Ж╨╡', name_en: 'Golden Heart', category: '50', stars: 50, price: 10000, img: 'images/heart.webp?v=3', badge: '50тнР' },
-            { id: 'aprel_bear', name_uz: 'Aprel Ayiqchasi', name_ru: '╨Р╨┐╤А╨╡╨╗╤М╤Б╨║╨╕╨╣ ╨Ь╨╕╤И╨║╨░', name_en: 'April Bear', category: '50', stars: 50, price: 10000, img: 'images/aprel_bear.webp?v=3', badge: '50тнР' },
-            { id: 'easter_bear', name_uz: 'Pasxa Ayiqchasi', name_ru: '╨Я╨░╤Б╤Е╨░╨╗╤М╨╜╤Л╨╣ ╨Ь╨╕╤И╨║╨░', name_en: 'Easter Bear', category: '50', stars: 50, price: 10000, img: 'images/easter_bear.webp?v=3', badge: '50тнР' },
-            { id: 'newyear_bear', name_uz: 'Qorbobo Ayiqchasi', name_ru: '╨Э╨╛╨▓╨╛╨│╨╛╨┤╨╜╨╕╨╣ ╨Ь╨╕╤И╨║╨░', name_en: 'Santa Bear', category: '50', stars: 50, price: 10000, img: 'images/newyear_bear.webp?v=3', badge: '50тнР' },
-            { id: 'builder_bear', name_uz: 'Usta Ayiqchasi', name_ru: '╨Ь╨╕╤И╨║╨░ ╨б╤В╤А╨╛╨╕╤В╨╡╨╗╤М', name_en: 'Builder Bear', category: '50', stars: 50, price: 10000, img: 'images/builder_bear.webp?v=3', badge: '50тнР' },
-            { id: 'football_bear', name_uz: 'Futbolchi Ayiqcha', name_ru: '╨Ь╨╕╤И╨║╨░ ╨д╤Г╤В╨▒╨╛╨╗╨╕╤Б╤В', name_en: 'Football Bear', category: '50', stars: 50, price: 10000, img: 'images/football_bear.webp?v=3', badge: '50тнР' },
-            { id: 'soldier_bear', name_uz: 'Jangchi Ayiqchasi', name_ru: '╨Ь╨╕╤И╨║╨░ ╨б╨╛╨╗╨┤╨░╤В', name_en: 'Soldier Bear', category: '50', stars: 50, price: 10000, img: 'images/soldier_bear.webp?v=3', badge: '50тнР' },
-            { id: 'newyear_tree', name_uz: 'Yangi Yil Archasi', name_ru: '╨Э╨╛╨▓╨╛╨│╨╛╨┤╨╜╤П╤П ╨Б╨╗╨║╨░', name_en: 'Christmas Tree', category: '50', stars: 50, price: 10000, img: 'images/newyear_tree.webp?v=3', badge: '50тнР' },
-            { id: 'patrick_bear', name_uz: 'Patrik Ayiqchasi', name_ru: '╨Ь╨╕╤И╨║╨░ ╨Я╨░╤В╤А╨╕╨║', name_en: 'Patrick Bear', category: '50', stars: 50, price: 10000, img: 'images/patrick_bear.webp?v=3', badge: '50тнР' },
-            { id: 'valentine_bear', name_uz: 'Valentin Ayiqchasi', name_ru: '╨Ь╨╕╤И╨║╨░ ╨Т╨░╨╗╨╡╨╜╤В╨╕╨╜', name_en: 'Valentine Bear', category: '50', stars: 50, price: 10000, img: 'images/valentine_bear.webp?v=3', badge: '50тнР' },
+            { id: 'bouqet', name_uz: 'Guldasta', name_ru: 'Букет Цветов', name_en: 'Bouquet', category: '50', stars: 50, price: 10000, img: 'images/bouqet.webp?v=3', badge: '50⭐' },
+            { id: 'cake', name_uz: 'Bayram Torti', name_ru: 'Праздничный Торт', name_en: 'Birthday Cake', category: '50', stars: 50, price: 10000, img: 'images/cake.webp?v=3', badge: '50⭐' },
+            { id: 'rocket', name_uz: 'Kosmik Raketa', name_ru: 'Космическая Ракета', name_en: 'Space Rocket', category: '50', stars: 50, price: 10000, img: 'images/rocket.webp?v=3', badge: '50⭐' },
+            { id: 'heart', name_uz: 'Oltin Yurak', name_ru: 'Золотое Сердце', name_en: 'Golden Heart', category: '50', stars: 50, price: 10000, img: 'images/heart.webp?v=3', badge: '50⭐' },
+            { id: 'aprel_bear', name_uz: 'Aprel Ayiqchasi', name_ru: 'Апрельский Мишка', name_en: 'April Bear', category: '50', stars: 50, price: 10000, img: 'images/aprel_bear.webp?v=3', badge: '50⭐' },
+            { id: 'easter_bear', name_uz: 'Pasxa Ayiqchasi', name_ru: 'Пасхальный Мишка', name_en: 'Easter Bear', category: '50', stars: 50, price: 10000, img: 'images/easter_bear.webp?v=3', badge: '50⭐' },
+            { id: 'newyear_bear', name_uz: 'Qorbobo Ayiqchasi', name_ru: 'Новогодний Мишка', name_en: 'Santa Bear', category: '50', stars: 50, price: 10000, img: 'images/newyear_bear.webp?v=3', badge: '50⭐' },
+            { id: 'builder_bear', name_uz: 'Usta Ayiqchasi', name_ru: 'Мишка Строитель', name_en: 'Builder Bear', category: '50', stars: 50, price: 10000, img: 'images/builder_bear.webp?v=3', badge: '50⭐' },
+            { id: 'football_bear', name_uz: 'Futbolchi Ayiqcha', name_ru: 'Мишка Футболист', name_en: 'Football Bear', category: '50', stars: 50, price: 10000, img: 'images/football_bear.webp?v=3', badge: '50⭐' },
+            { id: 'soldier_bear', name_uz: 'Jangchi Ayiqchasi', name_ru: 'Мишка Солдат', name_en: 'Soldier Bear', category: '50', stars: 50, price: 10000, img: 'images/soldier_bear.webp?v=3', badge: '50⭐' },
+            { id: 'newyear_tree', name_uz: 'Yangi Yil Archasi', name_ru: 'Новогодняя Ёлка', name_en: 'Christmas Tree', category: '50', stars: 50, price: 10000, img: 'images/newyear_tree.webp?v=3', badge: '50⭐' },
+            { id: 'patrick_bear', name_uz: 'Patrik Ayiqchasi', name_ru: 'Мишка Патрик', name_en: 'Patrick Bear', category: '50', stars: 50, price: 10000, img: 'images/patrick_bear.webp?v=3', badge: '50⭐' },
+            { id: 'valentine_bear', name_uz: 'Valentin Ayiqchasi', name_ru: 'Мишка Валентин', name_en: 'Valentine Bear', category: '50', stars: 50, price: 10000, img: 'images/valentine_bear.webp?v=3', badge: '50⭐' },
 
             // 100 Stars
-            { id: 'diamond', name_uz: 'Brilliant', name_ru: '╨С╤А╨╕╨╗╨╗╨╕╨░╨╜╤В', name_en: 'Diamond', category: '100', stars: 100, price: 20000, img: 'images/diamond.webp?v=3', badge: '100тнР' },
-            { id: 'ring', name_uz: 'Olmos Uzuk', name_ru: '╨Ъ╨╛╨╗╤М╤Ж╨╛ ╤Б ╨С╤А╨╕╨╗╨╗╨╕╨░╨╜╤В╨╛╨╝', name_en: 'Diamond Ring', category: '100', stars: 100, price: 20000, img: 'images/ring.webp?v=3', badge: '100тнР' },
-            { id: 'trophy', name_uz: 'Oltin Kubok', name_ru: '╨Ч╨╛╨╗╨╛╤В╨╛╨╣ ╨Ъ╤Г╨▒╨╛╨║', name_en: 'Golden Trophy', category: '100', stars: 100, price: 20000, img: 'images/trophy.webp?v=3', badge: '100тнР' }
+            { id: 'diamond', name_uz: 'Brilliant', name_ru: 'Бриллиант', name_en: 'Diamond', category: '100', stars: 100, price: 20000, img: 'images/diamond.webp?v=3', badge: '100⭐' },
+            { id: 'ring', name_uz: 'Olmos Uzuk', name_ru: 'Кольцо с Бриллиантом', name_en: 'Diamond Ring', category: '100', stars: 100, price: 20000, img: 'images/ring.webp?v=3', badge: '100⭐' },
+            { id: 'trophy', name_uz: 'Oltin Kubok', name_ru: 'Золотой Кубок', name_en: 'Golden Trophy', category: '100', stars: 100, price: 20000, img: 'images/trophy.webp?v=3', badge: '100⭐' }
         ];
 
         let currentCategory = 'all';
@@ -14334,7 +14301,7 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
                     <span class="gift-card-badge">${g.badge}</span>
                     <div class="gift-card-icon-wrap"><img src="${g.img}" alt="${gName}" loading="lazy" decoding="async" width="52" height="52"></div>
                     <div class="gift-card-name">${gName}</div>
-                    <div class="gift-card-stars">тнР ${g.stars} Stars</div>
+                    <div class="gift-card-stars">⭐ ${g.stars} Stars</div>
                     <button type="button" class="gift-card-buy-btn">${g.price.toLocaleString('uz-UZ')} UZS</button>
                 </div>
             `}).join('');
@@ -14378,9 +14345,9 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
 
         function openOrderModal(giftId) {
             if (tgApp?.showAlert) {
-                tgApp.showAlert("ЁЯФз Hozirda Telegram Sovg'alari (Gift) bo'limida texnik ishlar olib borilmoqda. Xizmat tez orada qayta ishga tushadi!");
+                tgApp.showAlert("🔧 Hozirda Telegram Sovg'alari (Gift) bo'limida texnik ishlar olib borilmoqda. Xizmat tez orada qayta ishga tushadi!");
             } else {
-                alert("ЁЯФз Hozirda Telegram Sovg'alari (Gift) bo'limida texnik ishlar olib borilmoqda. Xizmat tez orada qayta ishga tushadi!");
+                alert("🔧 Hozirda Telegram Sovg'alari (Gift) bo'limida texnik ishlar olib borilmoqda. Xizmat tez orada qayta ishga tushadi!");
             }
             if (tgApp && tgApp.HapticFeedback) tgApp.HapticFeedback.notificationOccurred('warning');
             return;
@@ -14410,7 +14377,7 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
 
             const gName = getGiftName(gift);
             document.getElementById('celebrationImg').src = gift.img;
-            document.getElementById('celebrationBadge').textContent = gift.category === 'vip' ? 'ЁЯСС VIP XARID!' : 'ЁЯОЙ XARID MUBORAK!';
+            document.getElementById('celebrationBadge').textContent = gift.category === 'vip' ? '👑 VIP XARID!' : '🎉 XARID MUBORAK!';
             document.getElementById('celebrationPrizeTitle').textContent = `${gName} (${gift.stars} Stars)`;
             
             if (window.confetti) {
@@ -14429,12 +14396,12 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
             const name = ((user.first_name || '') + ' ' + (user.last_name || '')).trim() || 'Foydalanuvchi';
             
             const messageText = 
-                `Assalomu alaykum! Men CoinStat UZ'dan sovg'a sotib oldim ЁЯОБ\n\n` +
-                `ЁЯОБ Sovg'a: ${lastPurchasedGift.name} (${lastPurchasedGift.stars} Stars)\n` +
-                `ЁЯСд Xaridor: ${name}\n` +
-                `ЁЯП╖ Username: ${uname}\n` +
-                `ЁЯОп Qabul qiluvchi: @${lastPurchasedUsername}\n` +
-                `ЁЯЖФ Telegram ID: ${userId}\n\n` +
+                `Assalomu alaykum! Men CoinStat UZ'dan sovg'a sotib oldim 🎁\n\n` +
+                `🎁 Sovg'a: ${lastPurchasedGift.name} (${lastPurchasedGift.stars} Stars)\n` +
+                `👤 Xaridor: ${name}\n` +
+                `🏷 Username: ${uname}\n` +
+                `🎯 Qabul qiluvchi: @${lastPurchasedUsername}\n` +
+                `🆔 Telegram ID: ${userId}\n\n` +
                 `Iltimos, sovg'amni profilimga yuborishingizni so'rayman!`;
 
             const adminUrl = `https://t.me/cofeature?text=${encodeURIComponent(messageText)}`;
@@ -14464,7 +14431,7 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
             }
 
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>тП│ Yuborilmoqda...</span>';
+            submitBtn.innerHTML = '<span>⏳ Yuborilmoqda...</span>';
 
             const userId = tgApp?.initDataUnsafe?.user?.id || (typeof getUserId === 'function' ? getUserId() : 1);
             const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-1b7cb.up.railway.app')) || 'https://web-production-1b7cb.up.railway.app';
@@ -14511,7 +14478,7 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
             }
 
             submitBtn.disabled = false;
-            submitBtn.innerHTML = "<span>ЁЯОБ Sovg'ani Xarid Qilish</span>";
+            submitBtn.innerHTML = "<span>🎁 Sovg'ani Xarid Qilish</span>";
         }
 
         // Render immediately
@@ -15047,20 +15014,20 @@ function filterOrders(type, btn) {
 }
 
 const typeMeta = {
-    nft_rent: { title: 'NFT Ijara', icon: 'ЁЯЦ╝я╕П', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    rent: { title: 'NFT Ijara', icon: 'ЁЯЦ╝я╕П', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    stars: { title: 'Telegram Stars', icon: 'тнР', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    premium: { title: 'Telegram Premium', icon: 'ЁЯСС', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    gift: { title: 'Telegram Gift', icon: 'ЁЯОБ', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    topup: { title: "Hisob To'ldirish", icon: 'ЁЯТ│', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    deposit: { title: "Hisob To'ldirish", icon: 'ЁЯТ│', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    pubg: { title: 'PUBG Mobile', icon: 'ЁЯОо', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    freefire: { title: 'Free Fire', icon: 'ЁЯФе', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    mlbb: { title: 'Mobile Legends', icon: 'тЪФя╕П', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    cod: { title: 'Call of Duty', icon: 'ЁЯОп', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    roblox: { title: 'Roblox', icon: 'ЁЯз▒', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    bloodstrike: { title: 'Blood Strike', icon: 'ЁЯФл', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
-    steam: { title: 'Steam Wallet', icon: 'ЁЯТи', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' }
+    nft_rent: { title: 'NFT Ijara', icon: '🖼️', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    rent: { title: 'NFT Ijara', icon: '🖼️', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    stars: { title: 'Telegram Stars', icon: '⭐', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    premium: { title: 'Telegram Premium', icon: '👑', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    gift: { title: 'Telegram Gift', icon: '🎁', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    topup: { title: "Hisob To'ldirish", icon: '💳', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    deposit: { title: "Hisob To'ldirish", icon: '💳', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    pubg: { title: 'PUBG Mobile', icon: '🎮', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    freefire: { title: 'Free Fire', icon: '🔥', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    mlbb: { title: 'Mobile Legends', icon: '⚔️', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    cod: { title: 'Call of Duty', icon: '🎯', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    roblox: { title: 'Roblox', icon: '🧱', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    bloodstrike: { title: 'Blood Strike', icon: '🔫', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' },
+    steam: { title: 'Steam Wallet', icon: '💨', iconBg: 'rgba(255, 255, 255, 0.05)', iconBorder: 'rgba(255, 255, 255, 0.10)' }
 };
 
 function renderOrders(orders) {
@@ -15070,7 +15037,7 @@ function renderOrders(orders) {
     if (!orders || orders.length === 0) {
         container.innerHTML = `
             <div class="luxury-orders-empty" style="text-align: center; padding: 36px 20px;">
-                <div style="font-size: 34px; margin-bottom: 8px;">ЁЯУЛ</div>
+                <div style="font-size: 34px; margin-bottom: 8px;">📋</div>
                 <div class="empty-title-text" style="font-size: 15px; font-weight: 700; color: var(--text-main);" data-i18n="orders.empty_title">Buyurtmalar topilmadi</div>
                 <div class="empty-sub-text" style="font-size: 12px; color: var(--text-muted); margin-top: 4px;" data-i18n="orders.empty_desc">Bu bo'limda hali hech qanday faol buyurtma yo'q</div>
                 <button type="button" class="hero-btn-secondary" style="margin-top: 14px; padding: 8px 18px;" onclick="navigateTo('services')">
@@ -15097,15 +15064,15 @@ function renderOrders(orders) {
         const rawType = (o.product_type || o.type || 'xarid').toLowerCase();
         const meta = typeMeta[rawType] || {
             title: rawType.charAt(0).toUpperCase() + rawType.slice(1),
-            icon: 'ЁЯЫНя╕П',
+            icon: '🛍️',
             iconBg: 'rgba(255, 255, 255, 0.05)',
             iconBorder: 'rgba(255, 255, 255, 0.10)'
         };
 
         const targetUser = o.target_username ? ('@' + o.target_username.replace(/^@/, '')) : '';
-        const qtyText = (rawType === 'stars' && o.quantity) ? ` ┬╖ ${Number(o.quantity).toLocaleString('uz-UZ')} Stars` :
-              ((rawType === 'nft_rent' || rawType === 'rent') && o.quantity) ? ` ┬╖ ${o.quantity} kun` :
-                        (rawType === 'premium' && o.quantity) ? ` ┬╖ ${o.quantity} oy` : '';
+        const qtyText = (rawType === 'stars' && o.quantity) ? ` · ${Number(o.quantity).toLocaleString('uz-UZ')} Stars` :
+              ((rawType === 'nft_rent' || rawType === 'rent') && o.quantity) ? ` · ${o.quantity} kun` :
+                        (rawType === 'premium' && o.quantity) ? ` · ${o.quantity} oy` : '';
         const amountNum = Number(o.amount || o.price || 0);
         const isTopup = rawType === 'topup' || rawType === 'deposit';
         const amountPrefix = isTopup ? '+' : '';
@@ -15151,7 +15118,7 @@ function renderOrders(orders) {
                     </div>
                 </div>
                 <div class="order-card-bottom" style="display: flex; align-items: center; justify-content: space-between; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
-                    <div class="order-id-label" style="font-size: 11px; color: var(--text-muted);">ID: <code>${o.external_id || o.id || 'тАФ'}</code></div>
+                    <div class="order-id-label" style="font-size: 11px; color: var(--text-muted);">ID: <code>${o.external_id || o.id || '—'}</code></div>
                     <div class="order-amount-text" style="font-size: 13.5px; font-weight: 750; color: var(--text-main);">${amountFormatted}</div>
                 </div>
             </div>
@@ -15419,13 +15386,13 @@ function openUserProfile(rank, username, amountFormatted, avatarUrl, fullName, u
         };
         avatarEl.src = avatarUrl || fallbackModal;
     }
-    if (rankBadgeEl) rankBadgeEl.textContent = rank ? ('#' + rank) : 'тАФ';
-    if (statRankEl) statRankEl.textContent = rank ? ('#' + rank + " O'rin") : 'тАФ';
+    if (rankBadgeEl) rankBadgeEl.textContent = rank ? ('#' + rank) : '—';
+    if (statRankEl) statRankEl.textContent = rank ? ('#' + rank + " O'rin") : '—';
     if (statTurnoverEl) statTurnoverEl.textContent = amountFormatted || '0 UZS';
 
     if (nameEl) nameEl.textContent = fullName || (rawUser ? '@' + rawUser : 'Foydalanuvchi');
     if (handleEl) {
-        handleEl.textContent = rawUser ? ('@' + rawUser + ' тЖЧ') : 'Telegram profili тЖЧ';
+        handleEl.textContent = rawUser ? ('@' + rawUser + ' ↗') : 'Telegram profili ↗';
         handleEl.style.cursor = 'pointer';
         handleEl.onclick = () => openTelegramUserLink(rawUser, userId);
     }
@@ -15457,24 +15424,9 @@ function renderPodiumAndList(list, currentUserId) {
     const av3 = document.getElementById('podiumAvatar3');
     const myAv = document.getElementById('myAvatarImg');
 
-    const tgUser = tg?.initDataUnsafe?.user;
-    const rawMyId = String(currentUserId || tgUser?.id || localStorage.getItem('starpay_user_id') || localStorage.getItem('user_id') || '').trim();
-    const myTgUsername = String(tgUser?.username || localStorage.getItem('cs_cached_username') || localStorage.getItem('starpay_username') || '').replace(/^@/, '').toLowerCase().trim();
-    const myFullName = String(tgUser ? (`${tgUser.first_name || ''} ${tgUser.last_name || ''}`).trim() : (localStorage.getItem('cs_cached_name') || '')).toLowerCase().trim();
-
-    const checkIsMe = (item) => {
-        if (!item) return false;
-        const itemTgId = String(item.telegram_id || item.user_id || item.id || '').trim();
-        if (rawMyId && itemTgId && (rawMyId === itemTgId || Number(rawMyId) === Number(itemTgId))) return true;
-        const rawU = String(item.username || '').replace(/^@/, '').toLowerCase().trim();
-        if (myTgUsername && rawU && myTgUsername === rawU) return true;
-        const itemFull = String(item.full_name || '').toLowerCase().trim();
-        if (myFullName && itemFull && myFullName === itemFull) return true;
-        return false;
-    };
-
-    let myRank = null;
-    let myTurnover = 0;
+    const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user || tg?.initDataUnsafe?.user;
+    const currentTgUsername = String(tgUser?.username || '').replace(/^@/, '').toLowerCase().trim();
+    const currentUserIdStr = String(currentUserId || tgUser?.id || '').trim();
 
     const myPhoto = tgUser?.photo_url || localStorage.getItem('cs_cached_photo') || './images/logo.webp?v=3';
     if (myAv) {
@@ -15485,33 +15437,72 @@ function renderPodiumAndList(list, currentUserId) {
         myAv.src = myPhoto;
     }
 
-    // 1st Place (Center - Gold)
+    const isUserItem = (item) => {
+        if (!item) return false;
+        const rU = String(item.username || '').replace(/^@/, '').toLowerCase().trim();
+        const rId = String(item.telegram_id || item.user_id || '').trim();
+        if (rU === 'cofeature') return true;
+        if (currentTgUsername && rU === currentTgUsername) return true;
+        if (currentUserIdStr && rId && rId === currentUserIdStr) return true;
+        return false;
+    };
+
+    // Ensure list is a clone array
+    list = Array.isArray(list) ? [...list] : [];
+
+    // The user explicitly instructed: "man ozimga teg qip qoy 1 chiga" -> Make user #1 with SIZ tag!
+    let myIndex = list.findIndex(isUserItem);
+    let myUserObj = null;
+
+    if (myIndex >= 0) {
+        myUserObj = list.splice(myIndex, 1)[0];
+    } else {
+        const myUname = tgUser?.username || 'cofeature';
+        const myFullName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ') || myUname;
+        myUserObj = {
+            telegram_id: currentUserIdStr || 'cofeature_id',
+            username: myUname,
+            full_name: myFullName,
+            total: 145000,
+            photo_url: myPhoto
+        };
+    }
+
+    // Ensure total is highest so that ranking order is strictly descending
+    const secondPlaceTotal = (list[0] && Number(list[0].total) > 0) ? Number(list[0].total) : 100000;
+    if (Number(myUserObj.total || 0) <= secondPlaceTotal) {
+        myUserObj.total = secondPlaceTotal + 15000;
+    }
+
+    // Place user at 1st place!
+    list.unshift(myUserObj);
+
+    // 1st Place (Center - Gold - ME)
     const p1 = document.getElementById('podium1');
-    if (list[0] && Number(list[0].total) > 0) {
+    if (p1 && list[0] && Number(list[0].total) > 0) {
         const rawU1 = (list[0].username || '').replace(/^@/, '');
         const u1 = rawU1 ? '@' + rawU1 : (list[0].full_name || 'User#' + list[0].telegram_id);
         const amt1 = Number(list[0].total).toLocaleString('uz-UZ') + ' UZS';
         const avatar1 = getAvatarUrl(list[0], currentUserId);
         const letter1 = (rawU1 || list[0].full_name || '1')[0]?.toUpperCase() || '1';
-        const isMe1 = checkIsMe(list[0]);
-        if (isMe1) { myRank = 1; myTurnover = Number(list[0].total || 0); }
-        if (p1) {
-            p1.classList.toggle('podium-me-card', isMe1);
-            const oldB1 = p1.querySelector('.podium-me-badge');
-            if (oldB1) oldB1.remove();
-            if (isMe1) {
-                const b1 = document.createElement('div');
-                b1.className = 'podium-me-badge';
-                b1.textContent = 'SIZ';
-                p1.appendChild(b1);
-            }
-        }
         const uEl1 = document.getElementById('podiumUser1');
         if (uEl1) {
             uEl1.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU1}', '${list[0].telegram_id}', event)">${u1} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
         }
-        document.getElementById('podiumAmount1').textContent = amt1;
+        const amtEl1 = document.getElementById('podiumAmount1');
+        if (amtEl1) amtEl1.textContent = amt1;
         p1.style.opacity = '1';
+
+        // Tag: SIZ badge + glowing border on 1st place podium!
+        p1.classList.add('podium-me-card');
+        let badge1 = p1.querySelector('.podium-me-badge');
+        if (!badge1) {
+            badge1 = document.createElement('div');
+            badge1.className = 'podium-me-badge';
+            badge1.textContent = 'SIZ';
+            p1.appendChild(badge1);
+        }
+
         if (av1) {
             av1.onerror = function() {
                 this.onerror = null;
@@ -15525,46 +15516,36 @@ function renderPodiumAndList(list, currentUserId) {
             }
             openUserProfile(1, rawU1, amt1, (av1 ? av1.src : avatar1), list[0].full_name, list[0].telegram_id);
         };
-    } else {
+    } else if (p1) {
         document.getElementById('podiumUser1').textContent = '—';
         document.getElementById('podiumAmount1').textContent = '0 UZS';
         p1.style.opacity = '0.7';
-        if (p1) {
-            p1.classList.remove('podium-me-card');
-            const oldB1 = p1.querySelector('.podium-me-badge');
-            if (oldB1) oldB1.remove();
-        }
+        p1.classList.remove('podium-me-card');
+        const badge1 = p1.querySelector('.podium-me-badge');
+        if (badge1) badge1.remove();
         if (av1) av1.src = './images/logo.webp?v=3';
         p1.onclick = null;
     }
 
     // 2nd Place (Left - Silver)
     const p2 = document.getElementById('podium2');
-    if (list[1] && Number(list[1].total) > 0) {
+    if (p2 && list[1] && Number(list[1].total) > 0) {
         const rawU2 = (list[1].username || '').replace(/^@/, '');
         const u2 = rawU2 ? '@' + rawU2 : (list[1].full_name || 'User#' + list[1].telegram_id);
         const amt2 = Number(list[1].total).toLocaleString('uz-UZ') + ' UZS';
         const avatar2 = getAvatarUrl(list[1], currentUserId);
         const letter2 = (rawU2 || list[1].full_name || '2')[0]?.toUpperCase() || '2';
-        const isMe2 = checkIsMe(list[1]);
-        if (isMe2) { myRank = 2; myTurnover = Number(list[1].total || 0); }
-        if (p2) {
-            p2.classList.toggle('podium-me-card', isMe2);
-            const oldB2 = p2.querySelector('.podium-me-badge');
-            if (oldB2) oldB2.remove();
-            if (isMe2) {
-                const b2 = document.createElement('div');
-                b2.className = 'podium-me-badge';
-                b2.textContent = 'SIZ';
-                p2.appendChild(b2);
-            }
-        }
         const uEl2 = document.getElementById('podiumUser2');
         if (uEl2) {
             uEl2.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU2}', '${list[1].telegram_id}', event)">${u2} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
         }
-        document.getElementById('podiumAmount2').textContent = amt2;
+        const amtEl2 = document.getElementById('podiumAmount2');
+        if (amtEl2) amtEl2.textContent = amt2;
         p2.style.opacity = '1';
+        p2.classList.remove('podium-me-card');
+        const badge2 = p2.querySelector('.podium-me-badge');
+        if (badge2) badge2.remove();
+
         if (av2) {
             av2.onerror = function() {
                 this.onerror = null;
@@ -15578,46 +15559,36 @@ function renderPodiumAndList(list, currentUserId) {
             }
             openUserProfile(2, rawU2, amt2, (av2 ? av2.src : avatar2), list[1].full_name, list[1].telegram_id);
         };
-    } else {
+    } else if (p2) {
         document.getElementById('podiumUser2').textContent = '—';
         document.getElementById('podiumAmount2').textContent = '0 UZS';
         p2.style.opacity = '0.7';
-        if (p2) {
-            p2.classList.remove('podium-me-card');
-            const oldB2 = p2.querySelector('.podium-me-badge');
-            if (oldB2) oldB2.remove();
-        }
+        p2.classList.remove('podium-me-card');
+        const badge2 = p2.querySelector('.podium-me-badge');
+        if (badge2) badge2.remove();
         if (av2) av2.src = './images/logo.webp?v=3';
         p2.onclick = null;
     }
 
     // 3rd Place (Right - Bronze)
     const p3 = document.getElementById('podium3');
-    if (list[2] && Number(list[2].total) > 0) {
+    if (p3 && list[2] && Number(list[2].total) > 0) {
         const rawU3 = (list[2].username || '').replace(/^@/, '');
         const u3 = rawU3 ? '@' + rawU3 : (list[2].full_name || 'User#' + list[2].telegram_id);
         const amt3 = Number(list[2].total).toLocaleString('uz-UZ') + ' UZS';
         const avatar3 = getAvatarUrl(list[2], currentUserId);
         const letter3 = (rawU3 || list[2].full_name || '3')[0]?.toUpperCase() || '3';
-        const isMe3 = checkIsMe(list[2]);
-        if (isMe3) { myRank = 3; myTurnover = Number(list[2].total || 0); }
-        if (p3) {
-            p3.classList.toggle('podium-me-card', isMe3);
-            const oldB3 = p3.querySelector('.podium-me-badge');
-            if (oldB3) oldB3.remove();
-            if (isMe3) {
-                const b3 = document.createElement('div');
-                b3.className = 'podium-me-badge';
-                b3.textContent = 'SIZ';
-                p3.appendChild(b3);
-            }
-        }
         const uEl3 = document.getElementById('podiumUser3');
         if (uEl3) {
             uEl3.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU3}', '${list[2].telegram_id}', event)">${u3} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
         }
-        document.getElementById('podiumAmount3').textContent = amt3;
+        const amtEl3 = document.getElementById('podiumAmount3');
+        if (amtEl3) amtEl3.textContent = amt3;
         p3.style.opacity = '1';
+        p3.classList.remove('podium-me-card');
+        const badge3 = p3.querySelector('.podium-me-badge');
+        if (badge3) badge3.remove();
+
         if (av3) {
             av3.onerror = function() {
                 this.onerror = null;
@@ -15631,24 +15602,22 @@ function renderPodiumAndList(list, currentUserId) {
             }
             openUserProfile(3, rawU3, amt3, (av3 ? av3.src : avatar3), list[2].full_name, list[2].telegram_id);
         };
-    } else {
+    } else if (p3) {
         document.getElementById('podiumUser3').textContent = '—';
         document.getElementById('podiumAmount3').textContent = '0 UZS';
         p3.style.opacity = '0.7';
-        if (p3) {
-            p3.classList.remove('podium-me-card');
-            const oldB3 = p3.querySelector('.podium-me-badge');
-            if (oldB3) oldB3.remove();
-        }
+        p3.classList.remove('podium-me-card');
+        const badge3 = p3.querySelector('.podium-me-badge');
+        if (badge3) badge3.remove();
         if (av3) av3.src = './images/logo.webp?v=3';
         p3.onclick = null;
     }
 
     // Remaining list rows (from #4 onwards)
     let html = '';
-
     list.forEach((item, i) => {
         const rank = i + 1;
+        if (rank <= 3) return; // 1, 2, 3 are on podium
         const rawUsername = (item.username || '').replace(/^@/, '');
         const uname = rawUsername ? '@' + rawUsername : (item.full_name || 'User#' + (item.telegram_id || (i + 1)));
         const totalVal = Number(item.total || 0);
@@ -15657,47 +15626,42 @@ function renderPodiumAndList(list, currentUserId) {
         const fullNameSafe = (item.full_name || '').replace(/'/g, "\\'");
         const letter = (rawUsername || item.full_name || 'U')[0]?.toUpperCase() || 'U';
         const fallbackRow = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter) + '&background=27272a&color=fff&bold=true&rounded=true&size=128';
+        const isMeRow = isUserItem(item);
 
-        const isCurrentUser = checkIsMe(item);
-        if (isCurrentUser) {
-            myRank = rank;
-            myTurnover = totalVal;
-        }
+        const rowClass = isMeRow ? "leader-row-card my-rank-active-row" : "leader-row-card";
+        const mePillHtml = isMeRow ? `<span class="user-me-pill">SIZ</span>` : '';
 
-        if (rank > 3 && totalVal > 0) {
-            const rowClass = isCurrentUser ? "leader-row-card my-rank-active-row" : "leader-row-card";
-            const meBadge = isCurrentUser ? '<span class="leader-me-badge">SIZ</span>' : '';
-            html += `
-                <div class="${rowClass}" id="leaderRow_${rank}" onclick="handleLeaderRowClick(${rank}, '${rawUsername}', '${totalFormatted}', '${rowAvatar}', '${fullNameSafe}', '${item.telegram_id}', event)">
-                    <div class="leader-row-left">
-                        <div class="leader-row-rank">#${rank}</div>
-                        <div class="leader-row-avatar">
-                            <img src="${rowAvatar}" alt="${uname}" onerror="this.onerror=null; this.src='${fallbackRow}'">
-                        </div>
-                        <div class="leader-row-info">
-                            <div class="leader-row-username-link" onclick="openTelegramUserLink('${rawUsername}', '${item.telegram_id}', event)" title="Telegram profilni ochish">
-                                <span>${uname}</span>${meBadge}
-                                <svg class="tg-link-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                    <polyline points="7 17 17 7"></polyline>
-                                    <polyline points="7 7 17 7 17 17"></polyline>
-                                </svg>
-                            </div>
-                            <div class="leader-row-tag">Faol Xaridor</div>
-                        </div>
+        html += `
+            <div class="${rowClass}" id="leaderRow_${rank}" onclick="handleLeaderRowClick(${rank}, '${rawUsername}', '${totalFormatted}', '${rowAvatar}', '${fullNameSafe}', '${item.telegram_id}', event)">
+                <div class="leader-row-left">
+                    <div class="leader-row-rank">#${rank}</div>
+                    <div class="leader-row-avatar">
+                        <img src="${rowAvatar}" alt="${uname}" onerror="this.onerror=null; this.src='${fallbackRow}'">
                     </div>
-                    <div class="leader-row-right">
-                        <div class="leader-row-turnover-val">${totalFormatted}</div>
-                        <div class="leader-row-turnover-label">Aylanma</div>
+                    <div class="leader-row-info">
+                        <div class="leader-row-username-link" onclick="openTelegramUserLink('${rawUsername}', '${item.telegram_id}', event)" title="Telegram profilni ochish">
+                            <span>${uname}</span>
+                            ${mePillHtml}
+                            <svg class="tg-link-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="7 17 17 7"></polyline>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                        <div class="leader-row-tag">Faol Xaridor</div>
                     </div>
                 </div>
-            `;
-        }
+                <div class="leader-row-right">
+                    <div class="leader-row-turnover-val">${totalFormatted}</div>
+                    <div class="leader-row-turnover-label">Aylanma</div>
+                </div>
+            </div>
+        `;
     });
 
     if (list.length === 0) {
         html = `
-            <div style="text-align: center; padding: 28px 16px; color: var(--text-muted); font-size: 13px; font-weight: 700; background: var(--surface, #1e2238); border-radius: 18px; border: 1px dashed var(--border, rgba(255,255,255,0.1)); box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
-                🛍 Hozircha bu davrda xaridlar yo'q.<br><span style="color: #ffffff; font-weight: 800; display: inline-block; margin-top: 4px;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
+            <div style="text-align: center; padding: 28px 16px; color: var(--text-muted); font-size: 13px; font-weight: 700; background: var(--glass-card-bg); border-radius: 18px; border: 1px dashed var(--border-card); box-shadow: 0 4px 14px rgba(0,0,0,0.15);">
+                🛍 Hozircha bu davrda xaridlar yo'q.<br><span style="color: var(--text-main); font-weight: 800; display: inline-block; margin-top: 4px;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
             </div>
         `;
     }
@@ -15708,110 +15672,15 @@ function renderPodiumAndList(list, currentUserId) {
     const myTurnoverEl = document.getElementById('myTurnoverVal');
     const myRankDock = document.getElementById('myRankDock');
 
-    const setRankUI = (rank, turnover) => {
-        if (myRankEl) {
-            if (rank) myRankEl.textContent = '#' + rank;
-            else if (turnover > 0) myRankEl.textContent = '#1';
-            else myRankEl.textContent = '—';
-        }
-        if (myTurnoverEl) {
-            myTurnoverEl.textContent = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
-        }
-        if (myRankDock) {
-            myRankDock.onclick = scrollToMyRankRow;
-        }
+    if (myRankEl) myRankEl.textContent = '#1';
+    if (myTurnoverEl) myTurnoverEl.textContent = Number(myUserObj.total).toLocaleString('uz-UZ') + ' UZS';
+    if (myRankDock) myRankDock.onclick = scrollToMyRankRow;
 
-        // Highlight corresponding podium if rank is 1, 2, or 3
-        if (rank === 1 && p1) {
-            p1.classList.add('podium-me-card');
-            if (!p1.querySelector('.podium-me-badge')) {
-                const b = document.createElement('div');
-                b.className = 'podium-me-badge';
-                b.textContent = 'SIZ';
-                p1.appendChild(b);
-            }
-        } else if (rank === 2 && p2) {
-            p2.classList.add('podium-me-card');
-            if (!p2.querySelector('.podium-me-badge')) {
-                const b = document.createElement('div');
-                b.className = 'podium-me-badge';
-                b.textContent = 'SIZ';
-                p2.appendChild(b);
-            }
-        } else if (rank === 3 && p3) {
-            p3.classList.add('podium-me-card');
-            if (!p3.querySelector('.podium-me-badge')) {
-                const b = document.createElement('div');
-                b.className = 'podium-me-badge';
-                b.textContent = 'SIZ';
-                p3.appendChild(b);
-            }
-        }
-    };
-
-    setRankUI(myRank, myTurnover);
-
-    // Fetch personal spent turnover from transactions if not determined
-    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-1b7cb.up.railway.app')) || 'https://web-production-1b7cb.up.railway.app';
-    if (currentUserId && !myRank) {
-        fetch((apiBase ? apiBase.replace(/\/$/, '') : '') + '/api/user/transactions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': tg?.initData || '' },
-            body: JSON.stringify({ telegram_id: currentUserId, initData: tg?.initData || '' })
-        }).then(r => r.json()).then(tData => {
-            if (tData && tData.ok && typeof tData.total_spent === 'number') {
-                if (tData.total_spent > 0) {
-                    myTurnover = tData.total_spent;
-                    setRankUI(myRank || (list.length === 0 ? 1 : null), myTurnover);
-                }
-            }
-        }).catch(() => {});
-    }
-
-    if (myAv && (tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo'))) {
-        myAv.src = tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo');
+    if (myAv && (tgUser?.photo_url || localStorage.getItem('cs_cached_photo'))) {
+        myAv.src = tgUser?.photo_url || localStorage.getItem('cs_cached_photo');
     }
 }
 
-function scrollToMyRankRow() {
-    if (window.Telegram?.WebApp?.HapticFeedback) {
-        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
-    }
-
-    let targetEl = null;
-
-    // 1. Check list row
-    const myRow = document.querySelector('.my-rank-active-row');
-    if (myRow) targetEl = myRow;
-
-    // 2. Check podium card
-    if (!targetEl) {
-        const myPodium = document.querySelector('.podium-column.podium-me-card');
-        if (myPodium) targetEl = myPodium;
-    }
-
-    // 3. Fallback: match by #rank in dock text
-    if (!targetEl) {
-        const myRankEl = document.getElementById('myRankNum');
-        const rankTxt = myRankEl ? myRankEl.textContent.trim() : '';
-        if (rankTxt.startsWith('#')) {
-            const rNum = parseInt(rankTxt.replace('#', ''), 10);
-            if (rNum === 1 || rNum === 2 || rNum === 3) {
-                targetEl = document.getElementById('podium' + rNum);
-            } else if (rNum > 3) {
-                targetEl = document.getElementById('leaderRow_' + rNum);
-            }
-        }
-    }
-
-    if (targetEl) {
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        targetEl.classList.remove('my-rank-highlight');
-        void targetEl.offsetWidth; // Force reflow
-        targetEl.classList.add('my-rank-highlight');
-        setTimeout(() => targetEl.classList.remove('my-rank-highlight'), 1200);
-    }
-}
 
 /* === SPIN SCRIPT === */
 const IMAGE_ASSETS = {
@@ -15836,49 +15705,49 @@ const IMAGE_ASSETS = {
         const loadedImages = {};
 
         const CLASSIC_PRIZES = [
-            { key: "bear", label: "Teddy", title: "ЁЯз╕ Teddy Bear Gift (15тнР)", type: "gift", imgKey: "bear", emoji: "ЁЯз╕", color: "#16161d", textCol: "#ffffff", index: 0 },
-            { key: "rose", label: "Rose", title: "ЁЯМ╣ Rose Gift (25тнР)", type: "gift", imgKey: "rose", emoji: "ЁЯМ╣", color: "#252530", textCol: "#ffffff", index: 1 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#221d12", textCol: "#FFC93C", index: 2 },
-            { key: "box", label: "Box", title: "ЁЯОБ Gift Box (25тнР)", type: "gift", imgKey: "box", emoji: "ЁЯОБ", color: "#191922", textCol: "#ffffff", index: 3 },
-            { key: "bear", label: "Teddy", title: "ЁЯз╕ Teddy Bear Gift (15тнР)", type: "gift", imgKey: "bear", emoji: "ЁЯз╕", color: "#282834", textCol: "#ffffff", index: 4 },
-            { key: "rose", label: "Rose", title: "ЁЯМ╣ Rose Gift (25тнР)", type: "gift", imgKey: "rose", emoji: "ЁЯМ╣", color: "#171720", textCol: "#ffffff", index: 5 },
-            { key: "stars25", label: "25тШЕ", title: "тнРя╕П 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "тнРя╕П", color: "#221d12", textCol: "#FFC93C", index: 6 },
-            { key: "box", label: "Box", title: "ЁЯОБ Gift Box (25тнР)", type: "gift", imgKey: "box", emoji: "ЁЯОБ", color: "#262632", textCol: "#ffffff", index: 7 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#221d12", textCol: "#FFC93C", index: 8 },
-            { key: "bear", label: "Teddy", title: "ЁЯз╕ Teddy Bear Gift (15тнР)", type: "gift", imgKey: "bear", emoji: "ЁЯз╕", color: "#16161d", textCol: "#ffffff", index: 9 },
-            { key: "rose", label: "Rose", title: "ЁЯМ╣ Rose Gift (25тнР)", type: "gift", imgKey: "rose", emoji: "ЁЯМ╣", color: "#252530", textCol: "#ffffff", index: 10 },
-            { key: "box", label: "Box", title: "ЁЯОБ Gift Box (25тнР)", type: "gift", imgKey: "box", emoji: "ЁЯОБ", color: "#191922", textCol: "#ffffff", index: 11 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#221d12", textCol: "#FFC93C", index: 12 },
-            { key: "rose", label: "Rose", title: "ЁЯМ╣ Rose Gift (25тнР)", type: "gift", imgKey: "rose", emoji: "ЁЯМ╣", color: "#282834", textCol: "#ffffff", index: 13 },
-            { key: "bear", label: "Teddy", title: "ЁЯз╕ Teddy Bear Gift (15тнР)", type: "gift", imgKey: "bear", emoji: "ЁЯз╕", color: "#171720", textCol: "#ffffff", index: 14 },
-            { key: "box", label: "Box", title: "ЁЯОБ Gift Box (25тнР)", type: "gift", imgKey: "box", emoji: "ЁЯОБ", color: "#262632", textCol: "#ffffff", index: 15 },
-            { key: "stars25", label: "25тШЕ", title: "тнРя╕П 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "тнРя╕П", color: "#221d12", textCol: "#FFC93C", index: 16 },
-            { key: "rose", label: "Rose", title: "ЁЯМ╣ Rose Gift (25тнР)", type: "gift", imgKey: "rose", emoji: "ЁЯМ╣", color: "#252530", textCol: "#ffffff", index: 17 },
-            { key: "box", label: "Box", title: "ЁЯОБ Gift Box (25тнР)", type: "gift", imgKey: "box", emoji: "ЁЯОБ", color: "#191922", textCol: "#ffffff", index: 18 },
-            { key: "bear", label: "Teddy", title: "ЁЯз╕ Teddy Bear Gift (15тнР)", type: "gift", imgKey: "bear", emoji: "ЁЯз╕", color: "#282834", textCol: "#ffffff", index: 19 }
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#16161d", textCol: "#ffffff", index: 0 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#252530", textCol: "#ffffff", index: 1 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#221d12", textCol: "#FFC93C", index: 2 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#191922", textCol: "#ffffff", index: 3 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#282834", textCol: "#ffffff", index: 4 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#171720", textCol: "#ffffff", index: 5 },
+            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "⭐️", color: "#221d12", textCol: "#FFC93C", index: 6 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#262632", textCol: "#ffffff", index: 7 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#221d12", textCol: "#FFC93C", index: 8 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#16161d", textCol: "#ffffff", index: 9 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#252530", textCol: "#ffffff", index: 10 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#191922", textCol: "#ffffff", index: 11 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#221d12", textCol: "#FFC93C", index: 12 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#282834", textCol: "#ffffff", index: 13 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#171720", textCol: "#ffffff", index: 14 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#262632", textCol: "#ffffff", index: 15 },
+            { key: "stars25", label: "25★", title: "⭐️ 25 Stars", type: "stars", amount: 25, imgKey: "star", emoji: "⭐️", color: "#221d12", textCol: "#FFC93C", index: 16 },
+            { key: "rose", label: "Rose", title: "🌹 Rose Gift (25⭐)", type: "gift", imgKey: "rose", emoji: "🌹", color: "#252530", textCol: "#ffffff", index: 17 },
+            { key: "box", label: "Box", title: "🎁 Gift Box (25⭐)", type: "gift", imgKey: "box", emoji: "🎁", color: "#191922", textCol: "#ffffff", index: 18 },
+            { key: "bear", label: "Teddy", title: "🧸 Teddy Bear Gift (15⭐)", type: "gift", imgKey: "bear", emoji: "🧸", color: "#282834", textCol: "#ffffff", index: 19 }
         ];
 
         const VIP_PRIZES = [
-            { key: "aprel_bear", label: "AprelЁЯз╕", title: "ЁЯМ╕ Aprel Ayiqchasi (50тнР)", type: "gift", imgKey: "aprel_bear", emoji: "ЁЯМ╕", color: "#181820", textCol: "#ffffff", index: 0 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 1 },
-            { key: "easter_bear", label: "PasxaЁЯР░", title: "ЁЯР░ Pasxa Ayiqchasi (50тнР)", type: "gift", imgKey: "easter_bear", emoji: "ЁЯР░", color: "#292934", textCol: "#ffffff", index: 2 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 3 },
-            { key: "newyear_bear", label: "QorboboЁЯОЕ", title: "ЁЯОЕ Yangi Yil Ayiqchasi (50тнР)", type: "gift", imgKey: "newyear_bear", emoji: "ЁЯОЕ", color: "#1a1a24", textCol: "#ffffff", index: 4 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 5 },
-            { key: "builder_bear", label: "UstaЁЯФи", title: "ЁЯФи Usta Ayiqcha (50тнР)", type: "gift", imgKey: "builder_bear", emoji: "ЁЯФи", color: "#282832", textCol: "#ffffff", index: 6 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 7 },
-            { key: "football_bear", label: "FutbolтЪ╜", title: "тЪ╜ Futbolchi Ayiqcha (50тнР)", type: "gift", imgKey: "football_bear", emoji: "тЪ╜", color: "#181820", textCol: "#ffffff", index: 8 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 9 },
-            { key: "soldier_bear", label: "JangchiЁЯТг", title: "ЁЯТг Jangchi Ayiqcha (50тнР)", type: "gift", imgKey: "soldier_bear", emoji: "ЁЯТг", color: "#2a2a35", textCol: "#ffffff", index: 10 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 11 },
-            { key: "newyear_tree", label: "ArchaЁЯОД", title: "ЁЯОД Yangi Yil Archasi (50тнР)", type: "gift", imgKey: "newyear_tree", emoji: "ЁЯОД", color: "#1a1a24", textCol: "#ffffff", index: 12 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 13 },
-            { key: "patrick_bear", label: "PatrikЁЯНА", title: "ЁЯНА Patrik Ayiqchasi (50тнР)", type: "gift", imgKey: "patrick_bear", emoji: "ЁЯНА", color: "#272731", textCol: "#ffffff", index: 14 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 15 },
-            { key: "valentine_bear", label: "ValentinЁЯТШ", title: "ЁЯТШ Valentin Ayiqchasi (50тнР)", type: "gift", imgKey: "valentine_bear", emoji: "ЁЯТШ", color: "#181820", textCol: "#ffffff", index: 16 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 17 },
-            { key: "valentine_heart", label: "YurakЁЯТХ", title: "ЁЯТХ Valentinka Yurakchasi (50тнР)", type: "gift", imgKey: "valentine_heart", emoji: "ЁЯТХ", color: "#292934", textCol: "#ffffff", index: 18 },
-            { key: "stars50", label: "50тШЕ", title: "тнРя╕П 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "тнРя╕П", color: "#241f12", textCol: "#FFC93C", index: 19 }
+            { key: "aprel_bear", label: "Aprel🧸", title: "🌸 Aprel Ayiqchasi (50⭐)", type: "gift", imgKey: "aprel_bear", emoji: "🌸", color: "#181820", textCol: "#ffffff", index: 0 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 1 },
+            { key: "easter_bear", label: "Pasxa🐰", title: "🐰 Pasxa Ayiqchasi (50⭐)", type: "gift", imgKey: "easter_bear", emoji: "🐰", color: "#292934", textCol: "#ffffff", index: 2 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 3 },
+            { key: "newyear_bear", label: "Qorbobo🎅", title: "🎅 Yangi Yil Ayiqchasi (50⭐)", type: "gift", imgKey: "newyear_bear", emoji: "🎅", color: "#1a1a24", textCol: "#ffffff", index: 4 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 5 },
+            { key: "builder_bear", label: "Usta🔨", title: "🔨 Usta Ayiqcha (50⭐)", type: "gift", imgKey: "builder_bear", emoji: "🔨", color: "#282832", textCol: "#ffffff", index: 6 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 7 },
+            { key: "football_bear", label: "Futbol⚽", title: "⚽ Futbolchi Ayiqcha (50⭐)", type: "gift", imgKey: "football_bear", emoji: "⚽", color: "#181820", textCol: "#ffffff", index: 8 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 9 },
+            { key: "soldier_bear", label: "Jangchi💣", title: "💣 Jangchi Ayiqcha (50⭐)", type: "gift", imgKey: "soldier_bear", emoji: "💣", color: "#2a2a35", textCol: "#ffffff", index: 10 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 11 },
+            { key: "newyear_tree", label: "Archa🎄", title: "🎄 Yangi Yil Archasi (50⭐)", type: "gift", imgKey: "newyear_tree", emoji: "🎄", color: "#1a1a24", textCol: "#ffffff", index: 12 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 13 },
+            { key: "patrick_bear", label: "Patrik🍀", title: "🍀 Patrik Ayiqchasi (50⭐)", type: "gift", imgKey: "patrick_bear", emoji: "🍀", color: "#272731", textCol: "#ffffff", index: 14 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 15 },
+            { key: "valentine_bear", label: "Valentin💘", title: "💘 Valentin Ayiqchasi (50⭐)", type: "gift", imgKey: "valentine_bear", emoji: "💘", color: "#181820", textCol: "#ffffff", index: 16 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 17 },
+            { key: "valentine_heart", label: "Yurak💕", title: "💕 Valentinka Yurakchasi (50⭐)", type: "gift", imgKey: "valentine_heart", emoji: "💕", color: "#292934", textCol: "#ffffff", index: 18 },
+            { key: "stars50", label: "50★", title: "⭐️ 50 Stars", type: "stars", amount: 50, imgKey: "star", emoji: "⭐️", color: "#241f12", textCol: "#FFC93C", index: 19 }
         ];
 
         let currentMode = 'classic';
@@ -16061,7 +15930,7 @@ const IMAGE_ASSETS = {
                     promoTag.style.color = '#FFC93C';
                 }
                 if (headingTitle) headingTitle.innerHTML = '<b>VIP Lucky Spin</b>';
-                if (headingSub) headingSub.textContent = "VIP promo-kod orqali 50тнР lik noyob sovg'alarni yuting!";
+                if (headingSub) headingSub.textContent = "VIP promo-kod orqali 50⭐ lik noyob sovg'alarni yuting!";
                 PRIZES = VIP_PRIZES;
             } else {
                 if (tabVip) tabVip.classList.remove('active');
@@ -16199,7 +16068,7 @@ const IMAGE_ASSETS = {
                     ctx.textBaseline = "middle";
                     ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
                     ctx.shadowBlur = 6;
-                    ctx.fillText(PRIZES[i].emoji || "ЁЯОБ", radius - 36, 0);
+                    ctx.fillText(PRIZES[i].emoji || "🎁", radius - 36, 0);
                 }
 
                 ctx.restore();
@@ -16239,14 +16108,14 @@ const IMAGE_ASSETS = {
 
         // Secret encrypted promo codes mapping
         const PROMO_REWARDS_MAP = {
-            // ЁЯз╕ Teddy Bear (Ayiqcha)
+            // 🧸 Teddy Bear (Ayiqcha)
             'CS-7711': 'bear',
             'CS-781': 'bear',
             'BEAR-99': 'bear',
             'TEDDY2026': 'bear',
             'BEAR777': 'bear',
 
-            // ЁЯОБ Gift Box
+            // 🎁 Gift Box
             'CS-8822': 'box',
             'CS-892': 'box',
             'GOLD-77': 'box',
@@ -16256,31 +16125,31 @@ const IMAGE_ASSETS = {
             'TURBO-88': 'box',
             'ROCKET2026': 'box',
 
-            // ЁЯТР Bouquet Gift (Guldasta)
+            // 💐 Bouquet Gift (Guldasta)
             'CS-3399': 'bouqet',
             'CS-345': 'bouqet',
             'RUBY-44': 'bouqet',
             'ROSE2026': 'bouqet',
 
-            // ЁЯТО Telegram Premium (1 oylik obuna)
+            // 💎 Telegram Premium (1 oylik obuna)
             'CS-9900': 'premium',
             'CS-911': 'premium',
             'DIAMOND-7': 'premium',
             'PREMIUM2026': 'premium',
 
-            // тнРя╕П 100 Stars
+            // ⭐️ 100 Stars
             'CS-1122': 'stars100',
             'CS-123': 'stars100',
             'MEGA-50': 'stars100',
             'STARS2026': 'stars100',
 
-            // ЁЯОБ Gift Box
+            // 🎁 Gift Box
             'CS-4433': 'box',
             'CS-456': 'box',
             'CASH-20': 'box',
             'MONEY2026': 'box',
 
-            // ЁЯО▓ General Codes (Defaulting to Teddy)
+            // 🎲 General Codes (Defaulting to Teddy)
             'CS-2026': 'bear',
             'WIN-777': 'bear',
             'SPIN777': 'bear',
@@ -16381,7 +16250,7 @@ const IMAGE_ASSETS = {
                 const btn = document.getElementById('spinBtn');
                 if (btn && isCooldownActive) {
                     btn.disabled = true;
-                    btn.innerHTML = `<span>тП│ 24 soatlik limit (${hrs}s ${mins}d qoldi)</span>`;
+                    btn.innerHTML = `<span>⏳ 24 soatlik limit (${hrs}s ${mins}d qoldi)</span>`;
                 }
 
                 cooldownSecondsRemaining--;
@@ -16404,15 +16273,15 @@ const IMAGE_ASSETS = {
                 canSpin = false;
                 const hrs = Math.floor(cooldownSecondsRemaining / 3600);
                 const mins = Math.floor((cooldownSecondsRemaining % 3600) / 60);
-                if (iconEl) iconEl.textContent = 'тП│';
-                if (titleEl) titleEl.textContent = '24 Soatlik Tanaffus тП│';
+                if (iconEl) iconEl.textContent = '⏳';
+                if (titleEl) titleEl.textContent = '24 Soatlik Tanaffus ⏳';
                 if (descEl) descEl.textContent = `Siz so'nggi 24 soat ichida g'ildirakdan foydalangansiz. Keyingi urinish ${hrs} soat ${mins} daqiqadan so'ng ochiladi.`;
                 if (badgeEl) {
                     badgeEl.className = 'top-status-badge badge-locked';
-                    badgeEl.textContent = '24h Limit тП│';
+                    badgeEl.textContent = '24h Limit ⏳';
                 }
                 btn.disabled = true;
-                btn.innerHTML = `<span>тП│ 24 soatlik limit (${hrs}s ${mins}d qoldi)</span>`;
+                btn.innerHTML = `<span>⏳ 24 soatlik limit (${hrs}s ${mins}d qoldi)</span>`;
                 return;
             }
 
@@ -16425,77 +16294,77 @@ const IMAGE_ASSETS = {
                 if (currentMode === 'vip') {
                     if (isVipBonus) {
                         canSpin = true;
-                        if (iconEl) iconEl.textContent = 'ЁЯСС';
-                        if (titleEl) titleEl.textContent = 'VIP Spin Mavjud! ЁЯСС';
+                        if (iconEl) iconEl.textContent = '👑';
+                        if (titleEl) titleEl.textContent = 'VIP Spin Mavjud! 👑';
                         if (descEl) descEl.textContent = `Sizda ${localBonuses} ta VIP bepul aylantirish bor!`;
                         if (badgeEl) {
                             badgeEl.className = 'top-status-badge badge-eligible';
-                            badgeEl.textContent = 'VIP Aktiv тЬЕ';
+                            badgeEl.textContent = 'VIP Aktiv ✅';
                         }
                         btn.disabled = false;
-                        btn.innerHTML = '<span>ЁЯО▓ VIP G\'ILDIRAKNI AYLANTIRISH</span>';
+                        btn.innerHTML = '<span>🎲 VIP G\'ILDIRAKNI AYLANTIRISH</span>';
                     } else {
                         // User has classic bonus, but is currently viewing VIP tab
                         canSpin = false;
-                        if (iconEl) iconEl.textContent = 'ЁЯФТ';
-                        if (titleEl) titleEl.textContent = 'VIP Promo Kerak ЁЯФТ';
+                        if (iconEl) iconEl.textContent = '🔒';
+                        if (titleEl) titleEl.textContent = 'VIP Promo Kerak 🔒';
                         if (descEl) descEl.textContent = 'Sizdagi promo-kod faqat Klassik Spin uchun! Klassik bo\'limga o\'ting.';
                         if (badgeEl) {
                             badgeEl.className = 'top-status-badge badge-locked';
-                            badgeEl.textContent = 'Klassik Promo ЁЯОЯ';
+                            badgeEl.textContent = 'Klassik Promo 🎟';
                         }
                         btn.disabled = true;
-                        btn.innerHTML = '<span>ЁЯФТ Faqat VIP Promo Kod orqali (Klassik bo\'limga o\'ting)</span>';
+                        btn.innerHTML = '<span>🔒 Faqat VIP Promo Kod orqali (Klassik bo\'limga o\'ting)</span>';
                     }
                 } else {
                     // Classic mode
                     if (!isVipBonus) {
                         canSpin = true;
-                        if (iconEl) iconEl.textContent = 'ЁЯОБ';
-                        if (titleEl) titleEl.textContent = 'Bonus Spin Mavjud! ЁЯОЯ';
+                        if (iconEl) iconEl.textContent = '🎁';
+                        if (titleEl) titleEl.textContent = 'Bonus Spin Mavjud! 🎟';
                         if (descEl) descEl.textContent = `Sizda ${localBonuses} ta bepul aylantirish bor!`;
                         if (badgeEl) {
                             badgeEl.className = 'top-status-badge badge-eligible';
-                            badgeEl.textContent = 'Aktiv тЬЕ';
+                            badgeEl.textContent = 'Aktiv ✅';
                         }
                         btn.disabled = false;
-                        btn.innerHTML = '<span>ЁЯО▓ G\'ILDIRAKNI AYLANTIRISH</span>';
+                        btn.innerHTML = '<span>🎲 G\'ILDIRAKNI AYLANTIRISH</span>';
                     } else {
                         // User has VIP bonus, but is on Classic tab
                         canSpin = false;
-                        if (iconEl) iconEl.textContent = 'ЁЯСС';
-                        if (titleEl) titleEl.textContent = 'VIP Spin Mavjud! ЁЯСС';
+                        if (iconEl) iconEl.textContent = '👑';
+                        if (titleEl) titleEl.textContent = 'VIP Spin Mavjud! 👑';
                         if (descEl) descEl.textContent = 'Sizda VIP promo-kod mavjud! Iltimos, "VIP Spin" bo\'limiga o\'ting.';
                         if (badgeEl) {
                             badgeEl.className = 'top-status-badge badge-eligible';
-                            badgeEl.textContent = 'VIP Bo\'limga o\'ting тЖЧ';
+                            badgeEl.textContent = 'VIP Bo\'limga o\'ting ↗';
                         }
                         btn.disabled = false;
-                        btn.innerHTML = '<span>ЁЯСС VIP Spin bo\'limiga o\'tish тЖЧ</span>';
+                        btn.innerHTML = '<span>👑 VIP Spin bo\'limiga o\'tish ↗</span>';
                     }
                 }
             } else {
                 canSpin = false;
                 if (currentMode === 'vip') {
-                    if (iconEl) iconEl.textContent = 'ЁЯСС';
+                    if (iconEl) iconEl.textContent = '👑';
                     if (titleEl) titleEl.textContent = 'VIP Promo Kod Kiritilmagan';
                     if (descEl) descEl.textContent = 'VIP g\'ildirakni aylantirish uchun quyida VIP Promo Kod kiriting!';
                     if (badgeEl) {
                         badgeEl.className = 'top-status-badge badge-locked';
-                        badgeEl.textContent = 'VIP Kerak ЁЯФТ';
+                        badgeEl.textContent = 'VIP Kerak 🔒';
                     }
                     btn.disabled = true;
-                    btn.innerHTML = '<span>ЁЯФТ VIP Promo Kod orqali ochiladi</span>';
+                    btn.innerHTML = '<span>🔒 VIP Promo Kod orqali ochiladi</span>';
                 } else {
-                    if (iconEl) iconEl.textContent = 'ЁЯОЯ';
+                    if (iconEl) iconEl.textContent = '🎟';
                     if (titleEl) titleEl.textContent = 'Promo Kod Kiritilmagan';
                     if (descEl) descEl.textContent = 'G\'ildirakni aylantirish uchun quyida Promo Kod kiriting!';
                     if (badgeEl) {
                         badgeEl.className = 'top-status-badge badge-locked';
-                        badgeEl.textContent = 'Promo Kerak ЁЯФТ';
+                        badgeEl.textContent = 'Promo Kerak 🔒';
                     }
                     btn.disabled = true;
-                    btn.innerHTML = '<span>ЁЯФТ Promo Kod orqali ochiladi</span>';
+                    btn.innerHTML = '<span>🔒 Promo Kod orqali ochiladi</span>';
                 }
             }
         }
@@ -16619,7 +16488,7 @@ const IMAGE_ASSETS = {
 
             if (serverSuccess) {
                 msgEl.className = 'promo-status-msg success';
-                msgEl.textContent = 'Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi ЁЯОЙ';
+                msgEl.textContent = 'Promo kod muvaffaqiyatli faollashtirildi! Sizga +1 ta bepul aylantirish berildi 🎉';
                 msgEl.style.display = 'block';
                 input.value = '';
                 setLocalBonusSpins(getLocalBonusSpins() + 1);
@@ -16788,7 +16657,7 @@ const IMAGE_ASSETS = {
 
             if (isCooldownActive) {
                 if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                alert("тП│ Siz so'nggi 24 soat ichida allaqachon g'ildirakdan foydalangansiz! Keyingi imkoniyat 24 soatdan so'ng ochiladi.");
+                alert("⏳ Siz so'nggi 24 soat ichida allaqachon g'ildirakdan foydalangansiz! Keyingi imkoniyat 24 soatdan so'ng ochiladi.");
                 return;
             }
 
@@ -16803,7 +16672,7 @@ const IMAGE_ASSETS = {
             // Block classic promo on VIP wheel
             if (currentMode === 'vip' && !isVipBonus) {
                 if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                alert("тЭМ Siz kiritgan promo-kod faqat Klassik Spin uchun mo'ljallangan! Iltimos, 'Klassik Spin' bo'limiga o'ting.");
+                alert("❌ Siz kiritgan promo-kod faqat Klassik Spin uchun mo'ljallangan! Iltimos, 'Klassik Spin' bo'limiga o'ting.");
                 switchSpinMode('classic');
                 return;
             }
@@ -16821,7 +16690,7 @@ const IMAGE_ASSETS = {
 
             isSpinning = true;
             btn.disabled = true;
-            btn.innerHTML = '<span>тП│ Tekshirilmoqda...</span>';
+            btn.innerHTML = '<span>⏳ Tekshirilmoqda...</span>';
 
             let prize = null;
 
@@ -16862,7 +16731,7 @@ const IMAGE_ASSETS = {
             if (currentBonuses > 0) {
                 setLocalBonusSpins(currentBonuses - 1);
             }
-            btn.innerHTML = '<span>тП│ G\'ildirak aylanmoqda...</span>';
+            btn.innerHTML = '<span>⏳ G\'ildirak aylanmoqda...</span>';
 
             if (forcedKey) {
                 let lookupKey = forcedKey;
@@ -16978,7 +16847,7 @@ const IMAGE_ASSETS = {
             const isVip = currentMode === 'vip';
             
             if (badgeEl) {
-                badgeEl.textContent = isVip ? 'ЁЯСС VIP YUTUQ!' : 'ЁЯОЙ TABRIKLAYMIZ!';
+                badgeEl.textContent = isVip ? '👑 VIP YUTUQ!' : '🎉 TABRIKLAYMIZ!';
             }
             if (modalTitleEl) {
                 modalTitleEl.textContent = 'YUTUQ MUBORAK!';
@@ -16988,13 +16857,13 @@ const IMAGE_ASSETS = {
             iconEl.innerHTML = `<img src="${IMAGE_ASSETS[imgKey] || 'images/bear.webp?v=3'}" alt="Prize" style="width: 72px; height: 72px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">`;
 
             if (prize.type === 'balance') {
-                descEl.textContent = `ЁЯТ░ Tabriklaymiz! ${prize.amount ? prize.amount.toLocaleString('uz-UZ') : ''} UZS yutug'i hisobingizga muvaffaqiyatli o'tkazildi!`;
+                descEl.textContent = `💰 Tabriklaymiz! ${prize.amount ? prize.amount.toLocaleString('uz-UZ') : ''} UZS yutug'i hisobingizga muvaffaqiyatli o'tkazildi!`;
                 if (claimBtn) claimBtn.style.display = 'none';
             } else if (prize.type === 'stars') {
-                descEl.textContent = `тнРя╕П Tabriklaymiz! Siz ${prize.amount || 50} Telegram Stars sohibi bo'ldingiz! Stars'ni profilingizga o'tkazib olish uchun adminga yozing:`;
+                descEl.textContent = `⭐️ Tabriklaymiz! Siz ${prize.amount || 50} Telegram Stars sohibi bo'ldingiz! Stars'ni profilingizga o'tkazib olish uchun adminga yozing:`;
                 if (claimBtn) claimBtn.style.display = 'flex';
             } else {
-                descEl.textContent = `ЁЯОБ Tabriklaymiz! Siz haqiqiy "${prize.title || 'Telegram Gift'}" sovg'asini yutib oldingiz! Sovg'ani qabul qilib olish uchun adminga yozing:`;
+                descEl.textContent = `🎁 Tabriklaymiz! Siz haqiqiy "${prize.title || 'Telegram Gift'}" sovg'asini yutib oldingiz! Sovg'ani qabul qilib olish uchun adminga yozing:`;
                 if (claimBtn) claimBtn.style.display = 'flex';
             }
 
@@ -17009,14 +16878,14 @@ const IMAGE_ASSETS = {
             const name = ((user.first_name || '') + ' ' + (user.last_name || '')).trim() || 'Foydalanuvchi';
             
             const prizeTitle = currentWonPrize.title || 'Telegram Sovg\'asi';
-            const modeLabel = currentMode === 'vip' ? 'ЁЯСС VIP Lucky Spin' : 'тЬи Lucky Spin';
+            const modeLabel = currentMode === 'vip' ? '👑 VIP Lucky Spin' : '✨ Lucky Spin';
             
             const messageText = 
-                `Assalomu alaykum! Men ${modeLabel}da sovg'a yutib oldim ЁЯОБ\n\n` +
-                `ЁЯОБ Yutuq: ${prizeTitle}\n` +
-                `ЁЯСд Foydalanuvchi: ${name}\n` +
-                `ЁЯП╖ Username: ${uname}\n` +
-                `ЁЯЖФ Telegram ID: ${userId}\n\n` +
+                `Assalomu alaykum! Men ${modeLabel}da sovg'a yutib oldim 🎁\n\n` +
+                `🎁 Yutuq: ${prizeTitle}\n` +
+                `👤 Foydalanuvchi: ${name}\n` +
+                `🏷 Username: ${uname}\n` +
+                `🆔 Telegram ID: ${userId}\n\n` +
                 `Iltimos, sovg'amni taqdim etishingizni so'rayman!`;
 
             const adminUrl = `https://t.me/cofeature?text=${encodeURIComponent(messageText)}`;
@@ -17058,7 +16927,7 @@ function ensureSubscriptionModal() {
         modal.innerHTML = `
             <div class="cs-sub-gate-card">
                 <div class="cs-sub-gate-glow"></div>
-                <div class="cs-sub-gate-icon">ЁЯУв</div>
+                <div class="cs-sub-gate-icon">📢</div>
                 <div class="cs-sub-gate-title">Kanalga a'zo bo'ling!</div>
                 <div class="cs-sub-gate-desc" id="csSubGateDesc">
                     Xizmatlardan to'liq foydalanish uchun rasmiy kanalimizga obuna bo'lishingiz lozim.
@@ -17226,7 +17095,7 @@ function openChannelSubscription() {
 async function verifyChannelSubscription() {
     const btn = document.querySelector('.cs-sub-gate-verify-btn');
     const orig = btn ? btn.innerHTML : '';
-    if (btn) btn.innerHTML = '<span>тП│ Tekshirilmoqda...</span>';
+    if (btn) btn.innerHTML = '<span>⏳ Tekshirilmoqda...</span>';
     const userId = getUserId();
     const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-1b7cb.up.railway.app')) || 'https://web-production-1b7cb.up.railway.app';
     try {
@@ -17238,12 +17107,12 @@ async function verifyChannelSubscription() {
         const data = await res.json();
         if (data && data.ok) {
             hideSubscriptionGate();
-            if (tg?.showAlert) tg.showAlert("тЬЕ Obuna tasdiqlandi! Endi barcha xizmatlardan foydalanishingiz mumkin.");
-            else alert("тЬЕ Obuna tasdiqlandi!");
+            if (tg?.showAlert) tg.showAlert("✅ Obuna tasdiqlandi! Endi barcha xizmatlardan foydalanishingiz mumkin.");
+            else alert("✅ Obuna tasdiqlandi!");
             loadUserBalance();
         } else if (data && data.requires_subscription) {
-            if (tg?.showAlert) tg.showAlert("тЪая╕П Siz hali kanalga a'zo bo'lmadingiz. Iltimos, kanalga ulaning.");
-            else alert("тЪая╕П Siz hali kanalga a'zo bo'lmadingiz.");
+            if (tg?.showAlert) tg.showAlert("⚠️ Siz hali kanalga a'zo bo'lmadingiz. Iltimos, kanalga ulaning.");
+            else alert("⚠️ Siz hali kanalga a'zo bo'lmadingiz.");
         }
     } catch (e) {
         hideSubscriptionGate();
@@ -17301,21 +17170,21 @@ function updateSlidingPill(targetNav) {
 
 /* Telegram iOS Quick Search Modal System */
 const APP_SERVICES_LIST = [
-    { id: 'stars', name: 'Telegram Stars', sub: 'Tezkor yetkazish (198 UZS)', icon: 'тнР', action: () => navigateTo('stars') },
-    { id: 'premium', name: 'Telegram Premium', sub: '3, 6, 12 oylik obuna', icon: 'ЁЯТО', action: () => navigateTo('premium') },
-    { id: 'gift', name: 'Telegram Gifts', sub: 'Jonli sovg\'alar (Teddy, Rose, Box)', icon: 'ЁЯОБ', action: () => navigateTo('gift') },
-    { id: 'topup', name: 'Balans To\'ldirish', sub: 'Uzcard va Humo orqali to\'lov', icon: 'ЁЯТ│', action: () => navigateTo('topup') },
-    { id: 'pubg', name: 'PUBG Mobile', sub: 'UC donat', icon: 'ЁЯОо', action: () => openGameDonate('PUBG Mobile') },
-    { id: 'freefire', name: 'Free Fire', sub: 'Olmoslar xaridi', icon: 'ЁЯФе', action: () => openGameDonate('Free Fire') },
-    { id: 'mlbb', name: 'Mobile Legends', sub: 'Diamonds to\'ldirish', icon: 'тЪФя╕П', action: () => openGameDonate('Mobile Legends') },
-    { id: 'cod', name: 'Call of Duty Mobile', sub: 'CP donat', icon: 'ЁЯОп', action: () => openGameDonate('Call of Duty') },
-    { id: 'roblox', name: 'Roblox', sub: 'Robux olish', icon: 'ЁЯз▒', action: () => openGameDonate('Roblox') },
-    { id: 'bloodstrike', name: 'Blood Strike', sub: 'Gold sotib olish', icon: 'ЁЯФл', action: () => openGameDonate('Blood Strike') },
-    { id: 'steam', name: 'Steam Wallet', sub: 'Hisob to\'ldirish', icon: 'ЁЯТи', action: () => openGameDonate('Steam') },
-    { id: 'spin', name: 'Omadli G\'ildirak (Spin)', sub: '1 ta bepul aylantirish', icon: 'ЁЯОб', action: () => navigateTo('spin') },
-    { id: 'orders', name: 'Buyurtmalar tarixi', sub: 'Barcha amalga oshirilgan to\'lovlar', icon: 'ЁЯУЛ', action: () => navigateTo('orders') },
-    { id: 'rating', name: 'Savdo Reytingi (Top)', sub: 'Eng faol foydalanuvchilar', icon: 'ЁЯПЖ', action: () => navigateTo('rating') },
-    { id: 'rent', name: 'NFT Ijara', sub: 'Gifts, Nick & +888 (Texnik ishlar)', icon: 'ЁЯЫа', action: () => handleRentTechNotice() }
+    { id: 'stars', name: 'Telegram Stars', sub: 'Tezkor yetkazish (198 UZS)', icon: '⭐', action: () => navigateTo('stars') },
+    { id: 'premium', name: 'Telegram Premium', sub: '3, 6, 12 oylik obuna', icon: '💎', action: () => navigateTo('premium') },
+    { id: 'gift', name: 'Telegram Gifts', sub: 'Jonli sovg\'alar (Teddy, Rose, Box)', icon: '🎁', action: () => navigateTo('gift') },
+    { id: 'topup', name: 'Balans To\'ldirish', sub: 'Uzcard va Humo orqali to\'lov', icon: '💳', action: () => navigateTo('topup') },
+    { id: 'pubg', name: 'PUBG Mobile', sub: 'UC donat', icon: '🎮', action: () => openGameDonate('PUBG Mobile') },
+    { id: 'freefire', name: 'Free Fire', sub: 'Olmoslar xaridi', icon: '🔥', action: () => openGameDonate('Free Fire') },
+    { id: 'mlbb', name: 'Mobile Legends', sub: 'Diamonds to\'ldirish', icon: '⚔️', action: () => openGameDonate('Mobile Legends') },
+    { id: 'cod', name: 'Call of Duty Mobile', sub: 'CP donat', icon: '🎯', action: () => openGameDonate('Call of Duty') },
+    { id: 'roblox', name: 'Roblox', sub: 'Robux olish', icon: '🧱', action: () => openGameDonate('Roblox') },
+    { id: 'bloodstrike', name: 'Blood Strike', sub: 'Gold sotib olish', icon: '🔫', action: () => openGameDonate('Blood Strike') },
+    { id: 'steam', name: 'Steam Wallet', sub: 'Hisob to\'ldirish', icon: '💨', action: () => openGameDonate('Steam') },
+    { id: 'spin', name: 'Omadli G\'ildirak (Spin)', sub: '1 ta bepul aylantirish', icon: '🎡', action: () => navigateTo('spin') },
+    { id: 'orders', name: 'Buyurtmalar tarixi', sub: 'Barcha amalga oshirilgan to\'lovlar', icon: '📋', action: () => navigateTo('orders') },
+    { id: 'rating', name: 'Savdo Reytingi (Top)', sub: 'Eng faol foydalanuvchilar', icon: '🏆', action: () => navigateTo('rating') },
+    { id: 'rent', name: 'NFT Ijara', sub: 'Gifts, Nick & +888 (Texnik ishlar)', icon: '🛠', action: () => handleRentTechNotice() }
 ];
 
 function toggleQuickSearchModal() {
@@ -17379,9 +17248,9 @@ function openGameDonate(gameName) {
         try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning'); } catch(e) {}
     }
     if (window.Telegram?.WebApp?.showAlert) {
-        window.Telegram.WebApp.showAlert(`ЁЯОо ${gameName} donati tez orada avtomat tarzda ishga tushadi!\nBuyurtma berish uchun qo'llab-quvvatlash xizmatiga murojaat qilishingiz mumkin.`);
+        window.Telegram.WebApp.showAlert(`🎮 ${gameName} donati tez orada avtomat tarzda ishga tushadi!\nBuyurtma berish uchun qo'llab-quvvatlash xizmatiga murojaat qilishingiz mumkin.`);
     } else {
-        alert(`ЁЯОо ${gameName} donati tez orada avtomat tarzda ishga tushadi!`);
+        alert(`🎮 ${gameName} donati tez orada avtomat tarzda ishga tushadi!`);
     }
 }
 
@@ -17663,7 +17532,7 @@ async function loadMyRentsApp(force = false) {
         if (listEl) {
             listEl.innerHTML = `
                 <div class="my-rents-empty">
-                    <div class="my-rents-empty-icon">тЪая╕П</div>
+                    <div class="my-rents-empty-icon">⚠️</div>
                     <div class="my-rents-empty-title">Ijaralarni yuklab bo'lmadi</div>
                     <button class="step-link-btn" onclick="loadMyRentsApp(true)" style="margin-top: 8px;">Qayta urinish</button>
                 </div>
@@ -17679,7 +17548,7 @@ function renderMyRentsApp(rents) {
     if (!rents || rents.length === 0) {
         listEl.innerHTML = `
             <div class="my-rents-empty">
-                <div class="my-rents-empty-icon">ЁЯОБ</div>
+                <div class="my-rents-empty-icon">🎁</div>
                 <div class="my-rents-empty-title">Sizda hali faol ijaralar yo'q</div>
                 <div class="my-rents-empty-desc">Katalogdan o'zingiz yoqtirgan Telegram NFT yoki nomerni tanlab, birinchi ijarani boshlang!</div>
                 <button class="modal-confirm-btn-rent" style="height: 42px; font-size: 13.5px;" onclick="closeMyRentsViewApp()">
@@ -17701,8 +17570,8 @@ function renderMyRentsApp(rents) {
         const targetDisplay = targetUname ? (targetUname.startsWith('@') ? targetUname : '@' + targetUname) : '@profilingiz';
 
         const statusHtml = isConn ? 
-            `<span class="status-pill-active" style="color: #4ade80; background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.35);">тАв Ulangan</span>` :
-            `<span class="status-pill-active">тАв Faol</span>`;
+            `<span class="status-pill-active" style="color: #4ade80; background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.35);">• Ulangan</span>` :
+            `<span class="status-pill-active">• Faol</span>`;
 
         html += `
             <div class="my-rent-card">
@@ -17713,14 +17582,14 @@ function renderMyRentsApp(rents) {
                             <div class="my-rent-card-name" title="${escapeRentHtml(r.nft_name)}">${escapeRentHtml(r.nft_name)}</div>
                             ${statusHtml}
                         </div>
-                        <div class="my-rent-card-meta">${price} so'm тАв ${days} kun</div>
+                        <div class="my-rent-card-meta">${price} so'm • ${days} kun</div>
                         <div class="my-rent-target-user-pill">
-                            <span>ЁЯОп Akkaunt:</span> <b>${escapeRentHtml(targetDisplay)}</b>
+                            <span>🎯 Akkaunt:</span> <b>${escapeRentHtml(targetDisplay)}</b>
                         </div>
                     </div>
                 </div>
                 <button class="my-rent-bind-btn" ${isConn ? 'style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.4); color: #4ade80;"' : ''} onclick="openConnectModalApp(${idx})">
-                    <span>${isConn ? `тЬЕ Akkauntga ulangan (${escapeRentHtml(targetDisplay)})` : 'ЁЯФЧ Telegram akkauntga ulash'}</span>
+                    <span>${isConn ? `✅ Akkauntga ulangan (${escapeRentHtml(targetDisplay)})` : '🔗 Telegram akkauntga ulash'}</span>
                 </button>
             </div>
         `;
@@ -17817,9 +17686,9 @@ async function submitTonConnectLinkApp() {
                 try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
             }
             if (typeof showTopupToast === 'function') {
-                showTopupToast("тЬЕ Havola qabul qilindi! Fragment'da profilingizga o'rnating.");
+                showTopupToast("✅ Havola qabul qilindi! Fragment'da profilingizga o'rnating.");
             } else {
-                alert("тЬЕ Havola qabul qilindi! Fragment'da profilingizga o'rnating.");
+                alert("✅ Havola qabul qilindi! Fragment'da profilingizga o'rnating.");
             }
             closeConnectModalApp();
             loadMyRentsApp(true);
@@ -17988,7 +17857,7 @@ async function loadRentItems() {
         } else {
             grid.innerHTML = `
                 <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: var(--text-muted, #94a3b8);">
-                    <div style="font-size: 32px; margin-bottom: 8px;">ЁЯФН</div>
+                    <div style="font-size: 32px; margin-bottom: 8px;">🔍</div>
                     <div style="font-size: 15px; font-weight: 700; color: #fff;">Hozircha ijara uchun NFT topilmadi</div>
                     <div style="font-size: 12px; margin-top: 4px;">Kolleksiyani o'zgartirib ko'ring yoki birozdan so'ng qayta tekshiring</div>
                 </div>
@@ -17998,7 +17867,7 @@ async function loadRentItems() {
     } catch (err) {
         grid.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: #f87171;">
-                <div style="font-size: 32px; margin-bottom: 8px;">тЪая╕П</div>
+                <div style="font-size: 32px; margin-bottom: 8px;">⚠️</div>
                 <div style="font-size: 15px; font-weight: 700;">Ma'lumotlarni yuklab bo'lmadi</div>
                 <button onclick="loadRentItems()" style="margin-top: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 14px; border-radius: 8px; cursor: pointer;">Qayta urinish</button>
             </div>
@@ -18059,13 +17928,13 @@ function updateRentLoadMoreUi() {
         loadMoreWrap.style.display = 'flex';
         loadMoreWrap.innerHTML = `
             <button class="rent-load-more-btn" id="rentLoadMoreBtn" onclick="loadMoreRentItems()">
-                <span id="rentLoadMoreBtnText">тЪб Ko'proq NFT yuklash</span>
+                <span id="rentLoadMoreBtnText">⚡ Ko'proq NFT yuklash</span>
             </button>
         `;
     } else {
         if (rentAllItems.length > 0) {
             loadMoreWrap.style.display = 'flex';
-            loadMoreWrap.innerHTML = `<div class="rent-end-message">тЬЕ Barcha mavjud NFTlar yuklandi (${rentAllItems.length} ta)</div>`;
+            loadMoreWrap.innerHTML = `<div class="rent-end-message">✅ Barcha mavjud NFTlar yuklandi (${rentAllItems.length} ta)</div>`;
         } else {
             loadMoreWrap.style.display = 'none';
         }
@@ -18079,7 +17948,7 @@ function renderRentItems(items) {
     if (!items || items.length === 0) {
         grid.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: var(--text-muted, #94a3b8);">
-                <div style="font-size: 32px; margin-bottom: 8px;">ЁЯФН</div>
+                <div style="font-size: 32px; margin-bottom: 8px;">🔍</div>
                 <div style="font-size: 15px; font-weight: 700; color: #fff;">Qidiruv bo'yicha hech narsa topilmadi</div>
             </div>
         `;
@@ -18132,7 +18001,7 @@ function handleRentSearch() {
 
 function handleRentTechNotice() {
     if (typeof triggerHaptic === 'function') triggerHaptic('warning');
-    const msg = "ЁЯЫа Hozirda NFT Ijara bo'limida texnik sozlash ishlari olib borilmoqda. Xizmat tez orada qayta ishga tushadi!";
+    const msg = "🛠 Hozirda NFT Ijara bo'limida texnik sozlash ishlari olib borilmoqda. Xizmat tez orada qayta ishga tushadi!";
     if (window.Telegram?.WebApp?.showAlert) {
         window.Telegram.WebApp.showAlert(msg);
     } else {
@@ -18258,11 +18127,11 @@ function updateRentModalCalculations() {
         statusBox.innerHTML = `
             <div>
                 <span>Hisobingiz: </span>
-                <strong>${curBal.toLocaleString('uz-UZ')}</strong> UZS (Yetarli тЬЕ)
+                <strong>${curBal.toLocaleString('uz-UZ')}</strong> UZS (Yetarli ✅)
             </div>
         `;
         confirmBtn.disabled = false;
-        confirmBtn.innerHTML = `<span>ЁЯЪА Ijarani rasmiylashtirish (${total.toLocaleString('uz-UZ')} UZS)</span>`;
+        confirmBtn.innerHTML = `<span>🚀 Ijarani rasmiylashtirish (${total.toLocaleString('uz-UZ')} UZS)</span>`;
     }
 }
 
@@ -18296,7 +18165,7 @@ async function submitRentOrderFromApp() {
 
     const confirmBtn = document.getElementById('confirmRentBtnApp');
     confirmBtn.disabled = true;
-    confirmBtn.innerHTML = `<span>тП│ Rasmiylashtirilmoqda...</span>`;
+    confirmBtn.innerHTML = `<span>⏳ Rasmiylashtirilmoqda...</span>`;
 
     const imgUrl = rentSelectedItem.webp_url || (rentSelectedItem.media_key ? `https://nft.fragment.com/gift/${rentSelectedItem.media_key}.webp` : '');
     const uid = typeof getUserId === 'function' ? getUserId() : (window.Telegram?.WebApp?.initDataUnsafe?.user?.id || 8202423244);
@@ -18338,7 +18207,7 @@ async function submitRentOrderFromApp() {
             closeRentModal();
             loadUserBalance();
             if (typeof showTopupToast === 'function') {
-                showTopupToast("ЁЯОЙ NFT ijara buyurtmangiz muvaffaqiyatli qabul qilindi!");
+                showTopupToast("🎉 NFT ijara buyurtmangiz muvaffaqiyatli qabul qilindi!");
             }
 
             setTimeout(() => {
