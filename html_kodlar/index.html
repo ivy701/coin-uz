@@ -10816,13 +10816,13 @@ body {
                 <div class="service-compact-sub">Wallet</div>
             </button>
 
-            <!-- 12. NFT Ijara (Texnik ishlar) -->
-            <button type="button" class="service-compact-item" onclick="handleRentTechNotice()">
-                <div class="service-compact-icon-box" style="border-color: rgba(249, 115, 22, 0.45); background: rgba(249, 115, 22, 0.08);">
+            <!-- 12. NFT Ijara -->
+            <button type="button" class="service-compact-item" onclick="navigateTo('rent')">
+                <div class="service-compact-icon-box">
                     <img src="./images/ton_nft.png" alt="NFT" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
-                    <span class="service-compact-badge" style="background: rgba(249, 115, 22, 0.9); font-size: 7.5px;">Texnik</span>
+                    <span class="service-compact-badge" style="background: #22c55e; font-size: 7.5px;">Faol</span>
                 </div>
-                <div class="service-compact-name" style="color: #fb923c;">NFT Ijara</div>
+                <div class="service-compact-name">NFT Ijara</div>
                 <div class="service-compact-sub">Gifts & Nomer</div>
             </button>
         </div>
@@ -11278,14 +11278,6 @@ body {
             </div>
         </div>
 
-        <!-- Tech Maintenance Notice Banner -->
-        <div style="background: rgba(249, 115, 22, 0.12); border: 1.5px solid rgba(249, 115, 22, 0.45); border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
-            <div style="font-size: 22px; line-height: 1;">🛠</div>
-            <div style="font-size: 13px; color: #fdba74; font-weight: 600; line-height: 1.4;">
-                <span style="color: #fb923c; font-weight: 700;">Texnik ishlar olib borilmoqda:</span><br>
-                NFT Ijara tizimida texnik ishlar ketmoqda. Xarid vaqtincha to'xtatildi.
-            </div>
-        </div>
 
         <!-- Hero Card -->
         <div class="rent-hero-card">
@@ -17184,7 +17176,7 @@ const APP_SERVICES_LIST = [
     { id: 'spin', name: 'Omadli G\'ildirak (Spin)', sub: '1 ta bepul aylantirish', icon: '🎡', action: () => navigateTo('spin') },
     { id: 'orders', name: 'Buyurtmalar tarixi', sub: 'Barcha amalga oshirilgan to\'lovlar', icon: '📋', action: () => navigateTo('orders') },
     { id: 'rating', name: 'Savdo Reytingi (Top)', sub: 'Eng faol foydalanuvchilar', icon: '🏆', action: () => navigateTo('rating') },
-    { id: 'rent', name: 'NFT Ijara', sub: 'Gifts, Nick & +888 (Texnik ishlar)', icon: '🛠', action: () => handleRentTechNotice() }
+    { id: 'rent', name: 'NFT Ijara', sub: 'Gifts, Nick & +888', icon: '💎', action: () => navigateTo('rent') }
 ];
 
 function toggleQuickSearchModal() {
@@ -18010,8 +18002,6 @@ function handleRentTechNotice() {
 }
 
 function openRentModal(index) {
-    handleRentTechNotice();
-    return;
     rentSelectedItem = rentAllItems[index];
     if (!rentSelectedItem) return;
 
