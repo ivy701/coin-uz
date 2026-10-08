@@ -1340,5 +1340,58 @@ async def update_nft_rent_connection(rent_id: int, telegram_id: int, tc_link: st
         return False
 
 
+async def get_nft_rent_by_id(rent_id: int) -> dict[str, Any] | None:
+    try:
+        return await db_conn.fetchrow("SELECT * FROM user_nft_rents WHERE id = $1", rent_id)
+    except Exception as e:
+        logger.error(f"get_nft_rent_by_id error: {e}")
+        return None
+
+
+async def extend_user_nft_rent(rent_id: int, extra_days: int) -> bool:
+    import datetime
+    try:
+        row = await get_nft_rent_by_id(rent_id)
+        if not row:
+            return False
+        exp = row.get("expires_at")
+        now = datetime.datetime.now(datetime.timezone.utc)
+        if exp:
+            if isinstance(exp, str):
+                try:
+                    exp_dt = datetime.datetime.fromisoformat(exp.replace("Z", "+00:00"))
+                except Exception:
+                    exp_dt = now
+            else:
+                exp_dt = exp
+            if exp_dt.tzinfo is None:
+                exp_dt = exp_dt.replace(tzinfo=datetime.timezone.utc)
+            base = max(now, exp_dt)
+        else:
+            base = now
+        new_exp = base + datetime.timedelta(days=max(1, extra_days))
+        new_days = (row.get("days") or 0) + extra_days
+        exp_val = new_exp if not IS_SQLITE else new_exp.strftime("%Y-%m-%d %H:%M:%S")
+        await db_conn.execute(
+            "UPDATE user_nft_rents SET expires_at = $1, days = $2, status = 'active' WHERE id = $3",
+            exp_val, new_days, rent_id
+        )
+        return True
+    except Exception as e:
+        logger.error(f"extend_user_nft_rent error: {e}")
+        return False
+
+
+async def get_recent_nft_orders(limit: int = 10) -> list[dict[str, Any]]:
+    try:
+        return await db_conn.fetch(
+            "SELECT * FROM orders WHERE product_type = 'nft_rent' ORDER BY id DESC LIMIT $1",
+            limit
+        )
+    except Exception as e:
+        logger.error(f"get_recent_nft_orders error: {e}")
+        return []
+
+
 db = _LegacyDB()
 

@@ -26,6 +26,14 @@ FRAGMENT_API_URL = os.getenv("FRAGMENT_API_URL", "https://fragment-api.uz/api/v1
 ROXIY_API_KEY = os.getenv("ROXIY_API_KEY")
 ROXIY_API_URL = os.getenv("ROXIY_API_URL", "https://stars.roxiy.uz/api/v1")
 
+# Marketapp NFT Rent settings
+MARKETAPP_TOKEN = os.getenv("MARKETAPP_TOKEN", "")
+TONAPI_KEY = os.getenv("TONAPI_KEY", "")
+TON_SEED = os.getenv("TON_SEED", "")
+DRY_RUN = os.getenv("DRY_RUN", "true").lower() in ("true", "1", "yes")
+TON_RATE_UZS = int(os.getenv("TON_RATE_UZS", "28000"))
+NFT_MARGIN_PERCENT = float(os.getenv("NFT_MARGIN_PERCENT", "5.0"))
+
 
 
 # Shop settings

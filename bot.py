@@ -9,7 +9,7 @@ from aiohttp import web
 
 import config
 from services import database
-from handlers import start, shop, balance, profile, webapp, admin
+from handlers import start, shop, balance, profile, webapp, admin, nft_rent
 from middlewares import AccessControlMiddleware
 
 logging.basicConfig(
@@ -156,6 +156,7 @@ async def main():
         dp = Dispatcher(storage=storage)
         dp.update.middleware(AccessControlMiddleware())
         dp.include_router(admin.router)
+        dp.include_router(nft_rent.router)
         dp.include_router(start.router)
         dp.include_router(webapp.router)
         dp.include_router(shop.router)
@@ -164,6 +165,19 @@ async def main():
 
     await database.init_db()
     logger.info("Database initialized, bot starting...")
+
+    # NFT Ijara hamyoni va xizmatini tekshirish
+    try:
+        from services.marketapp_service import marketapp_service
+        w_info = await marketapp_service.get_wallet_info()
+        logger.info(
+            "TON Ijara hamyoni: %s | Balans: %.4f TON | Holat: %s",
+            w_info.get("address"),
+            w_info.get("balance_ton", 0.0),
+            "Faol" if w_info.get("is_active") else "Faol emas / To'ldirish kerak"
+        )
+    except Exception as e:
+        logger.warning("Marketapp hamyon tekshiruvida ogohlantirish: %s", e)
 
     if hasattr(runner, 'app'):
         runner.app["bot"] = bot

@@ -955,12 +955,49 @@ async def api_rent_items(request: web.Request) -> web.Response:
               oldest = next(iter(_rent_items_cache))
               _rent_items_cache.pop(oldest, None)
             return web.json_response({"ok": True, "cached": False, **items_data})
-        return web.json_response({"ok": False, "error": f"API xatoligi ({resp.status})"}, status=502)
+        # If ROXIY API didn't return 200, try Marketapp fallback
+        try:
+          from services.marketapp_service import marketapp_service
+          fb_res = await marketapp_service.get_available_nfts(category=category, limit=50)
+          fb_items = fb_res.get("items", [])
+          res_items = []
+          for it in fb_items:
+            res_items.append({
+              "address": it.get("nft_address"),
+              "name": it.get("nft_name"),
+              "category": it.get("category"),
+              "image": it.get("image_url"),
+              "price_per_day_uzs": it.get("price_per_day_uzs"),
+              "min_price_uzs": it.get("price_per_day_uzs", 0) * it.get("min_duration", 1),
+              "min_days": it.get("min_duration", 1),
+              "max_days": it.get("max_duration", 30)
+            })
+          return web.json_response({"ok": True, "items": res_items, "total": len(res_items), "fallback": True})
+        except Exception:
+          return web.json_response({"ok": False, "error": f"API xatoligi ({resp.status})"}, status=502)
   except Exception as e:
     logger.error("api_rent_items error: %s", e)
     if cached:
       return web.json_response({"ok": True, "cached": True, "stale": True, **cached["data"]})
-    return web.json_response({"ok": False, "error": str(e)}, status=500)
+    try:
+      from services.marketapp_service import marketapp_service
+      fb_res = await marketapp_service.get_available_nfts(category=category, limit=50)
+      fb_items = fb_res.get("items", [])
+      res_items = []
+      for it in fb_items:
+        res_items.append({
+          "address": it.get("nft_address"),
+          "name": it.get("nft_name"),
+          "category": it.get("category"),
+          "image": it.get("image_url"),
+          "price_per_day_uzs": it.get("price_per_day_uzs"),
+          "min_price_uzs": it.get("price_per_day_uzs", 0) * it.get("min_duration", 1),
+          "min_days": it.get("min_duration", 1),
+          "max_days": it.get("max_duration", 30)
+        })
+      return web.json_response({"ok": True, "items": res_items, "total": len(res_items), "fallback": True})
+    except Exception:
+      return web.json_response({"ok": False, "error": str(e)}, status=500)
 
 
 async def get_abu_store_balance() -> float:
@@ -983,124 +1020,43 @@ async def api_order_rent(request: web.Request) -> web.Response:
   network_fee = 2000
   total_price = int(body.get("amount") or ((days * price_per_day) + network_fee))
   image_url = (body.get("image_url") or "").strip()
+  category = (body.get("category") or "gifts").lower()
 
   if not username:
     return web.json_response({"ok": False, "error": "Telegram foydalanuvchi nomi yoki TON hamyon manzili kiritilmadi"}, status=400)
   if total_price <= 0 or days <= 0:
     return web.json_response({"ok": False, "error": "Noto'g'ri ijara muddati yoki narx"}, status=400)
 
-  # Log Abu Store balance for analytics (Abu Store API does not deduct balance for rent)
   try:
-    abu_balance = await get_abu_store_balance()
-    logger.info("Abu Store provider balance: %s UZS (Rent order: %s UZS)", abu_balance, total_price)
-  except Exception as _e:
-    logger.warning("Abu Store balance fetch error: %s", _e)
+    from services.marketapp_service import marketapp_service
 
-  user = await get_user(user_id)
-  if not user:
-    from services.database import ensure_user
-    user = await ensure_user(user_id, username, username or "User")
+    # Approximate TON price from UZS if not explicitly passed
+    price_ton = body.get("price_per_day_ton") or body.get("price_ton")
+    if not price_ton and price_per_day > 0:
+      rate = getattr(marketapp_service, "ton_rate_uzs", 28000)
+      price_ton = round(price_per_day / rate, 4)
+    if not price_ton:
+      price_ton = "0.02"
 
-  balance = user.get("balance", 0)
-  if balance < total_price:
-    return web.json_response({
-      "ok": False,
-      "error": f"Hisobingizda mablag' yetarli emas! (Kerak: {total_price:,} so'm, Balansingiz: {balance:,} so'm)"
-    }, status=400)
-
-  # Deduct balance
-  deducted = await deduct_balance(user_id, total_price)
-  if not deducted:
-    return web.json_response({"ok": False, "error": "Mablag' yechishda xatolik yuz berdi"}, status=400)
-
-  order_ext_id = f"RENT_{int(time.time()*1000)}"
-  order_id = await create_order(
-    telegram_id=user_id,
-    product_type="nft_rent",
-    target_username=username,
-    quantity=days,
-    amount=total_price,
-    external_id=order_ext_id,
-    status="processing"
-  )
-
-  # Record to user_nft_rents table
-  try:
-    from services.database import add_user_nft_rent
-    await add_user_nft_rent(
-      telegram_id=user_id,
+    rent_result = await marketapp_service.execute_nft_rental(
+      user_id=int(user_id),
+      username=username,
       nft_name=nft_name,
-      nft_address=nft_address,
-      category=body.get("category") or "gifts",
+      nft_address=nft_address or f"EQ_{int(time.time())}_{user_id}",
+      category=category,
       image_url=image_url,
       days=days,
-      price_total=total_price,
-      order_id=order_id,
-      target_username=username
+      price_per_day_ton=price_ton,
+      expected_total_uzs=total_price
     )
-  except Exception as rent_db_err:
-    logger.warning("add_user_nft_rent save error: %s", rent_db_err)
 
-  # Dispatch Telegram notifications
-  import config as cfg
-  bot_token = (cfg.BOT_TOKEN or "").strip()
-  channel_id = os.getenv("CHANNEL_ORDERS", "@coinstatuz_org")
-  admin_id = (cfg.ADMINS[0] if cfg.ADMINS else None)
+    if not rent_result.get("ok"):
+      return web.json_response(rent_result, status=400)
 
-  user_caption = (
-    f"🖼 <b>NFT IJARA BUYURTMASI QABUL QILINDI!</b>\n\n"
-    f"💎 <b>NFT:</b> <code>{nft_name}</code>\n"
-    f"⏱ <b>Muddat:</b> {days} kun\n"
-    f"💰 <b>To'langan summa:</b> {total_price:,} so'm\n"
-    f"🎯 <b>Qabul qiluvchi:</b> @{username}\n"
-    f"🆔 <b>Buyurtma ID:</b> #{order_id}\n\n"
-    f"<i>Buyurtmangiz navbatga qo'yildi. WebApp'da 'Mening ijaralarim' bo'limi orqali NFT'ni profilingizga ulashingiz mumkin!</i>"
-  )
-
-  admin_caption = (
-    f"🚨 <b>YANGI NFT IJARA BUYURTMASI!</b>\n\n"
-    f"🆔 <b>Buyurtma ID:</b> #{order_id}\n"
-    f"👤 <b>Foydalanuvchi ID:</b> <code>{user_id}</code>\n"
-    f"🎯 <b>Qabul qiluvchi:</b> @{username}\n"
-    f"💎 <b>NFT nomi:</b> <b>{nft_name}</b>\n"
-    f"⏱ <b>Muddat:</b> {days} kun\n"
-    f"💰 <b>Summa:</b> {total_price:,} so'm\n"
-    f"🏷 <b>NFT Manzili:</b> <code>{nft_address}</code>\n"
-    f"⏰ <b>Vaqt:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-    f"⚡ <i>Marketapp smart-kontrakt orqali ijara ulanishi kutilmoqda.</i>"
-  )
-
-  async def _send_tg(chat_id, text, photo=None):
-    if not bot_token or not chat_id:
-      return
-    import aiohttp
-    async with aiohttp.ClientSession() as s:
-      if photo and not photo.endswith(".tgs"):
-        url = f"https://api.telegram.org/bot{bot_token}/sendPhoto"
-        p = {"chat_id": chat_id, "photo": photo, "caption": text, "parse_mode": "HTML"}
-      else:
-        url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-        p = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
-      try:
-        await s.post(url, json=p, timeout=aiohttp.ClientTimeout(total=5))
-      except Exception as ex:
-        logger.warning(f"Telegram notification failed for {chat_id}: {ex}")
-
-  asyncio.create_task(_send_tg(user_id, user_caption, image_url))
-  if admin_id:
-    asyncio.create_task(_send_tg(admin_id, admin_caption, image_url))
-  if channel_id:
-    asyncio.create_task(_send_tg(channel_id, admin_caption, image_url))
-
-  new_user = await get_user(user_id)
-  new_balance = new_user.get("balance", 0) if new_user else (balance - total_price)
-
-  return web.json_response({
-    "ok": True,
-    "order_id": order_id,
-    "balance": new_balance,
-    "message": "NFT ijara buyurtmangiz muvaffaqiyatli qabul qilindi!"
-  })
+    return web.json_response(rent_result)
+  except Exception as e:
+    logger.exception("api_order_rent execution error: %s", e)
+    return web.json_response({"ok": False, "error": f"Ijara xatosi: {str(e)}"}, status=500)
 
 
 async def api_rent_my(request: web.Request) -> web.Response:
@@ -1724,12 +1680,13 @@ async def on_startup(app: web.Application) -> None:
         from aiogram.enums import ParseMode
         from aiogram.fsm.storage.memory import MemoryStorage
         from middlewares import AccessControlMiddleware
-        from handlers import start, shop, balance, profile, webapp, admin
+        from handlers import start, shop, balance, profile, webapp, admin, nft_rent
 
         bot = Bot(token=cfg.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
         dp = Dispatcher(storage=MemoryStorage())
         dp.update.middleware(AccessControlMiddleware())
         dp.include_router(admin.router)
+        dp.include_router(nft_rent.router)
         dp.include_router(start.router)
         dp.include_router(webapp.router)
         dp.include_router(shop.router)
