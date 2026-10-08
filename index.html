@@ -7531,7 +7531,8 @@ body {
     transform: scale(0.94) !important;
 }
 
-.dock-tab-btn svg {
+.dock-tab-btn svg,
+.dock-svg {
     width: 24px !important;
     height: 24px !important;
     stroke: var(--nav-inactive) !important;
@@ -7540,7 +7541,8 @@ body {
     stroke-linecap: round !important;
     stroke-linejoin: round !important;
     filter: none !important;
-    transition: stroke 200ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    overflow: visible !important;
+    transition: stroke 200ms ease, filter 200ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
 .dock-tab-btn span {
@@ -7556,7 +7558,8 @@ body {
 .dock-tab-btn.active {
     color: var(--nav-active) !important;
 }
-.dock-tab-btn.active svg {
+.dock-tab-btn.active svg,
+.dock-tab-btn.active .dock-svg {
     stroke: var(--nav-active) !important;
     filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.28)) !important;
 }
@@ -7565,39 +7568,272 @@ body {
     font-weight: 700 !important;
 }
 
-/* Unique Micro-Animations on Entrance: scale 0.8 -> 1.15 -> 1 (300ms spring) */
-@keyframes iconBounceHome {
-    0% { transform: scale(0.8) translateY(0); }
-    50% { transform: scale(1.15) translateY(-3px); }
-    100% { transform: scale(1) translateY(0); }
+/* ========================================================
+   TELEGRAM iOS REALISTIC LIVING DOCK ICON ANIMATIONS
+   Hardware-accelerated (transform & opacity only), 60fps spring
+   Duration: 750-850ms, Semantic micro-storytelling
+   ======================================================== */
+
+/* 1. ASOSIY (Home) Living Icon:
+   - Tom (roof) lifts slightly up, settles with spring
+   - Eshik (door) opens 20° and closes shut
+   - Mo'ri (chimney) puffs a small smoke ring drifting up and fading away
+*/
+.home-smoke {
+    fill: currentColor !important;
+    stroke: none !important;
+    opacity: 0 !important;
+    transform-origin: 16.5px 4.2px !important;
+    will-change: transform, opacity !important;
 }
-@keyframes iconPopServices {
-    0% { transform: scale(0.8) rotate(-6deg); }
-    50% { transform: scale(1.15) rotate(4deg); }
-    100% { transform: scale(1) rotate(0deg); }
+.home-roof {
+    transform-origin: 12px 6px !important;
+    will-change: transform !important;
 }
-@keyframes iconLiftTop {
-    0% { transform: scale(0.8) translateY(2px); }
-    50% { transform: scale(1.15) translateY(-4px); }
-    100% { transform: scale(1) translateY(0); }
+.home-chimney {
+    transform-origin: 16.5px 7px !important;
+    will-change: transform !important;
 }
-@keyframes iconSpinProfile {
-    0% { transform: scale(0.8) rotate(-15deg); }
-    50% { transform: scale(1.15) rotate(8deg); }
-    100% { transform: scale(1) rotate(0deg); }
+.home-door {
+    transform-origin: 9.5px 18.5px !important;
+    will-change: transform !important;
 }
 
-.dock-tab-btn.active[data-target="home"] svg {
-    animation: iconBounceHome 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+@keyframes homeRoofSpring {
+    0% { transform: translateY(0); }
+    32% { transform: translateY(-3.2px); }
+    65% { transform: translateY(0.6px); }
+    85% { transform: translateY(-0.2px); }
+    100% { transform: translateY(0); }
 }
-.dock-tab-btn.active[data-target="services"] svg {
-    animation: iconPopServices 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+
+@keyframes homeDoorOpenClose {
+    0% { transform: scaleX(1) skewY(0deg); }
+    38% { transform: scaleX(0.38) skewY(-16deg); }
+    70% { transform: scaleX(1.08) skewY(2deg); }
+    88% { transform: scaleX(0.98) skewY(-0.5deg); }
+    100% { transform: scaleX(1) skewY(0deg); }
 }
-.dock-tab-btn.active[data-target="rating"] svg {
-    animation: iconLiftTop 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+
+@keyframes homeSmokePuff {
+    0% { transform: translate(0, 0) scale(0.3); opacity: 0; }
+    22% { opacity: 0.85; }
+    55% { transform: translate(1.8px, -5.5px) scale(1.3); opacity: 0.6; }
+    85% { transform: translate(3.2px, -10px) scale(1.9); opacity: 0; }
+    100% { transform: translate(3.5px, -11px) scale(2); opacity: 0; }
 }
-.dock-tab-btn.active[data-target="profile"] svg {
-    animation: iconSpinProfile 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+
+.dock-tab-btn.active.animating .home-roof,
+.dock-tab-btn.active.animating .home-chimney {
+    animation: homeRoofSpring 780ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+.dock-tab-btn.active.animating .home-door {
+    animation: homeDoorOpenClose 780ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+.dock-tab-btn.active.animating .home-smoke {
+    animation: homeSmokePuff 820ms cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+}
+
+/* 2. SERVISLAR (Hub - 4 ta kvadrat):
+   - Kvadratlar ketma-ket (60ms kechikish bilan) kichrayib-kattalashadi
+   - Soat strelkasi bo'yicha swap aylanadi va oxirida joyiga qaytadi
+*/
+.sq-item {
+    will-change: transform !important;
+}
+.sq-tl { transform-origin: 7px 7px !important; }
+.sq-tr { transform-origin: 17px 7px !important; }
+.sq-br { transform-origin: 17px 17px !important; }
+.sq-bl { transform-origin: 7px 17px !important; }
+
+@keyframes sqSwapTL {
+    0% { transform: translate(0, 0) scale(1); }
+    30% { transform: translate(10px, 0) scale(0.72); }
+    60% { transform: translate(10px, 10px) scale(1.15); }
+    82% { transform: translate(0, 0) scale(0.92); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes sqSwapTR {
+    0% { transform: translate(0, 0) scale(1); }
+    30% { transform: translate(0, 10px) scale(0.72); }
+    60% { transform: translate(-10px, 10px) scale(1.15); }
+    82% { transform: translate(0, 0) scale(0.92); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes sqSwapBR {
+    0% { transform: translate(0, 0) scale(1); }
+    30% { transform: translate(-10px, 0) scale(0.72); }
+    60% { transform: translate(-10px, -10px) scale(1.15); }
+    82% { transform: translate(0, 0) scale(0.92); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes sqSwapBL {
+    0% { transform: translate(0, 0) scale(1); }
+    30% { transform: translate(0, -10px) scale(0.72); }
+    60% { transform: translate(10px, -10px) scale(1.15); }
+    82% { transform: translate(0, 0) scale(0.92); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
+.dock-tab-btn.active.animating .sq-tl {
+    animation: sqSwapTL 750ms cubic-bezier(0.34, 1.56, 0.64, 1) 0ms forwards !important;
+}
+.dock-tab-btn.active.animating .sq-tr {
+    animation: sqSwapTR 750ms cubic-bezier(0.34, 1.56, 0.64, 1) 60ms forwards !important;
+}
+.dock-tab-btn.active.animating .sq-br {
+    animation: sqSwapBR 750ms cubic-bezier(0.34, 1.56, 0.64, 1) 120ms forwards !important;
+}
+.dock-tab-btn.active.animating .sq-bl {
+    animation: sqSwapBL 750ms cubic-bezier(0.34, 1.56, 0.64, 1) 180ms forwards !important;
+}
+
+/* 3. TOP (Rating - Toj):
+   - Toj 4px tepaga ko'tarilib, yengil yonga egilib joyiga tushadi
+   - Uchlaridagi nuqtalar ketma-ket yiltillaydi (twinkle)
+   - Ustidan oq yaltirash (shine sweep) chizig'i o'tadi
+*/
+.crown-group {
+    transform-origin: 12px 19.5px !important;
+    will-change: transform !important;
+}
+.crown-shine-line {
+    opacity: 0 !important;
+    will-change: transform, opacity !important;
+}
+.crown-jewel {
+    fill: currentColor !important;
+    will-change: transform !important;
+}
+.jewel-left { transform-origin: 3px 7px !important; }
+.jewel-mid { transform-origin: 12px 4px !important; }
+.jewel-right { transform-origin: 21px 7px !important; }
+
+@keyframes crownLiftTilt {
+    0% { transform: translateY(0) rotate(0deg); }
+    30% { transform: translateY(-4.2px) rotate(-5.5deg); }
+    60% { transform: translateY(-0.8px) rotate(3deg); }
+    80% { transform: translateY(0.4px) rotate(-1deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes jewelTwinkle {
+    0% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.9); opacity: 1; filter: drop-shadow(0 0 3px #ffffff); }
+    100% { transform: scale(1); opacity: 0.9; }
+}
+
+@keyframes crownShineSweepAnim {
+    0% { transform: translateX(0); opacity: 0; }
+    25% { opacity: 0.95; }
+    75% { transform: translateX(36px); opacity: 0.95; }
+    100% { transform: translateX(38px); opacity: 0; }
+}
+
+.dock-tab-btn.active.animating .crown-group {
+    animation: crownLiftTilt 800ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+.dock-tab-btn.active.animating .jewel-left {
+    animation: jewelTwinkle 550ms cubic-bezier(0.34, 1.56, 0.64, 1) 120ms forwards !important;
+}
+.dock-tab-btn.active.animating .jewel-mid {
+    animation: jewelTwinkle 550ms cubic-bezier(0.34, 1.56, 0.64, 1) 220ms forwards !important;
+}
+.dock-tab-btn.active.animating .jewel-right {
+    animation: jewelTwinkle 550ms cubic-bezier(0.34, 1.56, 0.64, 1) 320ms forwards !important;
+}
+.dock-tab-btn.active.animating .crown-shine-line {
+    animation: crownShineSweepAnim 750ms cubic-bezier(0.22, 1, 0.36, 1) 100ms forwards !important;
+}
+
+/* 4. PROFIL (User - Odam):
+   - Bosh yengil bosh irg'ab (rotate ±8°) qo'yadi
+   - Yelka pastdan sakrab chiqadi
+   - Qizil badge bo'lsa pop qilib (scale 0 -> 1.3 -> 1) paydo bo'ladi
+*/
+.profile-head-group {
+    transform-origin: 12px 11px !important;
+    will-change: transform !important;
+}
+.profile-body {
+    transform-origin: 12px 21px !important;
+    will-change: transform !important;
+}
+
+@keyframes profileHeadNod {
+    0% { transform: translateY(0) rotate(0deg); }
+    28% { transform: translateY(-1.5px) rotate(-8deg); }
+    58% { transform: translateY(-0.5px) rotate(8deg); }
+    80% { transform: translateY(0.2px) rotate(-2deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes profileBodyHop {
+    0% { transform: translateY(0) scaleY(1); }
+    28% { transform: translateY(2px) scaleY(0.92); }
+    58% { transform: translateY(-2.2px) scaleY(1.06); }
+    82% { transform: translateY(0.4px) scaleY(0.98); }
+    100% { transform: translateY(0) scaleY(1); }
+}
+
+@keyframes badgePopSpring {
+    0% { transform: scale(0); opacity: 0; }
+    55% { transform: scale(1.35); opacity: 1; }
+    80% { transform: scale(0.92); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.dock-tab-btn.active.animating .profile-head-group {
+    animation: profileHeadNod 780ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+.dock-tab-btn.active.animating .profile-body {
+    animation: profileBodyHop 780ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+.dock-tab-btn.active.animating .dock-tab-badge {
+    animation: badgePopSpring 600ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+/* 5. QIDIRUV (Search - Kattalashtirish oynasi):
+   - Lupa kichik doira bo'ylab aylanib "qidirayotgandek" harakat qiladi, so'ng joyiga qaytadi
+*/
+.search-glass-group {
+    transform-origin: 11px 11px !important;
+    will-change: transform !important;
+}
+
+@keyframes searchGlassScan {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    22% { transform: translate(2.2px, -2px) rotate(12deg); }
+    45% { transform: translate(2.5px, 2.2px) rotate(-8deg); }
+    68% { transform: translate(-2px, 2px) rotate(10deg); }
+    85% { transform: translate(-0.8px, -0.8px) rotate(-3deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.nav-search-btn.animating .search-glass-group {
+    animation: searchGlassScan 820ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+/* 6. TELEFON / QO'NG'IROQ (Phone Handset Ringing & Sound Waves):
+   - Go'shak ±15° tez-tez tebranadi (jiringlash)
+   - 2 ta signal yoyi ketma-ket paydo bo'lib so'nadi
+*/
+@keyframes phoneHandsetRing {
+    0% { transform: rotate(0deg); }
+    15% { transform: rotate(-15deg); }
+    30% { transform: rotate(15deg); }
+    45% { transform: rotate(-12deg); }
+    60% { transform: rotate(12deg); }
+    75% { transform: rotate(-6deg); }
+    90% { transform: rotate(6deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes soundWaveEmit {
+    0% { transform: scale(0.6); opacity: 0; }
+    30% { opacity: 0.9; }
+    80% { transform: scale(1.5); opacity: 0; }
+    100% { transform: scale(1.6); opacity: 0; }
 }
 
 /* Red Notification Badge Support */
@@ -7622,15 +7858,19 @@ body {
     line-height: 1 !important;
 }
 
-/* Accessibility: prefers-reduced-motion */
+/* Accessibility: prefers-reduced-motion fallback */
 @media (prefers-reduced-motion: reduce) {
     .dock-sliding-pill,
     .dock-tab-btn,
     .dock-tab-btn svg,
+    .dock-tab-btn .dock-svg,
     .dock-tab-btn.active svg,
-    .nav-search-btn {
+    .dock-tab-btn.active .dock-svg,
+    .nav-search-btn,
+    .dock-svg *,
+    .nav-search-btn * {
         animation: none !important;
-        transition: none !important;
+        transition: color 150ms ease, stroke 150ms ease !important;
     }
 }
 
@@ -11363,38 +11603,61 @@ body {
 
             <!-- 1. Asosiy (Home) -->
             <a href="javascript:void(0)" class="dock-tab-btn active" data-target="home" onclick="navigateTo('home')">
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 9.5L12 3l9 6.5V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
+                <svg class="dock-svg dock-svg-home" viewBox="0 0 24 24">
+                    <!-- Smoke bubble puff -->
+                    <circle class="home-smoke" cx="16.5" cy="4.2" r="1.3"></circle>
+                    <!-- Chimney -->
+                    <path class="home-chimney" d="M15.5 8V4.5h2V10"></path>
+                    <!-- Roof -->
+                    <path class="home-roof" d="M3 10L12 3.5l9 6.5"></path>
+                    <!-- Walls -->
+                    <path class="home-walls" d="M5 9.5V20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9.5"></path>
+                    <!-- Door (opens 20° and closes) -->
+                    <path class="home-door" d="M9.5 22v-6.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v6.5"></path>
                 </svg>
                 <span data-i18n="nav.home">Asosiy</span>
             </a>
 
             <!-- 2. Servislar (Hub) -->
             <a href="javascript:void(0)" class="dock-tab-btn" data-target="services" onclick="navigateTo('services')">
-                <svg viewBox="0 0 24 24">
-                    <rect x="3" y="3" width="7.5" height="7.5" rx="2"/>
-                    <rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/>
-                    <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/>
-                    <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>
+                <svg class="dock-svg dock-svg-services" viewBox="0 0 24 24">
+                    <rect class="sq-item sq-tl" x="3.5" y="3.5" width="7" height="7" rx="2.2"></rect>
+                    <rect class="sq-item sq-tr" x="13.5" y="3.5" width="7" height="7" rx="2.2"></rect>
+                    <rect class="sq-item sq-br" x="13.5" y="13.5" width="7" height="7" rx="2.2"></rect>
+                    <rect class="sq-item sq-bl" x="3.5" y="13.5" width="7" height="7" rx="2.2"></rect>
                 </svg>
                 <span data-i18n="nav.services">Servislar</span>
             </a>
 
             <!-- 3. Top (Rating) -->
             <a href="javascript:void(0)" class="dock-tab-btn" data-target="rating" onclick="navigateTo('rating')">
-                <svg viewBox="0 0 24 24">
-                    <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z"/>
-                    <path d="M19 19H5"/>
+                <svg class="dock-svg dock-svg-top" viewBox="0 0 24 24">
+                    <defs>
+                        <linearGradient id="crownShine" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0"></stop>
+                            <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95"></stop>
+                            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+                        </linearGradient>
+                    </defs>
+                    <g class="crown-group">
+                        <line class="crown-shine-line" x1="-10" y1="2" x2="-2" y2="22" stroke="url(#crownShine)" stroke-width="2.5"></line>
+                        <path class="crown-outline" d="M4.5 16.5L3 7l5.5 4.5L12 4l3.5 7.5L21 7l-1.5 9.5H4.5z"></path>
+                        <path class="crown-base" d="M4.5 19.5h15"></path>
+                        <circle class="crown-jewel jewel-left" cx="3" cy="7" r="1.3"></circle>
+                        <circle class="crown-jewel jewel-mid" cx="12" cy="4" r="1.5"></circle>
+                        <circle class="crown-jewel jewel-right" cx="21" cy="7" r="1.3"></circle>
+                    </g>
                 </svg>
                 <span data-i18n="nav.rating">Top</span>
             </a>
 
             <!-- 4. Profil (User) -->
             <a href="javascript:void(0)" class="dock-tab-btn" data-target="profile" onclick="navigateTo('profile')">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
+                <svg class="dock-svg dock-svg-profile" viewBox="0 0 24 24">
+                    <g class="profile-head-group">
+                        <circle class="profile-head" cx="12" cy="7" r="4"></circle>
+                    </g>
+                    <path class="profile-body" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 </svg>
                 <span data-i18n="nav.profile">Profil</span>
                 <span class="dock-tab-badge" id="dockProfileBadge" style="display: none;">1</span>
@@ -11403,9 +11666,11 @@ body {
 
         <!-- Separate Circular Glass Search Button (Telegram iOS style) -->
         <button type="button" class="nav-search-btn" id="navSearchBtn" onclick="toggleQuickSearchModal()" aria-label="Qidiruv">
-            <svg viewBox="0 0 24 24">
-                <circle cx="11" cy="11" r="7"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <svg class="dock-svg dock-svg-search" viewBox="0 0 24 24">
+                <g class="search-glass-group">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </g>
             </svg>
         </button>
     </div>
@@ -16126,6 +16391,38 @@ async function verifyChannelSubscription() {
 
 
 
+function triggerDockIconAnimation(targetNav) {
+    if (!targetNav) return;
+    const btn = document.querySelector(`.dock-tab-btn[data-target="${targetNav}"]`);
+    if (!btn) return;
+    
+    // Interrupt and cleanly restart animation even during rapid tapping
+    btn.classList.remove('animating');
+    void btn.offsetWidth; // Force CSS reflow to replay keyframes immediately
+    
+    // Start icon micro-story animation synchronized with sliding pill
+    setTimeout(() => {
+        btn.classList.add('animating');
+    }, 50);
+
+    clearTimeout(btn._animTimer);
+    btn._animTimer = setTimeout(() => {
+        btn.classList.remove('animating');
+    }, 900);
+}
+
+function triggerSearchIconAnimation() {
+    const btn = document.getElementById('navSearchBtn');
+    if (!btn) return;
+    btn.classList.remove('animating');
+    void btn.offsetWidth;
+    btn.classList.add('animating');
+    clearTimeout(btn._animTimer);
+    btn._animTimer = setTimeout(() => {
+        btn.classList.remove('animating');
+    }, 900);
+}
+
 function updateSlidingPill(targetNav) {
     const nav = document.getElementById('bottomDockNav') || document.querySelector('.bottom-dock-nav');
     if (!nav) return;
@@ -16159,6 +16456,10 @@ const APP_SERVICES_LIST = [
 ];
 
 function toggleQuickSearchModal() {
+    triggerSearchIconAnimation();
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
     const modal = document.getElementById('quickSearchModal');
     if (!modal) return;
     const isVisible = modal.classList.contains('active') && modal.style.display !== 'none';
@@ -16174,9 +16475,6 @@ function toggleQuickSearchModal() {
             filterQuickSearch('');
             setTimeout(() => input.focus(), 80);
         }
-    }
-    if (window.Telegram?.WebApp?.HapticFeedback) {
-        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
     }
 }
 
@@ -16277,6 +16575,9 @@ function navigateTo(pageId, isBack = false) {
         const targetAttr = btn.getAttribute('data-target');
         btn.classList.toggle('active', targetAttr === activeNavTarget);
     });
+    if (typeof triggerDockIconAnimation === 'function') {
+        triggerDockIconAnimation(activeNavTarget);
+    }
     if (typeof updateSlidingPill === 'function') {
         updateSlidingPill(activeNavTarget, false);
     }
