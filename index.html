@@ -6,6 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>CoinStat UZ - Telegram Stars & Premium</title>
 
+    <script>
+        (function() {
+            try {
+                var stored = localStorage.getItem('theme') || localStorage.getItem('cs_theme_mode') || 'auto';
+                var eff = stored;
+                if (stored === 'auto') {
+                    var tgScheme = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp.colorScheme : null;
+                    if (tgScheme === 'light' || tgScheme === 'dark') {
+                        eff = tgScheme;
+                    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        eff = 'dark';
+                    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                        eff = 'light';
+                    } else {
+                        eff = 'dark';
+                    }
+                }
+                document.documentElement.setAttribute('data-theme', eff);
+            } catch(e) {}
+        })();
+    </script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,42 +37,112 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 /* ==========================================================================
-   CoinStat UZ - Performance-First Dark UI Stylesheet (60 FPS Optimized)
+   CoinStat UZ - Strict Variable-Driven Theme System (Light / Dark)
    ========================================================================== */
 
+:root,
+:root[data-theme="light"] {
+  /* Requested Light Theme Tokens */
+  --bg: #f2f2f7;
+  --surface: #ffffff;
+  --surface2: #f6f6fa;
+  --border: #e6e7ee;
+  --text: #14161c;
+  --muted: #7a8191;
+  --gold: #e8a50f;
+  --gold-soft: #fff6dc;
+  --me: #1f8fff;
+  --me-soft: rgba(31,143,255,.10);
+  --nav: rgba(255,255,255,.82);
+  --nav-active: #14161c;
+  --nav-active-ic: #ffffff;
+  --shadow: 0 6px 20px rgba(20,22,28,.07);
 
-
-:root {
-  /* Performance-First Dark Theme Tokens */
-  --bg-main: #0a0a0f;
-  --bg-main-gradient: linear-gradient(180deg, #0a0a0f 0%, #12131c 50%, #0d0e15 100%);
-  --bg-card: #1c1c24;
-  --bg-card-solid: #16171f;
-  --bg-card-hover: #22222d;
-  --border-card: rgba(255, 255, 255, 0.07);
-  --border-glow: rgba(255, 255, 255, 0.12);
-
-  --accent-gold: #fbbf24;
-  --accent-purple: #a855f7;
-  --accent-cyan: #38bdf8;
-  --accent-pink: #ec4899;
-  --accent-green: #22c55e;
-  --accent-blue: #3b82f6;
-  --accent-sky: #ffffff;
-  --accent-gradient: linear-gradient(135deg, #1f202b 0%, #15161f 100%);
-
-  --text-main: #ffffff;
-  --text-muted: #94a3b8;
-  --text-sub: #64748b;
-
-  --nav-bg: rgba(14, 15, 22, 0.98);
-  --nav-border: rgba(255, 255, 255, 0.08);
+  /* Unified Layer & Alias Mappings */
+  --bg-main: var(--bg);
+  --bg-surface: var(--surface);
+  --bg-card: var(--surface);
+  --bg-card-solid: var(--surface);
+  --bg-card-hover: var(--surface2);
+  --glass-card-bg: var(--surface);
+  --glass-card-hover: var(--surface2);
+  --border-card: var(--border);
+  --border-glow: var(--border);
+  --text-main: var(--text);
+  --text-muted: var(--muted);
+  --text-sub: var(--muted);
+  --btn-primary-bg: var(--nav-active);
+  --btn-primary-text: var(--nav-active-ic);
+  --accent-gold: var(--gold);
+  --badge-red: #FF3B30;
+  --nav-bg: var(--nav);
+  --nav-border: var(--border);
+  --nav-pill: var(--nav-active);
+  --nav-inactive: var(--muted);
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --radius-card: 18px;
   --radius-pill: 999px;
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-fast: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+:root[data-theme="dark"] {
+  /* Requested Dark Theme Tokens */
+  --bg: #0c0e13;
+  --surface: #151921;
+  --surface2: #1b2029;
+  --border: #262c38;
+  --text: #f1f3f8;
+  --muted: #8c94a6;
+  --gold: #f7bd35;
+  --gold-soft: rgba(247,189,53,.10);
+  --me: #4aa8ff;
+  --me-soft: rgba(74,168,255,.12);
+  --nav: rgba(21,25,33,.86);
+  --nav-active: #f1f3f8;
+  --nav-active-ic: #0c0e13;
+  --shadow: 0 8px 24px rgba(0,0,0,.45);
+
+  /* Unified Layer & Alias Mappings */
+  --bg-main: var(--bg);
+  --bg-surface: var(--surface);
+  --bg-card: var(--surface);
+  --bg-card-solid: var(--surface);
+  --bg-card-hover: var(--surface2);
+  --glass-card-bg: var(--surface);
+  --glass-card-hover: var(--surface2);
+  --border-card: var(--border);
+  --border-glow: var(--border);
+  --text-main: var(--text);
+  --text-muted: var(--muted);
+  --text-sub: var(--muted);
+  --btn-primary-bg: var(--nav-active);
+  --btn-primary-text: var(--nav-active-ic);
+  --accent-gold: var(--gold);
+  --badge-red: #FF3B30;
+  --nav-bg: var(--nav);
+  --nav-border: var(--border);
+  --nav-pill: var(--nav-active);
+  --nav-inactive: var(--muted);
+}
+
+html, body {
+  transition: background .25s, color .25s, border-color .25s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--me) !important;
+  outline-offset: 2px !important;
 }
 
 /* Global Hardware Acceleration & Smooth Typography */
@@ -7381,59 +7472,8 @@ body {
 }
 
 /* ==========================================================================
-/* ==========================================================================
-   TELEGRAM iOS "LIQUID GLASS" BOTTOM NAVBAR (v46.0)
-   Single Floating Capsule + 4 Equal Tabs (25% each) + Spring Sliding Pill
+   TELEGRAM BOTTOM NAVBAR (Consistent Monochromatic & High Contrast)
    ========================================================================== */
-
-:root,
-:root[data-theme="dark"] {
-    --bg-main: #000000;
-    --bg-surface: #0a0a0c;
-    --bg-radial: radial-gradient(circle at 50% 0%, #16161a 0%, #0A0A0C 45%, #000000 100%);
-    --glass-card-bg: rgba(255, 255, 255, 0.06);
-    --glass-card-hover: rgba(255, 255, 255, 0.10);
-    --border-card: rgba(255, 255, 255, 0.10);
-    --border-glow: rgba(255, 255, 255, 0.16);
-    --text-main: #FFFFFF;
-    --text-muted: #A1A1AA;
-    --text-sub: #71717A;
-    --btn-primary-bg: #FFFFFF;
-    --btn-primary-text: #000000;
-    --accent-gold: #FFC93C;
-    --badge-red: #FF3B30;
-    --nav-bg: rgba(28, 28, 30, 0.55);
-    --nav-border: rgba(255, 255, 255, 0.12);
-    --nav-pill: rgba(255, 255, 255, 0.12);
-    --nav-active: #ffffff;
-    --nav-inactive: rgba(255, 255, 255, 0.55);
-}
-
-:root[data-theme="light"] {
-    --bg-main: #F2F2F7;
-    --bg-surface: #FFFFFF;
-    --bg-radial: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F2F2F7 60%, #E5E5EA 100%);
-    --glass-card-bg: rgba(255, 255, 255, 0.75);
-    --glass-card-hover: rgba(255, 255, 255, 0.92);
-    --border-card: rgba(0, 0, 0, 0.08);
-    --border-glow: rgba(0, 0, 0, 0.14);
-    --text-main: #111111;
-    --text-muted: #6B6B73;
-    --text-sub: #8E8E93;
-    --btn-primary-bg: #111111;
-    --btn-primary-text: #FFFFFF;
-    --accent-gold: #FFC93C;
-    --badge-red: #FF3B30;
-    --nav-bg: rgba(255, 255, 255, 0.65);
-    --nav-border: rgba(0, 0, 0, 0.08);
-    --nav-pill: rgba(0, 0, 0, 0.08);
-    --nav-active: #111111;
-    --nav-inactive: rgba(17, 17, 17, 0.55);
-}
-
-html, body {
-    transition: background 250ms ease, background-color 250ms ease, color 250ms ease, border-color 250ms ease !important;
-}
 
 .liquid-dock-container {
     position: fixed !important;
@@ -7456,30 +7496,29 @@ html, body {
     }
 }
 
-/* Floating Wide Capsule Navbar: 68-72px high, full width, 4 equal items */
 .bottom-dock-nav {
     width: 100% !important;
     flex: 1 1 100% !important;
     height: clamp(68px, 8.2vh, 72px) !important;
-    background: var(--nav-bg) !important;
-    -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
-    backdrop-filter: blur(28px) saturate(180%) !important;
-    border: 1px solid var(--nav-border) !important;
-    border-radius: 999px !important;
+    background: var(--nav) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+    backdrop-filter: blur(18px) saturate(180%) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 28px !important;
     padding: 6px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     position: relative !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+    box-shadow: var(--shadow) !important;
     box-sizing: border-box !important;
     user-select: none !important;
     -webkit-user-select: none !important;
     pointer-events: auto !important;
-    transition: background 250ms ease, border-color 250ms ease !important;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
 }
 
-/* Hardware-Accelerated Pure CSS Spring Sliding Glass Pill: 52-56px high */
+/* Sliding active pill: 52-56px high */
 .dock-sliding-pill {
     position: absolute !important;
     top: 6px !important;
@@ -7488,14 +7527,13 @@ html, body {
     width: calc((100% - 12px) / 4) !important;
     height: calc(100% - 12px) !important;
     max-height: 56px !important;
-    background: var(--nav-pill) !important;
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    border-radius: 999px !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+    background: var(--nav-active) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2) !important;
     pointer-events: none !important;
     z-index: 1 !important;
     will-change: transform !important;
-    transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1), background 250ms ease !important;
+    transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease !important;
     transform-origin: center center !important;
     transform: translateX(0%) scaleX(1) !important;
 }
@@ -7513,21 +7551,20 @@ html, body {
     transform: translateX(300%) scaleX(1) !important;
 }
 
-/* Dynamic Spring Stretch (scaleX 1.15) while switching */
 .bottom-dock-nav.nav-pill-stretching[data-active="home"] .dock-sliding-pill {
-    transform: translateX(0%) scaleX(1.15) !important;
+    transform: translateX(0%) scaleX(1.12) !important;
 }
 .bottom-dock-nav.nav-pill-stretching[data-active="services"] .dock-sliding-pill {
-    transform: translateX(100%) scaleX(1.15) !important;
+    transform: translateX(100%) scaleX(1.12) !important;
 }
 .bottom-dock-nav.nav-pill-stretching[data-active="rating"] .dock-sliding-pill {
-    transform: translateX(200%) scaleX(1.15) !important;
+    transform: translateX(200%) scaleX(1.12) !important;
 }
 .bottom-dock-nav.nav-pill-stretching[data-active="profile"] .dock-sliding-pill {
-    transform: translateX(300%) scaleX(1.15) !important;
+    transform: translateX(300%) scaleX(1.12) !important;
 }
 
-/* Nav Tab Items: min touch target 64x56px */
+/* Nav Tab Items */
 .dock-tab-btn {
     position: relative !important;
     z-index: 2 !important;
@@ -7535,63 +7572,82 @@ html, body {
     width: 25% !important;
     height: 100% !important;
     min-width: 64px !important;
-    min-height: 56px !important;
+    min-height: 54px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 3px !important;
-    border-radius: 999px !important;
+    gap: 4px !important;
+    border-radius: 22px !important;
     background: transparent !important;
     border: none !important;
     outline: none !important;
     text-decoration: none !important;
     cursor: pointer !important;
     -webkit-tap-highlight-color: transparent !important;
-    transition: transform 0.15s ease !important;
-    color: var(--nav-inactive) !important;
-    padding: 2px 0 !important;
+    transition: transform 0.15s ease, color 0.25s ease !important;
+    color: var(--muted) !important;
+    padding: 3px 0 !important;
 }
 
 .dock-tab-btn:active {
-    transform: scale(0.94) !important;
+    transform: scale(0.95) !important;
 }
 
 .dock-tab-btn svg,
 .dock-svg {
-    width: clamp(28px, 6.8vw, 30px) !important;
-    height: clamp(28px, 6.8vw, 30px) !important;
-    stroke: var(--nav-inactive) !important;
+    width: 24px !important;
+    height: 24px !important;
+    stroke: var(--muted) !important;
     fill: none !important;
-    stroke-width: 2 !important;
+    stroke-width: 1.8 !important;
     stroke-linecap: round !important;
     stroke-linejoin: round !important;
     filter: none !important;
-    overflow: visible !important;
-    transition: stroke 200ms ease, filter 200ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    flex-shrink: 0 !important;
+    transition: stroke 0.25s ease, transform 0.2s ease !important;
 }
 
 .dock-tab-btn span {
-    font-size: 12px !important;
+    font-size: 11px !important;
     font-weight: 600 !important;
-    letter-spacing: -0.15px !important;
-    color: var(--nav-inactive) !important;
-    line-height: 1.1 !important;
-    transition: color 200ms ease, font-weight 200ms ease !important;
+    letter-spacing: -0.1px !important;
+    color: var(--muted) !important;
+    line-height: 1 !important;
+    transition: color 0.25s ease !important;
 }
 
-/* Active State: 100% Pure White & Glowing Accent */
+/* Active Tab: filled pill background (via dock-sliding-pill), high contrast icon & label */
 .dock-tab-btn.active {
-    color: var(--nav-active) !important;
+    color: var(--nav-active-ic) !important;
 }
 .dock-tab-btn.active svg,
 .dock-tab-btn.active .dock-svg {
-    stroke: var(--nav-active) !important;
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.28)) !important;
+    stroke: var(--nav-active-ic) !important;
 }
 .dock-tab-btn.active span {
-    color: var(--nav-active) !important;
-    font-weight: 700 !important;
+    color: var(--nav-active-ic) !important;
+    font-weight: 600 !important;
+}
+
+/* Notification badge on Profil with 2px border in navbar color */
+.dock-tab-badge {
+    position: absolute !important;
+    top: 6px !important;
+    right: calc(50% - 18px) !important;
+    background: #FF3B30 !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    min-width: 16px !important;
+    height: 16px !important;
+    line-height: 16px !important;
+    text-align: center !important;
+    border-radius: 999px !important;
+    padding: 0 4px !important;
+    border: 2px solid var(--nav) !important;
+    box-sizing: content-box !important;
+    z-index: 5 !important;
 }
 
 /* ========================================================
@@ -10271,91 +10327,136 @@ body {
 .theme-segmented-control {
   display: inline-flex !important;
   align-items: center !important;
-  background: var(--glass-card-bg) !important;
-  border: 1px solid var(--border-card) !important;
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
   border-radius: 999px !important;
   padding: 3px !important;
   gap: 2px !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06) !important;
 }
 .theme-seg-btn {
   background: transparent !important;
   border: none !important;
   outline: none !important;
-  color: var(--text-muted) !important;
+  color: var(--muted) !important;
   font-size: 11px !important;
   font-weight: 700 !important;
   padding: 5px 12px !important;
   border-radius: 999px !important;
   cursor: pointer !important;
-  transition: all 0.18s ease !important;
+  transition: all 0.2s ease !important;
   -webkit-tap-highlight-color: transparent !important;
 }
 .theme-seg-btn.active {
-  background: var(--text-main) !important;
-  color: var(--btn-primary-text) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  background: var(--nav-active) !important;
+  color: var(--nav-active-ic) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* 4. RATING (Top Savdo) */
 .user-my-rank-dock {
   position: sticky !important;
-  bottom: calc(72px + max(6px, calc(var(--tg-content-safe-area-inset-bottom, var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px))) - 12px)) + 10px) !important;
+  bottom: calc(78px + max(6px, calc(var(--tg-content-safe-area-inset-bottom, var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px))) - 12px)) + 8px) !important;
   left: 12px !important;
   right: 12px !important;
-  background: rgba(20, 20, 22, 0.88) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
-  backdrop-filter: blur(24px) saturate(160%) !important;
-  border: 1px solid var(--border-glow) !important;
+  max-width: 480px !important;
+  margin: 14px auto 0 auto !important;
+  background: var(--surface) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  border: 1.5px solid var(--me) !important;
   border-radius: 20px !important;
   padding: 12px 16px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 8px 24px var(--shadow), 0 0 0 2px var(--me-soft) !important;
   z-index: 90 !important;
-  margin-top: 14px !important;
-  margin-bottom: 0 !important;
   cursor: pointer !important;
-  transition: transform 0.15s ease, background 250ms ease !important;
+  transition: transform 0.15s ease, background 250ms ease, border-color 250ms ease !important;
 }
 .user-my-rank-dock:active {
   transform: scale(0.98) !important;
 }
-:root[data-theme="light"] .user-my-rank-dock {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border-color: rgba(0, 0, 0, 0.10) !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-}
 
-/* Leaderboard row styles & link cues */
+/* Leaderboard row styles & self-identification */
 .leader-row-card {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   padding: 12px 14px !important;
   border-radius: 18px !important;
-  background: var(--glass-card-bg) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-  backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid var(--border-card) !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
   margin-bottom: 8px !important;
   cursor: pointer !important;
-  transition: transform 0.15s ease, background 0.15s ease, border-color 0.2s ease !important;
+  transition: transform 0.15s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
 }
 .leader-row-card:active {
   transform: scale(0.98) !important;
 }
+
+/* Current user list row */
 .leader-row-card.my-rank-active-row {
-  border: 1.5px solid var(--text-main) !important;
-  background: var(--glass-card-hover) !important;
+  border: 1.5px solid var(--me) !important;
+  box-shadow: 0 0 0 3px var(--me-soft) !important;
 }
-@keyframes rankHighlightAnim {
-  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8); border-color: #ffffff; }
-  50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); border-color: #ffffff; background: var(--glass-card-hover); }
-  100% { box-shadow: none; }
+
+/* Current user podium card */
+.podium-column.podium-me-card {
+  border: 2px solid var(--me) !important;
+  box-shadow: 0 0 0 3px var(--me-soft) !important;
+  overflow: visible !important;
+}
+
+/* Centered SIZ badge on podium top edge */
+.podium-me-badge {
+  position: absolute !important;
+  top: -11px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: var(--me) !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  padding: 3px 8px !important;
+  border-radius: 999px !important;
+  z-index: 20 !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  white-space: nowrap !important;
+}
+
+/* SIZ badge next to username in leaderboard list */
+.leader-me-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--me) !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  padding: 2px 7px !important;
+  border-radius: 999px !important;
+  margin-left: 6px !important;
+  letter-spacing: 0.3px !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Brief background highlight flash (1.2s, one time only) */
+@keyframes meHighlightAnim {
+  0% {
+    background: var(--me-soft) !important;
+  }
+  100% {
+    background: var(--surface) !important;
+  }
 }
 .my-rank-highlight {
-  animation: rankHighlightAnim 1s ease-out !important;
+  animation: meHighlightAnim 1.2s ease-out 1 forwards !important;
 }
 .leader-row-username-link {
   display: inline-flex !important;
@@ -10668,7 +10769,7 @@ body {
             <button type="button" class="service-compact-item" onclick="navigateTo('stars')">
                 <div class="service-compact-icon-box">
                     <img src="./images/star.webp?v=3" alt="Stars" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
-                    <span class="service-compact-badge" style="background: var(--glass-card-hover); border: 1px solid var(--border-card); color: #FFC93C;">-10%</span>
+                    <span class="service-compact-badge" style="background: var(--surface2); border: 1px solid var(--border); color: var(--gold);">-10%</span>
                 </div>
                 <div class="service-compact-name">Stars</div>
                 <div class="service-compact-sub">Telegram</div>
@@ -10678,7 +10779,7 @@ body {
             <button type="button" class="service-compact-item" onclick="navigateTo('premium')">
                 <div class="service-compact-icon-box">
                     <img src="./images/premium.webp?v=3" alt="Premium" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
-                    <span class="service-compact-badge" style="background: var(--glass-card-hover); border: 1px solid var(--border-card); color: var(--text-main);">3/6/12</span>
+                    <span class="service-compact-badge" style="background: var(--surface2); border: 1px solid var(--border); color: var(--text);">3/6/12</span>
                 </div>
                 <div class="service-compact-name">Premium</div>
                 <div class="service-compact-sub">Telegram</div>
@@ -10688,7 +10789,7 @@ body {
             <button type="button" class="service-compact-item" onclick="navigateTo('gift')">
                 <div class="service-compact-icon-box">
                     <img src="./images/gift.webp?v=3" alt="Sovg'alar" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
-                    <span class="service-compact-badge" style="background: var(--glass-card-hover); border: 1px solid var(--border-card); color: var(--text-main);">Jonli</span>
+                    <span class="service-compact-badge" style="background: var(--surface2); border: 1px solid var(--border); color: var(--text);">Jonli</span>
                 </div>
                 <div class="service-compact-name">Sovg'alar</div>
                 <div class="service-compact-sub">Teddy, Rose</div>
@@ -10809,7 +10910,7 @@ body {
                     <div class="luxury-menu-content">
                         <div class="luxury-menu-title-row">
                             <span class="luxury-menu-title" data-i18n="profile.spin_title">Omadli G'ildirak (Spin)</span>
-                            <span class="luxury-menu-pill" style="color: #FFC93C; border-color: rgba(255, 201, 60, 0.4);">1 TA BEPUL</span>
+                            <span class="luxury-menu-pill" style="color: var(--gold); border-color: var(--gold); background: var(--surface2);">1 TA BEPUL</span>
                         </div>
                         <div class="luxury-menu-desc" data-i18n="profile.spin_sub">Har kuni bepul yutuqlar yutib oling</div>
                     </div>
@@ -10830,7 +10931,7 @@ body {
                     <div class="luxury-menu-content">
                         <div class="luxury-menu-title-row">
                             <span class="luxury-menu-title" data-i18n="profile.rating_title">Savdo Reytingi</span>
-                            <span class="luxury-menu-pill" style="color: #FFFFFF; border-color: rgba(255, 255, 255, 0.3);">TOP 10</span>
+                            <span class="luxury-menu-pill" style="color: var(--text); border-color: var(--border); background: var(--surface2);">TOP 10</span>
                         </div>
                         <div class="luxury-menu-desc" data-i18n="profile.rating_sub">Eng faol foydalanuvchilar</div>
                     </div>
@@ -11851,7 +11952,7 @@ body {
             </div>
             <div class="leader-row-info">
                 <div style="font-size: 13.5px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
-                    Sizning o'rningiz: <span id="myRankNum" style="color: #FFC93C;">—</span>
+                    Sizning o'rningiz: <span id="myRankNum" style="color: var(--gold);">—</span>
                 </div>
                 <div style="font-size: 11px; font-weight: 600; color: var(--text-muted);">Umumiy faollik reytingida</div>
             </div>
@@ -11887,7 +11988,7 @@ body {
             <div class="modal-stats-grid">
                 <div class="modal-stat-card">
                     <div class="modal-stat-label">Reyting o'rni</div>
-                    <div class="modal-stat-value" id="modalStatRank" style="color: #FFC93C;">#1</div>
+                    <div class="modal-stat-value" id="modalStatRank" style="color: var(--gold);">#1</div>
                 </div>
                 <div class="modal-stat-card">
                     <div class="modal-stat-label">Umumiy Aylanma</div>
@@ -12049,75 +12150,52 @@ body {
     </main>
 
 
-    <!-- Telegram iOS "Liquid Glass" Bottom Navigation System (v45.0) -->
+    <!-- Telegram iOS Bottom Navigation System -->
     <div class="liquid-dock-container" id="liquidDockContainer">
         <!-- Floating Glass Capsule -->
-        <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
-            <!-- Hardware-accelerated sliding liquid glass pill -->
+        <nav class="bottom-dock-nav" id="bottomDockNav" data-active="home">
+            <!-- Sliding active pill -->
             <div class="dock-sliding-pill" id="dockSlidingPill"></div>
 
             <!-- 1. Asosiy (Home) -->
             <a href="javascript:void(0)" class="dock-tab-btn active" data-target="home" onclick="navigateTo('home')">
-                <svg class="dock-svg dock-svg-home" viewBox="0 0 24 24">
-                    <!-- Smoke bubble puff -->
-                    <circle class="home-smoke" cx="16.5" cy="4.2" r="1.3"></circle>
-                    <!-- Chimney -->
-                    <path class="home-chimney" d="M15.5 8V4.5h2V10"></path>
-                    <!-- Roof -->
-                    <path class="home-roof" d="M3 10L12 3.5l9 6.5"></path>
-                    <!-- Walls -->
-                    <path class="home-walls" d="M5 9.5V20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9.5"></path>
-                    <!-- Door (opens 20° and closes) -->
-                    <path class="home-door" d="M9.5 22v-6.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v6.5"></path>
+                <svg class="dock-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
                 <span data-i18n="nav.home">Asosiy</span>
             </a>
 
             <!-- 2. Servislar (Hub) -->
             <a href="javascript:void(0)" class="dock-tab-btn" data-target="services" onclick="navigateTo('services')">
-                <svg class="dock-svg dock-svg-services" viewBox="0 0 24 24">
-                    <rect class="sq-item sq-tl" x="3.5" y="3.5" width="7" height="7" rx="2.2"></rect>
-                    <rect class="sq-item sq-tr" x="13.5" y="3.5" width="7" height="7" rx="2.2"></rect>
-                    <rect class="sq-item sq-br" x="13.5" y="13.5" width="7" height="7" rx="2.2"></rect>
-                    <rect class="sq-item sq-bl" x="3.5" y="13.5" width="7" height="7" rx="2.2"></rect>
+                <svg class="dock-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="2"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="2"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="2"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="2"></rect>
                 </svg>
                 <span data-i18n="nav.services">Servislar</span>
             </a>
 
             <!-- 3. Top (Rating) -->
             <a href="javascript:void(0)" class="dock-tab-btn" data-target="rating" onclick="navigateTo('rating')">
-                <svg class="dock-svg dock-svg-top" viewBox="0 0 24 24">
-                    <defs>
-                        <linearGradient id="crownShine" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0"></stop>
-                            <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95"></stop>
-                            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
-                        </linearGradient>
-                    </defs>
-                    <g class="crown-group">
-                        <line class="crown-shine-line" x1="-10" y1="2" x2="-2" y2="22" stroke="url(#crownShine)" stroke-width="2.5"></line>
-                        <path class="crown-outline" d="M4.5 16.5L3 7l5.5 4.5L12 4l3.5 7.5L21 7l-1.5 9.5H4.5z"></path>
-                        <path class="crown-base" d="M4.5 19.5h15"></path>
-                        <circle class="crown-jewel jewel-left" cx="3" cy="7" r="1.3"></circle>
-                        <circle class="crown-jewel jewel-mid" cx="12" cy="4" r="1.5"></circle>
-                        <circle class="crown-jewel jewel-right" cx="21" cy="7" r="1.3"></circle>
-                    </g>
+                <svg class="dock-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 16l-1.5-10 5 4L12 4l4.5 6 5-4L20 16H4z"></path>
+                    <path d="M4 20h16"></path>
                 </svg>
                 <span data-i18n="nav.rating">Top</span>
             </a>
 
             <!-- 4. Profil (User) -->
             <a href="javascript:void(0)" class="dock-tab-btn" data-target="profile" onclick="navigateTo('profile')">
-                <svg class="dock-svg dock-svg-profile" viewBox="0 0 24 24">
-                    <g class="profile-head-group">
-                        <circle class="profile-head" cx="12" cy="7" r="4"></circle>
-                    </g>
-                    <path class="profile-body" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <svg class="dock-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="7" r="4"></circle>
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 </svg>
                 <span data-i18n="nav.profile">Profil</span>
                 <span class="dock-tab-badge" id="dockProfileBadge" style="display: none;">1</span>
             </a>
-        </div>
+        </nav>
     </div>
 
     <!-- Quick Search Modal Sheet (Overlay) -->
@@ -12247,20 +12325,20 @@ body {
             </div>
 
             <!-- Target Account Banner -->
-            <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
-                <div style="font-size: 12px; color: #e2e8f0;">
-                    <span>🎯 Profilga o'rnatish:</span> <b id="connectModalAppTargetUser" style="color: #38bdf8;">@username</b>
+            <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="font-size: 12px; color: var(--text);">
+                    <span>🎯 Profilga o'rnatish:</span> <b id="connectModalAppTargetUser" style="color: var(--me);">@username</b>
                 </div>
-                <span style="font-size: 11px; background: rgba(56, 189, 248, 0.2); padding: 2px 8px; border-radius: 6px; color: #7dd3fc; font-weight: 750;">Telegram</span>
+                <span style="font-size: 11px; background: var(--me-soft); padding: 2px 8px; border-radius: 6px; color: var(--me); font-weight: 750;">Telegram</span>
             </div>
 
             <!-- Video Guide Banner -->
             <div class="video-guide-banner" onclick="showRentVideoGuideApp()">
                 <div style="display:flex; align-items:center; gap:8px;">
                     <span style="font-size:15px;">▶️</span>
-                    <span style="font-weight:750; font-size:13px; color:#ffffff;">Video-qo'llanma</span>
+                    <span style="font-weight:750; font-size:13px; color:var(--text);">Video-qo'llanma</span>
                 </div>
-                <span style="color:#94a3b8; font-size:14px; font-weight:700;">&gt;</span>
+                <span style="color:var(--muted); font-size:14px; font-weight:700;">&gt;</span>
             </div>
 
             <!-- Step 1 -->
@@ -13488,14 +13566,14 @@ function injectChannelGateStyles() {
             pointer-events: auto;
         }
         .cs-sub-gate-card {
-            background: linear-gradient(180deg, #181926 0%, #0d0e16 100%);
-            border: 1.5px solid rgba(251, 191, 36, 0.5);
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 30px;
             padding: 32px 22px 24px;
             max-width: 360px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 50px rgba(251, 191, 36, 0.22);
+            box-shadow: var(--shadow);
             transform: scale(0.88);
             transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
@@ -13505,45 +13583,34 @@ function injectChannelGateStyles() {
         .cs-sub-gate-overlay.active .cs-sub-gate-card {
             transform: scale(1);
         }
-        .cs-sub-gate-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 220px;
-            height: 120px;
-            background: radial-gradient(ellipse at top, rgba(251, 191, 36, 0.25) 0%, transparent 70%);
-            pointer-events: none;
-        }
         .cs-sub-icon-wrap {
             width: 78px;
             height: 78px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, rgba(251, 191, 36, 0.05) 70%);
-            border: 1.5px solid rgba(251, 191, 36, 0.4);
+            background: var(--surface2);
+            border: 1.5px solid var(--gold);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 38px;
             margin: 0 auto 16px;
-            box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 30px var(--gold-soft);
             animation: csSubPulse 2.2s infinite ease-in-out;
         }
         @keyframes csSubPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(251, 191, 36, 0.25); }
-            50% { transform: scale(1.06); box-shadow: 0 0 40px rgba(251, 191, 36, 0.45); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px var(--gold-soft); }
+            50% { transform: scale(1.06); box-shadow: 0 0 40px var(--gold-soft); }
         }
         .cs-sub-title {
             font-size: 19px;
             font-weight: 900;
-            color: #ffffff;
+            color: var(--text);
             margin-bottom: 8px;
             letter-spacing: -0.4px;
         }
         .cs-sub-desc {
             font-size: 13px;
-            color: #94a3b8;
+            color: var(--muted);
             line-height: 1.55;
             margin-bottom: 22px;
         }
@@ -13551,9 +13618,9 @@ function injectChannelGateStyles() {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(251, 191, 36, 0.12);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            color: #fbbf24;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--gold);
             font-size: 12.5px;
             font-weight: 800;
             padding: 5px 14px;
@@ -13566,8 +13633,8 @@ function injectChannelGateStyles() {
             justify-content: center;
             gap: 8px;
             width: 100%;
-            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-            color: #ffffff;
+            background: var(--nav-active);
+            color: var(--nav-active-ic);
             border: none;
             border-radius: 16px;
             padding: 14px;
@@ -13575,7 +13642,7 @@ function injectChannelGateStyles() {
             font-weight: 900;
             text-decoration: none;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45);
+            box-shadow: var(--shadow);
             transition: transform 0.15s ease;
             margin-bottom: 10px;
             box-sizing: border-box;
@@ -13589,9 +13656,9 @@ function injectChannelGateStyles() {
             justify-content: center;
             gap: 8px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.08);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: var(--surface2);
+            color: var(--text);
+            border: 1px solid var(--border);
             border-radius: 16px;
             padding: 13px;
             font-size: 13.5px;
@@ -13601,7 +13668,7 @@ function injectChannelGateStyles() {
             box-sizing: border-box;
         }
         .cs-sub-verify-btn:active {
-            background: rgba(255, 255, 255, 0.16);
+            background: var(--border);
             transform: scale(0.98);
         }
         .cs-sub-msg {
@@ -14730,16 +14797,26 @@ function copyReferralLink() {
 }
 
 /* === THEME SYSTEM (Dark / Light / Auto) === */
-let currentAppTheme = localStorage.getItem('cs_theme_mode') || 'dark';
+let currentAppTheme = 'auto';
+try {
+    currentAppTheme = localStorage.getItem('theme') || localStorage.getItem('cs_theme_mode') || 'auto';
+} catch(e) {
+    currentAppTheme = 'auto';
+}
 
 function initThemeSystem() {
-    const saved = localStorage.getItem('cs_theme_mode') || 'dark';
+    let saved = 'auto';
+    try {
+        saved = localStorage.getItem('theme') || localStorage.getItem('cs_theme_mode') || 'auto';
+    } catch(e) {}
     applyAppTheme(saved, false);
 
     if (window.Telegram?.WebApp?.onEvent) {
         try {
             window.Telegram.WebApp.onEvent('themeChanged', () => {
-                if (localStorage.getItem('cs_theme_mode') === 'auto') {
+                let cur = 'auto';
+                try { cur = localStorage.getItem('theme') || localStorage.getItem('cs_theme_mode') || 'auto'; } catch(e) {}
+                if (cur === 'auto') {
                     applyAppTheme('auto', false);
                 }
             });
@@ -14749,7 +14826,9 @@ function initThemeSystem() {
     if (window.matchMedia) {
         try {
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-                if (localStorage.getItem('cs_theme_mode') === 'auto') {
+                let cur = 'auto';
+                try { cur = localStorage.getItem('theme') || localStorage.getItem('cs_theme_mode') || 'auto'; } catch(e) {}
+                if (cur === 'auto') {
                     applyAppTheme('auto', false);
                 }
             });
@@ -14759,13 +14838,18 @@ function initThemeSystem() {
 
 function applyAppTheme(themeMode, haptic = true) {
     currentAppTheme = themeMode;
-    localStorage.setItem('cs_theme_mode', themeMode);
+    try {
+        localStorage.setItem('theme', themeMode);
+        localStorage.setItem('cs_theme_mode', themeMode);
+    } catch(e) {}
 
     let effectiveTheme = themeMode;
     if (themeMode === 'auto') {
         const tgScheme = window.Telegram?.WebApp?.colorScheme;
         if (tgScheme === 'light' || tgScheme === 'dark') {
             effectiveTheme = tgScheme;
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            effectiveTheme = 'dark';
         } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
             effectiveTheme = 'light';
         } else {
@@ -14794,8 +14878,8 @@ function applyAppTheme(themeMode, haptic = true) {
     // Telegram Header & Background color sync
     if (window.Telegram?.WebApp) {
         try {
-            const headerCol = effectiveTheme === 'light' ? '#F2F2F7' : '#000000';
-            const bgCol = effectiveTheme === 'light' ? '#F2F2F7' : '#000000';
+            const headerCol = effectiveTheme === 'light' ? '#f2f2f7' : '#0c0e13';
+            const bgCol = effectiveTheme === 'light' ? '#f2f2f7' : '#0c0e13';
             if (typeof window.Telegram.WebApp.setHeaderColor === 'function') {
                 window.Telegram.WebApp.setHeaderColor(headerCol);
             }
@@ -15281,6 +15365,16 @@ function scrollToMyRankRow() {
     }
 
     // Check if user is on podium (#1, #2, #3)
+    const myPodium = document.querySelector('.podium-column.podium-me-card');
+    if (myPodium) {
+        myPodium.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        myPodium.classList.remove('my-rank-highlight');
+        void myPodium.offsetWidth;
+        myPodium.classList.add('my-rank-highlight');
+        setTimeout(() => myPodium.classList.remove('my-rank-highlight'), 1200);
+        return;
+    }
+
     const myRankEl = document.getElementById('myRankNum');
     const rankTxt = myRankEl ? myRankEl.textContent.trim() : '';
     if (rankTxt === '#1' || rankTxt === '#2' || rankTxt === '#3') {
@@ -15296,7 +15390,10 @@ function scrollToMyRankRow() {
         }
     }
 
-    // Otherwise open profile details modal
+    // Otherwise show feedback and open profile details modal
+    if (typeof showToast === 'function') {
+        showToast("Sizning o'rningiz: " + (rankTxt || "top ro'yxatdan tashqarida"));
+    }
     const myUname = tg?.initDataUnsafe?.user?.username || 'Men';
     const myFullName = [tg?.initDataUnsafe?.user?.first_name, tg?.initDataUnsafe?.user?.last_name].filter(Boolean).join(' ') || myUname;
     const myPhoto = tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo') || './images/logo.webp?v=3';
@@ -15377,6 +15474,16 @@ function renderPodiumAndList(list, currentUserId) {
     const av3 = document.getElementById('podiumAvatar3');
     const myAv = document.getElementById('myAvatarImg');
 
+    const tgUsername = (tg?.initDataUnsafe?.user?.username || '').replace(/^@/, '');
+    const checkIsMe = (item) => {
+        if (!item) return false;
+        const rawU = (item.username || '').replace(/^@/, '');
+        return (String(item.telegram_id) === String(currentUserId) || (tgUsername && rawU.toLowerCase() === tgUsername.toLowerCase()));
+    };
+
+    let myRank = null;
+    let myTurnover = 0;
+
     const myPhoto = tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo') || './images/logo.webp?v=3';
     if (myAv) {
         myAv.onerror = function() {
@@ -15394,6 +15501,19 @@ function renderPodiumAndList(list, currentUserId) {
         const amt1 = Number(list[0].total).toLocaleString('uz-UZ') + ' UZS';
         const avatar1 = getAvatarUrl(list[0], currentUserId);
         const letter1 = (rawU1 || list[0].full_name || '1')[0]?.toUpperCase() || '1';
+        const isMe1 = checkIsMe(list[0]);
+        if (isMe1) { myRank = 1; myTurnover = Number(list[0].total || 0); }
+        if (p1) {
+            p1.classList.toggle('podium-me-card', isMe1);
+            const oldB1 = p1.querySelector('.podium-me-badge');
+            if (oldB1) oldB1.remove();
+            if (isMe1) {
+                const b1 = document.createElement('div');
+                b1.className = 'podium-me-badge';
+                b1.textContent = 'SIZ';
+                p1.prepend(b1);
+            }
+        }
         const uEl1 = document.getElementById('podiumUser1');
         if (uEl1) {
             uEl1.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU1}', '${list[0].telegram_id}', event)">${u1} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
@@ -15417,6 +15537,11 @@ function renderPodiumAndList(list, currentUserId) {
         document.getElementById('podiumUser1').textContent = '—';
         document.getElementById('podiumAmount1').textContent = '0 UZS';
         p1.style.opacity = '0.7';
+        if (p1) {
+            p1.classList.remove('podium-me-card');
+            const oldB1 = p1.querySelector('.podium-me-badge');
+            if (oldB1) oldB1.remove();
+        }
         if (av1) av1.src = './images/logo.webp?v=3';
         p1.onclick = null;
     }
@@ -15429,6 +15554,19 @@ function renderPodiumAndList(list, currentUserId) {
         const amt2 = Number(list[1].total).toLocaleString('uz-UZ') + ' UZS';
         const avatar2 = getAvatarUrl(list[1], currentUserId);
         const letter2 = (rawU2 || list[1].full_name || '2')[0]?.toUpperCase() || '2';
+        const isMe2 = checkIsMe(list[1]);
+        if (isMe2) { myRank = 2; myTurnover = Number(list[1].total || 0); }
+        if (p2) {
+            p2.classList.toggle('podium-me-card', isMe2);
+            const oldB2 = p2.querySelector('.podium-me-badge');
+            if (oldB2) oldB2.remove();
+            if (isMe2) {
+                const b2 = document.createElement('div');
+                b2.className = 'podium-me-badge';
+                b2.textContent = 'SIZ';
+                p2.prepend(b2);
+            }
+        }
         const uEl2 = document.getElementById('podiumUser2');
         if (uEl2) {
             uEl2.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU2}', '${list[1].telegram_id}', event)">${u2} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
@@ -15452,6 +15590,11 @@ function renderPodiumAndList(list, currentUserId) {
         document.getElementById('podiumUser2').textContent = '—';
         document.getElementById('podiumAmount2').textContent = '0 UZS';
         p2.style.opacity = '0.7';
+        if (p2) {
+            p2.classList.remove('podium-me-card');
+            const oldB2 = p2.querySelector('.podium-me-badge');
+            if (oldB2) oldB2.remove();
+        }
         if (av2) av2.src = './images/logo.webp?v=3';
         p2.onclick = null;
     }
@@ -15464,6 +15607,19 @@ function renderPodiumAndList(list, currentUserId) {
         const amt3 = Number(list[2].total).toLocaleString('uz-UZ') + ' UZS';
         const avatar3 = getAvatarUrl(list[2], currentUserId);
         const letter3 = (rawU3 || list[2].full_name || '3')[0]?.toUpperCase() || '3';
+        const isMe3 = checkIsMe(list[2]);
+        if (isMe3) { myRank = 3; myTurnover = Number(list[2].total || 0); }
+        if (p3) {
+            p3.classList.toggle('podium-me-card', isMe3);
+            const oldB3 = p3.querySelector('.podium-me-badge');
+            if (oldB3) oldB3.remove();
+            if (isMe3) {
+                const b3 = document.createElement('div');
+                b3.className = 'podium-me-badge';
+                b3.textContent = 'SIZ';
+                p3.prepend(b3);
+            }
+        }
         const uEl3 = document.getElementById('podiumUser3');
         if (uEl3) {
             uEl3.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU3}', '${list[2].telegram_id}', event)">${u3} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
@@ -15487,14 +15643,17 @@ function renderPodiumAndList(list, currentUserId) {
         document.getElementById('podiumUser3').textContent = '—';
         document.getElementById('podiumAmount3').textContent = '0 UZS';
         p3.style.opacity = '0.7';
+        if (p3) {
+            p3.classList.remove('podium-me-card');
+            const oldB3 = p3.querySelector('.podium-me-badge');
+            if (oldB3) oldB3.remove();
+        }
         if (av3) av3.src = './images/logo.webp?v=3';
         p3.onclick = null;
     }
 
     // Remaining list rows (from #4 onwards)
     let html = '';
-    let myRank = null;
-    let myTurnover = 0;
 
     list.forEach((item, i) => {
         const rank = i + 1;
@@ -15507,8 +15666,7 @@ function renderPodiumAndList(list, currentUserId) {
         const letter = (rawUsername || item.full_name || 'U')[0]?.toUpperCase() || 'U';
         const fallbackRow = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter) + '&background=27272a&color=fff&bold=true&rounded=true&size=128';
 
-        const tgUsername = (tg?.initDataUnsafe?.user?.username || '').replace(/^@/, '');
-        const isCurrentUser = (String(item.telegram_id) === String(currentUserId) || (tgUsername && rawUsername.toLowerCase() === tgUsername.toLowerCase()));
+        const isCurrentUser = checkIsMe(item);
         if (isCurrentUser) {
             myRank = rank;
             myTurnover = totalVal;
@@ -15516,6 +15674,7 @@ function renderPodiumAndList(list, currentUserId) {
 
         if (rank > 3 && totalVal > 0) {
             const rowClass = isCurrentUser ? "leader-row-card my-rank-active-row" : "leader-row-card";
+            const meBadge = isCurrentUser ? '<span class="leader-me-badge">SIZ</span>' : '';
             html += `
                 <div class="${rowClass}" id="leaderRow_${rank}" onclick="handleLeaderRowClick(${rank}, '${rawUsername}', '${totalFormatted}', '${rowAvatar}', '${fullNameSafe}', '${item.telegram_id}', event)">
                     <div class="leader-row-left">
@@ -15525,7 +15684,7 @@ function renderPodiumAndList(list, currentUserId) {
                         </div>
                         <div class="leader-row-info">
                             <div class="leader-row-username-link" onclick="openTelegramUserLink('${rawUsername}', '${item.telegram_id}', event)" title="Telegram profilni ochish">
-                                <span>${uname}</span>
+                                <span>${uname}</span>${meBadge}
                                 <svg class="tg-link-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                     <polyline points="7 17 17 7"></polyline>
                                     <polyline points="7 7 17 7 17 17"></polyline>
@@ -15545,8 +15704,8 @@ function renderPodiumAndList(list, currentUserId) {
 
     if (list.length === 0) {
         html = `
-            <div style="text-align: center; padding: 28px 16px; color: var(--text-muted); font-size: 13px; font-weight: 700; background: var(--glass-card-bg); border-radius: 18px; border: 1px dashed var(--border-card); box-shadow: 0 4px 14px rgba(0,0,0,0.15);">
-                🛍 Hozircha bu davrda xaridlar yo'q.<br><span style="color: var(--text-main); font-weight: 800; display: inline-block; margin-top: 4px;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
+            <div style="text-align: center; padding: 28px 16px; color: var(--text-muted); font-size: 13px; font-weight: 700; background: var(--surface); border-radius: 18px; border: 1px dashed var(--border); box-shadow: var(--shadow);">
+                🛍 Hozircha bu davrda xaridlar yo'q.<br><span style="color: var(--text); font-weight: 800; display: inline-block; margin-top: 4px;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
             </div>
         `;
     }
@@ -15677,97 +15836,97 @@ const IMAGE_ASSETS = {
                 if (head) head.textContent = "VIP Sovg'alar (50 Stars)";
                 if (badge) {
                     badge.textContent = "VIP";
-                    badge.style.color = "#FFC93C";
+                    badge.style.color = "var(--gold)";
                 }
                 grid.innerHTML = `
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/aprel_bear.webp?v=3" alt="Aprel Bear" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #ffffff;">Aprel Ayiqchasi</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">50 Stars Sovg'asi</div>
+                            <div class="prize-item-name">Aprel Ayiqchasi</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">50 Stars Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/easter_bear.webp?v=3" alt="Easter Bear" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #ffffff;">Pasxa Ayiqchasi</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">50 Stars Sovg'asi</div>
+                            <div class="prize-item-name">Pasxa Ayiqchasi</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">50 Stars Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/newyear_bear.webp?v=3" alt="New Year Bear" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #ffffff;">Qorbobo Ayiqchasi</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">50 Stars Sovg'asi</div>
+                            <div class="prize-item-name">Qorbobo Ayiqchasi</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">50 Stars Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/builder_bear.webp?v=3" alt="Builder Bear" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #ffffff;">Usta Ayiqchasi</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">50 Stars Sovg'asi</div>
+                            <div class="prize-item-name">Usta Ayiqchasi</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">50 Stars Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/football_bear.webp?v=3" alt="Football Bear" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #ffffff;">Futbolchi Ayiqcha</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">50 Stars Sovg'asi</div>
+                            <div class="prize-item-name">Futbolchi Ayiqcha</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">50 Stars Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/soldier_bear.webp?v=3" alt="Soldier Bear" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #ffffff;">Jangchi Ayiqchasi</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">50 Stars Sovg'asi</div>
+                            <div class="prize-item-name">Jangchi Ayiqchasi</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">50 Stars Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/newyear_tree.webp?v=3" alt="New Year Tree" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #ffffff;">Yangi Yil Archasi</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">50 Stars Sovg'asi</div>
+                            <div class="prize-item-name">Yangi Yil Archasi</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">50 Stars Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/patrick_bear.webp?v=3" alt="Patrick Bear" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #ffffff;">Patrik Ayiqchasi</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">50 Stars Sovg'asi</div>
+                            <div class="prize-item-name">Patrik Ayiqchasi</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">50 Stars Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/valentine_bear.webp?v=3" alt="Valentine Bear" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #ffffff;">Valentin Ayiqchasi</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">50 Stars Sovg'asi</div>
+                            <div class="prize-item-name">Valentin Ayiqchasi</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">50 Stars Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 201, 60, 0.35); grid-column: span 2;">
+                    <div class="prize-item-card" style="border-color: var(--gold); grid-column: span 2;">
                         <div class="prize-item-icon">
                             <img src="images/star.webp?v=3" alt="Stars" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #FFC93C;">50 Telegram Stars</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">Kafolatlangan Stars</div>
+                            <div class="prize-item-name" style="color: var(--gold);">50 Telegram Stars</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">Kafolatlangan Stars</div>
                         </div>
                     </div>
                 `;
@@ -15775,10 +15934,10 @@ const IMAGE_ASSETS = {
                 if (head) head.textContent = "G'ildirakdagi sovg'alar";
                 if (badge) {
                     badge.textContent = "Kafolatlangan";
-                    badge.style.color = "#FFC93C";
+                    badge.style.color = "var(--gold)";
                 }
                 grid.innerHTML = `
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/bear.webp?v=3" alt="Teddy Bear" loading="lazy" decoding="async" width="26" height="26">
                         </div>
@@ -15787,7 +15946,7 @@ const IMAGE_ASSETS = {
                             <div class="prize-item-chance">Mashhur Ayiqcha Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/rose.webp?v=3" alt="Rose" loading="lazy" decoding="async" width="26" height="26">
                         </div>
@@ -15796,7 +15955,7 @@ const IMAGE_ASSETS = {
                             <div class="prize-item-chance">Atirgul Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 255, 255, 0.12);">
+                    <div class="prize-item-card">
                         <div class="prize-item-icon">
                             <img src="images/box.webp?v=3" alt="Gift Box" loading="lazy" decoding="async" width="26" height="26">
                         </div>
@@ -15805,13 +15964,13 @@ const IMAGE_ASSETS = {
                             <div class="prize-item-chance">Quticha Sovg'asi</div>
                         </div>
                     </div>
-                    <div class="prize-item-card" style="border-color: rgba(255, 201, 60, 0.35);">
+                    <div class="prize-item-card" style="border-color: var(--gold);">
                         <div class="prize-item-icon">
                             <img src="images/star.webp?v=3" alt="Stars" loading="lazy" decoding="async" width="26" height="26">
                         </div>
                         <div class="prize-item-info">
-                            <div class="prize-item-name" style="color: #FFC93C;">25 / 50 Stars</div>
-                            <div class="prize-item-chance" style="color: #FFC93C;">Telegram Stars Sovrini</div>
+                            <div class="prize-item-name" style="color: var(--gold);">25 / 50 Stars</div>
+                            <div class="prize-item-chance" style="color: var(--gold);">Telegram Stars Sovrini</div>
                         </div>
                     </div>
                 `;
@@ -16888,12 +17047,12 @@ function ensureSubscriptionModal() {
                     position: relative;
                     width: 100%;
                     max-width: 360px;
-                    background: linear-gradient(165deg, rgba(22, 26, 44, 0.95) 0%, rgba(13, 16, 28, 0.98) 100%);
-                    border: 1px solid rgba(139, 92, 246, 0.35);
+                    background: var(--surface);
+                    border: 1px solid var(--border);
                     border-radius: 28px;
                     padding: 28px 22px 24px 22px;
                     text-align: center;
-                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(139, 92, 246, 0.25);
+                    box-shadow: var(--shadow);
                     overflow: hidden;
                     animation: csGatePop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
                 }
@@ -16904,18 +17063,17 @@ function ensureSubscriptionModal() {
                 .cs-sub-gate-icon {
                     font-size: 44px;
                     margin-bottom: 12px;
-                    filter: drop-shadow(0 4px 12px rgba(139, 92, 246, 0.5));
                 }
                 .cs-sub-gate-title {
                     font-size: 20px;
                     font-weight: 800;
-                    color: #ffffff;
+                    color: var(--text);
                     margin-bottom: 8px;
                 }
                 .cs-sub-gate-desc {
                     font-size: 13.5px;
                     font-weight: 500;
-                    color: #94a3b8;
+                    color: var(--muted);
                     line-height: 1.45;
                     margin-bottom: 16px;
                 }
@@ -16923,13 +17081,13 @@ function ensureSubscriptionModal() {
                     display: inline-flex;
                     align-items: center;
                     gap: 6px;
-                    background: rgba(139, 92, 246, 0.15);
-                    border: 1px solid rgba(139, 92, 246, 0.3);
+                    background: var(--surface2);
+                    border: 1px solid var(--border);
                     border-radius: 999px;
                     padding: 6px 16px;
                     font-size: 13px;
                     font-weight: 700;
-                    color: #c084fc;
+                    color: var(--gold);
                     margin-bottom: 20px;
                 }
                 .cs-sub-gate-actions {
@@ -16941,8 +17099,8 @@ function ensureSubscriptionModal() {
                     width: 100%;
                     height: 48px;
                     border-radius: 16px;
-                    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-                    color: #ffffff;
+                    background: var(--nav-active);
+                    color: var(--nav-active-ic);
                     border: none;
                     font-size: 15px;
                     font-weight: 700;
@@ -16951,7 +17109,7 @@ function ensureSubscriptionModal() {
                     justify-content: center;
                     gap: 8px;
                     cursor: pointer;
-                    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+                    box-shadow: var(--shadow);
                     transition: transform 0.15s ease, opacity 0.15s ease;
                 }
                 .cs-sub-gate-primary-btn:active {
@@ -16961,9 +17119,9 @@ function ensureSubscriptionModal() {
                     width: 100%;
                     height: 44px;
                     border-radius: 16px;
-                    background: rgba(255, 255, 255, 0.06);
-                    border: 1px solid rgba(255, 255, 255, 0.12);
-                    color: #e2e8f0;
+                    background: var(--surface2);
+                    border: 1px solid var(--border);
+                    color: var(--text);
                     font-size: 14px;
                     font-weight: 600;
                     cursor: pointer;
@@ -16971,7 +17129,7 @@ function ensureSubscriptionModal() {
                 }
                 .cs-sub-gate-verify-btn:active {
                     transform: scale(0.97);
-                    background: rgba(255, 255, 255, 0.1);
+                    background: var(--border);
                 }
             `;
             document.head.appendChild(st);
