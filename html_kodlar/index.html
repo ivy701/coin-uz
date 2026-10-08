@@ -9204,6 +9204,8 @@ body.modal-open .bottom-dock-nav {
     color: #94a3b8;
     margin-bottom: 18px;
     line-height: 1.45;
+}
+
 /* ==========================================================================
    COINSTAT UZ MONOCHROME LUXURY DARK GLASS SYSTEM (v45.0)
    Monochrome Luxury Glass: #000000 - #0A0A0C, Pure White Accents & Gold for Stars
@@ -9443,6 +9445,8 @@ body {
 .service-compact-icon-box {
   width: 72px !important;
   height: 72px !important;
+  max-width: 72px !important;
+  max-height: 72px !important;
   border-radius: 22px !important;
   background: rgba(255, 255, 255, 0.05) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
@@ -9454,7 +9458,8 @@ body {
   justify-content: center !important;
   position: relative !important;
   overflow: hidden !important;
-  margin-bottom: 8px !important;
+  margin: 0 auto 8px auto !important;
+  flex-shrink: 0 !important;
   transition: border-color 0.2s ease, background 0.2s ease !important;
 }
 
@@ -9464,10 +9469,16 @@ body {
   background: rgba(255, 255, 255, 0.09) !important;
 }
 
-.service-compact-icon-box img {
+.service-compact-icon-box img,
+.service-compact-icon-box svg {
   width: 44px !important;
   height: 44px !important;
+  max-width: 44px !important;
+  max-height: 44px !important;
   object-fit: contain !important;
+  display: block !important;
+  margin: auto !important;
+  flex-shrink: 0 !important;
 }
 
 .service-compact-badge {
@@ -9956,7 +9967,7 @@ body {
             <!-- 1. Telegram Stars -->
             <button type="button" class="service-compact-item" onclick="navigateTo('stars')">
                 <div class="service-compact-icon-box">
-                    <img src="./images/star.webp?v=3" alt="Stars">
+                    <img src="./images/star.webp?v=3" alt="Stars" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
                     <span class="service-compact-badge">-10%</span>
                 </div>
                 <div class="service-compact-name">Stars</div>
@@ -9966,7 +9977,7 @@ body {
             <!-- 2. Telegram Premium -->
             <button type="button" class="service-compact-item" onclick="navigateTo('premium')">
                 <div class="service-compact-icon-box">
-                    <img src="./images/premium.webp?v=3" alt="Premium">
+                    <img src="./images/premium.webp?v=3" alt="Premium" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
                     <span class="service-compact-badge" style="background: rgba(255, 255, 255, 0.2); color: #fff;">3/6/12</span>
                 </div>
                 <div class="service-compact-name">Premium</div>
@@ -9976,7 +9987,7 @@ body {
             <!-- 3. Sovg'alar (Gifts) -->
             <button type="button" class="service-compact-item" onclick="navigateTo('gift')">
                 <div class="service-compact-icon-box">
-                    <img src="./images/gift.webp?v=3" alt="Sovg'alar">
+                    <img src="./images/gift.webp?v=3" alt="Sovg'alar" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
                     <span class="service-compact-badge" style="background: #22c55e;">Jonli</span>
                 </div>
                 <div class="service-compact-name">Sovg'alar</div>
@@ -9986,7 +9997,7 @@ body {
             <!-- 4. Balans To'ldirish -->
             <button type="button" class="service-compact-item" onclick="navigateTo('topup')">
                 <div class="service-compact-icon-box">
-                    <img src="./images/money.webp?v=3" alt="Balans" onerror="this.src='./images/star.webp?v=3'">
+                    <img src="./images/money.webp?v=3" alt="Balans" onerror="this.src='./images/star.webp?v=3'" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
                 </div>
                 <div class="service-compact-name">Balans</div>
                 <div class="service-compact-sub">Uzcard / Humo</div>
@@ -11431,7 +11442,7 @@ body {
     </div>
 
     <!-- Quick Search Modal Sheet (Overlay) -->
-    <div class="quick-search-overlay" id="quickSearchModal" onclick="toggleQuickSearchModal()">
+    <div class="quick-search-overlay" id="quickSearchModal" style="display: none;" onclick="toggleQuickSearchModal()">
         <div class="quick-search-sheet" onclick="event.stopPropagation()">
             <div class="quick-search-header">
                 <div class="quick-search-input-wrap">
@@ -16181,10 +16192,12 @@ const APP_SERVICES_LIST = [
 function toggleQuickSearchModal() {
     const modal = document.getElementById('quickSearchModal');
     if (!modal) return;
-    const isVisible = modal.classList.contains('active');
+    const isVisible = modal.classList.contains('active') && modal.style.display !== 'none';
     if (isVisible) {
         modal.classList.remove('active');
+        modal.style.display = 'none';
     } else {
+        modal.style.display = 'flex';
         modal.classList.add('active');
         const input = document.getElementById('quickSearchInput');
         if (input) {
