@@ -2166,10 +2166,12 @@ body.no-animations * {
             color: #8b92aa;
         }
 
-        /* VIP Lucky Spin Banner */
+        /* VIP Lucky Spin Banner - Monochrome Glass */
         .vip-spin-banner {
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.22) 0%, rgba(30, 27, 75, 0.65) 50%, rgba(14, 16, 28, 0.95) 100%);
-            border: 1px solid rgba(168, 85, 247, 0.35);
+            background: var(--glass-card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-card);
             border-radius: 20px;
             padding: 13px 16px;
             margin-bottom: 14px;
@@ -2177,16 +2179,16 @@ body.no-animations * {
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            transition: transform 120ms ease, border-color 120ms ease;
+            transition: transform 120ms ease, border-color 120ms ease, background 250ms ease;
             user-select: none;
-            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.18);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
             position: relative;
             overflow: hidden;
         }
 
         .vip-spin-banner:active {
             transform: scale(0.98);
-            border-color: rgba(168, 85, 247, 0.6);
+            border-color: var(--text-main);
         }
 
         .spin-banner-left {
@@ -2199,26 +2201,26 @@ body.no-animations * {
             width: 44px;
             height: 44px;
             border-radius: 14px;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.35) 0%, rgba(99, 102, 241, 0.25) 100%);
-            border: 1px solid rgba(168, 85, 247, 0.45);
+            background: var(--glass-card-hover);
+            border: 1px solid var(--border-card);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 4px 14px rgba(168, 85, 247, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .spin-icon-bubble img {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             object-fit: contain;
-            filter: drop-shadow(0 2px 6px rgba(168, 85, 247, 0.5));
+            filter: none;
         }
 
         .spin-banner-title {
             font-size: 14.5px;
             font-weight: 800;
-            color: #ffffff;
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -2227,8 +2229,9 @@ body.no-animations * {
         .spin-promo-badge {
             font-size: 9.5px;
             font-weight: 800;
-            background: linear-gradient(135deg, #a855f7, #ec4899);
-            color: #fff;
+            background: var(--glass-card-hover);
+            border: 1px solid var(--border-card);
+            color: #FFC93C;
             padding: 2px 8px;
             border-radius: 999px;
             letter-spacing: 0.4px;
@@ -2237,7 +2240,7 @@ body.no-animations * {
         .spin-banner-sub {
             font-size: 11.5px;
             font-weight: 600;
-            color: #a5b4fc;
+            color: var(--text-muted);
             margin-top: 2px;
             line-height: 1.25;
         }
@@ -2251,8 +2254,10 @@ body.no-animations * {
         }
 
         .service-quad-card {
-            background: linear-gradient(145deg, #141624 0%, #0f101c 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--glass-card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-card);
             border-radius: 18px;
             padding: 16px 14px;
             display: flex;
@@ -2260,15 +2265,15 @@ body.no-animations * {
             align-items: flex-start;
             gap: 10px;
             cursor: pointer;
-            transition: transform 120ms ease, border-color 120ms ease, background-color 120ms ease;
+            transition: transform 120ms ease, border-color 120ms ease, background 250ms ease;
             user-select: none;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 4px 14px var(--shadow-glass);
             position: relative;
             overflow: hidden;
         }
 
         .service-quad-card:hover {
-            border-color: rgba(255, 255, 255, 0.18);
+            border-color: var(--border-glow);
         }
 
         .service-quad-card:active {
@@ -2317,7 +2322,7 @@ body.no-animations * {
         .service-card-title {
             font-size: 14.5px;
             font-weight: 800;
-            color: #ffffff;
+            color: var(--text-main);
             line-height: 1.25;
             letter-spacing: -0.2px;
             word-break: break-word;
@@ -2326,71 +2331,75 @@ body.no-animations * {
         .service-card-desc {
             font-size: 11px;
             font-weight: 500;
-            color: #8b92aa;
+            color: var(--text-muted);
             line-height: 1.35;
             margin-top: 0;
             word-break: break-word;
         }
 
-        /* Specific accents for cards */
+        /* Specific accents for cards - Pure Monochrome Luxury */
         .card-stars {
-            border-color: rgba(245, 158, 11, 0.18);
+            border-color: var(--border-card);
         }
         .card-stars:active {
-            border-color: rgba(245, 158, 11, 0.5);
+            border-color: var(--text-main);
         }
         .card-stars .service-icon-box {
-            background: rgba(245, 158, 11, 0.12);
-            border: 1px solid rgba(245, 158, 11, 0.25);
+            background: var(--glass-card-bg);
+            border: 1px solid var(--border-card);
         }
         .card-stars .service-badge-pill {
-            background: rgba(245, 158, 11, 0.15);
-            color: #fbbf24;
+            background: var(--glass-card-hover);
+            border: 1px solid var(--border-card);
+            color: #FFC93C;
         }
 
         .card-premium {
-            border-color: rgba(56, 189, 248, 0.18);
+            border-color: var(--border-card);
         }
         .card-premium:active {
-            border-color: rgba(56, 189, 248, 0.5);
+            border-color: var(--text-main);
         }
         .card-premium .service-icon-box {
-            background: rgba(56, 189, 248, 0.12);
-            border: 1px solid rgba(56, 189, 248, 0.25);
+            background: var(--glass-card-bg);
+            border: 1px solid var(--border-card);
         }
         .card-premium .service-badge-pill {
-            background: rgba(56, 189, 248, 0.15);
-            color: #38bdf8;
+            background: var(--glass-card-hover);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
         }
 
         .card-gift {
-            border-color: rgba(244, 63, 94, 0.18);
+            border-color: var(--border-card);
         }
         .card-gift:active {
-            border-color: rgba(244, 63, 94, 0.5);
+            border-color: var(--text-main);
         }
         .card-gift .service-icon-box {
-            background: rgba(244, 63, 94, 0.12);
-            border: 1px solid rgba(244, 63, 94, 0.25);
+            background: var(--glass-card-bg);
+            border: 1px solid var(--border-card);
         }
         .card-gift .service-badge-pill {
-            background: rgba(244, 63, 94, 0.15);
-            color: #fb7185;
+            background: var(--glass-card-hover);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
         }
 
         .card-phone {
-            border-color: rgba(168, 85, 247, 0.18);
+            border-color: var(--border-card);
         }
         .card-phone:active {
-            border-color: rgba(168, 85, 247, 0.5);
+            border-color: var(--text-main);
         }
         .card-phone .service-icon-box {
-            background: rgba(168, 85, 247, 0.12);
-            border: 1px solid rgba(168, 85, 247, 0.25);
+            background: var(--glass-card-bg);
+            border: 1px solid var(--border-card);
         }
         .card-phone .service-badge-pill {
-            background: rgba(168, 85, 247, 0.15);
-            color: #c084fc;
+            background: var(--glass-card-hover);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
         }
 
         /* Responsive */
@@ -7382,7 +7391,7 @@ body {
     --bg-main: #000000;
     --bg-surface: #0a0a0c;
     --bg-radial: radial-gradient(circle at 50% 0%, #16161a 0%, #0A0A0C 45%, #000000 100%);
-    --glass-card-bg: rgba(255, 255, 255, 0.05);
+    --glass-card-bg: rgba(255, 255, 255, 0.06);
     --glass-card-hover: rgba(255, 255, 255, 0.10);
     --border-card: rgba(255, 255, 255, 0.10);
     --border-glow: rgba(255, 255, 255, 0.16);
@@ -7393,42 +7402,42 @@ body {
     --btn-primary-text: #000000;
     --accent-gold: #FFC93C;
     --badge-red: #FF3B30;
-    --nav-bg: rgba(24, 24, 28, 0.65);
+    --nav-bg: rgba(28, 28, 30, 0.55);
     --nav-border: rgba(255, 255, 255, 0.12);
     --nav-pill: rgba(255, 255, 255, 0.12);
     --nav-active: #ffffff;
-    --nav-inactive: rgba(255, 255, 255, 0.70);
+    --nav-inactive: rgba(255, 255, 255, 0.55);
 }
 
 :root[data-theme="light"] {
     --bg-main: #F2F2F7;
     --bg-surface: #FFFFFF;
     --bg-radial: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F2F2F7 60%, #E5E5EA 100%);
-    --glass-card-bg: rgba(255, 255, 255, 0.78);
-    --glass-card-hover: rgba(255, 255, 255, 0.95);
-    --border-card: rgba(0, 0, 0, 0.09);
+    --glass-card-bg: rgba(255, 255, 255, 0.75);
+    --glass-card-hover: rgba(255, 255, 255, 0.92);
+    --border-card: rgba(0, 0, 0, 0.08);
     --border-glow: rgba(0, 0, 0, 0.14);
-    --text-main: #111113;
+    --text-main: #111111;
     --text-muted: #6B6B73;
     --text-sub: #8E8E93;
-    --btn-primary-bg: #000000;
+    --btn-primary-bg: #111111;
     --btn-primary-text: #FFFFFF;
-    --accent-gold: #D97706;
+    --accent-gold: #FFC93C;
     --badge-red: #FF3B30;
-    --nav-bg: rgba(255, 255, 255, 0.82);
-    --nav-border: rgba(0, 0, 0, 0.10);
+    --nav-bg: rgba(255, 255, 255, 0.65);
+    --nav-border: rgba(0, 0, 0, 0.08);
     --nav-pill: rgba(0, 0, 0, 0.08);
-    --nav-active: #000000;
-    --nav-inactive: rgba(0, 0, 0, 0.55);
+    --nav-active: #111111;
+    --nav-inactive: rgba(17, 17, 17, 0.55);
 }
 
 html, body {
-    transition: background 250ms ease, color 250ms ease !important;
+    transition: background 250ms ease, background-color 250ms ease, color 250ms ease, border-color 250ms ease !important;
 }
 
 .liquid-dock-container {
     position: fixed !important;
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: max(6px, calc(var(--tg-content-safe-area-inset-bottom, var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px))) - 12px)) !important;
     left: 12px !important;
     right: 12px !important;
     max-width: 480px !important;
@@ -7441,11 +7450,17 @@ html, body {
     box-sizing: border-box !important;
 }
 
-/* Floating Wide Capsule Navbar: 72-76px high, full width, 4 equal items */
+@media (min-width: 768px) {
+    .liquid-dock-container {
+        bottom: 12px !important;
+    }
+}
+
+/* Floating Wide Capsule Navbar: 68-72px high, full width, 4 equal items */
 .bottom-dock-nav {
     width: 100% !important;
     flex: 1 1 100% !important;
-    height: clamp(72px, 8.8vh, 76px) !important;
+    height: clamp(68px, 8.2vh, 72px) !important;
     background: var(--nav-bg) !important;
     -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
     backdrop-filter: blur(28px) saturate(180%) !important;
@@ -7456,7 +7471,7 @@ html, body {
     align-items: center !important;
     justify-content: space-between !important;
     position: relative !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
     box-sizing: border-box !important;
     user-select: none !important;
     -webkit-user-select: none !important;
@@ -7464,7 +7479,7 @@ html, body {
     transition: background 250ms ease, border-color 250ms ease !important;
 }
 
-/* Hardware-Accelerated Pure CSS Spring Sliding Glass Pill */
+/* Hardware-Accelerated Pure CSS Spring Sliding Glass Pill: 52-56px high */
 .dock-sliding-pill {
     position: absolute !important;
     top: 6px !important;
@@ -7472,6 +7487,7 @@ html, body {
     left: 6px !important;
     width: calc((100% - 12px) / 4) !important;
     height: calc(100% - 12px) !important;
+    max-height: 56px !important;
     background: var(--nav-pill) !important;
     border: 1px solid rgba(255, 255, 255, 0.10) !important;
     border-radius: 999px !important;
@@ -9457,32 +9473,22 @@ body.modal-open .bottom-dock-nav {
 }
 
 /* ==========================================================================
-   COINSTAT UZ MONOCHROME LUXURY DARK GLASS SYSTEM (v45.0)
-   Monochrome Luxury Glass: #000000 - #0A0A0C, Pure White Accents & Gold for Stars
+   COINSTAT UZ UNIFIED THEME-ADAPTIVE LUXURY SYSTEM
+   Pure variable-driven styles for 100% full Dark / Light mode compatibility
    ========================================================================== */
 
-:root {
-  --bg-main: #000000 !important;
-  --bg-main-gradient: radial-gradient(circle at 50% 0%, #151518 0%, #0A0A0C 45%, #000000 100%) !important;
-  --bg-card: rgba(255, 255, 255, 0.05) !important;
-  --bg-card-solid: #0A0A0C !important;
-  --border-card: rgba(255, 255, 255, 0.10) !important;
-  --border-glow: rgba(255, 255, 255, 0.16) !important;
-  --accent-gold: #FFC93C !important;
-  --text-main: #FFFFFF !important;
-  --text-muted: #A1A1AA !important;
-  --text-sub: #71717A !important;
-  --font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  --radius-card: 22px !important;
-  --radius-pill: 999px !important;
+body {
+  background: var(--bg-main) !important;
+  background-image: var(--bg-radial) !important;
+  background-attachment: fixed !important;
+  color: var(--text-main) !important;
+  font-family: var(--font-family, 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif) !important;
+  padding-bottom: calc(100px + var(--tg-content-safe-area-inset-bottom, var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)))) !important;
 }
 
-body {
-  background: #000000 !important;
-  background-image: radial-gradient(circle at 50% 0%, #16161a 0%, #0A0A0C 50%, #000000 100%) !important;
-  color: #FFFFFF !important;
-  font-family: var(--font-family) !important;
-  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important;
+.app-viewport {
+  background: transparent !important;
+  color: var(--text-main) !important;
 }
 
 /* Page transitions: Soft fade + 8px slide (200ms) */
@@ -9490,43 +9496,47 @@ body {
   opacity: 0;
   transform: translateY(8px);
   transition: opacity 200ms ease, transform 200ms ease;
+  padding-bottom: calc(100px + var(--tg-content-safe-area-inset-bottom, var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)))) !important;
 }
 .page-view.active {
   opacity: 1;
   transform: translateY(0);
 }
+#view-rating {
+  padding-bottom: calc(170px + var(--tg-content-safe-area-inset-bottom, var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)))) !important;
+}
 
 /* Top user header in glass */
 .top-user-header {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: var(--glass-card-bg) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 20px !important;
   padding: 10px 14px !important;
   margin-bottom: 14px !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
 }
 
 .lang-badge-pill {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #FFFFFF !important;
+  background: var(--glass-card-hover) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-main) !important;
   font-weight: 700 !important;
   border-radius: 999px !important;
   padding: 5px 12px !important;
 }
 
-/* Luxury Monochrome Glass Balance Card */
+/* Luxury Balance Card */
 .hero-balance-card {
-  background: rgba(255, 255, 255, 0.05) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-  backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  background: var(--glass-card-bg) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+  backdrop-filter: blur(24px) saturate(140%) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 24px !important;
   padding: 20px 20px 18px 20px !important;
   margin-bottom: 14px !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
 }
 .hero-balance-card::before,
 .hero-balance-card::after {
@@ -9534,34 +9544,34 @@ body {
 }
 
 .hero-card-top-label {
-  color: #A1A1AA !important;
+  color: var(--text-muted) !important;
   font-weight: 700 !important;
   letter-spacing: 0.8px !important;
 }
 
 .hero-card-tag-pill {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  color: #FFFFFF !important;
+  background: var(--glass-card-hover) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-main) !important;
   font-weight: 600 !important;
 }
 
 .card-glowing-dot {
-  background-color: #22c55e !important;
-  box-shadow: 0 0 8px #22c55e !important;
+  background-color: var(--text-main) !important;
+  box-shadow: 0 0 8px var(--text-main) !important;
 }
 
 .hero-card-balance-num {
   font-size: 38px !important;
   font-weight: 800 !important;
-  color: #FFFFFF !important;
+  color: var(--text-main) !important;
   letter-spacing: -0.8px !important;
 }
 
 .hero-card-unit {
   font-size: 16px !important;
   font-weight: 600 !important;
-  color: #A1A1AA !important;
+  color: var(--text-muted) !important;
 }
 
 .stars-preview-chip {
@@ -9573,15 +9583,15 @@ body {
   font-weight: 700 !important;
 }
 
-/* Primary Button: Pure White with Black text */
+/* Primary Button */
 .hero-btn-primary,
 .luxury-primary-buy-btn {
-  background: #FFFFFF !important;
-  color: #000000 !important;
+  background: var(--btn-primary-bg) !important;
+  color: var(--btn-primary-text) !important;
   font-weight: 750 !important;
   border: none !important;
   border-radius: 16px !important;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
   transition: transform 0.15s ease, opacity 0.15s ease !important;
 }
 .hero-btn-primary:active,
@@ -9592,46 +9602,45 @@ body {
 
 /* Secondary Button: Glass */
 .hero-btn-secondary {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: var(--glass-card-hover) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 16px !important;
-  color: #FFFFFF !important;
+  color: var(--text-main) !important;
   font-weight: 600 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
   transition: transform 0.15s ease, background 0.15s ease !important;
 }
 .hero-btn-secondary:active {
   transform: scale(0.97) !important;
-  background: rgba(255, 255, 255, 0.12) !important;
 }
 
 /* 3-Column Stats Grid: Glass cards */
 .stat-card-box {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: var(--glass-card-bg) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 18px !important;
   padding: 12px 6px !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
 .stat-label-text {
-  color: #A1A1AA !important;
+  color: var(--text-muted) !important;
   font-weight: 600 !important;
 }
 .stat-value-text {
-  color: #FFFFFF !important;
+  color: var(--text-main) !important;
   font-weight: 750 !important;
 }
 
 /* Lucky Spin Banner: Glass */
 .vip-spin-banner {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: var(--glass-card-bg) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 20px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
 }
 .spin-promo-badge {
   background: rgba(255, 201, 60, 0.15) !important;
@@ -9641,28 +9650,26 @@ body {
 
 /* Quick service cards on home */
 .service-quad-card {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: var(--glass-card-bg) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 20px !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
 
-/* ==========================================================================
-   SERVICES (SERVISLAR HUB) 3-COLUMN COMPACT APP GRID
-   ========================================================================== */
+/* Services Hub Compact Grid */
 .services-header-title {
   font-size: 20px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text-main) !important;
   margin-top: 10px;
   margin-bottom: 4px;
 }
 .services-header-subtitle {
   font-size: 13px;
   font-weight: 500;
-  color: #A1A1AA;
+  color: var(--text-muted) !important;
   margin-bottom: 14px;
 }
 
@@ -9698,11 +9705,11 @@ body {
   max-width: 72px !important;
   max-height: 72px !important;
   border-radius: 22px !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: var(--glass-card-bg) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--border-card) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -9715,8 +9722,8 @@ body {
 
 .service-compact-item:hover .service-compact-icon-box,
 .service-compact-item:active .service-compact-icon-box {
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  background: rgba(255, 255, 255, 0.09) !important;
+  border-color: var(--text-main) !important;
+  background: var(--glass-card-hover) !important;
 }
 
 .service-compact-icon-box img,
@@ -9739,15 +9746,16 @@ body {
   font-weight: 750 !important;
   padding: 1px 5px !important;
   border-radius: 999px !important;
-  background: #FF3B30 !important;
-  color: #FFFFFF !important;
+  background: var(--glass-card-hover) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-main) !important;
   line-height: 1.2 !important;
 }
 
 .service-compact-name {
   font-size: 12px !important;
   font-weight: 700 !important;
-  color: #FFFFFF !important;
+  color: var(--text-main) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.2px !important;
   line-height: 1.25 !important;
@@ -9756,7 +9764,7 @@ body {
 
 .service-compact-sub {
   font-size: 10px !important;
-  color: #A1A1AA !important;
+  color: var(--text-muted) !important;
   margin-top: 2px !important;
   line-height: 1.1 !important;
 }
@@ -9771,16 +9779,16 @@ body {
 }
 
 .star-package-card {
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: var(--glass-card-bg) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 20px !important;
   padding: 16px 12px !important;
   text-align: center !important;
   cursor: pointer !important;
   transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
 }
 
 .star-package-card:active {
@@ -9788,15 +9796,15 @@ body {
 }
 
 .star-package-card.active {
-  border: 2px solid #FFFFFF !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.14) !important;
+  border: 2px solid var(--text-main) !important;
+  background: var(--glass-card-hover) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
 .pkg-star-qty {
   font-size: 18px !important;
   font-weight: 800 !important;
-  color: #FFFFFF !important;
+  color: var(--text-main) !important;
   margin-bottom: 4px !important;
 }
 
@@ -9809,77 +9817,88 @@ body {
 /* Custom Calc Card on Stars View */
 .luxury-calc-card,
 .luxury-user-card {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: var(--glass-card-bg) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 22px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
 
 .luxury-field-input,
 .luxury-star-giant-input {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #FFFFFF !important;
+  background: var(--glass-card-hover) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-main) !important;
   border-radius: 14px !important;
 }
 
 .luxury-verify-btn {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  color: #FFFFFF !important;
-  font-weight: 600 !important;
+  background: var(--btn-primary-bg) !important;
+  border: none !important;
+  color: var(--btn-primary-text) !important;
+  font-weight: 700 !important;
   border-radius: 12px !important;
 }
 
 /* Period tabs in Savdo Statistikasi (Glass segmented control) */
 .period-tabs-bar {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: var(--glass-card-bg) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 999px !important;
   padding: 4px !important;
 }
 .period-tab-btn {
   background: transparent !important;
-  color: #A1A1AA !important;
+  color: var(--text-muted) !important;
   border-radius: 999px !important;
   font-weight: 600 !important;
   transition: all 0.2s ease !important;
 }
 .period-tab-btn.active {
-  background: #FFFFFF !important;
-  color: #000000 !important;
+  background: var(--text-main) !important;
+  color: var(--btn-primary-text) !important;
   font-weight: 750 !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* Podium clean metallic glass without neon */
 .podium-box-container {
-  background: rgba(255, 255, 255, 0.03) !important;
+  background: var(--glass-card-bg) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--border-card) !important;
   border-radius: 24px !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
 .podium-column.first {
-  background: linear-gradient(180deg, rgba(255, 201, 60, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+  background: linear-gradient(180deg, rgba(255, 201, 60, 0.12) 0%, var(--glass-card-bg) 100%) !important;
   border: 1px solid rgba(255, 201, 60, 0.35) !important;
 }
 .podium-column.second {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, var(--glass-card-bg) 100%) !important;
+  border: 1px solid var(--border-card) !important;
 }
 .podium-column.third {
-  background: linear-gradient(180deg, rgba(205, 127, 50, 0.10) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
-  border: 1px solid rgba(205, 127, 50, 0.25) !important;
+  background: linear-gradient(180deg, rgba(205, 127, 50, 0.10) 0%, var(--glass-card-bg) 100%) !important;
+  border: 1px solid var(--border-card) !important;
 }
-.podium-column .podium-amount {
+.podium-column.first .podium-amount {
   color: #FFC93C !important;
   font-weight: 750 !important;
+}
+.podium-column.second .podium-amount,
+.podium-column.third .podium-amount {
+  color: var(--text-main) !important;
+  font-weight: 750 !important;
+}
+.podium-subtext {
+  color: var(--text-muted) !important;
+  font-size: 10px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
 }
 
 /* Quick Search Modal Overlay */
@@ -10225,13 +10244,65 @@ body {
 .dot-gray { background: #A1A1AA !important; }
 .dot-red { background: #FF3B30 !important; box-shadow: 0 0 6px rgba(255, 59, 48, 0.6) !important; }
 
+/* Topup notes & footnote */
+.topup-min-note {
+  font-size: 12px !important;
+  color: var(--text-muted) !important;
+  text-align: center !important;
+  margin-top: 10px !important;
+  margin-bottom: 14px !important;
+}
+.topup-min-note b {
+  color: var(--text-main) !important;
+}
+.topup-secure-footnote {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  color: var(--text-muted) !important;
+  margin-top: 10px !important;
+  text-align: center !important;
+}
+
+/* Theme 3-Segment Control */
+.theme-segmented-control {
+  display: inline-flex !important;
+  align-items: center !important;
+  background: var(--glass-card-bg) !important;
+  border: 1px solid var(--border-card) !important;
+  border-radius: 999px !important;
+  padding: 3px !important;
+  gap: 2px !important;
+}
+.theme-seg-btn {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: var(--text-muted) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 5px 12px !important;
+  border-radius: 999px !important;
+  cursor: pointer !important;
+  transition: all 0.18s ease !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+.theme-seg-btn.active {
+  background: var(--text-main) !important;
+  color: var(--btn-primary-text) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
 /* 4. RATING (Top Savdo) */
 .user-my-rank-dock {
   position: sticky !important;
-  bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
-  left: 0 !important;
-  right: 0 !important;
-  background: var(--glass-card-bg) !important;
+  bottom: calc(72px + max(6px, calc(var(--tg-content-safe-area-inset-bottom, var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px))) - 12px)) + 10px) !important;
+  left: 12px !important;
+  right: 12px !important;
+  background: rgba(20, 20, 22, 0.88) !important;
   -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
   backdrop-filter: blur(24px) saturate(160%) !important;
   border: 1px solid var(--border-glow) !important;
@@ -10243,7 +10314,101 @@ body {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
   z-index: 90 !important;
   margin-top: 14px !important;
+  margin-bottom: 0 !important;
+  cursor: pointer !important;
+  transition: transform 0.15s ease, background 250ms ease !important;
+}
+.user-my-rank-dock:active {
+  transform: scale(0.98) !important;
+}
+:root[data-theme="light"] .user-my-rank-dock {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.10) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Leaderboard row styles & link cues */
+.leader-row-card {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 12px 14px !important;
+  border-radius: 18px !important;
+  background: var(--glass-card-bg) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid var(--border-card) !important;
   margin-bottom: 8px !important;
+  cursor: pointer !important;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.2s ease !important;
+}
+.leader-row-card:active {
+  transform: scale(0.98) !important;
+}
+.leader-row-card.my-rank-active-row {
+  border: 1.5px solid var(--text-main) !important;
+  background: var(--glass-card-hover) !important;
+}
+@keyframes rankHighlightAnim {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8); border-color: #ffffff; }
+  50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); border-color: #ffffff; background: var(--glass-card-hover); }
+  100% { box-shadow: none; }
+}
+.my-rank-highlight {
+  animation: rankHighlightAnim 1s ease-out !important;
+}
+.leader-row-username-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  font-size: 13.5px !important;
+  font-weight: 750 !important;
+  color: var(--text-main) !important;
+  min-height: 28px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: opacity 0.15s ease, color 0.15s ease !important;
+}
+.leader-row-username-link:hover,
+.leader-row-username-link:active {
+  opacity: 0.8 !important;
+  text-decoration: underline !important;
+}
+.tg-link-arrow {
+  color: var(--text-muted) !important;
+  opacity: 0.8 !important;
+  flex-shrink: 0 !important;
+}
+.podium-username-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+  color: var(--text-main) !important;
+  min-height: 44px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: opacity 0.15s ease !important;
+}
+.podium-username-wrap:active {
+  opacity: 0.8 !important;
+}
+.leader-row-tag {
+  font-size: 11px !important;
+  color: var(--text-muted) !important;
+  font-weight: 600 !important;
+}
+.leader-row-turnover-val {
+  color: var(--text-main) !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+}
+.leader-row-turnover-label {
+  color: var(--text-muted) !important;
+  font-size: 10px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
 }
 
 /* 5. SPIN (Lucky Spin) */
@@ -10381,10 +10546,10 @@ body {
         </div>
         <div class="stat-card-box">
             <div class="stat-label-text">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                 <span data-i18n="home.cashback">Keshbek</span>
             </div>
-            <div class="stat-value-text" style="color: #38bdf8;">3% <span id="userBalanceStat" style="display: none;">0</span></div>
+            <div class="stat-value-text" style="color: var(--text-main);">3% <span id="userBalanceStat" style="display: none;">0</span></div>
         </div>
     </div>
 
@@ -10404,7 +10569,7 @@ body {
                 </div>
             </div>
         </div>
-        <div style="color: #c084fc; display: flex; align-items: center; flex-shrink: 0; padding-left: 8px;">
+        <div style="color: var(--text-muted); display: flex; align-items: center; flex-shrink: 0; padding-left: 8px;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
@@ -10459,7 +10624,7 @@ body {
         <div class="service-quad-card card-phone" onclick="navigateTo('phone')">
             <div class="service-top-row">
                 <div class="service-icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
                         <line x1="12" y1="18" x2="12.01" y2="18"></line>
                     </svg>
@@ -10503,7 +10668,7 @@ body {
             <button type="button" class="service-compact-item" onclick="navigateTo('stars')">
                 <div class="service-compact-icon-box">
                     <img src="./images/star.webp?v=3" alt="Stars" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
-                    <span class="service-compact-badge">-10%</span>
+                    <span class="service-compact-badge" style="background: var(--glass-card-hover); border: 1px solid var(--border-card); color: #FFC93C;">-10%</span>
                 </div>
                 <div class="service-compact-name">Stars</div>
                 <div class="service-compact-sub">Telegram</div>
@@ -10513,7 +10678,7 @@ body {
             <button type="button" class="service-compact-item" onclick="navigateTo('premium')">
                 <div class="service-compact-icon-box">
                     <img src="./images/premium.webp?v=3" alt="Premium" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
-                    <span class="service-compact-badge" style="background: rgba(255, 255, 255, 0.2); color: #fff;">3/6/12</span>
+                    <span class="service-compact-badge" style="background: var(--glass-card-hover); border: 1px solid var(--border-card); color: var(--text-main);">3/6/12</span>
                 </div>
                 <div class="service-compact-name">Premium</div>
                 <div class="service-compact-sub">Telegram</div>
@@ -10523,7 +10688,7 @@ body {
             <button type="button" class="service-compact-item" onclick="navigateTo('gift')">
                 <div class="service-compact-icon-box">
                     <img src="./images/gift.webp?v=3" alt="Sovg'alar" style="width: 44px; height: 44px; max-width: 44px; max-height: 44px; object-fit: contain;">
-                    <span class="service-compact-badge" style="background: #22c55e;">Jonli</span>
+                    <span class="service-compact-badge" style="background: var(--glass-card-hover); border: 1px solid var(--border-card); color: var(--text-main);">Jonli</span>
                 </div>
                 <div class="service-compact-name">Sovg'alar</div>
                 <div class="service-compact-sub">Teddy, Rose</div>
@@ -11238,30 +11403,7 @@ body {
                         <button type="button" class="topup-pill-chip" onclick="selectTopupPreset(500000, this)">500 000</button>
                     </div>
 
-                    <!-- To'lov usullari (Uzcard / Humo / Payme / Click) -->
-                    <div class="luxury-section-title" style="margin-top: 18px; margin-bottom: 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted);">To'lov tizimini tanlang</div>
-                    <div class="topup-methods-grid">
-                        <div class="topup-method-card active" onclick="selectTopupMethod('uzcard', this)">
-                            <div class="method-icon-wrap">💳</div>
-                            <div class="method-name">Uzcard</div>
-                            <div class="method-sub">Karta orqali</div>
-                        </div>
-                        <div class="topup-method-card" onclick="selectTopupMethod('humo', this)">
-                            <div class="method-icon-wrap">💳</div>
-                            <div class="method-name">Humo</div>
-                            <div class="method-sub">Karta orqali</div>
-                        </div>
-                        <div class="topup-method-card" onclick="selectTopupMethod('payme', this)">
-                            <div class="method-icon-wrap">🟢</div>
-                            <div class="method-name">Payme</div>
-                            <div class="method-sub">Ilova orqali</div>
-                        </div>
-                        <div class="topup-method-card" onclick="selectTopupMethod('click', this)">
-                            <div class="method-icon-wrap">🔵</div>
-                            <div class="method-name">Click</div>
-                            <div class="method-sub">Ilova orqali</div>
-                        </div>
-                    </div>
+                    <div class="topup-min-note">Minimal to'lov miqdori: <b>1 000 so'm</b></div>
 
                     <!-- Big Pure White Action Button -->
                     <button type="button" class="topup-cta-create-btn" onclick="startActivePayment()">
@@ -11270,6 +11412,14 @@ body {
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </button>
+
+                    <div class="topup-secure-footnote">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <span>To'lov xavfsiz amalga oshiriladi</span>
+                    </div>
                 </div>
 
                 <!-- 3-Column Mini Security & Speed Badges -->
@@ -11502,7 +11652,7 @@ body {
             <!-- 3. Keshbek -->
             <div class="stat-card-box">
                 <div class="stat-label-text">Keshbek</div>
-                <div class="stat-value-text">3% <span class="cashback-active-dot">●</span></div>
+                <div class="stat-value-text">3%</div>
             </div>
 
             <!-- 4. Referal Havola (nusxalash bilan) -->
@@ -11539,20 +11689,25 @@ body {
                 <div class="theme-status-pill" id="profileLangPill">UZ</div>
             </div>
 
-            <!-- 2. Mavzu (Dark / Light / Auto) -->
-            <div class="luxury-menu-card" onclick="cycleAppTheme()">
+            <!-- 2. Mavzu (Dark / Light / Auto Segmented Control) -->
+            <div class="luxury-menu-card profile-theme-card">
                 <div class="luxury-menu-left">
                     <div class="luxury-menu-icon-wrap">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                     </div>
                     <div class="luxury-menu-content">
                         <div class="luxury-menu-title-row">
-                            <span class="luxury-menu-title">Mavzu (Theme)</span>
+                            <span class="luxury-menu-title">Mavzu</span>
                         </div>
-                        <div class="luxury-menu-desc">Dark · Light · Auto</div>
+                        <div class="luxury-menu-desc">Ilova ko'rinishi</div>
                     </div>
                 </div>
-                <div class="theme-status-pill" id="themeStatusBadge">Dark</div>
+                <!-- 3-Segment Control (Dark / Light / Auto) -->
+                <div class="theme-segmented-control" id="themeSegmentedControl" onclick="event.stopPropagation()">
+                    <button type="button" class="theme-seg-btn active" id="themeSegDark" onclick="setAppTheme('dark')">Dark</button>
+                    <button type="button" class="theme-seg-btn" id="themeSegLight" onclick="setAppTheme('light')">Light</button>
+                    <button type="button" class="theme-seg-btn" id="themeSegAuto" onclick="setAppTheme('auto')">Auto</button>
+                </div>
             </div>
 
             <!-- 3. Yordam markazi -->
@@ -11695,10 +11850,10 @@ body {
                 <img src="./images/logo.webp?v=3" id="myAvatarImg" alt="Me" onerror="this.src='./images/logo.webp?v=3'">
             </div>
             <div class="leader-row-info">
-                <div style="font-size: 13.5px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 6px;">
-                    Sizning o'rningiz: <span id="myRankNum" style="color: #fbbf24;">—</span>
+                <div style="font-size: 13.5px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+                    Sizning o'rningiz: <span id="myRankNum" style="color: #FFC93C;">—</span>
                 </div>
-                <div style="font-size: 11px; font-weight: 600; color: #82879a;">Umumiy faollik reytingida</div>
+                <div style="font-size: 11px; font-weight: 600; color: var(--text-muted);">Umumiy faollik reytingida</div>
             </div>
         </div>
         <div class="leader-row-right">
@@ -11725,6 +11880,9 @@ body {
 
             <div class="modal-user-name" id="modalUserName">Foydalanuvchi</div>
             <div class="modal-user-username" id="modalUserHandle">@username</div>
+            <a id="modalTgLink" class="modal-tg-link-btn" href="#" target="_blank" rel="noopener" style="display: none; align-items: center; justify-content: center; gap: 6px; margin: 8px auto 14px; padding: 6px 14px; border-radius: 999px; background: var(--glass-card-hover); border: 1px solid var(--border-card); color: var(--text-main); font-size: 12px; font-weight: 700; text-decoration: none;">
+                <span>Telegram Profil ↗</span>
+            </a>
 
             <div class="modal-stats-grid">
                 <div class="modal-stat-card">
@@ -14616,6 +14774,15 @@ function applyAppTheme(themeMode, haptic = true) {
     }
 
     document.documentElement.setAttribute('data-theme', effectiveTheme);
+    if (document.body) {
+        document.body.setAttribute('data-theme', effectiveTheme);
+    }
+
+    // Sync segmented control buttons in Profile
+    ['dark', 'light', 'auto'].forEach(m => {
+        const btn = document.getElementById('themeSeg' + m.charAt(0).toUpperCase() + m.slice(1));
+        if (btn) btn.classList.toggle('active', themeMode === m);
+    });
 
     const badge = document.getElementById('themeStatusBadge');
     if (badge) {
@@ -14624,8 +14791,30 @@ function applyAppTheme(themeMode, haptic = true) {
         else badge.textContent = 'Auto';
     }
 
+    // Telegram Header & Background color sync
+    if (window.Telegram?.WebApp) {
+        try {
+            const headerCol = effectiveTheme === 'light' ? '#F2F2F7' : '#000000';
+            const bgCol = effectiveTheme === 'light' ? '#F2F2F7' : '#000000';
+            if (typeof window.Telegram.WebApp.setHeaderColor === 'function') {
+                window.Telegram.WebApp.setHeaderColor(headerCol);
+            }
+            if (typeof window.Telegram.WebApp.setBackgroundColor === 'function') {
+                window.Telegram.WebApp.setBackgroundColor(bgCol);
+            }
+        } catch(e) {}
+    }
+
     if (haptic && window.Telegram?.WebApp?.HapticFeedback) {
         try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+}
+
+function setAppTheme(mode) {
+    applyAppTheme(mode, true);
+    if (typeof showToast === 'function') {
+        const title = mode === 'dark' ? "Qora mavzu (Dark) tanlandi" : (mode === 'light' ? "Yorug' mavzu (Light) tanlandi" : "Avtomatik mavzu (Auto) tanlandi");
+        showToast(title);
     }
 }
 
@@ -14633,11 +14822,7 @@ function cycleAppTheme() {
     const modes = ['dark', 'light', 'auto'];
     const idx = modes.indexOf(currentAppTheme);
     const next = modes[(idx + 1) % modes.length];
-    applyAppTheme(next, true);
-    if (typeof showToast === 'function') {
-        const title = next === 'dark' ? "Qora mavzu (Dark) tanlandi" : (next === 'light' ? "Yorug' mavzu (Light) tanlandi" : "Avtomatik mavzu (Auto) tanlandi");
-        showToast(title);
-    }
+    setAppTheme(next);
 }
 
 // Initial theme setup immediately
@@ -15043,14 +15228,91 @@ function getAvatarUrl(item, currentUserId) {
         return 'https://t.me/i/userpic/320/' + rawUsername + '.jpg';
     }
 
-    // 4. Fallback letter avatar
+    // 4. Fallback letter avatar - monochrome glass theme
     const letter = (item.full_name || item.username || 'U').replace(/^@/, '')[0]?.toUpperCase() || 'U';
-    const colors = ['2563eb', '7c3aed', 'db2777', 'ea580c', '059669', '0284c7'];
-    const color = colors[Math.abs(Number(item.telegram_id || 0)) % colors.length] || '2563eb';
-    return 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter) + '&background=' + color + '&color=fff&bold=true&rounded=true&size=128';
+    return 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter) + '&background=27272a&color=fff&bold=true&rounded=true&size=128';
 }
 
-function openUserProfile(rank, username, amountFormatted, avatarUrl, fullName) {
+let currentModalUser = '';
+let currentModalUserId = '';
+
+function openTelegramUserLink(username, userId, event) {
+    if (event) {
+        event.stopPropagation();
+    }
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+    const cleanUser = (username || '').replace(/^@/, '').trim();
+    let link = '';
+    if (cleanUser && !cleanUser.toLowerCase().startsWith('user#')) {
+        link = 'https://t.me/' + cleanUser;
+    } else if (userId && !String(userId).toLowerCase().startsWith('user#')) {
+        link = 'tg://user?id=' + userId;
+    }
+
+    if (link) {
+        if (link.startsWith('https://t.me/') && window.Telegram?.WebApp?.openTelegramLink) {
+            try {
+                window.Telegram.WebApp.openTelegramLink(link);
+                return;
+            } catch(e) {}
+        }
+        try {
+            window.open(link, '_blank', 'noopener,noreferrer');
+        } catch(e) {
+            location.href = link;
+        }
+    }
+}
+
+function scrollToMyRankRow() {
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+    const myRow = document.querySelector('.my-rank-active-row');
+    if (myRow) {
+        myRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        myRow.classList.remove('my-rank-highlight');
+        void myRow.offsetWidth; // trigger reflow
+        myRow.classList.add('my-rank-highlight');
+        setTimeout(() => myRow.classList.remove('my-rank-highlight'), 1200);
+        return;
+    }
+
+    // Check if user is on podium (#1, #2, #3)
+    const myRankEl = document.getElementById('myRankNum');
+    const rankTxt = myRankEl ? myRankEl.textContent.trim() : '';
+    if (rankTxt === '#1' || rankTxt === '#2' || rankTxt === '#3') {
+        const podId = 'podium' + rankTxt.replace('#', '');
+        const podiumEl = document.getElementById(podId);
+        if (podiumEl) {
+            podiumEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            podiumEl.classList.remove('my-rank-highlight');
+            void podiumEl.offsetWidth;
+            podiumEl.classList.add('my-rank-highlight');
+            setTimeout(() => podiumEl.classList.remove('my-rank-highlight'), 1200);
+            return;
+        }
+    }
+
+    // Otherwise open profile details modal
+    const myUname = tg?.initDataUnsafe?.user?.username || 'Men';
+    const myFullName = [tg?.initDataUnsafe?.user?.first_name, tg?.initDataUnsafe?.user?.last_name].filter(Boolean).join(' ') || myUname;
+    const myPhoto = tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo') || './images/logo.webp?v=3';
+    const myTurnoverEl = document.getElementById('myTurnoverVal');
+    const tOver = myTurnoverEl ? myTurnoverEl.textContent : '0 UZS';
+    openUserProfile(rankTxt ? rankTxt.replace('#', '') : null, myUname, tOver, myPhoto, myFullName);
+}
+
+function handleLeaderRowClick(rank, username, amountFormatted, avatarUrl, fullName, userId, event) {
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+    openUserProfile(rank, username, amountFormatted, avatarUrl, fullName, userId);
+}
+
+function openUserProfile(rank, username, amountFormatted, avatarUrl, fullName, userId) {
     if (!username && !amountFormatted) return;
     if (window.Telegram?.WebApp?.HapticFeedback) {
         try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e) {}
@@ -15066,7 +15328,10 @@ function openUserProfile(rank, username, amountFormatted, avatarUrl, fullName) {
     const tgLinkBtn = document.getElementById('modalTgLink');
 
     const rawUser = String(username || '').replace(/^@/, '');
-    const fallbackModal = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(rawUser[0] || 'U') + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+    currentModalUser = rawUser;
+    currentModalUserId = userId || '';
+
+    const fallbackModal = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(rawUser[0] || 'U') + '&background=27272a&color=fff&bold=true&rounded=true&size=128';
     if (avatarEl) {
         avatarEl.onerror = function() {
             this.onerror = null;
@@ -15079,12 +15344,19 @@ function openUserProfile(rank, username, amountFormatted, avatarUrl, fullName) {
     if (statTurnoverEl) statTurnoverEl.textContent = amountFormatted || '0 UZS';
 
     if (nameEl) nameEl.textContent = fullName || (rawUser ? '@' + rawUser : 'Foydalanuvchi');
-    if (handleEl) handleEl.textContent = rawUser ? '@' + rawUser : 'Telegram foydalanuvchisi';
+    if (handleEl) {
+        handleEl.textContent = rawUser ? ('@' + rawUser + ' ↗') : 'Telegram profili ↗';
+        handleEl.style.cursor = 'pointer';
+        handleEl.onclick = () => openTelegramUserLink(rawUser, userId);
+    }
 
     if (tgLinkBtn) {
         if (rawUser && !rawUser.toLowerCase().startsWith('user#')) {
             tgLinkBtn.style.display = 'flex';
-            tgLinkBtn.href = 'https://t.me/' + rawUser;
+            tgLinkBtn.onclick = () => openTelegramUserLink(rawUser, userId);
+        } else if (userId) {
+            tgLinkBtn.style.display = 'flex';
+            tgLinkBtn.onclick = () => openTelegramUserLink('', userId);
         } else {
             tgLinkBtn.style.display = 'none';
         }
@@ -15117,11 +15389,15 @@ function renderPodiumAndList(list, currentUserId) {
     // 1st Place (Center - Gold)
     const p1 = document.getElementById('podium1');
     if (list[0] && Number(list[0].total) > 0) {
-        const u1 = (list[0].username || 'User#' + list[0].telegram_id);
+        const rawU1 = (list[0].username || '').replace(/^@/, '');
+        const u1 = rawU1 ? '@' + rawU1 : (list[0].full_name || 'User#' + list[0].telegram_id);
         const amt1 = Number(list[0].total).toLocaleString('uz-UZ') + ' UZS';
         const avatar1 = getAvatarUrl(list[0], currentUserId);
-        const letter1 = (u1 || '1').replace(/^@/, '')[0]?.toUpperCase() || '1';
-        document.getElementById('podiumUser1').textContent = '@' + u1.replace(/^@/, '');
+        const letter1 = (rawU1 || list[0].full_name || '1')[0]?.toUpperCase() || '1';
+        const uEl1 = document.getElementById('podiumUser1');
+        if (uEl1) {
+            uEl1.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU1}', '${list[0].telegram_id}', event)">${u1} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
+        }
         document.getElementById('podiumAmount1').textContent = amt1;
         p1.style.opacity = '1';
         if (av1) {
@@ -15131,7 +15407,12 @@ function renderPodiumAndList(list, currentUserId) {
             };
             av1.src = avatar1;
         }
-        p1.onclick = () => openUserProfile(1, u1, amt1, (av1 ? av1.src : avatar1), list[0].full_name);
+        p1.onclick = () => {
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+            }
+            openUserProfile(1, rawU1, amt1, (av1 ? av1.src : avatar1), list[0].full_name, list[0].telegram_id);
+        };
     } else {
         document.getElementById('podiumUser1').textContent = '—';
         document.getElementById('podiumAmount1').textContent = '0 UZS';
@@ -15143,11 +15424,15 @@ function renderPodiumAndList(list, currentUserId) {
     // 2nd Place (Left - Silver)
     const p2 = document.getElementById('podium2');
     if (list[1] && Number(list[1].total) > 0) {
-        const u2 = (list[1].username || 'User#' + list[1].telegram_id);
+        const rawU2 = (list[1].username || '').replace(/^@/, '');
+        const u2 = rawU2 ? '@' + rawU2 : (list[1].full_name || 'User#' + list[1].telegram_id);
         const amt2 = Number(list[1].total).toLocaleString('uz-UZ') + ' UZS';
         const avatar2 = getAvatarUrl(list[1], currentUserId);
-        const letter2 = (u2 || '2').replace(/^@/, '')[0]?.toUpperCase() || '2';
-        document.getElementById('podiumUser2').textContent = '@' + u2.replace(/^@/, '');
+        const letter2 = (rawU2 || list[1].full_name || '2')[0]?.toUpperCase() || '2';
+        const uEl2 = document.getElementById('podiumUser2');
+        if (uEl2) {
+            uEl2.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU2}', '${list[1].telegram_id}', event)">${u2} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
+        }
         document.getElementById('podiumAmount2').textContent = amt2;
         p2.style.opacity = '1';
         if (av2) {
@@ -15157,7 +15442,12 @@ function renderPodiumAndList(list, currentUserId) {
             };
             av2.src = avatar2;
         }
-        p2.onclick = () => openUserProfile(2, u2, amt2, (av2 ? av2.src : avatar2), list[1].full_name);
+        p2.onclick = () => {
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+            }
+            openUserProfile(2, rawU2, amt2, (av2 ? av2.src : avatar2), list[1].full_name, list[1].telegram_id);
+        };
     } else {
         document.getElementById('podiumUser2').textContent = '—';
         document.getElementById('podiumAmount2').textContent = '0 UZS';
@@ -15169,21 +15459,30 @@ function renderPodiumAndList(list, currentUserId) {
     // 3rd Place (Right - Bronze)
     const p3 = document.getElementById('podium3');
     if (list[2] && Number(list[2].total) > 0) {
-        const u3 = (list[2].username || 'User#' + list[2].telegram_id);
+        const rawU3 = (list[2].username || '').replace(/^@/, '');
+        const u3 = rawU3 ? '@' + rawU3 : (list[2].full_name || 'User#' + list[2].telegram_id);
         const amt3 = Number(list[2].total).toLocaleString('uz-UZ') + ' UZS';
         const avatar3 = getAvatarUrl(list[2], currentUserId);
-        const letter3 = (u3 || '3').replace(/^@/, '')[0]?.toUpperCase() || '3';
-        document.getElementById('podiumUser3').textContent = '@' + u3.replace(/^@/, '');
+        const letter3 = (rawU3 || list[2].full_name || '3')[0]?.toUpperCase() || '3';
+        const uEl3 = document.getElementById('podiumUser3');
+        if (uEl3) {
+            uEl3.innerHTML = `<span class="podium-username-wrap" onclick="openTelegramUserLink('${rawU3}', '${list[2].telegram_id}', event)">${u3} <svg class="tg-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 17 17 7"></polyline><polyline points="7 7 17 7 17 17"></polyline></svg></span>`;
+        }
         document.getElementById('podiumAmount3').textContent = amt3;
         p3.style.opacity = '1';
         if (av3) {
             av3.onerror = function() {
                 this.onerror = null;
-                this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter3) + '&background=fb923c&color=000&bold=true&rounded=true&size=128';
+                this.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter3) + '&background=d97706&color=fff&bold=true&rounded=true&size=128';
             };
             av3.src = avatar3;
         }
-        p3.onclick = () => openUserProfile(3, u3, amt3, (av3 ? av3.src : avatar3), list[2].full_name);
+        p3.onclick = () => {
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+            }
+            openUserProfile(3, rawU3, amt3, (av3 ? av3.src : avatar3), list[2].full_name, list[2].telegram_id);
+        };
     } else {
         document.getElementById('podiumUser3').textContent = '—';
         document.getElementById('podiumAmount3').textContent = '0 UZS';
@@ -15200,31 +15499,39 @@ function renderPodiumAndList(list, currentUserId) {
     list.forEach((item, i) => {
         const rank = i + 1;
         const rawUsername = (item.username || '').replace(/^@/, '');
-        const uname = rawUsername ? '@' + rawUsername : 'User#' + (item.telegram_id || (i + 1));
+        const uname = rawUsername ? '@' + rawUsername : (item.full_name || 'User#' + (item.telegram_id || (i + 1)));
         const totalVal = Number(item.total || 0);
         const totalFormatted = totalVal.toLocaleString('uz-UZ') + ' UZS';
         const rowAvatar = getAvatarUrl(item, currentUserId);
         const fullNameSafe = (item.full_name || '').replace(/'/g, "\\'");
         const letter = (rawUsername || item.full_name || 'U')[0]?.toUpperCase() || 'U';
-        const fallbackRow = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter) + '&background=2563eb&color=fff&bold=true&rounded=true&size=128';
+        const fallbackRow = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(letter) + '&background=27272a&color=fff&bold=true&rounded=true&size=128';
 
         const tgUsername = (tg?.initDataUnsafe?.user?.username || '').replace(/^@/, '');
-        if (String(item.telegram_id) === currentUserId || (tgUsername && rawUsername.toLowerCase() === tgUsername.toLowerCase())) {
+        const isCurrentUser = (String(item.telegram_id) === String(currentUserId) || (tgUsername && rawUsername.toLowerCase() === tgUsername.toLowerCase()));
+        if (isCurrentUser) {
             myRank = rank;
             myTurnover = totalVal;
         }
 
         if (rank > 3 && totalVal > 0) {
+            const rowClass = isCurrentUser ? "leader-row-card my-rank-active-row" : "leader-row-card";
             html += `
-                <div class="leader-row-card" onclick="openUserProfile(${rank}, '${rawUsername}', '${totalFormatted}', '${rowAvatar}', '${fullNameSafe}')">
+                <div class="${rowClass}" id="leaderRow_${rank}" onclick="handleLeaderRowClick(${rank}, '${rawUsername}', '${totalFormatted}', '${rowAvatar}', '${fullNameSafe}', '${item.telegram_id}', event)">
                     <div class="leader-row-left">
                         <div class="leader-row-rank">#${rank}</div>
                         <div class="leader-row-avatar">
                             <img src="${rowAvatar}" alt="${uname}" onerror="this.onerror=null; this.src='${fallbackRow}'">
                         </div>
                         <div class="leader-row-info">
-                            <div class="leader-row-username">${uname}</div>
-                            <div class="leader-row-tag">🔥 Faol Xaridor</div>
+                            <div class="leader-row-username-link" onclick="openTelegramUserLink('${rawUsername}', '${item.telegram_id}', event)" title="Telegram profilni ochish">
+                                <span>${uname}</span>
+                                <svg class="tg-link-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="7 17 17 7"></polyline>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </div>
+                            <div class="leader-row-tag">Faol Xaridor</div>
                         </div>
                     </div>
                     <div class="leader-row-right">
@@ -15238,8 +15545,8 @@ function renderPodiumAndList(list, currentUserId) {
 
     if (list.length === 0) {
         html = `
-            <div style="text-align: center; padding: 28px 16px; color: #82879a; font-size: 13px; font-weight: 700; background: #1c1c24; border-radius: 18px; border: 1px dashed rgba(255,255,255,0.08); box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
-                🛍 Hozircha bu davrda xaridlar yo'q.<br><span style="color: #38bdf8; font-weight: 800; display: inline-block; margin-top: 4px;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
+            <div style="text-align: center; padding: 28px 16px; color: var(--text-muted); font-size: 13px; font-weight: 700; background: var(--glass-card-bg); border-radius: 18px; border: 1px dashed var(--border-card); box-shadow: 0 4px 14px rgba(0,0,0,0.15);">
+                🛍 Hozircha bu davrda xaridlar yo'q.<br><span style="color: var(--text-main); font-weight: 800; display: inline-block; margin-top: 4px;">Birinchi bo'lib xarid qiling va 1-o'rinni egallang!</span>
             </div>
         `;
     }
@@ -15260,11 +15567,7 @@ function renderPodiumAndList(list, currentUserId) {
             myTurnoverEl.textContent = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
         }
         if (myRankDock) {
-            const myUname = tg?.initDataUnsafe?.user?.username || 'Men';
-            const myFullName = (tg?.initDataUnsafe?.user?.first_name || '') + ' ' + (tg?.initDataUnsafe?.user?.last_name || '');
-            const myPhoto = tg?.initDataUnsafe?.user?.photo_url || localStorage.getItem('cs_cached_photo') || './images/logo.webp?v=3';
-            const formattedTurnover = turnover > 0 ? Number(turnover).toLocaleString('uz-UZ') + ' UZS' : '0 UZS';
-            myRankDock.onclick = () => openUserProfile(rank, myUname, formattedTurnover, myPhoto, myFullName.trim());
+            myRankDock.onclick = scrollToMyRankRow;
         }
     };
 
