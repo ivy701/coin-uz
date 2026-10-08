@@ -9,8 +9,10 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 /* ==========================================================================
@@ -7370,63 +7372,140 @@ body {
 }
 
 /* ==========================================================================
-   PERFECT SLIDING WHITE PILL BOTTOM DOCK (Matching media_1790238379398.png)
+   TELEGRAM iOS "LIQUID GLASS" BOTTOM NAVBAR & SEARCH (v45.0)
+   Floating Glass Capsule + Separate Glass Search Circle + Spring Sliding Pill
    ========================================================================== */
-.bottom-dock-nav {
+
+:root {
+    --nav-bg: rgba(28, 28, 30, 0.55);
+    --nav-border: rgba(255, 255, 255, 0.12);
+    --nav-pill: rgba(255, 255, 255, 0.12);
+    --nav-active: #ffffff;
+    --nav-inactive: rgba(255, 255, 255, 0.70);
+    --badge-red: #FF3B30;
+}
+
+.liquid-dock-container {
     position: fixed !important;
-    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
-    left: 14px !important;
-    right: 14px !important;
-    max-width: 420px !important;
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+    left: 12px !important;
+    right: 12px !important;
+    max-width: 440px !important;
     margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    z-index: 9999 !important;
+    pointer-events: none !important;
+    box-sizing: border-box !important;
+}
+
+/* Floating Wide Capsule Navbar */
+.bottom-dock-nav {
+    flex: 1 1 0% !important;
     height: 64px !important;
-    background: #0f111a !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: var(--nav-bg) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+    backdrop-filter: blur(28px) saturate(180%) !important;
+    border: 1px solid var(--nav-border) !important;
     border-radius: 999px !important;
-    padding: 6px !important;
+    padding: 5px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    z-index: 9999 !important;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 1px rgba(255, 255, 255, 0.15) !important;
+    position: relative !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
     box-sizing: border-box !important;
     user-select: none !important;
     -webkit-user-select: none !important;
+    pointer-events: auto !important;
 }
 
-/* Hardware-Accelerated Pure CSS Sliding White Capsule Pill */
+/* Separate Circular Glass Search Button */
+.nav-search-btn {
+    width: 64px !important;
+    height: 64px !important;
+    min-width: 64px !important;
+    border-radius: 50% !important;
+    background: var(--nav-bg) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+    backdrop-filter: blur(28px) saturate(180%) !important;
+    border: 1px solid var(--nav-border) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--nav-inactive) !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+    outline: none !important;
+    padding: 0 !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.nav-search-btn:active {
+    transform: scale(0.92) !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.nav-search-btn svg {
+    width: 23px !important;
+    height: 23px !important;
+    stroke: currentColor !important;
+    fill: none !important;
+    stroke-width: 2.2 !important;
+}
+
+/* Hardware-Accelerated Pure CSS Spring Sliding Glass Pill */
 .dock-sliding-pill {
     position: absolute !important;
-    top: 6px !important;
-    bottom: 6px !important;
-    left: 6px !important;
-    width: calc((100% - 12px) / 4) !important;
-    background: #ffffff !important;
+    top: 5px !important;
+    bottom: 5px !important;
+    left: 5px !important;
+    width: calc((100% - 10px) / 4) !important;
+    background: var(--nav-pill) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
     border-radius: 999px !important;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
     pointer-events: none !important;
     z-index: 1 !important;
     will-change: transform !important;
-    transition: transform 0.32s cubic-bezier(0.25, 1, 0.5, 1) !important;
-    transform: translateX(0%) !important;
+    transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    transform-origin: center center !important;
+    transform: translateX(0%) scaleX(1) !important;
 }
 
 .bottom-dock-nav[data-active="home"] .dock-sliding-pill {
-    transform: translateX(0%) !important;
+    transform: translateX(0%) scaleX(1) !important;
 }
-
 .bottom-dock-nav[data-active="services"] .dock-sliding-pill {
-    transform: translateX(100%) !important;
+    transform: translateX(100%) scaleX(1) !important;
 }
-
 .bottom-dock-nav[data-active="rating"] .dock-sliding-pill {
-    transform: translateX(200%) !important;
+    transform: translateX(200%) scaleX(1) !important;
 }
-
 .bottom-dock-nav[data-active="profile"] .dock-sliding-pill {
-    transform: translateX(300%) !important;
+    transform: translateX(300%) scaleX(1) !important;
 }
 
+/* Dynamic Spring Stretch (scaleX 1.15) while switching */
+.bottom-dock-nav.nav-pill-stretching[data-active="home"] .dock-sliding-pill {
+    transform: translateX(0%) scaleX(1.15) !important;
+}
+.bottom-dock-nav.nav-pill-stretching[data-active="services"] .dock-sliding-pill {
+    transform: translateX(100%) scaleX(1.15) !important;
+}
+.bottom-dock-nav.nav-pill-stretching[data-active="rating"] .dock-sliding-pill {
+    transform: translateX(200%) scaleX(1.15) !important;
+}
+.bottom-dock-nav.nav-pill-stretching[data-active="profile"] .dock-sliding-pill {
+    transform: translateX(300%) scaleX(1.15) !important;
+}
+
+/* Nav Tab Items */
 .dock-tab-btn {
     position: relative !important;
     z-index: 2 !important;
@@ -7436,7 +7515,7 @@ body {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 3px !important;
+    gap: 2px !important;
     border-radius: 999px !important;
     background: transparent !important;
     border: none !important;
@@ -7445,43 +7524,114 @@ body {
     cursor: pointer !important;
     -webkit-tap-highlight-color: transparent !important;
     transition: transform 0.15s ease !important;
-    color: #94a3b8 !important;
+    color: var(--nav-inactive) !important;
 }
 
 .dock-tab-btn:active {
-    transform: scale(0.92) !important;
+    transform: scale(0.94) !important;
 }
 
 .dock-tab-btn svg {
-    width: 21px !important;
-    height: 21px !important;
-    fill: #94a3b8 !important;
-    stroke: none !important;
+    width: 24px !important;
+    height: 24px !important;
+    stroke: var(--nav-inactive) !important;
+    fill: none !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
     filter: none !important;
-    transition: fill 0.22s ease, transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1) !important;
+    transition: stroke 200ms ease, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
 .dock-tab-btn span {
     font-size: 11px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     letter-spacing: -0.1px !important;
-    color: #94a3b8 !important;
-    transition: color 0.22s ease, font-weight 0.22s ease !important;
+    color: var(--nav-inactive) !important;
+    line-height: 1 !important;
+    transition: color 200ms ease, font-weight 200ms ease !important;
 }
 
-/* Active Tab: Pure Deep Black (#000000) on White Capsule Pill */
+/* Active State: 100% Pure White & Glowing Accent */
 .dock-tab-btn.active {
-    color: #000000 !important;
+    color: var(--nav-active) !important;
 }
 .dock-tab-btn.active svg {
-    fill: #000000 !important;
-    stroke: none !important;
-    transform: scale(1.06) !important;
-    filter: none !important;
+    stroke: var(--nav-active) !important;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.28)) !important;
 }
 .dock-tab-btn.active span {
-    color: #000000 !important;
-    font-weight: 800 !important;
+    color: var(--nav-active) !important;
+    font-weight: 700 !important;
+}
+
+/* Unique Micro-Animations on Entrance: scale 0.8 -> 1.15 -> 1 (300ms spring) */
+@keyframes iconBounceHome {
+    0% { transform: scale(0.8) translateY(0); }
+    50% { transform: scale(1.15) translateY(-3px); }
+    100% { transform: scale(1) translateY(0); }
+}
+@keyframes iconPopServices {
+    0% { transform: scale(0.8) rotate(-6deg); }
+    50% { transform: scale(1.15) rotate(4deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+@keyframes iconLiftTop {
+    0% { transform: scale(0.8) translateY(2px); }
+    50% { transform: scale(1.15) translateY(-4px); }
+    100% { transform: scale(1) translateY(0); }
+}
+@keyframes iconSpinProfile {
+    0% { transform: scale(0.8) rotate(-15deg); }
+    50% { transform: scale(1.15) rotate(8deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.dock-tab-btn.active[data-target="home"] svg {
+    animation: iconBounceHome 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+.dock-tab-btn.active[data-target="services"] svg {
+    animation: iconPopServices 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+.dock-tab-btn.active[data-target="rating"] svg {
+    animation: iconLiftTop 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+.dock-tab-btn.active[data-target="profile"] svg {
+    animation: iconSpinProfile 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+/* Red Notification Badge Support */
+.dock-tab-badge {
+    position: absolute !important;
+    top: 5px !important;
+    right: calc(50% - 18px) !important;
+    min-width: 18px !important;
+    height: 18px !important;
+    padding: 0 4px !important;
+    background: var(--badge-red) !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 750 !important;
+    border-radius: 999px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 2px solid rgba(28, 28, 30, 0.9) !important;
+    pointer-events: none !important;
+    box-shadow: 0 2px 6px rgba(255, 59, 48, 0.5) !important;
+    line-height: 1 !important;
+}
+
+/* Accessibility: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .dock-sliding-pill,
+    .dock-tab-btn,
+    .dock-tab-btn svg,
+    .dock-tab-btn.active svg,
+    .nav-search-btn {
+        animation: none !important;
+        transition: none !important;
+    }
 }
 
 /* Profile Big Avatar Styling */
@@ -9054,6 +9204,534 @@ body.modal-open .bottom-dock-nav {
     color: #94a3b8;
     margin-bottom: 18px;
     line-height: 1.45;
+/* ==========================================================================
+   COINSTAT UZ MONOCHROME LUXURY DARK GLASS SYSTEM (v45.0)
+   Monochrome Luxury Glass: #000000 - #0A0A0C, Pure White Accents & Gold for Stars
+   ========================================================================== */
+
+:root {
+  --bg-main: #000000 !important;
+  --bg-main-gradient: radial-gradient(circle at 50% 0%, #151518 0%, #0A0A0C 45%, #000000 100%) !important;
+  --bg-card: rgba(255, 255, 255, 0.05) !important;
+  --bg-card-solid: #0A0A0C !important;
+  --border-card: rgba(255, 255, 255, 0.10) !important;
+  --border-glow: rgba(255, 255, 255, 0.16) !important;
+  --accent-gold: #FFC93C !important;
+  --text-main: #FFFFFF !important;
+  --text-muted: #A1A1AA !important;
+  --text-sub: #71717A !important;
+  --font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  --radius-card: 22px !important;
+  --radius-pill: 999px !important;
+}
+
+body {
+  background: #000000 !important;
+  background-image: radial-gradient(circle at 50% 0%, #16161a 0%, #0A0A0C 50%, #000000 100%) !important;
+  color: #FFFFFF !important;
+  font-family: var(--font-family) !important;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* Page transitions: Soft fade + 8px slide (200ms) */
+.page-view {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.page-view.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Top user header in glass */
+.top-user-header {
+  background: rgba(255, 255, 255, 0.04) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 20px !important;
+  padding: 10px 14px !important;
+  margin-bottom: 14px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+.lang-badge-pill {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  padding: 5px 12px !important;
+}
+
+/* Luxury Monochrome Glass Balance Card */
+.hero-balance-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 24px !important;
+  padding: 20px 20px 18px 20px !important;
+  margin-bottom: 14px !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+.hero-balance-card::before,
+.hero-balance-card::after {
+  display: none !important;
+}
+
+.hero-card-top-label {
+  color: #A1A1AA !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.8px !important;
+}
+
+.hero-card-tag-pill {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+.card-glowing-dot {
+  background-color: #22c55e !important;
+  box-shadow: 0 0 8px #22c55e !important;
+}
+
+.hero-card-balance-num {
+  font-size: 38px !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  letter-spacing: -0.8px !important;
+}
+
+.hero-card-unit {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #A1A1AA !important;
+}
+
+.stars-preview-chip {
+  background: rgba(255, 201, 60, 0.12) !important;
+  border: 1px solid rgba(255, 201, 60, 0.3) !important;
+  color: #FFC93C !important;
+  border-radius: 999px !important;
+  padding: 4px 12px !important;
+  font-weight: 700 !important;
+}
+
+/* Primary Button: Pure White with Black text */
+.hero-btn-primary,
+.luxury-primary-buy-btn {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  font-weight: 750 !important;
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2) !important;
+  transition: transform 0.15s ease, opacity 0.15s ease !important;
+}
+.hero-btn-primary:active,
+.luxury-primary-buy-btn:active {
+  transform: scale(0.97) !important;
+  opacity: 0.9 !important;
+}
+
+/* Secondary Button: Glass */
+.hero-btn-secondary {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 16px !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  transition: transform 0.15s ease, background 0.15s ease !important;
+}
+.hero-btn-secondary:active {
+  transform: scale(0.97) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* 3-Column Stats Grid: Glass cards */
+.stat-card-box {
+  background: rgba(255, 255, 255, 0.04) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px !important;
+  padding: 12px 6px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+.stat-label-text {
+  color: #A1A1AA !important;
+  font-weight: 600 !important;
+}
+.stat-value-text {
+  color: #FFFFFF !important;
+  font-weight: 750 !important;
+}
+
+/* Lucky Spin Banner: Glass */
+.vip-spin-banner {
+  background: rgba(255, 255, 255, 0.04) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+.spin-promo-badge {
+  background: rgba(255, 201, 60, 0.15) !important;
+  border: 1px solid rgba(255, 201, 60, 0.35) !important;
+  color: #FFC93C !important;
+}
+
+/* Quick service cards on home */
+.service-quad-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ==========================================================================
+   SERVICES (SERVISLAR HUB) 3-COLUMN COMPACT APP GRID
+   ========================================================================== */
+.services-header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+.services-header-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #A1A1AA;
+  margin-bottom: 14px;
+}
+
+.services-compact-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 16px 10px !important;
+  margin-top: 14px !important;
+  margin-bottom: 22px !important;
+}
+
+.service-compact-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
+  transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.service-compact-item:active {
+  transform: scale(0.92) !important;
+}
+
+.service-compact-icon-box {
+  width: 72px !important;
+  height: 72px !important;
+  border-radius: 22px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+  margin-bottom: 8px !important;
+  transition: border-color 0.2s ease, background 0.2s ease !important;
+}
+
+.service-compact-item:hover .service-compact-icon-box,
+.service-compact-item:active .service-compact-icon-box {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.09) !important;
+}
+
+.service-compact-icon-box img {
+  width: 44px !important;
+  height: 44px !important;
+  object-fit: contain !important;
+}
+
+.service-compact-badge {
+  position: absolute !important;
+  top: 4px !important;
+  right: 4px !important;
+  font-size: 8px !important;
+  font-weight: 750 !important;
+  padding: 1px 5px !important;
+  border-radius: 999px !important;
+  background: #FF3B30 !important;
+  color: #FFFFFF !important;
+  line-height: 1.2 !important;
+}
+
+.service-compact-name {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.2px !important;
+  line-height: 1.25 !important;
+  max-width: 95px !important;
+}
+
+.service-compact-sub {
+  font-size: 10px !important;
+  color: #A1A1AA !important;
+  margin-top: 2px !important;
+  line-height: 1.1 !important;
+}
+
+/* Preset Stars packages grid on Stars View */
+.stars-packages-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 10px !important;
+  margin-top: 8px !important;
+  margin-bottom: 14px !important;
+}
+
+.star-package-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 20px !important;
+  padding: 16px 12px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+.star-package-card:active {
+  transform: scale(0.97) !important;
+}
+
+.star-package-card.active {
+  border: 2px solid #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.14) !important;
+}
+
+.pkg-star-qty {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  margin-bottom: 4px !important;
+}
+
+.pkg-star-price {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #FFC93C !important;
+}
+
+/* Custom Calc Card on Stars View */
+.luxury-calc-card,
+.luxury-user-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+.luxury-field-input,
+.luxury-star-giant-input {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #FFFFFF !important;
+  border-radius: 14px !important;
+}
+
+.luxury-verify-btn {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+}
+
+/* Period tabs in Savdo Statistikasi (Glass segmented control) */
+.period-tabs-bar {
+  background: rgba(255, 255, 255, 0.04) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 999px !important;
+  padding: 4px !important;
+}
+.period-tab-btn {
+  background: transparent !important;
+  color: #A1A1AA !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+.period-tab-btn.active {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  font-weight: 750 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Podium clean metallic glass without neon */
+.podium-box-container {
+  background: rgba(255, 255, 255, 0.03) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+.podium-column.first {
+  background: linear-gradient(180deg, rgba(255, 201, 60, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+  border: 1px solid rgba(255, 201, 60, 0.35) !important;
+}
+.podium-column.second {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+.podium-column.third {
+  background: linear-gradient(180deg, rgba(205, 127, 50, 0.10) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+  border: 1px solid rgba(205, 127, 50, 0.25) !important;
+}
+.podium-column .podium-amount {
+  color: #FFC93C !important;
+  font-weight: 750 !important;
+}
+
+/* Quick Search Modal Overlay */
+.quick-search-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  z-index: 10000 !important;
+  display: none !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  padding-top: calc(16px + env(safe-area-inset-top, 0px)) !important;
+  box-sizing: border-box !important;
+}
+.quick-search-overlay.active {
+  display: flex !important;
+}
+.quick-search-sheet {
+  width: 100% !important;
+  max-width: 440px !important;
+  background: rgba(18, 18, 22, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  overflow: hidden !important;
+  animation: quickSearchPop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+@keyframes quickSearchPop {
+  from { transform: scale(0.95) translateY(-10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+.quick-search-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 14px 16px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.quick-search-input-wrap {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 999px !important;
+  padding: 8px 14px !important;
+  color: #ffffff !important;
+}
+.quick-search-input-wrap input {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  width: 100% !important;
+}
+.quick-search-close-btn {
+  background: transparent !important;
+  border: none !important;
+  color: #A1A1AA !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+}
+.quick-search-results {
+  max-height: 60vh !important;
+  overflow-y: auto !important;
+  padding: 10px 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+.quick-search-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  cursor: pointer !important;
+  transition: background 0.15s ease !important;
+}
+.quick-search-item:active {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+.quick-search-item-icon {
+  font-size: 20px !important;
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.quick-search-item-text {
+  flex: 1 !important;
+}
+.quick-search-item-title {
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+}
+.quick-search-item-sub {
+  font-size: 11px !important;
+  color: #A1A1AA !important;
 }
 
 </style>
@@ -9268,88 +9946,176 @@ body.modal-open .bottom-dock-nav {
             </div>
         </div>
 
-        <div style="font-size: 13px; color: var(--text-secondary); font-weight: 600; margin-bottom: 14px;">
-            Barcha Telegram xizmatlari va imkoniyatlari
+        <div class="services-header-title">Barcha xizmatlar</div>
+        <div class="services-header-subtitle">
+            Barcha Telegram xizmatlari va o'yin donatlari
         </div>
 
-        <!-- 4 Services Grid -->
-        <div class="services-quad-grid" style="margin-bottom: 14px;">
-            <!-- Stars -->
-            <div class="service-quad-card card-stars" onclick="navigateTo('stars')">
-                <div class="service-top-row">
-                    <div class="service-icon-box">
-                        <img src="./images/star.webp?v=3" alt="Stars">
-                    </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_discount">-10% Chegirma</span>
+        <!-- 3-Column Compact App Grid -->
+        <div class="services-compact-grid">
+            <!-- 1. Telegram Stars -->
+            <button type="button" class="service-compact-item" onclick="navigateTo('stars')">
+                <div class="service-compact-icon-box">
+                    <img src="./images/star.webp?v=3" alt="Stars">
+                    <span class="service-compact-badge">-10%</span>
                 </div>
-                <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_stars">Telegram Stars</div>
-                    <div class="service-card-desc" data-i18n="home.desc_stars">Eng tezkor yetkazish</div>
-                </div>
-            </div>
+                <div class="service-compact-name">Stars</div>
+                <div class="service-compact-sub">Telegram</div>
+            </button>
 
-            <!-- Premium -->
-            <div class="service-quad-card card-premium" onclick="navigateTo('premium')">
-                <div class="service-top-row">
-                    <div class="service-icon-box">
-                        <img src="./images/premium.webp?v=3" alt="Premium">
-                    </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_premium">3 / 6 / 12 oy</span>
+            <!-- 2. Telegram Premium -->
+            <button type="button" class="service-compact-item" onclick="navigateTo('premium')">
+                <div class="service-compact-icon-box">
+                    <img src="./images/premium.webp?v=3" alt="Premium">
+                    <span class="service-compact-badge" style="background: rgba(255, 255, 255, 0.2); color: #fff;">3/6/12</span>
                 </div>
-                <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_premium">Telegram Premium</div>
-                    <div class="service-card-desc" data-i18n="home.desc_premium">Rasmiy obuna</div>
-                </div>
-            </div>
+                <div class="service-compact-name">Premium</div>
+                <div class="service-compact-sub">Telegram</div>
+            </button>
 
-            <!-- Sovg'alar -->
-            <div class="service-quad-card card-gift" onclick="navigateTo('gift')">
-                <div class="service-top-row">
-                    <div class="service-icon-box">
-                        <img src="./images/duck_anim.webp?v=3" alt="Sovg'alar" onerror="this.onerror=null; this.src='./images/gift.webp?v=3'">
-                    </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_gifts">Jonli Gifts</span>
+            <!-- 3. Sovg'alar (Gifts) -->
+            <button type="button" class="service-compact-item" onclick="navigateTo('gift')">
+                <div class="service-compact-icon-box">
+                    <img src="./images/gift.webp?v=3" alt="Sovg'alar">
+                    <span class="service-compact-badge" style="background: #22c55e;">Jonli</span>
                 </div>
-                <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_gifts">Telegram Sovg'alar</div>
-                    <div class="service-card-desc" data-i18n="home.desc_gifts">Teddy, Rose & Box</div>
-                </div>
-            </div>
+                <div class="service-compact-name">Sovg'alar</div>
+                <div class="service-compact-sub">Teddy, Rose</div>
+            </button>
 
-            <!-- Balans To'ldirish -->
-            <div class="service-quad-card card-topup" onclick="navigateTo('topup')">
-                <div class="service-top-row">
-                    <div class="service-icon-box" style="background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.25);">
-                        <img src="./images/money.webp?v=3" alt="Balans" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
-                    </div>
-                    <span class="service-badge-pill" data-i18n="home.badge_auto" style="background: rgba(34, 197, 94, 0.15); color: #4ade80;">Avtomat</span>
+            <!-- 4. Balans To'ldirish -->
+            <button type="button" class="service-compact-item" onclick="navigateTo('topup')">
+                <div class="service-compact-icon-box">
+                    <img src="./images/money.webp?v=3" alt="Balans" onerror="this.src='./images/star.webp?v=3'">
                 </div>
-                <div class="service-card-text-wrap">
-                    <div class="service-card-title" data-i18n="home.service_topup">Balans To'ldirish</div>
-                    <div class="service-card-desc" data-i18n="home.desc_topup">Uzcard / Humo</div>
+                <div class="service-compact-name">Balans</div>
+                <div class="service-compact-sub">Uzcard / Humo</div>
+            </button>
+
+            <!-- 5. PUBG Mobile -->
+            <button type="button" class="service-compact-item" onclick="openGameDonate('PUBG Mobile')">
+                <div class="service-compact-icon-box">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#FFC93C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L3 7v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-9-5z"/>
+                        <path d="M12 7v5"/>
+                        <path d="M10 14h4"/>
+                    </svg>
                 </div>
-            </div>
+                <div class="service-compact-name">PUBG</div>
+                <div class="service-compact-sub">UC Donat</div>
+            </button>
+
+            <!-- 6. Free Fire -->
+            <button type="button" class="service-compact-item" onclick="openGameDonate('Free Fire')">
+                <div class="service-compact-icon-box">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#FF6B35" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                    </svg>
+                </div>
+                <div class="service-compact-name">Free Fire</div>
+                <div class="service-compact-sub">Olmoslar</div>
+            </button>
+
+            <!-- 7. Mobile Legends -->
+            <button type="button" class="service-compact-item" onclick="openGameDonate('Mobile Legends')">
+                <div class="service-compact-icon-box">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#60A5FA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                </div>
+                <div class="service-compact-name">MLBB</div>
+                <div class="service-compact-sub">Diamonds</div>
+            </button>
+
+            <!-- 8. Call of Duty -->
+            <button type="button" class="service-compact-item" onclick="openGameDonate('Call of Duty')">
+                <div class="service-compact-icon-box">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#E2E8F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        <line x1="12" y1="3" x2="12" y2="7"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                        <line x1="3" y1="12" x2="7" y2="12"/>
+                        <line x1="17" y1="12" x2="21" y2="12"/>
+                    </svg>
+                </div>
+                <div class="service-compact-name">COD Mobile</div>
+                <div class="service-compact-sub">CP Donat</div>
+            </button>
+
+            <!-- 9. Roblox -->
+            <button type="button" class="service-compact-item" onclick="openGameDonate('Roblox')">
+                <div class="service-compact-icon-box">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#EF4444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="4" transform="rotate(15 12 12)"/>
+                        <rect x="9.5" y="9.5" width="5" height="5" rx="1.5" transform="rotate(15 12 12)"/>
+                    </svg>
+                </div>
+                <div class="service-compact-name">Roblox</div>
+                <div class="service-compact-sub">Robux</div>
+            </button>
+
+            <!-- 10. Blood Strike -->
+            <button type="button" class="service-compact-item" onclick="openGameDonate('Blood Strike')">
+                <div class="service-compact-icon-box">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#F43F5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 12 12 22 22 12"/>
+                        <line x1="12" y1="8" x2="12" y2="16"/>
+                        <line x1="8" y1="12" x2="16" y2="12"/>
+                    </svg>
+                </div>
+                <div class="service-compact-name">Blood Strike</div>
+                <div class="service-compact-sub">Gold</div>
+            </button>
+
+            <!-- 11. Steam -->
+            <button type="button" class="service-compact-item" onclick="openGameDonate('Steam')">
+                <div class="service-compact-icon-box">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#38BDF8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 16l-4 4"/>
+                        <circle cx="7" cy="21" r="1.5"/>
+                    </svg>
+                </div>
+                <div class="service-compact-name">Steam</div>
+                <div class="service-compact-sub">Wallet</div>
+            </button>
+
+            <!-- 12. NFT Ijara (Texnik ishlar) -->
+            <button type="button" class="service-compact-item" onclick="handleRentTechNotice()">
+                <div class="service-compact-icon-box" style="border-color: rgba(249, 115, 22, 0.45); background: rgba(249, 115, 22, 0.08);">
+                    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="3"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span class="service-compact-badge" style="background: rgba(249, 115, 22, 0.85); font-size: 7.5px;">Texnik</span>
+                </div>
+                <div class="service-compact-name" style="color: #fb923c;">NFT Ijara</div>
+                <div class="service-compact-sub">Gifts & Nomer</div>
+            </button>
         </div>
 
-        <!-- Extra Luxury Action Cards (v40.0) -->
-        <div class="luxury-menu-stack">
+        <!-- Compact Bottom Glass Action Rows -->
+        <div class="luxury-menu-stack" style="margin-top: 10px;">
             <!-- 1. Orders -->
             <div class="luxury-menu-card" onclick="navigateTo('orders')">
                 <div class="luxury-menu-left">
-                    <div class="luxury-menu-icon-wrap purple-glow">
+                    <div class="luxury-menu-icon-wrap">
                         <img src="./images/stats__settings.webp?v=3" alt="Orders" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
                     </div>
                     <div class="luxury-menu-content">
                         <div class="luxury-menu-title-row">
                             <span class="luxury-menu-title" data-i18n="profile.orders">Buyurtmalar tarixi</span>
-                            <span class="luxury-menu-pill purple-pill" data-i18n="profile.badge_orders">Tarix</span>
+                            <span class="luxury-menu-pill" data-i18n="profile.badge_orders">Tarix</span>
                         </div>
                         <div class="luxury-menu-desc" data-i18n="profile.orders_sub">Barcha amalga oshirilgan to'lovlar</div>
                     </div>
                 </div>
                 <div class="luxury-menu-chevron">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"></polyline>
+                        <polyline points="9 18 15 12 9 6"/>
                     </svg>
                 </div>
             </div>
@@ -9357,20 +10123,20 @@ body.modal-open .bottom-dock-nav {
             <!-- 2. Lucky Spin -->
             <div class="luxury-menu-card" onclick="navigateTo('spin')">
                 <div class="luxury-menu-left">
-                    <div class="luxury-menu-icon-wrap amber-glow">
+                    <div class="luxury-menu-icon-wrap">
                         <img src="./images/spin_banner.webp?v=3" alt="Spin" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
                     </div>
                     <div class="luxury-menu-content">
                         <div class="luxury-menu-title-row">
                             <span class="luxury-menu-title" data-i18n="profile.spin_title">Omadli G'ildirak (Spin)</span>
-                            <span class="luxury-menu-pill amber-pill">1 TA BEPUL</span>
+                            <span class="luxury-menu-pill" style="color: #FFC93C; border-color: rgba(255, 201, 60, 0.4);">1 TA BEPUL</span>
                         </div>
                         <div class="luxury-menu-desc" data-i18n="profile.spin_sub">Har kuni bepul yutuqlar yutib oling</div>
                     </div>
                 </div>
                 <div class="luxury-menu-chevron">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"></polyline>
+                        <polyline points="9 18 15 12 9 6"/>
                     </svg>
                 </div>
             </div>
@@ -9378,45 +10144,20 @@ body.modal-open .bottom-dock-nav {
             <!-- 3. Savdo Reytingi -->
             <div class="luxury-menu-card" onclick="navigateTo('rating')">
                 <div class="luxury-menu-left">
-                    <div class="luxury-menu-icon-wrap gold-glow">
+                    <div class="luxury-menu-icon-wrap">
                         <img src="./images/trophy.webp?v=3" alt="Rating" class="luxury-menu-3d-img" onerror="this.onerror=null; this.src='./images/star.webp?v=3'">
                     </div>
                     <div class="luxury-menu-content">
                         <div class="luxury-menu-title-row">
                             <span class="luxury-menu-title" data-i18n="profile.rating_title">Savdo Reytingi</span>
-                            <span class="luxury-menu-pill gold-pill">TOP 10</span>
+                            <span class="luxury-menu-pill" style="color: #FFFFFF; border-color: rgba(255, 255, 255, 0.3);">TOP 10</span>
                         </div>
                         <div class="luxury-menu-desc" data-i18n="profile.rating_sub">Eng faol foydalanuvchilar</div>
                     </div>
                 </div>
                 <div class="luxury-menu-chevron">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- 4. NFT Ijara (Marketapp) - Texnik ishlar -->
-            <div class="luxury-menu-card" onclick="handleRentTechNotice()" style="border: 1.5px solid rgba(249, 115, 22, 0.4); background: linear-gradient(135deg, rgba(249, 115, 22, 0.09), rgba(20, 24, 33, 0.88));">
-                <div class="luxury-menu-left">
-                    <div class="luxury-menu-icon-wrap" style="background: rgba(249, 115, 22, 0.16); border: 1px solid rgba(249, 115, 22, 0.35);">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                            <polyline points="21 15 16 10 5 21"></polyline>
-                        </svg>
-                    </div>
-                    <div class="luxury-menu-content">
-                        <div class="luxury-menu-title-row">
-                            <span class="luxury-menu-title">NFT Ijara</span>
-                            <span class="luxury-menu-pill" style="background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1.5px solid rgba(249, 115, 22, 0.55); font-weight: 700;">🛠 Texnik ishlar</span>
-                        </div>
-                        <div class="luxury-menu-desc">Gifts, Nick & +888 (Marketapp)</div>
-                    </div>
-                </div>
-                <div class="luxury-menu-chevron" style="color: #fb923c;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"></polyline>
+                        <polyline points="9 18 15 12 9 6"/>
                     </svg>
                 </div>
             </div>
@@ -9463,9 +10204,33 @@ body.modal-open .bottom-dock-nav {
             <div class="luxury-verify-feedback" id="starsVerifyMsg"></div>
         </div>
 
-        <!-- IXTIYORIY SUMMA Card -->
-        <div class="luxury-section-title">IXTIYORIY SUMMA</div>
+        <!-- Tayyor Paketlar (Preset Packages) -->
+        <div class="luxury-section-title">TAYYOR PAKETLAR</div>
+        <div class="stars-packages-grid">
+            <div class="star-package-card active" data-qty="50" onclick="setQuickStars(50, this)">
+                <div class="pkg-star-qty">50 ⭐</div>
+                <div class="pkg-star-price">9 900 so'm</div>
+            </div>
+            <div class="star-package-card" data-qty="100" onclick="setQuickStars(100, this)">
+                <div class="pkg-star-qty">100 ⭐</div>
+                <div class="pkg-star-price">19 800 so'm</div>
+            </div>
+            <div class="star-package-card" data-qty="250" onclick="setQuickStars(250, this)">
+                <div class="pkg-star-qty">250 ⭐</div>
+                <div class="pkg-star-price">49 500 so'm</div>
+            </div>
+            <div class="star-package-card" data-qty="500" onclick="setQuickStars(500, this)">
+                <div class="pkg-star-qty">500 ⭐</div>
+                <div class="pkg-star-price">99 000 so'm</div>
+            </div>
+            <div class="star-package-card" data-qty="1000" onclick="setQuickStars(1000, this)">
+                <div class="pkg-star-qty">1 000 ⭐</div>
+                <div class="pkg-star-price">198 000 so'm</div>
+            </div>
+        </div>
 
+        <!-- Boshqa Miqdor (Custom Amount) -->
+        <div class="luxury-section-title" style="margin-top: 14px;">BOSHQA MIQDOR</div>
         <div class="luxury-calc-card">
             <div class="luxury-calc-input-label">Summani kiriting ( ⭐ )</div>
             <div class="luxury-star-input-wrap">
@@ -9476,15 +10241,6 @@ body.modal-open .bottom-dock-nav {
             <div class="luxury-price-summary-pill">
                 <span class="pill-label">NARX</span>
                 <span class="pill-value"><span id="customPricePreview">9 900</span> so'm</span>
-            </div>
-
-            <!-- Quick Choice Chips -->
-            <div class="luxury-quick-chips-row">
-                <button type="button" class="luxury-chip-btn active" onclick="setQuickStars(50)">50 ⭐</button>
-                <button type="button" class="luxury-chip-btn" onclick="setQuickStars(100)">100 ⭐</button>
-                <button type="button" class="luxury-chip-btn" onclick="setQuickStars(250)">250 ⭐</button>
-                <button type="button" class="luxury-chip-btn" onclick="setQuickStars(500)">500 ⭐</button>
-                <button type="button" class="luxury-chip-btn" onclick="setQuickStars(1000)">1 000 ⭐</button>
             </div>
 
             <div class="luxury-calc-info-list">
@@ -10618,45 +11374,79 @@ body.modal-open .bottom-dock-nav {
     </main>
 
 
-    <!-- Persistent Floating Capsule Dock Navigation (v40.0) -->
-    <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
-        <!-- Hardware-accelerated sliding white pill -->
-        <div class="dock-sliding-pill" id="dockSlidingPill"></div>
+    <!-- Telegram iOS "Liquid Glass" Bottom Navigation System (v45.0) -->
+    <div class="liquid-dock-container" id="liquidDockContainer">
+        <!-- Floating Glass Capsule -->
+        <div class="bottom-dock-nav" id="bottomDockNav" data-active="home">
+            <!-- Hardware-accelerated sliding liquid glass pill -->
+            <div class="dock-sliding-pill" id="dockSlidingPill"></div>
 
-        <!-- 1. Asosiy (Home) -->
-        <a href="javascript:void(0)" class="dock-tab-btn active" data-target="home" onclick="navigateTo('home')">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-            </svg>
-            <span data-i18n="nav.home">Asosiy</span>
-        </a>
+            <!-- 1. Asosiy (Home) -->
+            <a href="javascript:void(0)" class="dock-tab-btn active" data-target="home" onclick="navigateTo('home')">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9.5L12 3l9 6.5V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span data-i18n="nav.home">Asosiy</span>
+            </a>
 
-        <!-- 2. Servislar (Hub) -->
-        <a href="javascript:void(0)" class="dock-tab-btn" data-target="services" onclick="navigateTo('services')">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <rect x="3" y="3" width="7.5" height="7.5" rx="2"/>
-                <rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/>
-                <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/>
-                <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>
-            </svg>
-            <span data-i18n="nav.services">Servislar</span>
-        </a>
+            <!-- 2. Servislar (Hub) -->
+            <a href="javascript:void(0)" class="dock-tab-btn" data-target="services" onclick="navigateTo('services')">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7.5" height="7.5" rx="2"/>
+                    <rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/>
+                    <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/>
+                    <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>
+                </svg>
+                <span data-i18n="nav.services">Servislar</span>
+            </a>
 
-        <!-- 3. Top (Rating) -->
-        <a href="javascript:void(0)" class="dock-tab-btn" data-target="rating" onclick="navigateTo('rating')">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1s.4-1 1-1h12c.6 0 1 .4 1 1z"/>
-            </svg>
-            <span data-i18n="nav.rating">Top</span>
-        </a>
+            <!-- 3. Top (Rating) -->
+            <a href="javascript:void(0)" class="dock-tab-btn" data-target="rating" onclick="navigateTo('rating')">
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z"/>
+                    <path d="M19 19H5"/>
+                </svg>
+                <span data-i18n="nav.rating">Top</span>
+            </a>
 
-        <!-- 4. Profil (User) -->
-        <a href="javascript:void(0)" class="dock-tab-btn" data-target="profile" onclick="navigateTo('profile')">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+            <!-- 4. Profil (User) -->
+            <a href="javascript:void(0)" class="dock-tab-btn" data-target="profile" onclick="navigateTo('profile')">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span data-i18n="nav.profile">Profil</span>
+                <span class="dock-tab-badge" id="dockProfileBadge" style="display: none;">1</span>
+            </a>
+        </div>
+
+        <!-- Separate Circular Glass Search Button (Telegram iOS style) -->
+        <button type="button" class="nav-search-btn" id="navSearchBtn" onclick="toggleQuickSearchModal()" aria-label="Qidiruv">
+            <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <span data-i18n="nav.profile">Profil</span>
-        </a>
+        </button>
+    </div>
+
+    <!-- Quick Search Modal Sheet (Overlay) -->
+    <div class="quick-search-overlay" id="quickSearchModal" onclick="toggleQuickSearchModal()">
+        <div class="quick-search-sheet" onclick="event.stopPropagation()">
+            <div class="quick-search-header">
+                <div class="quick-search-input-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="quickSearchInput" placeholder="Xizmatlarni qidirish..." oninput="filterQuickSearch(this.value)" autocomplete="off">
+                </div>
+                <button type="button" class="quick-search-close-btn" onclick="toggleQuickSearchModal()">Yopish</button>
+            </div>
+            <div class="quick-search-results" id="quickSearchResults">
+                <!-- Dynamically loaded -->
+            </div>
+        </div>
     </div>
 
     <!-- Rent Action Modal (Root Body Level) -->
@@ -12468,6 +13258,10 @@ function setQuickStars(qty) {
         input.value = qty;
         calcCustomStarPrice();
     }
+    document.querySelectorAll('.star-package-card').forEach(c => {
+        const textQty = parseInt(c.getAttribute('data-qty') || c.querySelector('.pkg-star-qty')?.textContent?.replace(/\D/g, '') || '0', 10);
+        c.classList.toggle('active', textQty === qty);
+    });
     document.querySelectorAll('.luxury-chip-btn').forEach(btn => {
         const textQty = parseInt(btn.textContent.replace(/\D/g, ''), 10);
         btn.classList.toggle('active', textQty === qty);
@@ -15354,8 +16148,97 @@ async function verifyChannelSubscription() {
 
 function updateSlidingPill(targetNav) {
     const nav = document.getElementById('bottomDockNav') || document.querySelector('.bottom-dock-nav');
-    if (nav) {
-        nav.setAttribute('data-active', targetNav);
+    if (!nav) return;
+    const prev = nav.getAttribute('data-active');
+    if (prev && prev !== targetNav) {
+        nav.classList.add('nav-pill-stretching');
+        setTimeout(() => {
+            nav.classList.remove('nav-pill-stretching');
+        }, 180);
+    }
+    nav.setAttribute('data-active', targetNav);
+}
+
+/* Telegram iOS Quick Search Modal System */
+const APP_SERVICES_LIST = [
+    { id: 'stars', name: 'Telegram Stars', sub: 'Tezkor yetkazish (198 UZS)', icon: '⭐', action: () => navigateTo('stars') },
+    { id: 'premium', name: 'Telegram Premium', sub: '3, 6, 12 oylik obuna', icon: '💎', action: () => navigateTo('premium') },
+    { id: 'gift', name: 'Telegram Gifts', sub: 'Jonli sovg\'alar (Teddy, Rose, Box)', icon: '🎁', action: () => navigateTo('gift') },
+    { id: 'topup', name: 'Balans To\'ldirish', sub: 'Uzcard va Humo orqali to\'lov', icon: '💳', action: () => navigateTo('topup') },
+    { id: 'pubg', name: 'PUBG Mobile', sub: 'UC donat', icon: '🎮', action: () => openGameDonate('PUBG Mobile') },
+    { id: 'freefire', name: 'Free Fire', sub: 'Olmoslar xaridi', icon: '🔥', action: () => openGameDonate('Free Fire') },
+    { id: 'mlbb', name: 'Mobile Legends', sub: 'Diamonds to\'ldirish', icon: '⚔️', action: () => openGameDonate('Mobile Legends') },
+    { id: 'cod', name: 'Call of Duty Mobile', sub: 'CP donat', icon: '🎯', action: () => openGameDonate('Call of Duty') },
+    { id: 'roblox', name: 'Roblox', sub: 'Robux olish', icon: '🧱', action: () => openGameDonate('Roblox') },
+    { id: 'bloodstrike', name: 'Blood Strike', sub: 'Gold sotib olish', icon: '🔫', action: () => openGameDonate('Blood Strike') },
+    { id: 'steam', name: 'Steam Wallet', sub: 'Hisob to\'ldirish', icon: '💨', action: () => openGameDonate('Steam') },
+    { id: 'spin', name: 'Omadli G\'ildirak (Spin)', sub: '1 ta bepul aylantirish', icon: '🎡', action: () => navigateTo('spin') },
+    { id: 'orders', name: 'Buyurtmalar tarixi', sub: 'Barcha amalga oshirilgan to\'lovlar', icon: '📋', action: () => navigateTo('orders') },
+    { id: 'rating', name: 'Savdo Reytingi (Top)', sub: 'Eng faol foydalanuvchilar', icon: '🏆', action: () => navigateTo('rating') },
+    { id: 'rent', name: 'NFT Ijara', sub: 'Gifts, Nick & +888 (Texnik ishlar)', icon: '🛠', action: () => handleRentTechNotice() }
+];
+
+function toggleQuickSearchModal() {
+    const modal = document.getElementById('quickSearchModal');
+    if (!modal) return;
+    const isVisible = modal.classList.contains('active');
+    if (isVisible) {
+        modal.classList.remove('active');
+    } else {
+        modal.classList.add('active');
+        const input = document.getElementById('quickSearchInput');
+        if (input) {
+            input.value = '';
+            filterQuickSearch('');
+            setTimeout(() => input.focus(), 80);
+        }
+    }
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+}
+
+function filterQuickSearch(query) {
+    const container = document.getElementById('quickSearchResults');
+    if (!container) return;
+    const q = (query || '').toLowerCase().trim();
+    const filtered = APP_SERVICES_LIST.filter(item => 
+        !q || item.name.toLowerCase().includes(q) || item.sub.toLowerCase().includes(q)
+    );
+    if (filtered.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 26px; color: #71717A; font-size: 13px;">Hech qanday xizmat topilmadi</div>';
+        return;
+    }
+    container.innerHTML = filtered.map(item => `
+        <div class="quick-search-item" onclick="selectQuickSearchService('${item.id}')">
+            <div class="quick-search-item-icon">${item.icon}</div>
+            <div class="quick-search-item-text">
+                <div class="quick-search-item-title">${item.name}</div>
+                <div class="quick-search-item-sub">${item.sub}</div>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </div>
+    `).join('');
+}
+
+function selectQuickSearchService(id) {
+    toggleQuickSearchModal();
+    const item = APP_SERVICES_LIST.find(x => x.id === id);
+    if (item && typeof item.action === 'function') {
+        item.action();
+    }
+}
+
+function openGameDonate(gameName) {
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('warning'); } catch(e) {}
+    }
+    if (window.Telegram?.WebApp?.showAlert) {
+        window.Telegram.WebApp.showAlert(`🎮 ${gameName} donati tez orada avtomat tarzda ishga tushadi!\nBuyurtma berish uchun qo'llab-quvvatlash xizmatiga murojaat qilishingiz mumkin.`);
+    } else {
+        alert(`🎮 ${gameName} donati tez orada avtomat tarzda ishga tushadi!`);
     }
 }
 
