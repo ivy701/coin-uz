@@ -19320,15 +19320,6 @@ async function submitRentOrderFromApp() {
         confirmBtn.disabled = false;
         updateRentModalCalculations();
     }
-} catch (err) {
-        if (typeof showTopupToast === 'function') {
-            showTopupToast("Tarmoq xatosi. Iltimos qayta urinib ko'ring.");
-        } else {
-            alert("Tarmoq xatosi. Iltimos qayta urinib ko'ring.");
-        }
-        confirmBtn.disabled = false;
-        updateRentModalCalculations();
-    }
 }
 
 function escapeRentHtml(str) {
