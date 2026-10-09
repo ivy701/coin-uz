@@ -1551,17 +1551,25 @@ body.modal-open .bottom-dock-nav {
         </div>
     </div>
 
-    <!-- Hero Card -->
-    <div class="rent-hero-card">
-        <div class="rent-hero-tag">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-            </svg>
-            <span>Marketapp Live Katalog</span>
-        </div>
-        <div class="rent-hero-title">Telegram NFT Ijarasi</div>
-        <div class="rent-hero-desc">
-            Telegram sovg'alari, chiroyli username va +888 raqamlarni CoinStatUZ balansingiz orqali istalgan muddatga ijaraga oling!
+    <!-- Hero Card (Home Page Lucky Spin style) -->
+    <div class="vip-spin-banner rent-hero-banner">
+        <div class="spin-banner-left">
+            <div class="spin-icon-bubble">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="4" ry="4"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+            </div>
+            <div>
+                <div class="spin-banner-title">
+                    <span>Telegram NFT Ijarasi</span>
+                    <span class="spin-promo-badge">LIVE KATALOG</span>
+                </div>
+                <div class="spin-banner-sub">
+                    Telegram sovg'alari, username va raqamlarni hisobingizdan ijaraga oling!
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1578,14 +1586,30 @@ body.modal-open .bottom-dock-nav {
         </div>
     </div>
 
-    <!-- My Rents Banner (Exact matching design) -->
-    <div class="my-rents-banner" id="myRentsBanner" onclick="openMyRentsView()">
-        <div class="my-rents-banner-left">
-            <span>🎁</span>
-            <span>Mening ijaralarim (<span id="myRentsCountBadge">0</span>)</span>
+    <!-- My Rents Banner (Lucky Spin style) -->
+    <div class="vip-spin-banner my-rents-banner" id="myRentsBanner" onclick="openMyRentsView()">
+        <div class="spin-banner-left">
+            <div class="spin-icon-bubble">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                    <rect x="2" y="7" width="20" height="5"></rect>
+                    <line x1="12" y1="22" x2="12" y2="7"></line>
+                    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                </svg>
+            </div>
+            <div>
+                <div class="spin-banner-title">
+                    <span>Mening ijaralarim</span>
+                    <span class="spin-promo-badge" id="myRentsCountBadge">0</span>
+                </div>
+                <div class="spin-banner-sub">
+                    Faol va yakunlangan ijaralaringiz holati
+                </div>
+            </div>
         </div>
-        <div class="my-rents-banner-right">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <div style="color: var(--text-muted); display: flex; align-items: center; flex-shrink: 0; padding-left: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
         </div>
@@ -1733,6 +1757,55 @@ body.modal-open .bottom-dock-nav {
         </div>
     </div>
 
+    <!-- Full NFT Preview Modal (Root Body Level - NEW FEATURE) -->
+    <div class="modal-overlay" id="nftPreviewModal" onclick="handlePreviewOverlayClick(event)">
+        <div class="modal-sheet nft-preview-sheet">
+            <div class="modal-drag-bar"></div>
+            <div class="modal-header-row">
+                <div class="modal-title" id="nftPreviewModalTitle">NFT Ma'lumotlari</div>
+                <button class="modal-close-btn" onclick="closeNftPreviewModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Large Square Image -->
+            <div class="nft-preview-img-container">
+                <div class="nft-preview-img-box">
+                    <img id="nftPreviewLargeImg" src="./images/gift.webp" alt="NFT Preview" onerror="this.src='./images/gift.webp'">
+                    <span class="nft-preview-duration-chip" id="nftPreviewDurationChip">1–30 kun</span>
+                </div>
+            </div>
+
+            <!-- Title & Price Line -->
+            <div class="nft-preview-header-box">
+                <div class="nft-preview-name" id="nftPreviewName">NFT Name</div>
+                <div class="nft-preview-price-line">
+                    <span class="nft-preview-price-label">Kunlik ijara:</span>
+                    <span class="nft-preview-price-gold" id="nftPreviewPriceGold">0 so'm / kun</span>
+                </div>
+            </div>
+
+            <!-- Attributes Chips Section -->
+            <div class="nft-preview-attrs-wrap" id="nftPreviewAttrsWrap">
+                <div class="nft-preview-section-label">Xususiyatlari va atributlari</div>
+                <div class="nft-preview-chips-grid" id="nftPreviewChipsGrid">
+                    <!-- Dynamically populated trait chips -->
+                </div>
+            </div>
+
+            <!-- Action Button: White BG, Black Text -->
+            <button class="modal-confirm-btn nft-preview-action-btn" id="nftPreviewActionBtn" onclick="openRentModalFromPreview()">
+                <span>Ijaraga olish</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
     <!-- Rent Action Modal -->
     <div class="modal-overlay" id="rentModal">
         <div class="modal-sheet">
@@ -1747,12 +1820,23 @@ body.modal-open .bottom-dock-nav {
         </button>
             </div>
 
-            <!-- Preview Card -->
-            <div class="modal-item-preview">
-                <img class="modal-item-img" id="modalItemImg" src="./images/gift.webp" alt="NFT">
+            <!-- Preview Card (Enlarged with zoom tap) -->
+            <div class="modal-item-preview" onclick="openNftPreviewModalForCurrent()" title="Batafsil ko'rish uchun bosing">
+                <div class="modal-item-img-wrap">
+                    <img class="modal-item-img" id="modalItemImg" src="./images/gift.webp" alt="NFT" onerror="this.src='./images/gift.webp'">
+                    <div class="modal-img-zoom-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                    </div>
+                </div>
                 <div class="modal-item-info">
                     <div class="modal-item-name" id="modalItemName">NFT Name</div>
                     <div class="modal-item-daily" id="modalItemDaily">0 so'm / kun</div>
+                    <div class="modal-preview-tap-hint">Batafsil ko'rish ↗</div>
                 </div>
             </div>
 
@@ -1817,7 +1901,7 @@ body.modal-open .bottom-dock-nav {
             <div id="modalRentErrorBox" class="rent-modal-error-box" style="display:none;"></div>
 
             <button class="modal-confirm-btn" id="confirmRentBtn" onclick="submitRentOrder()">
-                <span>🚀 Ijaraga olish</span>
+                <span>Ijarani rasmiylashtirish</span>
             </button>
         </div>
     </div>
@@ -1843,7 +1927,7 @@ body.modal-open .bottom-dock-nav {
             <!-- Target Account Banner -->
             <div class="connect-target-banner" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
                 <div style="font-size: 12px; color: #e2e8f0;">
-                    <span>🎯 Profilga o'rnatish:</span> <b id="connectModalTargetUser" style="color: #38bdf8;">@username</b>
+                    <span style="display:inline-flex; align-items:center; gap:5px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profilga o'rnatish:</span> <b id="connectModalTargetUser" style="color: #38bdf8;">@username</b>
                 </div>
                 <span style="font-size: 11px; background: rgba(56, 189, 248, 0.2); padding: 2px 8px; border-radius: 6px; color: #7dd3fc; font-weight: 750;">Telegram</span>
             </div>
@@ -1851,7 +1935,7 @@ body.modal-open .bottom-dock-nav {
             <!-- Video Guide Banner -->
             <div class="video-guide-banner" onclick="showVideoGuide()">
                 <div style="display:flex; align-items:center; gap:8px;">
-                    <span style="font-size:15px;">▶️</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     <span style="font-weight:750; font-size:13px; color:#ffffff;">Video-qo'llanma</span>
                 </div>
                 <span style="color:#94a3b8; font-size:14px; font-weight:700;">&gt;</span>
@@ -2718,7 +2802,7 @@ body.modal-open .bottom-dock-nav {
                 const stickerBg = getUsernameStickerBg(rawName);
                 return `
                     <div class="nft-card username-card-wrap">
-                        <div class="username-top-box">
+                        <div class="username-top-box" onclick="openNftPreviewModal(${index})">
                             <span class="username-duration-badge">${minDays}–${maxDays} kun</span>
                             <div class="username-tg-badge">
                                 <svg class="username-tg-plane" viewBox="0 0 24 24" fill="none">
@@ -2728,10 +2812,18 @@ body.modal-open .bottom-dock-nav {
                             </div>
                             <div class="username-pill-sticker" style="background: ${stickerBg};">@${escapeHtml(rawName)}</div>
                             <div class="username-link-sub">${escapeHtml(rawName)}.t.me</div>
+                            <div class="nft-preview-zoom-badge">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                </svg>
+                            </div>
                         </div>
-                        <div class="username-card-title">@${escapeHtml(rawName)}</div>
+                        <div class="username-card-title" onclick="openNftPreviewModal(${index})" title="@${escapeHtml(rawName)}">@${escapeHtml(rawName)}</div>
                         <button class="nft-rent-btn" onclick="openRentModal(${index})">
-                            ${price.toLocaleString('uz-UZ')} so'm / kun
+                            <span class="rent-price-val">${price.toLocaleString('uz-UZ')} so'm</span> / kun
                         </button>
                     </div>
                 `;
@@ -2740,13 +2832,21 @@ body.modal-open .bottom-dock-nav {
             const imgUrl = item.webp_url || (item.media_key ? `https://nft.fragment.com/gift/${item.media_key}.webp` : './images/gift.webp');
             return `
                 <div class="nft-card">
-                    <div class="nft-img-wrap">
+                    <div class="nft-img-wrap" onclick="openNftPreviewModal(${index})">
                         <span class="nft-badge-pill">${minDays}–${maxDays} kun</span>
                         <img src="${imgUrl}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='./images/gift.webp'">
+                        <div class="nft-preview-zoom-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="nft-title" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+                    <div class="nft-title" onclick="openNftPreviewModal(${index})" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
                     <button class="nft-rent-btn" onclick="openRentModal(${index})">
-                        ${price.toLocaleString('uz-UZ')} so'm / kun
+                        <span class="rent-price-val">${price.toLocaleString('uz-UZ')} so'm</span> / kun
                     </button>
                 </div>
             `;
@@ -3060,6 +3160,114 @@ body.modal-open .bottom-dock-nav {
             }
         }
 
+        let previewSelectedItem = null;
+
+        function openNftPreviewModal(index) {
+            previewSelectedItem = (displayedItems && displayedItems[index]) ? displayedItems[index] : (allItems ? allItems[index] : null);
+            if (!previewSelectedItem) return;
+
+            const modal = document.getElementById('nftPreviewModal');
+            const largeImg = document.getElementById('nftPreviewLargeImg');
+            const nameEl = document.getElementById('nftPreviewName');
+            const priceEl = document.getElementById('nftPreviewPriceGold');
+            const durationEl = document.getElementById('nftPreviewDurationChip');
+            const chipsGrid = document.getElementById('nftPreviewChipsGrid');
+
+            const minDays = Number(previewSelectedItem.min_days || 1);
+            const maxDays = Number(previewSelectedItem.max_days || 30);
+            let price = Number(previewSelectedItem.price_per_day_uzs || 0);
+            if (!price && previewSelectedItem.price_per_day_nano) {
+                price = Math.round((Number(previewSelectedItem.price_per_day_nano) / 1e9) * 28000);
+            }
+            if (!price) price = 500;
+            previewSelectedItem.price_per_day_uzs = price;
+
+            const imgUrl = previewSelectedItem.webp_url || (previewSelectedItem.media_key ? `https://nft.fragment.com/gift/${previewSelectedItem.media_key}.webp` : './images/gift.webp');
+            if (largeImg) largeImg.src = imgUrl;
+            if (nameEl) nameEl.textContent = previewSelectedItem.name;
+            if (priceEl) priceEl.textContent = `${price.toLocaleString('uz-UZ')} so'm / kun`;
+            if (durationEl) durationEl.textContent = `${minDays}–${maxDays} kun`;
+
+            if (chipsGrid) {
+                chipsGrid.innerHTML = '';
+                const attrs = Array.isArray(previewSelectedItem.attributes) ? previewSelectedItem.attributes : [];
+                if (attrs.length === 0) {
+                    chipsGrid.innerHTML = `<span style="font-size: 12px; color: var(--text-muted);">Qo'shimcha xususiyatlar ko'rsatilmagan</span>`;
+                } else {
+                    attrs.forEach(attr => {
+                        const trait = (typeof escapeHtml === 'function') ? escapeHtml(attr.trait_type || 'Xususiyat') : (attr.trait_type || 'Xususiyat');
+                        const val = (typeof escapeHtml === 'function') ? escapeHtml(attr.value || '-') : (attr.value || '-');
+                        const chip = document.createElement('div');
+                        chip.className = 'nft-attr-pill';
+                        chip.innerHTML = `<span class="nft-attr-trait">${trait}</span><span class="nft-attr-value">${val}</span>`;
+                        chipsGrid.appendChild(chip);
+                    });
+                }
+            }
+
+            if (modal) modal.classList.add('active');
+            document.body.classList.add('rent-modal-active');
+
+            if (tg?.HapticFeedback) {
+                try { tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
+            }
+        }
+
+        function closeNftPreviewModal() {
+            const modal = document.getElementById('nftPreviewModal');
+            if (modal) modal.classList.remove('active');
+            const rentModal = document.getElementById('rentModal');
+            if (!rentModal || !rentModal.classList.contains('active')) {
+                document.body.classList.remove('rent-modal-active');
+            }
+            previewSelectedItem = null;
+        }
+
+        function handlePreviewOverlayClick(event) {
+            if (event.target && event.target.id === 'nftPreviewModal') {
+                closeNftPreviewModal();
+            }
+        }
+
+        function openRentModalFromPreview() {
+            if (!previewSelectedItem) return;
+            const targetItem = previewSelectedItem;
+            closeNftPreviewModal();
+
+            let targetIndex = -1;
+            if (displayedItems && displayedItems.length > 0) {
+                targetIndex = displayedItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
+            }
+            if (targetIndex === -1 && allItems && allItems.length > 0) {
+                targetIndex = allItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
+            }
+
+            if (targetIndex !== -1) {
+                openRentModal(targetIndex);
+            } else {
+                selectedItem = targetItem;
+                minDaysLimit = Number(selectedItem.min_days || 1);
+                maxDaysLimit = Number(selectedItem.max_days || 30);
+                rentalDays = minDaysLimit;
+                openRentModal(0);
+            }
+        }
+
+        function openNftPreviewModalForCurrent() {
+            if (!selectedItem) return;
+            const targetItem = selectedItem;
+            let targetIndex = -1;
+            if (displayedItems && displayedItems.length > 0) {
+                targetIndex = displayedItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
+            }
+            if (targetIndex === -1 && allItems && allItems.length > 0) {
+                targetIndex = allItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
+            }
+            if (targetIndex !== -1) {
+                openNftPreviewModal(targetIndex);
+            }
+        }
+
         function openRentModal(index) {
             selectedItem = (displayedItems && displayedItems[index]) ? displayedItems[index] : allItems[index];
             if (!selectedItem) return;
@@ -3102,6 +3310,7 @@ body.modal-open .bottom-dock-nav {
 
             updateModalCalculations();
             modal.classList.add('active');
+            document.body.classList.add('rent-modal-active');
 
             if (tg?.HapticFeedback) {
                 try { tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
@@ -3111,6 +3320,10 @@ body.modal-open .bottom-dock-nav {
         function closeRentModal() {
             const modal = document.getElementById('rentModal');
             if (modal) modal.classList.remove('active');
+            const previewModal = document.getElementById('nftPreviewModal');
+            if (!previewModal || !previewModal.classList.contains('active')) {
+                document.body.classList.remove('rent-modal-active');
+            }
             selectedItem = null;
         }
 
@@ -3167,7 +3380,7 @@ body.modal-open .bottom-dock-nav {
                 statusBox.innerHTML = `
                     <div>
                         <span>Hisobingiz: </span>
-                        <strong style="color: #ef4444;">${userBalance.toLocaleString('uz-UZ')} UZS</strong> <span style="color: #ef4444; font-weight: 750;">(Yetarli emas)</span>
+                        <strong style="color: #ef4444;">${userBalance.toLocaleString('uz-UZ')} UZS</strong> <span style="display:inline-block; margin-left:6px; padding:2px 8px; border-radius:999px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#ef4444; font-size:11px; font-weight:800;">Yetarli emas</span>
                     </div>
                     <button class="topup-link-btn" onclick="window.location.href='index.html#topup'">+ To'ldirish</button>
                 `;
@@ -3178,11 +3391,11 @@ body.modal-open .bottom-dock-nav {
                 statusBox.innerHTML = `
                     <div>
                         <span>Hisobingiz: </span>
-                        <strong>${userBalance.toLocaleString('uz-UZ')}</strong> UZS <span style="color: #10b981; font-weight: 750;">(Yetarli ✅)</span>
+                        <strong>${userBalance.toLocaleString('uz-UZ')}</strong> UZS <span style="display:inline-block; margin-left:6px; padding:2px 8px; border-radius:999px; background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.3); color:#22c55e; font-size:11px; font-weight:800;">Yetarli</span>
                     </div>
                 `;
                 confirmBtn.disabled = false;
-                confirmBtn.innerHTML = `<span>🚀 Ijarani rasmiylashtirish (${total.toLocaleString('uz-UZ')} UZS)</span>`;
+                confirmBtn.innerHTML = `<span>Ijarani rasmiylashtirish (${total.toLocaleString('uz-UZ')} UZS)</span>`;
             }
         }
 

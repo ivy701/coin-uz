@@ -8571,44 +8571,101 @@ html, body {
 }
 
     
-/* ==================== VIEW: RENT STYLES (COINSTAT DESIGN SYSTEM) ==================== */
-.rent-hero-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 16px 18px;
-    margin-bottom: 14px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow);
+/* ==================== VIEW: RENT STYLES (COINSTAT LUXURY DESIGN SYSTEM) ==================== */
+#view-rent {
+    padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+    box-sizing: border-box;
+    width: 100%;
 }
-.rent-hero-tag {
-    display: inline-flex;
+.rent-bottom-spacer {
+    height: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+    width: 100%;
+    clear: both;
+    display: block;
+    pointer-events: none;
+}
+
+/* Banner / Hero Card (Matches Home Page .vip-spin-banner 100%) */
+.rent-hero-banner,
+.rent-hero-card {
+    background: var(--glass-card-bg) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--border-card) !important;
+    border-radius: 20px !important;
+    padding: 13px 16px !important;
+    margin-bottom: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    user-select: none !important;
+    transition: transform 120ms ease, border-color 120ms ease, background 250ms ease !important;
+}
+.rent-hero-banner:active,
+.rent-hero-card:active {
+    transform: scale(0.98);
+    border-color: var(--border-glow) !important;
+}
+.rent-hero-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+.rent-hero-icon-bubble {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--glass-card-hover, rgba(255, 255, 255, 0.08));
+    border: 1px solid var(--border-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.rent-hero-text {
+    flex: 1;
+    min-width: 0;
+}
+.rent-hero-title-row {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--me);
-    background: var(--me-soft);
-    border: 1px solid rgba(74, 168, 255, 0.25);
-    padding: 3px 9px;
-    border-radius: 999px;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
 }
-.rent-hero-title {
-    font-size: 18px;
+.rent-hero-badge,
+.rent-hero-tag {
+    font-size: 9.5px;
     font-weight: 800;
-    line-height: 1.25;
-    margin-bottom: 6px;
-    color: var(--text);
+    background: var(--glass-card-hover, rgba(255, 255, 255, 0.1));
+    border: 1px solid var(--border-card);
+    color: #FFC93C;
+    padding: 2px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 .rent-hero-desc {
-    font-size: 12.5px;
-    color: var(--muted);
-    line-height: 1.45;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.35;
+    margin-top: 0;
 }
+
+/* Category Tabs (Matches Luxury Button System) */
 .rent-tabs-wrap {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -8616,30 +8673,34 @@ html, body {
     margin-bottom: 12px;
 }
 .rent-tab-btn {
-    background: var(--surface2);
-    border: 1px solid var(--border);
+    background: var(--glass-card-bg);
+    border: 1px solid var(--border-card);
     border-radius: 999px;
-    padding: 9px 4px;
+    padding: 10px 4px;
     font-size: 13px;
     font-weight: 700;
-    color: var(--muted);
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.15s ease;
     white-space: nowrap;
+    user-select: none;
+}
+.rent-tab-btn:active {
+    transform: scale(0.97);
 }
 .rent-tab-btn.active {
-    background: var(--nav-active);
-    border-color: var(--nav-active);
-    color: var(--nav-active-ic);
+    background: var(--btn-primary-bg) !important;
+    border-color: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
     font-weight: 800;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
 }
 .rent-tab-badge {
-    background: var(--me);
-    color: #ffffff;
+    background: #FFC93C;
+    color: #000000;
     font-size: 10px;
     font-weight: 800;
     padding: 1px 6px;
@@ -8647,175 +8708,92 @@ html, body {
     line-height: 1.2;
     margin-left: 4px;
 }
+
+/* My Rents Banner (Styled like .vip-spin-banner) */
 .my-rents-banner {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    transition: transform 0.15s ease, background-color 0.15s ease;
+    background: var(--glass-card-bg) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--border-card) !important;
+    border-radius: 20px !important;
+    padding: 13px 16px !important;
+    margin-bottom: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    cursor: pointer !important;
+    transition: transform 120ms ease, border-color 120ms ease, background 250ms ease !important;
+    user-select: none !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
 }
 .my-rents-banner:active {
     transform: scale(0.98);
+    border-color: var(--border-glow) !important;
 }
+.my-rents-left,
 .my-rents-banner-left {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 750;
-    color: var(--text);
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
 }
 .my-rents-icon-box {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--me);
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--glass-card-hover, rgba(255, 255, 255, 0.08));
+    border: 1px solid var(--border-card);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-.my-rents-title {
+.my-rents-text-wrap {
+    flex: 1;
+    min-width: 0;
+}
+.my-rents-title-row {
     display: flex;
     align-items: center;
     gap: 6px;
+    margin-bottom: 2px;
 }
+.my-rents-title {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+.my-rents-subtitle {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+.my-rents-right,
 .my-rents-banner-right {
     display: flex;
     align-items: center;
-    gap: 6px;
-    color: var(--muted);
+    gap: 8px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    padding-left: 8px;
 }
 .my-rents-count-badge {
-    background: var(--me);
-    color: #ffffff;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 800;
+    background: var(--glass-card-hover, rgba(255, 255, 255, 0.1));
+    border: 1px solid var(--border-card);
+    color: #FFC93C;
     padding: 2px 8px;
     border-radius: 999px;
     min-width: 20px;
     text-align: center;
+    letter-spacing: 0.2px;
 }
-.rent-filter-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-.rent-filter-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 9px 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-    min-height: 52px;
-    box-sizing: border-box;
-    transition: border-color 0.15s ease;
-}
-.rent-filter-card:active {
-    border-color: var(--me);
-}
-.rent-filter-card-label {
-    font-size: 10px;
-    font-weight: 800;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 3px;
-}
-.rent-filter-select-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-.rent-filter-select {
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 700;
-    padding-right: 18px;
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-}
-.rent-filter-select option {
-    background: var(--surface);
-    color: var(--text);
-}
-.rent-filter-val {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 14px;
-    display: block;
-    width: 100%;
-}
-.rent-select-arrow {
-    position: absolute;
-    right: 0;
-    pointer-events: none;
-    font-size: 10px;
-    color: var(--muted);
-}
-.rent-sort-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 11px 14px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    position: relative;
-    cursor: pointer;
-    box-sizing: border-box;
-    transition: border-color 0.15s ease;
-}
-.rent-sort-label {
-    font-size: 13px;
-    font-weight: 750;
-    color: var(--muted);
-    white-space: nowrap;
-    margin-right: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-.rent-sort-select {
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 700;
-    padding-right: 20px;
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-}
-.rent-sort-select option {
-    background: var(--surface);
-    color: var(--text);
-}
+
+/* Search Row (Top) */
 .search-row-rent {
     display: flex;
     gap: 8px;
@@ -8828,41 +8806,154 @@ html, body {
 .search-input-wrap-rent input {
     width: 100%;
     height: 44px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 0 14px 0 38px;
-    font-size: 13px;
-    color: var(--text);
+    background: var(--glass-card-bg);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 0 14px 0 40px;
+    font-size: 13.5px;
+    color: var(--text-main);
     outline: none;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease, background 0.15s ease;
     box-sizing: border-box;
 }
 .search-input-wrap-rent input:focus {
-    border-color: var(--me);
+    border-color: var(--border-glow);
+    background: var(--glass-card-hover);
 }
 .search-input-wrap-rent input::placeholder {
-    color: var(--muted);
+    color: var(--text-muted);
 }
 .search-icon-rent {
     position: absolute;
-    left: 12px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--muted);
+    color: var(--text-muted);
     pointer-events: none;
 }
-#view-rent {
-    padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+
+/* Filters & Sorting (Matches Home Stat Cards & Service Cards) */
+.rent-filter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.rent-filter-card {
+    background: var(--glass-card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    min-height: 54px;
     box-sizing: border-box;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
 }
-.rent-bottom-spacer {
-    height: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+.rent-filter-card:active {
+    transform: scale(0.98);
+    background: var(--glass-card-hover);
+    border-color: var(--border-glow);
+}
+.rent-filter-card-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+.rent-filter-select-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
     width: 100%;
-    clear: both;
-    display: block;
-    pointer-events: none;
 }
+.rent-filter-select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-main);
+    font-size: 13.5px;
+    font-weight: 700;
+    padding-right: 18px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+.rent-filter-select option {
+    background: var(--surface);
+    color: var(--text-main);
+}
+.rent-filter-val {
+    font-size: 13.5px;
+    font-weight: 750;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 18px;
+    display: block;
+    width: 100%;
+}
+.rent-select-arrow {
+    position: absolute;
+    right: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    color: var(--text-muted);
+}
+.rent-sort-card {
+    background: var(--glass-card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    position: relative;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+.rent-sort-label {
+    font-size: 13px;
+    font-weight: 750;
+    color: var(--text-muted);
+    white-space: nowrap;
+    margin-right: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.rent-sort-select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-main);
+    font-size: 13.5px;
+    font-weight: 700;
+    padding-right: 20px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+.rent-sort-select option {
+    background: var(--surface);
+    color: var(--text-main);
+}
+
+/* NFT Catalog Grid (2-Column Luxury Cards) */
 .nft-grid-rent {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -8870,73 +8961,29 @@ html, body {
     margin-bottom: 16px;
     box-sizing: border-box;
 }
-.rent-load-more-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 14px 0 24px 0;
-    width: 100%;
-}
-.rent-load-more-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-size: 13.5px;
-    font-weight: 750;
-    padding: 12px 28px;
-    border-radius: 14px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.15s ease;
-    box-shadow: var(--shadow);
-}
-.rent-load-more-btn:active {
-    transform: scale(0.96);
-    background: var(--surface2);
-}
-.rent-load-spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid var(--border);
-    border-top-color: var(--me);
-    border-radius: 50%;
-    animation: rentSpin 0.7s linear infinite;
-    display: inline-block;
-}
-@keyframes rentSpin {
-    to { transform: rotate(360deg); }
-}
-.rent-end-message {
-    font-size: 12.5px;
-    color: var(--muted);
-    font-weight: 600;
-    padding: 12px 0;
-    text-align: center;
-}
 .nft-card-rent {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: var(--glass-card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-card);
     border-radius: 18px;
     padding: 10px 10px 12px 10px;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    transition: transform 0.15s ease, border-color 0.15s ease;
-    box-shadow: var(--shadow);
+    transition: transform 120ms ease, border-color 120ms ease, background 250ms ease;
+    box-shadow: 0 4px 14px var(--shadow-glass, rgba(0, 0, 0, 0.15));
     box-sizing: border-box;
 }
 .nft-card-rent:active {
-    transform: scale(0.98);
+    transform: scale(0.97);
+    border-color: var(--border-glow);
 }
 .nft-img-wrap-rent {
     width: 100%;
     aspect-ratio: 1;
-    background: var(--surface2);
+    background: var(--glass-card-hover, rgba(255, 255, 255, 0.04));
     border-radius: 14px;
     display: flex;
     align-items: center;
@@ -8944,6 +8991,7 @@ html, body {
     position: relative;
     overflow: hidden;
     margin-bottom: 8px;
+    cursor: pointer;
 }
 .nft-img-wrap-rent img {
     width: 86%;
@@ -8951,38 +8999,65 @@ html, body {
     object-fit: contain;
     transition: transform 0.2s ease;
 }
+.nft-img-wrap-rent:hover img {
+    transform: scale(1.05);
+}
 .nft-badge-pill-rent {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background: var(--surface2);
-    color: var(--text);
-    font-size: 10.5px;
-    font-weight: 700;
-    padding: 2.5px 8px;
+    top: 7px;
+    right: 7px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--text-main);
+    font-size: 10px;
+    font-weight: 750;
+    padding: 2.5px 7px;
     border-radius: 999px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-card);
     z-index: 2;
+}
+.nft-preview-zoom-badge {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid var(--border-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    pointer-events: none;
+    z-index: 2;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.nft-img-wrap-rent:hover .nft-preview-zoom-badge {
+    background: rgba(0, 0, 0, 0.85);
+    color: var(--text-main);
 }
 .nft-title-rent {
     font-size: 13.5px;
-    font-weight: 750;
-    color: var(--text);
+    font-weight: 800;
+    color: var(--text-main);
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.3;
     margin: 2px 2px 8px 2px;
+    cursor: pointer;
 }
 .nft-rent-btn-rent {
     width: 100%;
     height: 38px;
-    background: var(--surface2);
-    color: var(--text);
-    font-size: 12.5px;
+    background: var(--glass-card-hover, rgba(255, 255, 255, 0.06));
+    color: var(--text-main);
+    font-size: 12px;
     font-weight: 750;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-card);
     border-radius: 12px;
     cursor: pointer;
     display: flex;
@@ -8994,19 +9069,22 @@ html, body {
 }
 .nft-rent-btn-rent:active {
     transform: scale(0.96);
-    background: var(--border);
+    background: var(--border-card);
 }
 .nft-rent-btn-rent .rent-price-val {
-    color: var(--gold);
+    color: #FFC93C;
     font-weight: 800;
     margin-right: 4px;
 }
 
-/* Username Card Styling */
+/* Username Card */
+.username-card-wrap {
+    background: var(--glass-card-bg);
+}
 .username-top-box {
     width: 100%;
     aspect-ratio: 1;
-    background: var(--surface2);
+    background: var(--glass-card-hover, rgba(255, 255, 255, 0.04));
     border-radius: 14px;
     display: flex;
     flex-direction: column;
@@ -9017,35 +9095,38 @@ html, body {
     margin-bottom: 8px;
     padding: 8px 6px;
     box-sizing: border-box;
+    cursor: pointer;
 }
 .username-duration-badge {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background: var(--surface2);
-    color: var(--text);
-    font-size: 10.5px;
-    font-weight: 700;
-    padding: 2px 7px;
+    top: 7px;
+    right: 7px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--text-main);
+    font-size: 10px;
+    font-weight: 750;
+    padding: 2.5px 7px;
     border-radius: 999px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-card);
     z-index: 2;
 }
 .username-tg-badge {
-    width: 54px;
-    height: 54px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
+    width: 50px;
+    height: 50px;
+    background: var(--glass-card-bg);
+    border: 1px solid var(--border-card);
+    border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-    margin-bottom: 8px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    margin-bottom: 6px;
 }
 .username-tg-plane {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
 }
 .username-pill-sticker {
     color: #ffffff;
@@ -9062,23 +9143,85 @@ html, body {
     text-align: center;
 }
 .username-link-sub {
-    font-size: 11px;
-    color: var(--muted);
+    font-size: 10.5px;
+    color: var(--text-muted);
     font-weight: 600;
     text-align: center;
 }
 .username-card-title {
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--text-main);
     text-align: left;
     margin: 2px 2px 8px 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
-/* Bottom Sheet Modals for Collection & Backdrop Selection */
+/* Pagination / Infinite Scroll */
+.rent-load-more-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 0 24px 0;
+    width: 100%;
+}
+.rent-load-more-btn {
+    background: var(--glass-card-bg);
+    border: 1px solid var(--border-card);
+    color: var(--text-main);
+    font-size: 13.5px;
+    font-weight: 750;
+    padding: 12px 28px;
+    border-radius: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+.rent-load-more-btn:active {
+    transform: scale(0.96);
+    background: var(--glass-card-hover);
+}
+.rent-load-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-card);
+    border-top-color: var(--text-main);
+    border-radius: 50%;
+    animation: rentSpin 0.7s linear infinite;
+    display: inline-block;
+}
+@keyframes rentSpin {
+    to { transform: rotate(360deg); }
+}
+.rent-end-message {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 12px 0;
+    text-align: center;
+}
+.skeleton-card-rent {
+    background: var(--glass-card-bg);
+    border: 1px solid var(--border-card);
+    border-radius: 18px;
+    padding: 12px;
+    height: 250px;
+    animation: rentPulse 1.5s infinite ease-in-out;
+}
+@keyframes rentPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.25; }
+}
+
+/* ==================== BOTTOM SHEETS (Kolleksiyalar, Fon) ==================== */
 .sheet-modal-overlay {
     position: fixed !important;
     top: 0 !important;
@@ -9087,9 +9230,9 @@ html, body {
     bottom: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background: rgba(0, 0, 0, 0.72) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+    background: rgba(0, 0, 0, 0.78) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
     z-index: 999999 !important;
     display: none;
     align-items: flex-end;
@@ -9115,7 +9258,7 @@ html, body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    box-shadow: var(--shadow) !important;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.45) !important;
     position: relative;
 }
 .sheet-modal-overlay.active .sheet-modal {
@@ -9138,7 +9281,7 @@ html, body {
 .sheet-modal-title {
     font-size: 17.5px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--text-main);
 }
 .sheet-modal-close {
     width: 32px;
@@ -9146,7 +9289,7 @@ html, body {
     border-radius: 50%;
     background: var(--surface2);
     border: 1px solid var(--border);
-    color: var(--muted);
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9169,23 +9312,23 @@ html, body {
     border-radius: 12px;
     padding: 0 14px 0 38px;
     font-size: 13.5px;
-    color: var(--text);
+    color: var(--text-main);
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.15s;
 }
 .sheet-search-input:focus {
-    border-color: var(--me);
+    border-color: var(--border-glow);
 }
 .sheet-search-input::placeholder {
-    color: var(--muted);
+    color: var(--text-muted);
 }
 .sheet-search-icon {
     position: absolute;
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--muted);
+    color: var(--text-muted);
     pointer-events: none;
 }
 .sheet-list-container {
@@ -9228,8 +9371,8 @@ html, body {
     transform: scale(0.99);
 }
 .sheet-item-row.selected {
-    background: var(--me-soft) !important;
-    border-color: var(--me) !important;
+    background: var(--glass-card-hover) !important;
+    border-color: var(--text-main) !important;
 }
 .sheet-item-check {
     width: 22px;
@@ -9245,13 +9388,13 @@ html, body {
     transition: all 0.15s ease;
 }
 .sheet-item-row.selected .sheet-item-check {
-    background: var(--me) !important;
-    border-color: var(--me) !important;
+    background: var(--btn-primary-bg) !important;
+    border-color: var(--btn-primary-bg) !important;
 }
 .sheet-item-check svg {
     width: 14px;
     height: 14px;
-    stroke: #ffffff;
+    stroke: var(--btn-primary-text);
     opacity: 0;
 }
 .sheet-item-row.selected .sheet-item-check svg {
@@ -9271,13 +9414,13 @@ html, body {
     transition: all 0.15s ease;
 }
 .sheet-item-row.selected .sheet-item-radio {
-    border-color: var(--me);
+    border-color: var(--text-main);
 }
 .sheet-item-radio-inner {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--me);
+    background: var(--text-main);
     display: none;
 }
 .sheet-item-row.selected .sheet-item-radio-inner {
@@ -9295,7 +9438,7 @@ html, body {
     overflow: hidden;
     flex-shrink: 0;
     margin-right: 12px;
-    color: var(--me);
+    color: var(--text-main);
 }
 .sheet-item-icon img {
     width: 36px;
@@ -9308,7 +9451,7 @@ html, body {
     border-radius: 50%;
     margin-right: 12px;
     flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 .sheet-item-info {
     flex: 1;
@@ -9317,21 +9460,18 @@ html, body {
 .sheet-item-name {
     font-size: 14.5px;
     font-weight: 750;
-    color: var(--text);
+    color: var(--text-main);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.sheet-item-row.selected .sheet-item-name {
-    color: var(--text);
-}
 .sheet-item-sub {
     font-size: 12px;
-    color: var(--muted);
+    color: var(--text-muted);
     margin-top: 2px;
 }
 .sheet-price-blue {
-    color: var(--gold);
+    color: #FFC93C;
     font-weight: 750;
 }
 .sheet-item-badge-col {
@@ -9348,25 +9488,25 @@ html, body {
     padding: 3px 8px;
     font-size: 12px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--text-main);
 }
 .sheet-item-avail-label {
     font-size: 10.5px;
-    color: var(--muted);
+    color: var(--text-muted);
     font-weight: 600;
     margin-top: 2px;
 }
 .sheet-apply-btn {
     width: 100%;
     height: 48px;
-    background: var(--me) !important;
+    background: var(--btn-primary-bg) !important;
     border: none;
     border-radius: 16px !important;
-    color: #ffffff !important;
+    color: var(--btn-primary-text) !important;
     font-size: 15px;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 4px 14px var(--me-soft) !important;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2) !important;
     transition: all 0.15s ease;
     flex-shrink: 0;
     display: flex;
@@ -9380,20 +9520,8 @@ html, body {
     transform: scale(0.98);
     opacity: 0.92;
 }
-.skeleton-card-rent {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 12px;
-    height: 250px;
-    animation: rentPulse 1.5s infinite ease-in-out;
-}
-@keyframes rentPulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.25; }
-}
 
-/* Modal rent */
+/* ==================== RENT CONFIRMATION & FULL PREVIEW MODALS ==================== */
 body.rent-modal-active .bottom-dock-nav,
 body.has-modal-open .bottom-dock-nav,
 body.modal-open .bottom-dock-nav {
@@ -9409,9 +9537,9 @@ body.modal-open .bottom-dock-nav {
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    background: rgba(0, 0, 0, 0.72) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+    background: rgba(0, 0, 0, 0.82) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
     z-index: 100000 !important;
     display: none;
     align-items: flex-end;
@@ -9437,7 +9565,7 @@ body.modal-open .bottom-dock-nav {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
-    box-shadow: var(--shadow);
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
 }
 .modal-overlay-rent.active .modal-sheet-rent {
     transform: translateY(0);
@@ -9458,7 +9586,7 @@ body.modal-open .bottom-dock-nav {
 .modal-title-rent {
     font-size: 17px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--text-main);
 }
 .modal-close-btn-rent {
     background: var(--surface2);
@@ -9466,44 +9594,94 @@ body.modal-open .bottom-dock-nav {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    color: var(--muted);
+    color: var(--text-muted);
     font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: background 0.15s ease;
 }
+.modal-close-btn-rent:active {
+    background: var(--border);
+}
+
+/* Enlarged Preview inside Rent Confirmation Modal */
 .modal-item-preview-rent {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 10px 12px;
+    border-radius: 18px;
+    padding: 12px 14px;
     margin-bottom: 16px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
 }
-.modal-item-img-rent {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
+.modal-item-preview-rent:active {
+    background: var(--border);
+}
+.modal-item-img-wrap-rent {
+    width: 74px;
+    height: 74px;
+    border-radius: 14px;
     background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.modal-item-img-wrap-rent img,
+.modal-item-img-rent {
+    width: 86%;
+    height: 86%;
     object-fit: contain;
+}
+.modal-img-zoom-btn {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+.modal-item-info-rent {
+    flex: 1;
+    min-width: 0;
 }
 .modal-item-name-rent {
     font-size: 15px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--text-main);
+    margin-bottom: 4px;
 }
 .modal-item-daily-rent {
-    font-size: 12.5px;
-    color: var(--gold);
+    font-size: 13px;
+    color: #FFC93C;
     font-weight: 750;
 }
+.modal-preview-tap-hint {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* Stepper, Slider, Inputs */
 .modal-field-title-rent {
     font-size: 13px;
     font-weight: 700;
-    color: var(--muted);
+    color: var(--text-muted);
     margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
@@ -9524,7 +9702,7 @@ body.modal-open .bottom-dock-nav {
     border-radius: 10px;
     background: var(--surface);
     border: 1px solid var(--border);
-    color: var(--text);
+    color: var(--text-main);
     font-size: 20px;
     font-weight: 700;
     display: flex;
@@ -9542,11 +9720,11 @@ body.modal-open .bottom-dock-nav {
     text-align: center;
     font-size: 18px;
     font-weight: 850;
-    color: var(--text);
+    color: var(--text-main);
 }
 .range-slider-rent {
     width: 100%;
-    accent-color: var(--me);
+    accent-color: var(--text-main);
     height: 6px;
     margin-bottom: 14px;
 }
@@ -9559,69 +9737,45 @@ body.modal-open .bottom-dock-nav {
     flex: 1;
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 6px 0;
+    border-radius: 10px;
+    padding: 7px 0;
     font-size: 11.5px;
     font-weight: 700;
-    color: var(--muted);
+    color: var(--text-muted);
     text-align: center;
     cursor: pointer;
     transition: all 0.12s ease;
 }
 .quick-pill-rent:active {
-    background: var(--me-soft);
-    color: var(--me);
-    border-color: var(--me);
+    background: var(--glass-card-hover);
+    color: var(--text-main);
+    border-color: var(--border-glow);
 }
 .modal-input-box-rent {
     width: 100%;
     height: 44px;
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 0 14px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--text);
+    color: var(--text-main);
     outline: none;
     margin-bottom: 14px;
     box-sizing: border-box;
     transition: border-color 0.15s;
 }
 .modal-input-box-rent:focus {
-    border-color: var(--me);
+    border-color: var(--border-glow);
 }
 .modal-input-box-rent::placeholder {
-    color: var(--muted);
-}
-.network-fee-badge-rent {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface2);
-    border: 1px dashed var(--border);
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 13px;
-    font-weight: 650;
-    color: var(--text);
-    margin-bottom: 14px;
-}
-.network-fee-badge-rent .fee-badge-left-rent {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    color: var(--muted);
-}
-.network-fee-badge-rent .fee-badge-val-rent {
-    color: var(--gold);
-    font-weight: 800;
-    font-size: 13.5px;
+    color: var(--text-muted);
 }
 .total-calc-card-rent {
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 12px 14px;
     margin-bottom: 16px;
 }
@@ -9629,20 +9783,20 @@ body.modal-open .bottom-dock-nav {
     display: flex;
     justify-content: space-between;
     font-size: 12.5px;
-    color: var(--muted);
+    color: var(--text-muted);
     margin-bottom: 6px;
 }
 .calc-row-rent.total {
     font-size: 16px;
     font-weight: 850;
-    color: var(--text);
+    color: var(--text-main);
     border-top: 1px solid var(--border);
     padding-top: 8px;
     margin-top: 8px;
     margin-bottom: 0;
 }
 .calc-row-rent.total .total-amount {
-    color: var(--gold);
+    color: #FFC93C;
     font-size: 17px;
     font-weight: 800;
 }
@@ -9650,27 +9804,17 @@ body.modal-open .bottom-dock-nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 12px;
-    padding: 8px 12px;
-    border-radius: 10px;
+    font-size: 12.5px;
+    padding: 9px 12px;
+    border-radius: 12px;
     margin-bottom: 14px;
     background: var(--surface2);
     border: 1px solid var(--border);
-    color: var(--text);
-}
-.balance-check-status-rent.insufficient {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.3);
-    color: #ef4444;
-}
-.balance-check-status-rent.sufficient {
-    background: rgba(34, 197, 94, 0.1);
-    border-color: rgba(34, 197, 94, 0.3);
-    color: #22c55e;
+    color: var(--text-main);
 }
 .topup-link-btn-rent {
-    background: var(--me);
-    color: #ffffff;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
     border: none;
     padding: 5px 12px;
     border-radius: 8px;
@@ -9682,10 +9826,10 @@ body.modal-open .bottom-dock-nav {
     width: 100%;
     min-height: 50px;
     height: auto;
-    background: var(--me) !important;
+    background: var(--btn-primary-bg) !important;
     border: none;
-    border-radius: 14px;
-    color: #ffffff;
+    border-radius: 16px !important;
+    color: var(--btn-primary-text) !important;
     font-size: 15px;
     font-weight: 800;
     display: flex;
@@ -9693,7 +9837,7 @@ body.modal-open .bottom-dock-nav {
     justify-content: center;
     gap: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 14px var(--me-soft);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2) !important;
     transition: all 0.15s ease;
     padding: 14px 16px;
     box-sizing: border-box;
@@ -9705,9 +9849,9 @@ body.modal-open .bottom-dock-nav {
     opacity: 0.92;
 }
 .modal-confirm-btn-rent:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    box-shadow: none;
+    opacity: 0.45 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
 }
 .rent-modal-error-box {
     width: 100%;
@@ -9727,7 +9871,125 @@ body.modal-open .bottom-dock-nav {
     animation: fadeInRentView 0.2s ease-out;
 }
 
-/* ==================== MY RENTS SECTION & CONNECT STYLES ==================== */
+/* ==================== FULL NFT PREVIEW MODAL (NEW FEATURE) ==================== */
+.nft-preview-sheet {
+    max-height: 90vh !important;
+}
+.nft-preview-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 14px;
+}
+.nft-preview-img-box {
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+.nft-preview-img-box img {
+    width: 86%;
+    height: 86%;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+.nft-preview-duration-chip {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border-card);
+    color: var(--text-main);
+    font-size: 11px;
+    font-weight: 750;
+    padding: 3px 9px;
+    border-radius: 999px;
+    z-index: 2;
+}
+.nft-preview-header-box {
+    margin-bottom: 14px;
+    text-align: center;
+}
+.nft-preview-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.25;
+    margin-bottom: 6px;
+    word-break: break-word;
+}
+.nft-preview-price-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+.nft-preview-price-label {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+.nft-preview-price-gold {
+    color: #FFC93C;
+    font-weight: 800;
+    font-size: 15px;
+}
+.nft-preview-attrs-wrap {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+}
+.nft-preview-section-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+.nft-preview-chips-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.nft-attr-pill {
+    display: inline-flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px 10px;
+    min-width: 70px;
+}
+.nft-attr-trait {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+.nft-attr-value {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+.nft-preview-action-btn {
+    margin-top: 8px !important;
+}
+
+/* ==================== MY RENTS VIEW & CARDS ==================== */
 .my-rents-view {
     animation: fadeInRentView 0.2s ease-out;
 }
@@ -9753,7 +10015,7 @@ body.modal-open .bottom-dock-nav {
     gap: 8px;
     font-size: 18px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--text-main);
 }
 .refresh-pill-btn {
     width: 38px;
@@ -9765,12 +10027,12 @@ body.modal-open .bottom-dock-nav {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: var(--muted);
+    color: var(--text-muted);
     transition: all 0.15s ease;
 }
 .refresh-pill-btn:active {
     transform: scale(0.92) rotate(180deg);
-    color: var(--me);
+    color: var(--text-main);
 }
 .my-rent-card {
     background: var(--surface);
@@ -9782,7 +10044,6 @@ body.modal-open .bottom-dock-nav {
     flex-direction: column;
     gap: 12px;
     box-shadow: var(--shadow);
-    border-left: 3px solid var(--me);
 }
 .my-rent-card-top {
     display: flex;
@@ -9813,7 +10074,7 @@ body.modal-open .bottom-dock-nav {
 .my-rent-card-name {
     font-size: 15px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--text-main);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -9832,7 +10093,7 @@ body.modal-open .bottom-dock-nav {
 }
 .my-rent-card-meta {
     font-size: 12.5px;
-    color: var(--muted);
+    color: var(--text-muted);
     font-weight: 600;
 }
 .my-rent-target-user-pill {
@@ -9840,9 +10101,9 @@ body.modal-open .bottom-dock-nav {
     align-items: center;
     gap: 6px;
     font-size: 11.5px;
-    color: var(--me);
-    background: var(--me-soft);
-    border: 1px solid rgba(74, 168, 255, 0.25);
+    color: var(--text-main);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     padding: 3px 8px;
     border-radius: 8px;
     margin-top: 4px;
@@ -9851,10 +10112,10 @@ body.modal-open .bottom-dock-nav {
 .my-rent-bind-btn {
     width: 100%;
     height: 42px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    color: var(--text);
+    background: var(--btn-primary-bg);
+    border: none;
+    border-radius: 14px;
+    color: var(--btn-primary-text);
     font-size: 14px;
     font-weight: 750;
     display: flex;
@@ -9866,7 +10127,7 @@ body.modal-open .bottom-dock-nav {
 }
 .my-rent-bind-btn:active {
     transform: scale(0.98);
-    background: var(--border);
+    opacity: 0.92;
 }
 
 /* Connect Modal Styles */
@@ -9880,7 +10141,7 @@ body.modal-open .bottom-dock-nav {
     justify-content: space-between;
     margin-bottom: 14px;
     cursor: pointer;
-    color: var(--text);
+    color: var(--text-main);
 }
 .connect-step-card {
     background: var(--surface2);
@@ -9901,8 +10162,8 @@ body.modal-open .bottom-dock-nav {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: var(--me);
-    color: #ffffff;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
     font-size: 12px;
     font-weight: 800;
     display: flex;
@@ -9913,12 +10174,12 @@ body.modal-open .bottom-dock-nav {
 .step-title-text {
     font-size: 13.5px;
     font-weight: 750;
-    color: var(--text);
+    color: var(--text-main);
     line-height: 1.35;
 }
 .step-desc-text {
     font-size: 12px;
-    color: var(--muted);
+    color: var(--text-muted);
     line-height: 1.45;
     padding-left: 34px;
 }
@@ -9932,9 +10193,9 @@ body.modal-open .bottom-dock-nav {
     gap: 6px;
     padding: 8px 14px;
     border-radius: 10px;
-    background: var(--me-soft);
-    border: 1px solid rgba(74, 168, 255, 0.28);
-    color: var(--me);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-main);
     font-size: 12px;
     font-weight: 750;
     text-decoration: none;
@@ -9953,51 +10214,42 @@ body.modal-open .bottom-dock-nav {
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 0 12px;
-    color: var(--text);
-    font-size: 12px;
+    font-size: 13px;
+    color: var(--text-main);
     outline: none;
-}
-.tc-input:focus {
-    border-color: var(--me);
 }
 .tc-submit-btn {
     height: 40px;
     padding: 0 16px;
-    background: var(--me);
-    border: none;
     border-radius: 10px;
-    color: #ffffff;
+    background: var(--btn-primary-bg);
+    border: none;
+    color: var(--btn-primary-text);
     font-size: 13px;
-    font-weight: 800;
+    font-weight: 750;
     cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s ease;
 }
-.tc-submit-btn:active {
-    transform: scale(0.96);
-    opacity: 0.92;
-}
-.my-rents-empty {
+.my-rents-empty-box {
     text-align: center;
-    padding: 40px 20px;
+    padding: 48px 16px;
     background: var(--surface);
-    border: 1px dashed var(--border);
-    border-radius: 18px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    margin-top: 10px;
 }
 .my-rents-empty-icon {
     font-size: 42px;
     margin-bottom: 12px;
-    color: var(--muted);
 }
 .my-rents-empty-title {
     font-size: 16px;
     font-weight: 750;
-    color: var(--text);
+    color: var(--text-main);
     margin-bottom: 6px;
 }
 .my-rents-empty-desc {
     font-size: 12.5px;
-    color: var(--muted);
+    color: var(--text-muted);
     margin-bottom: 18px;
     line-height: 1.45;
 }
@@ -11768,17 +12020,25 @@ body {
         </div>
 
 
-        <!-- Hero Card -->
-        <div class="rent-hero-card">
-            <div class="rent-hero-tag">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                </svg>
-                <span>Marketapp Live Katalog</span>
-            </div>
-            <div class="rent-hero-title">Telegram NFT Ijarasi</div>
-            <div class="rent-hero-desc">
-                Telegram sovg'alari, chiroyli username va +888 raqamlarni CoinStatUZ balansingiz orqali istalgan muddatga ijaraga oling!
+        <!-- Hero Card (Home Page Lucky Spin style) -->
+        <div class="vip-spin-banner rent-hero-banner">
+            <div class="spin-banner-left">
+                <div class="spin-icon-bubble">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="4" ry="4"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </div>
+                <div>
+                    <div class="spin-banner-title">
+                        <span>Telegram NFT Ijarasi</span>
+                        <span class="spin-promo-badge">LIVE KATALOG</span>
+                    </div>
+                    <div class="spin-banner-sub">
+                        Telegram sovg'alari, username va raqamlarni hisobingizdan ijaraga oling!
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -11795,14 +12055,30 @@ body {
             </div>
         </div>
 
-        <!-- My Rents Banner -->
-        <div class="my-rents-banner" id="appMyRentsBanner" onclick="openMyRentsViewApp()">
-            <div class="my-rents-banner-left">
-                <span>🎁</span>
-                <span>Mening ijaralarim (<span id="appMyRentsCountBadge">0</span>)</span>
+        <!-- My Rents Banner (Lucky Spin style) -->
+        <div class="vip-spin-banner my-rents-banner" id="appMyRentsBanner" onclick="openMyRentsViewApp()">
+            <div class="spin-banner-left">
+                <div class="spin-icon-bubble">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                        <rect x="2" y="7" width="20" height="5"></rect>
+                        <line x1="12" y1="22" x2="12" y2="7"></line>
+                        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="spin-banner-title">
+                        <span>Mening ijaralarim</span>
+                        <span class="spin-promo-badge" id="appMyRentsCountBadge">0</span>
+                    </div>
+                    <div class="spin-banner-sub">
+                        Faol va yakunlangan ijaralaringiz holati
+                    </div>
+                </div>
             </div>
-            <div class="my-rents-banner-right">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <div style="color: var(--text-muted); display: flex; align-items: center; flex-shrink: 0; padding-left: 8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
             </div>
@@ -12798,6 +13074,55 @@ body {
         </div>
     </div>
 
+    <!-- Full NFT Preview Modal (Root Body Level - NEW FEATURE) -->
+    <div class="modal-overlay-rent" id="nftPreviewModal" onclick="handlePreviewOverlayClick(event)">
+        <div class="modal-sheet-rent nft-preview-sheet">
+            <div class="modal-drag-bar-rent"></div>
+            <div class="modal-header-row-rent">
+                <div class="modal-title-rent" id="nftPreviewModalTitle">NFT Ma'lumotlari</div>
+                <button class="modal-close-btn-rent" onclick="closeNftPreviewModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Large Square Image -->
+            <div class="nft-preview-img-container">
+                <div class="nft-preview-img-box">
+                    <img id="nftPreviewLargeImg" src="./images/gift.webp" alt="NFT Preview" onerror="this.src='./images/gift.webp'">
+                    <span class="nft-preview-duration-chip" id="nftPreviewDurationChip">1вЂ“30 kun</span>
+                </div>
+            </div>
+
+            <!-- Title & Price Line -->
+            <div class="nft-preview-header-box">
+                <div class="nft-preview-name" id="nftPreviewName">NFT Name</div>
+                <div class="nft-preview-price-line">
+                    <span class="nft-preview-price-label">Kunlik ijara:</span>
+                    <span class="nft-preview-price-gold" id="nftPreviewPriceGold">0 so'm / kun</span>
+                </div>
+            </div>
+
+            <!-- Attributes Chips Section -->
+            <div class="nft-preview-attrs-wrap" id="nftPreviewAttrsWrap">
+                <div class="nft-preview-section-label">Xususiyatlari va atributlari</div>
+                <div class="nft-preview-chips-grid" id="nftPreviewChipsGrid">
+                    <!-- Dynamically populated trait chips -->
+                </div>
+            </div>
+
+            <!-- Action Button: White BG, Black Text -->
+            <button class="modal-confirm-btn-rent nft-preview-action-btn" id="nftPreviewActionBtn" onclick="openRentModalFromPreview()">
+                <span>Ijaraga olish</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
     <!-- Rent Action Modal (Root Body Level) -->
     <div class="modal-overlay-rent" id="rentActionModal">
         <div class="modal-sheet-rent">
@@ -12812,12 +13137,23 @@ body {
                 </button>
             </div>
 
-            <!-- Preview Card -->
-            <div class="modal-item-preview-rent">
-                <img class="modal-item-img-rent" id="modalRentItemImg" src="./images/gift.webp" alt="NFT">
-                <div>
+            <!-- Preview Card (Enlarged with zoom tap) -->
+            <div class="modal-item-preview-rent" onclick="openNftPreviewModalForCurrent()" title="Batafsil ko'rish uchun bosing">
+                <div class="modal-item-img-wrap-rent">
+                    <img class="modal-item-img-rent" id="modalRentItemImg" src="./images/gift.webp" alt="NFT" onerror="this.src='./images/gift.webp'">
+                    <div class="modal-img-zoom-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                    </div>
+                </div>
+                <div class="modal-item-info-rent">
                     <div class="modal-item-name-rent" id="modalRentItemName">NFT Name</div>
                     <div class="modal-item-daily-rent" id="modalRentItemDaily">0 so'm / kun</div>
+                    <div class="modal-preview-tap-hint">Batafsil ko'rish в†—</div>
                 </div>
             </div>
 
@@ -18736,7 +19072,7 @@ function createRentCardHtml(item, index) {
         const stickerBg = getUsernameStickerBg(rawName);
         return `
             <div class="nft-card-rent username-card-wrap">
-                <div class="username-top-box">
+                <div class="username-top-box" onclick="openNftPreviewModal(${index})">
                     <span class="username-duration-badge">${minDays}–${maxDays} kun</span>
                     <div class="username-tg-badge">
                         <svg class="username-tg-plane" viewBox="0 0 24 24" fill="none">
@@ -18746,10 +19082,18 @@ function createRentCardHtml(item, index) {
                     </div>
                     <div class="username-pill-sticker" style="background: ${stickerBg};">@${escapeRentHtml(rawName)}</div>
                     <div class="username-link-sub">${escapeRentHtml(rawName)}.t.me</div>
+                    <div class="nft-preview-zoom-badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                    </div>
                 </div>
-                <div class="username-card-title">@${escapeRentHtml(rawName)}</div>
+                <div class="username-card-title" onclick="openNftPreviewModal(${index})" title="@${escapeRentHtml(rawName)}">@${escapeRentHtml(rawName)}</div>
                 <button class="nft-rent-btn-rent" onclick="openRentModal(${index})">
-                    ${price.toLocaleString('uz-UZ')} so'm / kun
+                    <span class="rent-price-val">${price.toLocaleString('uz-UZ')} so'm</span> / kun
                 </button>
             </div>
         `;
@@ -18758,13 +19102,21 @@ function createRentCardHtml(item, index) {
     const imgUrl = item.webp_url || (item.media_key ? `https://nft.fragment.com/gift/${item.media_key}.webp` : './images/gift.webp');
     return `
         <div class="nft-card-rent">
-            <div class="nft-img-wrap-rent">
+            <div class="nft-img-wrap-rent" onclick="openNftPreviewModal(${index})">
                 <span class="nft-badge-pill-rent">${minDays}–${maxDays} kun</span>
                 <img src="${imgUrl}" alt="${escapeRentHtml(item.name)}" loading="lazy" onerror="this.src='./images/gift.webp'">
+                <div class="nft-preview-zoom-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                </div>
             </div>
-            <div class="nft-title-rent" title="${escapeRentHtml(item.name)}">${escapeRentHtml(item.name)}</div>
+            <div class="nft-title-rent" onclick="openNftPreviewModal(${index})" title="${escapeRentHtml(item.name)}">${escapeRentHtml(item.name)}</div>
             <button class="nft-rent-btn-rent" onclick="openRentModal(${index})">
-                ${price.toLocaleString('uz-UZ')} so'm / kun
+                <span class="rent-price-val">${price.toLocaleString('uz-UZ')} so'm</span> / kun
             </button>
         </div>
     `;
@@ -19081,6 +19433,114 @@ function handleRentTechNotice() {
     }
 }
 
+let previewSelectedItem = null;
+
+function openNftPreviewModal(index) {
+    previewSelectedItem = (rentDisplayedItems && rentDisplayedItems[index]) ? rentDisplayedItems[index] : (rentAllItems ? rentAllItems[index] : null);
+    if (!previewSelectedItem) return;
+
+    const modal = document.getElementById('nftPreviewModal');
+    const largeImg = document.getElementById('nftPreviewLargeImg');
+    const nameEl = document.getElementById('nftPreviewName');
+    const priceEl = document.getElementById('nftPreviewPriceGold');
+    const durationEl = document.getElementById('nftPreviewDurationChip');
+    const chipsGrid = document.getElementById('nftPreviewChipsGrid');
+
+    const minDays = Number(previewSelectedItem.min_days || 1);
+    const maxDays = Number(previewSelectedItem.max_days || 30);
+    let price = Number(previewSelectedItem.price_per_day_uzs || 0);
+    if (!price && previewSelectedItem.price_per_day_nano) {
+        price = Math.round((Number(previewSelectedItem.price_per_day_nano) / 1e9) * 28000);
+    }
+    if (!price) price = 500;
+    previewSelectedItem.price_per_day_uzs = price;
+
+    const imgUrl = previewSelectedItem.webp_url || (previewSelectedItem.media_key ? `https://nft.fragment.com/gift/${previewSelectedItem.media_key}.webp` : './images/gift.webp');
+    if (largeImg) largeImg.src = imgUrl;
+    if (nameEl) nameEl.textContent = previewSelectedItem.name;
+    if (priceEl) priceEl.textContent = `${price.toLocaleString('uz-UZ')} so'm / kun`;
+    if (durationEl) durationEl.textContent = `${minDays}–${maxDays} kun`;
+
+    if (chipsGrid) {
+        chipsGrid.innerHTML = '';
+        const attrs = Array.isArray(previewSelectedItem.attributes) ? previewSelectedItem.attributes : [];
+        if (attrs.length === 0) {
+            chipsGrid.innerHTML = `<span style="font-size: 12px; color: var(--text-muted);">Qo'shimcha xususiyatlar ko'rsatilmagan</span>`;
+        } else {
+            attrs.forEach(attr => {
+                const trait = (typeof escapeRentHtml === 'function') ? escapeRentHtml(attr.trait_type || 'Xususiyat') : (attr.trait_type || 'Xususiyat');
+                const val = (typeof escapeRentHtml === 'function') ? escapeRentHtml(attr.value || '-') : (attr.value || '-');
+                const chip = document.createElement('div');
+                chip.className = 'nft-attr-pill';
+                chip.innerHTML = `<span class="nft-attr-trait">${trait}</span><span class="nft-attr-value">${val}</span>`;
+                chipsGrid.appendChild(chip);
+            });
+        }
+    }
+
+    if (modal) modal.classList.add('active');
+    document.body.classList.add('rent-modal-active');
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e) {}
+    }
+}
+
+function closeNftPreviewModal() {
+    const modal = document.getElementById('nftPreviewModal');
+    if (modal) modal.classList.remove('active');
+    const rentActionModal = document.getElementById('rentActionModal');
+    if (!rentActionModal || !rentActionModal.classList.contains('active')) {
+        document.body.classList.remove('rent-modal-active');
+    }
+    previewSelectedItem = null;
+}
+
+function handlePreviewOverlayClick(event) {
+    if (event.target && event.target.id === 'nftPreviewModal') {
+        closeNftPreviewModal();
+    }
+}
+
+function openRentModalFromPreview() {
+    if (!previewSelectedItem) return;
+    const targetItem = previewSelectedItem;
+    closeNftPreviewModal();
+
+    let targetIndex = -1;
+    if (rentDisplayedItems && rentDisplayedItems.length > 0) {
+        targetIndex = rentDisplayedItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
+    }
+    if (targetIndex === -1 && rentAllItems && rentAllItems.length > 0) {
+        targetIndex = rentAllItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
+    }
+
+    if (targetIndex !== -1) {
+        openRentModal(targetIndex);
+    } else {
+        rentSelectedItem = targetItem;
+        rentMinDaysLimit = Number(rentSelectedItem.min_days || 1);
+        rentMaxDaysLimit = Number(rentSelectedItem.max_days || 30);
+        rentRentalDays = rentMinDaysLimit;
+        openRentModal(0);
+    }
+}
+
+function openNftPreviewModalForCurrent() {
+    if (!rentSelectedItem) return;
+    const targetItem = rentSelectedItem;
+    let targetIndex = -1;
+    if (rentDisplayedItems && rentDisplayedItems.length > 0) {
+        targetIndex = rentDisplayedItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
+    }
+    if (targetIndex === -1 && rentAllItems && rentAllItems.length > 0) {
+        targetIndex = rentAllItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
+    }
+    if (targetIndex !== -1) {
+        openNftPreviewModal(targetIndex);
+    }
+}
+
 function openRentModal(index) {
     rentSelectedItem = (rentDisplayedItems && rentDisplayedItems[index]) ? rentDisplayedItems[index] : rentAllItems[index];
     if (!rentSelectedItem) return;
@@ -19188,7 +19648,7 @@ function updateRentModalCalculations() {
         statusBox.innerHTML = `
             <div>
                 <span>Hisobingiz: </span>
-                <strong style="color: #ef4444;">${curBal.toLocaleString('uz-UZ')} UZS</strong> <span style="color: #ef4444; font-weight: 750;">(Yetarli emas)</span>
+                <strong style="color: #ef4444;">${curBal.toLocaleString('uz-UZ')} UZS</strong> <span style="display:inline-block; margin-left:6px; padding:2px 8px; border-radius:999px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#ef4444; font-size:11px; font-weight:800;">Yetarli emas</span>
             </div>
             <button class="topup-link-btn-rent" onclick="navigateTo('topup')">+ To'ldirish</button>
         `;
@@ -19199,11 +19659,11 @@ function updateRentModalCalculations() {
         statusBox.innerHTML = `
             <div>
                 <span>Hisobingiz: </span>
-                <strong>${curBal.toLocaleString('uz-UZ')}</strong> UZS <span style="color: #10b981; font-weight: 750;">(Yetarli ✅)</span>
+                <strong>${curBal.toLocaleString('uz-UZ')}</strong> UZS <span style="display:inline-block; margin-left:6px; padding:2px 8px; border-radius:999px; background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.3); color:#22c55e; font-size:11px; font-weight:800;">Yetarli</span>
             </div>
         `;
         confirmBtn.disabled = false;
-        confirmBtn.innerHTML = `<span>🚀 Ijarani rasmiylashtirish (${total.toLocaleString('uz-UZ')} UZS)</span>`;
+        confirmBtn.innerHTML = `<span>Ijarani rasmiylashtirish (${total.toLocaleString('uz-UZ')} UZS)</span>`;
     }
 }
 
