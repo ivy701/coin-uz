@@ -1216,6 +1216,56 @@ async def api_rent_my(request: web.Request) -> web.Response:
   u_obj = await get_user(int(user_id))
   default_uname = (u_obj.get("username") if u_obj else "") or ""
 
+  # Auto-sync any completed Abu Store NFT rentals into user_nft_rents
+  try:
+    if getattr(abu_store_client, "api_key", None):
+      abu_orders_res = await abu_store_client._request("GET", "orders")
+      if abu_orders_res and abu_orders_res.get("ok"):
+        abu_orders = abu_orders_res.get("data", {}).get("orders", [])
+        updated = False
+        for ao in abu_orders:
+          if ao.get("service") == "nft_rent" and ao.get("status") == "completed":
+            req_data = ao.get("request", {})
+            res_data = ao.get("result", {})
+            ao_nft_addr = res_data.get("nft_address") or req_data.get("nft_address") or ""
+            ao_nft_name = res_data.get("nft_name") or req_data.get("nft_name") or "Telegram NFT"
+            ao_days = int(res_data.get("days") or req_data.get("days") or 1)
+            ao_price = int(float(ao.get("price") or 0))
+
+            already_in = any(r.get("nft_address") == ao_nft_addr for r in rents)
+            if not already_in and ao_nft_addr:
+              db_check = await db_conn.fetchrow(
+                "SELECT id FROM user_nft_rents WHERE nft_address = $1 AND telegram_id = $2",
+                ao_nft_addr, int(user_id)
+              )
+              if not db_check:
+                from services.database import add_user_nft_rent
+                clean_slug = ao_nft_name.lower().split("#")[0].replace(" ", "").strip()
+                clean_num = ao_nft_name.split("#")[1].strip() if "#" in ao_nft_name else ""
+                img_url = f"https://nft.fragment.com/gift/{clean_slug}-{clean_num}.webp" if clean_num else f"https://nft.fragment.com/gift/{clean_slug}.webp"
+                new_rid = await add_user_nft_rent(
+                  telegram_id=int(user_id),
+                  nft_name=ao_nft_name,
+                  nft_address=ao_nft_addr,
+                  category=req_data.get("category", "gifts"),
+                  image_url=img_url,
+                  days=ao_days,
+                  price_total=ao_price,
+                  target_username=default_uname
+                )
+                exp_ts = res_data.get("expires_at")
+                if exp_ts and new_rid:
+                  exp_dt = datetime.datetime.fromtimestamp(exp_ts, tz=datetime.timezone.utc)
+                  await db_conn.execute(
+                    "UPDATE user_nft_rents SET expires_at = $1 WHERE id = $2",
+                    exp_dt, new_rid
+                  )
+                updated = True
+        if updated:
+          rents = await get_user_nft_rents(int(user_id))
+  except Exception as sync_err:
+    logger.debug("api_rent_my Abu Store sync note: %s", sync_err)
+
   # If user_nft_rents is empty, check orders table for legacy/existing orders
   if not rents:
     try:
