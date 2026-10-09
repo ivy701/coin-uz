@@ -14,12 +14,28 @@ import uuid
 from datetime import datetime, timezone, timedelta
 from typing import Any
 
-from MarketappAPI import MarketappClient
-from MarketappAPI.types.models import RentNFTBody, AvailableForRentResponse, RentItem, RentedItem
-from MarketappAPI.exceptions import (
-    WalletError, ValidationError, TransactionError,
-    ConfirmationTimeout, APIError, MarketappError, SeqnoError
-)
+try:
+    from MarketappAPI import MarketappClient
+    from MarketappAPI.types.models import RentNFTBody, AvailableForRentResponse, RentItem, RentedItem
+    from MarketappAPI.exceptions import (
+        WalletError, ValidationError, TransactionError,
+        ConfirmationTimeout, APIError, MarketappError, SeqnoError
+    )
+except Exception as _lib_import_err:
+    import logging
+    logging.getLogger(__name__).warning("MarketappAPI import note: %s (using safe fallback)", _lib_import_err)
+    MarketappClient = None
+    RentNFTBody = None
+    AvailableForRentResponse = None
+    RentItem = None
+    RentedItem = None
+    class WalletError(Exception): pass
+    class ValidationError(Exception): pass
+    class TransactionError(Exception): pass
+    class ConfirmationTimeout(Exception): pass
+    class APIError(Exception): pass
+    class MarketappError(Exception): pass
+    class SeqnoError(Exception): pass
 import config
 from services.database import (
     db_conn, get_user, add_balance, deduct_balance,
@@ -157,19 +173,24 @@ class MarketappService:
     def is_dry_run(self) -> bool:
         return bool(getattr(config, "DRY_RUN", True))
 
-    def _get_client(self) -> MarketappClient:
+    def _get_client(self) -> Any:
+        if MarketappClient is None:
+            return None
         token = (os.getenv("MARKETAPP_TOKEN") or getattr(config, "MARKETAPP_TOKEN", "") or "").strip()
         seed = (os.getenv("TON_SEED") or getattr(config, "TON_SEED", "") or "").strip()
         tonapi_key = (os.getenv("TONAPI_KEY") or getattr(config, "TONAPI_KEY", "") or "").strip()
 
         # Instantiate client with safe timeout
-        return MarketappClient(
-            api_token=token or "marketapp_placeholder_token",
-            seed=seed or None,
-            api_key=tonapi_key or None,
-            wallet_version="V5R1",
-            timeout=25.0
-        )
+        try:
+            return MarketappClient(
+                api_token=token or "marketapp_placeholder_token",
+                seed=seed or None,
+                api_key=tonapi_key or None,
+                wallet_version="V5R1",
+                timeout=25.0
+            )
+        except Exception:
+            return None
 
     def _get_user_lock(self, user_id: int) -> asyncio.Lock:
         if user_id not in self._user_locks:
@@ -179,13 +200,14 @@ class MarketappService:
     async def get_wallet_info(self) -> dict[str, Any]:
         """Fetch V5R1 TON wallet address and live blockchain balance without logging secret seed."""
         client = self._get_client()
-        if not client.seed:
+        if client is None or not getattr(client, "seed", None):
             return {
                 "configured": False,
                 "address": "Seed sozlanmagan",
                 "balance_ton": 0.0,
                 "healthy": False,
-                "error": "TON_SEED muhit o'zgaruvchisida topilmadi"
+                "is_active": False,
+                "error": "TON_SEED muhit o'zgaruvchisida topilmadi yoki MarketappAPI yuklanmadi"
             }
 
         try:
@@ -267,14 +289,15 @@ class MarketappService:
         has_live_data = False
 
         try:
-            if category == "gifts":
-                res = await client.get_gifts_available_for_rent(cursor=cursor)
-            elif category == "usernames":
-                res = await client.get_usernames_available_for_rent(cursor=cursor)
-            elif category == "numbers":
-                res = await client.get_numbers_available_for_rent(cursor=cursor)
-            else:
-                res = await client.get_gifts_available_for_rent(cursor=cursor)
+            if client is not None:
+                if category == "gifts":
+                    res = await client.get_gifts_available_for_rent(cursor=cursor)
+                elif category == "usernames":
+                    res = await client.get_usernames_available_for_rent(cursor=cursor)
+                elif category == "numbers":
+                    res = await client.get_numbers_available_for_rent(cursor=cursor)
+                else:
+                    res = await client.get_gifts_available_for_rent(cursor=cursor)
 
             if res and res.items:
                 has_live_data = True

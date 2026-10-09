@@ -17,3 +17,10 @@ pydantic>=2.7.0
 redis>=5.0.0
 websockets>=12.0
 python-multipart>=0.0.9
+
+# Marketapp & TON Rental Service
+marketapp-api==1.0.1
+tonutils>=2.0.0
+pytoniq-core>=0.1.0
+ton-core>=0.1.0
+curl_cffi>=0.7.0

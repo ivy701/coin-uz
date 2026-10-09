@@ -166,18 +166,21 @@ async def main():
     await database.init_db()
     logger.info("Database initialized, bot starting...")
 
-    # NFT Ijara hamyoni va xizmatini tekshirish
-    try:
-        from services.marketapp_service import marketapp_service
-        w_info = await marketapp_service.get_wallet_info()
-        logger.info(
-            "TON Ijara hamyoni: %s | Balans: %.4f TON | Holat: %s",
-            w_info.get("address"),
-            w_info.get("balance_ton", 0.0),
-            "Faol" if w_info.get("is_active") else "Faol emas / To'ldirish kerak"
-        )
-    except Exception as e:
-        logger.warning("Marketapp hamyon tekshiruvida ogohlantirish: %s", e)
+    # NFT Ijara hamyoni va xizmatini tekshirish (orqa fonda, startupni to'xtatmaslik uchun)
+    async def _check_ton_wallet_bg():
+        try:
+            from services.marketapp_service import marketapp_service
+            w_info = await asyncio.wait_for(marketapp_service.get_wallet_info(), timeout=10.0)
+            logger.info(
+                "TON Ijara hamyoni: %s | Balans: %.4f TON | Holat: %s",
+                w_info.get("address"),
+                w_info.get("balance_ton", 0.0),
+                "Faol" if w_info.get("is_active") else "Faol emas / To'ldirish kerak"
+            )
+        except Exception as e:
+            logger.warning("Marketapp hamyon tekshiruvida ogohlantirish: %s", e)
+
+    asyncio.create_task(_check_ton_wallet_bg())
 
     if hasattr(runner, 'app'):
         runner.app["bot"] = bot

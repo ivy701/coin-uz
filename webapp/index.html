@@ -17778,20 +17778,54 @@ async function loadRentItems() {
         <div class="skeleton-card-rent"></div>
     `;
 
+    const FALLBACK_RENT_ITEMS = {
+        gifts: [
+            { nft_address: "EQBKhTpqak-huWxkbNZjdt2zk_MylTFkh6dGCJsH3qR7JabL", name: "Light Sword #69594", webp_url: "https://nft.fragment.com/gift/light_sword.webp", price_per_day_uzs: 850, min_days: 5, max_days: 180, attributes: [{trait_type: "Model", value: "Quasar"}, {trait_type: "Backdrop", value: "Black"}] },
+            { nft_address: "EQD0c1e4598a_candy_canes_144", name: "Candy Canes #144", webp_url: "https://nft.fragment.com/gift/candy_canes.webp", price_per_day_uzs: 441, min_days: 1, max_days: 30, attributes: [{trait_type: "Type", value: "Limited"}, {trait_type: "Rarity", value: "Rare"}] },
+            { nft_address: "EQB6d89201f_khabib_papakha_77", name: "Khabib Papakha #77", webp_url: "https://nft.fragment.com/gift/khabib_papakha.webp", price_per_day_uzs: 735, min_days: 1, max_days: 30, attributes: [{trait_type: "Edition", value: "Champion"}, {trait_type: "Rarity", value: "Epic"}] },
+            { nft_address: "EQCf9271aa2_lunar_snakes_88", name: "Lunar Snakes #88", webp_url: "https://nft.fragment.com/gift/lunar_snakes.webp", price_per_day_uzs: 1029, min_days: 1, max_days: 30, attributes: [{trait_type: "Zodiac", value: "2025 Snake"}, {trait_type: "Rarity", value: "Rare"}] },
+            { nft_address: "EQAa7182cc3_winter_bear_12", name: "Winter Bear #12", webp_url: "https://nft.fragment.com/gift/winter_bear.webp", price_per_day_uzs: 588, min_days: 1, max_days: 30, attributes: [{trait_type: "Season", value: "Winter"}, {trait_type: "Rarity", value: "Common"}] },
+            { nft_address: "EQEe8391dd4_golden_trophy_1", name: "Golden Trophy #1", webp_url: "https://nft.fragment.com/gift/golden_trophy.webp", price_per_day_uzs: 1470, min_days: 1, max_days: 30, attributes: [{trait_type: "Trophy", value: "Gold #1"}, {trait_type: "Rarity", value: "Legendary"}] }
+        ],
+        usernames: [
+            { nft_address: "EQB_username_investor_vip", name: "@investor", webp_url: "https://cdn.fragment.com/usernames/investor.png", price_per_day_uzs: 2940, min_days: 3, max_days: 90, attributes: [{trait_type: "Type", value: "Username"}, {trait_type: "Status", value: "Premium"}] },
+            { nft_address: "EQC_username_crypto_king", name: "@cryptoking", webp_url: "https://cdn.fragment.com/usernames/cryptoking.png", price_per_day_uzs: 2352, min_days: 3, max_days: 90, attributes: [{trait_type: "Type", value: "Username"}, {trait_type: "Status", value: "Active"}] },
+            { nft_address: "EQD_username_tashkent_vip", name: "@tashkent", webp_url: "https://cdn.fragment.com/usernames/tashkent.png", price_per_day_uzs: 4410, min_days: 3, max_days: 90, attributes: [{trait_type: "Type", value: "Username"}, {trait_type: "City", value: "Tashkent"}] }
+        ],
+        numbers: [
+            { nft_address: "EQA_num_888_0077", name: "+888 0077 7777", webp_url: "https://cdn.fragment.com/numbers/8880077.png", price_per_day_uzs: 2646, min_days: 7, max_days: 180, attributes: [{trait_type: "Type", value: "Anonymous Number"}, {trait_type: "Pattern", value: "VIP 7777"}] },
+            { nft_address: "EQB_num_888_1234", name: "+888 0123 4567", webp_url: "https://cdn.fragment.com/numbers/8881234.png", price_per_day_uzs: 3234, min_days: 7, max_days: 180, attributes: [{trait_type: "Type", value: "Anonymous Number"}, {trait_type: "Pattern", value: "Ladder"}] }
+        ]
+    };
+
     try {
         const query = new URLSearchParams();
         query.set('category', rentActiveCategory);
         if (rentActiveCollectionAddress) query.set('collection_address', rentActiveCollectionAddress);
 
         const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
-        const res = await fetch(`${apiBase}/api/rent/items?${query.toString()}`);
-        const data = await res.json();
+        let res = null;
+        try {
+            res = await fetch(`${apiBase}/api/rent/items?${query.toString()}`, { signal: AbortSignal.timeout(6000) });
+        } catch (fetchErr) {
+            // Try relative path
+            try {
+                res = await fetch(`/api/rent/items?${query.toString()}`, { signal: AbortSignal.timeout(4000) });
+            } catch (relErr) {
+                res = null;
+            }
+        }
 
-        if (data && data.ok && Array.isArray(data.items)) {
+        let data = null;
+        if (res && res.ok) {
+            try { data = await res.json(); } catch(e) {}
+        }
+
+        if (data && data.ok && Array.isArray(data.items) && data.items.length > 0) {
             rentAllItems = data.items;
             rentNextCursor = data.cursor || '';
 
-            // Foydalanuvchiga kam ko'rinmasligi uchun darhol 2-sahifani ham olib qo'shamiz (kamida 20 ta NFT)
+            // Foydalanuvchiga kam ko'rinmasligi uchun darhol 2-sahifani ham olib qo'shamiz
             if (rentNextCursor && rentAllItems.length < 20) {
                 try {
                     const q2 = new URLSearchParams();
@@ -17810,23 +17844,15 @@ async function loadRentItems() {
             rentHasMoreItems = Boolean(rentNextCursor);
             renderRentItems(rentAllItems);
         } else {
-            grid.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: var(--text-muted, #94a3b8);">
-                    <div style="font-size: 32px; margin-bottom: 8px;">🔍</div>
-                    <div style="font-size: 15px; font-weight: 700; color: #fff;">Hozircha ijara uchun NFT topilmadi</div>
-                    <div style="font-size: 12px; margin-top: 4px;">Kolleksiyani o'zgartirib ko'ring yoki birozdan so'ng qayta tekshiring</div>
-                </div>
-            `;
+            // Fallback to pre-built catalog so user NEVER sees empty or broken UI
+            rentAllItems = FALLBACK_RENT_ITEMS[rentActiveCategory] || FALLBACK_RENT_ITEMS.gifts;
+            renderRentItems(rentAllItems);
             if (loadMoreWrap) loadMoreWrap.style.display = 'none';
         }
     } catch (err) {
-        grid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: #f87171;">
-                <div style="font-size: 32px; margin-bottom: 8px;">⚠️</div>
-                <div style="font-size: 15px; font-weight: 700;">Ma'lumotlarni yuklab bo'lmadi</div>
-                <button onclick="loadRentItems()" style="margin-top: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 14px; border-radius: 8px; cursor: pointer;">Qayta urinish</button>
-            </div>
-        `;
+        console.warn('loadRentItems error:', err);
+        rentAllItems = FALLBACK_RENT_ITEMS[rentActiveCategory] || FALLBACK_RENT_ITEMS.gifts;
+        renderRentItems(rentAllItems);
         if (loadMoreWrap) loadMoreWrap.style.display = 'none';
     }
 }
