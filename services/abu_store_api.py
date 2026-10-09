@@ -146,9 +146,39 @@ class AbuStoreAPI:
             payload["note"] = note[:30]
         return await self._request("POST", "orders", json_data=payload, idempotency_key=idem_key)
 
-    async def get_order_status(self, order_id: str) -> dict[str, Any]:
-        """Get order status from Abu Store."""
-        return await self._request("GET", f"orders/{order_id}")
+    async def get_rent_items(self, category: str = "gifts", collection_address: str = "", sort_by: str = "recently_touch", cursor: str = "") -> dict[str, Any]:
+        """Fetch items available for rent with live quote_id."""
+        params = {"category": category}
+        if collection_address:
+            params["collection_address"] = collection_address
+        if sort_by:
+            params["sort_by"] = sort_by
+        if cursor:
+            params["cursor"] = cursor
+        return await self._request("GET", "rent/items", params=params)
+
+    async def rent_nft(self, quote_id: str, days: int, target_username: str = "", tonconnect_url: str = "") -> dict[str, Any]:
+        """Rent NFT via Abu Store API."""
+        idem_key = f"rent_{quote_id[:12]}_{days}_{int(time.time()*1000)}_{uuid.uuid4().hex[:6]}"
+        payload = {
+            "quote_id": quote_id,
+            "days": int(days)
+        }
+        if tonconnect_url:
+            payload["tonconnect_url"] = tonconnect_url
+        if target_username:
+            payload["username"] = target_username.lstrip("@").strip()
+        return await self._request("POST", "rent/order", json_data=payload, idempotency_key=idem_key)
+
+    async def connect_rent_tonconnect(self, nft_address: str, tonconnect_url: str) -> dict[str, Any]:
+        """Link rented NFT to Fragment via TonConnect."""
+        idem_key = f"tc_{nft_address[:10]}_{int(time.time()*1000)}_{uuid.uuid4().hex[:6]}"
+        payload = {
+            "nft_address": nft_address,
+            "tonconnect_url": tonconnect_url
+        }
+        return await self._request("POST", "rent/tonconnect", json_data=payload, idempotency_key=idem_key)
 
 
 abu_store_client = AbuStoreAPI()
+

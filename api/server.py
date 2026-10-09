@@ -1037,8 +1037,9 @@ async def api_order_rent(request: web.Request) -> web.Response:
     return ex
 
   username = (body.get("username") or body.get("target_username") or body.get("recipient") or "").strip().lstrip("@")
-  nft_name = (body.get("nft_name") or body.get("name") or "NFT").strip()
+  nft_name = (body.get("item_name") or body.get("nft_name") or body.get("name") or "NFT").strip()
   nft_address = (body.get("nft_address") or "").strip()
+  quote_id = (body.get("quote_id") or "").strip()
   days = int(body.get("days") or body.get("duration") or 1)
   price_per_day = int(body.get("price_per_day") or body.get("price_per_day_uzs") or 0)
   network_fee = 2000
@@ -1051,10 +1052,123 @@ async def api_order_rent(request: web.Request) -> web.Response:
   if total_price <= 0 or days <= 0:
     return web.json_response({"ok": False, "error": "Noto'g'ri ijara muddati yoki narx"}, status=400)
 
+  # 1. Check user balance in database
+  from services.database import ensure_user, add_user_nft_rent
+  user = await get_user(int(user_id))
+  if not user:
+    user = await ensure_user(int(user_id), username, username or "User")
+
+  balance = user.get("balance", 0)
+  if balance < total_price:
+    return web.json_response({
+      "ok": False,
+      "error": f"Balans yetarli emas. Kerak: {total_price:,} so'm, Balans: {balance:,} so'm"
+    }, status=400)
+
+  # 2. Check Abu Store API availability (preferred on-chain rental via Abu Store)
+  abu_ready = bool(abu_store_client.api_key and abu_store_client.api_key.strip())
+  if abu_ready:
+    # If quote_id is not provided, fetch fresh items to get matching quote_id
+    if not quote_id and nft_address:
+      try:
+        fresh_res = await abu_store_client.get_rent_items(category=category)
+        fresh_items = fresh_res.get("data", {}).get("items", [])
+        for f_it in fresh_items:
+          if f_it.get("nft_address") == nft_address:
+            quote_id = f_it.get("quote_id")
+            break
+        if not quote_id and fresh_items:
+          quote_id = fresh_items[0].get("quote_id")
+      except Exception as q_err:
+        logger.warning("Could not refresh quote_id: %s", q_err)
+
+    if quote_id:
+      try:
+        logger.info(f"Fulfilling NFT rent via Abu Store API: {nft_name} ({days} days, quote_id={quote_id}) for @{username}")
+        abu_res = await abu_store_client.rent_nft(
+          quote_id=quote_id,
+          days=days,
+          target_username=username,
+          tonconnect_url=body.get("tonconnect_url", "")
+        )
+        if abu_res.get("ok"):
+          res_data = abu_res.get("data") or {}
+          ext_id = str(res_data.get("order_id") or "")
+          
+          # Atomic balance deduction & DB records
+          await deduct_balance(int(user_id), total_price)
+          order_id = await create_order(
+            int(user_id), "nft_rent", username, days, total_price, ext_id, "completed"
+          )
+          rent_db_id = await add_user_nft_rent(
+            telegram_id=int(user_id),
+            nft_name=res_data.get("nft_name") or nft_name,
+            nft_address=res_data.get("nft_address") or nft_address,
+            category=category,
+            image_url=image_url,
+            days=days,
+            price_total=total_price,
+            order_id=order_id,
+            target_username=username,
+          )
+
+          # Notify orders channel
+          try:
+            import config as cfg
+            from aiogram import Bot
+            if cfg.BOT_TOKEN and cfg.CHANNEL_ORDERS:
+              async def _send_order_notify():
+                try:
+                  b = Bot(token=cfg.BOT_TOKEN)
+                  text = (
+                    f"🎉 <b>Yangi NFT Ijara Buyurtmasi!</b>\n\n"
+                    f"💎 <b>NFT:</b> {res_data.get('nft_name') or nft_name}\n"
+                    f"👤 <b>Foydalanuvchi:</b> @{username} (ID: {user_id})\n"
+                    f"⏳ <b>Muddat:</b> {days} kun\n"
+                    f"💰 <b>Summa:</b> {total_price:,} so'm\n"
+                    f"🆔 <b>Buyurtma ID:</b> #{order_id} ({ext_id})\n"
+                    f"⚡️ <b>Holat:</b> Bajarildi (Abu Store / Marketapp)"
+                  )
+                  await b.send_message(chat_id=cfg.CHANNEL_ORDERS, text=text, parse_mode="HTML")
+                  await b.session.close()
+                except Exception as ne:
+                  logger.warning("Order notification send error: %s", ne)
+              asyncio.create_task(_send_order_notify())
+          except Exception:
+            pass
+
+          return web.json_response({
+            "ok": True,
+            "order_id": order_id,
+            "rent_id": rent_db_id,
+            "ext_order_id": ext_id,
+            "nft_name": res_data.get("nft_name") or nft_name,
+            "nft_address": res_data.get("nft_address") or nft_address,
+            "days": days,
+            "expires_at": res_data.get("expires_at"),
+            "expires_at_iso": res_data.get("expires_at_iso"),
+            "tonconnect_endpoint": "/api/rent/tonconnect",
+            "message": res_data.get("message") or "🎉 NFT muvaffaqiyatli ijaraga olindi!"
+          })
+      except AbuStoreAPIError as a_err:
+        logger.warning("Abu Store rent error: %s (code=%s, status=%s)", a_err, a_err.code, a_err.status)
+        if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
+          return web.json_response({
+            "ok": False,
+            "error": "❌ Kechirasiz, bot hisobida (Abu Store) yetarli mablag' mavjud emas. Balansingizdan pul yechilmadi."
+          }, status=400)
+        if a_err.code in ("QUOTE_EXPIRED", "QUOTE_REQUIRED", "INVALID_DAYS"):
+          return web.json_response({
+            "ok": False,
+            "error": f"❌ {a_err.args[0] if a_err.args else 'Tanlangan NFT kotirovkasi eskirgan'}. Iltimos, sahifani yangilab qaytadan urinib ko'ring."
+          }, status=400)
+      except Exception as ex:
+        logger.warning("Abu Store rent unexpected error: %s", ex)
+
+  # Fallback to local TON wallet MarketappService
   try:
     from services.marketapp_service import marketapp_service
 
-    # Approximate TON price from UZS if not explicitly passed
     price_ton = body.get("price_per_day_ton") or body.get("price_ton")
     if not price_ton and price_per_day > 0:
       rate = getattr(marketapp_service, "ton_rate_uzs", 28000)
@@ -1192,6 +1306,15 @@ async def api_rent_connect(request: web.Request) -> web.Response:
     new_id = await add_user_nft_rent(int(user_id), "Telegram NFT", "", "gifts", "", 30, 0)
     await update_nft_rent_connection(new_id, int(user_id), tc_link)
     nft_title = "Telegram NFT"
+
+  # Forward TonConnect link to Abu Store if applicable
+  nft_addr = (rent_row.get("nft_address") if rent_row else "") or body.get("nft_address") or ""
+  if nft_addr and getattr(abu_store_client, "api_key", None):
+    try:
+      await abu_store_client.connect_rent_tonconnect(nft_addr, tc_link)
+      logger.info("Abu Store connect_rent_tonconnect successfully called for %s", nft_addr)
+    except Exception as tc_err:
+      logger.warning("Abu Store connect_rent_tonconnect note: %s", tc_err)
 
   # Send admin notification so custodial wallet session can bridge immediately
   try:
@@ -2737,6 +2860,7 @@ def create_app() -> web.Application:
   app.router.add_get("/api/rent/my", api_rent_my)
   app.router.add_post("/api/rent/my", api_rent_my)
   app.router.add_post("/api/rent/connect", api_rent_connect)
+  app.router.add_post("/api/rent/tonconnect", api_rent_connect)
 
   app.router.add_get("/webhook/telegram", telegram_webhook_check)
   app.router.add_post("/webhook/telegram", telegram_webhook)
