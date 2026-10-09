@@ -205,7 +205,7 @@ async def process_buy_premium(callback: CallbackQuery):
                     if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
                         await callback.message.answer(
                             "❌ <b>Xatolik!</b>\n\n"
-                            "Kechirasiz, bot hisobida (Abu Store) mablag' yetarli emasligi sababli Premium faollashtirilmadi.\n"
+                            "Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi.\n"
                             "Balansingizdan pul yechilmadi.",
                             parse_mode="HTML",
                             reply_markup=keyboards.get_main_keyboard()

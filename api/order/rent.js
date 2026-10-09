@@ -439,7 +439,7 @@ module.exports = async (req, res) => {
       await alertAdminLowApiBalance(botToken, adminIds, requiredApiCost, roxiyBal);
       return res.status(503).json({
         ok: false,
-        error: "Hozircha ijara vaqtincha mavjud emas. Hisobingizdan pul yechilmadi.",
+        error: "Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi.",
       });
     }
 
@@ -589,7 +589,7 @@ module.exports = async (req, res) => {
       await alertAdminLowApiBalance(botToken, adminIds, requiredApiCost, roxiyBal || 0);
       return res.status(503).json({
         ok: false,
-        error: "Hozircha ijara vaqtincha mavjud emas. Hisobingizdan pul yechilmadi.",
+        error: "Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi.",
       });
     }
 

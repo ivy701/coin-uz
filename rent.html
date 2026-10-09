@@ -3946,6 +3946,30 @@ body.modal-open .bottom-dock-nav {
             }
         }
 
+        function showRentPopup(message, title = '❌❌') {
+            const tgApp = window.Telegram?.WebApp || window.tg;
+            let cleanMsg = String(message || '').trim().replace(/^[❌⚠️❗️\s]+/, '');
+            if (tgApp && typeof tgApp.showPopup === 'function') {
+                try {
+                    tgApp.showPopup({
+                        title: title,
+                        message: cleanMsg,
+                        buttons: [{ type: 'close' }]
+                    });
+                    return;
+                } catch(e) {
+                    console.warn('showPopup error:', e);
+                }
+            }
+            if (tgApp && typeof tgApp.showAlert === 'function') {
+                try {
+                    tgApp.showAlert(cleanMsg);
+                    return;
+                } catch(e) {}
+            }
+            alert(cleanMsg);
+        }
+
         let previewSelectedItem = null;
 
         function openNftPreviewModal(index) {
@@ -4457,20 +4481,11 @@ body.modal-open .bottom-dock-nav {
         async function submitRentOrder() {
             if (!selectedItem) return;
 
-            const errBox = document.getElementById('modalRentErrorBox');
-            if (errBox) errBox.style.display = 'none';
-
             const targetInput = document.getElementById('modalTargetUsername');
             let targetUsername = (targetInput?.value || '').replace(/^@/, '').trim();
 
             if (!targetUsername) {
-                if (errBox) {
-                    errBox.textContent = "NFT ulanadigan Telegram usernameni kiriting!";
-                    errBox.style.display = 'block';
-                    errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                } else {
-                    showToast("NFT ulanadigan Telegram usernameni kiriting!", "⚠️");
-                }
+                showRentPopup("NFT ulanadigan Telegram usernameni kiriting!", "⚠️");
                 targetInput?.focus();
                 return;
             }
@@ -4480,13 +4495,7 @@ body.modal-open .bottom-dock-nav {
             const total = (rentalDays * price) + fee;
 
             if (userBalance < total) {
-                if (errBox) {
-                    errBox.textContent = "Balansingizda yetarli mablag' yo'q";
-                    errBox.style.display = 'block';
-                    errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                } else {
-                    showToast("Balansingizda yetarli mablag' yo'q", "❌");
-                }
+                showRentPopup("Balansingizda yetarli mablag' yo'q", "❌❌");
                 return;
             }
 
@@ -4541,14 +4550,11 @@ body.modal-open .bottom-dock-nav {
                         openMyRentsView();
                     }, 800);
                 } else {
-                    const errorMsg = data?.error || data?.message || "Xatolik yuz berdi. Hisobingizdan pul yechilmadi, keyinroq qayta urinib ko'ring.";
-                    if (errBox) {
-                        errBox.textContent = errorMsg;
-                        errBox.style.display = 'block';
-                        errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    } else {
-                        showToast(errorMsg, "❌");
+                    let errorMsg = data?.error || data?.message || "Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi.";
+                    if (errorMsg.includes('Abu Store') || errorMsg.includes('bot hisobida') || errorMsg.includes('INSUFFICIENT_BALANCE') || errorMsg.includes('mablag')) {
+                        errorMsg = "Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi.";
                     }
+                    showRentPopup(errorMsg, "❌❌");
                     if (tg?.HapticFeedback) {
                         try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {}
                     }
@@ -4556,13 +4562,7 @@ body.modal-open .bottom-dock-nav {
                 }
             } catch (err) {
                 const netMsg = "Xatolik yuz berdi. Hisobingizdan pul yechilmadi, keyinroq qayta urinib ko'ring.";
-                if (errBox) {
-                    errBox.textContent = netMsg;
-                    errBox.style.display = 'block';
-                    errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                } else {
-                    showToast(netMsg, "❌");
-                }
+                showRentPopup(netMsg, "❌❌");
                 if (tg?.HapticFeedback) {
                     try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {}
                 }

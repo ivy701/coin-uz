@@ -453,7 +453,7 @@ async def api_order_stars(request: web.Request) -> web.Response:
     if any(k in err_str for k in ["balance", "mablag", "mablag'", "yetarli emas", "funds", "insufficient", "402", "400"]):
       return web.json_response({
         "ok": False,
-        "error": "❌ Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
+        "error": "Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
       }, status=400)
     return web.json_response({
       "ok": False,
@@ -555,7 +555,7 @@ async def api_order_premium(request: web.Request) -> web.Response:
       if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
         return web.json_response({
           "ok": False,
-          "error": "❌ Kechirasiz, bot hisobida (Abu Store) yetarli mablag' mavjud emas. Balansingizdan pul yechilmadi."
+          "error": "Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
         }, status=400)
       if not is_fragment_ready:
         return web.json_response({
@@ -771,7 +771,7 @@ async def api_order_gift(request: web.Request) -> web.Response:
       if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
         return web.json_response({
           "ok": False,
-          "error": "❌ Kechirasiz, bot hisobida (Abu Store) yetarli mablag' mavjud emas. Balansingizdan pul yechilmadi."
+          "error": "Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
         }, status=400)
     except Exception as ex:
       logger.warning("Abu Store buy_gift unexpected error: %s", ex)
@@ -1160,7 +1160,7 @@ async def api_order_rent(request: web.Request) -> web.Response:
         if a_err.code == "INSUFFICIENT_BALANCE" or a_err.status == 402:
           return web.json_response({
             "ok": False,
-            "error": "❌ Kechirasiz, bot hisobida (Abu Store) yetarli mablag' mavjud emas. Balansingizdan pul yechilmadi."
+            "error": "Kechirasiz, tizimda mablag' yetarli emasligi sababli buyurtma bajarilmadi. Balansingizdan pul yechilmadi."
           }, status=400)
         if a_err.code in ("QUOTE_EXPIRED", "QUOTE_REQUIRED", "INVALID_DAYS"):
           return web.json_response({
