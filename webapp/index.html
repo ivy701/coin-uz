@@ -8952,6 +8952,312 @@ html, body {
     transform: scale(0.96);
     background: #e2e8f0;
 }
+.rent-filter-val {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 14px;
+    display: block;
+    width: 100%;
+}
+
+/* Username Card Styling (Screenshot 5 Match) */
+.username-card-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle at 50% 35%, rgba(36, 161, 222, 0.22) 0%, #151829 80%);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 8px;
+    padding: 8px 6px;
+    box-sizing: border-box;
+}
+.username-tg-badge {
+    width: 52px;
+    height: 52px;
+    background: #ffffff;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(36, 161, 222, 0.35);
+    margin-bottom: 8px;
+}
+.username-tg-plane {
+    width: 36px;
+    height: 36px;
+}
+.username-pill-sticker {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+    margin-bottom: 3px;
+    letter-spacing: -0.2px;
+    text-align: center;
+}
+.username-link-sub {
+    font-size: 10.5px;
+    color: #64748b;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Bottom Sheet Modals for Collection & Backdrop Selection */
+.sheet-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 3000;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.sheet-modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+.sheet-modal {
+    width: 100%;
+    max-width: 480px;
+    background: #111322;
+    border-top: 1px solid rgba(139, 92, 246, 0.35);
+    border-radius: 24px 24px 0 0;
+    padding: 16px 18px calc(24px + env(safe-area-inset-bottom, 16px)) 18px;
+    transform: translateY(100%);
+    transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.sheet-modal-overlay.active .sheet-modal {
+    transform: translateY(0);
+}
+.sheet-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+.sheet-modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+}
+.sheet-modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+.sheet-modal-close:active {
+    background: rgba(255, 255, 255, 0.18);
+}
+.sheet-search-wrap {
+    position: relative;
+    margin-bottom: 12px;
+    width: 100%;
+}
+.sheet-search-input {
+    width: 100%;
+    height: 42px;
+    background: #18192b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0 14px 0 38px;
+    font-size: 13.5px;
+    color: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+}
+.sheet-search-input:focus {
+    border-color: #8b5cf6;
+}
+.sheet-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+.sheet-list-container {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 52vh;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 2px;
+    margin-bottom: 14px;
+    scrollbar-width: thin;
+}
+.sheet-item-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.sheet-item-row:active {
+    transform: scale(0.99);
+}
+.sheet-item-row.active {
+    background: rgba(139, 92, 246, 0.18);
+    border-color: #8b5cf6;
+}
+.sheet-item-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: #ffffff;
+    flex-shrink: 0;
+    transition: all 0.15s;
+}
+.sheet-item-row.active .sheet-item-check {
+    background: #8b5cf6;
+    border-color: #8b5cf6;
+}
+.sheet-item-radio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+}
+.sheet-item-row.active .sheet-item-radio {
+    border-color: #8b5cf6;
+}
+.sheet-item-radio-inner {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #8b5cf6;
+    display: none;
+}
+.sheet-item-row.active .sheet-item-radio-inner {
+    display: block;
+}
+.sheet-item-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.sheet-item-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.sheet-color-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.sheet-item-details {
+    flex: 1;
+    min-width: 0;
+}
+.sheet-item-name {
+    font-size: 14px;
+    font-weight: 750;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sheet-item-sub {
+    font-size: 11.5px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+.sheet-item-badge {
+    text-align: right;
+    flex-shrink: 0;
+}
+.sheet-item-count {
+    font-size: 12px;
+    font-weight: 800;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 7px;
+    border-radius: 6px;
+}
+.sheet-item-avail {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+.sheet-apply-btn {
+    width: 100%;
+    height: 48px;
+    background: #8b5cf6;
+    border: none;
+    border-radius: 14px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+.sheet-apply-btn:active {
+    transform: scale(0.97);
+    filter: brightness(1.1);
+}
 .skeleton-card-rent {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -11391,22 +11697,69 @@ body {
 
         <!-- Catalog Section -->
         <div id="rentCatalogSection">
-            <!-- Filter Row: Kolleksiyalar & Fon -->
+            <!-- Search Row (Top) -->
+            <div class="search-row-rent">
+                <div class="search-input-wrap-rent">
+                    <svg class="search-icon-rent" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="rentSearchInput" placeholder="NFT nomi yoki raqami bo'yicha qidirish..." oninput="handleRentSearch()">
+                </div>
+            </div>
+
+            <!-- Filter Row: Kolleksiyalar & Fon (Gifts uchun) -->
             <div class="rent-filter-row" id="rentFilterRow">
-                <div class="rent-filter-card">
+                <div class="rent-filter-card" onclick="openRentCollectionModal()">
                     <div class="rent-filter-card-label">KOLLEKSIYALAR</div>
                     <div class="rent-filter-select-wrap">
-                        <select id="rentCollectionSelect" class="rent-filter-select" onchange="handleRentCollectionSelect(this.value)">
-                            <option value="">Barchasi</option>
-                        </select>
+                        <span class="rent-filter-val" id="rentCollectionDisplayVal">Barchasi</span>
                         <div class="rent-select-arrow">▼</div>
                     </div>
                 </div>
-                <div class="rent-filter-card">
+                <div class="rent-filter-card" onclick="openRentBackdropModal()">
                     <div class="rent-filter-card-label">FON (ORQA FON)</div>
                     <div class="rent-filter-select-wrap">
-                        <select id="rentBackdropSelect" class="rent-filter-select" onchange="handleRentBackdropSelect(this.value)">
-                            <option value="">Barchasi</option>
+                        <span class="rent-filter-val" id="rentBackdropDisplayVal">Barchasi</span>
+                        <div class="rent-select-arrow">▼</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Rows for Username Category (Screenshot 5 Match) -->
+            <div id="rentFilterRowUsernames" style="display: none; margin-bottom: 10px;">
+                <div class="rent-filter-row">
+                    <div class="rent-filter-card">
+                        <div class="rent-filter-card-label">UZUNLIGI @USERNAME</div>
+                        <div class="rent-filter-select-wrap">
+                            <select id="rentUserLenSelect" class="rent-filter-select" onchange="handleUserLenSelect(this.value)">
+                                <option value="">Barchasi</option>
+                                <option value="4">4 ta</option>
+                                <option value="5">5 ta</option>
+                                <option value="6+">6+ ta</option>
+                            </select>
+                            <div class="rent-select-arrow">▼</div>
+                        </div>
+                    </div>
+                    <div class="rent-filter-card">
+                        <div class="rent-filter-card-label">RAQAMLAR</div>
+                        <div class="rent-filter-select-wrap">
+                            <select id="rentUserDigitsSelect" class="rent-filter-select" onchange="handleUserDigitsSelect(this.value)">
+                                <option value="">Farqi yo'q</option>
+                                <option value="no">Raqamsiz</option>
+                                <option value="yes">Raqamli</option>
+                            </select>
+                            <div class="rent-select-arrow">▼</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rent-filter-card" style="margin-top: 8px;">
+                    <div class="rent-filter-card-label">SIMVOL "_"</div>
+                    <div class="rent-filter-select-wrap">
+                        <select id="rentUserUnderscoreSelect" class="rent-filter-select" onchange="handleUserUnderscoreSelect(this.value)">
+                            <option value="">Farqi yo'q</option>
+                            <option value="no">"_"siz</option>
+                            <option value="yes">"_"li</option>
                         </select>
                         <div class="rent-select-arrow">▼</div>
                     </div>
@@ -11425,17 +11778,6 @@ body {
                         <option value="duration_asc">Muddati bo'yicha (eng qisqa)</option>
                     </select>
                     <div class="rent-select-arrow">▼</div>
-                </div>
-            </div>
-
-            <!-- Search Row -->
-            <div class="search-row-rent">
-                <div class="search-input-wrap-rent">
-                    <svg class="search-icon-rent" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input type="text" id="rentSearchInput" placeholder="NFT nomi yoki raqami bo'yicha qidirish..." oninput="handleRentSearch()">
                 </div>
             </div>
 
@@ -11484,9 +11826,47 @@ body {
         </div>
     </section>
 
+    <!-- Rent Collections Bottom Sheet Modal (Screenshot 3 Match) -->
+    <div class="sheet-modal-overlay" id="rentCollectionModal">
+        <div class="sheet-modal">
+            <div class="sheet-modal-header">
+                <div class="sheet-modal-title">Kolleksiyani tanlang</div>
+                <button class="sheet-modal-close" onclick="closeRentCollectionModal()">&times;</button>
+            </div>
+            <div class="sheet-search-wrap">
+                <svg class="sheet-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" class="sheet-search-input" id="rentCollectionSearchInput" placeholder="Kolleksiyani qidirish..." oninput="filterRentCollectionModalList()">
+            </div>
+            <div class="sheet-list-container" id="rentCollectionModalList">
+                <!-- Injected via JS -->
+            </div>
+            <button class="sheet-apply-btn" onclick="applyRentCollectionModalSelection()">Qo'llash</button>
+        </div>
+    </div>
 
-
-    <!-- ==================== VIEW: TOPUP (COINSTAT UZ ORIGINAL LUXURY FINTECH v42.0) ==================== -->
+    <!-- Rent Backdrop (Fon) Bottom Sheet Modal (Screenshot 4 Match) -->
+    <div class="sheet-modal-overlay" id="rentBackdropModal">
+        <div class="sheet-modal">
+            <div class="sheet-modal-header">
+                <div class="sheet-modal-title">Fonni tanlang</div>
+                <button class="sheet-modal-close" onclick="closeRentBackdropModal()">&times;</button>
+            </div>
+            <div class="sheet-search-wrap">
+                <svg class="sheet-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" class="sheet-search-input" id="rentBackdropSearchInput" placeholder="Fonni qidirish..." oninput="filterRentBackdropModalList()">
+            </div>
+            <div class="sheet-list-container" id="rentBackdropModalList">
+                <!-- Injected via JS -->
+            </div>
+            <button class="sheet-apply-btn" onclick="applyRentBackdropModalSelection()">Qo'llash</button>
+        </div>
+    </div>
     <section id="view-topup" class="page-view" data-page="topup">
         <!-- Toast Notification -->
         <div id="topupCopyToast" class="topup-toast-pill" style="display:none;">
@@ -17770,23 +18150,64 @@ function showRentVideoGuideApp() {
 let rentActiveBackdrop = '';
 let rentActiveSort = 'recent';
 let rentDisplayedItems = [];
+let rentLoadedCollections = [];
+let rentTempSelectedCollection = '';
+let rentTempSelectedBackdrop = '';
+let rentUserLen = '';
+let rentUserDigits = '';
+let rentUserUnderscore = '';
+
 const RENT_KNOWN_BACKDROPS = [
     "Onyx Black", "Cyberpunk", "Aquamarine", "Sapphire", 
     "Emerald", "Pacific Green", "Crimson", "Neon", 
-    "Amber", "Amethyst", "Golden", "Rose", "Lavender", "Azure"
+    "Amber", "Amethyst", "Golden", "Rose", "Lavender", "Azure",
+    "Azure Blue", "Battleship Grey", "Burgundy", "Camo Green",
+    "Cobalt Blue", "Copper", "Electric Indigo", "Fandango",
+    "Indigo Dye", "Khaki Green", "Obsidian", "Silver"
 ];
 let rentDiscoveredBackdrops = new Set(RENT_KNOWN_BACKDROPS);
 
+const BACKDROP_COLORS = {
+    'all': 'linear-gradient(135deg, #818cf8, #a855f7)',
+    'amber': '#f59e0b',
+    'amethyst': '#9333ea',
+    'aquamarine': '#2dd4bf',
+    'azure': '#38bdf8',
+    'azure blue': '#0284c7',
+    'battleship grey': '#64748b',
+    'burgundy': '#831843',
+    'camo green': '#4d7c0f',
+    'cobalt blue': '#1d4ed8',
+    'copper': '#b45309',
+    'crimson': '#dc2626',
+    'cyberpunk': 'linear-gradient(135deg, #f43f5e, #06b6d4)',
+    'electric indigo': '#6366f1',
+    'emerald': '#059669',
+    'fandango': '#be185d',
+    'golden': '#eab308',
+    'indigo dye': '#312e81',
+    'khaki green': '#65a30d',
+    'lavender': '#c084fc',
+    'neon': '#22c55e',
+    'obsidian': '#27272a',
+    'onyx black': '#09090b',
+    'pacific green': '#0d9488',
+    'rose': '#f43f5e',
+    'sapphire': '#1e40af',
+    'silver': '#cbd5e1'
+};
+
+const FALLBACK_RENT_COLLECTIONS = [
+    { address: "EQBKhTpqak-huWxkbNZjdt2zk_MylTFkh6dGCJsH3qR7JabL", name: "Light Sword", rent_floor_uzs: 850, count: 1420 },
+    { address: "EQD0c1e4598a_candy_canes_144", name: "Candy Canes", rent_floor_uzs: 441, count: 3778 },
+    { address: "EQB6d89201f_khabib_papakha_77", name: "Khabib Papakha", rent_floor_uzs: 735, count: 850 },
+    { address: "EQCf9271aa2_lunar_snakes_88", name: "Lunar Snakes", rent_floor_uzs: 1029, count: 2150 },
+    { address: "EQAa7182cc3_winter_bear_12", name: "Winter Bear", rent_floor_uzs: 588, count: 1890 },
+    { address: "EQEe8391dd4_golden_trophy_1", name: "Golden Trophy", rent_floor_uzs: 1470, count: 420 }
+];
+
 function updateRentBackdropSelectOptions() {
-    const sel = document.getElementById('rentBackdropSelect');
-    if (!sel) return;
-    const currentVal = rentActiveBackdrop;
-    let html = `<option value="">Barchasi</option>`;
-    Array.from(rentDiscoveredBackdrops).sort().forEach(bd => {
-        const isSel = (bd.toLowerCase() === currentVal.toLowerCase()) ? 'selected' : '';
-        html += `<option value="${escapeRentHtml(bd)}" ${isSel}>${escapeRentHtml(bd)}</option>`;
-    });
-    sel.innerHTML = html;
+    // No-op or compatibility helper
 }
 
 async function loadRentCollections() {
@@ -17794,38 +18215,223 @@ async function loadRentCollections() {
         const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
         const res = await fetch(`${apiBase}/api/rent/collections`);
         const data = await res.json();
-        const sel = document.getElementById('rentCollectionSelect');
-        if (!sel) return;
-
-        if (data && data.ok && Array.isArray(data.collections)) {
-            let html = `<option value="">Barchasi</option>`;
-            data.collections.forEach(c => {
-                const floorText = c.rent_floor_uzs ? ` (${Number(c.rent_floor_uzs).toLocaleString('uz-UZ')} so'm)` : '';
-                const isSel = (c.address === rentActiveCollectionAddress) ? 'selected' : '';
-                html += `<option value="${c.address}" ${isSel}>${escapeRentHtml(c.name)}${floorText}</option>`;
-            });
-            sel.innerHTML = html;
+        if (data && data.ok && Array.isArray(data.collections) && data.collections.length > 0) {
+            rentLoadedCollections = data.collections;
+        } else {
+            rentLoadedCollections = FALLBACK_RENT_COLLECTIONS;
         }
     } catch (e) {
         console.warn('Rent collections load error:', e);
+        rentLoadedCollections = FALLBACK_RENT_COLLECTIONS;
     }
 }
 
-function handleRentCollectionSelect(address) {
-    rentActiveCollectionAddress = address || '';
+function openRentCollectionModal() {
+    rentTempSelectedCollection = rentActiveCollectionAddress || '';
+    const inp = document.getElementById('rentCollectionSearchInput');
+    if (inp) inp.value = '';
+    renderRentCollectionModalList('');
+    const modal = document.getElementById('rentCollectionModal');
+    if (modal) modal.classList.add('active');
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e) {}
+    }
+}
+
+function closeRentCollectionModal() {
+    const modal = document.getElementById('rentCollectionModal');
+    if (modal) modal.classList.remove('active');
+}
+
+function renderRentCollectionModalList(filterText = '') {
+    const listEl = document.getElementById('rentCollectionModalList');
+    if (!listEl) return;
+    const q = (filterText || '').toLowerCase().trim();
+    const cols = (rentLoadedCollections && rentLoadedCollections.length > 0) ? rentLoadedCollections : FALLBACK_RENT_COLLECTIONS;
+
+    let html = '';
+    // "Barchasi" item
+    if (!q || 'barchasi'.includes(q)) {
+        const isSel = !rentTempSelectedCollection;
+        html += `
+            <div class="sheet-item-row ${isSel ? 'selected' : ''}" onclick="selectRentCollectionModalItem('')">
+                <div class="sheet-item-check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <div class="sheet-item-icon">🌟</div>
+                <div class="sheet-item-info">
+                    <div class="sheet-item-name">Barchasi</div>
+                    <div class="sheet-item-sub">Barcha kolleksiyalar</div>
+                </div>
+            </div>
+        `;
+    }
+
+    cols.forEach(c => {
+        const name = c.name || 'Nomaʼlum';
+        if (q && !name.toLowerCase().includes(q)) return;
+        const isSel = (c.address === rentTempSelectedCollection);
+        const floorUzs = c.rent_floor_uzs ? Number(c.rent_floor_uzs).toLocaleString('uz-UZ') : '1 883';
+        const countBadge = c.count ? `${c.count} Mavjud` : (c.available_count ? `${c.available_count} Mavjud` : 'Mavjud');
+
+        html += `
+            <div class="sheet-item-row ${isSel ? 'selected' : ''}" onclick="selectRentCollectionModalItem('${c.address}')">
+                <div class="sheet-item-check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <div class="sheet-item-icon">🎁</div>
+                <div class="sheet-item-info">
+                    <div class="sheet-item-name">${escapeRentHtml(name)}</div>
+                    <div class="sheet-item-sub">Ijara: ${floorUzs} so'm / kun</div>
+                </div>
+                <span class="sheet-item-badge">${escapeRentHtml(countBadge)}</span>
+            </div>
+        `;
+    });
+
+    listEl.innerHTML = html || `<div style="text-align:center; padding:20px; color:#94a3b8;">Kolleksiya topilmadi</div>`;
+}
+
+function filterRentCollectionModalList() {
+    const q = document.getElementById('rentCollectionSearchInput')?.value || '';
+    renderRentCollectionModalList(q);
+}
+
+function selectRentCollectionModalItem(addr) {
+    rentTempSelectedCollection = addr || '';
+    const q = document.getElementById('rentCollectionSearchInput')?.value || '';
+    renderRentCollectionModalList(q);
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+}
+
+function applyRentCollectionModalSelection() {
+    rentActiveCollectionAddress = rentTempSelectedCollection || '';
+    const disp = document.getElementById('rentCollectionDisplayVal');
+    if (disp) {
+        if (!rentActiveCollectionAddress) {
+            disp.textContent = 'Barchasi';
+        } else {
+            const cols = (rentLoadedCollections && rentLoadedCollections.length > 0) ? rentLoadedCollections : FALLBACK_RENT_COLLECTIONS;
+            const found = cols.find(c => c.address === rentActiveCollectionAddress);
+            disp.textContent = found ? found.name : 'Tanlangan';
+        }
+    }
+    closeRentCollectionModal();
     rentNextCursor = '';
     rentAllItems = [];
     rentDisplayedItems = [];
     loadRentItems();
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+    }
 }
 
-function handleRentBackdropSelect(val) {
-    rentActiveBackdrop = val || '';
+function openRentBackdropModal() {
+    rentTempSelectedBackdrop = rentActiveBackdrop || '';
+    const inp = document.getElementById('rentBackdropSearchInput');
+    if (inp) inp.value = '';
+    renderRentBackdropModalList('');
+    const modal = document.getElementById('rentBackdropModal');
+    if (modal) modal.classList.add('active');
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e) {}
+    }
+}
+
+function closeRentBackdropModal() {
+    const modal = document.getElementById('rentBackdropModal');
+    if (modal) modal.classList.remove('active');
+}
+
+function renderRentBackdropModalList(filterText = '') {
+    const listEl = document.getElementById('rentBackdropModalList');
+    if (!listEl) return;
+    const q = (filterText || '').toLowerCase().trim();
+    const sorted = Array.from(rentDiscoveredBackdrops).sort();
+
+    let html = '';
+    // "Barchasi" item
+    if (!q || 'barchasi'.includes(q)) {
+        const isSel = !rentTempSelectedBackdrop;
+        html += `
+            <div class="sheet-item-row ${isSel ? 'selected' : ''}" onclick="selectRentBackdropModalItem('')">
+                <div class="sheet-item-radio"></div>
+                <div class="sheet-color-circle" style="background: ${BACKDROP_COLORS['all']};"></div>
+                <div class="sheet-item-info">
+                    <div class="sheet-item-name" style="${isSel ? 'color: #c084fc; font-weight: 700;' : ''}">Barchasi</div>
+                </div>
+            </div>
+        `;
+    }
+
+    sorted.forEach(bd => {
+        if (q && !bd.toLowerCase().includes(q)) return;
+        const isSel = (bd.toLowerCase() === rentTempSelectedBackdrop.toLowerCase());
+        const colorBg = BACKDROP_COLORS[bd.toLowerCase()] || '#6366f1';
+
+        html += `
+            <div class="sheet-item-row ${isSel ? 'selected' : ''}" onclick="selectRentBackdropModalItem('${escapeRentHtml(bd)}')">
+                <div class="sheet-item-radio"></div>
+                <div class="sheet-color-circle" style="background: ${colorBg};"></div>
+                <div class="sheet-item-info">
+                    <div class="sheet-item-name" style="${isSel ? 'color: #c084fc; font-weight: 700;' : ''}">${escapeRentHtml(bd)}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    listEl.innerHTML = html || `<div style="text-align:center; padding:20px; color:#94a3b8;">Fon topilmadi</div>`;
+}
+
+function filterRentBackdropModalList() {
+    const q = document.getElementById('rentBackdropSearchInput')?.value || '';
+    renderRentBackdropModalList(q);
+}
+
+function selectRentBackdropModalItem(val) {
+    rentTempSelectedBackdrop = val || '';
+    const q = document.getElementById('rentBackdropSearchInput')?.value || '';
+    renderRentBackdropModalList(q);
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.selectionChanged(); } catch(e) {}
+    }
+}
+
+function applyRentBackdropModalSelection() {
+    rentActiveBackdrop = rentTempSelectedBackdrop || '';
+    const disp = document.getElementById('rentBackdropDisplayVal');
+    if (disp) {
+        disp.textContent = rentActiveBackdrop || 'Barchasi';
+    }
+    closeRentBackdropModal();
     applyRentFiltersAndSort();
-    // Agar tanlangan fon bo'yicha ekranda kam NFT bo'lsa, avtomatik ko'proq yuklaymiz
     if (rentActiveBackdrop && rentDisplayedItems.length < 8 && rentHasMoreItems && rentNextCursor) {
         loadMoreRentItems();
     }
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+    }
+}
+
+function handleUserLenSelect(val) {
+    rentUserLen = val || '';
+    applyRentFiltersAndSort();
+}
+
+function handleUserDigitsSelect(val) {
+    rentUserDigits = val || '';
+    applyRentFiltersAndSort();
+}
+
+function handleUserUnderscoreSelect(val) {
+    rentUserUnderscore = val || '';
+    applyRentFiltersAndSort();
 }
 
 function handleRentSortSelect(val) {
@@ -17842,32 +18448,53 @@ function switchRentCategory(cat) {
     rentActiveCollectionAddress = '';
     rentActiveBackdrop = '';
     rentActiveSort = 'recent';
+    rentUserLen = '';
+    rentUserDigits = '';
+    rentUserUnderscore = '';
 
     document.querySelectorAll('#view-rent .rent-tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-cat') === cat);
     });
 
     const filterRow = document.getElementById('rentFilterRow');
+    const filterRowUser = document.getElementById('rentFilterRowUsernames');
     if (filterRow) {
         filterRow.style.display = (cat === 'gifts') ? 'grid' : 'none';
     }
+    if (filterRowUser) {
+        filterRowUser.style.display = (cat === 'usernames') ? 'block' : 'none';
+    }
 
-    const colSel = document.getElementById('rentCollectionSelect');
-    if (colSel) colSel.value = '';
-    const bdSel = document.getElementById('rentBackdropSelect');
-    if (bdSel) bdSel.value = '';
+    const sInp = document.getElementById('rentSearchInput');
+    if (sInp) {
+        sInp.value = '';
+        if (cat === 'gifts') sInp.placeholder = "NFT nomi yoki raqami bo'yicha qidirish...";
+        else if (cat === 'usernames') sInp.placeholder = "@username qidirish...";
+        else if (cat === 'numbers') sInp.placeholder = "+888 raqam qidirish...";
+    }
+
+    const colDisp = document.getElementById('rentCollectionDisplayVal');
+    if (colDisp) colDisp.textContent = 'Barchasi';
+    const bdDisp = document.getElementById('rentBackdropDisplayVal');
+    if (bdDisp) bdDisp.textContent = 'Barchasi';
+
+    const uLen = document.getElementById('rentUserLenSelect');
+    if (uLen) uLen.value = '';
+    const uDig = document.getElementById('rentUserDigitsSelect');
+    if (uDig) uDig.value = '';
+    const uUnd = document.getElementById('rentUserUnderscoreSelect');
+    if (uUnd) uUnd.value = '';
+
     const sortSel = document.getElementById('rentSortSelect');
     if (sortSel) sortSel.value = 'recent';
 
     if (cat === 'gifts') {
         loadRentCollections();
-        updateRentBackdropSelectOptions();
     }
     loadRentItems();
 }
 
 function createRentCardHtml(item, index) {
-    const imgUrl = item.webp_url || (item.media_key ? `https://nft.fragment.com/gift/${item.media_key}.webp` : './images/gift.webp');
     let price = Number(item.price_per_day_uzs || 0);
     if (!price && item.price_per_day_nano) {
         price = Math.round((Number(item.price_per_day_nano) / 1e9) * 28000);
@@ -17882,8 +18509,29 @@ function createRentCardHtml(item, index) {
     item.price_per_day_uzs = price;
 
     const minDays = Number(item.min_days || 1);
-    const maxDays = Number(item.max_days || 30);
+    const maxDays = Number(item.max_days || 180);
 
+    if (rentActiveCategory === 'usernames') {
+        const rawName = String(item.name || '').replace(/^@/, '');
+        return `
+            <div class="nft-card-rent username-card-wrap">
+                <span class="nft-badge-pill-rent">${minDays}–${maxDays} kun</span>
+                <div class="username-tg-badge">
+                    <svg class="username-tg-plane" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="12" fill="#2AABEE"/>
+                        <path d="M5.4 11.9l11.4-4.7c.5-.2 1 .1.9.7l-1.9 9.1c-.1.6-.8.8-1.2.5l-3.3-2.4-1.6 1.5c-.2.2-.5.2-.6 0l-.3-2.8 5.7-5.2c.2-.2 0-.5-.3-.3l-7.1 4.5-2.6-.8c-.6-.2-.6-.9 0-1.2z" fill="#fff"/>
+                    </svg>
+                </div>
+                <div class="username-pill-sticker">@${escapeRentHtml(rawName)}</div>
+                <div class="username-link-sub">${escapeRentHtml(rawName)}.t.me</div>
+                <button class="nft-rent-btn-rent" onclick="openRentModal(${index})">
+                    ${price.toLocaleString('uz-UZ')} so'm / kun
+                </button>
+            </div>
+        `;
+    }
+
+    const imgUrl = item.webp_url || (item.media_key ? `https://nft.fragment.com/gift/${item.media_key}.webp` : './images/gift.webp');
     return `
         <div class="nft-card-rent">
             <div class="nft-img-wrap-rent">
@@ -17911,7 +18559,7 @@ function applyRentFiltersAndSort() {
         });
     }
 
-    if (rentActiveBackdrop) {
+    if (rentActiveCategory === 'gifts' && rentActiveBackdrop) {
         const targetBd = rentActiveBackdrop.toLowerCase();
         filtered = filtered.filter(item => {
             if (!item.attributes || !Array.isArray(item.attributes)) return false;
@@ -17921,6 +18569,32 @@ function applyRentFiltersAndSort() {
                 return trait === 'backdrop' && val === targetBd;
             });
         });
+    }
+
+    if (rentActiveCategory === 'usernames') {
+        if (rentUserLen) {
+            filtered = filtered.filter(item => {
+                const clean = String(item.name || '').replace(/^@/, '');
+                if (rentUserLen === '4') return clean.length === 4;
+                if (rentUserLen === '5') return clean.length === 5;
+                if (rentUserLen === '6+') return clean.length >= 6;
+                return true;
+            });
+        }
+        if (rentUserDigits) {
+            filtered = filtered.filter(item => {
+                const clean = String(item.name || '').replace(/^@/, '');
+                const hasDig = /\d/.test(clean);
+                return rentUserDigits === 'yes' ? hasDig : !hasDig;
+            });
+        }
+        if (rentUserUnderscore) {
+            filtered = filtered.filter(item => {
+                const clean = String(item.name || '').replace(/^@/, '');
+                const hasUnder = clean.includes('_');
+                return rentUserUnderscore === 'yes' ? hasUnder : !hasUnder;
+            });
+        }
     }
 
     if (rentActiveSort === 'price_asc') {
