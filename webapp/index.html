@@ -11530,11 +11530,16 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Telegram Secondary Link */
+/* Telegram / Fragment Secondary Links */
 .tg-nft-tg-link-wrap {
     padding: 10px 14px;
     border-top: 1px solid var(--border);
     background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 .tg-nft-secondary-link {
     display: inline-flex;
@@ -11544,10 +11549,12 @@ body {
     font-weight: 700;
     color: var(--me);
     text-decoration: none;
-    transition: opacity 0.15s;
+    transition: opacity 0.15s, transform 0.15s;
+    cursor: pointer;
 }
 .tg-nft-secondary-link:active {
     opacity: 0.75;
+    transform: scale(0.98);
 }
 
 /* ==================== C) IJARA BLOKI ==================== */
@@ -13745,12 +13752,20 @@ body {
                             <!-- Injected dynamically -->
                         </div>
                         <div id="modalTelegramLinkWrap" class="tg-nft-tg-link-wrap" style="display:none;">
-                            <a href="#" target="_blank" id="modalTelegramLink" class="tg-nft-secondary-link">
+                            <a href="#" id="modalTelegramLink" class="tg-nft-secondary-link" onclick="openModalExternalLink(event, 'telegram')">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
                                 </svg>
-                                <span>Telegramda ko'rish ↗</span>
+                                <span id="modalTelegramLinkLabel">Telegramda ko'rish ↗</span>
+                            </a>
+                            <a href="#" id="modalFragmentLink" class="tg-nft-secondary-link" style="display:none;" onclick="openModalExternalLink(event, 'fragment')">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                    <polyline points="2 17 12 22 22 17"></polyline>
+                                    <polyline points="2 12 12 17 22 12"></polyline>
+                                </svg>
+                                <span id="modalFragmentLinkLabel">Fragmentda ko'rish ↗</span>
                             </a>
                         </div>
                     </div>
@@ -20070,6 +20085,42 @@ function getBackdropColors(name) {
     return null;
 }
 
+let currentModalTgUrl = '';
+let currentModalFragmentUrl = '';
+
+function openModalExternalLink(event, type) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    const url = (type === 'telegram') ? currentModalTgUrl : currentModalFragmentUrl;
+    if (!url) return;
+
+    const tgApp = window.Telegram?.WebApp;
+
+    if (url.startsWith('https://t.me/') || url.startsWith('tg://')) {
+        if (tgApp && typeof tgApp.openTelegramLink === 'function') {
+            try {
+                tgApp.openTelegramLink(url);
+                return;
+            } catch (err) {
+                console.warn('openTelegramLink error:', err);
+            }
+        }
+    }
+
+    if (tgApp && typeof tgApp.openLink === 'function') {
+        try {
+            tgApp.openLink(url);
+            return;
+        } catch (err) {
+            console.warn('openLink error:', err);
+        }
+    }
+
+    window.open(url, '_blank', 'noopener,noreferrer');
+}
+
 let previewSelectedItem = null;
 
 function openRentModal(index) {
@@ -20254,15 +20305,86 @@ function openRentModal(index) {
         attrRows.innerHTML = rowsHtml;
     }
 
-    // Telegram External Link (if slug or url is given by API)
+    // External Links (Telegram & Fragment)
+    currentModalTgUrl = '';
+    currentModalFragmentUrl = '';
+
+    const fragLink = document.getElementById('modalFragmentLink');
+    const fragLabel = document.getElementById('modalFragmentLinkLabel');
+    const tgLabel = document.getElementById('modalTelegramLinkLabel');
+
     if (tgLinkWrap && tgLink) {
-        const tgSlug = rentSelectedItem.slug || rentSelectedItem.telegram_url || rentSelectedItem.fragment_url || rentSelectedItem.tme_url;
-        if (tgSlug) {
-            const href = tgSlug.startsWith('http') ? tgSlug : (tgSlug.startsWith('@') ? `https://t.me/${tgSlug.slice(1)}` : `https://t.me/nft/${tgSlug}`);
-            tgLink.href = href;
-            tgLinkWrap.style.display = 'block';
+        if (isUsername) {
+            const cleanUser = String(rawName).replace(/^@/, '').trim();
+            if (cleanUser) {
+                currentModalTgUrl = `https://t.me/${cleanUser}`;
+                currentModalFragmentUrl = `https://fragment.com/username/${cleanUser}`;
+                if (tgLabel) tgLabel.textContent = "Telegramda ochish ↗";
+                tgLink.style.display = 'inline-flex';
+                if (fragLink) {
+                    if (fragLabel) fragLabel.textContent = "Fragmentda ko'rish ↗";
+                    fragLink.style.display = 'inline-flex';
+                }
+                tgLinkWrap.style.display = 'flex';
+            } else {
+                tgLinkWrap.style.display = 'none';
+            }
+        } else if (isNumber) {
+            const digits = String(rawName).replace(/\D/g, '');
+            if (digits) {
+                currentModalTgUrl = '';
+                currentModalFragmentUrl = `https://fragment.com/number/${digits}`;
+                tgLink.style.display = 'none';
+                if (fragLink) {
+                    if (fragLabel) fragLabel.textContent = "Fragmentda ko'rish ↗";
+                    fragLink.style.display = 'inline-flex';
+                }
+                tgLinkWrap.style.display = 'flex';
+            } else {
+                tgLinkWrap.style.display = 'none';
+            }
         } else {
-            tgLinkWrap.style.display = 'none';
+            // Collectible Star Gift / NFT
+            let giftFullSlug = '';
+            if (rentSelectedItem.media_key && rentSelectedItem.media_key.includes('-')) {
+                giftFullSlug = rentSelectedItem.media_key;
+            } else if (rentSelectedItem.slug && rentSelectedItem.number) {
+                giftFullSlug = `${rentSelectedItem.slug}-${rentSelectedItem.number}`;
+            } else if (rentSelectedItem.slug && /-[0-9]+$/.test(rentSelectedItem.slug)) {
+                giftFullSlug = rentSelectedItem.slug;
+            } else if (rentSelectedItem.name) {
+                const numMatch = rentSelectedItem.name.match(/#\s*(\d+)/);
+                if (numMatch && numMatch[1]) {
+                    const base = (rentSelectedItem.slug || rentSelectedItem.name.replace(/#.*/, '')).toLowerCase().replace(/[^a-z0-9]/g, '');
+                    if (base) giftFullSlug = `${base}-${numMatch[1]}`;
+                }
+            }
+
+            const hasValidGiftSlug = giftFullSlug && /-[0-9]+$/.test(giftFullSlug);
+
+            if (hasValidGiftSlug) {
+                currentModalTgUrl = `https://t.me/nft/${giftFullSlug}`;
+                currentModalFragmentUrl = `https://fragment.com/gift/${giftFullSlug}`;
+                if (tgLabel) tgLabel.textContent = "Telegramda ko'rish ↗";
+                tgLink.style.display = 'inline-flex';
+                if (fragLink) {
+                    if (fragLabel) fragLabel.textContent = "Fragmentda ko'rish ↗";
+                    fragLink.style.display = 'inline-flex';
+                }
+                tgLinkWrap.style.display = 'flex';
+            } else if (rentSelectedItem.nft_address && rentSelectedItem.nft_address.startsWith('EQ')) {
+                // TON NFT fallback via Tonviewer (never causes STARGIFT_SLUG_INVALID)
+                currentModalTgUrl = '';
+                currentModalFragmentUrl = `https://tonviewer.com/${rentSelectedItem.nft_address}`;
+                tgLink.style.display = 'none';
+                if (fragLink) {
+                    if (fragLabel) fragLabel.textContent = "Tonviewerda ko'rish ↗";
+                    fragLink.style.display = 'inline-flex';
+                }
+                tgLinkWrap.style.display = 'flex';
+            } else {
+                tgLinkWrap.style.display = 'none';
+            }
         }
     }
 
