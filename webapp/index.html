@@ -8872,10 +8872,10 @@ html, body {
     text-align: center;
 }
 .nft-card-rent {
-    background: #141523;
+    background: #141726;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 18px;
-    padding: 10px;
+    padding: 10px 10px 12px 10px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -8889,7 +8889,7 @@ html, body {
 .nft-img-wrap-rent {
     width: 100%;
     aspect-ratio: 1;
-    background: rgba(0, 0, 0, 0.28);
+    background: #191d2e;
     border-radius: 14px;
     display: flex;
     align-items: center;
@@ -8899,8 +8899,8 @@ html, body {
     margin-bottom: 8px;
 }
 .nft-img-wrap-rent img {
-    width: 82%;
-    height: 82%;
+    width: 86%;
+    height: 86%;
     object-fit: contain;
     transition: transform 0.2s ease;
 }
@@ -8908,37 +8908,37 @@ html, body {
     position: absolute;
     top: 8px;
     right: 8px;
-    background: #f1f5f9;
-    color: #0f172a;
-    font-size: 11px;
-    font-weight: 800;
-    padding: 3px 8px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 10.5px;
+    font-weight: 750;
+    padding: 2.5px 8px;
     border-radius: 999px;
-    letter-spacing: -0.2px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     z-index: 2;
 }
 .nft-title-rent {
     font-size: 13.5px;
     font-weight: 750;
     color: #ffffff;
-    text-align: center;
+    text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.25;
-    margin-bottom: 10px;
-    padding: 0 2px;
+    line-height: 1.3;
+    margin: 2px 2px 8px 2px;
 }
 .nft-rent-btn-rent {
     width: 100%;
+    height: 38px;
     background: #ffffff;
-    color: #000000;
-    font-size: 12.5px;
-    font-weight: 850;
+    color: #0a0b12;
+    font-size: 13px;
+    font-weight: 800;
     border: none;
-    border-radius: 999px;
-    padding: 10px 4px;
+    border-radius: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -8964,11 +8964,11 @@ html, body {
     width: 100%;
 }
 
-/* Username Card Styling (Screenshot 5 Match) */
-.username-card-wrap {
+/* Username Card Styling (Screenshot 5 Abu Store Match) */
+.username-top-box {
     width: 100%;
     aspect-ratio: 1;
-    background: radial-gradient(circle at 50% 35%, rgba(36, 161, 222, 0.22) 0%, #151829 80%);
+    background: #191d2e;
     border-radius: 14px;
     display: flex;
     flex-direction: column;
@@ -8980,54 +8980,78 @@ html, body {
     padding: 8px 6px;
     box-sizing: border-box;
 }
-.username-tg-badge {
-    width: 52px;
-    height: 52px;
+.username-duration-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
     background: #ffffff;
-    border-radius: 16px;
+    color: #0a0b14;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 999px;
+    z-index: 2;
+}
+.username-tg-badge {
+    width: 58px;
+    height: 58px;
+    background: #ffffff;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 24px rgba(36, 161, 222, 0.35);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
     margin-bottom: 8px;
 }
 .username-tg-plane {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
 }
 .username-pill-sticker {
-    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
     color: #ffffff;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 999px;
+    padding: 3px 12px;
+    border-radius: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 90%;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
     margin-bottom: 3px;
     letter-spacing: -0.2px;
     text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 .username-link-sub {
-    font-size: 10.5px;
+    font-size: 11px;
     color: #64748b;
     font-weight: 600;
     text-align: center;
 }
+.username-card-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    text-align: left;
+    margin: 2px 2px 8px 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
-/* Bottom Sheet Modals for Collection & Backdrop Selection */
+/* Bottom Sheet Modals for Collection & Backdrop Selection (Abu Store Screenshot 4 Match) */
 .sheet-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(8px);
-    z-index: 3000;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.78) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    z-index: 999999 !important;
     display: none;
     align-items: flex-end;
     justify-content: center;
@@ -9035,8 +9059,8 @@ html, body {
     transition: opacity 0.2s ease;
 }
 .sheet-modal-overlay.active {
-    display: flex;
-    opacity: 1;
+    display: flex !important;
+    opacity: 1 !important;
 }
 .sheet-modal {
     width: 100%;
@@ -9044,13 +9068,14 @@ html, body {
     background: #111322;
     border-top: 1px solid rgba(139, 92, 246, 0.35);
     border-radius: 24px 24px 0 0;
-    padding: 16px 18px calc(24px + env(safe-area-inset-bottom, 16px)) 18px;
+    padding: 16px 16px calc(24px + env(safe-area-inset-bottom, 20px)) 16px;
     transform: translateY(100%);
     transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
-    max-height: 85vh;
+    max-height: 82vh;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7);
 }
 .sheet-modal-overlay.active .sheet-modal {
     transform: translateY(0);
@@ -9062,7 +9087,7 @@ html, body {
     margin-bottom: 14px;
 }
 .sheet-modal-title {
-    font-size: 18px;
+    font-size: 17.5px;
     font-weight: 800;
     color: #ffffff;
 }
@@ -9118,7 +9143,7 @@ html, body {
     max-height: 52vh;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
     padding-right: 2px;
     margin-bottom: 14px;
     scrollbar-width: thin;
@@ -9126,38 +9151,46 @@ html, body {
 .sheet-item-row {
     display: flex;
     align-items: center;
-    gap: 12px;
     padding: 10px 12px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    background: #16192a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     cursor: pointer;
     transition: all 0.15s ease;
+    user-select: none;
 }
 .sheet-item-row:active {
     transform: scale(0.99);
 }
-.sheet-item-row.active {
-    background: rgba(139, 92, 246, 0.18);
-    border-color: #8b5cf6;
+.sheet-item-row.selected {
+    background: rgba(139, 92, 246, 0.15);
+    border-color: rgba(139, 92, 246, 0.45);
 }
 .sheet-item-check {
-    width: 20px;
-    height: 20px;
-    border-radius: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
     border: 1.5px solid rgba(255, 255, 255, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
-    font-weight: 800;
-    color: #ffffff;
     flex-shrink: 0;
+    margin-right: 12px;
+    background: transparent;
     transition: all 0.15s;
 }
-.sheet-item-row.active .sheet-item-check {
+.sheet-item-row.selected .sheet-item-check {
     background: #8b5cf6;
     border-color: #8b5cf6;
+}
+.sheet-item-check svg {
+    width: 14px;
+    height: 14px;
+    stroke: #ffffff;
+    opacity: 0;
+}
+.sheet-item-row.selected .sheet-item-check svg {
+    opacity: 1;
 }
 .sheet-item-radio {
     width: 20px;
@@ -9168,9 +9201,10 @@ html, body {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    margin-right: 12px;
     transition: all 0.15s;
 }
-.sheet-item-row.active .sheet-item-radio {
+.sheet-item-row.selected .sheet-item-radio {
     border-color: #8b5cf6;
 }
 .sheet-item-radio-inner {
@@ -9180,38 +9214,41 @@ html, body {
     background: #8b5cf6;
     display: none;
 }
-.sheet-item-row.active .sheet-item-radio-inner {
+.sheet-item-row.selected .sheet-item-radio-inner {
     display: block;
 }
 .sheet-item-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.3);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #111422;
+    border: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     flex-shrink: 0;
+    margin-right: 12px;
 }
 .sheet-item-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
 }
 .sheet-color-circle {
     width: 24px;
     height: 24px;
     border-radius: 50%;
+    margin-right: 12px;
     flex-shrink: 0;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
-.sheet-item-details {
+.sheet-item-info {
     flex: 1;
     min-width: 0;
 }
 .sheet-item-name {
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 750;
     color: #ffffff;
     white-space: nowrap;
@@ -9219,43 +9256,52 @@ html, body {
     text-overflow: ellipsis;
 }
 .sheet-item-sub {
-    font-size: 11.5px;
+    font-size: 12px;
     color: #94a3b8;
     margin-top: 2px;
 }
-.sheet-item-badge {
-    text-align: right;
-    flex-shrink: 0;
+.sheet-price-blue {
+    color: #38bdf8;
+    font-weight: 750;
 }
-.sheet-item-count {
-    font-size: 12px;
+.sheet-item-badge-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    margin-left: 10px;
+}
+.sheet-item-count-box {
+    background: #202438;
+    border-radius: 8px;
+    padding: 3px 8px;
+    font-size: 12.5px;
     font-weight: 800;
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
-    padding: 2px 7px;
-    border-radius: 6px;
+    letter-spacing: -0.2px;
 }
-.sheet-item-avail {
-    font-size: 10px;
-    color: #94a3b8;
+.sheet-item-avail-label {
+    font-size: 10.5px;
+    color: #64748b;
+    font-weight: 600;
     margin-top: 2px;
 }
 .sheet-apply-btn {
     width: 100%;
     height: 48px;
-    background: #8b5cf6;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
     border: none;
     border-radius: 14px;
     color: #ffffff;
     font-size: 15px;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 4px 18px rgba(139, 92, 246, 0.4);
     transition: all 0.15s ease;
     flex-shrink: 0;
 }
 .sheet-apply-btn:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
     filter: brightness(1.1);
 }
 .skeleton-card-rent {
@@ -18293,7 +18339,7 @@ function renderRentCollectionModalList(filterText = '') {
         const isSel = (c.address === rentTempSelectedCollection);
         const floorUzs = c.rent_floor_uzs ? Number(c.rent_floor_uzs).toLocaleString('uz-UZ') : '1 883';
         const countVal = c.count || c.available_count || c.total_items || '';
-        const countBadge = countVal ? `${Number(countVal).toLocaleString('uz-UZ')} Mavjud` : 'Mavjud';
+        const countFormatted = countVal ? Number(countVal).toLocaleString('uz-UZ') : '';
         const colImg = getRentCollectionImageUrl(c);
 
         html += `
@@ -18308,9 +18354,12 @@ function renderRentCollectionModalList(filterText = '') {
                 </div>
                 <div class="sheet-item-info">
                     <div class="sheet-item-name">${escapeRentHtml(name)}</div>
-                    <div class="sheet-item-sub">Ijara: ${floorUzs} so'm / kun</div>
+                    <div class="sheet-item-sub">Ijara: <span class="sheet-price-blue">${floorUzs} so'm</span> / kun</div>
                 </div>
-                <span class="sheet-item-badge">${escapeRentHtml(countBadge)}</span>
+                <div class="sheet-item-badge-col">
+                    ${countFormatted ? `<div class="sheet-item-count-box">${countFormatted}</div>` : ''}
+                    <div class="sheet-item-avail-label">Mavjud</div>
+                </div>
             </div>
         `;
     });
@@ -18516,6 +18565,25 @@ function switchRentCategory(cat) {
     loadRentItems();
 }
 
+function getUsernameStickerBg(uname) {
+    const STICKER_PALETTES = [
+        'linear-gradient(135deg, #ec4899, #db2777)',
+        'linear-gradient(135deg, #22c55e, #16a34a)',
+        'linear-gradient(135deg, #a855f7, #7c3aed)',
+        'linear-gradient(135deg, #0284c7, #0369a1)',
+        'linear-gradient(135deg, #f59e0b, #d97706)',
+        'linear-gradient(135deg, #f43f5e, #e11d48)',
+        'linear-gradient(135deg, #0d9488, #0f766e)',
+        'linear-gradient(135deg, #6366f1, #4f46e5)'
+    ];
+    let hash = 0;
+    const str = String(uname || '');
+    for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return STICKER_PALETTES[Math.abs(hash) % STICKER_PALETTES.length];
+}
+
 function createRentCardHtml(item, index) {
     let price = Number(item.price_per_day_uzs || 0);
     if (!price && item.price_per_day_nano) {
@@ -18535,17 +18603,21 @@ function createRentCardHtml(item, index) {
 
     if (rentActiveCategory === 'usernames') {
         const rawName = String(item.name || '').replace(/^@/, '');
+        const stickerBg = getUsernameStickerBg(rawName);
         return `
             <div class="nft-card-rent username-card-wrap">
-                <span class="nft-badge-pill-rent">${minDays}–${maxDays} kun</span>
-                <div class="username-tg-badge">
-                    <svg class="username-tg-plane" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="12" fill="#2AABEE"/>
-                        <path d="M5.4 11.9l11.4-4.7c.5-.2 1 .1.9.7l-1.9 9.1c-.1.6-.8.8-1.2.5l-3.3-2.4-1.6 1.5c-.2.2-.5.2-.6 0l-.3-2.8 5.7-5.2c.2-.2 0-.5-.3-.3l-7.1 4.5-2.6-.8c-.6-.2-.6-.9 0-1.2z" fill="#fff"/>
-                    </svg>
+                <div class="username-top-box">
+                    <span class="username-duration-badge">${minDays}–${maxDays} kun</span>
+                    <div class="username-tg-badge">
+                        <svg class="username-tg-plane" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="12" fill="#2AABEE"/>
+                            <path d="M5.4 11.9l11.4-4.7c.5-.2 1 .1.9.7l-1.9 9.1c-.1.6-.8.8-1.2.5l-3.3-2.4-1.6 1.5c-.2.2-.5.2-.6 0l-.3-2.8 5.7-5.2c.2-.2 0-.5-.3-.3l-7.1 4.5-2.6-.8c-.6-.2-.6-.9 0-1.2z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div class="username-pill-sticker" style="background: ${stickerBg};">@${escapeRentHtml(rawName)}</div>
+                    <div class="username-link-sub">${escapeRentHtml(rawName)}.t.me</div>
                 </div>
-                <div class="username-pill-sticker">@${escapeRentHtml(rawName)}</div>
-                <div class="username-link-sub">${escapeRentHtml(rawName)}.t.me</div>
+                <div class="username-card-title">@${escapeRentHtml(rawName)}</div>
                 <button class="nft-rent-btn-rent" onclick="openRentModal(${index})">
                     ${price.toLocaleString('uz-UZ')} so'm / kun
                 </button>
