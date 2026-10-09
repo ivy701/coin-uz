@@ -158,78 +158,149 @@
         /* Category Tabs */
         .rent-tabs-wrap {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            margin-bottom: 14px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .rent-tab-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-card);
-            border-radius: 12px;
-            padding: 9px 2px;
-            font-size: 11px;
+            background: #181926;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            padding: 10px 4px;
+            font-size: 13.5px;
             font-weight: 700;
             color: var(--text-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3px;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.2s ease;
             white-space: nowrap;
         }
 
         .rent-tab-btn.active {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
-            border-color: rgba(56, 189, 248, 0.5);
+            background: #8b5cf6;
+            border-color: #8b5cf6;
             color: #ffffff;
-            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2);
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
         }
 
         .rent-tab-badge {
-            background: #8b5cf6;
+            background: #a855f7;
             color: #ffffff;
             font-size: 10px;
             font-weight: 800;
-            padding: 1px 5px;
+            padding: 1px 6px;
             border-radius: 999px;
             line-height: 1.2;
+            margin-left: 4px;
         }
 
-        /* Collections Filter Scroll */
-        .collections-scroll-wrap {
+        /* Filter Row: 2 Cards (Kolleksiyalar & Fon) */
+        .rent-filter-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .rent-filter-card {
+            background: #151624;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 9px 12px;
             display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 14px;
-            scrollbar-width: none;
-        }
-
-        .collections-scroll-wrap::-webkit-scrollbar {
-            display: none;
-        }
-
-        .collection-chip {
-            flex-shrink: 0;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-card);
-            border-radius: 999px;
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 650;
-            color: var(--text-secondary);
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
             cursor: pointer;
-            transition: all 0.15s ease;
-            white-space: nowrap;
         }
 
-        .collection-chip.active {
-            background: rgba(56, 189, 248, 0.18);
-            border-color: rgba(56, 189, 248, 0.45);
-            color: #38bdf8;
+        .rent-filter-card-label {
+            font-size: 10px;
             font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+
+        .rent-filter-select-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .rent-filter-select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding-right: 18px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .rent-filter-select option {
+            background: #151624;
+            color: #ffffff;
+        }
+
+        /* Sort Card: Full width */
+        .rent-sort-card {
+            background: #151624;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 11px 14px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .rent-sort-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+            margin-right: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rent-sort-select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding-right: 20px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .rent-sort-select option {
+            background: #151624;
+            color: #ffffff;
+        }
+
+        .rent-select-arrow {
+            position: absolute;
+            right: 0;
+            pointer-events: none;
+            font-size: 10px;
+            color: #94a3b8;
         }
 
         /* Search & Info Bar */
@@ -246,11 +317,11 @@
 
         .search-input-wrap input {
             width: 100%;
-            height: 42px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-card);
+            height: 40px;
+            background: #151624;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
-            padding: 0 14px 0 38px;
+            padding: 0 14px 0 36px;
             font-size: 13px;
             color: #ffffff;
             outline: none;
@@ -258,8 +329,7 @@
         }
 
         .search-input-wrap input:focus {
-            border-color: rgba(56, 189, 248, 0.5);
-            background: rgba(255, 255, 255, 0.08);
+            border-color: #8b5cf6;
         }
 
         .search-icon {
@@ -275,38 +345,38 @@
         .nft-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .nft-card {
-            background: linear-gradient(160deg, #151829 0%, #0f111e 100%);
-            border: 1px solid var(--border-card);
-            border-radius: var(--radius-card);
-            padding: 12px;
+            background: #141523;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
             position: relative;
             overflow: hidden;
             transition: transform 0.15s ease, border-color 0.15s ease;
-            height: 100%;
             box-sizing: border-box;
         }
 
         .nft-card:active {
-            transform: scale(0.97);
+            transform: scale(0.98);
         }
 
         .nft-img-wrap {
             width: 100%;
             aspect-ratio: 1;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.28);
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
+            margin-bottom: 8px;
         }
 
         .nft-img-wrap img {
@@ -319,98 +389,53 @@
         .nft-badge-pill {
             position: absolute;
             top: 8px;
-            left: 8px;
-            font-size: 10px;
+            right: 8px;
+            background: #f1f5f9;
+            color: #0f172a;
+            font-size: 11px;
             font-weight: 800;
-            padding: 2px 7px;
+            padding: 3px 8px;
             border-radius: 999px;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #7dd3fc;
+            letter-spacing: -0.2px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 2;
         }
 
         .nft-title {
-            font-size: 14px;
-            font-weight: 800;
+            font-size: 13.5px;
+            font-weight: 750;
             color: #ffffff;
+            text-align: center;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.2;
-        }
-
-        .nft-attributes {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            min-height: 20px;
-        }
-
-        .nft-attr-pill {
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 2px 6px;
-            border-radius: 6px;
-            white-space: nowrap;
-        }
-
-        .nft-price-row {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            background: rgba(0, 0, 0, 0.25);
-            padding: 8px 10px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .nft-price-val {
-            font-size: 14.5px;
-            font-weight: 850;
-            color: #38bdf8;
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-        }
-
-        .nft-price-unit {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .nft-days-range {
-            font-size: 10.5px;
-            color: #64748b;
-            font-weight: 600;
+            line-height: 1.25;
+            margin-bottom: 10px;
+            padding: 0 2px;
         }
 
         .nft-rent-btn {
             width: 100%;
-            height: 38px;
+            background: #ffffff;
+            color: #000000;
+            font-size: 12.5px;
+            font-weight: 850;
             border: none;
-            border-radius: 11px;
-            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-            color: #ffffff;
-            font-size: 13px;
-            font-weight: 750;
+            border-radius: 999px;
+            padding: 10px 4px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
             transition: all 0.15s ease;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.12);
             margin-top: auto;
+            white-space: nowrap;
         }
 
         .nft-rent-btn:active {
-            transform: scale(0.95);
-            filter: brightness(1.1);
+            transform: scale(0.96);
+            background: #e2e8f0;
         }
 
         /* Skeleton loader */
@@ -1238,15 +1263,6 @@
         </div>
     </div>
 
-    <!-- Tech Maintenance Notice Banner -->
-    <div style="background: rgba(249, 115, 22, 0.12); border: 1.5px solid rgba(249, 115, 22, 0.45); border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
-        <div style="font-size: 22px; line-height: 1;">🛠</div>
-        <div style="font-size: 13px; color: #fdba74; font-weight: 600; line-height: 1.4;">
-            <span style="color: #fb923c; font-weight: 700;">Texnik ishlar olib borilmoqda:</span><br>
-            NFT Ijara tizimida texnik ishlar ketmoqda. Xarid qilish vaqtincha to'xtatildi.
-        </div>
-    </div>
-
     <!-- Hero Card -->
     <div class="rent-hero-card">
         <div class="rent-hero-tag">⚡ Marketapp Live Katalog</div>
@@ -1259,27 +1275,23 @@
     <!-- Category Tabs -->
     <div class="rent-tabs-wrap">
         <div class="rent-tab-btn active" data-cat="gifts" onclick="switchCategory('gifts')">
-            <span>🎁</span> Sovg'a
+            NFT
         </div>
         <div class="rent-tab-btn" data-cat="usernames" onclick="switchCategory('usernames')">
-            <span>🏷️</span> User
+            Username
         </div>
         <div class="rent-tab-btn" data-cat="numbers" onclick="switchCategory('numbers')">
-            <span>📱</span> Nomer
-        </div>
-        <div class="rent-tab-btn" data-cat="my_rents" onclick="openMyRentsView()">
-            <span>👑</span> Rentlarim <span class="rent-tab-badge" id="myRentsTabBadge" style="display:none;">0</span>
+            Raqamlar
         </div>
     </div>
 
     <!-- My Rents Banner (Exact matching design) -->
     <div class="my-rents-banner" id="myRentsBanner" onclick="openMyRentsView()">
         <div class="my-rents-banner-left">
-            <div class="my-rents-icon-box">🎁</div>
-            <div class="my-rents-title">Mening rentlarim</div>
+            <span>🎁</span>
+            <span>Mening ijaralarim (<span id="myRentsCountBadge">0</span>)</span>
         </div>
         <div class="my-rents-banner-right">
-            <span class="my-rents-count-badge" id="myRentsCountBadge">0</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
@@ -1288,9 +1300,41 @@
 
     <!-- Catalog Section -->
     <div id="catalogSection">
-        <!-- Collections Filter Scroll -->
-        <div class="collections-scroll-wrap" id="collectionsContainer">
-            <div class="collection-chip active" onclick="selectCollection('', this)">Barchasi</div>
+        <!-- Filter Row: Kolleksiyalar & Fon -->
+        <div class="rent-filter-row" id="filterRow">
+            <div class="rent-filter-card">
+                <div class="rent-filter-card-label">KOLLEKSIYALAR</div>
+                <div class="rent-filter-select-wrap">
+                    <select id="collectionSelect" class="rent-filter-select" onchange="handleCollectionSelect(this.value)">
+                        <option value="">Barchasi</option>
+                    </select>
+                    <div class="rent-select-arrow">▼</div>
+                </div>
+            </div>
+            <div class="rent-filter-card">
+                <div class="rent-filter-card-label">FON (ORQA FON)</div>
+                <div class="rent-filter-select-wrap">
+                    <select id="backdropSelect" class="rent-filter-select" onchange="handleBackdropSelect(this.value)">
+                        <option value="">Barchasi</option>
+                    </select>
+                    <div class="rent-select-arrow">▼</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sort Card -->
+        <div class="rent-sort-card" id="sortCard">
+            <div class="rent-filter-select-wrap">
+                <div class="rent-sort-label">🎛 Saralash:</div>
+                <select id="sortSelect" class="rent-sort-select" onchange="handleSortSelect(this.value)">
+                    <option value="recent">Yaqinda yangilanganlar</option>
+                    <option value="price_asc">Eng arzon (narx o'sishi)</option>
+                    <option value="price_desc">Eng qimmat (narx kamayishi)</option>
+                    <option value="duration_desc">Muddati bo'yicha (eng uzun)</option>
+                    <option value="duration_asc">Muddati bo'yicha (eng qisqa)</option>
+                </select>
+                <div class="rent-select-arrow">▼</div>
+            </div>
         </div>
 
         <!-- Search Row -->
@@ -1825,36 +1869,73 @@
             }
         }
 
+        let activeBackdrop = '';
+        let activeSort = 'recent';
+        let displayedItems = [];
+        const RENT_KNOWN_BACKDROPS = [
+            "Onyx Black", "Cyberpunk", "Aquamarine", "Sapphire", 
+            "Emerald", "Pacific Green", "Crimson", "Neon", 
+            "Amber", "Amethyst", "Golden", "Rose", "Lavender", "Azure"
+        ];
+        let discoveredBackdrops = new Set(RENT_KNOWN_BACKDROPS);
+
+        function updateBackdropSelectOptions() {
+            const sel = document.getElementById('backdropSelect');
+            if (!sel) return;
+            const currentVal = activeBackdrop;
+            let html = `<option value="">Barchasi</option>`;
+            Array.from(discoveredBackdrops).sort().forEach(bd => {
+                const isSel = (bd.toLowerCase() === currentVal.toLowerCase()) ? 'selected' : '';
+                html += `<option value="${escapeHtml(bd)}" ${isSel}>${escapeHtml(bd)}</option>`;
+            });
+            sel.innerHTML = html;
+        }
+
         async function loadCollections() {
             try {
                 const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
                 const res = await fetch(`${apiBase}/api/rent/collections`);
                 const data = await res.json();
-                const container = document.getElementById('collectionsContainer');
-                if (!container) return;
+                const sel = document.getElementById('collectionSelect');
+                if (!sel) return;
 
-                if (data && data.ok && data.collections) {
-                    let html = `<div class="collection-chip ${activeCollectionAddress === '' ? 'active' : ''}" onclick="selectCollection('', this)">Barchasi</div>`;
-                    data.collections.slice(0, 25).forEach(c => {
+                if (data && data.ok && Array.isArray(data.collections)) {
+                    let html = `<option value="">Barchasi</option>`;
+                    data.collections.forEach(c => {
                         let floor = Number(c.rent_floor_uzs || 0);
                         if (!floor && c.rent_floor_nano) {
                             floor = Math.round((Number(c.rent_floor_nano) / 1e9) * 28000);
                         }
                         const floorText = floor > 0 ? ` (${floor.toLocaleString('uz-UZ')} so'm)` : '';
-                        html += `<div class="collection-chip ${activeCollectionAddress === c.address ? 'active' : ''}" onclick="selectCollection('${c.address}', this)">${escapeHtml(c.name)}${floorText}</div>`;
+                        const isSel = (c.address === activeCollectionAddress) ? 'selected' : '';
+                        html += `<option value="${c.address}" ${isSel}>${escapeHtml(c.name)}${floorText}</option>`;
                     });
-                    container.innerHTML = html;
+                    sel.innerHTML = html;
                 }
             } catch (e) {
                 console.warn('Collections load error:', e);
             }
         }
 
-        function selectCollection(address, el) {
-            activeCollectionAddress = address;
-            document.querySelectorAll('.collection-chip').forEach(c => c.classList.remove('active'));
-            if (el) el.classList.add('active');
+        function handleCollectionSelect(address) {
+            activeCollectionAddress = address || '';
+            nextCursor = '';
+            allItems = [];
+            displayedItems = [];
             loadItems();
+        }
+
+        function handleBackdropSelect(val) {
+            activeBackdrop = val || '';
+            applyFiltersAndSort();
+            if (activeBackdrop && displayedItems.length < 8 && hasMoreItems && nextCursor) {
+                loadMoreItems();
+            }
+        }
+
+        function handleSortSelect(val) {
+            activeSort = val || 'recent';
+            applyFiltersAndSort();
         }
 
         function switchCategory(cat) {
@@ -1864,15 +1945,28 @@
             if (activeCategory === cat) return;
             activeCategory = cat;
             activeCollectionAddress = '';
+            activeBackdrop = '';
+            activeSort = 'recent';
+
             document.querySelectorAll('.rent-tab-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.getAttribute('data-cat') === cat);
             });
-            const colScroll = document.getElementById('collectionsContainer');
+
+            const filterRow = document.getElementById('filterRow');
+            if (filterRow) {
+                filterRow.style.display = (cat === 'gifts') ? 'grid' : 'none';
+            }
+
+            const colSel = document.getElementById('collectionSelect');
+            if (colSel) colSel.value = '';
+            const bdSel = document.getElementById('backdropSelect');
+            if (bdSel) bdSel.value = '';
+            const sortSel = document.getElementById('sortSelect');
+            if (sortSel) sortSel.value = 'recent';
+
             if (cat === 'gifts') {
-                colScroll.style.display = 'flex';
                 loadCollections();
-            } else {
-                colScroll.style.display = 'none';
+                updateBackdropSelectOptions();
             }
             loadItems();
         }
@@ -1894,31 +1988,58 @@
 
             const minDays = Number(item.min_days || 1);
             const maxDays = Number(item.max_days || 30);
-            const attrPills = (item.attributes || []).slice(0, 2).map(a => 
-                `<span class="nft-attr-pill">${escapeHtml(a.value || a.trait_type)}</span>`
-            ).join('');
 
             return `
                 <div class="nft-card">
                     <div class="nft-img-wrap">
-                        <span class="nft-badge-pill">${minDays}-${maxDays} kun</span>
+                        <span class="nft-badge-pill">${minDays}–${maxDays} kun</span>
                         <img src="${imgUrl}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='./images/gift.webp'">
                     </div>
                     <div class="nft-title" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
-                    <div class="nft-attributes">
-                        ${attrPills}
-                    </div>
-                    <div class="nft-price-row">
-                        <div class="nft-price-val">
-                            ${price.toLocaleString('uz-UZ')} <span class="nft-price-unit">so'm / kun</span>
-                        </div>
-                        <div class="nft-days-range">Min: ${minDays} kun | Max: ${maxDays} kun</div>
-                    </div>
                     <button class="nft-rent-btn" onclick="openRentModal(${index})">
-                        <span>Ijaraga olish</span>
+                        ${price.toLocaleString('uz-UZ')} so'm / kun
                     </button>
                 </div>
             `;
+        }
+
+        function applyFiltersAndSort() {
+            const query = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+            let filtered = [...allItems];
+
+            if (query) {
+                filtered = filtered.filter(item => {
+                    const name = (item.name || '').toLowerCase();
+                    const number = String(item.number || '');
+                    const slug = (item.slug || '').toLowerCase();
+                    return name.includes(query) || number.includes(query) || slug.includes(query);
+                });
+            }
+
+            if (activeBackdrop) {
+                const targetBd = activeBackdrop.toLowerCase();
+                filtered = filtered.filter(item => {
+                    if (!item.attributes || !Array.isArray(item.attributes)) return false;
+                    return item.attributes.some(attr => {
+                        const trait = (attr.trait_type || '').toLowerCase();
+                        const val = (attr.value || '').toLowerCase();
+                        return trait === 'backdrop' && val === targetBd;
+                    });
+                });
+            }
+
+            if (activeSort === 'price_asc') {
+                filtered.sort((a, b) => Number(a.price_per_day_uzs || 0) - Number(b.price_per_day_uzs || 0));
+            } else if (activeSort === 'price_desc') {
+                filtered.sort((a, b) => Number(b.price_per_day_uzs || 0) - Number(a.price_per_day_uzs || 0));
+            } else if (activeSort === 'duration_desc') {
+                filtered.sort((a, b) => Number(b.max_days || 0) - Number(a.max_days || 0));
+            } else if (activeSort === 'duration_asc') {
+                filtered.sort((a, b) => Number(a.min_days || 1) - Number(b.min_days || 1));
+            }
+
+            displayedItems = filtered;
+            renderItems(displayedItems);
         }
 
         async function loadItems() {
@@ -1929,6 +2050,7 @@
             hasMoreItems = true;
             isLoadingMore = false;
             allItems = [];
+            displayedItems = [];
 
             const loadMoreWrap = document.getElementById('rentLoadMoreWrap');
             if (loadMoreWrap) loadMoreWrap.style.display = 'none';
@@ -1942,12 +2064,12 @@
 
             const FALLBACK_RENT_ITEMS = {
                 gifts: [
-                    { nft_address: "EQBKhTpqak-huWxkbNZjdt2zk_MylTFkh6dGCJsH3qR7JabL", name: "Light Sword #69594", webp_url: "https://nft.fragment.com/gift/light_sword.webp", price_per_day_uzs: 850, min_days: 5, max_days: 180, attributes: [{trait_type: "Model", value: "Quasar"}, {trait_type: "Backdrop", value: "Black"}] },
-                    { nft_address: "EQD0c1e4598a_candy_canes_144", name: "Candy Canes #144", webp_url: "https://nft.fragment.com/gift/candy_canes.webp", price_per_day_uzs: 441, min_days: 1, max_days: 30, attributes: [{trait_type: "Type", value: "Limited"}, {trait_type: "Rarity", value: "Rare"}] },
-                    { nft_address: "EQB6d89201f_khabib_papakha_77", name: "Khabib Papakha #77", webp_url: "https://nft.fragment.com/gift/khabib_papakha.webp", price_per_day_uzs: 735, min_days: 1, max_days: 30, attributes: [{trait_type: "Edition", value: "Champion"}, {trait_type: "Rarity", value: "Epic"}] },
-                    { nft_address: "EQCf9271aa2_lunar_snakes_88", name: "Lunar Snakes #88", webp_url: "https://nft.fragment.com/gift/lunar_snakes.webp", price_per_day_uzs: 1029, min_days: 1, max_days: 30, attributes: [{trait_type: "Zodiac", value: "2025 Snake"}, {trait_type: "Rarity", value: "Rare"}] },
-                    { nft_address: "EQAa7182cc3_winter_bear_12", name: "Winter Bear #12", webp_url: "https://nft.fragment.com/gift/winter_bear.webp", price_per_day_uzs: 588, min_days: 1, max_days: 30, attributes: [{trait_type: "Season", value: "Winter"}, {trait_type: "Rarity", value: "Common"}] },
-                    { nft_address: "EQEe8391dd4_golden_trophy_1", name: "Golden Trophy #1", webp_url: "https://nft.fragment.com/gift/golden_trophy.webp", price_per_day_uzs: 1470, min_days: 1, max_days: 30, attributes: [{trait_type: "Trophy", value: "Gold #1"}, {trait_type: "Rarity", value: "Legendary"}] }
+                    { nft_address: "EQBKhTpqak-huWxkbNZjdt2zk_MylTFkh6dGCJsH3qR7JabL", name: "Light Sword #69594", webp_url: "https://nft.fragment.com/gift/light_sword.webp", price_per_day_uzs: 850, min_days: 5, max_days: 180, attributes: [{trait_type: "Model", value: "Quasar"}, {trait_type: "Backdrop", value: "Onyx Black"}] },
+                    { nft_address: "EQD0c1e4598a_candy_canes_144", name: "Candy Canes #144", webp_url: "https://nft.fragment.com/gift/candy_canes.webp", price_per_day_uzs: 441, min_days: 1, max_days: 30, attributes: [{trait_type: "Type", value: "Limited"}, {trait_type: "Backdrop", value: "Aquamarine"}] },
+                    { nft_address: "EQB6d89201f_khabib_papakha_77", name: "Khabib Papakha #77", webp_url: "https://nft.fragment.com/gift/khabib_papakha.webp", price_per_day_uzs: 735, min_days: 1, max_days: 30, attributes: [{trait_type: "Edition", value: "Champion"}, {trait_type: "Backdrop", value: "Cyberpunk"}] },
+                    { nft_address: "EQCf9271aa2_lunar_snakes_88", name: "Lunar Snakes #88", webp_url: "https://nft.fragment.com/gift/lunar_snakes.webp", price_per_day_uzs: 1029, min_days: 1, max_days: 30, attributes: [{trait_type: "Zodiac", value: "2025 Snake"}, {trait_type: "Backdrop", value: "Sapphire"}] },
+                    { nft_address: "EQAa7182cc3_winter_bear_12", name: "Winter Bear #12", webp_url: "https://nft.fragment.com/gift/winter_bear.webp", price_per_day_uzs: 588, min_days: 1, max_days: 30, attributes: [{trait_type: "Season", value: "Winter"}, {trait_type: "Backdrop", value: "Pacific Green"}] },
+                    { nft_address: "EQEe8391dd4_golden_trophy_1", name: "Golden Trophy #1", webp_url: "https://nft.fragment.com/gift/golden_trophy.webp", price_per_day_uzs: 1470, min_days: 1, max_days: 30, attributes: [{trait_type: "Trophy", value: "Gold #1"}, {trait_type: "Backdrop", value: "Golden"}] }
                 ],
                 usernames: [
                     { nft_address: "EQB_username_investor_vip", name: "@investor", webp_url: "https://cdn.fragment.com/usernames/investor.png", price_per_day_uzs: 2940, min_days: 3, max_days: 90, attributes: [{trait_type: "Type", value: "Username"}, {trait_type: "Status", value: "Premium"}] },
@@ -1986,7 +2108,7 @@
                     allItems = data.items;
                     nextCursor = data.cursor || '';
 
-                    if (nextCursor && allItems.length < 20) {
+                    if (nextCursor && allItems.length < 24) {
                         try {
                             const q2 = new URLSearchParams();
                             q2.set('category', activeCategory);
@@ -2001,17 +2123,26 @@
                         } catch(e) {}
                     }
 
+                    allItems.forEach(item => {
+                        (item.attributes || []).forEach(attr => {
+                            if ((attr.trait_type || '').toLowerCase() === 'backdrop' && attr.value) {
+                                discoveredBackdrops.add(attr.value);
+                            }
+                        });
+                    });
+                    updateBackdropSelectOptions();
+
                     hasMoreItems = Boolean(nextCursor);
-                    renderItems(allItems);
+                    applyFiltersAndSort();
                 } else {
                     allItems = FALLBACK_RENT_ITEMS[activeCategory] || FALLBACK_RENT_ITEMS.gifts;
-                    renderItems(allItems);
+                    applyFiltersAndSort();
                     if (loadMoreWrap) loadMoreWrap.style.display = 'none';
                 }
             } catch (err) {
                 console.warn('loadItems error:', err);
                 allItems = FALLBACK_RENT_ITEMS[activeCategory] || FALLBACK_RENT_ITEMS.gifts;
-                renderItems(allItems);
+                applyFiltersAndSort();
                 if (loadMoreWrap) loadMoreWrap.style.display = 'none';
             }
         }
@@ -2038,17 +2169,20 @@
                 const data = await res.json();
 
                 if (data && data.ok && Array.isArray(data.items) && data.items.length > 0) {
-                    const startIndex = allItems.length;
                     const newItems = data.items;
                     allItems = allItems.concat(newItems);
                     nextCursor = data.cursor || '';
                     hasMoreItems = Boolean(nextCursor);
 
-                    const grid = document.getElementById('itemsGrid');
-                    if (grid) {
-                        const newHtml = newItems.map((item, idx) => createItemCardHtml(item, startIndex + idx)).join('');
-                        grid.insertAdjacentHTML('beforeend', newHtml);
-                    }
+                    newItems.forEach(item => {
+                        (item.attributes || []).forEach(attr => {
+                            if ((attr.trait_type || '').toLowerCase() === 'backdrop' && attr.value) {
+                                discoveredBackdrops.add(attr.value);
+                            }
+                        });
+                    });
+                    updateBackdropSelectOptions();
+                    applyFiltersAndSort();
                 } else {
                     hasMoreItems = false;
                 }
@@ -2089,7 +2223,7 @@
                 grid.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: var(--text-secondary);">
                         <div style="font-size: 32px; margin-bottom: 8px;">🔍</div>
-                        <div style="font-size: 15px; font-weight: 700; color: #fff;">Qidiruv bo'yicha hech narsa topilmadi</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #fff;">Qidiruv yoki filtr bo'yicha hech narsa topilmadi</div>
                     </div>
                 `;
                 const loadMore = document.getElementById('rentLoadMoreWrap');
@@ -2112,7 +2246,7 @@
             }
 
             const scrollPos = window.innerHeight + window.scrollY;
-            const threshold = document.documentElement.scrollHeight - 450;
+            const threshold = document.documentElement.scrollHeight - 750;
             if (scrollPos >= threshold) {
                 loadMoreItems();
             }
@@ -2124,18 +2258,7 @@
         }
 
         function handleSearch() {
-            const query = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
-            if (!query) {
-                renderItems(allItems);
-                return;
-            }
-            const filtered = allItems.filter(item => {
-                const name = (item.name || '').toLowerCase();
-                const number = String(item.number || '');
-                const slug = (item.slug || '').toLowerCase();
-                return name.includes(query) || number.includes(query) || slug.includes(query);
-            });
-            renderItems(filtered);
+            applyFiltersAndSort();
         }
 
         function handleRentTechNotice() {
@@ -2149,9 +2272,7 @@
         }
 
         function openRentModal(index) {
-            handleRentTechNotice();
-            return;
-            selectedItem = allItems[index];
+            selectedItem = (displayedItems && displayedItems[index]) ? displayedItems[index] : allItems[index];
             if (!selectedItem) return;
 
             minDaysLimit = Number(selectedItem.min_days || 1);
@@ -2361,6 +2482,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadUserBalance();
+            updateBackdropSelectOptions();
             loadCollections();
             loadItems();
             loadMyRents();
