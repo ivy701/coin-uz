@@ -1530,6 +1530,632 @@ body.modal-open .bottom-dock-nav {
     line-height: 1.45;
 }
 
+/* ==================== TELEGRAM-NATIVE NFT BOTTOM SHEET MODAL ==================== */
+.tg-nft-modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100000 !important;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tg-nft-modal-overlay.active {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+.tg-nft-sheet {
+    width: 100%;
+    max-width: 480px;
+    height: 92vh;
+    max-height: 92vh;
+    background: var(--bg, #0c0e13);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+    border-bottom: none;
+    border-radius: 26px 26px 0 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.6);
+    box-sizing: border-box;
+}
+.tg-nft-modal-overlay.active .tg-nft-sheet {
+    transform: translateY(0);
+}
+
+/* Drag bar indicator at top */
+.tg-nft-drag-bar-wrap {
+    position: absolute;
+    top: 9px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+}
+.tg-nft-drag-bar {
+    width: 38px;
+    height: 4.5px;
+    background: rgba(255, 255, 255, 0.32);
+    border-radius: 999px;
+}
+
+/* Close button - sleek round translucent circle */
+.tg-nft-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 12;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+.tg-nft-close-btn:active {
+    transform: scale(0.92);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Scrollable container */
+.tg-nft-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+/* ==================== A) HERO SECTION (~260-280px) ==================== */
+.tg-nft-hero {
+    position: relative;
+    min-height: 270px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 38px 16px 20px 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+    flex-shrink: 0;
+    background: #0f1319;
+}
+
+/* Blurred ambient background image */
+.tg-nft-hero-blur-bg {
+    position: absolute;
+    inset: -30px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(42px) brightness(0.65);
+    transform: scale(1.35);
+    opacity: 0.8;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* Radial overlay & symbol pattern */
+.tg-nft-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.08) 0%, rgba(12, 14, 19, 0.72) 70%, rgba(12, 14, 19, 0.94) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+.tg-nft-hero-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background-repeat: repeat;
+    background-size: 64px 64px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Center Media Wrap */
+.tg-nft-media-wrap {
+    position: relative;
+    width: 196px;
+    height: 196px;
+    margin: 0 auto 12px auto;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tg-nft-main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.5));
+    animation: heroScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s ease;
+    border-radius: 18px;
+}
+@keyframes heroScaleIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Non-gift Hero for Usernames / Numbers */
+.tg-nft-sticker-hero {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 32px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+    box-shadow: 0 14px 32px rgba(2, 132, 199, 0.35);
+    animation: heroScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 90%;
+}
+.tg-nft-sticker-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+.tg-nft-sticker-text {
+    font-size: 22px;
+    font-weight: 850;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    word-break: break-all;
+}
+
+/* Hero Title and Number */
+.tg-nft-hero-title-wrap {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+    max-width: 90%;
+}
+.tg-nft-hero-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 850;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.tg-nft-hero-number {
+    font-size: 15px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+.tg-nft-hero-model {
+    position: relative;
+    z-index: 4;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.72);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ==================== BODY CONTENT ==================== */
+.tg-nft-body-content {
+    padding: 16px 16px 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ==================== B) XUSUSIYATLAR JADVALI ==================== */
+.tg-nft-attributes-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+.tg-nft-attr-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 14px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+}
+.tg-nft-attr-row:last-child {
+    border-bottom: none;
+}
+.tg-nft-attr-label {
+    color: var(--muted);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.tg-nft-attr-val-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.tg-nft-attr-val {
+    color: var(--text);
+    font-weight: 700;
+}
+.tg-nft-rarity-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 750;
+    color: var(--gold);
+}
+.tg-nft-backdrop-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Telegram Secondary Link */
+.tg-nft-tg-link-wrap {
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--surface2);
+}
+.tg-nft-secondary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--me);
+    text-decoration: none;
+    transition: opacity 0.15s;
+}
+.tg-nft-secondary-link:active {
+    opacity: 0.75;
+}
+
+/* ==================== C) IJARA BLOKI ==================== */
+.tg-nft-rent-box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.tg-nft-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: -4px;
+}
+.tg-nft-section-title {
+    font-size: 13px;
+    font-weight: 750;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tg-nft-selected-days-badge {
+    font-size: 14px;
+    font-weight: 850;
+    color: var(--gold);
+}
+
+/* Stepper row */
+.tg-nft-stepper-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 6px 10px;
+}
+.tg-nft-step-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.12s ease;
+}
+.tg-nft-step-btn:active {
+    transform: scale(0.92);
+    background: var(--border);
+}
+.tg-nft-step-display {
+    flex: 1;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 850;
+    color: var(--text);
+}
+
+/* Slider */
+.tg-nft-slider-wrap {
+    padding: 0 4px;
+}
+.tg-nft-range-slider {
+    width: 100%;
+    accent-color: var(--gold);
+    height: 6px;
+    margin: 4px 0;
+    cursor: pointer;
+}
+
+/* Quick days pills */
+.tg-nft-quick-pills {
+    display: flex;
+    gap: 6px;
+}
+.tg-nft-quick-pill {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 0;
+    font-size: 12px;
+    font-weight: 750;
+    color: var(--muted);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.tg-nft-quick-pill.active {
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+    border-color: var(--btn-primary-bg) !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Username input */
+.tg-nft-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.tg-nft-input-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--muted);
+}
+.tg-nft-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.tg-nft-input-prefix {
+    position: absolute;
+    left: 14px;
+    font-size: 15px;
+    font-weight: 750;
+    color: var(--me);
+    pointer-events: none;
+}
+.tg-nft-input {
+    width: 100%;
+    height: 46px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0 14px 0 32px;
+    font-size: 14px;
+    font-weight: 650;
+    color: var(--text);
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+}
+.tg-nft-input:focus {
+    border-color: var(--me);
+}
+.tg-nft-input::placeholder {
+    color: var(--muted);
+}
+
+/* Calculation Card */
+.tg-nft-calc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 14px;
+}
+.tg-nft-calc-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+.tg-nft-calc-label {
+    font-weight: 600;
+}
+.tg-nft-calc-val {
+    font-weight: 700;
+    color: var(--text);
+}
+.tg-nft-calc-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+}
+.tg-nft-calc-total {
+    margin-bottom: 0;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 800;
+}
+.tg-nft-calc-val-total {
+    font-size: 16px;
+    font-weight: 850;
+    color: var(--gold);
+}
+
+/* Balance check row */
+.tg-nft-balance-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 10px 14px;
+}
+.tg-nft-balance-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+}
+.tg-nft-bal-amount {
+    color: var(--text);
+    font-weight: 800;
+}
+.tg-nft-status-chip {
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+}
+.tg-nft-status-chip.sufficient {
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+}
+.tg-nft-status-chip.insufficient {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+}
+.tg-nft-topup-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--me);
+    font-size: 11.5px;
+    font-weight: 750;
+    padding: 4px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Inline Error Alert Box */
+.tg-nft-error-box {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    font-weight: 650;
+    color: #ef4444;
+    line-height: 1.4;
+    animation: fadeInRentView 0.2s ease-out;
+}
+
+/* ==================== D) STICKY BOTTOM PANEL ==================== */
+.tg-nft-sticky-panel {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 8px)) 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    z-index: 20;
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.25);
+}
+.tg-nft-sticky-summary {
+    display: flex;
+    flex-direction: column;
+}
+.tg-nft-sticky-lbl {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tg-nft-sticky-price {
+    font-size: 17px;
+    font-weight: 850;
+    color: var(--gold);
+    line-height: 1.2;
+}
+.tg-nft-confirm-btn {
+    flex: 1;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+    border: none;
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.15s ease;
+}
+.tg-nft-confirm-btn:active {
+    transform: scale(0.97);
+    opacity: 0.92;
+}
+.tg-nft-confirm-btn:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
     </style>
 
 </head>
@@ -1757,152 +2383,153 @@ body.modal-open .bottom-dock-nav {
         </div>
     </div>
 
-    <!-- Full NFT Preview Modal (Root Body Level - NEW FEATURE) -->
-    <div class="modal-overlay" id="nftPreviewModal" onclick="handlePreviewOverlayClick(event)">
-        <div class="modal-sheet nft-preview-sheet">
-            <div class="modal-drag-bar"></div>
-            <div class="modal-header-row">
-                <div class="modal-title" id="nftPreviewModalTitle">NFT Ma'lumotlari</div>
-                <button class="modal-close-btn" onclick="closeNftPreviewModal()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
+    <!-- Unified Telegram-Native NFT Detail & Rent Bottom Sheet Modal -->
+    <div class="tg-nft-modal-overlay modal-overlay" id="rentModal" onclick="handleRentModalBackdropClick(event)">
+        <div class="tg-nft-sheet modal-sheet" id="rentModalSheet">
+            <!-- Top Drag Handle Bar -->
+            <div class="tg-nft-drag-bar-wrap">
+                <div class="tg-nft-drag-bar"></div>
             </div>
 
-            <!-- Large Square Image -->
-            <div class="nft-preview-img-container">
-                <div class="nft-preview-img-box">
-                    <img id="nftPreviewLargeImg" src="./images/gift.webp" alt="NFT Preview" onerror="this.src='./images/gift.webp'">
-                    <span class="nft-preview-duration-chip" id="nftPreviewDurationChip">1–30 kun</span>
-                </div>
-            </div>
-
-            <!-- Title & Price Line -->
-            <div class="nft-preview-header-box">
-                <div class="nft-preview-name" id="nftPreviewName">NFT Name</div>
-                <div class="nft-preview-price-line">
-                    <span class="nft-preview-price-label">Kunlik ijara:</span>
-                    <span class="nft-preview-price-gold" id="nftPreviewPriceGold">0 so'm / kun</span>
-                </div>
-            </div>
-
-            <!-- Attributes Chips Section -->
-            <div class="nft-preview-attrs-wrap" id="nftPreviewAttrsWrap">
-                <div class="nft-preview-section-label">Xususiyatlari va atributlari</div>
-                <div class="nft-preview-chips-grid" id="nftPreviewChipsGrid">
-                    <!-- Dynamically populated trait chips -->
-                </div>
-            </div>
-
-            <!-- Action Button: White BG, Black Text -->
-            <button class="modal-confirm-btn nft-preview-action-btn" id="nftPreviewActionBtn" onclick="openRentModalFromPreview()">
-                <span>Ijaraga olish</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
+            <!-- Close (×) Button (Round translucent circle at top right) -->
+            <button type="button" class="tg-nft-close-btn" onclick="closeRentModal()" aria-label="Yopish">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
-        </div>
-    </div>
 
-    <!-- Rent Action Modal -->
-    <div class="modal-overlay" id="rentModal">
-        <div class="modal-sheet">
-            <div class="modal-drag-bar"></div>
-            <div class="modal-header-row">
-                <div class="modal-title">NFT Ijarasini rasmiylashtirish</div>
-                <button class="modal-close-btn" onclick="closeRentModal()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
-            </div>
+            <!-- Scrollable Content: Hero + Details + Rental block -->
+            <div class="tg-nft-scroll-content" id="rentModalScrollContent">
+                
+                <!-- A) HERO SECTION (~260-280px) -->
+                <div class="tg-nft-hero" id="modalHeroSection">
+                    <!-- Ambient blurred background from NFT image -->
+                    <div class="tg-nft-hero-blur-bg" id="modalHeroBlurBg"></div>
+                    <!-- Radial overlay vignette -->
+                    <div class="tg-nft-hero-overlay" id="modalHeroOverlay"></div>
+                    <!-- Optional symbol pattern -->
+                    <div class="tg-nft-hero-pattern" id="modalHeroPattern" style="display:none;"></div>
 
-            <!-- Preview Card (Enlarged with zoom tap) -->
-            <div class="modal-item-preview" onclick="openNftPreviewModalForCurrent()" title="Batafsil ko'rish uchun bosing">
-                <div class="modal-item-img-wrap">
-                    <img class="modal-item-img" id="modalItemImg" src="./images/gift.webp" alt="NFT" onerror="this.src='./images/gift.webp'">
-                    <div class="modal-img-zoom-btn">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            <line x1="11" y1="8" x2="11" y2="14"></line>
-                            <line x1="8" y1="11" x2="14" y2="11"></line>
-                        </svg>
+                    <!-- Center Large Media Wrap (Image / Video / Sticker) -->
+                    <div class="tg-nft-media-wrap" id="modalHeroMediaWrap">
+                        <img class="tg-nft-main-img" id="modalItemImg" src="./images/gift.webp" alt="NFT" onerror="this.src='./images/gift.webp'">
                     </div>
+
+                    <!-- Title and Number -->
+                    <div class="tg-nft-hero-title-wrap">
+                        <h2 class="tg-nft-hero-title" id="modalItemName">NFT Name</h2>
+                        <span class="tg-nft-hero-number" id="modalItemNumber">#12345</span>
+                    </div>
+
+                    <!-- Model / Collection subtitle -->
+                    <div class="tg-nft-hero-model" id="modalItemModel">Model: Classic</div>
                 </div>
-                <div class="modal-item-info">
-                    <div class="modal-item-name" id="modalItemName">NFT Name</div>
-                    <div class="modal-item-daily" id="modalItemDaily">0 so'm / kun</div>
-                    <div class="modal-preview-tap-hint">Batafsil ko'rish ↗</div>
+
+                <!-- B & C) MODAL BODY CONTENT -->
+                <div class="tg-nft-body-content">
+                    
+                    <!-- B) Xususiyatlar Jadvali (Attributes Table Card) -->
+                    <div class="tg-nft-attributes-card" id="modalAttributesCard">
+                        <div id="modalAttributesRows" class="tg-nft-attr-rows">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                        <div id="modalTelegramLinkWrap" class="tg-nft-tg-link-wrap" style="display:none;">
+                            <a href="#" target="_blank" id="modalTelegramLink" class="tg-nft-secondary-link">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                                </svg>
+                                <span>Telegramda ko'rish ↗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- C) Ijara Bloki -->
+                    <div class="tg-nft-rent-box">
+                        <div class="tg-nft-section-header">
+                            <span class="tg-nft-section-title">Ijara muddati</span>
+                            <span class="tg-nft-selected-days-badge" id="modalDaysLabel">1 kun</span>
+                        </div>
+
+                        <!-- Stepper: [-] [X kun] [+] -->
+                        <div class="tg-nft-stepper-row">
+                            <button type="button" class="tg-nft-step-btn" onclick="adjustDays(-1)" aria-label="Kamaytirish">−</button>
+                            <div class="tg-nft-step-display" id="modalDaysDisplay">1 kun</div>
+                            <button type="button" class="tg-nft-step-btn" onclick="adjustDays(1)" aria-label="Ko'paytirish">+</button>
+                        </div>
+
+                        <!-- Range Slider -->
+                        <div class="tg-nft-slider-wrap">
+                            <input type="range" class="tg-nft-range-slider" id="modalDaysSlider" min="1" max="30" value="1" oninput="onSliderChange(this.value)">
+                        </div>
+
+                        <!-- Quick days pills: 1 / 3 / 7 / 14 / 30 -->
+                        <div class="tg-nft-quick-pills" id="modalQuickDaysPills">
+                            <button type="button" class="tg-nft-quick-pill active" data-days="1" onclick="setQuickDays(1)">1 kun</button>
+                            <button type="button" class="tg-nft-quick-pill" data-days="3" onclick="setQuickDays(3)">3 kun</button>
+                            <button type="button" class="tg-nft-quick-pill" data-days="7" onclick="setQuickDays(7)">7 kun</button>
+                            <button type="button" class="tg-nft-quick-pill" data-days="14" onclick="setQuickDays(14)">14 kun</button>
+                            <button type="button" class="tg-nft-quick-pill" data-days="30" onclick="setQuickDays(30)">30 kun</button>
+                        </div>
+
+                        <!-- Target Telegram username input -->
+                        <div class="tg-nft-input-group">
+                            <label class="tg-nft-input-label" for="modalTargetUsername">Ulanadigan Telegram profil (@username):</label>
+                            <div class="tg-nft-input-wrap">
+                                <span class="tg-nft-input-prefix">@</span>
+                                <input type="text" class="tg-nft-input" id="modalTargetUsername" placeholder="shaxsiy_profil" autocomplete="off" autocapitalize="off" spellcheck="false">
+                            </div>
+                        </div>
+
+                        <!-- Cost Calculation Card -->
+                        <div class="tg-nft-calc-card">
+                            <div class="tg-nft-calc-row">
+                                <span class="tg-nft-calc-label">Kunlik ijara:</span>
+                                <span class="tg-nft-calc-val" id="calcDailyPrice">0 so'm</span>
+                            </div>
+                            <div class="tg-nft-calc-row">
+                                <span class="tg-nft-calc-label">Muddat:</span>
+                                <span class="tg-nft-calc-val" id="calcDaysCount">1 kun</span>
+                            </div>
+                            <div class="tg-nft-calc-row">
+                                <span class="tg-nft-calc-label">Tarmoq komissiyasi:</span>
+                                <span class="tg-nft-calc-val" id="calcNetworkFee">+2 000 so'm</span>
+                            </div>
+                            <div class="tg-nft-calc-divider"></div>
+                            <div class="tg-nft-calc-row tg-nft-calc-total">
+                                <span class="tg-nft-calc-label">Jami to'lov:</span>
+                                <span class="tg-nft-calc-val-total" id="calcTotalPrice">0 so'm</span>
+                            </div>
+                        </div>
+
+                        <!-- Balance Check Row -->
+                        <div class="tg-nft-balance-row" id="balanceStatusBox">
+                            <div class="tg-nft-balance-info">
+                                <span class="tg-nft-bal-text">Hisobingiz:</span>
+                                <strong class="tg-nft-bal-amount" id="modalBalanceDisplay">0 UZS</strong>
+                                <span class="tg-nft-status-chip sufficient" id="modalBalanceChip">Yetarli</span>
+                            </div>
+                            <button type="button" class="tg-nft-topup-btn" id="modalTopupBtn" onclick="window.location.href='index.html#topup'">+ To'ldirish</button>
+                        </div>
+
+                        <!-- Inline Error Notice Alert Box -->
+                        <div id="modalRentErrorBox" class="tg-nft-error-box" style="display:none;"></div>
+
+                    </div>
+                </div> <!-- end tg-nft-body-content -->
+            </div> <!-- end tg-nft-scroll-content -->
+
+            <!-- D) STICKY BOTTOM PANEL -->
+            <div class="tg-nft-sticky-panel">
+                <div class="tg-nft-sticky-summary">
+                    <span class="tg-nft-sticky-lbl">Jami:</span>
+                    <span class="tg-nft-sticky-price" id="stickyCalcTotalPrice">0 so'm</span>
                 </div>
+                <button type="button" class="tg-nft-confirm-btn" id="confirmRentBtn" onclick="submitRentOrder()">
+                    <span id="confirmRentBtnText">Ijarani rasmiylashtirish</span>
+                </button>
             </div>
-
-            <!-- Rental Days Selector -->
-            <div class="modal-field-title">
-                <span>Ijara muddati:</span>
-                <span id="modalDaysLabel" style="color: #38bdf8; font-weight: 800;">1 kun</span>
-            </div>
-            <div class="day-stepper-row">
-                <button class="step-btn" onclick="adjustDays(-1)">-</button>
-                <div class="step-display" id="modalDaysDisplay">1 kun</div>
-                <button class="step-btn" onclick="adjustDays(1)">+</button>
-            </div>
-            <input type="range" class="range-slider" id="modalDaysSlider" min="1" max="30" value="1" oninput="onSliderChange(this.value)">
-
-            <div class="quick-days-pills">
-                <div class="quick-pill" onclick="setQuickDays(1)">1 kun</div>
-                <div class="quick-pill" onclick="setQuickDays(3)">3 kun</div>
-                <div class="quick-pill" onclick="setQuickDays(7)">7 kun</div>
-                <div class="quick-pill" onclick="setQuickDays(14)">14 kun</div>
-                <div class="quick-pill" onclick="setQuickDays(30)">30 kun</div>
-            </div>
-
-            <!-- Username target input -->
-            <div class="modal-field-title">
-                <span>Ulanadigan Telegram profil (@username):</span>
-            </div>
-            <input type="text" class="modal-input-box" id="modalTargetUsername" placeholder="Masalan: durov yoki @shaxsiy_profil">
-
-
-            <!-- Cost Calculation -->
-            <div class="total-calc-card">
-                <div class="calc-row">
-                    <span>Kunlik ijara:</span>
-                    <span id="calcDailyPrice">0 so'm</span>
-                </div>
-                <div class="calc-row">
-                    <span>Muddat:</span>
-                    <span id="calcDaysCount">1 kun</span>
-                </div>
-                <div class="calc-row">
-                    <span>Tarmoq komissiyasi:</span>
-                    <span id="calcNetworkFee" style="color: var(--me); font-weight: 750;">+2 000 so'm</span>
-                </div>
-                <div class="calc-row total">
-                    <span>Jami to'lov:</span>
-                    <span class="total-amount" id="calcTotalPrice">0 so'm</span>
-                </div>
-            </div>
-
-            <!-- Balance Status -->
-            <div class="balance-check-status" id="balanceStatusBox">
-                <div>
-                    <span>Hisobingiz: </span>
-                    <strong id="modalBalanceDisplay">0</strong> UZS
-                </div>
-                <button class="topup-link-btn" onclick="window.location.href='index.html#topup'">+ To'ldirish</button>
-            </div>
-
-            <!-- Confirm Button -->
-            <!-- Inline Error Notice Box -->
-            <div id="modalRentErrorBox" class="rent-modal-error-box" style="display:none;"></div>
-
-            <button class="modal-confirm-btn" id="confirmRentBtn" onclick="submitRentOrder()">
-                <span>Ijarani rasmiylashtirish</span>
-            </button>
         </div>
     </div>
 
@@ -2801,8 +3428,8 @@ body.modal-open .bottom-dock-nav {
                 const rawName = String(item.name || '').replace(/^@/, '');
                 const stickerBg = getUsernameStickerBg(rawName);
                 return `
-                    <div class="nft-card username-card-wrap">
-                        <div class="username-top-box" onclick="openNftPreviewModal(${index})">
+                    <div class="nft-card username-card-wrap" onclick="openRentModal(${index})">
+                        <div class="username-top-box">
                             <span class="username-duration-badge">${minDays}–${maxDays} kun</span>
                             <div class="username-tg-badge">
                                 <svg class="username-tg-plane" viewBox="0 0 24 24" fill="none">
@@ -2812,17 +3439,9 @@ body.modal-open .bottom-dock-nav {
                             </div>
                             <div class="username-pill-sticker" style="background: ${stickerBg};">@${escapeHtml(rawName)}</div>
                             <div class="username-link-sub">${escapeHtml(rawName)}.t.me</div>
-                            <div class="nft-preview-zoom-badge">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                    <line x1="11" y1="8" x2="11" y2="14"></line>
-                                    <line x1="8" y1="11" x2="14" y2="11"></line>
-                                </svg>
-                            </div>
                         </div>
-                        <div class="username-card-title" onclick="openNftPreviewModal(${index})" title="@${escapeHtml(rawName)}">@${escapeHtml(rawName)}</div>
-                        <button class="nft-rent-btn" onclick="openRentModal(${index})">
+                        <div class="username-card-title" title="@${escapeHtml(rawName)}">@${escapeHtml(rawName)}</div>
+                        <button class="nft-rent-btn" onclick="event.stopPropagation(); openRentModal(${index})">
                             <span class="rent-price-val">${price.toLocaleString('uz-UZ')} so'm</span> / kun
                         </button>
                     </div>
@@ -2831,21 +3450,13 @@ body.modal-open .bottom-dock-nav {
 
             const imgUrl = item.webp_url || (item.media_key ? `https://nft.fragment.com/gift/${item.media_key}.webp` : './images/gift.webp');
             return `
-                <div class="nft-card">
-                    <div class="nft-img-wrap" onclick="openNftPreviewModal(${index})">
+                <div class="nft-card" onclick="openRentModal(${index})">
+                    <div class="nft-img-wrap">
                         <span class="nft-badge-pill">${minDays}–${maxDays} kun</span>
                         <img src="${imgUrl}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='./images/gift.webp'">
-                        <div class="nft-preview-zoom-badge">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                <line x1="11" y1="8" x2="11" y2="14"></line>
-                                <line x1="8" y1="11" x2="14" y2="11"></line>
-                            </svg>
-                        </div>
                     </div>
-                    <div class="nft-title" onclick="openNftPreviewModal(${index})" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
-                    <button class="nft-rent-btn" onclick="openRentModal(${index})">
+                    <div class="nft-title" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+                    <button class="nft-rent-btn" onclick="event.stopPropagation(); openRentModal(${index})">
                         <span class="rent-price-val">${price.toLocaleString('uz-UZ')} so'm</span> / kun
                     </button>
                 </div>
@@ -3229,88 +3840,255 @@ body.modal-open .bottom-dock-nav {
             }
         }
 
-        function openRentModalFromPreview() {
-            if (!previewSelectedItem) return;
-            const targetItem = previewSelectedItem;
-            closeNftPreviewModal();
+        // TG Gift Backdrop Color Palette Mapping
+        const TG_BACKDROP_PALETTES = {
+            'black': { center: '#2d3238', edge: '#111317', dot: '#2d3238' },
+            'onyx': { center: '#2d3238', edge: '#111317', dot: '#2d3238' },
+            'onyx black': { center: '#2d3238', edge: '#111317', dot: '#2d3238' },
+            'aquamarine': { center: '#0ea5e9', edge: '#0369a1', dot: '#0284c7' },
+            'sapphire': { center: '#3b82f6', edge: '#1d4ed8', dot: '#2563eb' },
+            'blue': { center: '#38bdf8', edge: '#0284c7', dot: '#0284c7' },
+            'pacific green': { center: '#10b981', edge: '#047857', dot: '#059669' },
+            'green': { center: '#22c55e', edge: '#15803d', dot: '#16a34a' },
+            'emerald': { center: '#10b981', edge: '#047857', dot: '#059669' },
+            'cyberpunk': { center: '#f43f5e', edge: '#9f1239', dot: '#e11d48' },
+            'pink': { center: '#ec4899', edge: '#be185d', dot: '#db2777' },
+            'purple': { center: '#a855f7', edge: '#6b21a8', dot: '#9333ea' },
+            'amethyst': { center: '#a855f7', edge: '#6b21a8', dot: '#9333ea' },
+            'golden': { center: '#fbbf24', edge: '#b45309', dot: '#f59e0b' },
+            'gold': { center: '#fbbf24', edge: '#b45309', dot: '#f59e0b' },
+            'ruby': { center: '#e11d48', edge: '#881337', dot: '#be123c' },
+            'sunset': { center: '#f97316', edge: '#c2410c', dot: '#ea580c' },
+            'orange': { center: '#f97316', edge: '#c2410c', dot: '#ea580c' },
+            'silver': { center: '#64748b', edge: '#334155', dot: '#475569' },
+            'crimson': { center: '#dc2626', edge: '#991b1b', dot: '#b91c1c' }
+        };
 
-            let targetIndex = -1;
-            if (displayedItems && displayedItems.length > 0) {
-                targetIndex = displayedItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
+        function getBackdropColors(name) {
+            if (!name) return null;
+            const clean = String(name).toLowerCase().trim();
+            if (TG_BACKDROP_PALETTES[clean]) return TG_BACKDROP_PALETTES[clean];
+            for (const key in TG_BACKDROP_PALETTES) {
+                if (clean.includes(key)) return TG_BACKDROP_PALETTES[key];
             }
-            if (targetIndex === -1 && allItems && allItems.length > 0) {
-                targetIndex = allItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
-            }
-
-            if (targetIndex !== -1) {
-                openRentModal(targetIndex);
-            } else {
-                selectedItem = targetItem;
-                minDaysLimit = Number(selectedItem.min_days || 1);
-                maxDaysLimit = Number(selectedItem.max_days || 30);
-                rentalDays = minDaysLimit;
-                openRentModal(0);
-            }
-        }
-
-        function openNftPreviewModalForCurrent() {
-            if (!selectedItem) return;
-            const targetItem = selectedItem;
-            let targetIndex = -1;
-            if (displayedItems && displayedItems.length > 0) {
-                targetIndex = displayedItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
-            }
-            if (targetIndex === -1 && allItems && allItems.length > 0) {
-                targetIndex = allItems.findIndex(i => (i.nft_address && i.nft_address === targetItem.nft_address) || (i.name === targetItem.name));
-            }
-            if (targetIndex !== -1) {
-                openNftPreviewModal(targetIndex);
-            }
+            return null;
         }
 
         function openRentModal(index) {
-            selectedItem = (displayedItems && displayedItems[index]) ? displayedItems[index] : allItems[index];
+            selectedItem = (displayedItems && displayedItems[index]) ? displayedItems[index] : (allItems ? allItems[index] : null);
             if (!selectedItem) return;
 
             minDaysLimit = Number(selectedItem.min_days || 1);
             maxDaysLimit = Number(selectedItem.max_days || 30);
             rentalDays = minDaysLimit;
 
-            const modal = document.getElementById('rentModal');
-            const img = document.getElementById('modalItemImg');
-            const name = document.getElementById('modalItemName');
-            const daily = document.getElementById('modalItemDaily');
-            const slider = document.getElementById('modalDaysSlider');
-            const targetInput = document.getElementById('modalTargetUsername');
-            const errBox = document.getElementById('modalRentErrorBox');
-            if (errBox) errBox.style.display = 'none';
-
-            const imgUrl = selectedItem.webp_url || (selectedItem.media_key ? `https://nft.fragment.com/gift/${selectedItem.media_key}.webp` : './images/gift.webp');
-            if (img) img.src = imgUrl;
-            if (name) name.textContent = selectedItem.name;
             let price = Number(selectedItem.price_per_day_uzs || 0);
             if (!price && selectedItem.price_per_day_nano) {
                 price = Math.round((Number(selectedItem.price_per_day_nano) / 1e9) * 28000);
             }
+            if (!price && selectedItem.raw_price_per_day_nano) {
+                price = Math.round((Number(selectedItem.raw_price_per_day_nano) / 1e9) * 28000);
+            }
+            if (!price && selectedItem.base_min_nano) {
+                price = Math.round((Number(selectedItem.base_min_nano) / 1e9) * 28000);
+            }
             if (!price) price = 500;
             selectedItem.price_per_day_uzs = price;
 
-            if (daily) daily.textContent = `${price.toLocaleString('uz-UZ')} so'm / kun`;
+            const modal = document.getElementById('rentModal');
+            const heroSec = document.getElementById('modalHeroSection');
+            const blurBg = document.getElementById('modalHeroBlurBg');
+            const mediaWrap = document.getElementById('modalHeroMediaWrap');
+            const nameEl = document.getElementById('modalItemName');
+            const numEl = document.getElementById('modalItemNumber');
+            const modelEl = document.getElementById('modalItemModel');
+            const attrRows = document.getElementById('modalAttributesRows');
+            const tgLinkWrap = document.getElementById('modalTelegramLinkWrap');
+            const tgLink = document.getElementById('modalTelegramLink');
+            const errBox = document.getElementById('modalRentErrorBox');
+            if (errBox) errBox.style.display = 'none';
 
+            // Parse Name and Number
+            const rawName = selectedItem.name || 'NFT';
+            const numMatch = rawName.match(/#\s*[\d\s,]+/);
+            const itemNum = numMatch ? numMatch[0].trim() : '';
+            const cleanTitle = numMatch ? rawName.replace(numMatch[0], '').trim() : rawName;
+
+            if (nameEl) nameEl.textContent = cleanTitle;
+            if (numEl) {
+                numEl.textContent = itemNum;
+                numEl.style.display = itemNum ? 'inline' : 'none';
+            }
+
+            // Extract attributes
+            const attrs = Array.isArray(selectedItem.attributes) ? selectedItem.attributes : [];
+            let modelAttr = attrs.find(a => (a.trait_type || a.trait || '').toLowerCase() === 'model');
+            let backdropAttr = attrs.find(a => (a.trait_type || a.trait || '').toLowerCase() === 'backdrop');
+            let symbolAttr = attrs.find(a => (a.trait_type || a.trait || '').toLowerCase() === 'symbol');
+
+            // Model subtitle
+            if (modelEl) {
+                if (modelAttr && modelAttr.value) {
+                    modelEl.textContent = `Model: ${modelAttr.value}`;
+                    modelEl.style.display = 'block';
+                } else if (selectedItem.collection_name) {
+                    modelEl.textContent = selectedItem.collection_name;
+                    modelEl.style.display = 'block';
+                } else {
+                    modelEl.style.display = 'none';
+                }
+            }
+
+            // Backdrop colors
+            const bdColorObj = backdropAttr ? getBackdropColors(backdropAttr.value) : null;
+            if (heroSec) {
+                if (bdColorObj) {
+                    heroSec.style.background = `radial-gradient(circle at 50% 38%, ${bdColorObj.center} 0%, ${bdColorObj.edge} 75%, #0c0e13 100%)`;
+                } else if (selectedItem.backdrop_color || selectedItem.color) {
+                    const col = selectedItem.backdrop_color || selectedItem.color;
+                    heroSec.style.background = `radial-gradient(circle at 50% 38%, ${col} 0%, #0c0e13 100%)`;
+                } else {
+                    heroSec.style.background = '#0f1319';
+                }
+            }
+
+            const isUsername = (activeCategory === 'usernames') || rawName.startsWith('@');
+            const isNumber = (activeCategory === 'numbers') || rawName.startsWith('+');
+
+            if (isUsername) {
+                if (blurBg) blurBg.style.backgroundImage = 'none';
+                if (mediaWrap) {
+                    mediaWrap.innerHTML = `
+                        <div class="tg-nft-sticker-hero" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
+                            <div class="tg-nft-sticker-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </div>
+                            <div class="tg-nft-sticker-text">@${escapeHtml(rawName.replace(/^@/, ''))}</div>
+                        </div>
+                    `;
+                }
+                if (modelEl) {
+                    modelEl.textContent = `${rawName.replace(/^@/, '')}.t.me`;
+                    modelEl.style.display = 'block';
+                }
+            } else if (isNumber) {
+                if (blurBg) blurBg.style.backgroundImage = 'none';
+                if (mediaWrap) {
+                    mediaWrap.innerHTML = `
+                        <div class="tg-nft-sticker-hero" style="background: linear-gradient(135deg, #f59e0b, #b45309);">
+                            <div class="tg-nft-sticker-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                </svg>
+                            </div>
+                            <div class="tg-nft-sticker-text">${escapeHtml(rawName)}</div>
+                        </div>
+                    `;
+                }
+                if (modelEl) {
+                    modelEl.textContent = 'Anonim Telegram raqam';
+                    modelEl.style.display = 'block';
+                }
+            } else {
+                // Gift / 3D NFT
+                const imgUrl = selectedItem.webp_url || (selectedItem.media_key ? `https://nft.fragment.com/gift/${selectedItem.media_key}.webp` : './images/gift.webp');
+                if (blurBg) {
+                    blurBg.style.backgroundImage = `url('${imgUrl}')`;
+                    blurBg.style.display = 'block';
+                }
+                if (mediaWrap) {
+                    mediaWrap.innerHTML = `
+                        <img class="tg-nft-main-img" id="modalItemImg" src="${imgUrl}" alt="${escapeHtml(rawName)}" onerror="this.src='./images/gift.webp'">
+                    `;
+                }
+            }
+
+            // Attributes Table rendering
+            if (attrRows) {
+                let rowsHtml = '';
+                attrs.forEach(attr => {
+                    const traitType = (attr.trait_type || attr.trait || '').trim();
+                    const val = (attr.value || '').trim();
+                    if (!traitType || !val) return;
+                    const traitLower = traitType.toLowerCase();
+                    if (traitLower === 'owner' || traitLower === 'value') return;
+
+                    let labelText = traitType;
+                    if (traitLower === 'model') labelText = 'Model';
+                    else if (traitLower === 'symbol') labelText = 'Belgi';
+                    else if (traitLower === 'backdrop') labelText = 'Fon';
+                    else if (['issued', 'supply', 'total'].includes(traitLower)) labelText = 'Chiqarilgan';
+
+                    const rarity = attr.rarity_percent || attr.percent || attr.rarity || '';
+                    const rarityHtml = rarity ? `<span class="tg-nft-rarity-pill">${escapeHtml(String(rarity))}</span>` : '';
+
+                    let dotHtml = '';
+                    if (traitLower === 'backdrop') {
+                        const dotCol = bdColorObj ? bdColorObj.dot : (attr.color || attr.hex || '#38bdf8');
+                        dotHtml = `<span class="tg-nft-backdrop-dot" style="background: ${dotCol};"></span>`;
+                    }
+
+                    rowsHtml += `
+                        <div class="tg-nft-attr-row">
+                            <span class="tg-nft-attr-label">${escapeHtml(labelText)}</span>
+                            <div class="tg-nft-attr-val-box">
+                                ${dotHtml}
+                                <span class="tg-nft-attr-val">${escapeHtml(val)}</span>
+                                ${rarityHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if (!rowsHtml) {
+                    rowsHtml = `
+                        <div class="tg-nft-attr-row">
+                            <span class="tg-nft-attr-label">Turi</span>
+                            <div class="tg-nft-attr-val-box">
+                                <span class="tg-nft-attr-val">${isUsername ? 'Username' : (isNumber ? 'Raqam' : 'Telegram Gift NFT')}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                attrRows.innerHTML = rowsHtml;
+            }
+
+            // Telegram External Link (if slug or url is given by API)
+            if (tgLinkWrap && tgLink) {
+                const tgSlug = selectedItem.slug || selectedItem.telegram_url || selectedItem.fragment_url || selectedItem.tme_url;
+                if (tgSlug) {
+                    const href = tgSlug.startsWith('http') ? tgSlug : (tgSlug.startsWith('@') ? `https://t.me/${tgSlug.slice(1)}` : `https://t.me/nft/${tgSlug}`);
+                    tgLink.href = href;
+                    tgLinkWrap.style.display = 'block';
+                } else {
+                    tgLinkWrap.style.display = 'none';
+                }
+            }
+
+            // Slider & Stepper initialization
+            const slider = document.getElementById('modalDaysSlider');
             if (slider) {
                 slider.min = minDaysLimit;
                 slider.max = maxDaysLimit;
                 slider.value = rentalDays;
             }
 
+            // Target username default
+            const targetInput = document.getElementById('modalTargetUsername');
             if (targetInput && !targetInput.value) {
                 const myUser = getUserUsername();
-                if (myUser) targetInput.value = '@' + myUser;
+                if (myUser) targetInput.value = myUser.replace(/^@/, '');
             }
 
             updateModalCalculations();
-            modal.classList.add('active');
+            if (modal) modal.classList.add('active');
             document.body.classList.add('rent-modal-active');
+
+            const scrollEl = document.getElementById('rentModalScrollContent');
+            if (scrollEl) scrollEl.scrollTop = 0;
 
             if (tg?.HapticFeedback) {
                 try { tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
@@ -3320,12 +4098,22 @@ body.modal-open .bottom-dock-nav {
         function closeRentModal() {
             const modal = document.getElementById('rentModal');
             if (modal) modal.classList.remove('active');
-            const previewModal = document.getElementById('nftPreviewModal');
-            if (!previewModal || !previewModal.classList.contains('active')) {
-                document.body.classList.remove('rent-modal-active');
-            }
+            document.body.classList.remove('rent-modal-active');
             selectedItem = null;
         }
+
+        function handleRentModalBackdropClick(event) {
+            if (event.target && event.target.id === 'rentModal') {
+                closeRentModal();
+            }
+        }
+
+        // Backwards compatibility aliases
+        function openNftPreviewModal(index) { openRentModal(index); }
+        function closeNftPreviewModal() { closeRentModal(); }
+        function openRentModalFromPreview() {}
+        function openNftPreviewModalForCurrent() {}
+        function handlePreviewOverlayClick(event) { closeRentModal(); }
 
         function adjustDays(delta) {
             rentalDays = Math.max(minDaysLimit, Math.min(maxDaysLimit, rentalDays + delta));
@@ -3362,40 +4150,49 @@ body.modal-open .bottom-dock-nav {
             if (daysDisplay) daysDisplay.textContent = `${rentalDays} kun`;
             if (daysLabel) daysLabel.textContent = `${rentalDays} kun`;
 
+            // Highlight quick pills
+            document.querySelectorAll('.tg-nft-quick-pill, .quick-pill').forEach(pill => {
+                const d = parseInt(pill.getAttribute('data-days') || pill.textContent, 10);
+                pill.classList.toggle('active', d === rentalDays);
+            });
+
             const price = Number(selectedItem.price_per_day_uzs || 0);
             const fee = 2000;
             const total = (rentalDays * price) + fee;
 
-            document.getElementById('calcDailyPrice').textContent = `${price.toLocaleString('uz-UZ')} so'm`;
-            document.getElementById('calcDaysCount').textContent = `${rentalDays} kun`;
-            const feeEl = document.getElementById('calcNetworkFee');
-            if (feeEl) feeEl.textContent = `+${fee.toLocaleString('uz-UZ')} so'm`;
-            document.getElementById('calcTotalPrice').textContent = `${total.toLocaleString('uz-UZ')} so'm`;
+            const calcDaily = document.getElementById('calcDailyPrice');
+            const calcDays = document.getElementById('calcDaysCount');
+            const calcFee = document.getElementById('calcNetworkFee');
+            const calcTotal = document.getElementById('calcTotalPrice');
+            const stickyTotal = document.getElementById('stickyCalcTotalPrice');
 
-            const statusBox = document.getElementById('balanceStatusBox');
+            if (calcDaily) calcDaily.textContent = `${price.toLocaleString('uz-UZ')} so'm`;
+            if (calcDays) calcDays.textContent = `${rentalDays} kun`;
+            if (calcFee) calcFee.textContent = `+${fee.toLocaleString('uz-UZ')} so'm`;
+            if (calcTotal) calcTotal.textContent = `${total.toLocaleString('uz-UZ')} so'm`;
+            if (stickyTotal) stickyTotal.textContent = `${total.toLocaleString('uz-UZ')} so'm`;
+
+            const balDisplay = document.getElementById('modalBalanceDisplay');
+            if (balDisplay) balDisplay.textContent = `${userBalance.toLocaleString('uz-UZ')} UZS`;
+
+            const chipEl = document.getElementById('modalBalanceChip');
             const confirmBtn = document.getElementById('confirmRentBtn');
+            const confirmBtnText = document.getElementById('confirmRentBtnText');
 
             if (userBalance < total) {
-                statusBox.className = 'balance-check-status insufficient';
-                statusBox.innerHTML = `
-                    <div>
-                        <span>Hisobingiz: </span>
-                        <strong style="color: #ef4444;">${userBalance.toLocaleString('uz-UZ')} UZS</strong> <span style="display:inline-block; margin-left:6px; padding:2px 8px; border-radius:999px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#ef4444; font-size:11px; font-weight:800;">Yetarli emas</span>
-                    </div>
-                    <button class="topup-link-btn" onclick="window.location.href='index.html#topup'">+ To'ldirish</button>
-                `;
-                confirmBtn.disabled = true;
-                confirmBtn.innerHTML = `<span>Balans yetarli emas</span>`;
+                if (chipEl) {
+                    chipEl.className = 'tg-nft-status-chip insufficient';
+                    chipEl.textContent = 'Yetarli emas';
+                }
+                if (confirmBtn) confirmBtn.disabled = true;
+                if (confirmBtnText) confirmBtnText.textContent = 'Balans yetarli emas';
             } else {
-                statusBox.className = 'balance-check-status sufficient';
-                statusBox.innerHTML = `
-                    <div>
-                        <span>Hisobingiz: </span>
-                        <strong>${userBalance.toLocaleString('uz-UZ')}</strong> UZS <span style="display:inline-block; margin-left:6px; padding:2px 8px; border-radius:999px; background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.3); color:#22c55e; font-size:11px; font-weight:800;">Yetarli</span>
-                    </div>
-                `;
-                confirmBtn.disabled = false;
-                confirmBtn.innerHTML = `<span>Ijarani rasmiylashtirish (${total.toLocaleString('uz-UZ')} UZS)</span>`;
+                if (chipEl) {
+                    chipEl.className = 'tg-nft-status-chip sufficient';
+                    chipEl.textContent = 'Yetarli';
+                }
+                if (confirmBtn) confirmBtn.disabled = false;
+                if (confirmBtnText) confirmBtnText.textContent = 'Ijarani rasmiylashtirish';
             }
         }
 
@@ -3406,12 +4203,13 @@ body.modal-open .bottom-dock-nav {
             if (errBox) errBox.style.display = 'none';
 
             const targetInput = document.getElementById('modalTargetUsername');
-            const targetUsername = (targetInput?.value || '').replace(/^@/, '').trim();
+            let targetUsername = (targetInput?.value || '').replace(/^@/, '').trim();
 
             if (!targetUsername) {
                 if (errBox) {
                     errBox.textContent = "NFT ulanadigan Telegram usernameni kiriting!";
                     errBox.style.display = 'block';
+                    errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
                     showToast("NFT ulanadigan Telegram usernameni kiriting!", "⚠️");
                 }
@@ -3427,6 +4225,7 @@ body.modal-open .bottom-dock-nav {
                 if (errBox) {
                     errBox.textContent = "Balansingizda yetarli mablag' yo'q";
                     errBox.style.display = 'block';
+                    errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
                     showToast("Balansingizda yetarli mablag' yo'q", "❌");
                 }
@@ -3434,8 +4233,11 @@ body.modal-open .bottom-dock-nav {
             }
 
             const confirmBtn = document.getElementById('confirmRentBtn');
-            confirmBtn.disabled = true;
-            confirmBtn.innerHTML = `<span>⏳ Tekshirilmoqda...</span>`;
+            const confirmBtnText = document.getElementById('confirmRentBtnText');
+            if (confirmBtn) confirmBtn.disabled = true;
+            if (confirmBtnText) {
+                confirmBtnText.innerHTML = `<span style="display:inline-flex; align-items:center; gap:6px;">Yuklanmoqda...</span>`;
+            }
 
             const imgUrl = selectedItem.webp_url || (selectedItem.media_key ? `https://nft.fragment.com/gift/${selectedItem.media_key}.webp` : '');
 
@@ -3459,6 +4261,7 @@ body.modal-open .bottom-dock-nav {
                         price_per_day: price,
                         amount: total,
                         target_username: targetUsername,
+                        idempotency_key: `rent_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
                     }),
                 });
 
@@ -3466,7 +4269,7 @@ body.modal-open .bottom-dock-nav {
 
                 if (data && data.ok) {
                     if (window.confetti) {
-                        window.confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 } });
+                        try { window.confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 } }); } catch(e) {}
                     }
                     if (tg?.HapticFeedback) {
                         try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
@@ -3480,17 +4283,17 @@ body.modal-open .bottom-dock-nav {
                         openMyRentsView();
                     }, 800);
                 } else {
-                    const errorMsg = data?.error || "Xatolik yuz berdi. Hisobingizdan pul yechilmadi, keyinroq qayta urinib ko'ring.";
+                    const errorMsg = data?.error || data?.message || "Xatolik yuz berdi. Hisobingizdan pul yechilmadi, keyinroq qayta urinib ko'ring.";
                     if (errBox) {
                         errBox.textContent = errorMsg;
                         errBox.style.display = 'block';
+                        errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     } else {
                         showToast(errorMsg, "❌");
                     }
                     if (tg?.HapticFeedback) {
                         try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {}
                     }
-                    confirmBtn.disabled = false;
                     updateModalCalculations();
                 }
             } catch (err) {
@@ -3498,15 +4301,60 @@ body.modal-open .bottom-dock-nav {
                 if (errBox) {
                     errBox.textContent = netMsg;
                     errBox.style.display = 'block';
+                    errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
                     showToast(netMsg, "❌");
                 }
                 if (tg?.HapticFeedback) {
                     try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {}
                 }
-                confirmBtn.disabled = false;
                 updateModalCalculations();
+            } finally {
+                if (confirmBtn && confirmBtnText && confirmBtnText.textContent === 'Yuklanmoqda...') {
+                    updateModalCalculations();
+                }
             }
+        }
+
+        // Swipe down to close bottom sheet handler
+        function initSwipeToClose() {
+            const sheet = document.getElementById('rentModalSheet');
+            const scrollEl = document.getElementById('rentModalScrollContent');
+            if (!sheet) return;
+
+            let startY = 0;
+            let currentY = 0;
+            let isDragging = false;
+
+            sheet.addEventListener('touchstart', (e) => {
+                if (scrollEl && scrollEl.scrollTop > 5) return;
+                startY = e.touches[0].clientY;
+                isDragging = true;
+            }, { passive: true });
+
+            sheet.addEventListener('touchmove', (e) => {
+                if (!isDragging || !startY) return;
+                currentY = e.touches[0].clientY;
+                const diff = currentY - startY;
+                if (diff > 0) {
+                    sheet.style.transform = `translateY(${diff}px)`;
+                    sheet.style.transition = 'none';
+                }
+            }, { passive: true });
+
+            sheet.addEventListener('touchend', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                const diff = currentY - startY;
+                sheet.style.transition = 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+                if (diff > 85) {
+                    closeRentModal();
+                } else {
+                    sheet.style.transform = 'translateY(0)';
+                }
+                startY = 0;
+                currentY = 0;
+            }, { passive: true });
         }
 
         function escapeHtml(str) {
@@ -3521,6 +4369,7 @@ body.modal-open .bottom-dock-nav {
             loadCollections();
             loadItems();
             loadMyRents();
+            initSwipeToClose();
         });
     </script>
 </body>
