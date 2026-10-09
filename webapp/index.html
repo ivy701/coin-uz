@@ -9743,10 +9743,35 @@ body.modal-open .bottom-dock-nav {
     flex-shrink: 0;
     overflow: hidden;
 }
-.modal-item-img-wrap-rent img,
+.modal-item-preview,
+.modal-item-preview-rent {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: var(--surface2) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 14px !important;
+    padding: 10px 12px !important;
+    margin-bottom: 14px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+.modal-item-img,
 .modal-item-img-rent {
-    width: 86%;
-    height: 86%;
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    max-width: 56px !important;
+    border-radius: 10px !important;
+    background: var(--surface) !important;
+    object-fit: contain !important;
+    flex-shrink: 0 !important;
+    display: block !important;
+}
+.modal-item-img-wrap-rent img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
 }
 .modal-img-zoom-btn {
@@ -9763,15 +9788,24 @@ body.modal-open .bottom-dock-nav {
     justify-content: center;
     pointer-events: none;
 }
+.modal-item-info,
 .modal-item-info-rent {
-    flex: 1;
-    min-width: 0;
+    flex: 1 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
 }
+.modal-item-name,
 .modal-item-name-rent {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--text-main);
-    margin-bottom: 4px;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: var(--text) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.3 !important;
 }
 .modal-item-daily-rent {
     font-size: 13px;
@@ -13983,7 +14017,7 @@ body {
             <!-- Preview Card -->
             <div class="modal-item-preview-rent">
                 <img class="modal-item-img-rent" id="connectModalAppItemImg" src="./images/gift.webp" alt="NFT">
-                <div>
+                <div class="modal-item-info-rent">
                     <div class="modal-item-name-rent" id="connectModalAppItemName">Telegram NFT</div>
                     <span style="display:inline-block; font-size:11px; font-weight:750; padding:2px 8px; border-radius:999px; background:rgba(168,85,247,0.2); color:#c084fc; border:1px solid rgba(168,85,247,0.4); margin-top:3px;">Sovg'alar</span>
                 </div>
@@ -14044,6 +14078,46 @@ body {
                     <b>My Assets</b> bo'limiga o'tishdan oldin Fragment saytida albatta <b>"Connect Telegram"</b> orqali kiring (aks holda sahifa qotib qoladi), so'ngra sovg'ani tanlab <b>"Show on profile"</b> tugmasini bosing.
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Video Guide Modal (Root Level) -->
+    <div class="modal-overlay-rent" id="videoGuideModalApp" onclick="handleVideoModalAppOverlayClick(event)">
+        <div class="modal-sheet-rent" style="max-width: 480px; padding: 20px 18px 24px 18px;">
+            <div class="modal-drag-bar-rent"></div>
+            <div class="modal-header-row-rent" style="margin-bottom: 14px;">
+                <div class="modal-title-rent" style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Video-qo'llanma
+                </div>
+                <button class="modal-close-btn-rent" onclick="closeVideoGuideModalApp()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Video Player -->
+            <div style="position: relative; width: 100%; border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 12px 30px rgba(0,0,0,0.5); border: 1px solid var(--border); aspect-ratio: 9/16; max-height: 56vh; margin: 0 auto 16px auto; display: flex; align-items: center; justify-content: center;">
+                <video id="rentGuideVideoApp" controls playsinline webkit-playsinline preload="metadata" style="width: 100%; height: 100%; object-fit: contain; border-radius: 16px; background: #000;">
+                    <source src="./videos/qollanma.mp4" type="video/mp4">
+                    <source src="./videos/qollanma.mov" type="video/quicktime">
+                    Sizning qurilmangiz ushbu videoni qo'llab-quvvatlamaydi.
+                </video>
+            </div>
+
+            <div style="font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 16px; background: var(--surface2); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border);">
+                <div style="font-weight: 750; color: var(--text); margin-bottom: 4px;">📌 Qisqacha yo'riqnoma:</div>
+                1. <b>fragment.com</b> saytini oching va <b>"Connect TON"</b> bosing.<br>
+                2. Tonkeeper (yoki boshqa hamyon) havolasini nusxalang.<br>
+                3. Shu oynaga qaytib, <b>"Ulash"</b> tugmasini bosing.<br>
+                4. So'ng Fragment'da <b>"Connect Telegram"</b> orqali kirib, profilingizga o'rnating!
+            </div>
+
+            <button type="button" class="tc-submit-btn" style="width: 100%; height: 44px; font-size: 14px; font-weight: 800; border-radius: 12px;" onclick="closeVideoGuideModalApp()">
+                Tushundim
+            </button>
         </div>
     </div>
 
@@ -19357,11 +19431,33 @@ async function submitTonConnectLinkApp() {
 }
 
 function showRentVideoGuideApp() {
-    const msg = "Qadamlar:\n\n1. fragment.com saytini oching va 'Connect TON' bosing.\n2. Tonkeeper (yoki boshqa hamyon) havolasini nusxalang.\n3. Shu oynaga qaytib, 'Ulash' tugmasini bosing.\n4. So'ng Fragment'da 'Connect Telegram' orqali kirib, profilingizga o'rnating!";
-    if (window.Telegram?.WebApp?.showAlert) {
-        window.Telegram.WebApp.showAlert(msg);
-    } else {
-        alert(msg);
+    const modal = document.getElementById('videoGuideModalApp');
+    const video = document.getElementById('rentGuideVideoApp');
+    if (modal) modal.classList.add('active');
+    if (video) {
+        try {
+            video.currentTime = 0;
+            const p = video.play();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
+        } catch(e) {}
+    }
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e) {}
+    }
+}
+
+function closeVideoGuideModalApp() {
+    const modal = document.getElementById('videoGuideModalApp');
+    const video = document.getElementById('rentGuideVideoApp');
+    if (video) {
+        try { video.pause(); } catch(e) {}
+    }
+    if (modal) modal.classList.remove('active');
+}
+
+function handleVideoModalAppOverlayClick(e) {
+    if (e.target && e.target.id === 'videoGuideModalApp') {
+        closeVideoGuideModalApp();
     }
 }
 
