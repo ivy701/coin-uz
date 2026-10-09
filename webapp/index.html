@@ -18198,13 +18198,31 @@ const BACKDROP_COLORS = {
 };
 
 const FALLBACK_RENT_COLLECTIONS = [
-    { address: "EQBKhTpqak-huWxkbNZjdt2zk_MylTFkh6dGCJsH3qR7JabL", name: "Light Sword", rent_floor_uzs: 850, count: 1420 },
-    { address: "EQD0c1e4598a_candy_canes_144", name: "Candy Canes", rent_floor_uzs: 441, count: 3778 },
-    { address: "EQB6d89201f_khabib_papakha_77", name: "Khabib Papakha", rent_floor_uzs: 735, count: 850 },
-    { address: "EQCf9271aa2_lunar_snakes_88", name: "Lunar Snakes", rent_floor_uzs: 1029, count: 2150 },
-    { address: "EQAa7182cc3_winter_bear_12", name: "Winter Bear", rent_floor_uzs: 588, count: 1890 },
-    { address: "EQEe8391dd4_golden_trophy_1", name: "Golden Trophy", rent_floor_uzs: 1470, count: 420 }
+    { address: "EQDsNmzs1xb4df4U439Oo91bp-s2UDP_DxfL-E0Yhf4UULLu", name: "Durov’s Glasses", image: "https://nft.fragment.com/gift/durovsglasses-1.webp", rent_floor_uzs: 1883, total_items: 3778 },
+    { address: "EQAIwEMO6wB8Iby8Va0EQGPkDWcVc6uUmMOfXmEyqZmM93sl", name: "Rare Birds", image: "https://nft.fragment.com/gift/rarebird-1.webp", rent_floor_uzs: 295, total_items: 12956 },
+    { address: "EQBG-g6ahkAUGWpefWbx-D_9sQ8oWbvy6puuq78U2c4NUDFS", name: "Plush Pepes", image: "https://nft.fragment.com/gift/plushpepe-1.webp", rent_floor_uzs: 23584, total_items: 2825 },
+    { address: "EQC4XEulxb05Le5gF6esMtDWT5XZ6tlzlMBQGNsqffxpdC5U", name: "Heart Lockets", image: "https://nft.fragment.com/gift/heartlocket-1.webp", rent_floor_uzs: 6540, total_items: 1951 },
+    { address: "EQD9ikZq6xPgKjzmdBG0G0S80RvUJjbwgHrPZXDKc_wsE84w", name: "Durov’s Caps", image: "https://nft.fragment.com/gift/durovscap-1.webp", rent_floor_uzs: 4645, total_items: 4710 },
+    { address: "EQA4i58iuS9DUYRtUZ97sZo5mnkbiYUBpWXQOe3dEUCcP1W8", name: "Precious Peaches", image: "https://nft.fragment.com/gift/preciouspeach-1.webp", rent_floor_uzs: 3820, total_items: 1890 }
 ];
+
+function getRentCollectionImageUrl(c) {
+    if (!c) return './images/gift.webp';
+    if (c.image && (c.image.startsWith('http://') || c.image.startsWith('https://'))) {
+        return c.image;
+    }
+    let slug = c.slug || '';
+    if (!slug && c.image) {
+        slug = c.image.split('/').pop().replace(/\.[^/.]+$/, '').trim();
+    }
+    if (!slug && c.name) {
+        slug = c.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+    if (slug) {
+        return `https://nft.fragment.com/gift/${slug}-1.webp`;
+    }
+    return './images/gift.webp';
+}
 
 function updateRentBackdropSelectOptions() {
     // No-op or compatibility helper
@@ -18260,7 +18278,7 @@ function renderRentCollectionModalList(filterText = '') {
                         <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                 </div>
-                <div class="sheet-item-icon">🌟</div>
+                <div class="sheet-item-icon" style="background: rgba(139, 92, 246, 0.18); font-size: 20px;">🌟</div>
                 <div class="sheet-item-info">
                     <div class="sheet-item-name">Barchasi</div>
                     <div class="sheet-item-sub">Barcha kolleksiyalar</div>
@@ -18274,7 +18292,9 @@ function renderRentCollectionModalList(filterText = '') {
         if (q && !name.toLowerCase().includes(q)) return;
         const isSel = (c.address === rentTempSelectedCollection);
         const floorUzs = c.rent_floor_uzs ? Number(c.rent_floor_uzs).toLocaleString('uz-UZ') : '1 883';
-        const countBadge = c.count ? `${c.count} Mavjud` : (c.available_count ? `${c.available_count} Mavjud` : 'Mavjud');
+        const countVal = c.count || c.available_count || c.total_items || '';
+        const countBadge = countVal ? `${Number(countVal).toLocaleString('uz-UZ')} Mavjud` : 'Mavjud';
+        const colImg = getRentCollectionImageUrl(c);
 
         html += `
             <div class="sheet-item-row ${isSel ? 'selected' : ''}" onclick="selectRentCollectionModalItem('${c.address}')">
@@ -18283,7 +18303,9 @@ function renderRentCollectionModalList(filterText = '') {
                         <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                 </div>
-                <div class="sheet-item-icon">🎁</div>
+                <div class="sheet-item-icon">
+                    <img src="${colImg}" alt="${escapeRentHtml(name)}" loading="lazy" onerror="this.onerror=null; this.src='./images/gift.webp';">
+                </div>
                 <div class="sheet-item-info">
                     <div class="sheet-item-name">${escapeRentHtml(name)}</div>
                     <div class="sheet-item-sub">Ijara: ${floorUzs} so'm / kun</div>

@@ -893,15 +893,20 @@ async def api_rent_collections(request: web.Request) -> web.Response:
                 nano = int(c.get("rent_floor_nano") or c.get("raw_rent_floor_nano") or 0)
                 if nano > 0:
                   c["rent_floor_uzs"] = max(100, round((nano / 1e9) * ton_rate))
+              img = c.get("image") or ""
+              if img and not img.startswith("http"):
+                slug = img.split("/")[-1].split(".")[0].strip()
+                if slug:
+                  c["image"] = f"https://nft.fragment.com/gift/{slug}-1.webp"
             _rent_collections_cache = col_data
             _rent_collections_cache_time = now
             return web.json_response({"ok": True, "cached": False, **col_data})
         DEFAULT_COLLECTIONS = [
-          {"address": "EQDsNmzs1xb4df4U439Oo91bp-s2UDP_DxfL-E0Yhf4UULLu", "name": "Durov’s Glasses", "image": "assets/collections/durovsglasses.webp", "rent_floor_uzs": 24000},
-          {"address": "EQC1_candy_canes_col", "name": "Candy Canes", "image": "https://nft.fragment.com/gift/candy_canes.webp", "rent_floor_uzs": 15000},
-          {"address": "EQC2_khabib_papakha_col", "name": "Khabib Papakha", "image": "https://nft.fragment.com/gift/khabib_papakha.webp", "rent_floor_uzs": 25000},
-          {"address": "EQC3_lunar_snakes_col", "name": "Lunar Snakes", "image": "https://nft.fragment.com/gift/lunar_snakes.webp", "rent_floor_uzs": 35000},
-          {"address": "EQC4_winter_bear_col", "name": "Winter Bear", "image": "https://nft.fragment.com/gift/winter_bear.webp", "rent_floor_uzs": 20000}
+          {"address": "EQDsNmzs1xb4df4U439Oo91bp-s2UDP_DxfL-E0Yhf4UULLu", "name": "Durov’s Glasses", "image": "https://nft.fragment.com/gift/durovsglasses-1.webp", "rent_floor_uzs": 1883, "total_items": 3778},
+          {"address": "EQAIwEMO6wB8Iby8Va0EQGPkDWcVc6uUmMOfXmEyqZmM93sl", "name": "Rare Birds", "image": "https://nft.fragment.com/gift/rarebird-1.webp", "rent_floor_uzs": 295, "total_items": 12956},
+          {"address": "EQBG-g6ahkAUGWpefWbx-D_9sQ8oWbvy6puuq78U2c4NUDFS", "name": "Plush Pepes", "image": "https://nft.fragment.com/gift/plushpepe-1.webp", "rent_floor_uzs": 23584, "total_items": 2825},
+          {"address": "EQC4XEulxb05Le5gF6esMtDWT5XZ6tlzlMBQGNsqffxpdC5U", "name": "Heart Lockets", "image": "https://nft.fragment.com/gift/heartlocket-1.webp", "rent_floor_uzs": 6540, "total_items": 1951},
+          {"address": "EQD9ikZq6xPgKjzmdBG0G0S80RvUJjbwgHrPZXDKc_wsE84w", "name": "Durov’s Caps", "image": "https://nft.fragment.com/gift/durovscap-1.webp", "rent_floor_uzs": 4645, "total_items": 4710}
         ]
         return web.json_response({"ok": True, "collections": DEFAULT_COLLECTIONS, "fallback": True})
   except Exception as e:
@@ -909,11 +914,11 @@ async def api_rent_collections(request: web.Request) -> web.Response:
     if _rent_collections_cache:
       return web.json_response({"ok": True, "cached": True, "stale": True, **_rent_collections_cache})
     DEFAULT_COLLECTIONS = [
-      {"address": "EQDsNmzs1xb4df4U439Oo91bp-s2UDP_DxfL-E0Yhf4UULLu", "name": "Durov’s Glasses", "image": "assets/collections/durovsglasses.webp", "rent_floor_uzs": 24000},
-      {"address": "EQC1_candy_canes_col", "name": "Candy Canes", "image": "https://nft.fragment.com/gift/candy_canes.webp", "rent_floor_uzs": 15000},
-      {"address": "EQC2_khabib_papakha_col", "name": "Khabib Papakha", "image": "https://nft.fragment.com/gift/khabib_papakha.webp", "rent_floor_uzs": 25000},
-      {"address": "EQC3_lunar_snakes_col", "name": "Lunar Snakes", "image": "https://nft.fragment.com/gift/lunar_snakes.webp", "rent_floor_uzs": 35000},
-      {"address": "EQC4_winter_bear_col", "name": "Winter Bear", "image": "https://nft.fragment.com/gift/winter_bear.webp", "rent_floor_uzs": 20000}
+      {"address": "EQDsNmzs1xb4df4U439Oo91bp-s2UDP_DxfL-E0Yhf4UULLu", "name": "Durov’s Glasses", "image": "https://nft.fragment.com/gift/durovsglasses-1.webp", "rent_floor_uzs": 1883, "total_items": 3778},
+      {"address": "EQAIwEMO6wB8Iby8Va0EQGPkDWcVc6uUmMOfXmEyqZmM93sl", "name": "Rare Birds", "image": "https://nft.fragment.com/gift/rarebird-1.webp", "rent_floor_uzs": 295, "total_items": 12956},
+      {"address": "EQBG-g6ahkAUGWpefWbx-D_9sQ8oWbvy6puuq78U2c4NUDFS", "name": "Plush Pepes", "image": "https://nft.fragment.com/gift/plushpepe-1.webp", "rent_floor_uzs": 23584, "total_items": 2825},
+      {"address": "EQC4XEulxb05Le5gF6esMtDWT5XZ6tlzlMBQGNsqffxpdC5U", "name": "Heart Lockets", "image": "https://nft.fragment.com/gift/heartlocket-1.webp", "rent_floor_uzs": 6540, "total_items": 1951},
+      {"address": "EQD9ikZq6xPgKjzmdBG0G0S80RvUJjbwgHrPZXDKc_wsE84w", "name": "Durov’s Caps", "image": "https://nft.fragment.com/gift/durovscap-1.webp", "rent_floor_uzs": 4645, "total_items": 4710}
     ]
     return web.json_response({"ok": True, "collections": DEFAULT_COLLECTIONS, "fallback": True})
 
