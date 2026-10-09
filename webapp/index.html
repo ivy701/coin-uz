@@ -9077,15 +9077,13 @@ html, body {
     margin-right: 4px;
 }
 
-/* Username Card */
-.username-card-wrap {
-    background: var(--glass-card-bg);
-}
-.username-top-box {
+/* ==================== USERNAME / NUMBERS ARTWORK COMPONENT ==================== */
+.username-art-tile {
     width: 100%;
-    aspect-ratio: 1;
-    background: var(--glass-card-hover, rgba(255, 255, 255, 0.04));
-    border-radius: 14px;
+    aspect-ratio: 1 / 1;
+    background: radial-gradient(circle at 50% 36%, rgba(42, 171, 238, 0.16) 0%, rgba(42, 171, 238, 0.04) 55%, var(--surface2) 100%);
+    border-radius: 16px;
+    border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9093,71 +9091,140 @@ html, body {
     position: relative;
     overflow: hidden;
     margin-bottom: 8px;
-    padding: 8px 6px;
+    padding: 10px 8px 8px 8px;
     box-sizing: border-box;
-    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
 }
-.username-duration-badge {
+:root[data-theme="light"] .username-art-tile {
+    background: radial-gradient(circle at 50% 36%, rgba(42, 171, 238, 0.12) 0%, rgba(42, 171, 238, 0.02) 60%, var(--surface2) 100%);
+}
+
+.username-art-tile.username-art-hero {
+    width: 196px;
+    height: 196px;
+    margin: 0 auto;
+    border-radius: 22px;
+    padding: 14px 10px 12px 10px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+    background: radial-gradient(circle at 50% 36%, rgba(42, 171, 238, 0.22) 0%, rgba(42, 171, 238, 0.06) 60%, var(--surface) 100%);
+    animation: heroScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.username-art-tile .username-duration-badge {
     position: absolute;
-    top: 7px;
-    right: 7px;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: var(--text-main);
-    font-size: 10px;
-    font-weight: 750;
-    padding: 2.5px 7px;
+    top: 8px;
+    right: 8px;
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2.5px 8px;
     border-radius: 999px;
-    border: 1px solid var(--border-card);
+    border: 1px solid var(--border);
     z-index: 2;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
-.username-tg-badge {
-    width: 50px;
-    height: 50px;
-    background: var(--glass-card-bg);
-    border: 1px solid var(--border-card);
-    border-radius: 15px;
+
+.username-art-logo-wrap {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-    margin-bottom: 6px;
+    width: 100%;
 }
-.username-tg-plane {
-    width: 32px;
-    height: 32px;
+
+.username-art-logo {
+    width: 44%;
+    max-width: 76px;
+    min-width: 54px;
+    aspect-ratio: 1 / 1;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
+    box-shadow: 0 10px 22px rgba(42, 171, 238, 0.38), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
 }
-.username-pill-sticker {
+
+.username-art-tile.username-art-hero .username-art-logo {
+    width: 86px;
+    max-width: 90px;
+    border-radius: 24px;
+    box-shadow: 0 14px 28px rgba(42, 171, 238, 0.45), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+}
+
+.username-art-plane {
+    width: 58%;
+    height: 58%;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+}
+
+.username-art-pill {
+    max-width: 92%;
+    border-radius: 999px;
+    padding: 4px 12px;
     color: #ffffff;
-    font-size: 13px;
     font-weight: 800;
-    padding: 3px 12px;
-    border-radius: 8px;
+    letter-spacing: -0.2px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.username-art-pill-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.username-art-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 90%;
-    margin-bottom: 3px;
-    letter-spacing: -0.2px;
-    text-align: center;
+    letter-spacing: -0.1px;
 }
-.username-link-sub {
-    font-size: 10.5px;
-    color: var(--text-muted);
-    font-weight: 600;
-    text-align: center;
+
+/* Card container matching */
+.username-card-wrap {
+    cursor: pointer;
+}
+.username-card-wrap:active {
+    transform: scale(0.98);
 }
 .username-card-title {
     font-size: 13.5px;
-    font-weight: 800;
-    color: var(--text-main);
+    font-weight: 750;
+    color: var(--text);
     text-align: left;
-    margin: 2px 2px 8px 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    cursor: pointer;
+    line-height: 1.3;
+    margin: 2px 2px 8px 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .username-art-logo,
+    .username-art-tile,
+    .username-card-wrap {
+        transition: none !important;
+        animation: none !important;
+    }
 }
 
 /* Pagination / Infinite Scroll */
@@ -19665,23 +19732,73 @@ function switchRentCategory(cat) {
     loadRentItems();
 }
 
-function getUsernameStickerBg(uname) {
-    const STICKER_PALETTES = [
-        'linear-gradient(135deg, #ec4899, #db2777)',
-        'linear-gradient(135deg, #22c55e, #16a34a)',
-        'linear-gradient(135deg, #a855f7, #7c3aed)',
-        'linear-gradient(135deg, #0284c7, #0369a1)',
-        'linear-gradient(135deg, #f59e0b, #d97706)',
-        'linear-gradient(135deg, #f43f5e, #e11d48)',
-        'linear-gradient(135deg, #0d9488, #0f766e)',
-        'linear-gradient(135deg, #6366f1, #4f46e5)'
-    ];
+// 6 Harmonious Gradients for Username / Numbers Artwork
+const USERNAME_PALETTES = [
+    { bg: 'linear-gradient(135deg, #2AABEE 0%, #1E88D6 100%)', shadow: 'rgba(42, 171, 238, 0.35)' }, // ko'k
+    { bg: 'linear-gradient(135deg, #34C37A 0%, #1F9D5C 100%)', shadow: 'rgba(52, 195, 122, 0.35)' }, // yashil
+    { bg: 'linear-gradient(135deg, #8B5CF6 0%, #6D4BE0 100%)', shadow: 'rgba(139, 92, 246, 0.35)' }, // binafsha
+    { bg: 'linear-gradient(135deg, #FF5A7A 0%, #E0334F 100%)', shadow: 'rgba(255, 90, 122, 0.35)' }, // qizil-pushti
+    { bg: 'linear-gradient(135deg, #FF9A3D 0%, #F07A1A 100%)', shadow: 'rgba(255, 154, 61, 0.35)' }, // to'q sariq
+    { bg: 'linear-gradient(135deg, #2DD4BF 0%, #0EA5A4 100%)', shadow: 'rgba(45, 212, 191, 0.35)' }  // firuza
+];
+
+function getUsernamePalette(str) {
+    const clean = String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
     let hash = 0;
-    const str = String(uname || '');
-    for (let i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    for (let i = 0; i < clean.length; i++) {
+        hash = ((hash << 5) - hash) + clean.charCodeAt(i);
+        hash |= 0;
     }
-    return STICKER_PALETTES[Math.abs(hash) % STICKER_PALETTES.length];
+    return USERNAME_PALETTES[Math.abs(hash) % USERNAME_PALETTES.length];
+}
+
+// Reusable Artwork Component for Usernames and Anonymous Numbers (+888)
+function renderUsernameArt(rawTitle, options = {}) {
+    const isHero = !!options.isHero;
+    const raw = String(rawTitle || '').trim();
+    const isNumber = !!options.isNumber || raw.startsWith('+');
+    const clean = isNumber ? raw : raw.replace(/^@/, '');
+    const displayText = isNumber ? raw : ('@' + clean);
+    const subtext = isNumber ? 'anonim raqam' : (clean + '.t.me');
+
+    const palette = getUsernamePalette(clean || raw);
+    const len = displayText.length;
+
+    let fontSize = '13px';
+    if (isHero) {
+        if (len <= 7) fontSize = '16px';
+        else if (len <= 11) fontSize = '14px';
+        else if (len <= 15) fontSize = '12.5px';
+        else fontSize = '11.5px';
+    } else {
+        if (len <= 7) fontSize = '13px';
+        else if (len <= 11) fontSize = '12px';
+        else if (len <= 15) fontSize = '11px';
+        else fontSize = '10px';
+    }
+
+    const durationBadgeHtml = options.durationText ? `
+        <span class="username-duration-badge">${escapeRentHtml(options.durationText)}</span>
+    ` : '';
+
+    const heroClass = isHero ? 'username-art-hero' : '';
+
+    return `
+        <div class="username-art-tile ${heroClass}">
+            ${durationBadgeHtml}
+            <div class="username-art-logo-wrap">
+                <div class="username-art-logo">
+                    <svg viewBox="0 0 24 24" class="username-art-plane" fill="none">
+                        <path d="M5.4 11.9l11.4-4.7c.5-.2 1 .1.9.7l-1.9 9.1c-.1.6-.8.8-1.2.5l-3.3-2.4-1.6 1.5c-.2.2-.5.2-.6 0l-.3-2.8 5.7-5.2c.2-.2 0-.5-.3-.3l-7.1 4.5-2.6-.8c-.6-.2-.6-.9 0-1.2z" fill="#ffffff"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="username-art-pill" style="background: ${palette.bg}; box-shadow: 0 4px 14px ${palette.shadow}; font-size: ${fontSize};" title="${escapeRentHtml(displayText)}">
+                <span class="username-art-pill-text">${escapeRentHtml(displayText)}</span>
+            </div>
+            <div class="username-art-sub">${escapeRentHtml(subtext)}</div>
+        </div>
+    `;
 }
 
 function createRentCardHtml(item, index) {
@@ -19701,23 +19818,16 @@ function createRentCardHtml(item, index) {
     const minDays = Number(item.min_days || 1);
     const maxDays = Number(item.max_days || 180);
 
-    if (rentActiveCategory === 'usernames') {
-        const rawName = String(item.name || '').replace(/^@/, '');
-        const stickerBg = getUsernameStickerBg(rawName);
+    if (rentActiveCategory === 'usernames' || rentActiveCategory === 'numbers') {
+        const isNum = (rentActiveCategory === 'numbers') || String(item.name || '').startsWith('+');
+        const artHtml = renderUsernameArt(item.name, {
+            isNumber: isNum,
+            durationText: `${minDays}–${maxDays} kun`
+        });
         return `
             <div class="nft-card-rent username-card-wrap" onclick="openRentModal(${index})">
-                <div class="username-top-box">
-                    <span class="username-duration-badge">${minDays}–${maxDays} kun</span>
-                    <div class="username-tg-badge">
-                        <svg class="username-tg-plane" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="12" fill="#2AABEE"/>
-                            <path d="M5.4 11.9l11.4-4.7c.5-.2 1 .1.9.7l-1.9 9.1c-.1.6-.8.8-1.2.5l-3.3-2.4-1.6 1.5c-.2.2-.5.2-.6 0l-.3-2.8 5.7-5.2c.2-.2 0-.5-.3-.3l-7.1 4.5-2.6-.8c-.6-.2-.6-.9 0-1.2z" fill="#fff"/>
-                        </svg>
-                    </div>
-                    <div class="username-pill-sticker" style="background: ${stickerBg};">@${escapeRentHtml(rawName)}</div>
-                    <div class="username-link-sub">${escapeRentHtml(rawName)}.t.me</div>
-                </div>
-                <div class="username-card-title" title="@${escapeRentHtml(rawName)}">@${escapeRentHtml(rawName)}</div>
+                ${artHtml}
+                <div class="username-card-title" title="${escapeRentHtml(item.name)}">${escapeRentHtml(item.name)}</div>
                 <button class="nft-rent-btn-rent" onclick="event.stopPropagation(); openRentModal(${index})">
                     <span class="rent-price-val">${price.toLocaleString('uz-UZ')} so'm</span> / kun
                 </button>
@@ -20204,41 +20314,17 @@ function openRentModal(index) {
     const isUsername = (rentActiveCategory === 'usernames') || rawName.startsWith('@');
     const isNumber = (rentActiveCategory === 'numbers') || rawName.startsWith('+');
 
-    if (isUsername) {
+    if (isUsername || isNumber) {
         if (blurBg) blurBg.style.backgroundImage = 'none';
         if (mediaWrap) {
-            mediaWrap.innerHTML = `
-                <div class="tg-nft-sticker-hero" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
-                    <div class="tg-nft-sticker-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </div>
-                    <div class="tg-nft-sticker-text">@${escapeRentHtml(rawName.replace(/^@/, ''))}</div>
-                </div>
-            `;
+            mediaWrap.innerHTML = renderUsernameArt(rawName, { isHero: true, isNumber });
+        }
+        const pal = getUsernamePalette(isNumber ? rawName : rawName.replace(/^@/, ''));
+        if (heroSec && pal) {
+            heroSec.style.background = `radial-gradient(circle at 50% 38%, rgba(42, 171, 238, 0.22) 0%, rgba(15, 23, 42, 0.95) 75%, #0c0e13 100%)`;
         }
         if (modelEl) {
-            modelEl.textContent = `${rawName.replace(/^@/, '')}.t.me`;
-            modelEl.style.display = 'block';
-        }
-    } else if (isNumber) {
-        if (blurBg) blurBg.style.backgroundImage = 'none';
-        if (mediaWrap) {
-            mediaWrap.innerHTML = `
-                <div class="tg-nft-sticker-hero" style="background: linear-gradient(135deg, #f59e0b, #b45309);">
-                    <div class="tg-nft-sticker-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                        </svg>
-                    </div>
-                    <div class="tg-nft-sticker-text">${escapeRentHtml(rawName)}</div>
-                </div>
-            `;
-        }
-        if (modelEl) {
-            modelEl.textContent = 'Anonim Telegram raqam';
+            modelEl.textContent = isNumber ? 'Anonim Telegram raqam' : `${rawName.replace(/^@/, '')}.t.me`;
             modelEl.style.display = 'block';
         }
     } else {
