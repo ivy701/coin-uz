@@ -291,16 +291,16 @@
         .sheet-modal {
             width: 100%;
             max-width: 480px;
-            max-height: 82vh;
-            background: #111322;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 24px 24px 0 0;
-            padding: 20px 18px 24px 18px;
+            max-height: 84vh;
+            background: linear-gradient(180deg, #131728 0%, #0a0b14 100%) !important;
+            border-top: 1px solid rgba(139, 92, 246, 0.45) !important;
+            border-radius: 26px 26px 0 0;
+            padding: 14px 18px calc(24px + env(safe-area-inset-bottom, 20px)) 18px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 -14px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.25) !important;
             transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
 
         .sheet-modal-overlay.active .sheet-modal {
@@ -316,9 +316,9 @@
 
         .sheet-modal-title {
             font-size: 17px;
-            font-weight: 800;
+            font-weight: 850;
             color: #ffffff;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.3px;
         }
 
         .sheet-modal-close {
@@ -344,26 +344,27 @@
 
         .sheet-search-wrap {
             position: relative;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             width: 100%;
         }
 
         .sheet-search-input {
             width: 100%;
-            height: 44px;
-            background: #181a2e;
+            height: 42px;
+            background: rgba(20, 24, 42, 0.85);
             border: 1px solid rgba(255, 255, 255, 0.09);
             border-radius: 14px;
             padding: 0 14px 0 40px;
-            font-size: 14px;
+            font-size: 13.5px;
             color: #ffffff;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
             box-sizing: border-box;
         }
 
         .sheet-search-input:focus {
             border-color: #8b5cf6;
+            box-shadow: 0 0 14px rgba(139, 92, 246, 0.25);
         }
 
         .sheet-search-icon {
@@ -377,53 +378,65 @@
 
         .sheet-list-container {
             overflow-y: auto;
-            max-height: 50vh;
-            padding-right: 4px;
+            max-height: 52vh;
+            padding-right: 2px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
             margin-bottom: 16px;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+
+        .sheet-list-container::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
         }
 
         .sheet-item-row {
             display: flex;
             align-items: center;
             padding: 10px 12px;
-            background: #16182c;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 12px;
+            background: rgba(22, 25, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 14px;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             user-select: none;
+            backdrop-filter: blur(8px);
         }
 
         .sheet-item-row:hover,
         .sheet-item-row:active {
-            background: #1e213a;
+            background: rgba(28, 32, 54, 0.9);
+            transform: scale(0.99);
         }
 
         .sheet-item-row.selected {
-            background: rgba(139, 92, 246, 0.15);
-            border-color: rgba(139, 92, 246, 0.4);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.22) 0%, rgba(56, 189, 248, 0.12) 100%) !important;
+            border-color: rgba(139, 92, 246, 0.6) !important;
+            box-shadow: 0 4px 18px rgba(139, 92, 246, 0.18) !important;
         }
 
         .sheet-item-check {
             width: 22px;
             height: 22px;
-            border-radius: 6px;
-            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 7px;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
             margin-right: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
             background: transparent;
-            transition: all 0.15s ease;
+            transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sheet-item-row.selected .sheet-item-check {
-            background: #8b5cf6;
-            border-color: #8b5cf6;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%) !important;
+            border-color: #8b5cf6 !important;
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.5) !important;
         }
 
         .sheet-item-check svg {
@@ -547,22 +560,26 @@
 
         .sheet-apply-btn {
             width: 100%;
-            height: 48px;
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            height: 50px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #4f46e5 100%) !important;
             border: none;
-            border-radius: 14px;
+            border-radius: 16px !important;
             color: #ffffff;
-            font-size: 15px;
-            font-weight: 800;
+            font-size: 15.5px;
+            font-weight: 850;
             letter-spacing: -0.2px;
             cursor: pointer;
-            box-shadow: 0 4px 18px rgba(139, 92, 246, 0.4);
-            transition: transform 0.1s ease, filter 0.15s ease;
+            box-shadow: 0 6px 24px rgba(139, 92, 246, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .sheet-apply-btn:active {
             transform: scale(0.98);
-            filter: brightness(0.95);
+            filter: brightness(1.1);
         }
 
         /* Username NFT Card Design (Screenshot 5 Abu Store Match) */
@@ -2003,6 +2020,7 @@
     <!-- Rent Collections Bottom Sheet Modal (Screenshot 3 Match) -->
     <div class="sheet-modal-overlay" id="rentCollectionModal">
         <div class="sheet-modal">
+            <div style="width: 36px; height: 4px; background: rgba(255, 255, 255, 0.22); border-radius: 999px; margin: 0 auto 12px auto; flex-shrink: 0;"></div>
             <div class="sheet-modal-header">
                 <div class="sheet-modal-title">Kolleksiyani tanlang</div>
                 <button class="sheet-modal-close" onclick="closeRentCollectionModal()">&times;</button>
@@ -2024,6 +2042,7 @@
     <!-- Rent Backdrop (Fon) Bottom Sheet Modal (Screenshot 4 Match) -->
     <div class="sheet-modal-overlay" id="rentBackdropModal">
         <div class="sheet-modal">
+            <div style="width: 36px; height: 4px; background: rgba(255, 255, 255, 0.22); border-radius: 999px; margin: 0 auto 12px auto; flex-shrink: 0;"></div>
             <div class="sheet-modal-header">
                 <div class="sheet-modal-title">Fonni tanlang</div>
                 <button class="sheet-modal-close" onclick="closeRentBackdropModal()">&times;</button>
@@ -2358,6 +2377,8 @@
         let activeSort = 'recent';
         let displayedItems = [];
         let loadedCollections = [];
+        let activeCollectionAddresses = new Set();
+        let tempSelectedCollections = new Set();
         let tempSelectedCollection = '';
         let tempSelectedBackdrop = '';
         let userLen = '';
@@ -2452,7 +2473,7 @@
         }
 
         function openRentCollectionModal() {
-            tempSelectedCollection = activeCollectionAddress || '';
+            tempSelectedCollections = new Set(activeCollectionAddresses);
             const inp = document.getElementById('rentCollectionSearchInput');
             if (inp) inp.value = '';
             renderRentCollectionModalList('');
@@ -2475,10 +2496,11 @@
             const cols = (loadedCollections && loadedCollections.length > 0) ? loadedCollections : FALLBACK_RENT_COLLECTIONS;
 
             let html = '';
+            const isAllSel = (tempSelectedCollections.size === 0);
+
             if (!q || 'barchasi'.includes(q)) {
-                const isSel = !tempSelectedCollection;
                 html += `
-                    <div class="sheet-item-row ${isSel ? 'selected' : ''}" onclick="selectRentCollectionModalItem('')">
+                    <div class="sheet-item-row ${isAllSel ? 'selected' : ''}" onclick="selectRentCollectionModalItem('')">
                         <div class="sheet-item-check">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="20 6 9 17 4 12"></polyline>
@@ -2487,7 +2509,7 @@
                         <div class="sheet-item-icon" style="background: rgba(139, 92, 246, 0.18); font-size: 20px;">🌟</div>
                         <div class="sheet-item-info">
                             <div class="sheet-item-name">Barchasi</div>
-                            <div class="sheet-item-sub">Barcha kolleksiyalar</div>
+                            <div class="sheet-item-sub">Barcha mavjud kolleksiyalar</div>
                         </div>
                     </div>
                 `;
@@ -2496,7 +2518,7 @@
             cols.forEach(c => {
                 const name = c.name || 'Nomaʼlum';
                 if (q && !name.toLowerCase().includes(q)) return;
-                const isSel = (c.address === tempSelectedCollection);
+                const isSel = tempSelectedCollections.has(c.address);
                 let floor = Number(c.rent_floor_uzs || 0);
                 if (!floor && c.rent_floor_nano) {
                     floor = Math.round((Number(c.rent_floor_nano) / 1e9) * 28000);
@@ -2529,6 +2551,20 @@
             });
 
             listEl.innerHTML = html || `<div style="text-align:center; padding:20px; color:#94a3b8;">Kolleksiya topilmadi</div>`;
+            updateRentCollectionApplyBtnText();
+        }
+
+        function updateRentCollectionApplyBtnText() {
+            const btn = document.querySelector('#rentCollectionModal .sheet-apply-btn');
+            if (!btn) return;
+            const cnt = tempSelectedCollections.size;
+            if (cnt === 0) {
+                btn.innerHTML = `<span>Qo'llash (Barchasi)</span>`;
+            } else if (cnt === 1) {
+                btn.innerHTML = `<span>Qo'llash (1 ta tanlandi)</span>`;
+            } else {
+                btn.innerHTML = `<span>Qo'llash (${cnt} ta tanlandi)</span>`;
+            }
         }
 
         function filterRentCollectionModalList() {
@@ -2537,7 +2573,15 @@
         }
 
         function selectRentCollectionModalItem(addr) {
-            tempSelectedCollection = addr || '';
+            if (!addr) {
+                tempSelectedCollections.clear();
+            } else {
+                if (tempSelectedCollections.has(addr)) {
+                    tempSelectedCollections.delete(addr);
+                } else {
+                    tempSelectedCollections.add(addr);
+                }
+            }
             const q = document.getElementById('rentCollectionSearchInput')?.value || '';
             renderRentCollectionModalList(q);
             if (tg?.HapticFeedback) {
@@ -2546,15 +2590,19 @@
         }
 
         function applyRentCollectionModalSelection() {
-            activeCollectionAddress = tempSelectedCollection || '';
+            activeCollectionAddresses = new Set(tempSelectedCollections);
+            activeCollectionAddress = Array.from(activeCollectionAddresses)[0] || '';
             const disp = document.getElementById('collectionDisplayVal');
             if (disp) {
-                if (!activeCollectionAddress) {
+                if (activeCollectionAddresses.size === 0) {
                     disp.textContent = 'Barchasi';
-                } else {
+                } else if (activeCollectionAddresses.size === 1) {
                     const cols = (loadedCollections && loadedCollections.length > 0) ? loadedCollections : FALLBACK_RENT_COLLECTIONS;
-                    const found = cols.find(c => c.address === activeCollectionAddress);
-                    disp.textContent = found ? found.name : 'Tanlangan';
+                    const singleAddr = Array.from(activeCollectionAddresses)[0];
+                    const found = cols.find(c => c.address === singleAddr);
+                    disp.textContent = found ? found.name : '1 ta kolleksiya';
+                } else {
+                    disp.textContent = `${activeCollectionAddresses.size} ta kolleksiya`;
                 }
             }
             closeRentCollectionModal();
@@ -2816,6 +2864,18 @@
                 });
             }
 
+            if (activeCategory === 'gifts' && activeCollectionAddresses && activeCollectionAddresses.size > 0) {
+                const cols = (loadedCollections && loadedCollections.length > 0) ? loadedCollections : FALLBACK_RENT_COLLECTIONS;
+                const selectedNames = cols.filter(c => activeCollectionAddresses.has(c.address)).map(c => (c.name || '').toLowerCase());
+
+                filtered = filtered.filter(item => {
+                    const itemColAddr = item.collection_address || item.collection?.address;
+                    if (itemColAddr && activeCollectionAddresses.has(itemColAddr)) return true;
+                    const itemName = (item.name || '').toLowerCase();
+                    return selectedNames.some(colName => itemName.includes(colName));
+                });
+            }
+
             if (activeCategory === 'gifts' && activeBackdrop) {
                 const targetBd = activeBackdrop.toLowerCase();
                 filtered = filtered.filter(item => {
@@ -2911,7 +2971,9 @@
             try {
                 const query = new URLSearchParams();
                 query.set('category', activeCategory);
-                if (activeCollectionAddress) query.set('collection_address', activeCollectionAddress);
+                if (activeCollectionAddresses && activeCollectionAddresses.size === 1) {
+                    query.set('collection_address', Array.from(activeCollectionAddresses)[0]);
+                }
 
                 const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
                 let res = null;

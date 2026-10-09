@@ -9065,17 +9065,17 @@ html, body {
 .sheet-modal {
     width: 100%;
     max-width: 480px;
-    background: #111322;
-    border-top: 1px solid rgba(139, 92, 246, 0.35);
-    border-radius: 24px 24px 0 0;
-    padding: 16px 16px calc(24px + env(safe-area-inset-bottom, 20px)) 16px;
+    background: linear-gradient(180deg, #131728 0%, #0a0b14 100%) !important;
+    border-top: 1px solid rgba(139, 92, 246, 0.45) !important;
+    border-radius: 26px 26px 0 0 !important;
+    padding: 14px 18px calc(24px + env(safe-area-inset-bottom, 20px)) 18px !important;
     transform: translateY(100%);
     transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
-    max-height: 82vh;
+    max-height: 84vh;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 -14px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.25) !important;
 }
 .sheet-modal-overlay.active .sheet-modal {
     transform: translateY(0);
@@ -9143,28 +9143,38 @@ html, body {
     max-height: 52vh;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 8px;
     padding-right: 2px;
-    margin-bottom: 14px;
-    scrollbar-width: thin;
+    margin-bottom: 16px;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+.sheet-list-container::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 .sheet-item-row {
     display: flex;
     align-items: center;
     padding: 10px 12px;
-    border-radius: 16px;
-    background: #16192a;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    background: rgba(22, 25, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.07);
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
+    backdrop-filter: blur(8px);
 }
+.sheet-item-row:hover,
 .sheet-item-row:active {
     transform: scale(0.99);
+    background: rgba(28, 32, 54, 0.9);
 }
 .sheet-item-row.selected {
-    background: rgba(139, 92, 246, 0.15);
-    border-color: rgba(139, 92, 246, 0.45);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.22) 0%, rgba(56, 189, 248, 0.12) 100%) !important;
+    border-color: rgba(139, 92, 246, 0.6) !important;
+    box-shadow: 0 4px 18px rgba(139, 92, 246, 0.18) !important;
 }
 .sheet-item-check {
     width: 22px;
@@ -9177,11 +9187,12 @@ html, body {
     flex-shrink: 0;
     margin-right: 12px;
     background: transparent;
-    transition: all 0.15s;
+    transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .sheet-item-row.selected .sheet-item-check {
-    background: #8b5cf6;
-    border-color: #8b5cf6;
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%) !important;
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.5) !important;
 }
 .sheet-item-check svg {
     width: 14px;
@@ -9221,8 +9232,8 @@ html, body {
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: #111422;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(135deg, #181d30 0%, #101322 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9272,7 +9283,8 @@ html, body {
     margin-left: 10px;
 }
 .sheet-item-count-box {
-    background: #202438;
+    background: rgba(32, 38, 62, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
     padding: 3px 8px;
     font-size: 12.5px;
@@ -9288,17 +9300,22 @@ html, body {
 }
 .sheet-apply-btn {
     width: 100%;
-    height: 48px;
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    height: 50px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #4f46e5 100%) !important;
     border: none;
-    border-radius: 14px;
+    border-radius: 16px !important;
     color: #ffffff;
-    font-size: 15px;
-    font-weight: 800;
+    font-size: 15.5px;
+    font-weight: 850;
     cursor: pointer;
-    box-shadow: 0 4px 18px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 6px 24px rgba(139, 92, 246, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
     transition: all 0.15s ease;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: -0.2px;
 }
 .sheet-apply-btn:active {
     transform: scale(0.98);
@@ -11875,6 +11892,7 @@ body {
     <!-- Rent Collections Bottom Sheet Modal (Screenshot 3 Match) -->
     <div class="sheet-modal-overlay" id="rentCollectionModal">
         <div class="sheet-modal">
+            <div style="width: 36px; height: 4px; background: rgba(255, 255, 255, 0.22); border-radius: 999px; margin: 0 auto 12px auto; flex-shrink: 0;"></div>
             <div class="sheet-modal-header">
                 <div class="sheet-modal-title">Kolleksiyani tanlang</div>
                 <button class="sheet-modal-close" onclick="closeRentCollectionModal()">&times;</button>
@@ -11896,6 +11914,7 @@ body {
     <!-- Rent Backdrop (Fon) Bottom Sheet Modal (Screenshot 4 Match) -->
     <div class="sheet-modal-overlay" id="rentBackdropModal">
         <div class="sheet-modal">
+            <div style="width: 36px; height: 4px; background: rgba(255, 255, 255, 0.22); border-radius: 999px; margin: 0 auto 12px auto; flex-shrink: 0;"></div>
             <div class="sheet-modal-header">
                 <div class="sheet-modal-title">Fonni tanlang</div>
                 <button class="sheet-modal-close" onclick="closeRentBackdropModal()">&times;</button>
@@ -18197,6 +18216,8 @@ let rentActiveBackdrop = '';
 let rentActiveSort = 'recent';
 let rentDisplayedItems = [];
 let rentLoadedCollections = [];
+let rentActiveCollectionAddresses = new Set();
+let rentTempSelectedCollections = new Set();
 let rentTempSelectedCollection = '';
 let rentTempSelectedBackdrop = '';
 let rentUserLen = '';
@@ -18291,7 +18312,7 @@ async function loadRentCollections() {
 }
 
 function openRentCollectionModal() {
-    rentTempSelectedCollection = rentActiveCollectionAddress || '';
+    rentTempSelectedCollections = new Set(rentActiveCollectionAddresses);
     const inp = document.getElementById('rentCollectionSearchInput');
     if (inp) inp.value = '';
     renderRentCollectionModalList('');
@@ -18314,11 +18335,12 @@ function renderRentCollectionModalList(filterText = '') {
     const cols = (rentLoadedCollections && rentLoadedCollections.length > 0) ? rentLoadedCollections : FALLBACK_RENT_COLLECTIONS;
 
     let html = '';
+    const isAllSel = (rentTempSelectedCollections.size === 0);
+
     // "Barchasi" item
     if (!q || 'barchasi'.includes(q)) {
-        const isSel = !rentTempSelectedCollection;
         html += `
-            <div class="sheet-item-row ${isSel ? 'selected' : ''}" onclick="selectRentCollectionModalItem('')">
+            <div class="sheet-item-row ${isAllSel ? 'selected' : ''}" onclick="selectRentCollectionModalItem('')">
                 <div class="sheet-item-check">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
@@ -18327,7 +18349,7 @@ function renderRentCollectionModalList(filterText = '') {
                 <div class="sheet-item-icon" style="background: rgba(139, 92, 246, 0.18); font-size: 20px;">🌟</div>
                 <div class="sheet-item-info">
                     <div class="sheet-item-name">Barchasi</div>
-                    <div class="sheet-item-sub">Barcha kolleksiyalar</div>
+                    <div class="sheet-item-sub">Barcha mavjud kolleksiyalar</div>
                 </div>
             </div>
         `;
@@ -18336,7 +18358,7 @@ function renderRentCollectionModalList(filterText = '') {
     cols.forEach(c => {
         const name = c.name || 'Nomaʼlum';
         if (q && !name.toLowerCase().includes(q)) return;
-        const isSel = (c.address === rentTempSelectedCollection);
+        const isSel = rentTempSelectedCollections.has(c.address);
         const floorUzs = c.rent_floor_uzs ? Number(c.rent_floor_uzs).toLocaleString('uz-UZ') : '1 883';
         const countVal = c.count || c.available_count || c.total_items || '';
         const countFormatted = countVal ? Number(countVal).toLocaleString('uz-UZ') : '';
@@ -18365,6 +18387,20 @@ function renderRentCollectionModalList(filterText = '') {
     });
 
     listEl.innerHTML = html || `<div style="text-align:center; padding:20px; color:#94a3b8;">Kolleksiya topilmadi</div>`;
+    updateRentCollectionApplyBtnText();
+}
+
+function updateRentCollectionApplyBtnText() {
+    const btn = document.querySelector('#rentCollectionModal .sheet-apply-btn');
+    if (!btn) return;
+    const cnt = rentTempSelectedCollections.size;
+    if (cnt === 0) {
+        btn.innerHTML = `<span>Qo'llash (Barchasi)</span>`;
+    } else if (cnt === 1) {
+        btn.innerHTML = `<span>Qo'llash (1 ta tanlandi)</span>`;
+    } else {
+        btn.innerHTML = `<span>Qo'llash (${cnt} ta tanlandi)</span>`;
+    }
 }
 
 function filterRentCollectionModalList() {
@@ -18373,7 +18409,15 @@ function filterRentCollectionModalList() {
 }
 
 function selectRentCollectionModalItem(addr) {
-    rentTempSelectedCollection = addr || '';
+    if (!addr) {
+        rentTempSelectedCollections.clear();
+    } else {
+        if (rentTempSelectedCollections.has(addr)) {
+            rentTempSelectedCollections.delete(addr);
+        } else {
+            rentTempSelectedCollections.add(addr);
+        }
+    }
     const q = document.getElementById('rentCollectionSearchInput')?.value || '';
     renderRentCollectionModalList(q);
     if (window.Telegram?.WebApp?.HapticFeedback) {
@@ -18382,15 +18426,19 @@ function selectRentCollectionModalItem(addr) {
 }
 
 function applyRentCollectionModalSelection() {
-    rentActiveCollectionAddress = rentTempSelectedCollection || '';
+    rentActiveCollectionAddresses = new Set(rentTempSelectedCollections);
+    rentActiveCollectionAddress = Array.from(rentActiveCollectionAddresses)[0] || '';
     const disp = document.getElementById('rentCollectionDisplayVal');
     if (disp) {
-        if (!rentActiveCollectionAddress) {
+        if (rentActiveCollectionAddresses.size === 0) {
             disp.textContent = 'Barchasi';
-        } else {
+        } else if (rentActiveCollectionAddresses.size === 1) {
             const cols = (rentLoadedCollections && rentLoadedCollections.length > 0) ? rentLoadedCollections : FALLBACK_RENT_COLLECTIONS;
-            const found = cols.find(c => c.address === rentActiveCollectionAddress);
-            disp.textContent = found ? found.name : 'Tanlangan';
+            const singleAddr = Array.from(rentActiveCollectionAddresses)[0];
+            const found = cols.find(c => c.address === singleAddr);
+            disp.textContent = found ? found.name : '1 ta kolleksiya';
+        } else {
+            disp.textContent = `${rentActiveCollectionAddresses.size} ta kolleksiya`;
         }
     }
     closeRentCollectionModal();
@@ -18653,6 +18701,18 @@ function applyRentFiltersAndSort() {
         });
     }
 
+    if (rentActiveCategory === 'gifts' && rentActiveCollectionAddresses && rentActiveCollectionAddresses.size > 0) {
+        const cols = (rentLoadedCollections && rentLoadedCollections.length > 0) ? rentLoadedCollections : FALLBACK_RENT_COLLECTIONS;
+        const selectedNames = cols.filter(c => rentActiveCollectionAddresses.has(c.address)).map(c => (c.name || '').toLowerCase());
+
+        filtered = filtered.filter(item => {
+            const itemColAddr = item.collection_address || item.collection?.address;
+            if (itemColAddr && rentActiveCollectionAddresses.has(itemColAddr)) return true;
+            const itemName = (item.name || '').toLowerCase();
+            return selectedNames.some(colName => itemName.includes(colName));
+        });
+    }
+
     if (rentActiveCategory === 'gifts' && rentActiveBackdrop) {
         const targetBd = rentActiveBackdrop.toLowerCase();
         filtered = filtered.filter(item => {
@@ -18748,7 +18808,9 @@ async function loadRentItems() {
     try {
         const query = new URLSearchParams();
         query.set('category', rentActiveCategory);
-        if (rentActiveCollectionAddress) query.set('collection_address', rentActiveCollectionAddress);
+        if (rentActiveCollectionAddresses && rentActiveCollectionAddresses.size === 1) {
+            query.set('collection_address', Array.from(rentActiveCollectionAddresses)[0]);
+        }
 
         const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || '')) || '';
         let res = null;
@@ -19030,7 +19092,7 @@ function updateRentModalCalculations() {
     if (feeEl) feeEl.textContent = `+${fee.toLocaleString('uz-UZ')} so'm`;
     document.getElementById('calcRentTotalPrice').textContent = `${total.toLocaleString('uz-UZ')} so'm`;
 
-    const curBal = typeof getUserBalanceVal === 'function' ? getUserBalanceVal() : (Number(document.getElementById('balance')?.textContent?.replace(/[^0-9]/g, '')) || 0);
+    const curBal = (typeof userBalance === 'number' && userBalance > 0) ? userBalance : (typeof getUserBalanceVal === 'function' ? getUserBalanceVal() : (Number(document.getElementById('balance')?.textContent?.replace(/[^0-9]/g, '')) || 0));
     const balDisplay = document.getElementById('modalRentBalanceDisplay');
     if (balDisplay) balDisplay.textContent = curBal.toLocaleString('uz-UZ');
 
@@ -19080,7 +19142,7 @@ async function submitRentOrderFromApp() {
     const price = Number(rentSelectedItem.price_per_day_uzs || 0);
     const fee = 2000;
     const total = (rentRentalDays * price) + fee;
-    const curBal = typeof getUserBalanceVal === 'function' ? getUserBalanceVal() : (Number(document.getElementById('balance')?.textContent?.replace(/[^0-9]/g, '')) || 0);
+    const curBal = (typeof userBalance === 'number' && userBalance > 0) ? userBalance : (typeof getUserBalanceVal === 'function' ? getUserBalanceVal() : (Number(document.getElementById('balance')?.textContent?.replace(/[^0-9]/g, '')) || 0));
 
     if (curBal < total) {
         if (typeof showTopupToast === 'function') {
