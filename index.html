@@ -7394,6 +7394,14 @@ body {
 :root[data-theme="dark"] {
     --bg-main: #000000;
     --bg-surface: #0a0a0c;
+    --bg: #0c0e13;
+    --surface: #151921;
+    --surface2: #1b2029;
+    --border: #262c38;
+    --text: #f1f3f8;
+    --muted: #8c94a6;
+    --gold: #f7bd35;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
     --bg-radial: radial-gradient(circle at 50% 0%, #16161a 0%, #0A0A0C 45%, #000000 100%);
     --glass-card-bg: rgba(255, 255, 255, 0.06);
     --glass-card-hover: rgba(255, 255, 255, 0.10);
@@ -7410,6 +7418,7 @@ body {
     --nav-border: rgba(255, 255, 255, 0.12);
     --nav-pill: rgba(255, 255, 255, 0.12);
     --nav-active: #ffffff;
+    --nav-active-ic: #000000;
     --nav-inactive: rgba(255, 255, 255, 0.55);
     --me: #4aa8ff;
     --me-soft: rgba(74, 168, 255, 0.15);
@@ -7418,6 +7427,14 @@ body {
 :root[data-theme="light"] {
     --bg-main: #F2F2F7;
     --bg-surface: #FFFFFF;
+    --bg: #f2f2f7;
+    --surface: #ffffff;
+    --surface2: #f6f6fa;
+    --border: #e6e7ee;
+    --text: #14161c;
+    --muted: #7a8191;
+    --gold: #e8a50f;
+    --shadow: 0 6px 20px rgba(20, 22, 28, 0.07);
     --bg-radial: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F2F2F7 60%, #E5E5EA 100%);
     --glass-card-bg: rgba(255, 255, 255, 0.75);
     --glass-card-hover: rgba(255, 255, 255, 0.92);
@@ -7433,7 +7450,8 @@ body {
     --nav-bg: rgba(255, 255, 255, 0.65);
     --nav-border: rgba(0, 0, 0, 0.08);
     --nav-pill: rgba(0, 0, 0, 0.08);
-    --nav-active: #111111;
+    --nav-active: #14161c;
+    --nav-active-ic: #ffffff;
     --nav-inactive: rgba(17, 17, 17, 0.55);
     --me: #1f8fff;
     --me-soft: rgba(31, 143, 255, 0.12);
@@ -8553,44 +8571,42 @@ html, body {
 }
 
     
-/* ==================== VIEW: RENT STYLES ==================== */
+/* ==================== VIEW: RENT STYLES (COINSTAT DESIGN SYSTEM) ==================== */
 .rent-hero-card {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
-    border: 1px solid rgba(56, 189, 248, 0.22);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 18px;
     padding: 16px 18px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow);
 }
 .rent-hero-tag {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     font-size: 11px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #38bdf8;
-    background: rgba(56, 189, 248, 0.12);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    padding: 3px 8px;
+    color: var(--me);
+    background: var(--me-soft);
+    border: 1px solid rgba(74, 168, 255, 0.25);
+    padding: 3px 9px;
     border-radius: 999px;
     margin-bottom: 8px;
 }
 .rent-hero-title {
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 800;
     line-height: 1.25;
     margin-bottom: 6px;
-    background: linear-gradient(90deg, #ffffff 30%, #7dd3fc 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text);
 }
 .rent-hero-desc {
     font-size: 12.5px;
-    color: var(--text-muted, #94a3b8);
+    color: var(--muted);
     line-height: 1.45;
 }
 .rent-tabs-wrap {
@@ -8600,28 +8616,29 @@ html, body {
     margin-bottom: 12px;
 }
 .rent-tab-btn {
-    background: #181926;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 10px 4px;
-    font-size: 13.5px;
+    padding: 9px 4px;
+    font-size: 13px;
     font-weight: 700;
-    color: #94a3b8;
+    color: var(--muted);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     white-space: nowrap;
 }
 .rent-tab-btn.active {
-    background: #8b5cf6;
-    border-color: #8b5cf6;
-    color: #ffffff;
-    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+    background: var(--nav-active);
+    border-color: var(--nav-active);
+    color: var(--nav-active-ic);
+    font-weight: 800;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 .rent-tab-badge {
-    background: #a855f7;
+    background: var(--me);
     color: #ffffff;
     font-size: 10px;
     font-weight: 800;
@@ -8631,34 +8648,40 @@ html, body {
     margin-left: 4px;
 }
 .my-rents-banner {
-    background: #151624;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 13px 16px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 12px;
     cursor: pointer;
-    transition: all 0.15s ease;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, background-color 0.15s ease;
 }
 .my-rents-banner:active {
     transform: scale(0.98);
-    background: #1c1e30;
 }
 .my-rents-banner-left {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14.5px;
+    gap: 10px;
+    font-size: 14px;
     font-weight: 750;
-    color: #ffffff;
+    color: var(--text);
 }
 .my-rents-icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--me);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    flex-shrink: 0;
 }
 .my-rents-title {
     display: flex;
@@ -8668,11 +8691,11 @@ html, body {
 .my-rents-banner-right {
     display: flex;
     align-items: center;
-    gap: 4px;
-    color: #94a3b8;
+    gap: 6px;
+    color: var(--muted);
 }
 .my-rents-count-badge {
-    background: #8b5cf6;
+    background: var(--me);
     color: #ffffff;
     font-size: 12px;
     font-weight: 800;
@@ -8688,8 +8711,8 @@ html, body {
     margin-bottom: 10px;
 }
 .rent-filter-card {
-    background: #151624;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 9px 12px;
     display: flex;
@@ -8697,11 +8720,17 @@ html, body {
     justify-content: center;
     position: relative;
     cursor: pointer;
+    min-height: 52px;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+}
+.rent-filter-card:active {
+    border-color: var(--me);
 }
 .rent-filter-card-label {
     font-size: 10px;
     font-weight: 800;
-    color: #94a3b8;
+    color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 3px;
@@ -8717,7 +8746,7 @@ html, body {
     background: transparent;
     border: none;
     outline: none;
-    color: #ffffff;
+    color: var(--text);
     font-size: 13px;
     font-weight: 700;
     padding-right: 18px;
@@ -8726,12 +8755,30 @@ html, body {
     -webkit-appearance: none;
 }
 .rent-filter-select option {
-    background: #151624;
-    color: #ffffff;
+    background: var(--surface);
+    color: var(--text);
+}
+.rent-filter-val {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 14px;
+    display: block;
+    width: 100%;
+}
+.rent-select-arrow {
+    position: absolute;
+    right: 0;
+    pointer-events: none;
+    font-size: 10px;
+    color: var(--muted);
 }
 .rent-sort-card {
-    background: #151624;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 11px 14px;
     display: flex;
@@ -8739,14 +8786,16 @@ html, body {
     margin-bottom: 12px;
     position: relative;
     cursor: pointer;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
 }
 .rent-sort-label {
     font-size: 13px;
-    font-weight: 700;
-    color: #ffffff;
+    font-weight: 750;
+    color: var(--muted);
     white-space: nowrap;
-    margin-right: 6px;
-    display: flex;
+    margin-right: 8px;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
 }
@@ -8755,7 +8804,7 @@ html, body {
     background: transparent;
     border: none;
     outline: none;
-    color: #ffffff;
+    color: var(--text);
     font-size: 13px;
     font-weight: 700;
     padding-right: 20px;
@@ -8764,20 +8813,13 @@ html, body {
     -webkit-appearance: none;
 }
 .rent-sort-select option {
-    background: #151624;
-    color: #ffffff;
-}
-.rent-select-arrow {
-    position: absolute;
-    right: 0;
-    pointer-events: none;
-    font-size: 10px;
-    color: #94a3b8;
+    background: var(--surface);
+    color: var(--text);
 }
 .search-row-rent {
     display: flex;
     gap: 8px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 .search-input-wrap-rent {
     flex: 1;
@@ -8785,36 +8827,47 @@ html, body {
 }
 .search-input-wrap-rent input {
     width: 100%;
-    height: 40px;
-    background: #151624;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 0 14px 0 36px;
+    height: 44px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0 14px 0 38px;
     font-size: 13px;
-    color: #ffffff;
+    color: var(--text);
     outline: none;
     transition: border-color 0.15s ease;
+    box-sizing: border-box;
 }
 .search-input-wrap-rent input:focus {
-    border-color: #8b5cf6;
+    border-color: var(--me);
+}
+.search-input-wrap-rent input::placeholder {
+    color: var(--muted);
 }
 .search-icon-rent {
     position: absolute;
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: #94a3b8;
+    color: var(--muted);
     pointer-events: none;
 }
 #view-rent {
-    padding-bottom: calc(160px + env(safe-area-inset-bottom, 20px)) !important;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
     box-sizing: border-box;
+}
+.rent-bottom-spacer {
+    height: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+    width: 100%;
+    clear: both;
+    display: block;
+    pointer-events: none;
 }
 .nft-grid-rent {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     box-sizing: border-box;
 }
 .rent-load-more-wrap {
@@ -8826,9 +8879,9 @@ html, body {
     width: 100%;
 }
 .rent-load-more-btn {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
-    border: 1px solid rgba(56, 189, 248, 0.35);
-    color: #e0f2fe;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
     font-size: 13.5px;
     font-weight: 750;
     padding: 12px 28px;
@@ -8839,17 +8892,17 @@ html, body {
     justify-content: center;
     gap: 8px;
     transition: all 0.15s ease;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow);
 }
 .rent-load-more-btn:active {
     transform: scale(0.96);
-    background: rgba(56, 189, 248, 0.2);
+    background: var(--surface2);
 }
 .rent-load-spinner {
     width: 18px;
     height: 18px;
-    border: 2px solid rgba(139, 92, 246, 0.3);
-    border-top-color: #8b5cf6;
+    border: 2px solid var(--border);
+    border-top-color: var(--me);
     border-radius: 50%;
     animation: rentSpin 0.7s linear infinite;
     display: inline-block;
@@ -8857,23 +8910,16 @@ html, body {
 @keyframes rentSpin {
     to { transform: rotate(360deg); }
 }
-.rent-bottom-spacer {
-    height: calc(160px + env(safe-area-inset-bottom, 20px)) !important;
-    width: 100%;
-    clear: both;
-    display: block;
-    pointer-events: none;
-}
 .rent-end-message {
     font-size: 12.5px;
-    color: #64748b;
+    color: var(--muted);
     font-weight: 600;
     padding: 12px 0;
     text-align: center;
 }
 .nft-card-rent {
-    background: #141726;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 18px;
     padding: 10px 10px 12px 10px;
     display: flex;
@@ -8881,6 +8927,7 @@ html, body {
     position: relative;
     overflow: hidden;
     transition: transform 0.15s ease, border-color 0.15s ease;
+    box-shadow: var(--shadow);
     box-sizing: border-box;
 }
 .nft-card-rent:active {
@@ -8889,7 +8936,7 @@ html, body {
 .nft-img-wrap-rent {
     width: 100%;
     aspect-ratio: 1;
-    background: #191d2e;
+    background: var(--surface2);
     border-radius: 14px;
     display: flex;
     align-items: center;
@@ -8908,21 +8955,19 @@ html, body {
     position: absolute;
     top: 8px;
     right: 8px;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    color: #ffffff;
+    background: var(--surface2);
+    color: var(--text);
     font-size: 10.5px;
-    font-weight: 750;
+    font-weight: 700;
     padding: 2.5px 8px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--border);
     z-index: 2;
 }
 .nft-title-rent {
     font-size: 13.5px;
     font-weight: 750;
-    color: #ffffff;
+    color: var(--text);
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
@@ -8933,42 +8978,35 @@ html, body {
 .nft-rent-btn-rent {
     width: 100%;
     height: 38px;
-    background: #ffffff;
-    color: #0a0b12;
-    font-size: 13px;
-    font-weight: 800;
-    border: none;
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 12.5px;
+    font-weight: 750;
+    border: 1px solid var(--border);
     border-radius: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.15s ease;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.12);
     margin-top: auto;
     white-space: nowrap;
 }
 .nft-rent-btn-rent:active {
     transform: scale(0.96);
-    background: #e2e8f0;
+    background: var(--border);
 }
-.rent-filter-val {
-    font-size: 13px;
-    font-weight: 700;
-    color: #ffffff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 14px;
-    display: block;
-    width: 100%;
+.nft-rent-btn-rent .rent-price-val {
+    color: var(--gold);
+    font-weight: 800;
+    margin-right: 4px;
 }
 
-/* Username Card Styling (Screenshot 5 Abu Store Match) */
+/* Username Card Styling */
 .username-top-box {
     width: 100%;
     aspect-ratio: 1;
-    background: #191d2e;
+    background: var(--surface2);
     border-radius: 14px;
     display: flex;
     flex-direction: column;
@@ -8984,28 +9022,30 @@ html, body {
     position: absolute;
     top: 8px;
     right: 8px;
-    background: #ffffff;
-    color: #0a0b14;
+    background: var(--surface2);
+    color: var(--text);
     font-size: 10.5px;
-    font-weight: 800;
+    font-weight: 700;
     padding: 2px 7px;
     border-radius: 999px;
+    border: 1px solid var(--border);
     z-index: 2;
 }
 .username-tg-badge {
-    width: 58px;
-    height: 58px;
-    background: #ffffff;
-    border-radius: 18px;
+    width: 54px;
+    height: 54px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
     margin-bottom: 8px;
 }
 .username-tg-plane {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
 }
 .username-pill-sticker {
     color: #ffffff;
@@ -9020,18 +9060,17 @@ html, body {
     margin-bottom: 3px;
     letter-spacing: -0.2px;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 .username-link-sub {
     font-size: 11px;
-    color: #64748b;
+    color: var(--muted);
     font-weight: 600;
     text-align: center;
 }
 .username-card-title {
     font-size: 14px;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--text);
     text-align: left;
     margin: 2px 2px 8px 2px;
     white-space: nowrap;
@@ -9039,7 +9078,7 @@ html, body {
     text-overflow: ellipsis;
 }
 
-/* Bottom Sheet Modals for Collection & Backdrop Selection (Abu Store Screenshot 4 Match) */
+/* Bottom Sheet Modals for Collection & Backdrop Selection */
 .sheet-modal-overlay {
     position: fixed !important;
     top: 0 !important;
@@ -9048,7 +9087,7 @@ html, body {
     bottom: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background: rgba(0, 0, 0, 0.78) !important;
+    background: rgba(0, 0, 0, 0.72) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
     z-index: 999999 !important;
@@ -9065,20 +9104,30 @@ html, body {
 .sheet-modal {
     width: 100%;
     max-width: 480px;
-    background: linear-gradient(180deg, #131728 0%, #0a0b14 100%) !important;
-    border-top: 1px solid rgba(139, 92, 246, 0.45) !important;
-    border-radius: 26px 26px 0 0 !important;
-    padding: 14px 18px calc(24px + env(safe-area-inset-bottom, 20px)) 18px !important;
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-bottom: none !important;
+    border-radius: 24px 24px 0 0 !important;
+    padding: 12px 18px calc(24px + env(safe-area-inset-bottom, 20px)) 18px !important;
     transform: translateY(100%);
     transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
     max-height: 84vh;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    box-shadow: 0 -14px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.25) !important;
+    box-shadow: var(--shadow) !important;
+    position: relative;
 }
 .sheet-modal-overlay.active .sheet-modal {
     transform: translateY(0);
+}
+.sheet-drag-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 999px;
+    margin: 0 auto 12px auto;
+    flex-shrink: 0;
 }
 .sheet-modal-header {
     display: flex;
@@ -9089,24 +9138,23 @@ html, body {
 .sheet-modal-title {
     font-size: 17.5px;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--text);
 }
 .sheet-modal-close {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: none;
-    color: #94a3b8;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
     cursor: pointer;
     transition: background-color 0.15s;
 }
 .sheet-modal-close:active {
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--border);
 }
 .sheet-search-wrap {
     position: relative;
@@ -9116,25 +9164,28 @@ html, body {
 .sheet-search-input {
     width: 100%;
     height: 42px;
-    background: #18192b;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 0 14px 0 38px;
     font-size: 13.5px;
-    color: #ffffff;
+    color: var(--text);
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.15s;
 }
 .sheet-search-input:focus {
-    border-color: #8b5cf6;
+    border-color: var(--me);
+}
+.sheet-search-input::placeholder {
+    color: var(--muted);
 }
 .sheet-search-icon {
     position: absolute;
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: #94a3b8;
+    color: var(--muted);
     pointer-events: none;
 }
 .sheet-list-container {
@@ -9145,54 +9196,57 @@ html, body {
     flex-direction: column;
     gap: 8px;
     padding-right: 2px;
-    margin-bottom: 16px;
+    padding-bottom: 16px;
+    margin-bottom: 0;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
 }
 .sheet-list-container::-webkit-scrollbar {
     display: none !important;
-    width: 0 !important;
-    height: 0 !important;
+}
+.sheet-list-fade {
+    height: 24px;
+    background: linear-gradient(180deg, transparent 0%, var(--surface) 100%);
+    margin-top: -24px;
+    margin-bottom: 8px;
+    pointer-events: none;
+    position: relative;
+    z-index: 2;
 }
 .sheet-item-row {
     display: flex;
     align-items: center;
     padding: 10px 12px;
     border-radius: 14px;
-    background: rgba(22, 25, 42, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s ease;
     user-select: none;
-    backdrop-filter: blur(8px);
 }
-.sheet-item-row:hover,
 .sheet-item-row:active {
     transform: scale(0.99);
-    background: rgba(28, 32, 54, 0.9);
 }
 .sheet-item-row.selected {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.22) 0%, rgba(56, 189, 248, 0.12) 100%) !important;
-    border-color: rgba(139, 92, 246, 0.6) !important;
-    box-shadow: 0 4px 18px rgba(139, 92, 246, 0.18) !important;
+    background: var(--me-soft) !important;
+    border-color: var(--me) !important;
 }
 .sheet-item-check {
     width: 22px;
     height: 22px;
     border-radius: 7px;
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     margin-right: 12px;
-    background: transparent;
-    transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s ease;
 }
 .sheet-item-row.selected .sheet-item-check {
-    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%) !important;
-    border-color: #8b5cf6 !important;
-    box-shadow: 0 0 12px rgba(139, 92, 246, 0.5) !important;
+    background: var(--me) !important;
+    border-color: var(--me) !important;
 }
 .sheet-item-check svg {
     width: 14px;
@@ -9207,22 +9261,23 @@ html, body {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     margin-right: 12px;
-    transition: all 0.15s;
+    transition: all 0.15s ease;
 }
 .sheet-item-row.selected .sheet-item-radio {
-    border-color: #8b5cf6;
+    border-color: var(--me);
 }
 .sheet-item-radio-inner {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #8b5cf6;
+    background: var(--me);
     display: none;
 }
 .sheet-item-row.selected .sheet-item-radio-inner {
@@ -9232,14 +9287,15 @@ html, body {
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #181d30 0%, #101322 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface);
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     flex-shrink: 0;
     margin-right: 12px;
+    color: var(--me);
 }
 .sheet-item-icon img {
     width: 36px;
@@ -9252,7 +9308,7 @@ html, body {
     border-radius: 50%;
     margin-right: 12px;
     flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 .sheet-item-info {
     flex: 1;
@@ -9261,18 +9317,21 @@ html, body {
 .sheet-item-name {
     font-size: 14.5px;
     font-weight: 750;
-    color: #ffffff;
+    color: var(--text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.sheet-item-row.selected .sheet-item-name {
+    color: var(--text);
+}
 .sheet-item-sub {
     font-size: 12px;
-    color: #94a3b8;
+    color: var(--muted);
     margin-top: 2px;
 }
 .sheet-price-blue {
-    color: #38bdf8;
+    color: var(--gold);
     font-weight: 750;
 }
 .sheet-item-badge-col {
@@ -9283,52 +9342,57 @@ html, body {
     margin-left: 10px;
 }
 .sheet-item-count-box {
-    background: rgba(32, 38, 62, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 3px 8px;
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 800;
-    color: #ffffff;
-    letter-spacing: -0.2px;
+    color: var(--text);
 }
 .sheet-item-avail-label {
     font-size: 10.5px;
-    color: #64748b;
+    color: var(--muted);
     font-weight: 600;
     margin-top: 2px;
 }
 .sheet-apply-btn {
     width: 100%;
-    height: 50px;
-    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #4f46e5 100%) !important;
+    height: 48px;
+    background: var(--me) !important;
     border: none;
     border-radius: 16px !important;
-    color: #ffffff;
-    font-size: 15.5px;
-    font-weight: 850;
+    color: #ffffff !important;
+    font-size: 15px;
+    font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 6px 24px rgba(139, 92, 246, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 4px 14px var(--me-soft) !important;
     transition: all 0.15s ease;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    letter-spacing: -0.2px;
+    position: relative;
+    z-index: 3;
 }
 .sheet-apply-btn:active {
     transform: scale(0.98);
-    filter: brightness(1.1);
+    opacity: 0.92;
 }
 .skeleton-card-rent {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 18px;
     padding: 12px;
-    height: 270px;
-    animation: pulse 1.5s infinite ease-in-out;
+    height: 250px;
+    animation: rentPulse 1.5s infinite ease-in-out;
 }
+@keyframes rentPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.25; }
+}
+
 /* Modal rent */
 body.rent-modal-active .bottom-dock-nav,
 body.has-modal-open .bottom-dock-nav,
@@ -9345,7 +9409,7 @@ body.modal-open .bottom-dock-nav {
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    background: rgba(0, 0, 0, 0.78) !important;
+    background: rgba(0, 0, 0, 0.72) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
     z-index: 100000 !important;
@@ -9362,27 +9426,28 @@ body.modal-open .bottom-dock-nav {
 .modal-sheet-rent {
     width: 100%;
     max-width: 480px;
-    background: #111422;
-    border: 1px solid rgba(56, 189, 248, 0.35);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-bottom: none;
-    border-radius: 28px 28px 0 0;
-    padding: 20px 18px calc(34px + env(safe-area-inset-bottom, 16px)) 18px;
+    border-radius: 24px 24px 0 0;
+    padding: 14px 18px calc(34px + env(safe-area-inset-bottom, 16px)) 18px;
     transform: translateY(100%);
     transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
     max-height: 88vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
+    box-shadow: var(--shadow);
 }
 .modal-overlay-rent.active .modal-sheet-rent {
     transform: translateY(0);
 }
 .modal-drag-bar-rent {
-    width: 44px;
+    width: 36px;
     height: 4px;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--border);
     border-radius: 999px;
-    margin: 0 auto 16px auto;
+    margin: 0 auto 14px auto;
 }
 .modal-header-row-rent {
     display: flex;
@@ -9393,14 +9458,15 @@ body.modal-open .bottom-dock-nav {
 .modal-title-rent {
     font-size: 17px;
     font-weight: 800;
+    color: var(--text);
 }
 .modal-close-btn-rent {
-    background: rgba(255, 255, 255, 0.08);
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 999px;
-    color: #ffffff;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--muted);
     font-size: 18px;
     display: flex;
     align-items: center;
@@ -9411,8 +9477,8 @@ body.modal-open .bottom-dock-nav {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 10px 12px;
     margin-bottom: 16px;
@@ -9421,22 +9487,23 @@ body.modal-open .bottom-dock-nav {
     width: 50px;
     height: 50px;
     border-radius: 10px;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--surface);
     object-fit: contain;
 }
 .modal-item-name-rent {
     font-size: 15px;
     font-weight: 800;
+    color: var(--text);
 }
 .modal-item-daily-rent {
     font-size: 12.5px;
-    color: #38bdf8;
-    font-weight: 700;
+    color: var(--gold);
+    font-weight: 750;
 }
 .modal-field-title-rent {
     font-size: 13px;
     font-weight: 700;
-    color: var(--text-muted, #94a3b8);
+    color: var(--muted);
     margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
@@ -9445,8 +9512,8 @@ body.modal-open .bottom-dock-nav {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 6px 10px;
     margin-bottom: 10px;
@@ -9455,9 +9522,9 @@ body.modal-open .bottom-dock-nav {
     width: 38px;
     height: 38px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    border: none;
-    color: #ffffff;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
     font-size: 20px;
     font-weight: 700;
     display: flex;
@@ -9467,19 +9534,19 @@ body.modal-open .bottom-dock-nav {
     transition: all 0.1s ease;
 }
 .step-btn-rent:active {
-    transform: scale(0.9);
-    background: rgba(56, 189, 248, 0.3);
+    transform: scale(0.92);
+    background: var(--border);
 }
 .step-display-rent {
     flex: 1;
     text-align: center;
     font-size: 18px;
     font-weight: 850;
-    color: #ffffff;
+    color: var(--text);
 }
 .range-slider-rent {
     width: 100%;
-    accent-color: #38bdf8;
+    accent-color: var(--me);
     height: 6px;
     margin-bottom: 14px;
 }
@@ -9490,64 +9557,70 @@ body.modal-open .bottom-dock-nav {
 }
 .quick-pill-rent {
     flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 6px 0;
     font-size: 11.5px;
     font-weight: 700;
-    color: var(--text-muted, #94a3b8);
+    color: var(--muted);
     text-align: center;
     cursor: pointer;
+    transition: all 0.12s ease;
 }
 .quick-pill-rent:active {
-    background: rgba(56, 189, 248, 0.2);
-    color: #38bdf8;
+    background: var(--me-soft);
+    color: var(--me);
+    border-color: var(--me);
 }
 .modal-input-box-rent {
     width: 100%;
     height: 44px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 0 14px;
     font-size: 14px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text);
     outline: none;
     margin-bottom: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
 }
 .modal-input-box-rent:focus {
-    border-color: rgba(56, 189, 248, 0.5);
-    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--me);
 }
-/* Network Fee Badge Rent (Abu Store replica) */
+.modal-input-box-rent::placeholder {
+    color: var(--muted);
+}
 .network-fee-badge-rent {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
-    border: 1px dashed rgba(168, 85, 247, 0.45);
+    background: var(--surface2);
+    border: 1px dashed var(--border);
     border-radius: 12px;
     padding: 10px 14px;
     font-size: 13px;
     font-weight: 650;
-    color: #f1f5f9;
+    color: var(--text);
     margin-bottom: 14px;
 }
 .network-fee-badge-rent .fee-badge-left-rent {
     display: flex;
     align-items: center;
     gap: 7px;
+    color: var(--muted);
 }
 .network-fee-badge-rent .fee-badge-val-rent {
-    color: #c084fc;
+    color: var(--gold);
     font-weight: 800;
     font-size: 13.5px;
 }
 .total-calc-card-rent {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 12px 14px;
     margin-bottom: 16px;
@@ -9556,21 +9629,22 @@ body.modal-open .bottom-dock-nav {
     display: flex;
     justify-content: space-between;
     font-size: 12.5px;
-    color: var(--text-muted, #94a3b8);
+    color: var(--muted);
     margin-bottom: 6px;
 }
 .calc-row-rent.total {
     font-size: 16px;
     font-weight: 850;
-    color: #ffffff;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    border-top: 1px solid var(--border);
     padding-top: 8px;
     margin-top: 8px;
     margin-bottom: 0;
 }
 .calc-row-rent.total .total-amount {
-    color: #38bdf8;
+    color: var(--gold);
     font-size: 17px;
+    font-weight: 800;
 }
 .balance-check-status-rent {
     display: flex;
@@ -9580,34 +9654,35 @@ body.modal-open .bottom-dock-nav {
     padding: 8px 12px;
     border-radius: 10px;
     margin-bottom: 14px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
 }
 .balance-check-status-rent.insufficient {
     background: rgba(239, 68, 68, 0.1);
     border-color: rgba(239, 68, 68, 0.3);
-    color: #fca5a5;
+    color: #ef4444;
 }
 .balance-check-status-rent.sufficient {
     background: rgba(34, 197, 94, 0.1);
     border-color: rgba(34, 197, 94, 0.3);
-    color: #86efac;
+    color: #22c55e;
 }
 .topup-link-btn-rent {
-    background: #2563eb;
+    background: var(--me);
     color: #ffffff;
     border: none;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 8px;
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 750;
     cursor: pointer;
 }
 .modal-confirm-btn-rent {
     width: 100%;
-    min-height: 52px;
+    min-height: 50px;
     height: auto;
-    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    background: var(--me) !important;
     border: none;
     border-radius: 14px;
     color: #ffffff;
@@ -9618,7 +9693,7 @@ body.modal-open .bottom-dock-nav {
     justify-content: center;
     gap: 8px;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+    box-shadow: 0 4px 14px var(--me-soft);
     transition: all 0.15s ease;
     padding: 14px 16px;
     box-sizing: border-box;
@@ -9626,7 +9701,8 @@ body.modal-open .bottom-dock-nav {
     margin-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
 }
 .modal-confirm-btn-rent:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
+    opacity: 0.92;
 }
 .modal-confirm-btn-rent:disabled {
     opacity: 0.5;
@@ -9635,63 +9711,6 @@ body.modal-open .bottom-dock-nav {
 }
 
 /* ==================== MY RENTS SECTION & CONNECT STYLES ==================== */
-.my-rents-banner {
-    background: linear-gradient(135deg, rgba(30, 27, 75, 0.85) 0%, rgba(49, 46, 129, 0.6) 100%);
-    border: 1px solid rgba(168, 85, 247, 0.35);
-    border-radius: 16px;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 18px rgba(126, 34, 206, 0.18);
-}
-.my-rents-banner:active {
-    transform: scale(0.98);
-    border-color: rgba(168, 85, 247, 0.65);
-}
-.my-rents-banner-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.my-rents-icon-box {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: rgba(168, 85, 247, 0.22);
-    border: 1px solid rgba(168, 85, 247, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-}
-.my-rents-title {
-    font-size: 15px;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: -0.2px;
-}
-.my-rents-banner-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #94a3b8;
-}
-.my-rents-count-badge {
-    background: #8b5cf6;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 800;
-    padding: 2px 8px;
-    border-radius: 999px;
-    min-width: 20px;
-    text-align: center;
-}
-
-/* My Rents View */
 .my-rents-view {
     animation: fadeInRentView 0.2s ease-out;
 }
@@ -9717,36 +9736,36 @@ body.modal-open .bottom-dock-nav {
     gap: 8px;
     font-size: 18px;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--text);
 }
 .refresh-pill-btn {
     width: 38px;
     height: 38px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #94a3b8;
+    color: var(--muted);
     transition: all 0.15s ease;
 }
 .refresh-pill-btn:active {
     transform: scale(0.92) rotate(180deg);
-    color: #38bdf8;
+    color: var(--me);
 }
 .my-rent-card {
-    background: #141624;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 18px;
     padding: 14px;
     margin-bottom: 12px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    border-left: 3px solid #8b5cf6;
+    box-shadow: var(--shadow);
+    border-left: 3px solid var(--me);
 }
 .my-rent-card-top {
     display: flex;
@@ -9757,11 +9776,11 @@ body.modal-open .bottom-dock-nav {
     width: 54px;
     height: 54px;
     border-radius: 14px;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--surface2);
     object-fit: contain;
     padding: 4px;
     flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border);
 }
 .my-rent-card-info {
     flex: 1;
@@ -9777,7 +9796,7 @@ body.modal-open .bottom-dock-nav {
 .my-rent-card-name {
     font-size: 15px;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -9788,15 +9807,15 @@ body.modal-open .bottom-dock-nav {
     gap: 4px;
     font-size: 11px;
     font-weight: 750;
-    color: #4ade80;
-    background: rgba(34, 197, 94, 0.15);
-    border: 1px solid rgba(34, 197, 94, 0.35);
+    color: #22c55e;
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.28);
     padding: 2px 8px;
     border-radius: 999px;
 }
 .my-rent-card-meta {
     font-size: 12.5px;
-    color: #94a3b8;
+    color: var(--muted);
     font-weight: 600;
 }
 .my-rent-target-user-pill {
@@ -9804,9 +9823,9 @@ body.modal-open .bottom-dock-nav {
     align-items: center;
     gap: 6px;
     font-size: 11.5px;
-    color: #38bdf8;
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.28);
+    color: var(--me);
+    background: var(--me-soft);
+    border: 1px solid rgba(74, 168, 255, 0.25);
     padding: 3px 8px;
     border-radius: 8px;
     margin-top: 4px;
@@ -9815,10 +9834,10 @@ body.modal-open .bottom-dock-nav {
 .my-rent-bind-btn {
     width: 100%;
     height: 42px;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(56, 189, 248, 0.15) 100%);
-    border: 1px solid rgba(139, 92, 246, 0.45);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 12px;
-    color: #e0e7ff;
+    color: var(--text);
     font-size: 14px;
     font-weight: 750;
     display: flex;
@@ -9830,13 +9849,13 @@ body.modal-open .bottom-dock-nav {
 }
 .my-rent-bind-btn:active {
     transform: scale(0.98);
-    background: rgba(139, 92, 246, 0.3);
+    background: var(--border);
 }
 
 /* Connect Modal Styles */
 .video-guide-banner {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 10px 14px;
     display: flex;
@@ -9844,10 +9863,11 @@ body.modal-open .bottom-dock-nav {
     justify-content: space-between;
     margin-bottom: 14px;
     cursor: pointer;
+    color: var(--text);
 }
 .connect-step-card {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 12px 14px;
     margin-bottom: 10px;
@@ -9864,7 +9884,7 @@ body.modal-open .bottom-dock-nav {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: #8b5cf6;
+    background: var(--me);
     color: #ffffff;
     font-size: 12px;
     font-weight: 800;
@@ -9872,17 +9892,16 @@ body.modal-open .bottom-dock-nav {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
 }
 .step-title-text {
     font-size: 13.5px;
     font-weight: 750;
-    color: #ffffff;
+    color: var(--text);
     line-height: 1.35;
 }
 .step-desc-text {
     font-size: 12px;
-    color: #94a3b8;
+    color: var(--muted);
     line-height: 1.45;
     padding-left: 34px;
 }
@@ -9896,9 +9915,9 @@ body.modal-open .bottom-dock-nav {
     gap: 6px;
     padding: 8px 14px;
     border-radius: 10px;
-    background: rgba(56, 189, 248, 0.12);
-    border: 1px solid rgba(56, 189, 248, 0.35);
-    color: #38bdf8;
+    background: var(--me-soft);
+    border: 1px solid rgba(74, 168, 255, 0.28);
+    color: var(--me);
     font-size: 12px;
     font-weight: 750;
     text-decoration: none;
@@ -9913,21 +9932,21 @@ body.modal-open .bottom-dock-nav {
 .tc-input {
     flex: 1;
     height: 40px;
-    background: rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 10px;
     padding: 0 12px;
-    color: #ffffff;
+    color: var(--text);
     font-size: 12px;
     outline: none;
 }
 .tc-input:focus {
-    border-color: #8b5cf6;
+    border-color: var(--me);
 }
 .tc-submit-btn {
     height: 40px;
     padding: 0 16px;
-    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    background: var(--me);
     border: none;
     border-radius: 10px;
     color: #ffffff;
@@ -9935,35 +9954,37 @@ body.modal-open .bottom-dock-nav {
     font-weight: 800;
     cursor: pointer;
     white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
     transition: all 0.15s ease;
 }
 .tc-submit-btn:active {
     transform: scale(0.96);
+    opacity: 0.92;
 }
 .my-rents-empty {
     text-align: center;
     padding: 40px 20px;
-    background: #141624;
-    border: 1px dashed rgba(255, 255, 255, 0.12);
+    background: var(--surface);
+    border: 1px dashed var(--border);
     border-radius: 18px;
 }
 .my-rents-empty-icon {
     font-size: 42px;
     margin-bottom: 12px;
+    color: var(--muted);
 }
 .my-rents-empty-title {
     font-size: 16px;
     font-weight: 750;
-    color: #ffffff;
+    color: var(--text);
     margin-bottom: 6px;
 }
 .my-rents-empty-desc {
     font-size: 12.5px;
-    color: #94a3b8;
+    color: var(--muted);
     margin-bottom: 18px;
     line-height: 1.45;
 }
+
 
 /* ==========================================================================
    COINSTAT UZ UNIFIED THEME-ADAPTIVE LUXURY SYSTEM
@@ -11716,7 +11737,14 @@ body {
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
             </div>
-            <div class="stars-top-title">🖼️ NFT Ijara</div>
+            <div class="stars-top-title" style="display: flex; align-items: center; gap: 6px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="4" ry="4"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                <span>NFT Ijara</span>
+            </div>
             <div class="balance-badge-pill" onclick="navigateTo('topup')">
                 <span id="balance">0</span> UZS
             </div>
@@ -11725,7 +11753,12 @@ body {
 
         <!-- Hero Card -->
         <div class="rent-hero-card">
-            <div class="rent-hero-tag">⚡ Marketapp Live Katalog</div>
+            <div class="rent-hero-tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                <span>Marketapp Live Katalog</span>
+            </div>
             <div class="rent-hero-title">Telegram NFT Ijarasi</div>
             <div class="rent-hero-desc">
                 Telegram sovg'alari, chiroyli username va +888 raqamlarni CoinStatUZ balansingiz orqali istalgan muddatga ijaraga oling!
@@ -11832,7 +11865,20 @@ body {
             <!-- Sort Card -->
             <div class="rent-sort-card" id="rentSortCard">
                 <div class="rent-filter-select-wrap">
-                    <div class="rent-sort-label">🎛 Saralash:</div>
+                    <div class="rent-sort-label">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="4" y1="21" x2="4" y2="14"></line>
+                            <line x1="4" y1="10" x2="4" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12" y2="3"></line>
+                            <line x1="20" y1="21" x2="20" y2="16"></line>
+                            <line x1="20" y1="12" x2="20" y2="3"></line>
+                            <line x1="1" y1="14" x2="7" y2="14"></line>
+                            <line x1="9" y1="8" x2="15" y2="8"></line>
+                            <line x1="17" y1="16" x2="23" y2="16"></line>
+                        </svg>
+                        <span>Saralash:</span>
+                    </div>
                     <select id="rentSortSelect" class="rent-sort-select" onchange="handleRentSortSelect(this.value)">
                         <option value="recent">Yaqinda yangilanganlar</option>
                         <option value="price_asc">Eng arzon (narx o'sishi)</option>
@@ -11855,7 +11901,13 @@ body {
             <!-- Infinite Scroll / Load More Trigger -->
             <div class="rent-load-more-wrap" id="rentLoadMoreWrap" style="display: none;">
                 <button class="rent-load-more-btn" id="rentLoadMoreBtn" onclick="loadMoreRentItems()">
-                    <span id="rentLoadMoreBtnText">⚡ Ko'proq NFT yuklash</span>
+                    <span id="rentLoadMoreBtnText" style="display: inline-flex; align-items: center; gap: 6px;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="7 13 12 18 17 13"></polyline>
+                            <polyline points="7 6 12 11 17 6"></polyline>
+                        </svg>
+                        <span>Ko'proq NFT yuklash</span>
+                    </span>
                 </button>
             </div>
 
@@ -12735,7 +12787,12 @@ body {
             <div class="modal-drag-bar-rent"></div>
             <div class="modal-header-row-rent">
                 <div class="modal-title-rent">NFT Ijarasini rasmiylashtirish</div>
-                <button class="modal-close-btn-rent" onclick="closeRentModal()">&times;</button>
+                <button class="modal-close-btn-rent" onclick="closeRentModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
 
             <!-- Preview Card -->
@@ -12824,7 +12881,12 @@ body {
             <div class="modal-drag-bar-rent"></div>
             <div class="modal-header-row-rent">
                 <div class="modal-title-rent">Telegram akkauntga ulash</div>
-                <button class="modal-close-btn-rent" onclick="closeConnectModalApp()">&times;</button>
+                <button class="modal-close-btn-rent" onclick="closeConnectModalApp()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
 
             <!-- Preview Card -->
@@ -12839,7 +12901,7 @@ body {
             <!-- Target Account Banner -->
             <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
                 <div style="font-size: 12px; color: #e2e8f0;">
-                    <span>🎯 Profilga o'rnatish:</span> <b id="connectModalAppTargetUser" style="color: #38bdf8;">@username</b>
+                    <span style="display:inline-flex; align-items:center; gap:5px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profilga o'rnatish:</span> <b id="connectModalAppTargetUser" style="color: #38bdf8;">@username</b>
                 </div>
                 <span style="font-size: 11px; background: rgba(56, 189, 248, 0.2); padding: 2px 8px; border-radius: 6px; color: #7dd3fc; font-weight: 750;">Telegram</span>
             </div>
@@ -12847,7 +12909,7 @@ body {
             <!-- Video Guide Banner -->
             <div class="video-guide-banner" onclick="showRentVideoGuideApp()">
                 <div style="display:flex; align-items:center; gap:8px;">
-                    <span style="font-size:15px;">▶️</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     <span style="font-weight:750; font-size:13px; color:#ffffff;">Video-qo'llanma</span>
                 </div>
                 <span style="color:#94a3b8; font-size:14px; font-weight:700;">&gt;</span>
@@ -18346,7 +18408,14 @@ function renderRentCollectionModalList(filterText = '') {
                         <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                 </div>
-                <div class="sheet-item-icon" style="background: rgba(139, 92, 246, 0.18); font-size: 20px;">🌟</div>
+                <div class="sheet-item-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                    </svg>
+                </div>
                 <div class="sheet-item-info">
                     <div class="sheet-item-name">Barchasi</div>
                     <div class="sheet-item-sub">Barcha mavjud kolleksiyalar</div>
@@ -18483,7 +18552,7 @@ function renderRentBackdropModalList(filterText = '') {
                 <div class="sheet-item-radio"></div>
                 <div class="sheet-color-circle" style="background: ${BACKDROP_COLORS['all']};"></div>
                 <div class="sheet-item-info">
-                    <div class="sheet-item-name" style="${isSel ? 'color: #c084fc; font-weight: 700;' : ''}">Barchasi</div>
+                    <div class="sheet-item-name" style="${isSel ? 'font-weight: 800;' : ''}">Barchasi</div>
                 </div>
             </div>
         `;
@@ -18499,7 +18568,7 @@ function renderRentBackdropModalList(filterText = '') {
                 <div class="sheet-item-radio"></div>
                 <div class="sheet-color-circle" style="background: ${colorBg};"></div>
                 <div class="sheet-item-info">
-                    <div class="sheet-item-name" style="${isSel ? 'color: #c084fc; font-weight: 700;' : ''}">${escapeRentHtml(bd)}</div>
+                    <div class="sheet-item-name" style="${isSel ? 'font-weight: 800;' : ''}">${escapeRentHtml(bd)}</div>
                 </div>
             </div>
         `;
