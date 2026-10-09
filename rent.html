@@ -1782,14 +1782,6 @@ body.modal-open .bottom-dock-nav {
             </div>
             <input type="text" class="modal-input-box" id="modalTargetUsername" placeholder="Masalan: durov yoki @shaxsiy_profil">
 
-            <!-- Network Fee Notice (Abu Store replica) -->
-            <div class="network-fee-badge">
-                <div class="fee-badge-left">
-                    <span style="font-size: 15px;">ℹ️</span>
-                    <span>Tarmoq komissiyasi:</span>
-                </div>
-                <div class="fee-badge-val">+2 000 so'm</div>
-            </div>
 
             <!-- Cost Calculation -->
             <div class="total-calc-card">
@@ -1803,7 +1795,7 @@ body.modal-open .bottom-dock-nav {
                 </div>
                 <div class="calc-row">
                     <span>Tarmoq komissiyasi:</span>
-                    <span id="calcNetworkFee" style="color: #c084fc; font-weight: 750;">+2 000 so'm</span>
+                    <span id="calcNetworkFee" style="color: var(--me); font-weight: 750;">+2 000 so'm</span>
                 </div>
                 <div class="calc-row total">
                     <span>Jami to'lov:</span>
@@ -1821,6 +1813,9 @@ body.modal-open .bottom-dock-nav {
             </div>
 
             <!-- Confirm Button -->
+            <!-- Inline Error Notice Box -->
+            <div id="modalRentErrorBox" class="rent-modal-error-box" style="display:none;"></div>
+
             <button class="modal-confirm-btn" id="confirmRentBtn" onclick="submitRentOrder()">
                 <span>🚀 Ijaraga olish</span>
             </button>
@@ -3079,6 +3074,8 @@ body.modal-open .bottom-dock-nav {
             const daily = document.getElementById('modalItemDaily');
             const slider = document.getElementById('modalDaysSlider');
             const targetInput = document.getElementById('modalTargetUsername');
+            const errBox = document.getElementById('modalRentErrorBox');
+            if (errBox) errBox.style.display = 'none';
 
             const imgUrl = selectedItem.webp_url || (selectedItem.media_key ? `https://nft.fragment.com/gift/${selectedItem.media_key}.webp` : './images/gift.webp');
             if (img) img.src = imgUrl;
@@ -3169,8 +3166,8 @@ body.modal-open .bottom-dock-nav {
                 statusBox.className = 'balance-check-status insufficient';
                 statusBox.innerHTML = `
                     <div>
-                        <span>Yetishmayapti: </span>
-                        <strong>${(total - userBalance).toLocaleString('uz-UZ')}</strong> UZS
+                        <span>Hisobingiz: </span>
+                        <strong style="color: #ef4444;">${userBalance.toLocaleString('uz-UZ')} UZS</strong> <span style="color: #ef4444; font-weight: 750;">(Yetarli emas)</span>
                     </div>
                     <button class="topup-link-btn" onclick="window.location.href='index.html#topup'">+ To'ldirish</button>
                 `;
@@ -3181,7 +3178,7 @@ body.modal-open .bottom-dock-nav {
                 statusBox.innerHTML = `
                     <div>
                         <span>Hisobingiz: </span>
-                        <strong>${userBalance.toLocaleString('uz-UZ')}</strong> UZS (Yetarli ✅)
+                        <strong>${userBalance.toLocaleString('uz-UZ')}</strong> UZS <span style="color: #10b981; font-weight: 750;">(Yetarli ✅)</span>
                     </div>
                 `;
                 confirmBtn.disabled = false;
@@ -3192,12 +3189,20 @@ body.modal-open .bottom-dock-nav {
         async function submitRentOrder() {
             if (!selectedItem) return;
 
+            const errBox = document.getElementById('modalRentErrorBox');
+            if (errBox) errBox.style.display = 'none';
+
             const targetInput = document.getElementById('modalTargetUsername');
             const targetUsername = (targetInput?.value || '').replace(/^@/, '').trim();
 
             if (!targetUsername) {
-                showToast("NFT ulanadigan Telegram usernameni kiriting!", "⚠️");
-                targetInput.focus();
+                if (errBox) {
+                    errBox.textContent = "NFT ulanadigan Telegram usernameni kiriting!";
+                    errBox.style.display = 'block';
+                } else {
+                    showToast("NFT ulanadigan Telegram usernameni kiriting!", "⚠️");
+                }
+                targetInput?.focus();
                 return;
             }
 
@@ -3206,13 +3211,18 @@ body.modal-open .bottom-dock-nav {
             const total = (rentalDays * price) + fee;
 
             if (userBalance < total) {
-                showToast("Balansingiz yetarli emas! Iltimos, hisobni to'ldiring.", "❌");
+                if (errBox) {
+                    errBox.textContent = "Balansingizda yetarli mablag' yo'q";
+                    errBox.style.display = 'block';
+                } else {
+                    showToast("Balansingizda yetarli mablag' yo'q", "❌");
+                }
                 return;
             }
 
             const confirmBtn = document.getElementById('confirmRentBtn');
             confirmBtn.disabled = true;
-            confirmBtn.innerHTML = `<span>⏳ Rasmiylashtirilmoqda...</span>`;
+            confirmBtn.innerHTML = `<span>⏳ Tekshirilmoqda...</span>`;
 
             const imgUrl = selectedItem.webp_url || (selectedItem.media_key ? `https://nft.fragment.com/gift/${selectedItem.media_key}.webp` : '');
 
@@ -3251,17 +3261,40 @@ body.modal-open .bottom-dock-nav {
 
                     closeRentModal();
                     loadUserBalance();
-                    showToast("🎉 NFT ijara buyurtmangiz qabul qilindi!", "✅");
+                    showToast("🎉 " + (data.message || "NFT ijara buyurtmangiz muvaffaqiyatli qabul qilindi!"), "✅");
 
                     setTimeout(() => {
                         openMyRentsView();
                     }, 800);
                 } else {
-                    showToast(data.error || "Xatolik yuz berdi. Qayta urinib ko'ring.", "❌");
+                    const errorMsg = data?.error || "Xatolik yuz berdi. Hisobingizdan pul yechilmadi, keyinroq qayta urinib ko'ring.";
+                    if (errBox) {
+                        errBox.textContent = errorMsg;
+                        errBox.style.display = 'block';
+                    } else {
+                        showToast(errorMsg, "❌");
+                    }
+                    if (tg?.HapticFeedback) {
+                        try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {}
+                    }
                     confirmBtn.disabled = false;
                     updateModalCalculations();
                 }
             } catch (err) {
+                const netMsg = "Xatolik yuz berdi. Hisobingizdan pul yechilmadi, keyinroq qayta urinib ko'ring.";
+                if (errBox) {
+                    errBox.textContent = netMsg;
+                    errBox.style.display = 'block';
+                } else {
+                    showToast(netMsg, "❌");
+                }
+                if (tg?.HapticFeedback) {
+                    try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {}
+                }
+                confirmBtn.disabled = false;
+                updateModalCalculations();
+            }
+        } catch (err) {
                 showToast("Tarmoq xatosi. Iltimos qayta urinib ko'ring.", "❌");
                 confirmBtn.disabled = false;
                 updateModalCalculations();

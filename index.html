@@ -9709,6 +9709,23 @@ body.modal-open .bottom-dock-nav {
     cursor: not-allowed;
     box-shadow: none;
 }
+.rent-modal-error-box {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    padding: 10px 14px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #ef4444;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    box-sizing: border-box;
+    word-break: break-word;
+    animation: fadeInRentView 0.2s ease-out;
+}
 
 /* ==================== MY RENTS SECTION & CONNECT STYLES ==================== */
 .my-rents-view {
@@ -12830,14 +12847,7 @@ body {
             </div>
             <input type="text" class="modal-input-box-rent" id="modalRentTargetUsername" placeholder="Masalan: durov yoki @shaxsiy_profil">
 
-            <!-- Network Fee Notice (Abu Store replica) -->
-            <div class="network-fee-badge-rent">
-                <div class="fee-badge-left-rent">
-                    <span style="font-size: 15px;">ℹ️</span>
-                    <span>Tarmoq komissiyasi:</span>
-                </div>
-                <div class="fee-badge-val-rent">+2 000 so'm</div>
-            </div>
+            
 
             <!-- Cost Calculation -->
             <div class="total-calc-card-rent">
@@ -12851,7 +12861,7 @@ body {
                 </div>
                 <div class="calc-row-rent">
                     <span>Tarmoq komissiyasi:</span>
-                    <span id="calcRentNetworkFee" style="color: #c084fc; font-weight: 750;">+2 000 so'm</span>
+                    <span id="calcRentNetworkFee" style="color: var(--me); font-weight: 750;">+2 000 so'm</span>
                 </div>
                 <div class="calc-row-rent total">
                     <span>Jami to'lov:</span>
@@ -12869,6 +12879,9 @@ body {
             </div>
 
             <!-- Confirm Button -->
+            <!-- Inline Error Notice Box -->
+            <div id="modalRentErrorBoxApp" class="rent-modal-error-box" style="display:none;"></div>
+
             <button class="modal-confirm-btn-rent" id="confirmRentBtnApp" onclick="submitRentOrderFromApp()">
                 <span>🚀 Ijaraga olish</span>
             </button>
@@ -19082,6 +19095,8 @@ function openRentModal(index) {
     const daily = document.getElementById('modalRentItemDaily');
     const slider = document.getElementById('modalRentDaysSlider');
     const targetInput = document.getElementById('modalRentTargetUsername');
+    const errBox = document.getElementById('modalRentErrorBoxApp');
+    if (errBox) errBox.style.display = 'none';
 
     const imgUrl = rentSelectedItem.webp_url || (rentSelectedItem.media_key ? `https://nft.fragment.com/gift/${rentSelectedItem.media_key}.webp` : './images/gift.webp');
     if (img) img.src = imgUrl;
@@ -19172,8 +19187,8 @@ function updateRentModalCalculations() {
         statusBox.className = 'balance-check-status-rent insufficient';
         statusBox.innerHTML = `
             <div>
-                <span>Yetishmayapti: </span>
-                <strong>${(total - curBal).toLocaleString('uz-UZ')}</strong> UZS
+                <span>Hisobingiz: </span>
+                <strong style="color: #ef4444;">${curBal.toLocaleString('uz-UZ')} UZS</strong> <span style="color: #ef4444; font-weight: 750;">(Yetarli emas)</span>
             </div>
             <button class="topup-link-btn-rent" onclick="navigateTo('topup')">+ To'ldirish</button>
         `;
@@ -19184,7 +19199,7 @@ function updateRentModalCalculations() {
         statusBox.innerHTML = `
             <div>
                 <span>Hisobingiz: </span>
-                <strong>${curBal.toLocaleString('uz-UZ')}</strong> UZS (Yetarli ✅)
+                <strong>${curBal.toLocaleString('uz-UZ')}</strong> UZS <span style="color: #10b981; font-weight: 750;">(Yetarli ✅)</span>
             </div>
         `;
         confirmBtn.disabled = false;
@@ -19195,16 +19210,20 @@ function updateRentModalCalculations() {
 async function submitRentOrderFromApp() {
     if (!rentSelectedItem) return;
 
+    const errBox = document.getElementById('modalRentErrorBoxApp');
+    if (errBox) errBox.style.display = 'none';
+
     const targetInput = document.getElementById('modalRentTargetUsername');
     const targetUsername = (targetInput?.value || '').replace(/^@/, '').trim();
 
     if (!targetUsername) {
-        if (typeof showTopupToast === 'function') {
+        if (errBox) {
+            errBox.textContent = "NFT ulanadigan Telegram usernameni kiriting!";
+            errBox.style.display = 'block';
+        } else if (typeof showTopupToast === 'function') {
             showTopupToast("NFT ulanadigan Telegram usernameni kiriting!");
-        } else {
-            alert("NFT ulanadigan Telegram usernameni kiriting!");
         }
-        targetInput.focus();
+        targetInput?.focus();
         return;
     }
 
@@ -19214,15 +19233,18 @@ async function submitRentOrderFromApp() {
     const curBal = (typeof userBalance === 'number' && userBalance > 0) ? userBalance : (typeof getUserBalanceVal === 'function' ? getUserBalanceVal() : (Number(document.getElementById('balance')?.textContent?.replace(/[^0-9]/g, '')) || 0));
 
     if (curBal < total) {
-        if (typeof showTopupToast === 'function') {
-            showTopupToast("Balansingiz yetarli emas! Hisobni to'ldiring.");
+        if (errBox) {
+            errBox.textContent = "Balansingizda yetarli mablag' yo'q";
+            errBox.style.display = 'block';
+        } else if (typeof showTopupToast === 'function') {
+            showTopupToast("Balansingizda yetarli mablag' yo'q");
         }
         return;
     }
 
     const confirmBtn = document.getElementById('confirmRentBtnApp');
     confirmBtn.disabled = true;
-    confirmBtn.innerHTML = `<span>⏳ Rasmiylashtirilmoqda...</span>`;
+    confirmBtn.innerHTML = `<span>⏳ Tekshirilmoqda...</span>`;
 
     const imgUrl = rentSelectedItem.webp_url || (rentSelectedItem.media_key ? `https://nft.fragment.com/gift/${rentSelectedItem.media_key}.webp` : '');
     const uid = typeof getUserId === 'function' ? getUserId() : (window.Telegram?.WebApp?.initDataUnsafe?.user?.id || 8202423244);
@@ -19264,22 +19286,41 @@ async function submitRentOrderFromApp() {
             closeRentModal();
             loadUserBalance();
             if (typeof showTopupToast === 'function') {
-                showTopupToast("🎉 NFT ijara buyurtmangiz muvaffaqiyatli qabul qilindi!");
+                showTopupToast("🎉 " + (data.message || "NFT ijara buyurtmangiz muvaffaqiyatli qabul qilindi!"));
             }
 
             setTimeout(() => {
                 openMyRentsViewApp();
             }, 800);
         } else {
-            if (typeof showTopupToast === 'function') {
-                showTopupToast(data.error || "Xatolik yuz berdi. Qayta urinib ko'ring.");
-            } else {
-                alert(data.error || "Xatolik yuz berdi. Qayta urinib ko'ring.");
+            const errorMsg = data?.error || "Xatolik yuz berdi. Hisobingizdan pul yechilmadi, keyinroq qayta urinib ko'ring.";
+            if (errBox) {
+                errBox.textContent = errorMsg;
+                errBox.style.display = 'block';
+            } else if (typeof showTopupToast === 'function') {
+                showTopupToast(errorMsg);
+            }
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('error'); } catch(e) {}
             }
             confirmBtn.disabled = false;
             updateRentModalCalculations();
         }
     } catch (err) {
+        const netMsg = "Xatolik yuz berdi. Hisobingizdan pul yechilmadi, keyinroq qayta urinib ko'ring.";
+        if (errBox) {
+            errBox.textContent = netMsg;
+            errBox.style.display = 'block';
+        } else if (typeof showTopupToast === 'function') {
+            showTopupToast(netMsg);
+        }
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+            try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('error'); } catch(e) {}
+        }
+        confirmBtn.disabled = false;
+        updateRentModalCalculations();
+    }
+} catch (err) {
         if (typeof showTopupToast === 'function') {
             showTopupToast("Tarmoq xatosi. Iltimos qayta urinib ko'ring.");
         } else {
