@@ -19244,7 +19244,18 @@ async function loadMyRentsApp(force = false) {
         const res = await fetch(`${apiBase}/api/rent/my?telegram_id=${uid}`);
         const data = await res.json();
         if (data && data.ok) {
-            appMyRents = data.rents || [];
+            const now = Date.now();
+            appMyRents = (data.rents || []).filter(r => {
+                if (!r) return false;
+                if (r.status === 'expired' || r.status === 'cancelled' || r.status === 'failed') return false;
+                if (r.remaining_days !== undefined && Number(r.remaining_days) <= 0) return false;
+                if (r.expires_at) {
+                    const expMs = new Date(r.expires_at).getTime();
+                    if (!isNaN(expMs) && expMs <= now) return false;
+                }
+                return true;
+            });
+
             const badge = document.getElementById('appMyRentsCountBadge');
             if (badge) badge.textContent = appMyRents.length;
             const tabBadge = document.getElementById('appMyRentsTabBadge');
@@ -19272,7 +19283,28 @@ function renderMyRentsApp(rents) {
     const listEl = document.getElementById('appMyRentsList');
     if (!listEl) return;
 
-    if (!rents || rents.length === 0) {
+    const now = Date.now();
+    const activeList = (rents || []).filter(r => {
+        if (!r) return false;
+        if (r.status === 'expired' || r.status === 'cancelled' || r.status === 'failed') return false;
+        if (r.remaining_days !== undefined && Number(r.remaining_days) <= 0) return false;
+        if (r.expires_at) {
+            const expMs = new Date(r.expires_at).getTime();
+            if (!isNaN(expMs) && expMs <= now) return false;
+        }
+        return true;
+    });
+    appMyRents = activeList;
+
+    const badge = document.getElementById('appMyRentsCountBadge');
+    if (badge) badge.textContent = activeList.length;
+    const tabBadge = document.getElementById('appMyRentsTabBadge');
+    if (tabBadge) {
+        tabBadge.textContent = activeList.length;
+        tabBadge.style.display = activeList.length > 0 ? 'inline-block' : 'none';
+    }
+
+    if (!activeList || activeList.length === 0) {
         listEl.innerHTML = `
             <div class="my-rents-empty">
                 <div class="my-rents-empty-icon">🎁</div>
@@ -19288,7 +19320,7 @@ function renderMyRentsApp(rents) {
 
     const myUser = (window.Telegram?.WebApp?.initDataUnsafe?.user?.username || '').trim();
     let html = '';
-    rents.forEach((r, idx) => {
+    activeList.forEach((r, idx) => {
         const img = r.image_url || './images/gift.webp';
         const days = r.remaining_days || r.days || 1;
         const price = Number(r.price_total || 0).toLocaleString('uz-UZ');
@@ -20831,6 +20863,21 @@ async function submitRentOrderFromApp() {
             }
             if (window.Telegram?.WebApp?.HapticFeedback) {
                 try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+            }
+
+            // Ijaraga olingan / xarid qilingan NFT ni katalogdan darhol olib tashlash
+            const rentedItemRef = rentSelectedItem;
+            if (rentedItemRef && Array.isArray(rentAllItems)) {
+                rentAllItems = rentAllItems.filter(it => {
+                    if (rentedItemRef.nft_address && it.nft_address) {
+                        return it.nft_address !== rentedItemRef.nft_address;
+                    }
+                    if (rentedItemRef.quote_id && it.quote_id) {
+                        return it.quote_id !== rentedItemRef.quote_id;
+                    }
+                    return it.name !== rentedItemRef.name;
+                });
+                try { applyRentFiltersAndSortApp(); } catch(e) {}
             }
 
             closeRentModal();

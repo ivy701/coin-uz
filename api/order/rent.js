@@ -489,6 +489,19 @@ module.exports = async (req, res) => {
         [externalId, orderId]
       );
 
+      // Record into user_nft_rents with expires_at
+      const imageUrl = (body.image_url || liveItem?.webp_url || '').trim();
+      try {
+        const expiresAt = new Date(Date.now() + (days * 24 * 60 * 60 * 1000));
+        await db.query(
+          `INSERT INTO user_nft_rents (telegram_id, order_id, nft_name, nft_address, category, image_url, days, price_total, target_username, status, expires_at)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'active', $10)`,
+          [userId, orderId, itemName, nftAddress || quoteId, category, imageUrl, days, totalPrice, targetUsername, expiresAt]
+        );
+      } catch (rentDbErr) {
+        console.warn('[RENT DB WARN] Could not insert user_nft_rents:', rentDbErr.message);
+      }
+
       // Record balance history
       await db.query(
         `INSERT INTO balance_history (telegram_id, amount, type, balance_before, balance_after, reason, created_at)

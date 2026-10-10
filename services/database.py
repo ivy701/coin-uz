@@ -1281,17 +1281,29 @@ async def add_user_nft_rent(
 
 async def get_user_nft_rents(telegram_id: int) -> list[dict[str, Any]]:
     try:
-        rows = await db_conn.fetch(
-            "SELECT * FROM user_nft_rents WHERE telegram_id = $1 ORDER BY id DESC LIMIT 50",
-            telegram_id
-        )
         import datetime
         now = datetime.datetime.now(datetime.timezone.utc)
+        now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Auto-update any expired rentals in DB
+        try:
+            await db_conn.execute(
+                "UPDATE user_nft_rents SET status = 'expired' WHERE telegram_id = $1 AND status != 'expired' AND expires_at IS NOT NULL AND expires_at <= $2",
+                telegram_id, now if not IS_SQLITE else now_str
+            )
+        except Exception:
+            pass
+
+        rows = await db_conn.fetch(
+            "SELECT * FROM user_nft_rents WHERE telegram_id = $1 AND status != 'expired' ORDER BY id DESC LIMIT 50",
+            telegram_id
+        )
         items = []
         for r in rows:
             d = dict(r)
             exp = d.get("expires_at")
             rem_days = d.get("days", 1)
+            is_expired = False
             if exp:
                 if isinstance(exp, str):
                     try:
@@ -1304,9 +1316,12 @@ async def get_user_nft_rents(telegram_id: int) -> list[dict[str, Any]]:
                     if exp_dt.tzinfo is None:
                         exp_dt = exp_dt.replace(tzinfo=datetime.timezone.utc)
                     diff = (exp_dt - now).total_seconds()
-                    rem_days = max(1, int(diff // 86400) + 1)
                     if diff <= 0:
-                        d["status"] = "expired"
+                        is_expired = True
+                    else:
+                        rem_days = max(1, int(diff // 86400) + 1)
+            if is_expired or d.get("status") == "expired":
+                continue
             d["remaining_days"] = rem_days
             d["is_connected"] = bool(d.get("ton_connect_link"))
             if isinstance(d.get("created_at"), (datetime.datetime, datetime.date)):

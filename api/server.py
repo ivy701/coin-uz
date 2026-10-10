@@ -1225,22 +1225,45 @@ async def api_rent_my(request: web.Request) -> web.Response:
   # If user_nft_rents is empty, check orders table for legacy/existing orders
   if not rents:
     try:
+      import datetime
+      now = datetime.datetime.now(datetime.timezone.utc)
       legacy_orders = await db_conn.fetch(
-        "SELECT * FROM orders WHERE telegram_id = $1 AND product_type = 'nft_rent' ORDER BY id DESC LIMIT 10",
+        "SELECT * FROM orders WHERE telegram_id = $1 AND product_type = 'nft_rent' AND status != 'failed' ORDER BY id DESC LIMIT 20",
         int(user_id)
       )
       for o in legacy_orders:
+        days = o.get("quantity") or 1
+        created_at = o.get("created_at")
+        rem_days = days
+        exp_dt = None
+        if created_at:
+          if isinstance(created_at, str):
+            try:
+              c_dt = datetime.datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+            except Exception:
+              c_dt = now
+          else:
+            c_dt = created_at
+          if c_dt.tzinfo is None:
+            c_dt = c_dt.replace(tzinfo=datetime.timezone.utc)
+          exp_dt = c_dt + datetime.timedelta(days=days)
+          diff = (exp_dt - now).total_seconds()
+          if diff <= 0:
+            continue  # EXPIRED! Skip so it disappears from Mening rentlarim
+          rem_days = max(1, int(diff // 86400) + 1)
+
         rents.append({
           "id": o["id"],
           "nft_name": o.get("target_username") or "Telegram NFT",
           "category": "gifts",
           "image_url": "assets/collections/skystilettos.webp",
-          "days": o.get("quantity") or 30,
-          "remaining_days": o.get("quantity") or 30,
+          "days": days,
+          "remaining_days": rem_days,
           "price_total": o.get("amount") or 0,
           "target_username": default_uname,
           "status": "active",
-          "is_connected": False
+          "is_connected": False,
+          "expires_at": exp_dt.isoformat() if exp_dt else None
         })
     except Exception as e:
       logger.warning("legacy rents fetch error: %s", e)
