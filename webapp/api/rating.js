@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
       const https = require('https');
       const payload = JSON.stringify({ period });
       const proxyResult = await new Promise((resolve) => {
-        const reqProxy = https.request('https://web-production-1b7cb.up.railway.app/api/rating', {
+        const reqProxy = https.request('https://coin-uz-production.up.railway.app/api/rating', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

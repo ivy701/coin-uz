@@ -12004,7 +12004,7 @@ body {
     box-shadow: none;
 }
 </style>
-    <script>window.API_BASE = "https://web-production-1b7cb.up.railway.app";</script>
+    <script>window.API_BASE = "https://coin-uz-production.up.railway.app";</script>
 </head>
 
 <body>
@@ -14152,7 +14152,7 @@ function getApiBase() {
     if (typeof window.API_BASE !== 'undefined' && window.API_BASE && window.API_BASE.trim() !== '') {
         return window.API_BASE.replace(/\/$/, '');
     }
-    return 'https://web-production-1b7cb.up.railway.app';
+    return 'https://coin-uz-production.up.railway.app';
 }
 
 // Telegram Native Haptic Engine
@@ -15807,7 +15807,7 @@ async function buyCustomStars(btn) {
     }
 
     const userId = getUserId();
-    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-1b7cb.up.railway.app')) || 'https://web-production-1b7cb.up.railway.app';
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://coin-uz-production.up.railway.app')) || 'https://coin-uz-production.up.railway.app';
     const endpoint = apiBase.replace(/\/$/, '') + '/api/order/stars';
 
     try {
@@ -15892,7 +15892,7 @@ async function buyPremium() {
     }
 
     const userId = getUserId();
-    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-1b7cb.up.railway.app')) || 'https://web-production-1b7cb.up.railway.app';
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://coin-uz-production.up.railway.app')) || 'https://coin-uz-production.up.railway.app';
     const endpoint = apiBase.replace(/\/$/, '') + '/api/order/premium';
 
     try {
@@ -16201,7 +16201,7 @@ var tgApp = window.Telegram?.WebApp || (typeof tg !== 'undefined' ? tg : null);
             submitBtn.innerHTML = '<span>⏳ Yuborilmoqda...</span>';
 
             const userId = tgApp?.initDataUnsafe?.user?.id || (typeof getUserId === 'function' ? getUserId() : 1);
-            const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-1b7cb.up.railway.app')) || 'https://web-production-1b7cb.up.railway.app';
+            const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://coin-uz-production.up.railway.app')) || 'https://coin-uz-production.up.railway.app';
             const currentGift = selectedGift;
             const endpoint = apiBase.replace(/\/$/, '') + '/api/order/gift';
 
@@ -16442,7 +16442,7 @@ async function submitTopupConfirmation() {
     const uFullName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ') || (tgUser?.username ? ('@' + tgUser.username) : 'Foydalanuvchi');
     const uid = (typeof getUserId === 'function' ? getUserId() : null) || tgUser?.id;
     const orderId = activeTopupOrderId || ('TOP_' + Date.now());
-    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-1b7cb.up.railway.app')) || 'https://web-production-1b7cb.up.railway.app';
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://coin-uz-production.up.railway.app')) || 'https://coin-uz-production.up.railway.app';
 
     // 1. Dispatch request to server & admin via POST
     try {
@@ -17011,7 +17011,7 @@ function switchPeriod(period, btn) {
 }
 
 async function loadRatingData(period = 'week') {
-    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-1b7cb.up.railway.app')) || 'https://web-production-1b7cb.up.railway.app';
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://coin-uz-production.up.railway.app')) || 'https://coin-uz-production.up.railway.app';
     const currentUserId = String(getUserId() || '');
 
     try {
@@ -18822,7 +18822,7 @@ async function verifyChannelSubscription() {
     const orig = btn ? btn.innerHTML : '';
     if (btn) btn.innerHTML = '<span>⏳ Tekshirilmoqda...</span>';
     const userId = getUserId();
-    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://web-production-1b7cb.up.railway.app')) || 'https://web-production-1b7cb.up.railway.app';
+    const apiBase = (typeof getApiBase === 'function' ? getApiBase() : (window.API_BASE || 'https://coin-uz-production.up.railway.app')) || 'https://coin-uz-production.up.railway.app';
     try {
         const res = await fetch(apiBase.replace(/\/$/, '') + '/api/user/balance', {
             method: 'POST',

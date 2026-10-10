@@ -2870,9 +2870,9 @@ body.modal-open .bottom-dock-nav {
         }
 
         function getApiBase() {
-            return 'https://web-production-1b7cb.up.railway.app';
+            return 'https://coin-uz-production.up.railway.app';
         }
-        window.API_BASE = 'https://web-production-1b7cb.up.railway.app';
+        window.API_BASE = 'https://coin-uz-production.up.railway.app';
 
         let userBalance = 0;
         let activeCategory = 'gifts';
@@ -2965,7 +2965,18 @@ body.modal-open .bottom-dock-nav {
                 const res = await fetch(`${apiBase}/api/rent/my?telegram_id=${getUserId()}`);
                 const data = await res.json();
                 if (data && data.ok) {
-                    myRents = data.rents || [];
+                    const now = Date.now();
+                    myRents = (data.rents || []).filter(r => {
+                        if (!r) return false;
+                        if (r.status === 'expired' || r.status === 'cancelled' || r.status === 'failed') return false;
+                        if (r.remaining_days !== undefined && Number(r.remaining_days) <= 0) return false;
+                        if (r.expires_at) {
+                            const expMs = new Date(r.expires_at).getTime();
+                            if (!isNaN(expMs) && expMs <= now) return false;
+                        }
+                        return true;
+                    });
+
                     const badge = document.getElementById('myRentsCountBadge');
                     if (badge) badge.textContent = myRents.length;
                     const tabBadge = document.getElementById('myRentsTabBadge');
@@ -2993,7 +3004,28 @@ body.modal-open .bottom-dock-nav {
             const listEl = document.getElementById('myRentsList');
             if (!listEl) return;
 
-            if (!rents || rents.length === 0) {
+            const now = Date.now();
+            const activeList = (rents || []).filter(r => {
+                if (!r) return false;
+                if (r.status === 'expired' || r.status === 'cancelled' || r.status === 'failed') return false;
+                if (r.remaining_days !== undefined && Number(r.remaining_days) <= 0) return false;
+                if (r.expires_at) {
+                    const expMs = new Date(r.expires_at).getTime();
+                    if (!isNaN(expMs) && expMs <= now) return false;
+                }
+                return true;
+            });
+            myRents = activeList;
+
+            const badge = document.getElementById('myRentsCountBadge');
+            if (badge) badge.textContent = activeList.length;
+            const tabBadge = document.getElementById('myRentsTabBadge');
+            if (tabBadge) {
+                tabBadge.textContent = activeList.length;
+                tabBadge.style.display = activeList.length > 0 ? 'inline-block' : 'none';
+            }
+
+            if (!activeList || activeList.length === 0) {
                 listEl.innerHTML = `
                     <div class="my-rents-empty">
                         <div class="my-rents-empty-icon">🎁</div>
@@ -3008,7 +3040,7 @@ body.modal-open .bottom-dock-nav {
             }
 
             let html = '';
-            rents.forEach((r, idx) => {
+            activeList.forEach((r, idx) => {
                 const img = r.image_url || './images/gift.webp';
                 const days = r.remaining_days || r.days || 1;
                 const price = Number(r.price_total || 0).toLocaleString('uz-UZ');
@@ -3017,7 +3049,7 @@ body.modal-open .bottom-dock-nav {
                 const targetDisplay = targetUname ? (targetUname.startsWith('@') ? targetUname : '@' + targetUname) : '@profilingiz';
 
                 const statusHtml = isConn ? 
-                    `<span class="status-pill-active" style="color: #38bdf8; background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35);">• Ulash jarayonda</span>` :
+                    `<span class="status-pill-active" style="color: #4ade80; background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.35);">• Ulangan</span>` :
                     `<span class="status-pill-active">• Faol</span>`;
 
                 html += `
@@ -3035,8 +3067,8 @@ body.modal-open .bottom-dock-nav {
                                 </div>
                             </div>
                         </div>
-                        <button class="my-rent-bind-btn" ${isConn ? 'style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;"' : ''} onclick="openConnectModal(${idx})">
-                            <span>${isConn ? `⏳ Havola yuborilgan (${escapeHtml(targetDisplay)})` : '🔗 Telegram akkauntga ulash'}</span>
+                        <button class="my-rent-bind-btn" ${isConn ? 'style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.4); color: #4ade80;"' : ''} onclick="openConnectModal(${idx})">
+                            <span>${isConn ? `✅ Akkauntga ulangan (${escapeHtml(targetDisplay)})` : '🔗 Telegram akkauntga ulash'}</span>
                         </button>
                     </div>
                 `;
@@ -4621,6 +4653,21 @@ body.modal-open .bottom-dock-nav {
                     }
                     if (tg?.HapticFeedback) {
                         try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+                    }
+
+                    // Ijaraga olingan / xarid qilingan NFT ni katalogdan darhol olib tashlash
+                    const rentedItemRef = selectedItem;
+                    if (rentedItemRef && Array.isArray(allItems)) {
+                        allItems = allItems.filter(it => {
+                            if (rentedItemRef.nft_address && it.nft_address) {
+                                return it.nft_address !== rentedItemRef.nft_address;
+                            }
+                            if (rentedItemRef.quote_id && it.quote_id) {
+                                return it.quote_id !== rentedItemRef.quote_id;
+                            }
+                            return it.name !== rentedItemRef.name;
+                        });
+                        try { applyFiltersAndSort(); } catch(e) {}
                     }
 
                     closeRentModal();

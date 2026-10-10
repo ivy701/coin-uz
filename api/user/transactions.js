@@ -104,7 +104,7 @@ module.exports = async (req, res) => {
         initData: req.headers['x-telegram-init-data'] || ''
       });
       const proxyResult = await new Promise((resolve) => {
-        const reqProxy = https.request('https://web-production-1b7cb.up.railway.app/api/user/transactions', {
+        const reqProxy = https.request('https://coin-uz-production.up.railway.app/api/user/transactions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

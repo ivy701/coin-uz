@@ -26,7 +26,7 @@ function getApiBase() {
     if (typeof window.API_BASE !== 'undefined' && window.API_BASE && window.API_BASE.trim() !== '') {
         return window.API_BASE.replace(/\/$/, '');
     }
-    return 'https://web-production-1b7cb.up.railway.app';
+    return 'https://coin-uz-production.up.railway.app';
 }
 
 // Telegram Native Haptic Engine

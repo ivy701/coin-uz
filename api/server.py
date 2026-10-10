@@ -1884,7 +1884,7 @@ async def telegram_webhook_check(request: web.Request) -> web.Response:
   return web.json_response({
     "ok": True,
     "service": "CoinStat Telegram Webhook",
-    "endpoint": "https://web-production-1b7cb.up.railway.app/webhook/telegram"
+    "endpoint": "https://coin-uz-production.up.railway.app/webhook/telegram"
   })
 
 
@@ -1928,7 +1928,7 @@ async def api_set_webhook(request: web.Request) -> web.Response:
     from aiogram.enums import ParseMode
     bot = Bot(token=cfg.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
-  webhook_url = request.query.get("url") or "https://web-production-1b7cb.up.railway.app/webhook/telegram"
+  webhook_url = request.query.get("url") or "https://coin-uz-production.up.railway.app/webhook/telegram"
   try:
     res = await bot.set_webhook(url=webhook_url, drop_pending_updates=True)
     info = await bot.get_webhook_info()
