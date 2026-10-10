@@ -29,6 +29,8 @@ fragment = FragmentAPI()
 
 CORS_ORIGINS = {
     "https://coin-uz.vercel.app",
+    "https://coin-stat-uz-wepapp.vercel.app",
+    "https://coin-uz-production.up.railway.app",
     "https://web-production-1b7cb.up.railway.app",
     "https://starpayuz-webapp.vercel.app",
     "https://test-uz-o2cg.vercel.app",
